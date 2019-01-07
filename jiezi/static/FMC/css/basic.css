@@ -1,0 +1,160 @@
+@font-face {
+    font-family: "maru";
+    src: url("fonts/maru.otf");
+}
+@font-face {
+    font-family: "bear";
+    src: url("fonts/bear.otf");
+}
+@font-face {
+    font-family: "rustico";
+    src: url("fonts/rustico.otf");
+}
+* {
+    margin: 0px;
+    padding: 0px;
+ }
+html,body{
+	font-family: "maru";
+	font-size: 21.6px;
+	height: 100%;
+}
+
+.FMCHeader {
+  position: relative;
+  text-align: center;
+	background-color:#EEEEEE;
+	font-size: 37.44px;
+	padding-top: 1.44px;
+ 	padding-bottom:1.44px;
+}
+.search {
+  position: absolute;
+  right: 0;
+	width: 26px;
+	vertical-align: middle;
+	padding-right: 57.6px;
+	padding-top: 12px;
+}
+
+.FMCFun {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 14.4px;
+  width: 180px;
+}
+
+.bottomImg {
+	width: 38px;
+	margin-left: 5%;
+	margin-right: 5%;
+	vertical-align: middle;
+}
+
+.loc {
+	height: 38px;
+	vertical-align: middle;
+}
+
+.email {
+	width: 38px;
+	vertical-align: middle;
+}
+.copyright{
+	font-family: "Times New Roman";
+	font-size: 17.28px;
+}
+.line{
+	width: 3.5px;
+  height: 38px;
+	vertical-align: middle;
+}
+.aboutus{
+	text-align: center;
+	background-color: #EEEEEE;
+	padding-top: 14.4px;
+	padding-bottom:4.32px;
+	z-index: 9999;
+}
+.wechatTxt{
+	text-align: center;
+	font-family: "Trajan Pro 3";
+  font-size: 43.2px;
+  padding-top: 14.4px;
+  padding-bottom:14.4px;
+}
+.wechatImg{
+	width: 380px;
+	vertical-align: middle;
+	padding-top: 0.7%;
+
+}
+.joinus{
+  text-align: center;
+  font-family:"bear";
+  font-size: 57.6px;
+  padding-top: 14.4px;
+  padding-bottom:14.4px;
+  color: #00A2FF;
+
+}
+.whoweare{
+  text-align: center;
+  font-family:"rustico";
+  font-size: 57.6px;
+  padding-top: 14.4px;
+  padding-bottom:14.4px;
+  color: #FF644E;
+}
+.contactus{
+  text-align: center;
+  font-family:"Hiragino Sans";
+  font-size: 57.6px;
+  font-weight: 100;
+  padding-top: 14.4px;
+  padding-bottom:14.4px;
+  color: #F8BA00;
+}
+.whatsnext{
+  text-align: center;
+  font-size: 57.6px;
+  padding-top: 35px;
+  padding-bottom:14.4px;
+  color: #F8BA00;
+}
+.abouUsTxt{
+  color: #5E5E5E;
+  transition: 0.4s ease;
+}
+.abouUsTxt:hover,.gridTxt:hover{
+  color: #F8BA00;
+}
+.nextImg{
+  display: block;
+  width: 27vw;
+
+}
+
+#myTable {
+    margin: 0 auto;
+    text-align: left;
+    font-size: 1.7vw;
+
+}
+
+td{
+  padding-left: 0.7vw;
+  padding-right: 0.7vw;
+  padding-top: 20px;
+  vertical-align: top;
+
+}
+a{
+  text-decoration: none;
+}
+.gridTxt{
+ color: #00A2FF;
+ padding-bottom: 2px;
+ transition: 0.4s ease;
+}

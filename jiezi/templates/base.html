@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Title{% endblock title %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'FMC/css/basic.css' %}">
+    {% block extra_css %}{% endblock extra_css %}
+</head>
+<body>
+    <div class="FMCHeader">
+		<a style="text-decoration:none" href="{% url 'index' %}">
+			<span style="color:#FF644E">F</span><span style="color:#F8BA00">M</span><span style="color:#00A2FF">C</span>
+		</a>
+		<img src="{% static 'FMC/images/template/search.png' %}" class="search">
+	</div>
+
+
+    {% block content %}
+    {% endblock content %}
+
+
+    <div class = aboutus>
+		<a href="{% url 'index' %}">
+			<img src="{% static 'FMC/images/template/fmc-fun-nonstop.png' %}" class=FMCFun>
+		</a>
+		<div> <span style="font-size: 14.4px">
+			Copyright</span><span class =copyright> &copy;</span>
+			<span style="font-size: 14.4px">
+			2018 FMC All Rights Reserved.</span>
+		</div>
+	</div>
+</body>
+</html>
