@@ -16,28 +16,4 @@
     </ul>
     <br>
     <img src="/static/images/500.jpg" alt="newNotShwon">
-    <h1 color:red>website login test</h1>
-    <form action="/index/" method="POST">
-        {% csrf_token %}
-        username<br>
-        <input type="text" name="username"><br>
-        password<br>
-        <input type="password" name="password"><br>
-        <input type="submit" name="submit"><br>
-        <hr>
-
-        <table border="1">
-            <thread>
-                <th>username</th>
-                <th>password</th>
-            </thread>
-            <tbody>
-            {% for line in data %}
-                <tr>
-                <td>{{ line.user }}</td>
-                <td>{{ line.pwd }}</td>
-            {% endfor %}
-            </tbody>
-        </table>
-    </form>
 {% endblock content %}

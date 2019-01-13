@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if warning %}
+        <div style="color:red">
+            warning : {{ warning }} <br>
+        </div>
+    {% endif %}
+    this is manage stack page that Carl will make more beautiful<br>
+    <br>
+    --------Carl will make below into a popup/modal window after user clicks button "add from existing sets"-------
+    <br>
+    {% for set in existing_character_sets %}
+        {{ set.name }}
+        <form method="GET" style="display: inline">
+            <button name="add_set" type="submit" value="{{ set.id }}">
+                add
+            </button>
+        </form>
+        <br>
+    {% endfor %}
+    <br>
+    ------------------------Carl will make below on the left side------------------------
+    <br>
+    unselect all disables the filter<br>
+    {% if user.user_character_tags.exists %}
+        <form method="GET">
+            {% for tag in user.user_character_tags.all %}
+                <input type="checkbox" name="filters" value="{{ tag.id }}" onChange="this.form.submit()"
+                        {% if tag.is_filtered %}checked{% endif %}>
+                {{ tag.name }}<br>
+            {% endfor %}
+        </form>
+    {% else %}
+        you have no tags
+    {% endif %}
+    <br>
+    ------------------------Carl will make below on the right side------------------------
+    <br>
+    {% if filtered_characters %}
+        <ul>
+            {% for user_character in filtered_characters %}
+                <li>
+                    {{ user_character.character.to_string}}
+                    <form method="GET" style="display: inline">
+                        <button name="delete_user_character" type="submit" value="{{ user_character.id }}"
+                                onclick="return confirm('Are you sure you want to delete this from your stack?')">
+                            delete
+                        </button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        you have no characters
+    {% endif %}
+{% endblock content %}
