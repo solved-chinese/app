@@ -1,21 +1,44 @@
+import os
+
+from django.core.exceptions import ValidationError
 from django.db import models
 import accounts.models  # to avoid cyclic import
+from django.utils.deconstruct import deconstructible
 
 
-def character_path(instance, filename):
-    return f'characters/C{instance.__str__()}/{filename}'
+@deconstructible
+class PathAndRename(object):
+
+    def __init__(self, _path, _name):
+        self.path = _path
+        self.name = _name
+
+    def __call__(self, instance, filename):
+        if self.path == 'characters/':
+            self.path += 'C%04d/' % instance.jiezi_id
+        elif self.path == 'radicals/':
+            self.path += 'R%04d/' % instance.jiezi_id
+        ext = filename.split('.')[-1]
+        filename = '{}.{}'.format(self.name, ext)
+        return self.path + filename
 
 
-def radical_path(instance, filename):
-    return f'radicals/R{instance.__str__()}/{filename}'
+character_pinyin_audio_path = PathAndRename('characters/', 'pinyin_audio')
+character_color_coded_image_path = PathAndRename('characters/', 'color_coded_image')
+character_stroke_order_image_path = PathAndRename('characters/', 'stroke_order_image')
+radical_mnemonic_image_path = PathAndRename('radicals/', 'mnemonic_image')
+
+
+# TODO delete the files after delete
 
 
 class Radical(models.Model):
-    jiezi_id = models.IntegerField(primary_key=True)
+    jiezi_id = models.IntegerField(primary_key=True, help_text="enter integer only")
     chinese = models.CharField(max_length=1)
     pinyin = models.CharField(max_length=10)
     definition = models.CharField(max_length=50)
-    mnemonic_image = models.ImageField(upload_to=radical_path, default='default.jpg')  # TODO add height/width
+    mnemonic_image = models.ImageField(upload_to=radical_mnemonic_image_path,
+                                       default='default.jpg')  # TODO add height/width
     is_phonetic = models.BooleanField();
     is_semantic = models.BooleanField();
 
@@ -23,11 +46,11 @@ class Radical(models.Model):
         ordering = ['jiezi_id']
 
     def __str__(self):
-        return 'R' + '%04d'%self.jiezi_id + ':' + self.chinese
+        return 'R' + '%04d' % self.jiezi_id + ':' + self.chinese
 
 
 class Character(models.Model):
-    jiezi_id = models.IntegerField(primary_key=True)
+    jiezi_id = models.IntegerField(primary_key=True, help_text="enter integer only")
     chinese = models.CharField(max_length=1)
     pinyin = models.CharField(max_length=10)
     definition_1 = models.CharField(max_length=50)
@@ -36,9 +59,10 @@ class Character(models.Model):
     definition_3 = models.CharField(max_length=50, null=True, blank=True)
     explanation_3 = models.CharField(max_length=200, null=True, blank=True)
 
-    audio = models.FileField(upload_to=character_path, default='error.mp3')
-    color_coded_image = models.ImageField(upload_to=character_path, default='default.jpg')  # TODO add height/width
-    stroke_order_image = models.ImageField(upload_to=character_path, default='default.jpg')
+    pinyin_audio = models.FileField(upload_to=character_pinyin_audio_path, default='error.mp3')
+    color_coded_image = models.ImageField(upload_to=character_color_coded_image_path,
+                                          default='default.jpg')  # TODO add height/width
+    stroke_order_image = models.ImageField(upload_to=character_stroke_order_image_path, default='default.jpg')
 
     mnemonic_explanation = models.CharField(max_length=200)
     mnemonic_1 = models.IntegerField(help_text="enter number only")
@@ -56,8 +80,12 @@ class Character(models.Model):
     example_2_character = models.CharField(max_length=50, null=True, blank=True)
     example_2_meaning = models.CharField(max_length=50, null=True, blank=True)
 
+    # def clean_mnemonic_1(self):
+    #     if Radical.objects.
+    #     raise ValidationError('Invalid value', code='invalid')
+
     def __str__(self):
-        return 'C' + '%04d'%self.jiezi_id + ':' + self.chinese
+        return 'C' + '%04d' % self.jiezi_id + ':' + self.chinese
 
     # a wrapper of __str__ as template doesn't allow for things starting with _ ...
     def to_string(self):

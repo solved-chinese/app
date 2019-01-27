@@ -4,39 +4,13 @@
     <list default="true" id="a36ce538-e192-4b47-81b8-0a9444fa4dcc" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounts/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/migrations/0002_auto_20190112_2138.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/migrations/0003_auto_20190112_2143.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jiezi/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/jiezi/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jiezi/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/jiezi/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/learning/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/learning/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/learning/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/learning/migrations/0002_characterset.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/learning/migrations/0003_auto_20190110_2144.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/learning/migrations/0004_auto_20190112_1749.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning/migrations/0002_auto_20190127_0934.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning/migrations/0003_auto_20190127_0949.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/learning/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/learning/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/learning/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/learning/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/character_component_images/500.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/FMC/css/basic.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/FMC/css/fonts/bear.otf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/FMC/css/fonts/maru.otf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/FMC/css/fonts/rustico.otf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/FMC/images/404/404.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/FMC/images/404/astronaut.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/FMC/images/404/star1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/FMC/images/404/star2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/FMC/images/template/email.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/FMC/images/template/fmc-fun-nonstop.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/FMC/images/template/instagram.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/FMC/images/template/location.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/FMC/images/template/search.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/FMC/images/template/twitter.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/FMC/images/template/vertical-line.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/FMC/images/template/wechat.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/FMC/images/template/youtube.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/accounts/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/accounts/profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/characters/CC12,好/default.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/characters/CC12,好/default_vYJJgx7.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/characters/CC12,好/error.mp3" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -76,11 +50,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/learning/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+            <state relative-caret-position="332">
+              <caret line="82" column="33" lean-forward="true" selection-start-line="82" selection-start-column="33" selection-end-line="82" selection-end-column="33" />
               <folding>
-                <element signature="e#0#28#0" expanded="true" />
+                <element signature="e#0#6#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jiezi/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="339">
+              <caret line="91" column="45" lean-forward="true" selection-start-line="91" selection-start-column="45" selection-end-line="91" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -115,6 +98,11 @@
         <option value="HTML File" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>join</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -176,22 +164,19 @@
             <path>
               <item name="jiezi" type="b2602c69:ProjectViewProjectNode" />
               <item name="jiezi" type="462c0819:PsiDirectoryNode" />
-              <item name="learning" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jiezi" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jiezi" type="462c0819:PsiDirectoryNode" />
               <item name="media" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="jiezi" type="b2602c69:ProjectViewProjectNode" />
               <item name="jiezi" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="media" type="462c0819:PsiDirectoryNode" />
+              <item name="characters" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="jiezi" type="b2602c69:ProjectViewProjectNode" />
               <item name="jiezi" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="media" type="462c0819:PsiDirectoryNode" />
+              <item name="radicals" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="jiezi" type="b2602c69:ProjectViewProjectNode" />
@@ -281,12 +266,12 @@
       <workItem from="1548474408011" duration="4554000" />
       <workItem from="1548479666628" duration="115000" />
       <workItem from="1548563829301" duration="607000" />
-      <workItem from="1548592004633" duration="7477000" />
+      <workItem from="1548592004633" duration="12411000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="77883000" />
+    <option name="totallyTimeSpent" value="82817000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -577,13 +562,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jiezi/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="27" column="45" selection-start-line="27" selection-start-column="45" selection-end-line="27" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="456">
@@ -643,16 +621,6 @@
     <entry file="file://$PROJECT_DIR$/learning/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/accounts/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="11" column="1" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jiezi/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="321">
@@ -670,12 +638,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/accounts/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="11" column="1" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/python/Lib/ntpath.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-162">
+          <caret line="72" column="6" selection-start-line="72" selection-start-column="2" selection-end-line="72" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jiezi/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="339">
+          <caret line="91" column="45" lean-forward="true" selection-start-line="91" selection-start-column="45" selection-end-line="91" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/learning/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        <state relative-caret-position="332">
+          <caret line="82" column="33" lean-forward="true" selection-start-line="82" selection-start-column="33" selection-end-line="82" selection-end-column="33" />
           <folding>
-            <element signature="e#0#28#0" expanded="true" />
+            <element signature="e#0#6#0" expanded="true" />
           </folding>
         </state>
       </provider>
