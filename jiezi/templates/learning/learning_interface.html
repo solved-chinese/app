@@ -3,13 +3,5 @@
 {% block title %}learning interface{% endblock title %}
 
 {% block content %}
-    {{ character.chinese }}<br>
-    {{ character.english }}<br>
-    {{ character.explanation }}<br>
-    <img src="{{ character.color_coded_image.url }}" alt="ERR">
-    <audio controls>
-        <source src="{{ character.audio.url }}" type="audio/mp3">
-        Your browser does not support the audio element.
-    </audio>
-    <br>
+    {{ character.chinese }}
 {% endblock content %}

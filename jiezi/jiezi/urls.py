@@ -23,8 +23,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', views.index, name="index"),
-    # path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('accounts.urls')),
-    path('learning/', views.learning_interface, name='learning_interface'),
+    path('learning/', include('learning.urls')),
     path('', RedirectView.as_view(url='index')),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
