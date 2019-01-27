@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href={% static "css/learning_character.css" %}>
+{% endblock extra_css %}
+
+{% block title %}Learning Charcter{% endblock title %}
+{% block content %}
+    <div>
+        <span class="letter">{{ character.chinese }}</span>
+        <img src={% static "images/base/seperater.png" %} class="interface-seperator">
+        <img src={% static "images/learning_character/audio.png" %} class="audio">
+        <div class="pinyin">{{ character.pinyin }}</div>
+        <img src={% static "images/base/seperater.png" %} class="interface-seperator">
+        <div class="def-table">
+            <div class="def1">{{ character.definition_1 }}</div>
+            <div class="def2"><span style="color:black">{{ character.definition_2 }} </span>{{ character.explanation_2 }}</div>
+            <div class="def2"><span style="color:black">{{ character.definition_3 }} </span>{{ character.explanation_3 }}</div>
+        </div>
+        <img src={% static "images/base/seperater.png" %} class="interface-seperator">
+        <div class="buttons" style="margin-left: 0px">I know this</div>
+        <div class="buttons">I'm done!</div>
+        <img src={% static "images/learning_character/clock.png" %} class="clock">
+        <div class="next"> ></div>
+    </div>
+    <div style="display: table; padding:0vw 3vw 0vw 3vw">
+        <div style="display: table-cell;max-width: 35vw;padding-right: 2vw">
+            <img src={{ character.color_coded_image.url }} class="big-pic">
+            <div class="example">
+                <div>Example Words</div>
+                <div style="font-size:17px;">{{ character.example_1_word }}|{{ character.example_1_pinin }}|{{ character.example_1_character }}|{{ character.example_1_meaning }}</div>
+                <div style="font-size:17px;">{{ character.example_2_word }}|{{ character.example_2_pinin }}|{{ character.example_2_character }}|{{ character.example_2_meaning }}</div>
+            </div>
+        </div>
+        <div class="mnemotics">
+            <div style="vertical-align: middle;text-align: center; font-size:50px"> {{ character. }}</div>
+        </div>
+    </div>
+{% endblock content %}

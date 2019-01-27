@@ -1,0 +1,87 @@
+.interface-seperator{
+   width:25px; 
+   vertical-align: middle;
+   padding: 0vw 1vw 0vw 1vw
+}
+.letter{
+    padding-left: 3vw; 
+    font-size: 50px;
+    vertical-align: middle;
+}
+.audio{
+    width:50px;
+    vertical-align: middle;
+    padding-right: 1vw;
+}
+.pinyin{
+    min-width:5vw;
+    max-width: 9vw;
+    word-wrap: break-word;
+    font-size: 30px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.def-table{
+    display: inline-table;
+    vertical-align: middle;
+    max-width: 35vw;
+    min-width: 35vw;
+}
+.def1{
+    word-wrap: break-word;
+    font-size: 15px;
+    font-weight: bold;
+}
+.def2{
+    word-wrap: break-word;
+    font-size: 15px;
+    color: #716f6f;
+}
+.buttons{
+    display: inline;
+    padding: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+    border-radius: 10px;
+    font-size: 18px;
+    color: black;
+    background-color: #d5d3d2;
+}
+.clock{
+    width: 40px;
+    padding: 5px;
+    margin-right: 5px;
+    margin-left: 5px;
+    border-radius: 10px;
+    background-color: #d5d3d2;
+    vertical-align: middle;
+}
+.next{
+    display: inline;
+    padding: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+    border-radius: 10px;
+    font-size: 30px;
+    color: white;
+    background-color: #a8392d;
+}
+.big-pic{
+    width:35vw;
+     background-color: #d5d3d2;
+}
+.example{
+    margin-top: 2vw; 
+    margin-bottom:2vw;
+    padding:2vw;
+    background-color: #d5d3d2;
+    color: black;
+    vertical-align: middle;
+}
+.mnemotics{
+    display: table-cell;
+    min-width: 56vw;
+    max-width: 56vw;
+    background-color: #d5d3d2;
+}
+
