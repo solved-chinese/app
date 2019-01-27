@@ -1,0 +1,35 @@
+* {
+    margin: 0px;
+    padding: 0px;
+ }
+html,body{
+	font-family: "futura";
+	font-size: 20px;
+  letter-spacing: 1px;
+  color:#3F3F3F;
+	height: 100%;
+}
+
+.header {
+  position: relative;
+  text-align: left;
+	background-color:#E7E8E9;
+	font-size: 13px;
+  padding-top: 1.3vw;
+  padding-bottom: 1.3vw;
+}
+.footer{
+  position:relative;
+  text-align:left;
+  background-color:#E7E8E9;
+  font-size: 13px;
+  padding-top: 1.3vw;
+  padding-bottom: 1.3vw;
+}
+.seperater{
+  width: 10px;
+  vertical-align: middle;
+  padding-left: 2vw;
+  padding-right: 2vw;
+}
+

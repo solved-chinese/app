@@ -17,11 +17,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import RedirectView
 from learning import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', views.index, name="index"),
-    #path('accounts/', include('django.contrib.auth.urls')),
+    # path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('accounts.urls')),
+    path('learning/', views.learning_interface, name='learning_interface'),
     path('', RedirectView.as_view(url='index')),
-]
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

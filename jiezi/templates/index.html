@@ -7,8 +7,10 @@
         {% if user.is_authenticated %}
             <li>you are {{ user.username }}</li>
             <li>your grade is {{ user.grade }}</li>
-            <li>your password is {{ user.raw_password }}</li>
             <li> <a href="{% url 'logout' %}?next={{ request.path }}">log out</a> </li>
+            {% if user.is_staff %}
+                <li> <a href="{% url 'admin:index' %}">admin</a> </li>
+            {% endif %}
         {% else %}
             <li> <a href="{% url 'login' %}?next={{ request.path }}">Login</a> </li>
             <li> <a href="{% url 'signup' %}?next={{ request.path }}">signup</a> </li>

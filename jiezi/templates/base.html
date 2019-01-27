@@ -3,32 +3,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Title{% endblock title %}</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'FMC/css/basic.css' %}">
+    <link rel="stylesheet" type="text/css" href={% static "css/base.css" %}>
+    <title>{% block title %}Jiezi{% endblock title %}</title>
     {% block extra_css %}{% endblock extra_css %}
 </head>
-<body>
-    <div class="FMCHeader">
-		<a style="text-decoration:none" href="{% url 'index' %}">
-			<span style="color:#FF644E">F</span><span style="color:#F8BA00">M</span><span style="color:#00A2FF">C</span>
-		</a>
-		<img src="{% static 'FMC/images/template/search.png' %}" class="search">
-	</div>
 
+<body>
+    <div class="header">
+        <img src={% static "images/base/logo.png" %} style="padding-left:3vw; height:4vw; vertical-align:middle">
+        <span style="font-size: 36px;color:#000000;vertical-align: middle;margin-left: 1vw;letter-spacing: 2px">Solv</span>
+        <span style="font-size: 36px;color:#B62C25;vertical-align: middle;letter-spacing: 2px">ed</span>
+        {% if user.is_authenticated %}
+             <a href="{% url 'profile' %}">
+                 <span style="vertical-align: middle; margin-left: 65vw">{{ user.username }}</span>
+             </a>
+        {% else %}
+            <a href="{% url 'login' %}"><span style="vertical-align: middle; margin-left: 65vw">Log in</span></a>
+            <a href="{% url 'signup' %}">
+                <span style="background-color: #B62C25;color: white; margin-left:3vw; padding:13px 13px 13px 13px;vertical-align: middle;">
+                    Sign up
+                </span>
+            </a>
+        {% endif%}
+    </div>
 
     {% block content %}
+        Nothing here<br>
+        Reload this<br>
     {% endblock content %}
 
-
-    <div class = aboutus>
-		<a href="{% url 'index' %}">
-			<img src="{% static 'FMC/images/template/fmc-fun-nonstop.png' %}" class=FMCFun>
-		</a>
-		<div> <span style="font-size: 14.4px">
-			Copyright</span><span class =copyright> &copy;</span>
-			<span style="font-size: 14.4px">
-			2018 FMC All Rights Reserved.</span>
-		</div>
-	</div>
+    <div class="footer">
+        <img src={% static "images/base/logo.png" %} style="padding-left: 3vw; height: 4vw;vertical-align: middle">
+        <span style="font-size: 36px;color:#000000;vertical-align: middle;margin-left: 1vw;letter-spacing: 2px">Solv</span><span
+            style="font-size: 36px;color:#B62C25;vertical-align: middle;letter-spacing: 2px">ed</span>
+        <span style="vertical-align: middle; margin-left: 26vw">About Us</span><img
+            src={% static "images/base/seperater.png" %}  class=seperater>
+        <span style="vertical-align: middle">The Science Behind</span><img
+            src={% static "images/base/seperater.png" %} class=seperater>
+        <span style="vertical-align: middle">Help</span><img src={% static "images/base/seperater.png" %} class=seperater>
+        <span style="vertical-align: middle;">Support Us</span><img
+            src={% static "images/base/seperater.png" %} class=seperater
+            style="padding-right: 1vw">
+        <img src={% static "images/base/mail.png" %} style="vertical-align: middle; width: 2vw; margin-right: 1vw">
+        <span style="font-size: 10px; vertical-align: middle"> &copy; 2019 Solved</span>
+    </div>
 </body>
 </html>

@@ -2,5 +2,12 @@
 
 {% block content %}
     this is profile page<br>
-    you are {{ user.username }}
+    you are {{ user.username }}<br>
+    <a href="{% url 'manage_stack' %}">
+         manage_stack
+    </a>
+    <br>
+    <a href="{% url 'logout' %}">
+         log out
+    </a>
 {% endblock content %}

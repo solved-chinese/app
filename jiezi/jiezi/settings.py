@@ -25,7 +25,7 @@ SECRET_KEY = '2$r59g9r5+8(&o(+hdw%23v%!921e0@cig=yiepz^f+%2a_u=@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','47.90.245.239']
 
 
 # Application definition
@@ -76,17 +76,27 @@ WSGI_APPLICATION = 'jiezi.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'jiezi',
+#         'USER' : 'root',
+#         'PASSWORD' : 'chenyx',
+#         'HOST' : 'localhost',
+#         'PORT' : '3306',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'jiezi',
-        'USER' : 'root',
+        'USER' : 'chenyxRemote',
         'PASSWORD' : 'chenyx',
-        'HOST' : 'localhost',
+        'HOST' : '47.90.245.239',
         'PORT' : '3306',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -143,3 +153,6 @@ STATICFILES_DIRS = [
 
 LOGIN_REDIRECT_URL='/accounts/profile/'
 AUTH_USER_MODEL='accounts.User'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

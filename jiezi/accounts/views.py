@@ -29,7 +29,7 @@ def profile(request):
 
 
 @login_required
-def manage_stack(request):
+def manage_stack(request): #TODO the checkbox selection has bug in resetting after a request
     filters = []
     warning = ''
     if 'delete_user_character' in request.GET:
