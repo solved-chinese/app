@@ -18,4 +18,4 @@ def index(request):
 
 # @login_required
 def learning_character(request, character_pk):
-    return render(request, 'learning/learning_interface.html', {'character':Character.objects.get(pk=character_pk)})
+    return render(request, 'learning/learning_character.html', {'character':Character.objects.get(pk=character_pk)})
