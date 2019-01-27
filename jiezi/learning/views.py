@@ -29,4 +29,4 @@ def learning_character(request, character_pk):
         dict['radical_3'] = radical_3
     except:
         dict['radical_3'] = None
-    return render(request, 'learning/learning_interface.html', dict)
+    return render(request, 'learning/learning_character.html', dict)
