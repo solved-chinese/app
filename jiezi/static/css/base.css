@@ -1,3 +1,7 @@
+@font-face {
+    font-family: "overpass";
+    src: url("fonts/overpass-regular.otf");
+}
 * {
     margin: 0px;
     padding: 0px;
@@ -8,7 +12,7 @@ a {
 }
 
 html, body {
-    font-family: "futura";
+    font-family: "overpass";
     font-size: 20px;
     color: #3F3F3F;
     height: 100%;

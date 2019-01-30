@@ -49,11 +49,6 @@
 }
 .clock{
     width: 40px;
-    padding: 5px;
-    margin-right: 5px;
-    margin-left: 5px;
-    border-radius: 10px;
-    background-color: #d5d3d2;
     vertical-align: middle;
 }
 .next{
