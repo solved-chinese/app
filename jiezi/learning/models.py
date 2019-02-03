@@ -22,14 +22,6 @@ class PathAndRename(object):
         ext = filename.split('.')[-1]
         filename = '{}.{}'.format(self.name, ext)
         return self.path + filename
-
-
-character_pinyin_audio_path = PathAndRename('characters/', 'pinyin_audio')
-character_color_coded_image_path = PathAndRename('characters/', 'color_coded_image')
-character_stroke_order_image_path = PathAndRename('characters/', 'stroke_order_image')
-radical_mnemonic_image_path = PathAndRename('radicals/', 'mnemonic_image')
-
-
 # TODO delete the files after delete
 
 
@@ -39,7 +31,7 @@ class Radical(models.Model):
     pinyin = models.CharField(max_length=10, help_text="if it doesn't exist put --")
     definition = models.CharField(max_length=50)
     mnemonic_explanation = models.TextField(max_length=100)
-    mnemonic_image = models.ImageField(upload_to=radical_mnemonic_image_path,
+    mnemonic_image = models.ImageField(upload_to=PathAndRename('radicals/', 'mnemonic_image'),
                                        default='default.jpg')  # TODO add height/width
     is_phonetic = models.BooleanField();
     is_semantic = models.BooleanField();
@@ -61,10 +53,10 @@ class Character(models.Model):
     definition_3 = models.CharField(max_length=50, null=True, blank=True)
     explanation_3 = models.CharField(max_length=200, null=True, blank=True)
 
-    pinyin_audio = models.FileField(upload_to=character_pinyin_audio_path, default='error.mp3', help_text='it is ok for now to leave blank')
-    color_coded_image = models.ImageField(upload_to=character_color_coded_image_path,
+    pinyin_audio = models.FileField(upload_to=PathAndRename('characters/', 'pinyin_audio'), default='error.mp3', help_text='it is ok for now to leave blank')
+    color_coded_image = models.ImageField(upload_to=PathAndRename('characters/', 'color_coded_image'),
                                           default='default.jpg')  # TODO add height/width
-    stroke_order_image = models.ImageField(upload_to=character_stroke_order_image_path, default='default.jpg')
+    stroke_order_image = models.ImageField(upload_to=PathAndRename('characters/', 'stroke_order_image'), default='default.jpg')
 
     mnemonic_explanation = models.TextField(max_length=200)
     mnemonic_1 = models.IntegerField(help_text="enter number only")
