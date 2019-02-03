@@ -14,14 +14,12 @@ class PathAndRename(object):
         self.name = _name
 
     def __call__(self, instance, filename):
-        if self.path == 'characters/':
-            self.path += 'C%04d/' % instance.jiezi_id
-        elif self.path == 'radicals/':
-            self.path += 'R%04d/' % instance.jiezi_id
-        print("add"+str(instance.jiezi_id)+" as "+self.path)
         ext = filename.split('.')[-1]
         filename = '{}.{}'.format(self.name, ext)
-        return self.path + filename
+        if self.path == 'characters/':
+            return self.path + 'C%04d/' % instance.jiezi_id + filename
+        elif self.path == 'radicals/':
+            return self.path + 'R%04d/' % instance.jiezi_id + filename
 # TODO delete the files after delete
 
 
