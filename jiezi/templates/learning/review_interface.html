@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form method="GET">
+        {% for choice in choices %}
+            <button name="choice" type="submit" value="{{ choice.0 }}">
+                {{ choice.1 }}
+            </button>
+            <br>
+        {% endfor %}
+        <button name="choice" type="submit" value="-1">
+                I don't know
+        </button>
+    </form>
+{% endblock %}

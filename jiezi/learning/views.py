@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from learning.models import Character, Radical
-
+import random
 
 def index(request):
     return render(request, 'index.html');
@@ -15,7 +15,7 @@ def index(request):
 # def learning_time_selection(request):
 #     pass
 
-# @login_required
+#@login_required
 def learning_character(request, character_pk):
     character = Character.objects.get(pk=character_pk)
     dict = {'character':character , 'radical_1':Radical.objects.get(pk=character.mnemonic_1)}
@@ -30,3 +30,22 @@ def learning_character(request, character_pk):
     except:
         dict['radical_3'] = None
     return render(request, 'learning/learning_character.html', dict)
+
+def review_test(request):
+    list=[(1,'first'),(2,'second'),(3,'third'),(4,'fourth')]
+    ans=1
+    return review_interface(request, list, ans)
+
+#list of tuple (pk, tested_choice), ans also a tuple
+#@login_required
+def review_interface(request, list, ans):
+    choices = random.sample(list, 4)
+    ans_index = -1
+    for i in range(0,4):
+        if choices[i][0] == ans:
+            ans_index = i
+    if ans_index == -1:
+        ans_index = random.randrange(4)
+        choices[ans_index]=ans
+    return render(request, 'learning/review_interface.html', {'choices':choices})
+
