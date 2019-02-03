@@ -1,10 +1,10 @@
 .interface-seperator{
-   width:25px; 
+   width:25px;
    vertical-align: middle;
    padding: 0vw 1vw 0vw 1vw
 }
 .letter{
-    padding-left: 3vw; 
+    padding-left: 3vw;
     font-size: 50px;
     vertical-align: middle;
 }
@@ -14,7 +14,7 @@
     padding-right: 1vw;
 }
 .pinyin{
-    min-width:5vw;
+    min-width:4vw;
     max-width: 9vw;
     word-wrap: break-word;
     font-size: 30px;
@@ -48,25 +48,24 @@
     background-color: #d5d3d2;
 }
 .clock{
-    width: 40px;
+    width: 60px;
     vertical-align: middle;
 }
 .next{
     display: inline;
-    padding: 10px;
-    margin-right: 5px;
-    margin-left: 5px;
-    border-radius: 10px;
-    font-size: 30px;
-    color: white;
-    background-color: #a8392d;
+    width: 7vw;
+    vertical-align: middle;
 }
 .big-pic{
-    width:35vw;
-     background-color: #d5d3d2;
+    width:auto;
+    background-color: #d5d3d2;
+
+}
+.big-pic:hover{
+    display: none;
 }
 .example{
-    margin-top: 2vw; 
+    margin-top: 2vw;
     margin-bottom:2vw;
     padding:2vw;
     background-color: #d5d3d2;
@@ -77,6 +76,7 @@
     display: table-cell;
     min-width: 56vw;
     max-width: 56vw;
+    max-height: 7vw;
     background-color: #d5d3d2;
 }
 
