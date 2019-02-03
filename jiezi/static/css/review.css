@@ -1,0 +1,44 @@
+.review-question{
+    padding-left: 3vw;
+    font-size: 3vw;
+}
+.answers{
+    margin-left: 3vw; 
+    margin-right: 3vw; 
+    width:94vw;
+    height:40vw;
+    background-color: #E7E8E9;
+    text-align: center; 
+}
+.button {
+    background-color: white;
+    border:none;
+    border-radius: 0.7vw; 
+    color: black;
+    padding: 1vw 3vw;
+    text-align: center;
+    font-size:1.5vw;
+    margin: 0vw 1vw 0vw 1vw;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+}
+.buttons{
+    display: inline;
+    padding: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+    border-radius: 10px;
+    font-size: 18px;
+    color: black;
+    background-color: #E7E8E9;
+}
+.clock{
+    width: 60px;
+    vertical-align: middle;
+}
+.next{
+    display: inline;
+    width: 7vw;
+    vertical-align: middle;
+}

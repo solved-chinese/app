@@ -1,15 +1,33 @@
 {% extends "base.html" %}
-
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/review.css" %}">
+{% endblock extra_css %}
 {% block content %}
-    <form method="GET">
+    <br>
+    <div class="review-question">
+        "<span style="color:#B62C25">好</span>" means _________ :
+        <div style="display:inline; margin-left: 42vw; vertical-align: middle">
+            <div class="buttons">I'm done!</div>
+            <img src={% static "images/learning_character/clock.png" %} class="clock">
+            <img src={% static "images/learning_character/next.png" %} class="next">
+        </div>
+        <br>
+    </div>
+    <div class=answers>
+        <br><br><br><br>
+        <form method="GET">
         {% for choice in choices %}
-            <button name="choice" type="submit" value="{{ choice.0 }}">
+            <button name="choice" type="submit" value="{{ choice.0 }}" class="button">
                 {{ choice.1 }}
             </button>
-            <br>
         {% endfor %}
-        <button name="choice" type="submit" value="-1">
-                I don't know
+        <button name="choice" type="submit" value="-1" class="button">
+            I don't know
         </button>
-    </form>
+        </form>
+        <br><br><br>
+        <img src={% static "images/review_interface/allotted-time.png" %} style="width:50vw">
+    </div>
+    <br><br>
 {% endblock %}

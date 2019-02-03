@@ -88,7 +88,7 @@ class Character(models.Model):
         if self.mnemonic_2 is not None:
             if not Radical.objects.filter(pk=self.mnemonic_2).exists():
                 raise ValidationError('mnemonic 2: R%04d not exist'%self.mnemonic_2, code='invalid')
-            if self.mnemonic_3 is not None and Radical.objects.filter(pk=self.mnemonic_3).exists():
+            if self.mnemonic_3 is not None and not Radical.objects.filter(pk=self.mnemonic_3).exists():
                 raise ValidationError('mnemonic 3: R%04d not exist'%self.mnemonic_3, code='invalid')
         elif self.mnemonic_3 is not None:
             raise ValidationError('mnemonic 2 is blank but mnemonic 3 is not, wtf!!!', code='invalid')

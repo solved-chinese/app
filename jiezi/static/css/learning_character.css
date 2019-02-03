@@ -1,7 +1,7 @@
 .interface-seperator{
    width:25px;
    vertical-align: middle;
-   padding: 0vw 1vw 0vw 1vw
+   padding: 0vw 1vw 0vw 1vw;
 }
 .letter{
     padding-left: 3vw;
@@ -24,8 +24,8 @@
 .def-table{
     display: inline-table;
     vertical-align: middle;
-    max-width: 35vw;
-    min-width: 35vw;
+    max-width: 36vw;
+    min-width: 36vw;
 }
 .def1{
     word-wrap: break-word;
@@ -45,7 +45,7 @@
     border-radius: 10px;
     font-size: 18px;
     color: black;
-    background-color: #d5d3d2;
+    background-color: #E7E8E9;
 }
 .clock{
     width: 60px;
@@ -57,18 +57,15 @@
     vertical-align: middle;
 }
 .big-pic{
-    width:auto;
-    background-color: #d5d3d2;
+    width:35vw;
+    background-color: #E7E8E9;
 
-}
-.big-pic:hover{
-    display: none;
 }
 .example{
     margin-top: 2vw;
     margin-bottom:2vw;
     padding:2vw;
-    background-color: #d5d3d2;
+    background-color: #E7E8E9;
     color: black;
     vertical-align: middle;
 }
@@ -77,6 +74,24 @@
     min-width: 56vw;
     max-width: 56vw;
     max-height: 7vw;
-    background-color: #d5d3d2;
+    background-color: #E7E8E9;
+    text-align: center;
 }
-
+.big-pic-div{
+    width: 35vw;
+    position: relative;
+    display: inline-block;
+}
+.img-top{
+    width: 35vw;
+}
+.big-pic-div .img-top {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 99;
+}
+.big-pic-div:hover .img-top {
+    display: inline;
+}

@@ -10,11 +10,12 @@
             {% if user.is_staff %}
                 <li><a href="{% url 'admin:index' %}">admin</a></li>
             {% endif %}
+            <li><a href="{% url 'learning_character' 4 %}">Learning Character</a></li>
         {% else %}
             <li>you are not logged in<br></li>
             <li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
             <li><a href="{% url 'signup' %}?next={{ request.path }}">signup</a></li>
-            <li><a href="{% url 'learning_character' 1 %}">Learning Character</a></li>
+            <li><a href="{% url 'learning_character' 4 %}">Learning Character</a></li>
         {% endif %}
     </ul>
     <br><br><br><br><br>

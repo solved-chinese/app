@@ -32,7 +32,7 @@ def learning_character(request, character_pk):
     return render(request, 'learning/learning_character.html', dict)
 
 def review_test(request):
-    list=[(1,'first'),(2,'second'),(3,'third'),(4,'fourth')]
+    list=[(1,'赶来韩寒凭感觉i 安排概念和哪；急哦'),(2,'second'),(3,'third'),(4,'fourth')]
     ans=1
     return review_interface(request, list, ans)
 
