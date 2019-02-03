@@ -15,9 +15,9 @@ class PathAndRename(object):
 
     def __call__(self, instance, filename):
         if self.path == 'characters/':
-            self.path += 'C%04d/' % instance.jiezi_id
+            self.path += 'C%04d/' % instance.jiezi_id.to_internal_value
         elif self.path == 'radicals/':
-            self.path += 'R%04d/' % instance.jiezi_id
+            self.path += 'R%04d/' % instance.jiezi_id.to_internal_value
         ext = filename.split('.')[-1]
         filename = '{}.{}'.format(self.name, ext)
         return self.path + filename

@@ -149,7 +149,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
-    "/Users/carlguo/Documents/GitHub/Jiezi/jiezi/static"
 ]
 
 LOGIN_REDIRECT_URL='/'
