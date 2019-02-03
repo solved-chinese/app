@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}overideTitle{% endblock title %}
 
 {% block content %}
@@ -12,10 +12,29 @@
             {% endif %}
             <li><a href="{% url 'learning_character' 4 %}">Learning Character</a></li>
         {% else %}
-            <li>you are not logged in<br></li>
-            <li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
-            <li><a href="{% url 'signup' %}?next={{ request.path }}">signup</a></li>
-            <li><a href="{% url 'learning_character' 4 %}">Learning Character</a></li>
+            <br><br>
+            <div style="padding-left:3vw;">
+                <img src="{% static "images/frontpage/logo_fancy.png"%}"style="width:40vw;vertical-align: middle;">
+                <img src="{% static "images/frontpage/video_dummy.png"%}" style="width:50vw;vertical-align: middle">
+            </div>
+            <br>
+            <div style="padding-left: 7vw; display: table; positon:relative">
+                <div style="display: table-cell;width:20vw;padding-right: 3vw">
+                    <div style="font-size:5vw">Try it.</div>
+                    <div style="font-size:5vw;color:#B62C25">Here ></div>
+                    Feature:<br>
+                    -blahblahblahblahblahblah<br>
+                    -blahblahblahblahblahblah<br>
+                    -blahblahblahblahblahblah<br>
+                    -blahblahblahblahblahblah<br>
+                    -blahblahblahblahblahblah<br>
+                    -blahblahblahblahblahblah<br>
+                </div>
+                <div style="display: table-cell;position:absolute; width:70%; height:60%">
+                    <img src="{% static "images/frontpage/review_mode.png"%}" style="position:absolute; top:0;left:0; width:60vw;">
+                    <img src="{% static "images/frontpage/signup.png"%}" style="position:absolute; top:85%;left:65%; width:15vw;">
+                </div>
+            </div>
         {% endif %}
     </ul>
     <br><br><br><br><br>
