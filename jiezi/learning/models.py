@@ -28,7 +28,7 @@ class Radical(models.Model):
     chinese = models.CharField(max_length=1)
     pinyin = models.CharField(max_length=10, help_text="if it doesn't exist put --")
     definition = models.CharField(max_length=50)
-    mnemonic_explanation = models.TextField(max_length=100)
+    mnemonic_explanation = models.TextField(max_length=100, null=True, blank=True)
     mnemonic_image = models.ImageField(upload_to=PathAndRename('radicals/', 'mnemonic_image'),
                                        default='default.jpg')  # TODO add height/width
     is_phonetic = models.BooleanField();
@@ -64,16 +64,15 @@ class Character(models.Model):
                                      help_text="enter number only, if it doens't exits, leave BLANK instead of putting 0")
 
     example_1_word = models.CharField(max_length=5)
-    example_1_pinin = models.CharField(max_length=25)
+    example_1_pinyin = models.CharField(max_length=25)
     example_1_character = models.CharField(max_length=50)
     example_1_meaning = models.CharField(max_length=50)
     example_2_word = models.CharField(max_length=5, null=True, blank=True)
-    example_2_pinin = models.CharField(max_length=25, null=True, blank=True)
+    example_2_pinyin = models.CharField(max_length=25, null=True, blank=True)
     example_2_character = models.CharField(max_length=50, null=True, blank=True)
     example_2_meaning = models.CharField(max_length=50, null=True, blank=True)
 
     def clean(self):
-        print("clean called")
         if not Radical.objects.filter(pk=self.mnemonic_1).exists():
             raise ValidationError('mnemonic 1: R%04d not exist'%self.mnemonic_1, code='invalid')
         if self.mnemonic_2 is not None:
@@ -110,3 +109,12 @@ class CharacterSet(models.Model):
 
     def __str__(self):
         return self.name
+
+class Quiz(models.Model):
+    choice1 = models.CharField(max_length=100)
+    choice2 = models.CharField(max_length=100)
+    choice3 = models.CharField(max_length=100)
+    choice4 = models.CharField(max_length=100)
+    question = models.CharField(max_length=100)
+    ans_index = models.IntegerField()
+    user = models.OneToOneField('accounts.User', on_delete=models.CASCADE)

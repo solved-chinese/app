@@ -10,7 +10,7 @@ class User(AbstractUser):
         help_text='A read-only field to record password only for development.'
     )
 
-    grade = models.IntegerField(default=0)
+
 
 
 class UserCharacter(models.Model):
