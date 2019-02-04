@@ -6,22 +6,27 @@
 {% block content %}
     <br>
     <div class="review-question">
-        "<span style="color:#B62C25">好</span>" means _________ :
+        "<span style="color:#B62C25">{{ question }}</span>" means _________ :
         <div style="display:inline; margin-left: 42vw; vertical-align: middle">
             <div class="buttons">I'm done!</div>
             <img src={% static "images/learning_character/clock.png" %} class="clock">
-            <img src={% static "images/learning_character/next.png" %} class="next">
+            {% if not correct == -1 %}
+                <img src={% static "images/learning_character/next.png" %} class="next">
+            {% endif %}
         </div>
         <br>
     </div>
     <div class=answers>
         <br><br><br><br>
-        <form method="GET">
-        {% for choice in choices %}
-            <button name="choice" type="submit" value="{{ choice.0 }}" class="button">
-                {{ choice.1 }}
-            </button>
-        {% endfor %}
+        <form method="POST">
+            {% csrf_token %}
+            {% for choice in choices %}
+                <button name="choice" type="submit" value="{{ forloop.counter0 }}" class="button"
+                        {% if forloop.counter0  == correct %}style="background-color: green"
+                        {% elif forloop.counter0  == incorrect %}style="background-color: red"{% endif %}>
+                    {{ choice }}
+                </button>
+            {% endfor %}
         <button name="choice" type="submit" value="-1" class="button">
             I don't know
         </button>
