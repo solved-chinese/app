@@ -4,22 +4,18 @@ from django.core.exceptions import ValidationError
 from django.db import models
 import accounts.models  # to avoid cyclic import
 from django.utils.deconstruct import deconstructible
+from learning.storage import OverwriteFileSystemStorage
 
 
 @deconstructible
 class PathAndRename(object):
 
-    def __init__(self, _path, _name):
+    def __init__(self, _path):
         self.path = _path
-        self.name = _name
 
     def __call__(self, instance, filename):
         ext = filename.split('.')[-1]
-        filename = '{}.{}'.format(self.name, ext)
-        if self.path == 'characters/':
-            return self.path + 'C%04d/' % instance.jiezi_id + filename
-        elif self.path == 'radicals/':
-            return self.path + 'R%04d/' % instance.jiezi_id + filename
+        return self.path+'%04d'%instance.jiezi_id+'.'+ext
 # TODO delete the files after delete
 
 
@@ -29,8 +25,8 @@ class Radical(models.Model):
     pinyin = models.CharField(max_length=10, help_text="if it doesn't exist put --")
     definition = models.CharField(max_length=50)
     mnemonic_explanation = models.TextField(max_length=100, null=True, blank=True)
-    mnemonic_image = models.ImageField(upload_to=PathAndRename('radicals/', 'mnemonic_image'),
-                                       default='default.jpg')  # TODO add height/width
+    mnemonic_image = models.ImageField(upload_to=PathAndRename('radical_mnemonic/R'),
+                                       default='default.jpg', storage=OverwriteFileSystemStorage())
     is_phonetic = models.BooleanField();
     is_semantic = models.BooleanField();
 
@@ -51,10 +47,10 @@ class Character(models.Model):
     definition_3 = models.CharField(max_length=50, null=True, blank=True)
     explanation_3 = models.CharField(max_length=200, null=True, blank=True)
 
-    pinyin_audio = models.FileField(upload_to=PathAndRename('characters/', 'pinyin_audio'), default='error.mp3', help_text='it is ok for now to leave blank')
-    color_coded_image = models.ImageField(upload_to=PathAndRename('characters/', 'color_coded_image'),
-                                          default='default.jpg')  # TODO add height/width
-    stroke_order_image = models.ImageField(upload_to=PathAndRename('characters/', 'stroke_order_image'), default='default.jpg')
+    pinyin_audio = models.FileField(upload_to=PathAndRename('pinyin_audio/C'), default='error.mp3', help_text='it is ok for now to leave blank', storage=OverwriteFileSystemStorage())
+    color_coded_image = models.ImageField(upload_to=PathAndRename('color_coded_characters/C'),
+                                          default='default.jpg', storage=OverwriteFileSystemStorage())
+    stroke_order_image = models.ImageField(upload_to=PathAndRename('animated_stroke_order/C'), default='default.jpg', storage=OverwriteFileSystemStorage())
 
     mnemonic_explanation = models.TextField(max_length=200)
     mnemonic_1 = models.IntegerField(help_text="enter number only")

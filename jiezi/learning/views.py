@@ -76,7 +76,7 @@ def review_interface(request, list=[], ans='', question=''):
                       {'choices': choices, 'question': question, 'correct': -1, 'incorrect': -1})
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.is_staff)
 def load_radical(request):
     if "GET" == request.method:
         return render(request, 'learning/load_excel.html', {})
@@ -118,7 +118,7 @@ def load_radical(request):
         return render(request, 'learning/load_excel.html', {"list": list})
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.is_staff)
 def load_character(request):
     if "GET" == request.method:
         return render(request, 'learning/load_excel.html', {})
