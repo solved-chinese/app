@@ -11,8 +11,6 @@ class User(AbstractUser):
     )
 
 
-
-
 class UserCharacter(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_characters',
                              related_query_name='user_character', null=True)
