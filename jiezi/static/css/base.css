@@ -45,3 +45,75 @@ html, body {
     padding-right: 2vw;
 }
 
+/* The Modal (background) */
+.login-modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+#login{
+	cursor: pointer;
+}
+/* Modal Content */
+.login-content {
+  position: relative;
+  margin: auto;
+  padding: 2vw;
+  width: 35%;
+  color:white;
+}
+
+/* The Close Button */
+.close {
+  position: absolute;
+  right: 0;
+  color: #aaaaaa;
+  color:white;
+  font-size: 2vw;
+  font-weight: bold;
+  padding-right: 2vw;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+.input-content{
+	background-color: transparent;
+	width: 100%;
+	font-size: 1vw;
+	color: white;
+	padding: 12px 0;
+ 	margin: 8px 0;
+  	box-sizing: border-box;
+  	border: none;
+  	border-bottom: 2px solid white;
+}
+::placeholder {
+  color: white;
+  opacity: 1; /* Firefox */
+}
+.login-button {
+    background-color: white;
+    border: none;
+    border-radius: 0.5vw;
+    color: #B62C25;
+    padding: 1vw 2vw;
+    text-align: center;
+    font-size: 1.5vw;
+    margin: 1vw 0;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+}

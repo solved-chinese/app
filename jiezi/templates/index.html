@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/index.css" %}">
+{% endblock extra_css %}
 {% block title %}overideTitle{% endblock title %}
 
 {% block content %}
@@ -10,12 +13,46 @@
             {% if user.is_staff %}
                 <li><a href="{% url 'admin:index' %}">admin</a></li>
             {% endif %}
-            <li><a href="{% url 'learning_character' 4 %}">Learning Character</a></li>
+            <li><a href="{% url 'learning_character' 1 %}">Learning Character</a></li>
+
+
+            <div class="title">
+                Welcome Back!
+                <div style="display:inline-block; float:right; padding-right:3vw; vertical-align: middle">
+                    <span class="stack-button">My classroom</span>
+                    <span class="stack-button">Manage my stack</span>
+                </div>
+            </div>
+            <br><br>
+            <div class="overview">
+                <div class="time-overview">
+                    <span style="color: #B62C25"> 12</span> hrs &nbsp;&nbsp;
+                    <span style="color: #B62C25"> 146</span> characters
+                </div>
+                <div class="time-detail">
+                    Jan.&nbsp;
+                    <img src={% static "images/frontpage/blocks.png" %} style="width:25vw; vertical-align:middle">
+                    &nbsp;&nbsp; Streak: <span style="color: #B62C25"> 2</span> days
+                </div>
+            </div>
+            <div class=study-time>
+                <br><br>
+                <div style="color:black;font-size: 4vw">I want to study for:</div>
+                <br>
+                <div>
+                    <button class="button">5 min</button>
+                    <button class="button">10 min</button>
+                    <button class="button">15 min</button>
+                    <button class="button">30 min</button>
+                    <button class="button">1 hr</button>
+                </div>
+                <br><br><br>
+            </div>
         {% else %}
             <br><br>
             <div style="padding-left:3vw;">
-                <img src="{% static "images/frontpage/logo_fancy.png"%}"style="width:40vw;vertical-align: middle;">
-                <img src="{% static "images/frontpage/video_dummy.png"%}" style="width:50vw;vertical-align: middle">
+                <img src="{% static "images/frontpage/logo_fancy.png" %}" style="width:40vw;vertical-align: middle;">
+                <img src="{% static "images/frontpage/video_dummy.png" %}" style="width:50vw;vertical-align: middle">
             </div>
             <br>
             <div style="padding-left: 7vw; display: table; positon:relative">
@@ -31,8 +68,10 @@
                     -blahblahblahblahblahblah<br>
                 </div>
                 <div style="display: table-cell;position:absolute; width:70%; height:60%">
-                    <img src="{% static "images/frontpage/review_mode.png"%}" style="position:absolute; top:0;left:0; width:60vw;">
-                    <img src="{% static "images/frontpage/signup.png"%}" style="position:absolute; top:85%;left:65%; width:15vw;">
+                    <img src="{% static "images/frontpage/review_mode.png" %}"
+                         style="position:absolute; top:0;left:0; width:60vw;">
+                    <img src="{% static "images/frontpage/signup.png" %}"
+                         style="position:absolute; top:85%;left:65%; width:15vw;">
                 </div>
             </div>
         {% endif %}
