@@ -1,0 +1,111 @@
+.title {
+    padding-left: 3vw;
+    font-size: 2.5vw;
+    color: black;
+}
+
+.stack-button {
+    display: inline;
+    padding: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+    border-radius: 10px;
+    font-size: 18px;
+    color: black;
+    background-color: #E7E8E9;
+}
+
+.overview {
+    padding-left: 7vw;
+    padding-right: 7vw;
+    width: 86vw;
+    height: 10vw;
+}
+
+.time-overview {
+    display: inline;
+    max-width: 20vw;
+    background-color: #E7E8E9;
+    padding: 2.5vw;
+    border-radius: 0.1vw;
+    margin-right: 2vw;
+    font-size: 1.7vw;
+    vertical-align: middle;
+    text-align: center;
+
+}
+
+.time-detail {
+    display: inline;
+    max-width: 20vw;
+    background-color: #E7E8E9;
+    padding: 2.5vw;
+    border-radius: 0.1vw;
+    font-size: 1.7vw;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.study-time {
+    margin-left: 7vw;
+    margin-right: 7vw;
+    width: 86vw;
+    height: 25vw;
+    background-color: #E7E8E9;
+    text-align: center;
+}
+
+.button {
+    background-color: #B62C25;
+    border: none;
+    color: white;
+    padding: 1vw 3vw;
+    text-align: center;
+    font-size: 1.5vw;
+    margin: 0vw 1vw 0vw 1vw;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.contentUpdate {
+    width: 45%;
+    padding-right: 10%;
+    font-size: 18px;
+    padding-bottom: 100px;
+}
+
+.historyUpdate {
+    width: 15%;
+    padding-left: 5%;
+    font-size: 20px;
+}
+
+.recentPost {
+    font-size: 20px;
+    padding-top: 15px;
+    color: #00a2ff;
+}
+
+.titleUpdate {
+    color: #5E5E5E;
+    padding-top: 30px;
+    text-align: center;
+    font-size: 75px;
+}
+
+.catoUpdate {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: #5E5E5E;
+}
+
+hr {
+    border: 1px solid #EEEEEE;
+}
+
+.subTitle {
+    text-align: center;
+    font-size: 40px;
+    color: #f8ba00;
+}

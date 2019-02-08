@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "base.html" %}
 {% load static %}
 {% block extra_css %}
@@ -100,4 +101,113 @@
             {% endif %}
         </div>
     </div>
+=======
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/learning_character.css" %}">
+{% endblock extra_css %}
+
+{% block title %}Learning Charcter{% endblock title %}
+{% block content %}
+    <div>
+        <span class="letter">{{ character.chinese }}</span>
+        <img src={% static "images/base/seperater.png" %} class="interface-seperator">
+        <img src={% static "images/learning_character/audio.png" %} class="audio">
+        <div class="pinyin">{{ character.pinyin }}</div>
+        <img src={% static "images/base/seperater.png" %} class="interface-seperator">
+        <div class="def-table">
+            <div class="def1">
+                {{ character.definition_1 }}
+            </div>
+            <div class="def2">
+                <span style="color:black">
+                    {% if character.definition_2 %}{{ character.definition_2 }}{% endif %}
+                </span>
+                {% if character.explanation_2 %}{{ character.explanation_2 }}{% endif %}
+            </div>
+            <div class="def2">
+                <span style="color:black">
+                    {% if character.definition_3 %}{{ character.definition_3 }}{% endif %}
+                </span>
+                {% if character.explanation_3 %}{{ character.explanation_3 }}{% endif %}
+            </div>
+        </div>
+        <img src={% static "images/base/seperater.png" %} class="interface-seperator">
+        <div class="buttons" style="margin-left: 0px">I know this</div>
+        <div class="buttons">I'm done!</div>
+        <img src={% static "images/learning_character/clock.png" %} class="clock">
+        <a href="{% url 'learning_character' character.pk|add:'1' %}">
+            <img src={% static "images/learning_character/next.png" %} class="next">
+        </a>
+    </div>
+    <div style="display: table; padding:0vw 3vw 0vw 3vw">
+        <div style="display: table-cell;max-width: 35vw;min-width:35vw;padding-right: 2vw;vertical-align: top;">
+            <div class="big-pic-div">
+                <img src={{ character.color_coded_image.url }} class="big-pic">
+                <img src={{ character.stroke_order_image.url }} class="img-top">
+
+            </div>
+            <div class="example">
+                <div>Example Words</div>
+                <div style="font-size:17px;">{{ character.example_1_word }} | {{ character.example_1_pinyin }}
+                    | {{ character.example_1_character }} | {{ character.example_1_meaning }}</div>
+                <div style="font-size:17px;">{{ character.example_2_word }} | {{ character.example_2_pinyin }}
+                    | {{ character.example_2_character }} | {{ character.example_2_meaning }}</div>
+            </div>
+        </div>
+        <div class="mnemotics">
+
+            {% if character.mnemonic_3 %}
+                <div style="display:inline-block;width:18vw ;text-align: center; float: left;">
+                    <div>{{ radical_1.pinyin }}</div>
+                    <div>{{ radical_1.chinese }}</div>
+                    <div>{{ radical_1.definition }}</div>
+                    <img src={{ radical_1.mnemonic_image.url }} style="width:18vw">
+                    <div>{{ radical_1.mnemonic_explanation }}</div>
+                </div>
+                <div style="display: inline-block;width:18vw ;text-align: center;">
+                    <div>{{ radical_2.pinyin }}</div>
+                    <div>{{ radical_2.chinese }}</div>
+                    <div>{{ radical_2.definition }}</div>
+                    <img src={{ radical_2.mnemonic_image.url }} style="width:18vw">
+                    <div>{{ radical_2.mnemonic_explanation }}</div>
+                </div>
+                <div style="display: inline-block;width:18vw ;text-align: center; float:right">
+                    <div>{{ radical_3.pinyin }}</div>
+                    <div>{{ radical_3.chinese }}</div>
+                    <div>{{ radical_3.definition }}</div>
+                    <img src={{ radical_3.mnemonic_image.url }} style="width:18vw">
+                    <div>{{ radical_3.mnemonic_explanation }}</div>
+                </div>
+                <div style="display: table-row; text-align: center"><br>{{ character.mnemonic_explanation }}</div>
+            {% elif character.mnemonic_2 %}
+                <div style="display: table-row">
+                    <div style="display:inline-block;max-width:28vw ;text-align: center; float: left;">
+                        <div>{{ radical_1.pinyin }}</div>
+                        <div>{{ radical_1.chinese }}</div>
+                        <div>{{ radical_1.definition }}</div>
+                        <img src={{ radical_1.mnemonic_image.url }} style="height:27vw">
+                        <div>{{ radical_1.mnemonic_explanation }}</div>
+                    </div>
+                    <div style="display:inline-block;max-width:28vw ;text-align: center;float:right">
+                        <div>{{ radical_2.pinyin }}</div>
+                        <div>{{ radical_2.chinese }}</div>
+                        <div>{{ radical_2.definition }}</div>
+                        <img src={{ radical_2.mnemonic_image.url }} style="height:27vw">
+                        <div>{{ radical_2.mnemonic_explanation }}</div>
+                    </div>
+                </div>
+                <div style="display: table-row"><br>{{ character.mnemonic_explanation }}</div>
+            {% else %}
+                <div>{{ radical_1.pinyin }}</div>
+                <div>{{ radical_1.chinese }}</div>
+                <div>{{ radical_1.definition }}</div>
+                <img src={{ radical_1.mnemonic_image.url }} style="height:25vw">
+                <div>{{ radical_1.mnemonic_explanation }}</div>
+                <div>{{ character.mnemonic_explanation }}</div>
+            {% endif %}
+        </div>
+    </div>
+>>>>>>> 771428531e4e6c8afac28c64ef7c4366261cd00b
 {% endblock content %}

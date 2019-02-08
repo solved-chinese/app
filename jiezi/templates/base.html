@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -50,4 +51,107 @@
     <span style="font-size: 10px; vertical-align: middle"> &copy; 2019 Solved</span>
 </div>
 </body>
+=======
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href={% static "css/base.css" %}>
+    {% block extra_css %}{% endblock extra_css %}
+    <title>{% block title %}Jiezi{% endblock title %}</title>
+
+</head>
+
+<body>
+<div class="header">
+    <a href={% url 'index' %}>
+        <img src={% static "images/base/logo.png" %} style="padding-left:3vw; height:4vw; vertical-align:middle">
+        <span style="font-size: 36px;color:#000000;vertical-align: middle;margin-left: 1vw;letter-spacing: 2px">Solv</span>
+        <span style="font-size: 36px;color:#B62C25;vertical-align: middle;letter-spacing: 2px">ed</span></a>
+    {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}">
+            <span style="vertical-align: middle; margin-left: 75vw">{{ user.username }}</span>
+        </a>
+    {% else %}
+        <!-- add the login span id to id="login" if want to do pop up page for login -->
+        <a href="{% url 'login' %}">
+            <span style="vertical-align: middle; margin-left: 65vw">
+                Log in
+            </span>
+        </a>
+        <a href="{% url 'signup' %}">
+                <span style="background-color: #B62C25;color: white; margin-left:3vw; padding:13px 13px 13px 13px;vertical-align: middle;">
+                    Sign up
+                </span>
+        </a>
+    {% endif %}
+</div>
+
+{% block content %}
+    Nothing here<br>
+    Reload this<br>
+{% endblock content %}
+
+
+
+<div class="footer">
+    <img src={% static "images/base/logo.png" %} style="padding-left: 3vw; height: 4vw;vertical-align: middle">
+    <span style="font-size: 36px;color:#000000;vertical-align: middle;margin-left: 1vw;letter-spacing: 2px">Solv</span><span
+        style="font-size: 36px;color:#B62C25;vertical-align: middle;letter-spacing: 2px">ed</span>
+    <a href="{% url 'about_us' %}">
+        <span style="vertical-align: middle; margin-left: 26vw">
+            About Us
+        </span>
+    </a>
+    <img src={% static "images/base/seperater.png" %}  class=seperater>
+    <span style="vertical-align: middle">The Science Behind</span><img
+        src={% static "images/base/seperater.png" %} class=seperater>
+    <span style="vertical-align: middle">Help</span><img src={% static "images/base/seperater.png" %} class=seperater>
+    <span style="vertical-align: middle;">Support Us</span><img
+        src={% static "images/base/seperater.png" %} class=seperater
+        style="padding-right: 1vw">
+    <img src={% static "images/base/mail.png" %} style="vertical-align: middle; width: 2vw; margin-right: 1vw">
+    <span style="font-size: 10px; vertical-align: middle"> &copy; 2019 Solved</span>
+</div>
+
+{#    <div id="login-page" class="login-modal">#}
+{#	  <div class="login-content">#}
+{#	    <span class="close">&times;</span>#}
+{#	    <p> Log in:</p>#}
+{#	    <input type="text" id="mail" name="email" class="input-content" placeholder="Email">#}
+{#	    <input type="text" id="password" name="password" class="input-content" placeholder="Password">#}
+{#	    <div style="font-size: 1vw">Forgot Your Password?</div>#}
+{#	    <button class="login-button">Log in</button>#}
+{#	  </div>#}
+{#	</div>#}
+{#	<script>#}
+{#	// Get the modal#}
+{#	var modal = document.getElementById('login-page');#}
+{##}
+{#	// Get the button that opens the modal#}
+{#	var btn = document.getElementById("login");#}
+{##}
+{#	// Get the <span> element that closes the modal#}
+{#	var span = document.getElementsByClassName("close")[0];#}
+{##}
+{#	// When the user clicks the button, open the modal#}
+{#	btn.onclick = function() {#}
+{#	  modal.style.display = "block";#}
+{#	}#}
+{##}
+{#	// When the user clicks on <span> (x), close the modal#}
+{#	span.onclick = function() {#}
+{#	  modal.style.display = "none";#}
+{#	}#}
+{##}
+{#	// When the user clicks anywhere outside of the modal, close it#}
+{#	window.onclick = function(event) {#}
+{#	  if (event.target == modal) {#}
+{#	    modal.style.display = "none";#}
+{#	  }#}
+{#	}#}
+{#	</script>#}
+</body>
+>>>>>>> 771428531e4e6c8afac28c64ef7c4366261cd00b
 </html>
