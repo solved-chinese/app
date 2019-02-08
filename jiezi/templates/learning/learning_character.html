@@ -33,7 +33,9 @@
         <div class="buttons" style="margin-left: 0px">I know this</div>
         <div class="buttons">I'm done!</div>
         <img src={% static "images/learning_character/clock.png" %} class="clock">
-        <img src={% static "images/learning_character/next.png" %} class="next">
+        <a href="{% url 'learning_character' character.pk|add:'1' %}">
+            <img src={% static "images/learning_character/next.png" %} class="next">
+        </a>
     </div>
     <div style="display: table; padding:0vw 3vw 0vw 3vw">
         <div style="display: table-cell;max-width: 35vw;min-width:35vw;padding-right: 2vw;vertical-align: top;">

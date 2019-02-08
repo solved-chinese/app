@@ -70,10 +70,11 @@
     vertical-align: middle;
 }
 .mnemotics{
-    display: table-cell;
+    /*display: table-cell;*/
     min-width: 56vw;
     max-width: 56vw;
-    max-height: 7vw;
+    min-height: 46vw;
+
     background-color: #E7E8E9;
     text-align: center;
 }
