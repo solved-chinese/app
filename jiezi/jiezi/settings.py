@@ -25,7 +25,7 @@ SECRET_KEY = '2$r59g9r5+8(&o(+hdw%23v%!921e0@cig=yiepz^f+%2a_u=@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','47.90.245.239']
+ALLOWED_HOSTS = ['127.0.0.1','47.90.245.239','solvedchinese.org','www.solvedchinese.org']
 
 
 # Application definition
