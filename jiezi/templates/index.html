@@ -15,7 +15,7 @@
                 Welcome Back!
                 <div style="display:inline-block; float:right; padding-right:3vw; vertical-align: middle">
                     <span class="stack-button" style="color: #979797">My classroom</span>
-                    <a herf="{% url 'manage_stack' %}">
+                    <a href={% url 'manage_stack' %}>
                         <span class="stack-button">Manage my stack</span>
                     </a>
                 </div>
@@ -75,7 +75,7 @@
                 <div style="display: table-cell;position:absolute; width:70%; height:60%">
                     <img src="{% static "images/frontpage/review_mode.png" %}"
                          style="position:absolute; top:0;left:0; width:60vw;">
-                    <a herf="{% url 'signup' %}">
+                    <a href={% url 'signup' %}>
                         <img src="{% static "images/frontpage/signup.png" %}" style="position:absolute; top:85%;left:65%; width:15vw;">
                     </a>
                 </div>
