@@ -1,15 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    this is profile page<br>
-    you are {{ user.username }}<br>
-    <a href="{% url 'manage_stack' %}">
-         manage_stack
-    </a>
+    <span style="font-size: 2vw">profile:<br></span>
+    &nbsp;&nbsp;username: {{ user.username }}<br>
+    &nbsp;&nbsp;<a href="{% url 'manage_stack' %}">manage my stack</a>
     <br>
-     <a href="{% url 'learning_character' 1 %}">Learning Character</a> <br>
-    <a href="{% url 'logout' %}">
-         log out
-    </a>
+    &nbsp;&nbsp;<a href="{% url 'logout' %}">log out</a>
 
 {% endblock content %}

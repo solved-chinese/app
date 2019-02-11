@@ -14,7 +14,8 @@
     <a href={% url 'index' %}>
         <img src={% static "images/base/logo.png" %} style="padding-left:3vw; height:4vw; vertical-align:middle">
         <span style="font-size: 36px;color:#000000;vertical-align: middle;margin-left: 1vw;letter-spacing: 2px">Solv</span>
-        <span style="font-size: 36px;color:#B62C25;vertical-align: middle;letter-spacing: 2px">ed</span></a>
+        <span style="font-size: 36px;color:#B62C25;vertical-align: middle;letter-spacing: 2px">ed</span>
+    </a>
     {% if user.is_authenticated %}
         <a href="{% url 'profile' %}">
             <span style="vertical-align: middle; margin-left: 75vw">{{ user.username }}</span>
@@ -42,9 +43,11 @@
 
 
 <div class="footer">
-    <img src={% static "images/base/logo.png" %} style="padding-left: 3vw; height: 4vw;vertical-align: middle">
-    <span style="font-size: 36px;color:#000000;vertical-align: middle;margin-left: 1vw;letter-spacing: 2px">Solv</span><span
-        style="font-size: 36px;color:#B62C25;vertical-align: middle;letter-spacing: 2px">ed</span>
+    <a href={% url 'index' %}>
+        <img src={% static "images/base/logo.png" %} style="padding-left:3vw; height:4vw; vertical-align:middle">
+        <span style="font-size: 36px;color:#000000;vertical-align: middle;margin-left: 1vw;letter-spacing: 2px">Solv</span>
+        <span style="font-size: 36px;color:#B62C25;vertical-align: middle;letter-spacing: 2px">ed</span>
+    </a>
     <a href="{% url 'about_us' %}">
         <span style="vertical-align: middle; margin-left: 26vw">
             About Us

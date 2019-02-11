@@ -7,19 +7,17 @@
 {% block content %}
     <ul>
         {% if user.is_authenticated %}
-            <li>you are {{ user.username }}</li>
-            <li><a href="{% url 'logout' %}?next={{ request.path }}">log out</a></li>
             {% if user.is_staff %}
                 <li><a href="{% url 'admin:index' %}">admin</a></li>
             {% endif %}
-            <li><a href="{% url 'learning_character' 1 %}">Learning Character</a></li>
-
 
             <div class="title">
                 Welcome Back!
                 <div style="display:inline-block; float:right; padding-right:3vw; vertical-align: middle">
-                    <span class="stack-button">My classroom</span>
-                    <span class="stack-button">Manage my stack</span>
+                    <span class="stack-button" style="color: #979797">My classroom</span>
+                    <a herf="{% url 'manage_stack' %}">
+                        <span class="stack-button">Manage my stack</span>
+                    </a>
                 </div>
             </div>
             <br><br>
@@ -36,16 +34,23 @@
             </div>
             <div class=study-time>
                 <br><br>
-                <div style="color:black;font-size: 4vw">I want to study for:</div>
-                <br>
-                <div>
-                    <button class="button">5 min</button>
-                    <button class="button">10 min</button>
-                    <button class="button">15 min</button>
-                    <button class="button">30 min</button>
-                    <button class="button">1 hr</button>
-                </div>
-                <br><br><br>
+                {% if user.user_characters.count == 0 %}
+                    <div style="font-size: 2.5vw">
+                        You currently have no character in your stack.<br>
+                        Please go to manage stack page to add some characters.
+                    </div>
+                {% else %}
+                    <div style="color:black;font-size: 4vw">I want to study for:</div>
+                    <br>
+                    <a href="{% url 'user_status' %}">
+                        <span class="button">5 min</span>
+                        <span class="button">10 min</span>
+                        <span class="button">15 min</span>
+                        <span class="button">20 min</span>
+                        <span class="button">25 min</span>
+                    </a>
+                    <br><br><br>
+                {% endif %}
             </div>
         {% else %}
             <br><br>
@@ -70,8 +75,9 @@
                 <div style="display: table-cell;position:absolute; width:70%; height:60%">
                     <img src="{% static "images/frontpage/review_mode.png" %}"
                          style="position:absolute; top:0;left:0; width:60vw;">
-                    <img src="{% static "images/frontpage/signup.png" %}"
-                         style="position:absolute; top:85%;left:65%; width:15vw;">
+                    <a herf="{% url 'signup' %}">
+                        <img src="{% static "images/frontpage/signup.png" %}" style="position:absolute; top:85%;left:65%; width:15vw;">
+                    </a>
                 </div>
             </div>
         {% endif %}

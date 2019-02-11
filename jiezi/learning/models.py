@@ -113,4 +113,6 @@ class Quiz(models.Model):
     choice4 = models.CharField(max_length=100)
     question = models.CharField(max_length=100)
     ans_index = models.IntegerField()
+    current_character_pk=models.IntegerField()
+    current_stage=models.IntegerField()
     user = models.OneToOneField('accounts.User', on_delete=models.CASCADE)

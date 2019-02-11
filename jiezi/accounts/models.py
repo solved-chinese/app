@@ -21,7 +21,7 @@ class UserCharacter(models.Model):
         return self.user.__str__() + ', ' + self.character.__str__()
 
     class Meta:
-        ordering=['time_added']
+        ordering=['character__pk']
         unique_together=(('user','character'),)
 
 

@@ -3,15 +3,23 @@
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static "css/review.css" %}">
 {% endblock extra_css %}
+
 {% block content %}
     <br>
     <div class="review-question">
-        "<span style="color:#B62C25">{{ question }}</span>" means _________ :
+        {{ question|safe }}
         <div style="display:inline; margin-left: 42vw; vertical-align: middle">
-            <div class="buttons">I'm done!</div>
+            <a href="{% url 'index' %}">
+                <div class="buttons">I'm done!</div>
+            </a>
             <img src={% static "images/learning_character/clock.png" %} class="clock">
-            {% if not correct == -1 %}
-                <img src={% static "images/learning_character/next.png" %} class="next">
+            {% if current_character_pk is not None %}
+                <form method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="current_character_pk" value="{{ current_character_pk }}">
+                    <input type="hidden" name="current_stage" value="{{ current_stage }}">
+                    <input class="next" type="image" src="{% static "images/learning_character/next.png" %}" alt="Submit">
+                </form>
             {% endif %}
         </div>
         <br>

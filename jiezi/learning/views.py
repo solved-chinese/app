@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from learning.models import Character, Radical, Quiz
+from accounts.models import UserCharacter
 from django.contrib.auth.decorators import user_passes_test
+from django.http import HttpResponse
 import random
 import openpyxl
 
@@ -20,8 +22,48 @@ def about_us(request):
 # def learning_time_selection(request):
 #     pass
 
-# @login_required
-def learning_character(request, character_pk):
+def user_status (request):
+    # 1: learn 2:test pronoun 3:test meaning
+    if request.method=='GET':
+        current_character=request.user.user_characters.first().character
+        current_stage=1
+    else:
+        if request.POST.get('choice') is not None:
+            return review_interface(request)
+        current_character=Character.objects.get(pk=int(request.POST.get('current_character_pk')))
+        current_stage=int(request.POST.get('current_stage'))
+        # print(f'was pk:{current_character.pk} stage{current_stage}')
+        current_stage=current_stage+1
+        if current_stage==4:
+            current_stage=1
+            try:
+                current_character=request.user.user_characters.filter(character__pk__gt=current_character.pk).first().character
+            except:
+                current_character=request.user.first().character
+                print("finish and go back to first")
+        # print(f'now pk:{current_character.pk} stage{current_stage}')
+    if current_stage == 1:
+        return view_character(request, current_character.pk, is_view=False)
+    elif current_stage == 2:
+        list = []
+        for user_character in request.user.user_characters.all():
+            list.append(user_character.character.pinyin)
+        if len(list) < 4:
+            list.extend(['hǎn', 'dā', 'zhé'])
+        return review_interface(request, list, current_character.pinyin,
+                                f'"<span style="color:  #B62C25">{current_character.chinese}</span>" is pronounced ___:', current_character.pk, current_stage)
+    else:
+        list = []
+        for user_character in request.user.user_characters.all():
+            list.append(user_character.character.definition_1)
+        if len(list) < 4:
+            list.extend(['powerful','meaningless','interesting'])
+        return review_interface(request, list, current_character.definition_1,
+                                f'"<span style="color:  #B62C25">{current_character.chinese}</span>" means ___:', current_character.pk, current_stage)
+
+
+@login_required
+def view_character(request, character_pk, is_view=True):
     character = Character.objects.get(pk=character_pk)
     dict = {'character': character, 'radical_1': Radical.objects.get(pk=character.mnemonic_1)}
     try:
@@ -34,20 +76,13 @@ def learning_character(request, character_pk):
         dict['radical_3'] = radical_3
     except:
         dict['radical_3'] = None
+    dict['is_view']=is_view
     return render(request, 'learning/learning_character.html', dict)
 
 
 @login_required
-def review_test(request):
-    list = ['a_very_long_first', 'second', 'third', 'fourth', 'fifth']
-    ans = 'second'
-    question = '好'
-    return review_interface(request, list=list, ans=ans, question=question)
-
-
-@login_required
-def review_interface(request, list=[], ans='', question=''):
-    if request.method == 'POST':
+def review_interface(request, list=[], ans='', question='', current_character_pk=1, current_stage=2):
+    if request.POST.get('choice') is not None:
         choice = int(request.POST.get('choice'))
         correct = request.user.quiz.ans_index
         if choice == correct:
@@ -58,7 +93,7 @@ def review_interface(request, list=[], ans='', question=''):
                    request.user.quiz.choice4]
         return render(request, 'learning/review_interface.html',
                       {'choices': choices, 'question': request.user.quiz.question, 'correct': correct,
-                       'incorrect': incorrect})
+                       'incorrect': incorrect, 'current_character_pk':request.user.quiz.current_character_pk, 'current_stage':request.user.quiz.current_stage})
     else:
         choices = random.sample(list, 4)
         ans_index = -1
@@ -72,8 +107,9 @@ def review_interface(request, list=[], ans='', question=''):
             request.user.quiz.delete()
         except:
             pass
-        Quiz(user=request.user, choice1=choices[0], choice2=choices[1], choice3=choices[2], choice4=choices[3],
-             question=question, ans_index=ans_index).save()
+        Quiz.objects.update_or_create(user=request.user,
+            defaults={'choice1':choices[0], 'choice2':choices[1], 'choice3':choices[2], 'choice4':choices[3],
+             'question':question, 'ans_index':ans_index, 'current_stage':current_stage, 'current_character_pk':current_character_pk})
         return render(request, 'learning/review_interface.html',
                       {'choices': choices, 'question': question, 'correct': -1, 'incorrect': -1})
 
