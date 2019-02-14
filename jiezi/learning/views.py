@@ -57,7 +57,7 @@ def user_status (request, session_key):
 
 def transition_stage(request):
     current_stage = request.session['current_stage']
-    print('stage was'+str(current_stage)+'correct was'+str(request.session['correct']))
+    # print('stage was'+str(current_stage)+'correct was'+str(request.session['correct']))
     if current_stage==1 or current_stage==2 or current_stage==4:
         current_stage+=1
     elif current_stage==5:
