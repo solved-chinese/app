@@ -31,10 +31,10 @@ def user_status (request, session_key):
         return review_interface(request)
     if timezone.now()>request.session['end_time']:
         return render(request, 'simple_response.html', {'content':'You are finished!'})
-    try:
-        current_stage=request.session['current_stage']=transition_stage(request)
-    except Exception as e:
-        return render(request, 'simple_response.html', {'content':str(e)+'<br>You have finished everything! Please come back later to review or add some more to your learning stack!'})
+    # try:
+    current_stage=request.session['current_stage']=transition_stage(request)
+    # except Exception as e:
+    #     return render(request, 'simple_response.html', {'content':str(e)+'<br>You have finished everything! Please come back later to review or add some more to your learning stack!'})
     uc=UserCharacter.objects.get(pk=request.session['uc_pk'])
     if current_stage == 1 or current_stage == 6:
         return view_character(request, uc.character.pk, is_view=False)
