@@ -13,11 +13,9 @@
                 <div class="buttons">I'm done!</div>
             </a>
             <img src={% static "images/learning_character/clock.png" %} class="clock">
-            {% if current_character_pk is not None %}
+            {% if correct != -1 %}
                 <form method="POST" style="display: inline;">
                     {% csrf_token %}
-                    <input type="hidden" name="current_character_pk" value="{{ current_character_pk }}">
-                    <input type="hidden" name="current_stage" value="{{ current_stage }}">
                     <input class="next" type="image" src="{% static "images/learning_character/next.png" %}" alt="Submit">
                 </form>
             {% endif %}

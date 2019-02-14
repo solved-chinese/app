@@ -38,8 +38,6 @@
             <img src={% static "images/learning_character/clock.png" %} class="clock">
             <form method="POST" style="display: inline;">
                 {% csrf_token %}
-                <input type="hidden" name="current_character_pk" value="{{ character.pk }}">
-                <input type="hidden" name="current_stage" value="1">
                 <input class="next" type="image" src="{% static "images/learning_character/next.png" %}" alt="Submit">
             </form>
         {% elif user.is_staff %}

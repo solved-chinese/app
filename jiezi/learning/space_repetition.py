@@ -21,7 +21,7 @@ class card():
         elif n == 2:
             self.interval=6
         else:
-            self.interval = (self.I * self.EF)
+            self.interval *= self.EF
 
     def receive_answer(self, answer):
         self.appearance += 1

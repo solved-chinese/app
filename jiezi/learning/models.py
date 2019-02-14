@@ -105,14 +105,3 @@ class CharacterSet(models.Model):
 
     def __str__(self):
         return self.name
-
-class Quiz(models.Model):
-    choice1 = models.CharField(max_length=100)
-    choice2 = models.CharField(max_length=100)
-    choice3 = models.CharField(max_length=100)
-    choice4 = models.CharField(max_length=100)
-    question = models.CharField(max_length=100)
-    ans_index = models.IntegerField()
-    current_character_pk=models.IntegerField()
-    current_stage=models.IntegerField()
-    user = models.OneToOneField('accounts.User', on_delete=models.CASCADE)
