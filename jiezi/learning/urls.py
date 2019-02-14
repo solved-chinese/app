@@ -13,7 +13,7 @@ register_converter(FourDigitConverter, 'dddd')
 
 urlpatterns = [
     path('C<dddd:character_pk>/', views.view_character, name='view_character'),# reverse by {% url 'view_character' 1 %}
-    path('start_learning', views.start_learning, name='start_learning'),
+    path('start_learning<int:seconds_to_learn>', views.start_learning, name='start_learning'),
     path('status<slug:session_key>', views.user_status),
 ]
 
