@@ -1,0 +1,83 @@
+.cato{
+    background: #c9c7c6;
+    color:white;
+    margin: 0.5vw 0;
+    font-size: 1.5vw;
+    position:relative;
+}
+.name{
+  display:inline-block;
+  padding: 0.5vw 1vw;
+  min-width: 13vw;
+}
+.scroll{
+    display: inline-block;
+    width: 20vw;
+    height: 30vw;
+    overflow-y: scroll;
+}
+
+.morebtn{
+  border: none;
+  cursor: pointer;
+  display:inline-block;
+  width:1vw;
+  vertical-align: middle;
+}
+
+.more-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 6vw;
+  font-size: 1vw;
+  overflow: auto;
+  top:-0.5vw;
+  right:3vw;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+.expand-content {
+  display: none;
+  font-size: 1.5vw;
+  background-color: #E7E8E9;
+  z-index: 1;
+}
+
+.more-content a {
+  color: black;
+  padding: 0.5vw 1vw; 
+  text-decoration: none;
+  display: block;
+}
+.more-content a:hover {
+  background-color: #B62C25;
+}
+
+.showMore {display: block;}
+
+.expand-content a {
+  color: black;
+  padding: 0.5vw 1vw; 
+  text-decoration: none;
+  display: block;
+}
+.expandbtn {
+  border: none;
+  cursor: pointer;
+  display:inline-block;width:2vw; vertical-align: middle
+}
+.small-pic{
+  width:2vw;
+  vertical-align: middle; 
+}
+.pinyin{
+  font-size:1.3vw;
+  padding-left:0.5vw;
+}
+.character{
+  display: inline-block;
+  font-size:1.3vw;
+  padding-left:1.5vw;
+  font-weight: bold; 
+}
