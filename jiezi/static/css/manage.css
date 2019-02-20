@@ -1,4 +1,4 @@
-.cato{
+.category{
     background: #c9c7c6;
     color:white;
     margin: 0.5vw 0;
@@ -8,7 +8,8 @@
 .name{
   display:inline-block;
   padding: 0.5vw 1vw;
-  min-width: 13vw;
+  min-width: 14vw;
+  max-width: 14vw;
 }
 .scroll{
     display: inline-block;
@@ -17,7 +18,7 @@
     overflow-y: scroll;
 }
 
-.morebtn{
+.tag_more_button{
   border: none;
   cursor: pointer;
   display:inline-block;
@@ -25,7 +26,7 @@
   vertical-align: middle;
 }
 
-.more-content {
+.tag_more_content {
   display: none;
   position: absolute;
   background-color: #f1f1f1;
@@ -37,47 +38,46 @@
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
-.expand-content {
-  display: none;
-  font-size: 1.5vw;
-  background-color: #E7E8E9;
-  z-index: 1;
-}
 
-.more-content a {
+.tag_more_content a {
   color: black;
   padding: 0.5vw 1vw; 
   text-decoration: none;
   display: block;
 }
-.more-content a:hover {
+.tag_more_content a:hover {
   background-color: #B62C25;
 }
 
-.showMore {display: block;}
+/*.showMore {display: block;}*/
 
-.expand-content a {
-  color: black;
-  padding: 0.5vw 1vw; 
-  text-decoration: none;
-  display: block;
-}
-.expandbtn {
+.tag_expand_button {
   border: none;
   cursor: pointer;
-  display:inline-block;width:2vw; vertical-align: middle
+  display:inline-block;width:2vw;
+  vertical-align: middle;
+  font-size: 2.5vw;
+}
+.tag_expand_content {
+  width:19vw;
+  /*display: none;*/
+  font-size: 1.5vw;
+  background-color: #E7E8E9;
+  z-index: 1;
 }
 .small-pic{
   width:2vw;
   vertical-align: middle; 
 }
 .pinyin{
-  font-size:1.3vw;
-  padding-left:0.5vw;
+  color: black;
+  font-size:1vw;
+  padding-left:0.4vw;
 }
 .character{
-  display: inline-block;
-  font-size:1.3vw;
-  padding-left:1.5vw;
+  /*display: inline-block;*/
+  color: black;
+  font-size:1.1vw;
+  padding-left:0.5vw;
   font-weight: bold; 
 }

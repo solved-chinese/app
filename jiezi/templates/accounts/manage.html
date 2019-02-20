@@ -1,160 +1,87 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Jiezi</title>
-	<link rel="stylesheet" type="text/css" href="css/basic.css" >
-	<link rel="stylesheet" type="text/css" href="css/manage.css" >
-</head>
+{% extends 'base.html' %}
+{% load static %}
 
-<body>
+{% block extra_css %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href={% static "css/manage.css" %}>
+    <script type="text/javascript" src="{% static "js/manage_stack.js" %}"></script>
+{% endblock %}
+{% block content %}
+    <div style="padding-left:5vw;">
+        <div style="display: inline-block;width: 20vw;">
+            <a href="{% url 'index' %}">
+                <img src="{% static "images/manage_stack/home.png" %}" style="width:3vw;vertical-align: middle">
+                <span style="color: #B62C25; vertical-align:middle;font-weight: bold">Home</span>
+            </a>
+            <div id="add_new_set_button" class="category" style="cursor: pointer; background-color: #716f6f;">
+                <span class="name" style="min-width: 15vw">Add New Set</span>
+            </div>
+            <div id='stack_left' style="overflow-y: scroll;height: 30vw;">
+                {#to be populated in manage_stack_left#}
+            </div>
+        </div>
+    </div>
 
-	<div class="header">
-		<img src="images/logo.png" style="padding-left: 3vw; height: 4vw;vertical-align: middle">
-		<span style="font-size: 36px;color:#000000;vertical-align: middle;margin-left: 1vw;letter-spacing: 2px">Solv</span><span style="font-size: 36px;color:#B62C25;vertical-align: middle;letter-spacing: 2px">ed</span>
-		<span style="vertical-align: middle; margin-left: 65vw">Log in</span>
-		<span style="background-color: #B62C25;color: white; margin-left:3vw; padding:13px 13px 13px 13px;vertical-align: middle;">Sign up</span>
-	</div>
-	
-	<div style="padding-left:5vw;">
-		<div style="display: inline-block;width: 20vw;">
-			<img src="images/home.png" style="width:3vw;vertical-align: middle">
-			<span style="color: #B62C25; vertical-align:middle;font-weight: bold">Home</span>
-			<div class="cato">
-				<span class="name" style="min-width: 15vw">Add New</span> 
-				<img src="images/add.png" style="display:inline-block;width:2vw; vertical-align: middle">
-			</div>
-			<div style="overflow-y: scroll;height: 30vw">
-				<div class="cato">
-					<div class="name">Color</div>
-					<img src="images/expand.png" class="expandbtn" style="display:inline-block;width:2vw; vertical-align: middle">
-					<img src="images/more.png"  onclick="more()" style="display:inline-block;width:1vw; vertical-align: middle;" class="morebtn">
-					<div id="moreId" class="more-content">
-						<a href ="https://www.google.com/">Delete</a>
-						<a>Move</a>
-					</div>
-					<div class="expand-content">
-						<a>
-							<img src="images/he.png" class=small-pic>
-							<span class="pinyin">zì</span>
-							<div class="character">symbol</div>
-							<img src="images/more_black.png" style="width: 1vw;vertical-align: middle;float: right">
-						</a>
-						<a>
-							<img src="images/he.png" class=small-pic>
-							<span class="pinyin">zì</span>
-							<div class="character">symbol</div>
-							<img src="images/more_black.png" style="width: 1vw;vertical-align: middle;float: right">
-						</a>
-					</div>
-					
-				</div>
+    <div class="modal fade" id="confirm_character_delete_modal">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <form id="confirm_character_delete_form" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="delete_user_character_pk" name="delete_user_character_pk" value="-1">
+                    <input type="hidden" id="delete_user_character_tag_pk" name="delete_user_character_tag_pk" value="-1">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Delete this character from this set?</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
 
-				<div class="cato">
-					<div class="name">Common</div>
-					<img src="images/expand.png" class="expandbtn">
-					<img src="images/more.png" class="morebtn">
-					<div id="moreId" class="more-content">
-						<a href ="https://www.google.com/">Delete</a>
-						<a>Move</a>
-					</div>
-					<div class="expand-content">
-						<a>
-							<img src="images/he.png" class=small-pic>
-							<span class="pinyin">zì</span>
-							<div class="character">symbol</div>
-							<img src="images/more_black.png" class=morebtn style="float: right">
-							<div id="moreId" class="more-content">
-							<a href ="https://www.google.com/">Delete</a>
-							<a>Move</a>
-							</div>
-						</a>
-					
-						<a>
-							<img src="images/he.png" class=small-pic>
-							<span class="pinyin">zì</span>
-							<div class="character">symbol</div>
-							<img src="images/more_black.png" class="morebtn" style="float:right">
-							<div id="moreId" class="morebtn">
-						</a>
-						
-					</div>
-					</div>
-					
-				</div>
-				<div class="cato">
-					lienarning 
-				</div>
-				<div class="cato">
-					lienarning 
-				</div>
-				<div class="cato">
-					lienarning 
-				</div>
-				<div class="cato">
-					lienarning 
-				</div>
-				<div class="cato">
-					lienarning 
-				</div>
-				<div class="cato">
-					lienarning 
-				</div>
-				<div class="cato">
-					lienarning 
-				</div><div class="cato">
-					lienarning 
-				</div><div class="cato">
-					lienarning 
-				</div>
-				<div class="cato">
-					lienarning 
-				</div>
-			</div>
-		</div>
-	</div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="delete_character_from_library" name="delete_character_from_library" value="1">
+                            <label class="custom-control-label" for="delete_character_from_library">Also delete it from my learning library</label>
+                        </div>
+                    </div>
 
-	<div class="footer">
-		<img src="images/logo.png" style="padding-left: 3vw; height: 4vw;vertical-align: middle">
-		<span style="font-size: 36px;color:#000000;vertical-align: middle;margin-left: 1vw;letter-spacing: 2px">
-		Solv</span><span style="font-size: 36px;color:#B62C25;vertical-align: middle;letter-spacing: 2px">ed</span>
-		<span style="vertical-align: middle; margin-left: 26vw">About Us</span><img src="images/seperater.png" class=seperater>
-		<span style="vertical-align: middle">The Science Behind</span><img src="images/seperater.png" class=seperater>
-		<span style="vertical-align: middle">Help</span><img src="images/seperater.png" class=seperater>
-		<span style="vertical-align: middle;">Support Us</span><img src="images/seperater.png" class=seperater style="padding-right: 1vw">
-		<img src="images/mail.png" style="vertical-align: middle; width: 2vw; margin-right: 1vw">
-		<span style="font-size: 10px; vertical-align: middle"> &copy; 2019 Solved</span>
-	</div>
-	
-	<script>
-var morebtn = document.getElementsByClassName("morebtn");
-var i;
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button class="btn" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-for (i = 0; i < morebtn.length; i++) {
-  morebtn[i].addEventListener("click", function() {
-  var dropdownContent = this.nextElementSibling;
-  if (dropdownContent.style.display === "block") {
-  dropdownContent.style.display = "none";
-  } else {
-  dropdownContent.style.display = "block";
-  }
-  });
-}
+    <div class="modal fade" id="add_new_set_modal">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <form id="add_new_set_form" method="POST">
+                    {% csrf_token %}
+                    <!-- Modal Header -->
 
-var expandbtn = document.getElementsByClassName("expandbtn");
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add from existing sets</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
 
-for (i = 0; i < expandbtn.length; i++) {
-  expandbtn[i].addEventListener("click", function() {
-  var dropdownContent = this.nextElementSibling.nextElementSibling.nextElementSibling;
-  if (dropdownContent.style.display === "block") {
-  dropdownContent.style.display = "none";
-  } else {
-  dropdownContent.style.display = "block";
-  }
-  });
-}
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                    </div>
 
-
-
-</script>
-</body>
-</html>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button class="btn" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

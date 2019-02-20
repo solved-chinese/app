@@ -277,3 +277,6 @@ def load_character(request):
                 message += 'success'
             list.append(message)
         return render(request, 'learning/load_excel.html', {"list": list})
+
+def test(request):
+    return render(request,'accounts/manage.html')

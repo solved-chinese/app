@@ -27,7 +27,6 @@ urlpatterns = [
     path('about_us/', views.about_us, name="about_us"),
     path('accounts/', include('accounts.urls')),
     path('learning/', include('learning.urls')),
-    # path('test/', views.review_test, name='test'),
     path('load_radical', views.load_radical),
     path('load_character', views.load_character),
     path('', RedirectView.as_view(url='index')),

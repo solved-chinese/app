@@ -51,7 +51,8 @@ class Character(models.Model):
     color_coded_image = models.ImageField(upload_to=PathAndRename('color_coded_characters/C'),
                                           default='default.jpg', storage=OverwriteFileSystemStorage())
     stroke_order_image = models.ImageField(upload_to=PathAndRename('animated_stroke_order/C'), default='default.jpg', storage=OverwriteFileSystemStorage())
-
+    small_color_coded = models.ImageField(upload_to=PathAndRename('small_color_coded/C'),
+                                          default='default.jpg', storage=OverwriteFileSystemStorage())
     mnemonic_explanation = models.TextField(max_length=200)
     mnemonic_1 = models.IntegerField(help_text="enter number only")
     mnemonic_2 = models.IntegerField(null=True, blank=True,
@@ -78,6 +79,14 @@ class Character(models.Model):
                 raise ValidationError('mnemonic 3: R%04d not exist'%self.mnemonic_3, code='invalid')
         elif self.mnemonic_3 is not None:
             raise ValidationError('mnemonic 2 is blank but mnemonic 3 is not, wtf!!!', code='invalid')
+
+    def get_six_char_pinyin(self):
+        pinyin=str(self.pinyin)
+        need_space = 6-len(pinyin)
+        for i in range(need_space):
+            pinyin+="&nbsp;"
+        return pinyin
+
 
     def __str__(self):
         return 'C' + '%04d' % self.jiezi_id + ':' + self.chinese
