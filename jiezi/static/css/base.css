@@ -1,3 +1,16 @@
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+ a, a:hover,a:visited, a:focus {
+    text-decoration:none;
+}
+
 @font-face {
     font-family: "overpass";
     src: url("fonts/overpass-regular.otf");
@@ -13,7 +26,7 @@ a {
 
 html, body {
     font-family: "overpass";
-    font-size: 20px;
+    font-size: 1.1vw;
     color: #3F3F3F;
     height: 100%;
 }
@@ -22,24 +35,24 @@ html, body {
     position: relative;
     text-align: left;
     background-color: #E7E8E9;
-    font-size: 13px;
+    font-size: 0.6vw;
     padding-top: 1.3vw;
     padding-bottom: 1.3vw;
-    letter-spacing: 1px;
+    letter-spacing: 0.007vw;
 }
 
 .footer {
     position: relative;
     text-align: left;
     background-color: #E7E8E9;
-    font-size: 13px;
+    font-size: 0.6vw;
     padding-top: 1.3vw;
     padding-bottom: 1.3vw;
-    letter-spacing: 1px;
+    letter-spacing: 0.007vw;
 }
 
 .seperater {
-    width: 10px;
+    width: 0.52vw;
     vertical-align: middle;
     padding-left: 2vw;
     padding-right: 2vw;
@@ -50,7 +63,7 @@ html, body {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
+  padding-top: 5.2vw; /* Location of the box */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -94,11 +107,11 @@ html, body {
 	width: 100%;
 	font-size: 1vw;
 	color: white;
-	padding: 12px 0;
- 	margin: 8px 0;
+	padding: 0.63vw 0;
+ 	margin: 0.42vw 0;
   	box-sizing: border-box;
   	border: none;
-  	border-bottom: 2px solid white;
+  	border-bottom: 0.1vw solid white;
 }
 ::placeholder {
   color: white;

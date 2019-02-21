@@ -15,9 +15,10 @@ def about_us(request):
     return  render(request, 'about_us.html');
 
 @login_required()
-def start_learning (request, seconds_to_learn):
+def start_learning (request, minutes_to_learn):
     request.session.cycle_key()
-    request.session['end_time']=timezone.now()+datetime.timedelta(seconds=seconds_to_learn)
+    request.session['end_time']=timezone.now()+datetime.timedelta(minutes=minutes_to_learn)
+    request.session['minutes_to_learn']=minutes_to_learn
     request.session['current_stage']=0
     request.session['uc_pk']= request.user.user_characters.first().pk
     return redirect(f'/learning/status{request.session.session_key}')
@@ -30,7 +31,7 @@ def user_status (request, session_key):
     if request.POST.get('choice') is not None:
         return review_interface(request)
     if timezone.now()>request.session['end_time']:
-        return render(request, 'simple_response.html', {'content':'You are finished!'})
+        return render(request, 'simple_response.html', {'content':f'Congratulations! You have finished studying for {request.session["minutes_to_learn"]} minutes. Take a break :).'})
     try:
         current_stage=request.session['current_stage']=transition_stage(request)
     except Exception as e:

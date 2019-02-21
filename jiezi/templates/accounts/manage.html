@@ -2,27 +2,26 @@
 {% load static %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href={% static "css/manage.css" %}>
+    <link rel="stylesheet" type="text/css" href="{% static "css/learning_character.css" %}">
     <script type="text/javascript" src="{% static "js/manage_stack.js" %}"></script>
 {% endblock %}
 {% block content %}
-    <div style="padding-left:5vw;">
-        <div style="display: inline-block;width: 20vw;">
-            <a href="{% url 'index' %}">
-                <img src="{% static "images/manage_stack/home.png" %}" style="width:3vw;vertical-align: middle">
-                <span style="color: #B62C25; vertical-align:middle;font-weight: bold">Home</span>
-            </a>
-            <div id="add_new_set_button" class="category" style="cursor: pointer; background-color: #716f6f;">
-                <span class="name" style="min-width: 15vw">Add New Set</span>
-            </div>
-            <div id='stack_left' style="overflow-y: scroll;height: 30vw;">
-                {#to be populated in manage_stack_left#}
-            </div>
+    <div style="padding-left:5vw; display: inline-block;width: 22vw;">
+        <a href="{% url 'index' %}">
+            <img src="{% static "images/manage_stack/home.png" %}" style="width:3vw;vertical-align: middle">
+            <span style="color: #B62C25; vertical-align:middle;font-weight: bold">Home</span>
+        </a>
+        <div id="add_new_set_button" class="category" style="cursor: pointer; background-color: #716f6f;">
+            <span class="name" style="min-width: 15vw">Add New Set</span>
         </div>
+        <div id='stack_left' style="overflow-y: scroll;height: 30vw;">
+            {#to be populated in manage_stack_left#}
+        </div>
+    </div>
+
+{#    <div style="display: inline-block; width:75vw; height: 45vw;"  id="stack_right">#}
+
     </div>
 
     <div class="modal fade" id="confirm_character_delete_modal">

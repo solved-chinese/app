@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load my_tags %}
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static "css/index.css" %}">
 {% endblock extra_css %}
@@ -23,13 +24,13 @@
             <br><br>
             <div class="overview">
                 <div class="time-overview">
-                    <span style="color: #B62C25"> 12</span> hrs &nbsp;&nbsp;
-                    <span style="color: #B62C25"> 146</span> characters
+                    <span style="color: #B62C25"> 0</span> hrs &nbsp;&nbsp;
+                    <span style="color: #B62C25"> {% get_user_learned_character_cnt request.user %} </span> characters
                 </div>
                 <div class="time-detail">
-                    Jan.&nbsp;
-                    <img src={% static "images/frontpage/blocks.png" %} style="width:25vw; vertical-align:middle">
-                    &nbsp;&nbsp; Streak: <span style="color: #B62C25"> 2</span> days
+                    Feb.&nbsp;
+                    <img src="{% static "images/frontpage/blocks.png" %}" style="width:25vw; vertical-align:middle">
+                    &nbsp;&nbsp; Streak: <span style="color: #B62C25"> 0</span> days
                 </div>
             </div>
             <div class=study-time>
@@ -42,11 +43,11 @@
                 {% else %}
                     <div style="color:black;font-size: 4vw">I want to study for:</div>
                     <br>
-                    <a href="{% url 'start_learning' 120 %}"><span class="button">2 min</span></a>
-                    <a href="{% url 'start_learning' 300 %}"><span class="button">5 min</span></a>
-                    <a href="{% url 'start_learning' 600 %}"><span class="button">10 min</span></a>
-                    <a href="{% url 'start_learning' 900 %}"><span class="button">15 min</span></a>
-                    <a href="{% url 'start_learning' 1200 %}"><span class="button">20 min</span></a>
+                    <a href="{% url 'start_learning' 2 %}"><span class="button">2 min</span></a>
+                    <a href="{% url 'start_learning' 5 %}"><span class="button">5 min</span></a>
+                    <a href="{% url 'start_learning' 10 %}"><span class="button">10 min</span></a>
+                    <a href="{% url 'start_learning' 15 %}"><span class="button">15 min</span></a>
+                    <a href="{% url 'start_learning' 20 %}"><span class="button">20 min</span></a>
 
                     <br><br><br>
                 {% endif %}
@@ -80,6 +81,5 @@
             </div>
         {% endif %}
     </ul>
-    <br><br><br><br><br>
     <br><br><br><br><br>
 {% endblock content %}

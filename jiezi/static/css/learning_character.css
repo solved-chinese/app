@@ -1,15 +1,15 @@
 .interface-seperator{
-   width:25px;
+   width:1.25vw;
    vertical-align: middle;
    padding: 0vw 1vw 0vw 1vw;
 }
 .letter{
     padding-left: 3vw;
-    font-size: 50px;
+    font-size: 2.5vw;
     vertical-align: middle;
 }
 .audio{
-    width:50px;
+    width:2.5vw;
     vertical-align: middle;
     padding-right: 1vw;
 }
@@ -17,7 +17,7 @@
     min-width:4vw;
     max-width: 9vw;
     word-wrap: break-word;
-    font-size: 30px;
+    font-size: 1.5vw;
     display: inline-block;
     vertical-align: middle;
 }
@@ -29,26 +29,26 @@
 }
 .def1{
     word-wrap: break-word;
-    font-size: 15px;
+    font-size: 0.75vw;
     font-weight: bold;
 }
 .def2{
     word-wrap: break-word;
-    font-size: 18px;
+    font-size: 1vw;
     color: #716f6f;
 }
 .buttons{
     display: inline;
-    padding: 10px;
-    margin-right: 5px;
-    margin-left: 5px;
-    border-radius: 10px;
-    font-size: 18px;
+    padding: 0.5vw;
+    margin-right: 0.25vw;
+    margin-left: 0.25vw;
+    border-radius: 0.5vw;
+    font-size: 1vw;
     color: black;
     background-color: #E7E8E9;
 }
 .clock{
-    width: 60px;
+    width: 3.1vw;
     vertical-align: middle;
 }
 .next{
@@ -57,7 +57,7 @@
     vertical-align: middle;
 }
 .big-pic{
-    width:35vw;
+    width:32vw;
     background-color: #E7E8E9;
 
 }
@@ -73,18 +73,18 @@
     /*display: table-cell;*/
     min-width: 56vw;
     max-width: 56vw;
-    min-height: 46vw;
+    min-height: 42.5vw;
 
     background-color: #E7E8E9;
     text-align: center;
 }
 .big-pic-div{
-    width: 35vw;
+    width: 33vw;
     position: relative;
     display: inline-block;
 }
 .img-top{
-    width: 35vw;
+    width: 33vw;
 }
 .big-pic-div .img-top {
     display: none;

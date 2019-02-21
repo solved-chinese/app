@@ -25,9 +25,9 @@
 }
 .buttons{
     display: inline;
-    padding: 10px;
-    margin-right: 5px;
-    margin-left: 5px;
+    padding: 0.5vw;
+    margin-right: 0.25vw;
+    margin-left: 0.25vw;
     border-radius: 10px;
     font-size: 1.5vw;
     color: black;

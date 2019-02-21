@@ -2,7 +2,7 @@
 {% for tag in request.user.user_character_tags.all %}
     <div class="category">
         <div class="name">{{ tag.name }}</div>
-        <span style="font-size: 2vw; display:inline-block; width:2vw; vertical-align: middle" class="tag_expand_button" data-tag_pk="{{ tag.pk }}">+</span>
+        <span style="font-size: 2vw; display:inline-block; width:1.5vw; vertical-align: middle" class="tag_expand_button unselectable" data-tag_pk="{{ tag.pk }}">+</span>
 {#        <img src="{% static "images/manage_stack/more.png" %}" style="display:inline-block;width:1vw; vertical-align: middle;"#}
 {#             class="tag_more_button" data-tag_pk="{{ tag.pk }}">#}
         <div class="tag_more_content" data-tag_pk="tag_more_content_{{ tag.pk }}">
