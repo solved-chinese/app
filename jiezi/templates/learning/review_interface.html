@@ -7,8 +7,8 @@
 {% block content %}
     <br>
     <div class="review-question">
-        {{ question|safe }}
-        <div style="display:inline; margin-left: 42vw; vertical-align: middle">
+        <div style="display: inline-block; width:75vw"> {{ question|safe }}</div>
+        <div style="display:inline-block; vertical-align: middle">
             <a href="{% url 'index' %}">
                 <div class="buttons">I'm done!</div>
             </a>
@@ -16,7 +16,7 @@
             {% if correct != -1 %}
                 <form method="POST" style="display: inline;">
                     {% csrf_token %}
-                    <input class="next" type="image" src="{% static "images/learning_character/next.png" %}">
+                    <input class="next" type="image" src="{% static "images/learning_character/next.png" %}" alt="Submit">
                 </form>
             {% endif %}
         </div>

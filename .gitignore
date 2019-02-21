@@ -1,0 +1,10 @@
+**/.DS_Store
+.idea/
+jiezi/.idea/
+jiezi/jiezi/__init__.py
+*.log
+*.pot
+*.pyc
+*/*/*/__pycache__/
+*/*/__pycache__/
+*/__pycache__/

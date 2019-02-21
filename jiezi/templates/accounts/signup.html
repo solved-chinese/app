@@ -3,7 +3,9 @@
 {% block content %}
 
     <form method="POST">
-        sign up<br>
+        <div class="alert alert-light" role="alert">
+            sign up
+        </div>
         {% csrf_token %}
         <table>
             {{ form.as_table }}
