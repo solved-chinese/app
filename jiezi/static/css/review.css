@@ -29,18 +29,16 @@
     margin-right: 5px;
     margin-left: 5px;
     border-radius: 10px;
-    font-size: 1.5vw;
+    font-size: 18px;
     color: black;
     background-color: #E7E8E9;
-    vertical-align: middle;
 }
 .clock{
-    display: inline;
-    width: 4vw;
+    width: 60px;
     vertical-align: middle;
 }
 .next{
     display: inline;
-    width: 5vw;
+    width: 7vw;
     vertical-align: middle;
 }
