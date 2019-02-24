@@ -7,10 +7,6 @@
     user-select: none;
 }
 
- a, a:hover,a:visited, a:focus {
-    text-decoration:none;
-}
-
 @font-face {
     font-family: "overpass";
     src: url("fonts/overpass-regular.otf");
@@ -20,15 +16,14 @@
     padding: 0px;
 }
 
-a {
-    text-decoration: none;
-}
-
 html, body {
     font-family: "overpass";
-    font-size: 1.1vw;
+    font-size: 1.5vw;
     color: #3F3F3F;
     height: 100%;
+}
+ a, a:hover,a:visited, a:focus {
+    text-decoration:none;
 }
 
 .header {
@@ -45,7 +40,7 @@ html, body {
     position: relative;
     text-align: left;
     background-color: #E7E8E9;
-    font-size: 0.6vw;
+    font-size: 1vw;
     padding-top: 1.3vw;
     padding-bottom: 1.3vw;
     letter-spacing: 0.007vw;

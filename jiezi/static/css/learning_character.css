@@ -1,15 +1,15 @@
 .interface-seperator{
-   width:1.25vw;
+   width:3.5vw;
    vertical-align: middle;
    padding: 0vw 1vw 0vw 1vw;
 }
 .letter{
-    padding-left: 3vw;
-    font-size: 2.5vw;
+    padding-left: 5vw;
+    font-size: 3.5vw;
     vertical-align: middle;
 }
 .audio{
-    width:2.5vw;
+    width:5vw;
     vertical-align: middle;
     padding-right: 1vw;
 }
@@ -17,25 +17,21 @@
     min-width:4vw;
     max-width: 9vw;
     word-wrap: break-word;
-    font-size: 1.5vw;
+    font-size: 2vw;
     display: inline-block;
     vertical-align: middle;
 }
 .def-table{
     display: inline-table;
     vertical-align: middle;
-    max-width: 36vw;
-    min-width: 36vw;
+    max-width: 41vw;
+    min-width: 41vw;
 }
 .def1{
+    display: inline-block;
     word-wrap: break-word;
-    font-size: 0.75vw;
-    font-weight: bold;
-}
-.def2{
-    word-wrap: break-word;
-    font-size: 1vw;
-    color: #716f6f;
+    font-size: 1.5vw;
+    margin-right:1vw;
 }
 .buttons{
     display: inline;
@@ -43,7 +39,7 @@
     margin-right: 0.25vw;
     margin-left: 0.25vw;
     border-radius: 0.5vw;
-    font-size: 1vw;
+    font-size: 1.5vw;
     color: black;
     background-color: #E7E8E9;
 }
@@ -53,7 +49,7 @@
 }
 .next{
     display: inline;
-    width: 7vw;
+    width: 5vw;
     vertical-align: middle;
 }
 .big-pic{
@@ -65,26 +61,30 @@
     margin-top: 2vw;
     margin-bottom:2vw;
     padding:2vw;
+    font-size: 2vw;
     background-color: #E7E8E9;
     color: black;
     vertical-align: middle;
+}
+.example-explain{
+    font-size:1.5vw;
+    margin-bottom: 0.5vw
 }
 .mnemotics{
     /*display: table-cell;*/
     min-width: 56vw;
     max-width: 56vw;
-    min-height: 42.5vw;
-
+    min-height: 50vw;
     background-color: #E7E8E9;
     text-align: center;
 }
 .big-pic-div{
-    width: 33vw;
+    width: 32vw;
     position: relative;
     display: inline-block;
 }
 .img-top{
-    width: 33vw;
+    width: 32vw;
 }
 .big-pic-div .img-top {
     display: none;

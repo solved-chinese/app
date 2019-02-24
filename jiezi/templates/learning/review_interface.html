@@ -7,10 +7,10 @@
 {% block content %}
     <br>
     <div class="review-question">
-        <div style="display: inline-block; width:75vw"> {{ question|safe }}</div>
+        <div style="display: inline-block; width:78vw"> {{ question|safe }}</div>
         <div style="display:inline-block; vertical-align: middle">
             <a href="{% url 'index' %}">
-                <div class="buttons">I'm done!</div>
+                <div class="buttons">End Session</div>
             </a>
 {#            <img src={% static "images/learning_character/clock.png" %} class="clock">#}
             {% if correct != -1 %}
@@ -28,8 +28,8 @@
             {% csrf_token %}
             {% for choice in choices %}
                 <button name="choice" type="submit" value="{{ forloop.counter0 }}" class="button"
-                        {% if forloop.counter0  == correct %}style="background-color: green"
-                        {% elif forloop.counter0  == incorrect %}style="background-color: red"{% endif %}>
+                        {% if forloop.counter0  == correct %}style="background-color: #4cdcb0"
+                        {% elif forloop.counter0  == incorrect %}style="background-color: #e64f4f"{% endif %}>
                     {{ choice }}
                 </button>
             {% endfor %}

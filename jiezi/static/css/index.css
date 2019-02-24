@@ -10,7 +10,7 @@
     margin-right: 0.25vw;
     margin-left: 0.25vw;
     border-radius: 0.5vw;
-    font-size: 1vw;
+    font-size: 1.5vw;
     color: black;
     background-color: #E7E8E9;
 }
@@ -18,7 +18,7 @@
 .overview {
     padding-left: 7vw;
     padding-right: 7vw;
-    width: 86vw;
+    width: 100vw;
     height: 10vw;
 }
 
@@ -26,7 +26,7 @@
     display: inline;
     max-width: 20vw;
     background-color: #E7E8E9;
-    padding: 2.5vw;
+    padding: 2vw;
     border-radius: 0.1vw;
     margin-right: 2vw;
     font-size: 1.7vw;
@@ -37,11 +37,24 @@
 
 .time-detail {
     display: inline;
-    max-width: 20vw;
+    width: 20vw;
+    word-wrap: break-word;
     background-color: #E7E8E9;
-    padding: 2.5vw;
+    padding: 2vw;
     border-radius: 0.1vw;
     font-size: 1.7vw;
+     margin-right: 2vw;
+    vertical-align: middle;
+    text-align: center;
+}
+.last-time {
+    display: inline;
+    width: 30vw;
+    background-color: #E7E8E9;
+    padding: 2vw;
+    border-radius: 0.1vw;
+    font-size: 1.7vw;
+
     vertical-align: middle;
     text-align: center;
 }
@@ -68,35 +81,31 @@
     cursor: pointer;
 }
 
-.contentUpdate {
+.content-update {
     width: 45%;
-    padding-right: 10%;
-    font-size: 1vw;
+    padding-right: 10vw;
+    font-size: 1.5vw;
     padding-bottom: 5.2vw;
+    vertical-align: top;
 }
 
-.historyUpdate {
+.history-update {
     width: 15%;
-    padding-left: 5%;
-    font-size: 1vw;
+    padding-left: 5vw;
+    padding-right: 3vw;
+    font-size: 1.5vw;
+    vertical-align: top;
 }
 
-.recentPost {
-    font-size: 1vw;
-    padding-top: 0.75vw;
-    color: #00a2ff;
-}
 
-.titleUpdate {
+.title-update {
     color: #5E5E5E;
-    padding-top: 1.5vw;
+    padding-top: 4vw;
     text-align: center;
-    font-size: 3.9vw;
+    font-size: 4vw;
 }
 
-.catoUpdate {
-    padding-top: 5px;
-    padding-bottom: 5px;
+.cato-update {
     color: #5E5E5E;
 }
 
@@ -104,8 +113,3 @@ hr {
     border: 1px solid #EEEEEE;
 }
 
-.subTitle {
-    text-align: center;
-    font-size: 40px;
-    color: #f8ba00;
-}

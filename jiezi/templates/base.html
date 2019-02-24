@@ -9,9 +9,11 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
 
     <link rel="stylesheet" type="text/css" href={% static "css/base.css" %}>
 
@@ -57,10 +59,8 @@
     <a href={% url 'index' %}>
         <img src="{% static "images/base/logo.png" %}" style="padding-left:3vw; height:4vw; vertical-align:middle">
     </a>
-    <a href="{% url 'about_us' %}">
-        <span style="vertical-align: middle; margin-left: 26vw">
-            About Us
-        </span>
+    <a href="{% url 'about_us' %}" style="vertical-align: middle; margin-left: 30vw; ">
+        About Us
     </a>
     <img src={% static "images/base/seperater.png" %}  class=seperater>
     <span style="vertical-align: middle">The Science Behind</span><img
@@ -69,8 +69,8 @@
     <span style="vertical-align: middle;">Support Us</span><img
         src={% static "images/base/seperater.png" %} class=seperater
         style="padding-right: 1vw">
-    <img src="{% static "images/base/mail.png" %}" style="vertical-align: middle; width: 2vw; margin-right: 1vw">
-    <span style="font-size: 0.5vw; vertical-align: middle"> &copy; 2019 Solved</span>
+    <a href="mailto:solvedchinese@gmail.com"><img src="{% static "images/base/mail.png" %}" style="vertical-align: middle; width: 2vw; margin-right: 1vw"></a>
+    <span style="font-size: 1vw; vertical-align: middle"> &copy; 2019 Solved</span>
 </div>
 
 {#    <div id="login-page" class="login-modal">#}

@@ -1,83 +1,91 @@
-.category{
+.category {
     background: #c9c7c6;
-    color:white;
+    color: white;
     margin: 0.4vw 0;
     font-size: 1.5vw;
-    position:relative;
+    position: relative;
 }
-.name{
-  display:inline-block;
-  padding: 0.3vw 0.6vw;
-  min-width: 13.5vw;
-  max-width: 13.5vw;
+
+.name {
+    display: inline-block;
+    padding: 0.3vw 0.6vw;
+    min-width: 13.5vw;
+    max-width: 13.5vw;
 }
-.scroll{
+
+.scroll {
     display: inline-block;
     width: 20vw;
     height: 30vw;
     overflow-y: scroll;
 }
 
-.tag_more_button{
-  border: none;
-  cursor: pointer;
-  display:inline-block;
-  width:1vw;
-  vertical-align: middle;
+.tag_more_button {
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    width: 1vw;
+    vertical-align: middle;
 }
 
 .tag_more_content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 6vw;
-  font-size: 1vw;
-  overflow: auto;
-  top:-0.5vw;
-  right:3vw;
-  box-shadow: 0px 0.4vw 0.8vw 0px rgba(0,0,0,0.2);
-  z-index: 1;
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 6vw;
+    font-size: 1vw;
+    overflow: auto;
+    top: -0.5vw;
+    right: 3vw;
+    box-shadow: 0px 0.4vw 0.8vw 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
 }
 
 .tag_more_content a {
-  color: black;
-  padding: 0.5vw 1vw; 
-  text-decoration: none;
-  display: block;
+    color: black;
+    padding: 0.5vw 1vw;
+    text-decoration: none;
+    display: block;
 }
+
 .tag_more_content a:hover {
-  background-color: #B62C25;
+    background-color: #B62C25;
 }
 
 /*.showMore {display: block;}*/
 
 .tag_expand_button {
-  border: none;
-  cursor: pointer;
-  display:inline-block;width:2vw;
-  vertical-align: middle;
-  font-size: 2.5vw;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    width: 2vw;
+    vertical-align: middle;
+    font-size: 2.5vw;
 }
+
 .tag_expand_content {
-  width:19vw;
-  display: none;
-  font-size: 1.5vw;
-  background-color: #E7E8E9;
-  z-index: 1;
+    width: 19vw;
+    display: none;
+    font-size: 1.5vw;
+    background-color: #E7E8E9;
+    z-index: 1;
 }
-.small-pic{
-  width:2vw;
-  vertical-align: middle; 
+
+.small-pic {
+    width: 2vw;
+    vertical-align: middle;
 }
-.pinyin{
-  color: black;
-  font-size:1vw;
-  padding-left:0.4vw;
+
+.pinyin {
+    color: black;
+    font-size: 1vw;
+    padding-left: 0.4vw;
 }
-.character{
-  /*display: inline-block;*/
-  color: black;
-  font-size:1.1vw;
-  padding-left:0.5vw;
-  font-weight: bold; 
+
+.character {
+    /*display: inline-block;*/
+    color: black;
+    font-size: 1.1vw;
+    padding-left: 0.5vw;
+    font-weight: bold;
 }
