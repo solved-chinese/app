@@ -113,3 +113,12 @@ hr {
     border: 1px solid #EEEEEE;
 }
 
+#slideshow {
+    width:60vw;
+
+}
+
+#slideshow > div {
+  position: absolute;
+    width: 60vw;
+}

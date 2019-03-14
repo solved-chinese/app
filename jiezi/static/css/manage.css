@@ -9,8 +9,8 @@
 .name {
     display: inline-block;
     padding: 0.3vw 0.6vw;
-    min-width: 13.5vw;
-    max-width: 13.5vw;
+    min-width: 15vw;
+    max-width: 15vw;
 }
 
 .scroll {
@@ -64,7 +64,7 @@
 }
 
 .tag_expand_content {
-    width: 19vw;
+    width: 1vw;
     display: none;
     font-size: 1.5vw;
     background-color: #E7E8E9;
@@ -76,16 +76,15 @@
     vertical-align: middle;
 }
 
-.pinyin {
+.small-pinyin {
+    font-size: 0.5vw;
     color: black;
-    font-size: 1vw;
-    padding-left: 0.4vw;
 }
 
-.character {
+.definition {
     /*display: inline-block;*/
     color: black;
     font-size: 1.1vw;
-    padding-left: 0.5vw;
+    padding-left: 0.3vw;
     font-weight: bold;
 }
