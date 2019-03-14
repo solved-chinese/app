@@ -7,18 +7,17 @@
 {#             class="tag_more_button" data-tag_pk="{{ tag.pk }}">#}
         <div class="tag_more_content" data-tag_pk="tag_more_content_{{ tag.pk }}">
         </div>
-        <table class="tag_expand_content" data-tag_pk="{{ tag.pk }}">
+        <div class="tag_expand_content" data-tag_pk="{{ tag.pk }}">
             {% for user_character in tag.user_characters.all %}
-                <tr class="user_character" data-user_character_pk="{{ user_character.pk }}" data-tag_pk="{{ tag.pk }}">
-                    <td><img src="{{ user_character.character.small_color_coded.url }}" class=small-pic></td>
-                    <td><span class="pinyin">{{ user_character.character.pinyin }}</span></td>
-                    <td><span class="character">{{ user_character.character.definition_1 }}</span></td>
-                    <td style="padding-left: 0.5vw;">
-                       <img src="{% static "images/manage_stack/delete.png" %}" style="padding-right:0.5vw; width: 1.5vw; vertical-align: middle; float: right; cursor: pointer;"
+                <div class="user_character" data-user_character_pk="{{ user_character.pk }}" data-tag_pk="{{ tag.pk }}">
+                    <div style="display: inline-block"><img src="{{ user_character.character.small_color_coded.url }}" class=small-pic></div>
+                    <div style="display: inline-block"><span class="small-pinyin" style="font-size:1.2vw;">{{ user_character.character.pinyin }}</span></div>
+                    <div style="display: inline-block"><span class="definition">{{ user_character.character.definition_1 }}</span></div>
+                       <img src="{% static "images/manage_stack/delete.png" %}" style="width: 1.5vw; vertical-align: middle; float: right; cursor: pointer;"
                             class="delete_character" data-user_character_pk="{{ user_character.pk }}" data-tag_pk="{{ tag.pk }}">
-                    </td>
-                </tr>
+
+                </div>
             {% endfor %}
-        </table>
+        </div>
     </div>
 {% endfor %}

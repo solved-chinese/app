@@ -3,6 +3,7 @@
 {% load my_tags %}
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static "css/index.css" %}">
+    <script type="text/javascript" src="{% static "js/index.js" %}"></script>
 {% endblock extra_css %}
 
 {% block content %}
@@ -10,7 +11,7 @@
         {% if user.is_authenticated %}
             {% if user.is_staff %}
                 <li><a href="{% url 'admin:index' %}">admin</a></li>
-                 <li><a href="{% url 'view_character' 1%}">learning_character</a></li>
+                <li><a href="{% url 'view_character' 1 %}">learning_character</a></li>
             {% endif %}
 
             <div class="title">
@@ -44,7 +45,9 @@
                         Currently no character in vocab list
                     </div>
                     <div style="font-size: 2vw;margin-top: 1vw">
-                        Please go to <span style="border:0.1vw solid #B62C25; padding:0.5vw 1vw 0.5vw 1vw; font-size:1.5vw">Manage my vocab list</span> page to add some characters.
+                        Please go to <span
+                            style="border:0.1vw solid #B62C25; padding:0.5vw 1vw 0.5vw 1vw; font-size:1.5vw">Manage my vocab list</span>
+                        page to add some characters.
                     </div>
                 {% else %}
                     <div style="color:black;font-size: 4vw">I want to study for:</div>
@@ -62,12 +65,13 @@
             <br><br>
             <div style="position:relative; padding-left:3vw;">
                 <img src="{% static "images/frontpage/logo_fancy.png" %}" style="width:40vw;vertical-align: middle;">
-                <iframe style="width:50vw;height: 27vw; vertical-align: middle" src="https://www.youtube.com/embed/UBG3UF9fCDE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
+                <img style="width:50vw;height: 27vw; vertical-align: middle"
+                     src="{% static "images/frontpage/video.png" %}"
+                     data-video="http://www.youtube.com/embed/UBG3UF9fCDE?autoplay=1">
             </div>
             <br>
-            <div style="padding-left: 7vw; display: table; positon:relative">
-                <div style="display: table-cell;width:20vw;padding-right: 3vw">
+            <div style="padding-left: 7vw; positon:relative">
+                <div style="display: inline-block;position: relative;width:20vw;padding-right: 3vw">
                     <div style="font-size:5vw">Try it.</div>
                     <div style="font-size:5vw;color:#B62C25">Here ></div>
                     Feature:<br>
@@ -77,11 +81,22 @@
                     -Visual Chunking<br>
                     -Color Coding<br>
                 </div>
-                <div style="display: table-cell;position:absolute; width:70%; height:60%">
-                    <img src="{% static "images/frontpage/review_mode.png" %}"
-                         style="position:absolute; top:0;left:0; width:60vw;">
+                <div style="display: inline-block;position:absolute;width:70%; height:60%">
+                    <div id="slideshow">
+                        <div>
+                            <img src="{% static "images/frontpage/review_mode.png" %}" style="width:60vw">
+                        </div>
+                        <div>
+                            <img src="{% static "images/frontpage/video.png" %}" style="width:60vw">
+                        </div>
+                        <div>
+                            Pretty cool eh? This slide is proof the content can be anything.
+                        </div>
+                    </div>
+
                     <a href={% url 'signup' %}>
-                        <img src="{% static "images/frontpage/signup.png" %}" style="position:absolute; top:85%;left:65%; width:15vw;">
+                        <img src="{% static "images/frontpage/signup.png" %}"
+                             style="position:absolute; top:75%;left:65%; width:15vw;">
                     </a>
                 </div>
             </div>

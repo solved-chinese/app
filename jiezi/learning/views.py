@@ -101,6 +101,7 @@ def is_learn(user):
         return (True, to_learn.pk)
     review_prob = (5.2-math.log(2*to_review.interval))/7
     review_prob = min(0.7, max(0.01, review_prob))
+    # the more familiar the user is with all characters, the more likely it is for him to learn a new one
     print("cha:"+str(to_review)+'prob:' + str(review_prob))
     if random.random() < review_prob:
         return (False, to_review.pk)
