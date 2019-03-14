@@ -28,10 +28,10 @@ def profile(request):
     return render(request, 'accounts/profile.html')
 
 @login_required
-def manage_stack(request, is_left=False, is_right=False, is_new_set=False):
+def manage_stack(request, is_left=False, is_right=-1, is_new_set=False):
     if is_left:
         return render(request, 'accounts/manage_stack_left.html')
-    if is_right:
+    if is_right != -1:
         character = Character.objects.get(pk=1)
         dict = {'character': character, 'radical_1': Radical.objects.get(pk=character.mnemonic_1)}
         try:

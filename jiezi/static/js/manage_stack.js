@@ -1,8 +1,6 @@
 $(document).ready(function () {
-    $('#stack_left').load("/accounts/manage_stack_left", function () {
-        // $('.tag_expand_content').hide();
-    });
-    // $('#stack_right').load("/accounts/manage_stack_right");
+    $('#stack_left').load("/accounts/manage_stack_left");
+    $('#stack_right').load("/accounts/manage_stack_right");
 
     $(document).on("click", ".tag_expand_button", function () {
         var pk = $(this).attr('data-tag_pk');

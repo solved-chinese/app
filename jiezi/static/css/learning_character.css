@@ -1,90 +1,90 @@
 .interface-seperator{
-   width:3.5vw;
+   width:3.5%;
    vertical-align: middle;
-   padding: 0vw 1vw 0vw 1vw;
+   padding: 0vw 1% 0vw 1vw;
 }
 .letter{
-    padding-left: 5vw;
-    font-size: 3.5vw;
+    padding-left: 5%;
+    font-size: 3.5%;
     vertical-align: middle;
 }
 .audio{
-    width:5vw;
+    width:5%;
     vertical-align: middle;
     padding-right: 1vw;
 }
 .pinyin{
-    min-width:4vw;
-    max-width: 9vw;
+    min-width:4%;
+    max-width: 9%;
     word-wrap: break-word;
-    font-size: 2vw;
+    font-size: 1.5%;
     display: inline-block;
     vertical-align: middle;
 }
 .def-table{
     display: inline-table;
     vertical-align: middle;
-    max-width: 41vw;
-    min-width: 41vw;
+    max-width: 41%;
+    min-width: 41%;
 }
 .def1{
     display: inline-block;
     word-wrap: break-word;
-    font-size: 1.5vw;
-    margin-right:1vw;
+    font-size: 1.5%;
+    margin-right:1%;
 }
 .buttons{
     display: inline;
-    padding: 0.5vw;
-    margin-right: 0.25vw;
-    margin-left: 0.25vw;
-    border-radius: 0.5vw;
-    font-size: 1.5vw;
+    padding: 0.5%;
+    margin-right: 0.25%;
+    margin-left: 0.25%;
+    border-radius: 0.5%;
+    font-size: 1.5%;
     color: black;
     background-color: #E7E8E9;
 }
 .clock{
-    width: 3.1vw;
+    width: 3.1%;
     vertical-align: middle;
 }
 .next{
     display: inline;
-    width: 5vw;
+    width: 5%;
     vertical-align: middle;
 }
 .big-pic{
-    width:32vw;
+    width:100%;
     background-color: #E7E8E9;
 
 }
 .example{
-    margin-top: 2vw;
-    margin-bottom:2vw;
-    padding:2vw;
-    font-size: 2vw;
+    margin-top: 2%;
+    margin-bottom:2%;
+    padding:1.8%;
+    font-size: 1.5vw;
     background-color: #E7E8E9;
     color: black;
     vertical-align: middle;
 }
 .example-explain{
-    font-size:1.5vw;
-    margin-bottom: 0.5vw
+    font-size:1vw;
+    margin-top: 0.8vw;
+    margin-bottom: 0.8vw
 }
 .mnemotics{
     /*display: table-cell;*/
-    min-width: 56vw;
-    max-width: 56vw;
-    min-height: 50vw;
+    width: 100%;
+    height: 98%;
     background-color: #E7E8E9;
     text-align: center;
 }
 .big-pic-div{
-    width: 32vw;
+    width: 100%;
     position: relative;
     display: inline-block;
 }
 .img-top{
-    width: 32vw;
+    width: 100%;
 }
 .big-pic-div .img-top {
     display: none;
