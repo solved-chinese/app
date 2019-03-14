@@ -17,17 +17,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/css/learning_character.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="239">
-              <caret line="76" column="16" lean-forward="true" selection-start-line="76" selection-start-column="16" selection-end-line="76" selection-end-column="16" />
+            <state relative-caret-position="238">
+              <caret line="76" column="16" selection-start-line="76" selection-start-column="16" selection-end-line="76" selection-end-column="16" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/learning/learning_character.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="383">
-              <caret line="118" column="79" selection-start-line="118" selection-start-column="79" selection-end-line="118" selection-end-column="79" />
+            <state relative-caret-position="298">
+              <caret line="98" column="53" selection-start-line="98" selection-start-column="53" selection-end-line="98" selection-end-column="53" />
               <folding>
                 <element signature="e#223#257#0#HTML" expanded="true" />
                 <element signature="e#1527#1551#0#HTML" expanded="true" />
@@ -37,11 +37,10 @@
                 <element signature="e#4519#4580#0#HTML" expanded="true" />
                 <element signature="e#4947#5020#0#HTML" expanded="true" />
                 <element signature="e#5387#5433#0#HTML" expanded="true" />
-                <element signature="e#5546#5572#0#HTML" expanded="true" />
-                <element signature="e#5599#5676#0#HTML" expanded="true" />
-                <element signature="e#5525#5543#0#HTML" expanded="true" />
-                <element signature="e#6072#6147#0#HTML" expanded="true" />
-                <element signature="e#6398#6418#0#HTML" expanded="true" />
+                <element signature="e#5145#5186#0#HTML" expanded="true" />
+                <element signature="e#5540#5579#0#HTML" expanded="true" />
+                <element signature="e#5669#5762#0#HTML" expanded="true" />
+                <element signature="e#6034#6057#0#HTML" expanded="true" />
                 <element signature="e#6563#6589#0#HTML" expanded="true" />
                 <element signature="e#6472#6490#0#HTML" expanded="true" />
               </folding>
@@ -49,22 +48,13 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/css/base.css">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/learning/management/commands/update_media.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="22" column="17" lean-forward="true" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/learning/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2329">
-              <caret line="112" column="12" selection-start-line="112" selection-start-column="12" selection-end-line="112" selection-end-column="12" />
+            <state relative-caret-position="323">
+              <caret line="19" column="28" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
               <folding>
-                <element signature="e#0#45#0" expanded="true" />
+                <element signature="e#0#51#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -73,8 +63,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/accounts/manage_stack_left.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="20" column="24" lean-forward="true" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
+            <state relative-caret-position="323">
+              <caret line="19" column="24" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -83,7 +73,7 @@
         <entry file="file://$PROJECT_DIR$/static/js/manage_stack.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="51">
-              <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+              <caret line="3" selection-start-line="3" selection-end-line="3" />
               <folding>
                 <element signature="e#110#117#1" expanded="true" />
                 <element signature="e#110#117#1" expanded="true" />
@@ -97,10 +87,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="459">
               <caret line="27" column="114" selection-start-line="27" selection-start-column="114" selection-end-line="27" selection-end-column="114" />
-              <folding>
-                <element signature="e#1263#1319#0#HTML" expanded="true" />
-                <element signature="e#1416#1457#0#HTML" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -118,7 +104,7 @@
         <entry file="file://$PROJECT_DIR$/static/css/manage.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="485">
-              <caret line="90" column="1" selection-start-line="90" selection-start-column="1" selection-end-line="90" selection-end-column="1" />
+              <caret line="89" column="1" selection-start-line="89" selection-start-column="1" selection-end-line="89" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -184,7 +170,6 @@
         <option value="$PROJECT_DIR$/jiezi/urls.py" />
         <option value="$PROJECT_DIR$/templates/accounts/manage_stack_new_character.html" />
         <option value="$PROJECT_DIR$/learning/models.py" />
-        <option value="$PROJECT_DIR$/learning/management/commands/update_media.py" />
         <option value="$PROJECT_DIR$/jiezi/templatetags/__init__.py" />
         <option value="$PROJECT_DIR$/jiezi/templatetags/my_tags.py" />
         <option value="$PROJECT_DIR$/static/css/review.css" />
@@ -208,6 +193,7 @@
         <option value="$PROJECT_DIR$/static/css/base.css" />
         <option value="$PROJECT_DIR$/static/css/learning_character.css" />
         <option value="$PROJECT_DIR$/templates/learning/learning_character.html" />
+        <option value="$PROJECT_DIR$/learning/management/commands/update_media.py" />
       </list>
     </option>
   </component>
@@ -234,6 +220,24 @@
               <item name="jiezi" type="b2602c69:ProjectViewProjectNode" />
               <item name="jiezi" type="462c0819:PsiDirectoryNode" />
               <item name="accounts" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="jiezi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="jiezi" type="462c0819:PsiDirectoryNode" />
+              <item name="learning" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="jiezi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="jiezi" type="462c0819:PsiDirectoryNode" />
+              <item name="learning" type="462c0819:PsiDirectoryNode" />
+              <item name="management" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="jiezi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="jiezi" type="462c0819:PsiDirectoryNode" />
+              <item name="learning" type="462c0819:PsiDirectoryNode" />
+              <item name="management" type="462c0819:PsiDirectoryNode" />
+              <item name="commands" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="jiezi" type="b2602c69:ProjectViewProjectNode" />
@@ -340,18 +344,18 @@
       <workItem from="1550725965138" duration="7901000" />
       <workItem from="1550759448044" duration="1015000" />
       <workItem from="1550976394286" duration="2491000" />
-      <workItem from="1552567101042" duration="3945000" />
+      <workItem from="1552567101042" duration="5480000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="79314000" />
+    <option name="totallyTimeSpent" value="80849000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19189766" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19189766" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -365,7 +369,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" weight="0.32936078" />
-      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.30877572" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.30877572" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32936078" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -426,16 +430,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="203">
           <caret line="472" column="4" selection-start-line="472" selection-start-column="4" selection-end-line="472" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/learning/management/commands/update_media.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="15" column="30" lean-forward="true" selection-start-line="15" selection-start-column="30" selection-end-line="15" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -619,7 +613,7 @@
     <entry file="file://$PROJECT_DIR$/static/js/manage_stack.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
-          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
           <folding>
             <element signature="e#110#117#1" expanded="true" />
             <element signature="e#110#117#1" expanded="true" />
@@ -630,7 +624,7 @@
     <entry file="file://$PROJECT_DIR$/static/css/manage.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="485">
-          <caret line="90" column="1" selection-start-line="90" selection-start-column="1" selection-end-line="90" selection-end-column="1" />
+          <caret line="89" column="1" selection-start-line="89" selection-start-column="1" selection-end-line="89" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -645,17 +639,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="27" column="114" selection-start-line="27" selection-start-column="114" selection-end-line="27" selection-end-column="114" />
-          <folding>
-            <element signature="e#1263#1319#0#HTML" expanded="true" />
-            <element signature="e#1416#1457#0#HTML" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/learning/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2329">
-          <caret line="112" column="12" selection-start-line="112" selection-start-column="12" selection-end-line="112" selection-end-column="12" />
+          <caret line="113" column="12" selection-start-line="113" selection-start-column="12" selection-end-line="113" selection-end-column="12" />
           <folding>
             <element signature="e#0#45#0" expanded="true" />
           </folding>
@@ -664,8 +654,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/accounts/manage_stack_left.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="24" lean-forward="true" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
+        <state relative-caret-position="323">
+          <caret line="19" column="24" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -688,15 +678,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/css/learning_character.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="76" column="16" lean-forward="true" selection-start-line="76" selection-start-column="16" selection-end-line="76" selection-end-column="16" />
+        <state relative-caret-position="238">
+          <caret line="76" column="16" selection-start-line="76" selection-start-column="16" selection-end-line="76" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/learning/learning_character.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
-          <caret line="118" column="79" selection-start-line="118" selection-start-column="79" selection-end-line="118" selection-end-column="79" />
+        <state relative-caret-position="298">
+          <caret line="98" column="53" selection-start-line="98" selection-start-column="53" selection-end-line="98" selection-end-column="53" />
           <folding>
             <element signature="e#223#257#0#HTML" expanded="true" />
             <element signature="e#1527#1551#0#HTML" expanded="true" />
@@ -706,13 +696,22 @@
             <element signature="e#4519#4580#0#HTML" expanded="true" />
             <element signature="e#4947#5020#0#HTML" expanded="true" />
             <element signature="e#5387#5433#0#HTML" expanded="true" />
-            <element signature="e#5546#5572#0#HTML" expanded="true" />
-            <element signature="e#5599#5676#0#HTML" expanded="true" />
-            <element signature="e#5525#5543#0#HTML" expanded="true" />
-            <element signature="e#6072#6147#0#HTML" expanded="true" />
-            <element signature="e#6398#6418#0#HTML" expanded="true" />
+            <element signature="e#5145#5186#0#HTML" expanded="true" />
+            <element signature="e#5540#5579#0#HTML" expanded="true" />
+            <element signature="e#5669#5762#0#HTML" expanded="true" />
+            <element signature="e#6034#6057#0#HTML" expanded="true" />
             <element signature="e#6563#6589#0#HTML" expanded="true" />
             <element signature="e#6472#6490#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/learning/management/commands/update_media.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="28" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
           </folding>
         </state>
       </provider>

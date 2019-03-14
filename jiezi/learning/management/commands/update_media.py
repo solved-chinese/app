@@ -12,8 +12,12 @@ class Command(BaseCommand):
             name = 'radical_mnemonic/R%04d.png'%radical.pk
             path = os.path.join(settings.MEDIA_ROOT, name)
             if os.path.isfile(path) :
+                img = PIL.Image.open(path)
+                img = img.resize((600, 600), PIL.Image.ANTIALIAS)
+                img.save(os.path.join(settings.MEDIA_ROOT, name), optimize=True, quality=80)
                 radical.mnemonic_image=name
                 radical.save()
+                print(f'done {radical}')
             else:
                 print(f'not found {radical}s radical_mnemonic png')
         for character in Character.objects.all():
