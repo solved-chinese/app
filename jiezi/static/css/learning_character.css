@@ -12,6 +12,7 @@
     width:5%;
     vertical-align: middle;
     padding-right: 1vw;
+    cursor: pointer;
 }
 .pinyin{
     min-width:4%;
