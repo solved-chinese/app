@@ -8,25 +8,25 @@
     <script type="text/javascript" src="{% static "js/manage_stack.js" %}"></script>
 {% endblock %}
 {% block content %}
-    <div style="padding-left:5vw; display: inline-block;width: 26vw;">
-        <a href="{% url 'index' %}">
-            <div style="padding-top:1vw; padding-bottom: 1vw"> <img src="{% static "images/manage_stack/home.png" %}" style="width:3vw;vertical-align: middle">
-            <span style="color: #B62C25; vertical-align:middle;font-weight: bold;">Return to study</span></div>
+    <div style="height: 100%; width: 100%; horiz-align: center; display: table;">
+        <div style="padding-left:4vw; display: table-cell; width: 26%; height: 35vw;">
+            <a href="{% url 'index' %}">
+                <div style="padding-top:1vw; padding-bottom: 1vw"> <img src="{% static "images/manage_stack/home.png" %}" style="width:3vw;vertical-align: middle">
+                <span style="color: #B62C25; vertical-align:middle;font-weight: bold;">Return to study</span></div>
+            </a>
+            <div id="add_new_set_button" class="category" style="cursor: pointer; background-color: #716f6f;">
+                <span class="name" style="min-width: 15vw">Add New Set</span>
+            </div>
 
-        </a>
-        <div id="add_new_set_button" class="category" style="cursor: pointer; background-color: #716f6f;">
-            <span class="name" style="min-width: 15vw">Add New Set</span>
+            <div id='stack_left' style="height: 85%; overflow-y: scroll;">
+                <img src="{% static 'images/loading.gif' %}" id="loading_left">
+                {#to be populated in manage_stack_left#}
+            </div>
         </div>
-
-        <div id='stack_left' style="overflow-y: scroll;height: 30vw;">
-            <img src="{% static 'images/loading.gif' %}" id="loading_left">
-            {#to be populated in manage_stack_left#}
+        <div style="display: table-cell; width:73%; height: 35vw; padding-right:4vw;" id="stack_right">
+            <img src="{% static 'images/loading.gif' %}" id="loading_right"  style="transform: scale(0.5); zoom: 0.5;">
+            {#to be populated in manage_stack_right#}
         </div>
-    </div>
-
-    <div style="display: inline-block; width:60vw; height: 45vw;" id="stack_right">
-        <img src="{% static 'images/loading.gif' %}" id="loading_right"  style="transform: scale(0.5); zoom: 0.5;">
-        {#to be populated in manage_stack_right#}
     </div>
 
     <div class="modal fade" id="confirm_character_delete_modal">

@@ -1,5 +1,6 @@
 {% load static %}
-<div>
+
+<div style="width: 100%;">
     <span class="letter">{{ character.chinese }}</span>
     <img src='{% static "images/base/seperater.png" %}' class="interface-seperator">
     <img src='{% static "images/learning_character/audio.png" %}' class="audio">
@@ -39,8 +40,8 @@
         </a>
     {% endif %}
 </div>
-<div style="display: table; padding:0vw 5vw 0vw 5vw">
-    <div style="display: table-cell;max-width: 35vw;min-width:35vw;padding-right: 2vw;vertical-align: top;">
+<div style="display: table; padding:0vw 1vw 0vw 1vw; width: 100%; height: 100%;">
+    <div style="display: table-cell; width: 35%;height:98%; overflow: hidden; padding-right: 1%;vertical-align: top;">
         <div class="big-pic-div">
             <img src="{{ character.color_coded_image.url }}" class="big-pic">
             <img src="{{ character.stroke_order_image.url }}" class="img-top">
@@ -61,60 +62,56 @@
                     <td>&nbsp;|&nbsp;{{ character.example_2_meaning }}</td>
                 </tr>
             </table>
-{#                <div class="example-explain">{{ character.example_1_word }} | {{ character.example_1_pinyin }}#}
-{#                    | {{ character.example_1_character }} | {{ character.example_1_meaning }}</div>#}
-{#                <div class="example-explain">{{ character.example_2_word }} | {{ character.example_2_pinyin }}#}
-{#                    | {{ character.example_2_character }} | {{ character.example_2_meaning }}</div>#}
         </div>
     </div>
-    <div class="mnemotics">
+    <div class="mnemotics" style="font-size: 85%;">
         {% if character.mnemonic_3 %}
-            <div style="display:inline-block;width:18vw ;text-align: center; float: left;">
+            <div style="display:inline-block;width:33.3%; text-align: center; float: left;">
                 <div>{{ radical_1.pinyin }}</div>
                 <div>{{ radical_1.chinese }}</div>
                 <div>{{ radical_1.definition }}</div>
-                <img src='{{ radical_1.mnemonic_image.url }}' style="width:18vw">
+                <img src='{{ radical_1.mnemonic_image.url }}' style="width:100%">
                 <div>{{ radical_1.mnemonic_explanation }}</div>
             </div>
-            <div style="display: inline-block;width:18vw ;text-align: center;">
+            <div style="display: inline-block;width:33.3%; text-align: center;">
                 <div>{{ radical_2.pinyin }}</div>
                 <div>{{ radical_2.chinese }}</div>
                 <div>{{ radical_2.definition }}</div>
-                <img src='{{ radical_2.mnemonic_image.url }}' style="width:18vw">
+                <img src='{{ radical_2.mnemonic_image.url }}' style="width:100%">
                 <div>{{ radical_2.mnemonic_explanation }}</div>
             </div>
-            <div style="display: inline-block;width:18vw ;text-align: center; float:right">
+            <div style="display: inline-block;width:33.3%; text-align: center; float:right">
                 <div>{{ radical_3.pinyin }}</div>
                 <div>{{ radical_3.chinese }}</div>
                 <div>{{ radical_3.definition }}</div>
-                <img src='{{ radical_3.mnemonic_image.url }}' style="width:18vw">
+                <img src='{{ radical_3.mnemonic_image.url }}' style="width:100%">
                 <div>{{ radical_3.mnemonic_explanation }}</div>
             </div>
-            <div style="display: table-row; text-align: center"><br>{{ character.mnemonic_explanation }}</div>
+            <div style="text-align: center"><br>{{ character.mnemonic_explanation }}</div>
         {% elif character.mnemonic_2 %}
-            <div style="display: table-row">
-                <div style="display:inline-block;max-width:27vw ;text-align: center; float: left;">
-                    <div>{{ radical_1.pinyin }}</div>
-                    <div>{{ radical_1.chinese }}</div>
-                    <div>{{ radical_1.definition }}</div>
-                    <img src='{{ radical_1.mnemonic_image.url }}' style="height:27vw">
-                    <div>{{ radical_1.mnemonic_explanation }}</div>
-                </div>
-                <div style="display:inline-block;max-width:27vw ;text-align: center;float:right">
-                    <div>{{ radical_2.pinyin }}</div>
-                    <div>{{ radical_2.chinese }}</div>
-                    <div>{{ radical_2.definition }}</div>
-                    <img src='{{ radical_2.mnemonic_image.url }}' style="height:27vw;">
-                    <div>{{ radical_2.mnemonic_explanation }}</div>
-                </div>
+            <div style="display:inline-block;width:50%; height:85%; text-align: center; float: left;">
+                <div>{{ radical_1.pinyin }}</div>
+                <div>{{ radical_1.chinese }}</div>
+                <div>{{ radical_1.definition }}</div>
+                <img src='{{ radical_1.mnemonic_image.url }}' style="width:75%">
+                <div>{{ radical_1.mnemonic_explanation }}</div>
             </div>
-            <div style="display: table-row"><br>{{ character.mnemonic_explanation }}</div>
+            <div style="display:inline-block;width:50%; height:85%; text-align: center;float:right;">
+                <div>{{ radical_2.pinyin }}</div>
+                <div>{{ radical_2.chinese }}</div>
+                <div>{{ radical_2.definition }}</div>
+                <img src='{{ radical_2.mnemonic_image.url }}' style="width:75%">
+                <div>{{ radical_2.mnemonic_explanation }}</div>
+            </div>
+            <div style="text-align: center;">{{ character.mnemonic_explanation }}</div>
         {% else %}
-            <div>{{ radical_1.pinyin }}</div>
-            <div>{{ radical_1.chinese }}</div>
-            <div>{{ radical_1.definition }}</div>
-            <img src='{{ radical_1.mnemonic_image.url }}' style="height:25vw">
-            <div>{{ radical_1.mnemonic_explanation }}</div>
+            <div style="display: inline-block; width:100%; height:85%; text-align: center;">
+                <div>{{ radical_1.pinyin }}</div>
+                <div>{{ radical_1.chinese }}</div>
+                <div>{{ radical_1.definition }}</div>
+                <img src='{{ radical_1.mnemonic_image.url }}' style="width:40%">
+                <div>{{ radical_1.mnemonic_explanation }}</div>
+            </div>
             <div>{{ character.mnemonic_explanation }}</div>
         {% endif %}
     </div>

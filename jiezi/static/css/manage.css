@@ -64,7 +64,7 @@
 }
 
 .tag_expand_content {
-    width: 1vw;
+    width: 100%;
     display: none;
     font-size: 1.5vw;
     background-color: #E7E8E9;

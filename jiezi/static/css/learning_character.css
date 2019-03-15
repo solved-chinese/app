@@ -1,11 +1,11 @@
 .interface-seperator{
-   width:3.5%;
+   width:3%;
    vertical-align: middle;
-   padding: 0vw 1% 0vw 1vw;
+   padding: 0vw 1% 0vw 1%;
 }
 .letter{
     padding-left: 5%;
-    font-size: 3.5%;
+    font-size: 150%;
     vertical-align: middle;
 }
 .audio{
@@ -17,29 +17,29 @@
     min-width:4%;
     max-width: 9%;
     word-wrap: break-word;
-    font-size: 1.5%;
+    font-size: 140%;
     display: inline-block;
     vertical-align: middle;
 }
 .def-table{
     display: inline-table;
     vertical-align: middle;
-    max-width: 41%;
-    min-width: 41%;
+    width: 40%;
 }
 .def1{
+    width: 100%;
     display: inline-block;
     word-wrap: break-word;
-    font-size: 1.5%;
-    margin-right:1%;
+    font-size: 70%;
+    margin-right:5vw;
 }
 .buttons{
     display: inline;
-    padding: 0.5%;
-    margin-right: 0.25%;
-    margin-left: 0.25%;
-    border-radius: 0.5%;
-    font-size: 1.5%;
+    padding: 0.5vw;
+    margin-right: 0.25vw;
+    margin-left: 0.25vw;
+    border-radius: 0.5vw;
+    font-size: 100%;
     color: black;
     background-color: #E7E8E9;
 }
@@ -64,12 +64,11 @@
     font-size: 1.5vw;
     background-color: #E7E8E9;
     color: black;
-    vertical-align: middle;
 }
 .example-explain{
     font-size:1vw;
-    margin-top: 0.8vw;
-    margin-bottom: 0.8vw
+    margin-top: 0.7vw;
+    margin-bottom: 0.7vw
 }
 .mnemotics{
     /*display: table-cell;*/

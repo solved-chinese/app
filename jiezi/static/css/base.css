@@ -31,8 +31,8 @@ html, body {
     text-align: left;
     background-color: #E7E8E9;
     font-size: 0.6vw;
-    padding-top: 1vw;
-    padding-bottom: 1vw;
+    padding-top: 0.25vw;
+    padding-bottom: 0.25vw;
     letter-spacing: 0.007vw;
 }
 
@@ -41,8 +41,8 @@ html, body {
     text-align: left;
     background-color: #E7E8E9;
     font-size: 1vw;
-    padding-top: 1vw;
-    padding-bottom: 1vw;
+    padding-top: 0.25vw;
+    padding-bottom: 0.25vw;
     letter-spacing: 0.007vw;
 }
 

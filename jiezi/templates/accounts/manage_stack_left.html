@@ -2,20 +2,24 @@
 {% for tag in request.user.user_character_tags.all %}
     <div class="category">
         <div class="name">{{ tag.name }}</div>
-        <span style="font-size: 2vw; display:inline-block; width:1.5vw; vertical-align: middle" class="tag_expand_button unselectable" data-tag_pk="{{ tag.pk }}">+</span>
+        <span style="font-size: 2vw; display:inline-block; float: right; width:1.5vw; vertical-align: middle" class="tag_expand_button unselectable" data-tag_pk="{{ tag.pk }}">+</span>
 {#        <img src="{% static "images/manage_stack/more.png" %}" style="display:inline-block;width:1vw; vertical-align: middle;"#}
 {#             class="tag_more_button" data-tag_pk="{{ tag.pk }}">#}
         <div class="tag_more_content" data-tag_pk="tag_more_content_{{ tag.pk }}">
         </div>
-        <div class="tag_expand_content" data-tag_pk="{{ tag.pk }}">
+        <div class="tag_expand_content"  data-tag_pk="{{ tag.pk }}">
             {% for user_character in tag.user_characters.all %}
-                <div class="user_character" data-user_character_pk="{{ user_character.pk }}" data-tag_pk="{{ tag.pk }}">
-                    <div style="display: inline-block"><img src="{{ user_character.character.small_color_coded.url }}" class=small-pic></div>
-                    <div style="display: inline-block"><span class="small-pinyin" style="font-size:1.2vw;">{{ user_character.character.pinyin }}</span></div>
-                    <div style="display: inline-block"><span class="definition">{{ user_character.character.definition_1 }}</span></div>
-                       <img src="{% static "images/manage_stack/delete.png" %}" style="width: 1.5vw; vertical-align: middle; float: right; cursor: pointer;"
-                            class="delete_character" data-user_character_pk="{{ user_character.pk }}" data-tag_pk="{{ tag.pk }}">
-
+                <div style="display: table-row;" class="user_character" data-user_character_pk="{{ user_character.pk }}" data-tag_pk="{{ tag.pk }}">
+                    <div style="display: table-cell; padding-right: 0.7vw;"><img src="{{ user_character.character.small_color_coded.url }}" class=small-pic></div>
+                    <div style="display: table-cell; padding-right: 0.7vw;">
+                        <span class="small-pinyin" style="font-size:1.2vw;">
+                            {{ user_character.character.pinyin }}</span>
+                    </div>
+                    <div style="display: table-cell; padding-right: 0.7vw;">
+                        <span class="definition">{{ user_character.character.definition_1 }}</span>
+                    </div>
+                   <img src="{% static "images/manage_stack/delete.png" %}" style="display: table-cell; width: 1.5vw; vertical-align: middle; text-align: right; cursor: pointer;"
+                        class="delete_character" data-user_character_pk="{{ user_character.pk }}" data-tag_pk="{{ tag.pk }}">
                 </div>
             {% endfor %}
         </div>
