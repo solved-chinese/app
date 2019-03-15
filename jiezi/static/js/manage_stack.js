@@ -1,6 +1,5 @@
 $(document).ready(function () {
     $('#stack_left').load("/accounts/manage_stack_left");
-    $('#stack_right').load("/accounts/manage_stack_right");
 
     $(document).on("click", ".tag_expand_button", function () {
         var pk = $(this).attr('data-tag_pk');
@@ -11,6 +10,14 @@ $(document).ready(function () {
         } else {
             $(this).text('+')
         }
+    });
+
+    $(document).on("click", ".small_pic", function () {
+        var pk = $(this).attr('data-character_pk');
+        console.log("pk is " + pk);
+        pk=("000" + pk).slice(-4)
+        console.log("pk is " + pk);
+        $('#stack_right').load("/learning/C"+pk+"_pure");
     });
 
     $(document).on("click", ".delete_character", function () {

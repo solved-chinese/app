@@ -28,23 +28,9 @@ def profile(request):
     return render(request, 'accounts/profile.html')
 
 @login_required
-def manage_stack(request, is_left=False, is_right=-1, is_new_set=False):
+def manage_stack(request, is_left=False, is_new_set=False):
     if is_left:
         return render(request, 'accounts/manage_stack_left.html')
-    if is_right != -1:
-        character = Character.objects.get(pk=1)
-        dict = {'character': character, 'radical_1': Radical.objects.get(pk=character.mnemonic_1)}
-        try:
-            radical_2 = Radical.objects.get(pk=character.mnemonic_2)
-            dict['radical_2'] = radical_2
-        except:
-            dict['radical_2'] = None
-        try:
-            radical_3 = Radical.objects.get(pk=character.mnemonic_3)
-            dict['radical_3'] = radical_3
-        except:
-            dict['radical_3'] = None
-        return render(request, 'learning/learning_character_pure.html', dict)
     if is_new_set:
         sets=[]
         for set in CharacterSet.objects.all():

@@ -3,8 +3,6 @@
 
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href={% static "css/manage.css" %}>
-    <link rel="stylesheet" type="text/css" href="{% static "css/learning_character.css" %}">
-    <link rel="stylesheet" type="text/css" href="{% static "css/learning_character.css" %}">
     <script type="text/javascript" src="{% static "js/manage_stack.js" %}"></script>
 {% endblock %}
 {% block content %}
@@ -19,12 +17,12 @@
             </div>
 
             <div id='stack_left' style="height: 85%; overflow-y: scroll;">
-                <img src="{% static 'images/loading.gif' %}" id="loading_left">
+                <img src="{% static 'images/loading.gif' %}" id="loading_left" style="align: center; zoom: 300%;">
                 {#to be populated in manage_stack_left#}
             </div>
         </div>
         <div style="display: table-cell; width:73%; height: 35vw; padding-right:4vw;" id="stack_right">
-            <img src="{% static 'images/loading.gif' %}" id="loading_right"  style="transform: scale(0.5); zoom: 0.5;">
+            etc etc
             {#to be populated in manage_stack_right#}
         </div>
     </div>

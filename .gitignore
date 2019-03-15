@@ -8,3 +8,8 @@ jiezi/jiezi/__init__.py
 */*/*/__pycache__/
 */*/__pycache__/
 */__pycache__/
+jiezi/.idea/workspace.xml
+jiezi/accounts/__pycache__/urls.cpython-37.pyc
+jiezi/accounts/__pycache__/views.cpython-37.pyc
+jiezi/learning/__pycache__/urls.cpython-37.pyc
+jiezi/learning/__pycache__/views.cpython-37.pyc

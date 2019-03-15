@@ -109,7 +109,7 @@ def is_learn(user):
 
 
 @login_required
-def view_character(request, character_pk, is_view=True):
+def view_character(request, character_pk, is_view=True, pure=False):
     character = Character.objects.get(pk=character_pk)
     dict = {'character': character, 'radical_1': Radical.objects.get(pk=character.mnemonic_1)}
     try:
@@ -123,8 +123,9 @@ def view_character(request, character_pk, is_view=True):
     except:
         dict['radical_3'] = None
     dict['is_view']=is_view
+    if pure==True:
+        return render(request, 'learning/learning_character_pure.html', dict)
     return render(request, 'learning/learning_character.html', dict)
-
 
 @login_required
 def review_interface(request, list=[], ans='', question=''):
