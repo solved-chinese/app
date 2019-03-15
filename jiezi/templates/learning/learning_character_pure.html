@@ -1,7 +1,9 @@
 {% load static %}
 
+<script type="text/javascript" src="{% static "js/bootbox.all.min.js" %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static "css/learning_character.css" %}">
 <script type="text/javascript" src="{% static "js/learning_character.js" %}"></script>
+
 <div style="width: 100%;">
     <span class="letter">{{ character.chinese }}</span>
     <img src='{% static "images/base/seperater.png" %}' class="interface-seperator">
@@ -27,9 +29,13 @@
     </div>
     {% if is_view is False %}
         <img src='{% static "images/base/seperater.png" %}' class="interface-seperator">
-        <div class="buttons" style="margin-left: 0px">I know this</div>
+        <form method="POST" style="display: inline;" id="i_know_this">
+            {% csrf_token %}
+            <input type="hidden" name="i_know_this" value="True">
+            <button type="submit" class="btn btn-light">I know this</button>
+        </form>
         <a href="{% url 'index' %}">
-            <div class="buttons">End Session</div>
+            <button class="btn btn-light">End Session</button>
         </a>
         {#            <img src={% static "images/learning_character/clock.png" %} class="clock">#}
         <form method="POST" style="display: inline;">

@@ -30,6 +30,10 @@ def user_status (request, session_key):
         return redirect('/404')
     if request.POST.get('choice') is not None:
         return review_interface(request)
+    if request.POST.get('i_know_this'):
+        print('know and skip')
+        request.user.user_characters.get(pk=request.session['uc_pk']).delete()
+        request.session['current_stage']=0
     if timezone.now()>request.session['end_time']:
         return render(request, 'simple_response.html', {'content':f'Congratulations! You have finished studying for {request.session["minutes_to_learn"]} minutes. Take a break :).'})
     try:

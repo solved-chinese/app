@@ -6,9 +6,9 @@ $(document).ready(function () {
         console.log("expand tag " + pk + typeof pk);
         $(".tag_expand_content[data-tag_pk='" + pk + "']").toggle();
         if ($(this).text() == '+') {
-            $(this).text('-')
+            $(this).text('▼')
         } else {
-            $(this).text('+')
+            $(this).text('▼')
         }
     });
 
