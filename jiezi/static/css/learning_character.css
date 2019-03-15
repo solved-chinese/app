@@ -94,3 +94,8 @@
 .big-pic-div:hover .img-top {
     display: inline;
 }
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #1F1F1F;
+}

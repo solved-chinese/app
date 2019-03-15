@@ -24,7 +24,7 @@
             </div>
         {% endif %}
     </div>
-    {% if is_view is True %}
+    {% if is_view is False %}
         <img src='{% static "images/base/seperater.png" %}' class="interface-seperator">
         <div class="buttons" style="margin-left: 0px">I know this</div>
         <a href="{% url 'index' %}">
@@ -41,7 +41,7 @@
         </a>
     {% endif %}
 </div>
-<div style="display: table; padding:1vw 5vw 0vw 5vw; width: 100%; height: 100%;">
+<div style="display: table; padding:1vw 2vw 0vw 2vw; width: 100%; height: 100%;">
     <div style="display: table-cell; width: 35%;height:98%; overflow: hidden; padding-right: 1%;vertical-align: top;">
         <div class="big-pic-div">
             <img src="{{ character.color_coded_image.url }}" class="big-pic">
@@ -52,15 +52,15 @@
             <table class="example-explain">
                 <tr>
                     <td>{{ character.example_1_word }}</td>
-                    <td>&nbsp;|&nbsp;{{ character.example_1_pinyin }}</td>
-                    <td>&nbsp;|&nbsp;{{ character.example_1_character }}</td>
-                    <td>&nbsp;|&nbsp;{{ character.example_1_meaning }}</td>
+                    <td>{{ character.example_1_pinyin }}</td>
+                    <td>{{ character.example_1_character }}</td>
+                    <td>{{ character.example_1_meaning }}</td>
                 </tr>
                 <tr>
                     <td>{{ character.example_2_word }}</td>
-                    <td>&nbsp;|&nbsp;{{ character.example_2_pinyin }}</td>
-                    <td>&nbsp;|&nbsp;{{ character.example_2_character }}</td>
-                    <td>&nbsp;|&nbsp;{{ character.example_2_meaning }}</td>
+                    <td>{{ character.example_2_pinyin }}</td>
+                    <td>{{ character.example_2_character }}</td>
+                    <td>{{ character.example_2_meaning }}</td>
                 </tr>
             </table>
         </div>
