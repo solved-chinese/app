@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('img').click(function () {
+    $('#video_image').click(function () {
         video = '<iframe style="width:50vw;height: 27vw; vertical-align: middle" src="' + $(this).attr('data-video') + '"></iframe>';
         $(this).replaceWith(video);
     });

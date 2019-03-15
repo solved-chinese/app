@@ -41,6 +41,15 @@
     z-index: 1;
 }
 
+.delete_tag {
+    display: table-cell;
+    width: 1.7vw;
+    cursor: pointer;
+    float: right;
+    padding-top: 0.8vw;
+    padding-right: 0.3vw;
+}
+
 .tag_more_content a {
     color: black;
     padding: 0.5vw 1vw;

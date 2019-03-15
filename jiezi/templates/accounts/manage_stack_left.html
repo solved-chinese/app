@@ -3,22 +3,23 @@
     <div class="category">
         <div class="name">{{ tag.name }}</div>
         <span style="font-size: 2vw; display:inline-block; float: right; width:1.5vw; vertical-align: middle" class="tag_expand_button unselectable" data-tag_pk="{{ tag.pk }}">+</span>
-{#        <img src="{% static "images/manage_stack/more.png" %}" style="display:inline-block;width:1vw; vertical-align: middle;"#}
-{#             class="tag_more_button" data-tag_pk="{{ tag.pk }}">#}
+        <img src="{% static "images/manage_stack/delete.png" %}"
+                        class="delete_tag" data-tag_pk="{{ tag.pk }}">
         <div class="tag_more_content" data-tag_pk="tag_more_content_{{ tag.pk }}">
+{#            to be populated#}
         </div>
         <div class="tag_expand_content"  data-tag_pk="{{ tag.pk }}">
             {% for user_character in tag.user_characters.all %}
-                <div style="display: table-row;" class="user_character" data-user_character_pk="{{ user_character.pk }}" data-tag_pk="{{ tag.pk }}">
-                    <div style="display: table-cell; padding-right: 0.7vw; cursor: pointer;">
-                        <img src="{{ user_character.character.small_color_coded.url }}" class="small_pic" data-character_pk="{{ user_character.character.pk }}">
+                <div style="display: table-row;" class="user_character" data-user_character_pk="{{ user_character.pk }}" data-tag_pk="{{ tag.pk }}" data-character_pk="{{ user_character.character.pk }}">
+                    <div style="display: table-cell; padding-right: 0.7vw;">
+                        <img src="{{ user_character.character.small_color_coded.url }}" class="show_preview small_pic" style="cursor: pointer;">
                     </div>
                     <div style="displays: table-cell; padding-right: 0.7vw;">
-                        <span class="small-pinyin" style="font-size:1.2vw;">
+                        <span class="small-pinyin show_preview" style="font-size:1.2vw;  cursor: pointer;">
                             {{ user_character.character.pinyin }}</span>
                     </div>
                     <div style="display: table-cell; padding-right: 0.7vw;">
-                        <span class="definition">{{ user_character.character.definition_1 }}</span>
+                        <span class="definition show_preview" style="cursor: pointer;">{{ user_character.character.definition_1 }}</span>
                     </div>
                     <img src="{% static "images/manage_stack/delete.png" %}" style="display: table-cell; width: 1.5vw; vertical-align: middle; text-align: right; cursor: pointer;"
                         class="delete_character" data-user_character_pk="{{ user_character.pk }}" data-tag_pk="{{ tag.pk }}">

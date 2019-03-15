@@ -22,7 +22,16 @@
             </div>
         </div>
         <div style="display: table-cell; width:73%; height: 35vw;" id="stack_right">
-            etc etc
+            <div style="margin: auto; width: 80%; ">
+                <br>
+                <div style="font-weight: bold; text-align: center;">Welcome to Manage my vocab list!</div><br>
+                <br>
+                Here, you can personalize your curriculum by:<br>
+                &nbsp;-&nbsp;adding our pre-made study sets to your vocab list<br>
+                &nbsp;-&nbsp;deleting characters from and <span style="color: gray;">adding characters to (coming soon)</span> the pre-made sets<br>
+                &nbsp;-&nbsp;<span style="color: gray;">creating your own study sets! (coming soon)</span><br>
+                <br>After managing your vocab list, return home to study.
+            </div>
             {#to be populated in manage_stack_right#}
         </div>
     </div>
@@ -47,6 +56,37 @@
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="delete_character_from_library" name="delete_character_from_library" value="1">
                             <label class="custom-control-label" for="delete_character_from_library">Also delete it from my learning library</label>
+                        </div>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirm_tag_delete_modal">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <form id="confirm_tag_delete_form" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="delete_tag_pk" name="delete_tag_pk" value="-1">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Delete this set from your library?</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="delete_tag_characters_from_library" name="delete_tag_characters_from_library" value="1">
+                            <label class="custom-control-label" for="delete_tag_characters_from_library">Also delete all the characters inside this set</label>
                         </div>
                     </div>
 
