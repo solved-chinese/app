@@ -9,8 +9,8 @@
     <div style="height: 100%; width: 100%; horiz-align: center; display: table;">
         <div style="padding-left:4vw; display: table-cell; width: 26%; height: 35vw;">
             <a href="{% url 'index' %}">
-                <div style="padding-top:1vw; padding-bottom: 1vw"> <img src="{% static "images/manage_stack/home.png" %}" style="width:3vw;vertical-align: middle">
-                <span style="color: #B62C25; vertical-align:middle;font-weight: bold;">Return to study</span></div>
+                <div style="padding-top:1vw; padding-bottom: 1vw"><img src="{% static "images/manage_stack/home.png" %}" style="width:3vw;vertical-align: middle">
+                    <span style="color: #B62C25; vertical-align:middle;font-weight: bold;">Return to study</span></div>
             </a>
             <div id="add_new_set_button" class="category" style="cursor: pointer; background-color: #716f6f;">
                 <span class="name" style="min-width: 15vw">Add New Set</span>
@@ -53,7 +53,6 @@
                     <!-- Modal footer -->
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-danger">Delete</button>
-                        <button class="btn" data-dismiss="modal">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -77,15 +76,10 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                     </div>
-
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button class="btn" data-dismiss="modal">Cancel</button>
-                    </div>
                 </form>
             </div>
         </div>
     </div>
-<br><br>
+    <br><br>
 
 {% endblock %}

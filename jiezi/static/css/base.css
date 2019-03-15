@@ -80,23 +80,6 @@ html, body {
   color:white;
 }
 
-/* The Close Button */
-.close {
-  position: absolute;
-  right: 0;
-  color: #aaaaaa;
-  color:white;
-  font-size: 2vw;
-  font-weight: bold;
-  padding-right: 2vw;
-}
-
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-}
 .input-content{
 	background-color: transparent;
 	width: 100%;
