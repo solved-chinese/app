@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ee7e1317-7326-4490-9315-7c7474917d20" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/static/images/frontpage/slide1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/frontpage/slide2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/frontpage/slide3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/frontpage/slide4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jiezi/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/jiezi/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mydatabase" beforeDir="false" afterPath="$PROJECT_DIR$/mydatabase" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/learning_character.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/learning_character.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/frontpage/signup.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/frontpage/signup.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/accounts/manage.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/accounts/manage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/learning/learning_character_pure.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/learning/learning_character_pure.html" afterDir="false" />
-    </list>
+    <list default="true" id="ee7e1317-7326-4490-9315-7c7474917d20" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/venv/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -54,7 +40,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
+            <state relative-caret-position="71">
               <caret line="73" column="77" selection-start-line="73" selection-start-column="77" selection-end-line="73" selection-end-column="77" />
               <folding>
                 <element signature="n#style#0;n#div#1;n#div#0;n#div#4;n#ul#0;n#!!top" expanded="true" />
@@ -218,9 +204,10 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds">
+    <option name="x" value="101" />
     <option name="y" value="23" />
-    <option name="width" value="330" />
+    <option name="width" value="1179" />
     <option name="height" value="777" />
   </component>
   <component name="ProjectView">
@@ -397,23 +384,22 @@
       <workItem from="1552567101042" duration="6671000" />
       <workItem from="1552574440790" duration="3322000" />
       <workItem from="1552617239977" duration="10360000" />
-      <workItem from="1552636929630" duration="3937000" />
+      <workItem from="1552636929630" duration="4192000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="99659000" />
+    <option name="totallyTimeSpent" value="99914000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1279" height="777" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="0" width="1280" height="800" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19886823" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1987076" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.329927" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.30958903" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -791,7 +777,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
+        <state relative-caret-position="71">
           <caret line="73" column="77" selection-start-line="73" selection-start-column="77" selection-end-line="73" selection-end-column="77" />
           <folding>
             <element signature="n#style#0;n#div#1;n#div#0;n#div#4;n#ul#0;n#!!top" expanded="true" />
