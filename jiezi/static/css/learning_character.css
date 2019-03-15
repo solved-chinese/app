@@ -1,11 +1,11 @@
 .interface-seperator{
-   width:3%;
+   width:3.3%;
    vertical-align: middle;
    padding: 0vw 1% 0vw 1%;
 }
 .letter{
     padding-left: 5%;
-    font-size: 150%;
+    font-size: 170%;
     vertical-align: middle;
 }
 .audio{
@@ -27,10 +27,9 @@
     width: 40%;
 }
 .def1{
-    width: 100%;
     display: inline-block;
     word-wrap: break-word;
-    font-size: 70%;
+    font-size: 100%;
     margin-right:5vw;
 }
 .buttons{
