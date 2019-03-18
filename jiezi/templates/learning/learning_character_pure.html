@@ -12,17 +12,17 @@
     <img src='{% static "images/base/seperater.png" %}' class="interface-seperator">
     <div class="def-table">
         <div class="def1">
-           1) {{ character.definition_1 }}
+            1) {{ character.definition_1 }}
         </div>
         {% if character.definition_2 %}
             <div class="def1">
-               2) {{ character.definition_2 }}
+                2) {{ character.definition_2 }}
                 <span style="color: #716f6f;">{% if character.explanation_2 %}({{ character.explanation_2 }}){% endif %}</span>
             </div>
         {% endif %}
-         {% if character.definition_3 %}
+        {% if character.definition_3 %}
             <div class="def1">
-               3) {{ character.definition_3 }}
+                3) {{ character.definition_3 }}
                 <span style="color: #716f6f;">{% if character.explanation_3 %}({{ character.explanation_3 }}){% endif %}</span>
             </div>
         {% endif %}

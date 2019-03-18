@@ -25,29 +25,29 @@ class UserCharacter(models.Model):
 
     # -1 first learn 0 wrong 1 correct
     def update(self, ans):
-        self.times_learned+=1
-        self.time_last_learned=timezone.now()
-        if ans!=-1:
-            if ans==1:
-                self.EF+=0.1;
+        self.times_learned += 1
+        self.time_last_learned = timezone.now()
+        if ans != -1:
+            if ans == 1:
+                self.EF += 0.1;
             else:
-                self.EF-=0.8;
-            if self.EF<1.3:
-                self.EF=1.3
-            if self.times_learned==1:
-                self.interval=1
-            elif self.times_learned==2:
-                self.interval=6
+                self.EF -= 0.8;
+            if self.EF < 1.3:
+                self.EF = 1.3
+            if self.times_learned == 1:
+                self.interval = 1
+            elif self.times_learned == 2:
+                self.interval = 6
             else:
-                self.interval = (float)(self.interval)*self.EF
+                self.interval = (float)(self.interval) * self.EF
         self.save()
 
     def __str__(self):
         return self.user.__str__() + ', ' + self.character.__str__()
 
     class Meta:
-        ordering=['interval','time_added','character__pk']
-        unique_together=(('user','character'),)
+        ordering = ['interval', 'time_added', 'character__pk']
+        unique_together = (('user', 'character'),)
 
 
 class UserCharacterTag(models.Model):

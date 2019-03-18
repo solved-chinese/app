@@ -6,26 +6,30 @@ from accounts.models import UserCharacter
 from django.contrib.auth.decorators import user_passes_test
 import openpyxl, random, math, datetime
 
-MIN_LEARN_REVIEW_INTERVAL=30
+MIN_LEARN_REVIEW_INTERVAL = 30
+
 
 def index(request):
     return render(request, 'index.html');
 
+
 def about_us(request):
-    return  render(request, 'about_us.html');
+    return render(request, 'about_us.html');
+
 
 @login_required()
-def start_learning (request, minutes_to_learn):
+def start_learning(request, minutes_to_learn):
     request.session.cycle_key()
-    request.session['end_time']=timezone.now()+datetime.timedelta(minutes=minutes_to_learn)
-    request.session['minutes_to_learn']=minutes_to_learn
-    request.session['current_stage']=0
-    request.session['uc_pk']= request.user.user_characters.first().pk
+    request.session['end_time'] = timezone.now() + datetime.timedelta(minutes=minutes_to_learn)
+    request.session['minutes_to_learn'] = minutes_to_learn
+    request.session['current_stage'] = 0
+    request.session['uc_pk'] = request.user.user_characters.first().pk
     return redirect(f'/learning/status{request.session.session_key}')
 
-#1 learn 2 pron 3 meaning 4 tpron 5 tmeaning 6 relearn 0 decideL/R
+
+# 1 learn 2 pron 3 meaning 4 tpron 5 tmeaning 6 relearn 0 decideL/R
 @login_required()
-def user_status (request, session_key):
+def user_status(request, session_key):
     if request.session.session_key != session_key:
         return redirect('/404')
     if request.POST.get('choice') is not None:
@@ -33,17 +37,19 @@ def user_status (request, session_key):
     if request.POST.get('i_know_this'):
         print('know and skip')
         request.user.user_characters.get(pk=request.session['uc_pk']).delete()
-        request.session['current_stage']=0
-    if timezone.now()>request.session['end_time']:
-        return render(request, 'simple_response.html', {'content':f'Congratulations! You have finished studying for {request.session["minutes_to_learn"]} minutes. Take a break :).'})
+        request.session['current_stage'] = 0
+    if timezone.now() > request.session['end_time']:
+        return render(request, 'simple_response.html',
+                      {'content': f'Congratulations! You have finished studying for {request.session["minutes_to_learn"]} minutes. Take a break :).'})
     try:
-        current_stage=request.session['current_stage']=transition_stage(request)
+        current_stage = request.session['current_stage'] = transition_stage(request)
     except Exception as e:
-        return render(request, 'simple_response.html', {'content':str(e)+'<br>You have finished everything! Please come back later to review or add some more to your learning stack!'})
-    uc=UserCharacter.objects.get(pk=request.session['uc_pk'])
+        return render(request, 'simple_response.html',
+                      {'content': str(e) + '<br>You have finished everything! Please come back later to review or add some more to your learning stack!'})
+    uc = UserCharacter.objects.get(pk=request.session['uc_pk'])
     if current_stage == 1 or current_stage == 6:
         return view_character(request, uc.character.pk, is_view=False)
-    elif current_stage == 2 or current_stage==4:
+    elif current_stage == 2 or current_stage == 4:
         list = []
         for user_character in request.user.user_characters.all():
             list.append(user_character.character.pinyin)
@@ -51,62 +57,65 @@ def user_status (request, session_key):
             list.extend(['hǎn', 'dā', 'zhé'])
         return review_interface(request, list, uc.character.pinyin,
                                 f'"<span style="color:  #B62C25">{uc.character.chinese}</span>" is pronounced ___:')
-    elif current_stage==3 or current_stage==5:
+    elif current_stage == 3 or current_stage == 5:
         list = []
         for user_character in request.user.user_characters.all():
             list.append(user_character.character.definition_1)
         if len(list) < 4:
-            list.extend(['powerful','meaningless','interesting'])
+            list.extend(['powerful', 'meaningless', 'interesting'])
         return review_interface(request, list, uc.character.definition_1,
                                 f'"<span style="color:  #B62C25">{uc.character.chinese}</span>" means ___:')
+
 
 def transition_stage(request):
     current_stage = request.session['current_stage']
     # print('stage was'+str(current_stage)+'correct was'+str(request.session['correct']))
-    if current_stage==1 or current_stage==2 or current_stage==4:
-        current_stage+=1
-    elif current_stage==5:
-        uc=UserCharacter.objects.get(pk=request.session['uc_pk'])
-        if request.session['correct']==True:
-            current_stage=0
+    if current_stage == 1 or current_stage == 2 or current_stage == 4:
+        current_stage += 1
+    elif current_stage == 5:
+        uc = UserCharacter.objects.get(pk=request.session['uc_pk'])
+        if request.session['correct'] == True:
+            current_stage = 0
             uc.update(1)
         else:
-            current_stage=6
+            current_stage = 6
             uc.update(0)
-    elif current_stage==6:
-        current_stage=0
-    elif current_stage==3:
-        current_stage=0
+    elif current_stage == 6:
+        current_stage = 0
+    elif current_stage == 3:
+        current_stage = 0
         UserCharacter.objects.get(pk=request.session['uc_pk']).update(-1)
-    if current_stage==0:
+    if current_stage == 0:
         RV = is_learn(request.user)
         if RV[0]:
             current_stage = 1
-            request.session['uc_pk']=RV[1]
+            request.session['uc_pk'] = RV[1]
         else:
-            current_stage=4
-            request.session['uc_pk']=RV[1]
+            current_stage = 4
+            request.session['uc_pk'] = RV[1]
     if current_stage == 4:
         request.session['correct'] = True
     print('stage now' + str(current_stage))
     return current_stage
 
+
 def is_learn(user):
     to_learn = user.user_characters.filter(times_learned=0).first()
-    to_review = user.user_characters.filter(time_last_learned__lt=timezone.now() - datetime.timedelta(seconds=MIN_LEARN_REVIEW_INTERVAL),times_learned__gte=1).first()
+    to_review = user.user_characters.filter(time_last_learned__lt=timezone.now() - datetime.timedelta(seconds=MIN_LEARN_REVIEW_INTERVAL),
+                                            times_learned__gte=1).first()
     if to_review is None and to_learn is None:
         raise Exception('NOTHING_TO_LEARN_OR_REVIEW')
     if to_learn is None:
-        if to_review.times_learned>2:
+        if to_review.times_learned > 2:
             raise Exception('MASTERED_EVERYTHING')
         else:
             return (False, to_review.pk)
     if to_review is None:
         return (True, to_learn.pk)
-    review_prob = (5.2-math.log(2*to_review.interval))/7
+    review_prob = (5.2 - math.log(2 * to_review.interval)) / 7
     review_prob = min(0.7, max(0.01, review_prob))
     # the more familiar the user is with all characters, the more likely it is for him to learn a new one
-    print("cha:"+str(to_review)+'prob:' + str(review_prob))
+    print("cha:" + str(to_review) + 'prob:' + str(review_prob))
     if random.random() < review_prob:
         return (False, to_review.pk)
     return (True, to_learn.pk)
@@ -126,27 +135,28 @@ def view_character(request, character_pk, is_view=True, pure=False):
         dict['radical_3'] = radical_3
     except:
         dict['radical_3'] = None
-    dict['is_view']=is_view
-    if pure==True:
+    dict['is_view'] = is_view
+    if pure == True:
         return render(request, 'learning/learning_character_pure.html', dict)
     return render(request, 'learning/learning_character.html', dict)
+
 
 @login_required
 def review_interface(request, list=[], ans='', question=''):
     if request.POST.get('choice') is not None:
-        uc=UserCharacter.objects.get(pk=request.session['uc_pk'])
-        current_stage=request.session['current_stage']
+        uc = UserCharacter.objects.get(pk=request.session['uc_pk'])
+        current_stage = request.session['current_stage']
         choice = int(request.POST.get('choice'))
         correct = request.session['ans_index']
         if choice == correct:
             incorrect = -1
         else:
             incorrect = choice
-            if current_stage>3:
+            if current_stage > 3:
                 print('set correct to false')
-                request.session['correct']=False
+                request.session['correct'] = False
 
-        choices = [request.session['choice1'], request.session['choice2'],request.session['choice3'],request.session['choice4']]
+        choices = [request.session['choice1'], request.session['choice2'], request.session['choice3'], request.session['choice4']]
         return render(request, 'learning/review_interface.html',
                       {'choices': choices, 'question': request.session['question'], 'correct': correct, 'incorrect': incorrect})
     else:
@@ -162,7 +172,7 @@ def review_interface(request, list=[], ans='', question=''):
             request.user.quiz.delete()
         except:
             pass
-        request.session['choice1']=choices[0]
+        request.session['choice1'] = choices[0]
         request.session['choice2'] = choices[1]
         request.session['choice3'] = choices[2]
         request.session['choice4'] = choices[3]
@@ -227,7 +237,7 @@ def load_character(request):
         m = worksheet.max_column
         for i in range(2, n + 1):
             pk = worksheet.cell(i, 2).value
-            if pk is None or pk=='':
+            if pk is None or pk == '':
                 continue
             pk = int(pk)
             chinese = worksheet.cell(i, 3).value
@@ -239,9 +249,9 @@ def load_character(request):
             explanation_3 = worksheet.cell(i, 9).value
             r1 = worksheet.cell(i, 10).value
             r2 = worksheet.cell(i, 11).value
-            if r2 == '': r2=None
+            if r2 == '': r2 = None
             r3 = worksheet.cell(i, 12).value
-            if r3 == '': r3=None
+            if r3 == '': r3 = None
             mnemonic_explanation = worksheet.cell(i, 13).value
             example1_word = worksheet.cell(i, 14).value
             example1_pinyin = worksheet.cell(i, 15).value
@@ -285,5 +295,6 @@ def load_character(request):
             list.append(message)
         return render(request, 'learning/load_excel.html', {"list": list})
 
+
 def test(request):
-    return render(request,'accounts/manage.html')
+    return render(request, 'accounts/manage.html')

@@ -27,9 +27,11 @@ def signup(request):
 def profile(request):
     return render(request, 'accounts/profile.html')
 
+
 @login_required
 def manage_stack_left(request):
     return render(request, 'accounts/manage_stack_left.html')
+
 
 def manage_stack_new_set_modal(request):
     sets = []
@@ -38,31 +40,32 @@ def manage_stack_new_set_modal(request):
             sets.append(set)
     return render(request, 'accounts/manage_stack_new_character.html', {'sets': sets})
 
+
 @login_required
 def manage_stack(request):
-    if request.method=='POST':
+    if request.method == 'POST':
         print(request.POST)
-        data={}
+        data = {}
         delete_user_character_pk = request.POST.get('delete_user_character_pk')
         delete_user_character_tag_pk = request.POST.get('delete_user_character_tag_pk')
         delete_tag_pk = request.POST.get('delete_tag_pk')
         add_set_pk = request.POST.get('add_set_pk')
         try:
             if delete_user_character_pk is not None:
-                delete_user_character=request.user.user_characters.get(pk=(int)(delete_user_character_pk))
+                delete_user_character = request.user.user_characters.get(pk=(int)(delete_user_character_pk))
                 if request.POST.get('delete_character_from_library'):
                     delete_user_character.delete()
-                    data['character_pk']=delete_user_character_pk
-                    data['tag_pk']='-1'
+                    data['character_pk'] = delete_user_character_pk
+                    data['tag_pk'] = '-1'
                 else:
-                    delete_user_character_tag=request.user.user_character_tags.get(pk=(int)(delete_user_character_tag_pk))
+                    delete_user_character_tag = request.user.user_character_tags.get(pk=(int)(delete_user_character_tag_pk))
                     delete_user_character_tag.user_characters.remove(delete_user_character)
                     data['character_pk'] = delete_user_character_pk
                     data['tag_pk'] = delete_user_character_tag_pk
                     return JsonResponse(data)
             elif add_set_pk is not None:
                 CharacterSet.objects.get(pk=(int)(add_set_pk)).add_to_user(request.user)
-                data['add_set_pk']=add_set_pk
+                data['add_set_pk'] = add_set_pk
                 return JsonResponse(data)
             elif delete_tag_pk is not None:
                 delete_tag = request.user.user_character_tags.get(pk=(int)(delete_tag_pk))
@@ -74,52 +77,8 @@ def manage_stack(request):
                 return JsonResponse(data)
 
         except Exception as e:
-            response=JsonResponse({"error" : ("there was an error"+str(e))})
-            response.status_code=500
+            response = JsonResponse({"error": ("there was an error" + str(e))})
+            response.status_code = 500
             return response
     else:
-        return render(request,'accounts/manage.html')
-# @login_required
-# def manage_stack(request): #TODO the checkbox selection has bug in resetting after a request
-#     filters = []
-#     warning = ''
-#     if 'delete_user_character' in request.GET:
-#         print('delete' + request.GET.get('delete_user_character'))
-#         UserCharacter.objects.get(id=request.GET.get('delete_user_character')).delete()
-#     elif 'filters' in request.GET:
-#         filters = request.GET.getlist('filters')
-#         print('filters' + filters.__str__())
-#     elif 'add_set' in request.GET:
-#         try:
-#             CharacterSet.objects.get(id=request.GET.get('add_set')).add_to_user(request.user)
-#         except UserCharacterTag.SameNameException:
-#             warning = "You can't add this because you have a tag with the same name"
-#         request.user.user_character_tags.all().update(is_filtered=False)
-#         print('add set' + request.GET.get('add_set'))
-#     else: #reset filter at first load
-#         request.user.user_character_tags.all().update(is_filtered=False)
-#
-#
-#     # below filters the characters according to tags if given
-#     filtered_user_characters = []
-#     if len(filters) != 0:
-#         for user_character in request.user.user_characters.all():
-#             is_show = False
-#             for filter_id in filters:
-#                 print("receive filter id" + filter_id)
-#                 if UserCharacterTag.objects.get(id=filter_id).user_characters.filter(
-#                         id=user_character.id).exists():
-#                     is_show = True
-#                     break
-#             if is_show:
-#                 print('yes')
-#                 filtered_user_characters.append(user_character)
-#         for filter_id in filters:
-#             UserCharacterTag.objects.filter(id=filter_id).update(is_filtered=True)
-#     else:
-#         filtered_user_characters = request.user.user_characters.all()
-#
-#     return render(request, 'accounts/manage_stack.html',
-#                   {'existing_character_sets': CharacterSet.objects.all(),
-#                    'filtered_characters': filtered_user_characters,
-#                    'warning': warning})
+        return render(request, 'accounts/manage.html')

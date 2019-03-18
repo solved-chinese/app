@@ -15,7 +15,9 @@ class PathAndRename(object):
 
     def __call__(self, instance, filename):
         ext = filename.split('.')[-1]
-        return self.path+'%04d'%instance.jiezi_id+'.'+ext
+        return self.path + '%04d' % instance.jiezi_id + '.' + ext
+
+
 # TODO delete the files after delete
 
 
@@ -46,8 +48,8 @@ class Character(models.Model):
     explanation_2 = models.CharField(max_length=200, null=True, blank=True)
     definition_3 = models.CharField(max_length=50, null=True, blank=True)
     explanation_3 = models.CharField(max_length=200, null=True, blank=True)
-
-    pinyin_audio = models.FileField(upload_to=PathAndRename('pinyin_audio/C'), default='error.mp3', help_text='it is ok for now to leave blank', storage=OverwriteFileSystemStorage())
+    pinyin_audio = models.FileField(upload_to=PathAndRename('pinyin_audio/C'), default='error.mp3', help_text='it is ok for now to leave blank',
+                                    storage=OverwriteFileSystemStorage())
     color_coded_image = models.ImageField(upload_to=PathAndRename('color_coded_characters/C'),
                                           default='default.jpg', storage=OverwriteFileSystemStorage())
     stroke_order_image = models.ImageField(upload_to=PathAndRename('animated_stroke_order/C'), default='default.jpg', storage=OverwriteFileSystemStorage())
@@ -59,7 +61,6 @@ class Character(models.Model):
                                      help_text="enter number only, if it doens't exits, leave BLANK instead of putting 0")
     mnemonic_3 = models.IntegerField(null=True, blank=True,
                                      help_text="enter number only, if it doens't exits, leave BLANK instead of putting 0")
-
     example_1_word = models.CharField(max_length=5)
     example_1_pinyin = models.CharField(max_length=25)
     example_1_character = models.CharField(max_length=50)
@@ -71,22 +72,21 @@ class Character(models.Model):
 
     def clean(self):
         if not Radical.objects.filter(pk=self.mnemonic_1).exists():
-            raise ValidationError('mnemonic 1: R%04d not exist'%self.mnemonic_1, code='invalid')
+            raise ValidationError('mnemonic 1: R%04d not exist' % self.mnemonic_1, code='invalid')
         if self.mnemonic_2 is not None:
             if not Radical.objects.filter(pk=self.mnemonic_2).exists():
-                raise ValidationError('mnemonic 2: R%04d not exist'%self.mnemonic_2, code='invalid')
+                raise ValidationError('mnemonic 2: R%04d not exist' % self.mnemonic_2, code='invalid')
             if self.mnemonic_3 is not None and not Radical.objects.filter(pk=self.mnemonic_3).exists():
-                raise ValidationError('mnemonic 3: R%04d not exist'%self.mnemonic_3, code='invalid')
+                raise ValidationError('mnemonic 3: R%04d not exist' % self.mnemonic_3, code='invalid')
         elif self.mnemonic_3 is not None:
             raise ValidationError('mnemonic 2 is blank but mnemonic 3 is not, wtf!!!', code='invalid')
 
     def get_six_char_pinyin(self):
-        pinyin=str(self.pinyin)
-        need_space = 6-len(pinyin)
+        pinyin = str(self.pinyin)
+        need_space = 6 - len(pinyin)
         for i in range(need_space):
-            pinyin+="&nbsp;"
+            pinyin += "&nbsp;"
         return pinyin
-
 
     def __str__(self):
         return 'C' + '%04d' % self.jiezi_id + ':' + self.chinese

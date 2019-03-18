@@ -25,5 +25,4 @@ class UserCharacterAdmin(admin.ModelAdmin):
 
 admin.site.register(UserCharacter, UserCharacterAdmin)
 
-
 admin.site.register(UserCharacterTag)

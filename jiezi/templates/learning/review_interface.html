@@ -12,7 +12,7 @@
             <a href="{% url 'index' %}">
                 <div class="buttons">End Session</div>
             </a>
-{#            <img src={% static "images/learning_character/clock.png" %} class="clock">#}
+            {#            <img src={% static "images/learning_character/clock.png" %} class="clock">#}
             {% if correct != -1 %}
                 <form method="POST" style="display: inline;">
                     {% csrf_token %}
@@ -33,12 +33,12 @@
                     {{ choice }}
                 </button>
             {% endfor %}
-        <button name="choice" type="submit" value="-1" class="button">
-            I don't know
-        </button>
+            <button name="choice" type="submit" value="-1" class="button">
+                I don't know
+            </button>
         </form>
         <br><br><br>
-{#        <img src={% static "images/review_interface/allotted-time.png" %} style="width:50vw">#}
+        {#        <img src={% static "images/review_interface/allotted-time.png" %} style="width:50vw">#}
     </div>
     <br><br>
 {% endblock %}
