@@ -74,7 +74,7 @@ def manage_stack(request):
                         user_character.delete()
                 delete_tag.delete()
                 data['status'] = 'good'
-                return JsonResponse(data)
+            return JsonResponse(data)
 
         except Exception as e:
             response = JsonResponse({"error": ("there was an error" + str(e))})

@@ -39,13 +39,14 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (data) {
                 console.log("delete character data: ");
-                console.log(data)
+                console.log(data);
                 if (data.tag_pk == '-1')
-                    $('.user_character[data-user_character_pk="' + data.character_pk + '"]').hide()
+                    $('.user_character[data-user_character_pk="' + data.character_pk + '"]').hide();
                 else
-                    $('.user_character[data-user_character_pk="' + data.character_pk + '"][data-tag_pk="' + data.tag_pk + '"]').hide()
-                $("#confirm_character_delete_modal").modal('hide')
-                $('#confirm_character_delete_form').trigger('reset')
+                    print ('this is delete from lib');
+                    $('.user_character[data-user_character_pk="' + data.character_pk + '"][data-tag_pk="' + data.tag_pk + '"]').hide();
+                $("#confirm_character_delete_modal").modal('hide');
+                $('#confirm_character_delete_form').trigger('reset');
             },
             error: function (xhr, errmsg, err) {
                 $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: " + errmsg +

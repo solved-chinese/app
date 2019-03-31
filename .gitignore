@@ -13,3 +13,10 @@ jiezi/accounts/__pycache__/urls.cpython-37.pyc
 jiezi/accounts/__pycache__/views.cpython-37.pyc
 jiezi/learning/__pycache__/urls.cpython-37.pyc
 jiezi/learning/__pycache__/views.cpython-37.pyc
+jiezi/accounts/__pycache__/admin.cpython-37.pyc
+jiezi/accounts/__pycache__/models.cpython-37.pyc
+jiezi/accounts/__pycache__/urls.cpython-37.pyc
+jiezi/accounts/__pycache__/views.cpython-37.pyc
+jiezi/learning/__pycache__/models.cpython-37.pyc
+jiezi/learning/__pycache__/views.cpython-37.pyc
+jiezi/learning/__pycache__/urls.cpython-37.pyc
