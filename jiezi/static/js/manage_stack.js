@@ -17,9 +17,9 @@ $(document).ready(function () {
         console.log('get');
         var pk = $(this).parent().parent().attr('data-character_pk');
         console.log("pk is " + pk);
-        pk=("000" + pk).slice(-4)
+        pk = ("000" + pk).slice(-4)
         console.log("pk is " + pk);
-        $('#stack_right').load("/learning/C"+pk+"_pure");
+        $('#stack_right').load("/learning/C" + pk + "_pure");
     });
 
     $(document).on("click", ".delete_character", function () {
@@ -43,8 +43,8 @@ $(document).ready(function () {
                 if (data.tag_pk == '-1')
                     $('.user_character[data-user_character_pk="' + data.character_pk + '"]').hide();
                 else
-                    print ('this is delete from lib');
-                    $('.user_character[data-user_character_pk="' + data.character_pk + '"][data-tag_pk="' + data.tag_pk + '"]').hide();
+                    print('this is delete from lib');
+                $('.user_character[data-user_character_pk="' + data.character_pk + '"][data-tag_pk="' + data.tag_pk + '"]').hide();
                 $("#confirm_character_delete_modal").modal('hide');
                 $('#confirm_character_delete_form').trigger('reset');
             },
