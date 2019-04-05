@@ -1,11 +1,10 @@
-*/.DS_Store
-*/.idea/
+# Python files
+__pycache__
+*.pyc
 jiezi/jiezi/__init__.py
-*/__pycache__/
-*/*/__pycache__/
-*/*/*/__pycache__/
-*/*/*/*/__pycache__/
 
+# Miscellaneous files
+.DS_Store
+.idea
 *.log
 *.pot
-*.pyc
