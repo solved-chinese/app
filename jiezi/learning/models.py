@@ -1,4 +1,8 @@
+import pandas as pd
+import numpy as np
+
 from django.db import models
+
 import accounts.models  # to avoid cyclic import
 
 
@@ -7,7 +11,7 @@ class Radical(models.Model):
     chinese = models.CharField(max_length=1)
     pinyin = models.CharField(max_length=10)
     definition = models.CharField(max_length=50)
-    mnemonic_explanation = models.TextField(max_length=100, null=True, blank=True)
+    mnemonic_explanation = models.CharField(max_length=100, null=True, blank=True)
     mnemonic_image = models.ImageField(default='default.jpg')
     is_phonetic = models.BooleanField()
     is_semantic = models.BooleanField()
@@ -16,7 +20,7 @@ class Radical(models.Model):
         ordering = ['id']
 
     def __str__(self):
-        return 'R' + '%04d' % self.jiezi_id + ':' + self.chinese
+        return 'R' + '%04d' % self.id + ':' + self.chinese
 
 
 class Character(models.Model):
@@ -25,19 +29,17 @@ class Character(models.Model):
     pinyin = models.CharField(max_length=6)
     part_of_speech_1 = models.CharField(max_length=50)
     definition_1 = models.CharField(max_length=50)
-    part_of_speech_2 = models.CharField(max_length=50)
+    part_of_speech_2 = models.CharField(max_length=50, null=True, blank=True)
     definition_2 = models.CharField(max_length=50, null=True, blank=True)
     explanation_2 = models.CharField(max_length=200, null=True, blank=True)
-    part_of_speech_3 = models.CharField(max_length=50)
+    part_of_speech_3 = models.CharField(max_length=50, null=True, blank=True)
     definition_3 = models.CharField(max_length=50, null=True, blank=True)
     explanation_3 = models.CharField(max_length=200, null=True, blank=True)
 
     radical_1_id = models.IntegerField()
     radical_2_id = models.IntegerField(null=True, blank=True)
     radical_3_id = models.IntegerField(null=True, blank=True)
-    #for accessing characters from radicals
-    radicals = models.ManyToManyField(Radical, related_name="characters", related_query_name="character")
-    mnemonic_explanation = models.TextField(max_length=200)
+    mnemonic_explanation = models.CharField(max_length=200)
 
     example_1_word = models.CharField(max_length=5)
     example_1_pinyin = models.CharField(max_length=25)
@@ -55,8 +57,15 @@ class Character(models.Model):
     stroke_order_image = models.ImageField(default='default.jpg')
     small_color_coded = models.ImageField(default='default.jpg')
 
+    def save(self, *args, **kwargs):
+        if not Radical.objects.filter(pk=self.radical_1_id).exists() or \
+                self.radical_2_id and not Radical.objects.filter(pk=self.radical_2_id).exists() or \
+                self.radical_3_id and not Radical.objects.filter(pk=self.radical_3_id).exists():
+            raise Exception('related radicals not exist')
+        super().save(*args, **kwargs)
+
     def __str__(self):
-        return 'C' + '%04d' % self.jiezi_id + ':' + self.chinese
+        return 'C' + '%04d' % self.id + ':' + self.chinese
 
     class Meta:
         ordering = ['id']
@@ -77,3 +86,37 @@ class CharacterSet(models.Model):
 
     def __str__(self):
         return self.name
+
+
+def update_from_df(df, Model):
+    df.replace('', None, inplace=True)
+    df.fillna(0, inplace=True)
+    messages = []
+    for i, row in df.iterrows():
+        try:
+            id = row['id']
+        except KeyError:
+            messages.append(f'ERR at start : row {i} id not found')
+            continue
+        data = {}
+        try:
+            for field in Model._meta.get_fields():
+                if field.name == 'id':
+                    continue
+                if isinstance(field, (models.IntegerField, models.BooleanField)):
+                    data[field.name]=row[field.name]
+                elif isinstance(field, models.CharField):
+                    data[field.name] = row[field.name] if row[field.name] else None
+        except Exception as e:
+            messages.append(f'ERR getting fields of id={id}: {str(e)}')
+            continue
+        try:
+            _, is_created = Model.objects.update_or_create(id=id, defaults=data)
+            messages.append(f"{'create' if is_created else 'update'} id={id}")
+        except Exception as e:
+            messages.append(f'ERR constructing id={id}: {str(e)}')
+    for i, msg in enumerate(messages, 0):
+        if msg[0]=='E':
+            messages[i] = '<div style="color:red;">' + msg + '</div>'
+        else: messages[i] = '<div style="color:green;">' + msg + '</div>'
+    return messages

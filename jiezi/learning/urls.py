@@ -18,5 +18,6 @@ urlpatterns = [
     # path('C<dddd:character_pk>_pure/', views.view_character, {'pure': True}, name='view_character_pure'),
     # path('C<dddd:character_pk>/', views.view_character, name='view_character'),  # reverse by {% url 'view_character' 1 %}
     path('start_learning<int:minutes_to_learn>', views.start_learning, name='start_learning'),
+    path('load_from_excel', views.load_from_excel),
     # path('status<slug:session_key>', views.user_status),
 ]
