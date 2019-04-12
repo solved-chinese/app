@@ -1,7 +1,0 @@
-{% for set in sets %}
-    <button name='add_set_pk' value="{{ set.pk }}" type="button" class="btn btn-outline-primary">
-        {{ set.name }}
-    </button>
-{% empty %}
-    You have added all the sets.
-{% endfor %}
