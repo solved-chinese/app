@@ -25,8 +25,8 @@ def start_learning(request, minutes_to_learn):
 def load_from_excel(request):
     if request.method == 'GET':
         return render(request, 'learning/load_from_excel.html')
-    excel_file = request.FILES['excel_file']
-    radical_df = pd.read_excel(excel_file, 'Radicals')
-    character_df = pd.read_excel(excel_file, 'Characters')
+    excel = request.FILES['excel_file']
+    radical_df = pd.read_excel(excel, 'Radicals')
+    character_df = pd.read_excel(excel, 'Characters')
     response = {'characters':update_from_df(character_df, Character), 'radicals':update_from_df(radical_df, Radical)}
     return render(request, 'learning/load_from_excel.html', response)
