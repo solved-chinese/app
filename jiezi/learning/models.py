@@ -20,7 +20,7 @@ class Radical(models.Model):
         ordering = ['id']
 
     def __str__(self):
-        return 'R' + '%04d' % self.id + ':' + self.chinese
+        return '<R' + '%04d' % self.id + ':' + self.chinese +'>'
 
 
 class Character(models.Model):
@@ -55,7 +55,6 @@ class Character(models.Model):
 
     color_coded_image = models.ImageField(default='default.jpg')
     stroke_order_image = models.ImageField(default='default.jpg')
-    small_color_coded = models.ImageField(default='default.jpg')
 
     def save(self, *args, **kwargs):
         if not Radical.objects.filter(pk=self.radical_1_id).exists() or \
@@ -65,7 +64,7 @@ class Character(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return 'C' + '%04d' % self.id + ':' + self.chinese
+        return '<C' + '%04d' % self.id + ':' + self.chinese +'>'
 
     class Meta:
         ordering = ['id']
@@ -85,7 +84,7 @@ class CharacterSet(models.Model):
             tag.user_characters.add(character_to_add)
 
     def __str__(self):
-        return self.name
+        return f'<cset{self.id}:{self.name}>'
 
 
 def update_from_df(df, Model):

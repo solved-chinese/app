@@ -38,7 +38,7 @@ class UserCharacter(models.Model):
         self.save()
 
     def __str__(self):
-        return self.user.__str__() + ', ' + self.character.__str__()
+        return f"<uc {self.pk}:{self.user}'s {self.character}>"
 
     class Meta:
         ordering = ['interval', 'time_added', 'character__pk']
@@ -51,7 +51,7 @@ class UserCharacterTag(models.Model):
     user_characters = models.ManyToManyField(UserCharacter, related_name='tags', related_query_name='tag')
 
     def __str__(self):
-        return self.user.__str__() + ',' + self.name
+        return f"<uct {self.pk}:{self.user}'s {self.name}>"
 
     class Meta:
         unique_together = ('user', 'name')
