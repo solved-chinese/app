@@ -1,0 +1,108 @@
+/***********************************
+  Containers
+***********************************/
+
+#character-card-container {
+    display: flex;
+}
+
+#character-info-container {
+    width: 36.2%;
+    margin-right: 30px;
+    padding-right: 30px;
+    border-right: 1px solid var(--tertiary-color);
+}
+
+#character-radicals-container {
+    width: 61.8%;
+}
+
+
+
+/***********************************
+  Character Preview
+***********************************/
+
+#character-preview {
+    width: 150px;
+    height: 150px;
+    margin: 20px auto;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+
+/***********************************
+  Definitions
+***********************************/
+
+#definitions-container {
+    margin: 40px 0;
+}
+
+.character-definitions-list {
+    padding-left: 18px;
+}
+
+.character-definition {
+    margin-bottom: 10px;
+}
+
+
+
+/***********************************
+  Examples
+***********************************/
+
+.example-row > td {
+    display: inline-block;
+    max-width: 140px;
+    padding: 2px 8px;
+}
+
+.example-row > td:first-child {
+    margin-left: -2px; /* To offset the strange extra space */
+    padding-left: 0px;
+    font-weight: 500;
+}
+
+.example-row > td:last-child {
+    padding-right: 0;
+}
+
+
+
+/***********************************
+  Radicals Breakdown
+***********************************/
+
+#radicals-breakdown-container {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 30px;
+}
+
+.radical-container {
+    width: 250px;
+    text-align: center;
+}
+
+.radical-container > .radical-title {
+    margin-bottom: 6px;
+    font-size: 32px;
+}
+
+.radical-container > .radical-pictograph {
+    width: 200px;
+    height: 200px;
+    margin: 20px auto 10px auto;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.breakdown-caption {
+    text-align: center;
+}
