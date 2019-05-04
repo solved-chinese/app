@@ -40,3 +40,11 @@ def load_from_excel(request):
     response = {'radicals':update_from_df(radical_df, Radical)}
     response['characters'] = update_from_df(character_df, Character)
     return render(request, 'learning/load_from_excel.html', response)
+
+
+def report(request):
+    try:
+        return render(request, 'simple_response.html', {'content':'Thank you for your response!'})
+    except:
+        return render(request, '404.html')
+    
