@@ -1,0 +1,43 @@
+#stats-container {
+    width: 350px;
+}
+
+
+/***********************************
+  Streak Calender
+***********************************/
+
+#streak-calender-container {
+    margin: 30px 0;
+}
+
+#streak-calender {
+    display: inline-flex;
+    margin: -2px; /* To offset the margin of inner divs */
+    width: calc(7 * (15px + 2 * 2px));
+    height: calc(4 * (15px + 2 * 2px));
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    vertical-align: top; /* To align the calender with the text */
+}
+
+.streak-day {
+    display: inline-block;
+    margin: 2px;
+    width: 15px;
+    height: 15px;
+}
+
+.streak-day.yes-streak {
+    background: var(--main-theme-color);
+}
+
+.streak-day.no-streak {
+    background: #ddd;
+}
+
+#streak-text {
+    display: inline-block;
+    width: 50%;
+}

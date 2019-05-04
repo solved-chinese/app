@@ -34,13 +34,7 @@ class Command(BaseCommand):
             path = os.path.join(settings.MEDIA_ROOT, name)
             if os.path.isfile(path):
                 character.color_coded_image = name
-                img = PIL.Image.open(path)
-                small_img = img.resize((40, 40), PIL.Image.ANTIALIAS)
-                small_name = 'small_color_coded/C%04d.png' % character.pk
-                small_img.save(os.path.join(settings.MEDIA_ROOT, small_name), optimize=True, quality=80)
-                character.small_color_coded.name = small_name
                 character.save()
-
             else:
                 print(f'not found {character}‘s color_coded_characters png')
         print('media updated')

@@ -13,6 +13,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('learning/', include('learning.urls')),
     path('about_us/', views.about_us, name="about_us"),
+    path('report/', views.report, name="report"),
     path('', RedirectView.as_view(url='index')),
 ]
 urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,39 @@
+#learn-header-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+#character-text {
+    margin: -2px 0 0;
+}
+
+#character-pinyin {
+    margin-left: 20px;
+    margin-right: 40px;
+    font-size: 1.5em;
+    font-weight: 500;
+}
+
+#speak-button {
+    margin-left: 10px;
+    color: #040302;
+    cursor: pointer;
+    transition: 150ms ease;
+}
+
+#speak-button:hover {
+    color: var(--secondary-color);
+}
+
+#character-details {
+    border: none;
+}
+
+#next-button {
+    margin-right: 15px;
+}
+
+#end-session-button {
+    margin-left: auto;
+}
