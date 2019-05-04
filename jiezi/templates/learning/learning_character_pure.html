@@ -45,37 +45,38 @@
         </a>
         {#            <img src={% static "images/learning_character/clock.png" %} class="clock">#}
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-light" data-toggle="modal" data-target="#report-bug">Report</button>
+        <button type="button" class="btn btn-light" style="font-weight: bold;" data-toggle="modal" data-target="#report-bug">?</button>
         <div class="modal fade" id="report-bug" tabindex="-1" role="dialog" aria-labelledby="report-bug-label"
              aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Report a Bug</h5>
+                        <h5 class="modal-title">Report an entry</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <form method="POST">
-                            {% csrf_token %}
                             <div class="form-group">
-                                <label for="categrories">Categories</label>
+                                <label for="categrories">Which section doesn't make sense?</label>
                                 <select class="form-control" id="categrories">
-                                    <option>Character</option>
-                                    <option>Radical</option>
-                                    <option>Technical</option>
+                                    <option>Character Definition</option>
+                                    <option>Example Words</option>
+                                    <option>Radical Mnemonic Pictures</option>
+                                    <option>Radical Definition</option>
+                                    <option>Radical Breakdown Explanation</option>
                                     <option>Other</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="message-text" class="col-form-label">Explaination</label>
+                                <label for="message-text" class="col-form-label">Explanation</label>
                                 <textarea class="form-control" id="message-text" rows="6"></textarea>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">Send message</button>
+                        <button type="button" class="btn btn-primary">Send</button>
                     </div>
                 </div>
             </div>
