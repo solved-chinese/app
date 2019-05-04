@@ -8,7 +8,8 @@ from accounts.models import User
 
 
 def index(request):
-    return render(request, 'index.html')
+    # because the index page isn't ready
+    return redirect('/learning/C0001')
 
 
 def display_character(request, character_pk):

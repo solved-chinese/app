@@ -38,7 +38,7 @@
     <span id='character-pinyin'>{{ character.pinyin }}<i class='fas fa-volume'
                                                          id='speak-button'></i></span>
     <!-- we need to think about what the following buttons do -->
-    <a class='button button-primary' id='next-button' href='/vocab.html'>Next</a>
+    <a class='button button-primary' id='next-button' href='{% url 'display_character' character.pk|add:"1" %}'>Next</a>
     <a class='button button-secondary' href='/vocab.html'>I Know This</a>
     <a class='button button-secondary' id='end-session-button' href='/vocab.html'>End Session</a>
     <button type='button' class='btn btn-light' style='font-weight: bold;' data-toggle='modal'
