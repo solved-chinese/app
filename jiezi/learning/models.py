@@ -87,6 +87,19 @@ class CharacterSet(models.Model):
         return f'<cset{self.id}:{self.name}>'
 
 
+class Report(models.Model):
+    user = models.ForeignKey('accounts.User', null=True, on_delete=models.SET_NULL)
+    origin = models.CharField(max_length=100)
+    description_1 = models.CharField(max_length=100)
+    description_2 = models.TextField()
+
+    def __str__(self):
+        return f'<Report on {self.origin}: {self.description_1}>'
+
+    class Meta:
+        ordering = ['origin']
+
+
 def update_from_df(df, Model):
     df.replace('', None, inplace=True)
     df.fillna(0, inplace=True)

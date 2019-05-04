@@ -3,7 +3,8 @@ import pandas as pd
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 
-from learning.models import update_from_df, Character, Radical
+from learning.models import update_from_df, Character, Radical, Report
+from accounts.models import User
 
 
 def index(request):
@@ -44,6 +45,12 @@ def load_from_excel(request):
 
 def report(request):
     try:
+        report = Report(origin=request.POST.get('origin'),
+                        description_1=request.POST.get('description_1'),
+                        description_2=request.POST.get('description_2'))
+        if isinstance(request.user, User):
+            report.user = request.user
+        report.save()
         return render(request, 'simple_response.html', {'content':'Thank you for your response!'})
     except:
         return render(request, '404.html')
