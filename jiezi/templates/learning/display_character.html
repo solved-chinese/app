@@ -1,108 +1,74 @@
+{% extends 'base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-  <meta charset='utf-8'>
-  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-	<meta name='viewport' content='width=device-width, initial-scale=1'>
+{% block content %}
+<div class='main-content-container' id='page-container'>
+  <div id='learn-header-container'>
+    <h1 id='character-text'>{{ character.chinese }}</h1>
+    <span id='character-pinyin'>{{ character.pinyin }}<i class='fas fa-volume' id='speak-button'></i></span>
+    <!-- we need to think about what the following buttons do -->
+    <a class='button button-primary' id='next-button' href='/vocab.html'>Next</a>
+    <a class='button button-secondary' href='/vocab.html'>I Know This</a>
+    <a class='button button-secondary' id='end-session-button' href='/vocab.html'>End Session</a>
+  </div>
 
-  <!-- <script src='/static/scripts/vue.js'></script> -->
+  <div class='card-container' id='stats-container'>
 
-  <link rel='stylesheet' href='https://pro.fontawesome.com/releases/v5.8.1/css/all.css' integrity='sha384-Bx4pytHkyTDy3aJKjGkGoHPt3tvv6zlwwjc3iqN7ktaiEMLDPqLSZYts2OjKcBx1' crossorigin='anonymous'>
-
-  <link rel='stylesheet' href="{% static 'styles/main.css' %}">
-  <link rel='stylesheet' href="{% static 'styles/learn.css'%}">
-  <link rel='stylesheet' href="{% static 'styles/character.css'%}">
-
-  <title>Solved</title>
-</head>
-
-<body>
-  <header class='full-width-bg-container' id='navbar-bg'>
-    <div class='main-content-container' id='navbar'>
-      <a class='logo' href="{% url 'index' %}"></a>
-      <a class='username' href='#'>{{ username }}</a>
-    </div>
-  </header>
-
-  <div class='main-content-container' id='page-container'>
-    <div id='learn-header-container'>
-      <h1 id='character-text'>{{ character.chinese }}</h1>
-      <span id='character-pinyin'>{{ character.pinyin }}<i class='fas fa-volume' id='speak-button'></i></span>
-      <!-- we need to think about what the following buttons do -->
-      <a class='button button-primary' id='next-button' href='/vocab.html'>Next</a>
-      <a class='button button-secondary' href='/vocab.html'>I Know This</a>
-      <a class='button button-secondary' id='end-session-button' href='/vocab.html'>End Session</a>
-    </div>
-
-    <div class='card-container' id='stats-container'>
-
-      <div class='' id='character-card-container'>
-        <div id='character-info-container'>
-          <div id='character-preview' style='background-image: url({{ character.color_coded_image.url }})'></div>
-          <div id='definitions-container'>
-            <h2>Definitions</h2>
-            <ol class='character-definitions-list'>
-              <li class='character-definition'>{{ character.definition_1 }}</li>
-              {% if character.definition_2 %}
-              <li>{{ character.definition_2 }}</li>
-              {% endif %}
-              {% if character.definition_3 %}
-              <li>{{ character.definition_3 }}</li>
-              {% endif %}
-            </ol>
-          </div>
-          <div id='examples-container'>
-            <h2>Examples</h2>
-            <table id='examples-table'>
-              <tr class='example-row'>
-                <td>{{ character.example_1_word }}</td>
-                <td>{{ character.example_1_pinyin }}</td>
-                <td>{{ character.example_1_character }}</td>
-                <td>{{ character.example_1_meaning }}</td>
-              </tr>
-              {% if character.example_2_character %}
-              <tr class='example-row'>
-                <td>{{ character.example_2_word }}</td>
-                <td>{{ character.example_2_pinyin }}</td>
-                <td>{{ character.example_2_character }}</td>
-                <td>{{ character.example_2_meaning }}</td>
-              </tr>
-              {% endif %}
-            </table>
-          </div>
-        </div>
-
-        <div id='character-radicals-container'>
-          <h2>Radicals</h2>
-          <div id='radicals-breakdown-container'>
-            {% for radical in radicals %}
-            {% if radical %}
-              <div class='radical-container'>
-                <p class='radical-pinyin'>{{ radical.pinyin }}</p>
-                <p class='radical-title' style='color: #0F7633'>{{ radical.chinese }}</p>
-                <p class='radical-definition'>({{ radical.definition }})</p>
-                <div class='radical-pictograph' style='background-image: url({{ radical.mnemonic_image.url }})'></div>
-                <p class='radical-caption'>{{ radical.mnemonic_explanation }}</p>
-              </div>
+    <div class='' id='character-card-container'>
+      <div id='character-info-container'>
+        <div id='character-preview' style='background-image: url({{ character.color_coded_image.url }})'></div>
+        <div id='definitions-container'>
+          <h2>Definitions</h2>
+          <ol class='character-definitions-list'>
+            <li class='character-definition'>{{ character.definition_1 }}</li>
+            {% if character.definition_2 %}
+            <li>{{ character.definition_2 }}</li>
             {% endif %}
-            {% endfor %}
-          </div>
-        <p class='breakdown-caption'>{{ character.mnemonic_explanation }}</p>
+            {% if character.definition_3 %}
+            <li>{{ character.definition_3 }}</li>
+            {% endif %}
+          </ol>
+        </div>
+        <div id='examples-container'>
+          <h2>Examples</h2>
+          <table id='examples-table'>
+            <tr class='example-row'>
+              <td>{{ character.example_1_word }}</td>
+              <td>{{ character.example_1_pinyin }}</td>
+              <td>{{ character.example_1_character }}</td>
+              <td>{{ character.example_1_meaning }}</td>
+            </tr>
+            {% if character.example_2_character %}
+            <tr class='example-row'>
+              <td>{{ character.example_2_word }}</td>
+              <td>{{ character.example_2_pinyin }}</td>
+              <td>{{ character.example_2_character }}</td>
+              <td>{{ character.example_2_meaning }}</td>
+            </tr>
+            {% endif %}
+          </table>
         </div>
       </div>
 
+      <div id='character-radicals-container'>
+        <h2>Radicals</h2>
+        <div id='radicals-breakdown-container'>
+          {% for radical in radicals %}
+          {% if radical %}
+            <div class='radical-container'>
+              <p class='radical-pinyin'>{{ radical.pinyin }}</p>
+              <p class='radical-title' style='color: #0F7633'>{{ radical.chinese }}</p>
+              <p class='radical-definition'>({{ radical.definition }})</p>
+              <div class='radical-pictograph' style='background-image: url({{ radical.mnemonic_image.url }})'></div>
+              <p class='radical-caption'>{{ radical.mnemonic_explanation }}</p>
+            </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+      <p class='breakdown-caption'>{{ character.mnemonic_explanation }}</p>
+      </div>
     </div>
+
   </div>
-
-  <footer class='full-width-bg-container' id='footer-bg'>
-    <div class='main-content-container' id='footer'>
-      <p>This is a footer</p>
-    </div>
-  </footer>
-</body>
-
-<script src="{% static 'scripts/main.js' %}"></script>
-
-</html>
+</div>
+{% endblock content %}
