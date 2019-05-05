@@ -9,21 +9,19 @@ from learning.models import CharacterSet, Character, Radical
 from accounts.models import UserCharacter, UserCharacterTag
 
 
-@csrf_exempt
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()  # this create the user
+            form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            user.save()
             return redirect('index')
     else:
         form = SignUpForm()
-    return render(request, 'accounts/signup.html', {'form': form})
+    return render(request, 'registration/signup.html', {'form': form})
 
 
 @login_required
