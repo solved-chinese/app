@@ -1,0 +1,53 @@
+#char-sets-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 50px 40px;
+    margin-top: 40px;
+}
+
+.char-set {
+    width: 200px;
+    height: 265px;
+    overflow: hidden;
+    border-radius: 5px;
+    box-shadow: 4px 5px 14px 0px rgba(4, 3, 2, 0.07);
+}
+
+/* .char-set:hover::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+} */
+
+.char-set > .char-set-cover {
+    width: 100%;
+    margin-bottom: -3px; /* To fix a strange gap: need a better solution */
+}
+
+.char-set > .char-set-title {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    height: 65px;
+    justify-content: center; /* To center single-line titles */
+    text-align: center; /* To center multi-line titles */
+}
+
+#add-set-button-container {
+    box-shadow: none;
+    text-align: center;
+    cursor: pointer;
+}
+
+#add-set-button {
+    margin-top: 20px;
+    font-size: 160px;
+    color: var(--tertiary-color);
+    transition: 150ms ease;
+}
+
+#add-set-button-container:hover > #add-set-button {
+    color: var(--secondary-color);
+}

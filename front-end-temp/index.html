@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+
+  <script src='/static/scripts/vue.js'></script>
+  <script src='/static/scripts/jquery.min.js'></script>
+
+  <!-- <link rel='stylesheet' href='https://pro.fontawesome.com/releases/v5.8.1/css/all.css' integrity='sha384-Bx4pytHkyTDy3aJKjGkGoHPt3tvv6zlwwjc3iqN7ktaiEMLDPqLSZYts2OjKcBx1' crossorigin='anonymous'> -->
+  <link rel='stylesheet' href='/static/styles/all.css'>
+
+  <link rel='stylesheet' href='/static/styles/main.css'>
+  <link rel='stylesheet' href='/static/styles/dashboard.css'>
+
+  <title>Solved</title>
+</head>
+
+<body>
+  <header class='full-width-bg-container' id='navbar-bg'>
+    <div class='main-content-container' id='navbar'>
+      <a class='logo' href='/'></a>
+      <a class='username' href='#'>{{ username }}</a>
+    </div>
+  </header>
+
+  <div class='main-content-container' id='page-container'>
+    <h1>Welcome back, {{ firstName }}!</h1>
+    <a class='button button-primary' href='/vocab.html'>Manage Vocab List</a>
+
+    <div class='card-container' id='study-container'>
+      <h2>Select Duration</h2>
+      <div id='slider-bar'>
+        <div id='slider-activated'></div>
+        <div class='slider-value value-activated' data-value='1' data-width-percent='0' style='margin-left: calc(0% - 10px);'></div>
+        <div class='slider-value' data-value='5' data-width-percent='8.333' style='margin-left: calc(8.333% - 10px);'></div>
+        <div class='slider-value' data-value='15' data-width-percent='25' style='margin-left: calc(25% - 10px);'></div>
+        <div class='slider-value' data-value='30' data-width-percent='50' style='margin-left: calc(50% - 10px);'></div>
+        <div class='slider-value' data-value='45' data-width-percent='75' style='margin-left: calc(75% - 10px);'></div>
+        <div class='slider-value' data-value='60' data-width-percent='100' style='margin-left: calc(100% - 10px);'></div>
+        <p id='slider-value-text'>1&#8239;min</p>
+      </div>
+      <a class='button button-primary' id='study-button'>Study Now</a>
+    </div>
+
+    <div class='card-container' id='stats-container'>
+      <h2>Stats</h2>
+      <div id='stats-content-container'>
+        <div>
+          <div id='streak-calender'>
+            <div class='streak-day no-streak'></div>
+            <div class='streak-day yes-streak'></div>
+            <div class='streak-day no-streak'></div>
+            <div class='streak-day no-streak'></div>
+            <div class='streak-day no-streak'></div>
+            <div class='streak-day no-streak'></div>
+            <div class='streak-day no-streak'></div>
+            <div class='streak-day no-streak'></div>
+            <div class='streak-day yes-streak'></div>
+            <div class='streak-day no-streak'></div>
+            <div class='streak-day no-streak'></div>
+            <div class='streak-day no-streak'></div>
+            <div class='streak-day yes-streak'></div>
+            <div class='streak-day yes-streak'></div>
+            <div class='streak-day no-streak'></div>
+            <div class='streak-day yes-streak'></div>
+            <div class='streak-day no-streak'></div>
+            <div class='streak-day no-streak'></div>
+            <div class='streak-day no-streak'></div>
+            <div class='streak-day yes-streak'></div>
+            <div class='streak-day yes-streak'></div>
+            <div class='streak-day no-streak'></div>
+            <div class='streak-day yes-streak'></div>
+            <div class='streak-day no-streak'></div>
+            <div class='streak-day no-streak'></div>
+            <div class='streak-day yes-streak'></div>
+            <div class='streak-day yes-streak'></div>
+            <div class='streak-day yes-streak'></div>
+            <!-- <div class='streak-day yes-streak'></div> -->
+          </div>
+          <div id='streak-text'>
+            <p>You have kept a streak of <span class='text-highlight'>{{ streakDayCount }}</span> days in <span class='text-highlight'>{{ streakMonth }}</span>.<br />Keep it up!</p>
+          </div>
+        </div>
+
+        <div>
+          <p>Last time you studied</p>
+          <p class='big-stat'>20</p>
+          <p>minutes</p>
+        </div>
+
+        <div>
+          <p>You have spent</p>
+          <p class='big-stat'>6.3</p>
+          <p>hours</p>
+        </div>
+
+        <div>
+          <p>You have learned</p>
+          <p class='big-stat'>36</p>
+          <p>words</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class='full-width-bg-container' id='footer-bg'>
+    <div class='main-content-container' id='footer'>
+      <p>This is a footer</p>
+    </div>
+  </footer>
+</body>
+
+<script src='/static/scripts/main.js'></script>
+<script src='/static/scripts/dashboard.js'></script>
+
+</html>

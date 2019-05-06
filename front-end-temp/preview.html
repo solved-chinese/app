@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+
+  <script src='/static/scripts/vue.js'></script>
+
+  <!-- <link rel='stylesheet' href='https://pro.fontawesome.com/releases/v5.8.1/css/all.css' integrity='sha384-Bx4pytHkyTDy3aJKjGkGoHPt3tvv6zlwwjc3iqN7ktaiEMLDPqLSZYts2OjKcBx1' crossorigin='anonymous'> -->
+  <link rel='stylesheet' href='/static/styles/all.css'>
+
+  <link rel='stylesheet' href='/static/styles/main.css'>
+  <link rel='stylesheet' href='/static/styles/character.css'>
+  <link rel='stylesheet' href='/static/styles/preview.css'>
+
+  <title>Solved</title>
+</head>
+
+<body>
+  <header class='full-width-bg-container' id='navbar-bg'>
+    <div class='main-content-container' id='navbar'>
+      <a class='logo' href='/'></a>
+      <a class='username' href='#'>{{ username }}</a>
+    </div>
+  </header>
+
+  <div class='main-content-container' id='page-container'>
+
+    <div id='page-content-container'>
+
+      <div id='question-container'>
+        <p class='big-question-text'>Based on its radicals,</p>
+        <span class='big-question-text'>What do you think &ldquo;<div id='character-preview' style='background-image: url(/static/images/characters-radical/1.svg)'></div>&rdquo; means?</span>
+
+        <div id='answers-container'>
+          <a class='option button button-secondary'>Option A</a>
+          <a class='option button button-secondary'>Option B</a>
+          <a class='option button button-secondary'>Option C</a>
+          <a class='option button button-secondary'>Option D</a>
+          <a class='option button button-tertiary'>I don’t Know</a>
+        </div>
+      </div>
+
+      <div class='card-container'>
+        <div id='character-card-container'>
+          <div id='character-radicals-container'>
+            <h2>Radicals</h2>
+            <div id='radicals-breakdown-container'>
+              <div class='radical-container'>
+                <p>bǎo</p>
+                <p class='radical-title' style='color: #0F7633'>宀</p>
+                <p>(house)</p>
+                <div class='radical-pictograph' style='background-image: url(/static/images/radical-pictograph/R0019.png)'></div>
+                <p>A description for the radical pictograph that is very very very very long so that it cannot fit in one line</p>
+              </div>
+              <div class='radical-container'>
+                <p>zǐ</p>
+                <p class='radical-title' style='color: #0D2396'>子</p>
+                <p>(child)</p>
+                <div class='radical-pictograph' style='background-image: url(/static/images/radical-pictograph/R0004.png)'></div>
+                <p>A description for the radical pictograph</p>
+              </div>
+            </div>
+            <!-- <p class='breakdown-caption'>The child (子) studies characters (字) in the school house (宀).</p> -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer class='full-width-bg-container' id='footer-bg'>
+    <div class='main-content-container' id='footer'>
+      <p>This is a footer</p>
+    </div>
+  </footer>
+</body>
+
+<script src='/static/scripts/main.js'></script>
+
+</html>

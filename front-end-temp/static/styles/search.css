@@ -1,0 +1,44 @@
+h2 {
+    margin-top: 50px;
+}
+
+.search-result {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+    padding: 20px 10px;
+    border-bottom: 1px solid var(--tertiary-color);
+}
+
+.search-result:last-child {
+    border: none;
+}
+
+.search-result > * {
+    display: inline-block;
+}
+
+.result-character {
+    width: 60px;
+    min-width: 60px;
+    height: 60px;
+    min-height: 60px;
+    margin-right: 30px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.result-pinyin {
+    width: 60px;
+    font-size: 26px;
+}
+
+.result-definitions {
+    list-style: decimal;
+}
+
+.result-definitions > li {
+    float: left;
+    margin-right: 35px;
+}

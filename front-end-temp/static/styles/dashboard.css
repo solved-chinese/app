@@ -1,0 +1,113 @@
+/***********************************
+  Container
+***********************************/
+
+#study-container {
+    padding-bottom: 45px;
+}
+
+#stats-content-container {
+    display: flex;
+    margin: 20px 50px 10px 0;
+    justify-content: space-between;
+}
+
+
+/***********************************
+  Slider
+***********************************/
+
+#slider-bar {
+    position: relative;
+    width: calc(100% - 100px);
+    height: 8px;
+    margin: 60px auto 40px auto;
+    border-radius: 4px;
+    background: var(--tertiary-color);
+    cursor: pointer;
+}
+
+#slider-activated {
+    position: absolute;
+    height: 8px;
+    background: var(--main-theme-color);
+    transition: 150ms ease;
+}
+
+#slider-value-text {
+    position: absolute;
+    margin-top: -30px;
+    color: var(--main-theme-color);
+    font-weight: 500;
+}
+
+.slider-value {
+    display: inline-block;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    margin-top: -6px;
+    border-radius: 10px;
+    background: var(--tertiary-color);
+    transition: 150ms ease;
+}
+
+.slider-value.value-activated {
+    background: var(--main-theme-color);
+}
+
+#study-button {
+    margin-left: calc(50% - 72.485px); /* Very stupid implementation! */
+}
+
+
+
+/***********************************
+  Streak Calender
+***********************************/
+
+#streak-calender {
+    display: inline-flex;
+    margin: -2px; /* To offset the margin of inner divs */
+    width: calc(7 * (15px + 2 * 2px));
+    min-width: calc(7 * (15px + 2 * 2px));
+    height: calc(4 * (15px + 2 * 2px));
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    vertical-align: top; /* To align the calender with the text */
+}
+
+.streak-day {
+    display: inline-block;
+    margin: 2px;
+    width: 15px;
+    height: 15px;
+}
+
+.streak-day.yes-streak {
+    background: var(--main-theme-color);
+}
+
+.streak-day.no-streak {
+    background: #ddd;
+}
+
+#streak-text {
+    display: inline-block;
+    margin-left: 15px;
+    width: 170px;
+}
+
+
+
+/***********************************
+  Big Statistics
+***********************************/
+
+.big-stat {
+    margin-bottom: -5px;
+    color: var(--main-theme-color);
+    font-size: 36px;
+    font-weight: 300;
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+
+  <script src='/static/scripts/vue.js'></script>
+
+  <!-- <link rel='stylesheet' href='https://pro.fontawesome.com/releases/v5.8.1/css/all.css' integrity='sha384-Bx4pytHkyTDy3aJKjGkGoHPt3tvv6zlwwjc3iqN7ktaiEMLDPqLSZYts2OjKcBx1' crossorigin='anonymous'> -->
+  <link rel='stylesheet' href='/static/styles/all.css'>
+
+  <link rel='stylesheet' href='/static/styles/main.css'>
+  <link rel='stylesheet' href='/static/styles/login.css'>
+
+  <title>Solved</title>
+</head>
+
+<body>
+  <header class='full-width-bg-container' id='navbar-bg'>
+    <div class='main-content-container' id='navbar'>
+      <a class='logo' href='/'></a>
+      <a class='username' href='#'>{{ username }}</a>
+    </div>
+  </header>
+
+  <div class='main-content-container' id='page-container'>
+    <div id='login-container'>
+      <h1>Login</h1>
+      <div class='input-wrapper username'>
+        <input class='input-box' type='text' placeholder='Username'></input>
+      </div>
+      <div class='input-wrapper password'>
+        <input class='input-box' type='password' placeholder='Password'></input>
+      </div>
+      <div id='login-button-wrapper'>
+        <a class='button button-primary' id='login-button'>Login</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class='full-width-bg-container' id='footer-bg'>
+    <div class='main-content-container' id='footer'>
+      <p>This is a footer</p>
+    </div>
+  </footer>
+</body>
+
+<script src='/static/scripts/main.js'></script>
+
+</html>
