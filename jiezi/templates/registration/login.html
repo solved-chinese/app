@@ -1,15 +1,45 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-  <meta charset='utf-8'>
-  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-	<meta name='viewport' content='width=device-width, initial-scale=1'>
+{% extends 'base.html' %}
 
-  <link rel='stylesheet' href='/static/styles/main.css'>
-  <title></title>
-</head>
+{% block content %}
+  {% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+      Your username and password didn't match. Please try again.
+    </div>
+  {% endif %}
 
-<body>
+  {% if next %}
+    {% if user.is_authenticated %}
+      <div class="alert alert-primary" role="alert">
+        Your account doesn't have access to this page. To proceed,
+        please login with an account that has access.
+      </div>
+    {% else %}
+      <div class="alert alert-primary" role="alert">
+        Please login to see this page.
+      </div>
+    {% endif %}
+  {% else %}
+    <div class="alert alert-light" role="alert">
+      log in
+    </div>
+  {% endif %}
 
-</body>
-</html>
+  <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <table>
+      <tr>
+        <td>{{ form.username.label_tag }}</td>
+        <td>{{ form.username }}</td>
+      </tr>
+
+      <tr>
+        <td>{{ form.password.label_tag }}</td>
+        <td>{{ form.password }}</td>
+      </tr>
+    </table>
+
+    <button class="btn btn-primary" type="submit">log in</button>
+    <input type="hidden" name="next" value="{{ next }}"/>
+  </form>
+{% endblock content %}
+

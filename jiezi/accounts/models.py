@@ -5,7 +5,9 @@ import learning.models  # to avoid cyclic import
 
 
 class User(AbstractUser):
-    pass
+    first_name = models.CharField(max_length=30, null=True)
+    last_name = models.CharField(max_length=30, null=True)
+    email = models.EmailField(max_length=255)
 
 
 class UserCharacter(models.Model):
