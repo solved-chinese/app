@@ -1,7 +1,7 @@
 import pandas as pd
-
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.db.models import ObjectDoesNotExist
 
 from learning.models import update_from_df, Character, Radical, Report
 from accounts.models import User
@@ -13,7 +13,12 @@ def index(request):
 
 
 def display_character(request, character_pk):
-    character = Character.objects.get(pk=character_pk)
+    try:
+        character = Character.objects.get(pk=character_pk)
+    except ObjectDoesNotExist:
+        character = Character.objects.filter(pk__gt=character_pk).first()
+        return redirect('display_character', character_pk=character.pk)
+    character = Character.objects.filter(pk__gte=character_pk).first()
     radicals = [Radical.objects.get(pk=character.radical_1_id)]
     radicals.append(Radical.objects.get(pk=character.radical_2_id)
                     if character.radical_2_id else None)

@@ -105,9 +105,8 @@ def update_from_df(df, Model):
     df.fillna(0, inplace=True)
     messages = []
     for i, row in df.iterrows():
-        try:
-            id = row['id']
-        except KeyError:
+        id = row['id']
+        if id == 0:
             messages.append(f'ERR at start : row {i} id not found')
             continue
         data = {}
