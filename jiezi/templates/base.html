@@ -18,6 +18,9 @@
 
   {% block css %}{% endblock css %}
 
+<script type="text/javascript" src="{% static 'scripts/main.js' %}"></script>
+{% block js %}{% endblock js %}
+
   <title>{% block title %}Solved{% endblock title %}</title>
 </head>
 
@@ -47,6 +50,5 @@
 </footer>
 </body>
 
-<script src="{% static 'scripts/main.js' %}"></script>
-{% block js %}{% endblock js %}
+
 </html>

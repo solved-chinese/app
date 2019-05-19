@@ -16,8 +16,7 @@
 
 * {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
-    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     color: #040302;
 }
 
@@ -139,11 +138,11 @@ a {
 
 .button {
     padding: 0.6em 2em;
-    box-sizing: content-box;
     border: 1px solid #040302;
     border-radius: 0.25em;
     background: white;
     white-space: nowrap;
+    background: white;
     cursor: pointer;
     transition: 150ms ease;
 }
@@ -161,6 +160,16 @@ a {
 .button.button-secondary:hover {
     color: white;
     background: #040302;
+}
+
+.button.button-tertiary {
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.button.button-tertiary:hover {
+    color: white;
+    background: var(--secondary-color);
 }
 
 .header-back-button {
@@ -183,9 +192,63 @@ a {
 
 
 /***********************************
+  Input Boxes
+***********************************/
+
+.input-wrapper {
+    position: relative;
+}
+
+.input-wrapper::before {
+    position: absolute;
+    margin: 15px 0 0 15px;
+    font-family: 'Font Awesome 5 Pro';
+    color: var(--secondary-color);
+}
+
+.input-box {
+    width: 180px;
+    height: 35px;
+    padding: 5px 15px 5px 40px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid var(--tertiary-color);
+    background: white;
+    transition: box-shadow 150ms ease;
+}
+
+.input-box:hover {
+    box-shadow: 0px 3px 5px 0px rgba(4, 3, 2, 0.07);
+}
+
+.input-box:focus {
+    outline: none !important;
+    box-shadow: 0px 3px 5px 0px rgba(4, 3, 2, 0.07);
+}
+
+.input-wrapper.search::before {
+    content: '\f002';
+}
+
+.input-wrapper.username::before {
+    content: '\f007';
+}
+
+.input-wrapper.password::before {
+    content: '\f023';
+}
+
+
+
+/***********************************
   Shorthands
 ***********************************/
 
 .text-highlight {
     color: var(--main-theme-color);
+}
+
+.big-question-text {
+    font-size: 26px;
+    font-weight: 500;
 }

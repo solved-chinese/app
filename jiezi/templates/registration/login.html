@@ -1,45 +1,66 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block css %}
+    <link rel='stylesheet' href='{% static 'styles/login.css' %}'>
+{% endblock %}
 
 {% block content %}
-  {% if form.errors %}
-    <div class="alert alert-danger" role="alert">
-      Your username and password didn't match. Please try again.
-    </div>
-  {% endif %}
-
-  {% if next %}
-    {% if user.is_authenticated %}
-      <div class="alert alert-primary" role="alert">
-        Your account doesn't have access to this page. To proceed,
-        please login with an account that has access.
-      </div>
-    {% else %}
-      <div class="alert alert-primary" role="alert">
-        Please login to see this page.
-      </div>
+    {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            Your username and password didn't match. Please try again.
+        </div>
     {% endif %}
-  {% else %}
-    <div class="alert alert-light" role="alert">
-      log in
-    </div>
-  {% endif %}
 
-  <form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    <table>
-      <tr>
-        <td>{{ form.username.label_tag }}</td>
-        <td>{{ form.username }}</td>
-      </tr>
+    {% if next %}
+        {% if user.is_authenticated %}
+            <div class="alert alert-primary" role="alert">
+                Your account doesn't have access to this page. To proceed,
+                please login with an account that has access.
+            </div>
+        {% else %}
+            <div class="alert alert-primary" role="alert">
+                Please login to see this page.
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="alert alert-light" role="alert">
+            log in
+        </div>
+    {% endif %}
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div id='login-container'>
+            <h1>Login</h1>
+            <div class='input-wrapper username'>
+                <input class='input-box' type='text' placeholder='Username'></input>
+            </div>
+            <div class='input-wrapper password'>
+                <input class='input-box' type='password' placeholder='Password'></input>
+            </div>
+            <div id='login-button-wrapper'>
+                <button class='button button-primary' id='login-button' type="submit">Login</button>
+                <input type="hidden" name="next" value="{{ next }}"/>
+            </div>
+        </div>
+    </form>
 
-      <tr>
-        <td>{{ form.password.label_tag }}</td>
-        <td>{{ form.password }}</td>
-      </tr>
-    </table>
 
-    <button class="btn btn-primary" type="submit">log in</button>
-    <input type="hidden" name="next" value="{{ next }}"/>
-  </form>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>{{ form.username.label_tag }}</td>
+                <td>{{ form.username }}</td>
+            </tr>
+
+            <tr>
+                <td>{{ form.password.label_tag }}</td>
+                <td>{{ form.password }}</td>
+            </tr>
+        </table>
+
+        <button class="btn btn-primary" type="submit">log in</button>
+        <input type="hidden" name="next" value="{{ next }}"/>
+    </form>
 {% endblock content %}
 
