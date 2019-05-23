@@ -8,7 +8,7 @@
 {% endblock %}
 {% block content %}
     <h1>Welcome back, {{ user.first_name }}!</h1>
-    <a class='button button-primary' href='/vocab.html'>Manage Vocab List</a>
+    <a href="{% url "manage_library" %}"class='button button-primary' href='/vocab.html'>Manage Vocab List</a>
 
     <div class='card-container' id='study-container'>
         <h2>Select Duration</h2>
@@ -28,7 +28,7 @@
                  style='margin-left: calc(100% - 10px);'></div>
             <p id='slider-value-text'>1&#8239;min</p>
         </div>
-        <a class='button button-primary' id='study-button'>Study Now</a>
+        <a href="{% url 'display_character' 1 %}" class='button button-primary' id='study-button'>Study Now</a>
     </div>
 
     <div class='card-container' id='stats-container'>
