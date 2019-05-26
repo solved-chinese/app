@@ -3,9 +3,6 @@
 {% block css %}
     <link rel='stylesheet' type="text/css" href='{% static "styles/dashboard.css" %}'>
 {% endblock %}
-{% block js %}
-    <script src='{% static 'scripts/dashboard.js' %}'></script>
-{% endblock %}
 {% block content %}
     <h1>Welcome back, {{ user.first_name }}!</h1>
     <a href="{% url "manage_library" %}"class='button button-primary' href='/vocab.html'>Manage Vocab List</a>
@@ -91,9 +88,8 @@
             </div>
         </div>
     </div>
-
-
-
-
+{% endblock %}
+{% block extra_script %}
+    <script src='{% static 'scripts/dashboard.js' %}'></script>
 {% endblock %}
 
