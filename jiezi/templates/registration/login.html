@@ -1,44 +1,44 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block css %}
-    <link rel='stylesheet' href='{% static 'styles/login.css' %}'>
+  <link rel='stylesheet' href='{% static 'styles/login.css' %}'>
 {% endblock %}
 
 {% block content %}
-    {% if form.errors %}
-        <div class="alert alert-danger" role="alert">
-            Your username and password didn't match. Please try again.
-        </div>
-    {% endif %}
+  {% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+      Your username and password didn't match. Please try again.
+    </div>
+  {% endif %}
 
-    {% if next %}
-        {% if user.is_authenticated %}
-            <div class="alert alert-primary" role="alert">
-                Your account doesn't have access to this page. To proceed,
-                please login with an account that has access.
-            </div>
-        {% else %}
-            <div class="alert alert-primary" role="alert">
-                Please login to see this page.
-            </div>
-        {% endif %}
+  {% if next %}
+    {% if user.is_authenticated %}
+      <div class="alert alert-primary" role="alert">
+        Your account doesn't have access to this page. To proceed,
+        please login with an account that has access.
+      </div>
+    {% else %}
+      <div class="alert alert-primary" role="alert">
+        Please login to see this page.
+      </div>
     {% endif %}
-    <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        <div id='login-container'>
-            <h1>Login</h1>
-            <div class='input-wrapper username'>
-                <input name="username" class='input-box' type='text' placeholder='Username'></input>
-            </div>
-            <div class='input-wrapper password'>
-                <input class='input-box' name= 'password' type='password' placeholder='Password'></input>
-            </div>
-            <div id='login-button-wrapper'>
-                <button class='button button-primary' value="Login" id='login-button' type="submit">Login</button>
-                  <input type="hidden" name="next" value="{{ next }}" />
-            </div>
-        </div>
-    </form>
+  {% endif %}
+  <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <div id='login-container'>
+      <h1>Login</h1>
+      <div class='input-wrapper username'>
+        <input name="username" class='input-box' type='text' placeholder='Username'></input>
+      </div>
+      <div class='input-wrapper password'>
+        <input class='input-box' name='password' type='password' placeholder='Password'></input>
+      </div>
+      <div id='login-button-wrapper'>
+        <button class='button button-primary' value="Login" id='login-button' type="submit">Login</button>
+        <input type="hidden" name="next" value="{{ next }}"/>
+      </div>
+    </div>
+  </form>
 
 
 

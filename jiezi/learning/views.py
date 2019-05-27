@@ -9,7 +9,7 @@ from accounts.models import User
 
 def index(request):
     # because the index page isn't ready
-    return render(request,"index.html")
+    return render(request,'index.html')
 
 
 def display_character(request, character_pk):

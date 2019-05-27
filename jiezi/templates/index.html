@@ -1,95 +1,96 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block css %}
-    <link rel='stylesheet' type="text/css" href='{% static "styles/dashboard.css" %}'>
+  <link rel='stylesheet' type="text/css" href='{% static "styles/dashboard.css" %}'>
 {% endblock %}
 {% block content %}
-    <h1>Welcome back, {{ user.first_name }}!</h1>
-    <a href="{% url "manage_library" %}"class='button button-primary' href='/vocab.html'>Manage Vocab List</a>
+  <h1>Welcome back, {{ user.first_name }}!</h1>
+  <a href='{% url "manage_library" %}' class='button button-primary' href='/vocab.html'>Manage Vocab List</a>
 
-    <div class='card-container' id='study-container'>
-        <h2>Select Duration</h2>
-        <div id='slider-bar'>
-            <div id='slider-activated'></div>
-            <div class='slider-value value-activated' data-value='1' data-width-percent='0'
-                 style='margin-left: calc(0% - 10px);'></div>
-            <div class='slider-value' data-value='5' data-width-percent='8.333'
-                 style='margin-left: calc(8.333% - 10px);'></div>
-            <div class='slider-value' data-value='15' data-width-percent='25'
-                 style='margin-left: calc(25% - 10px);'></div>
-            <div class='slider-value' data-value='30' data-width-percent='50'
-                 style='margin-left: calc(50% - 10px);'></div>
-            <div class='slider-value' data-value='45' data-width-percent='75'
-                 style='margin-left: calc(75% - 10px);'></div>
-            <div class='slider-value' data-value='60' data-width-percent='100'
-                 style='margin-left: calc(100% - 10px);'></div>
-            <p id='slider-value-text'>1&#8239;min</p>
-        </div>
-        <a href="{% url 'display_character' 1 %}" class='button button-primary' id='study-button'>Study Now</a>
+  <div class='card-container' id='study-container'>
+    <h2>Select Duration</h2>
+    <div id='slider-bar'>
+      <div id='slider-activated'></div>
+      <div class='slider-value value-activated' data-value='1' data-width-percent='0'
+           style='margin-left: calc(0% - 10px);'></div>
+      <div class='slider-value' data-value='5' data-width-percent='8.333'
+           style='margin-left: calc(8.333% - 10px);'></div>
+      <div class='slider-value' data-value='15' data-width-percent='25'
+           style='margin-left: calc(25% - 10px);'></div>
+      <div class='slider-value' data-value='30' data-width-percent='50'
+           style='margin-left: calc(50% - 10px);'></div>
+      <div class='slider-value' data-value='45' data-width-percent='75'
+           style='margin-left: calc(75% - 10px);'></div>
+      <div class='slider-value' data-value='60' data-width-percent='100'
+           style='margin-left: calc(100% - 10px);'></div>
+      <p id='slider-value-text'>1&#8239;min</p>
     </div>
+    <a href="{% url 'display_character' 1 %}" class='button button-primary' id='study-button'>Study Now</a>
+  </div>
 
-    <div class='card-container' id='stats-container'>
-        <h2>Stats</h2>
-        <div id='stats-content-container'>
-            <div>
-                <div id='streak-calender'>
-                    <div class='streak-day no-streak'></div>
-                    <div class='streak-day yes-streak'></div>
-                    <div class='streak-day no-streak'></div>
-                    <div class='streak-day no-streak'></div>
-                    <div class='streak-day no-streak'></div>
-                    <div class='streak-day no-streak'></div>
-                    <div class='streak-day no-streak'></div>
-                    <div class='streak-day no-streak'></div>
-                    <div class='streak-day yes-streak'></div>
-                    <div class='streak-day no-streak'></div>
-                    <div class='streak-day no-streak'></div>
-                    <div class='streak-day no-streak'></div>
-                    <div class='streak-day yes-streak'></div>
-                    <div class='streak-day yes-streak'></div>
-                    <div class='streak-day no-streak'></div>
-                    <div class='streak-day yes-streak'></div>
-                    <div class='streak-day no-streak'></div>
-                    <div class='streak-day no-streak'></div>
-                    <div class='streak-day no-streak'></div>
-                    <div class='streak-day yes-streak'></div>
-                    <div class='streak-day yes-streak'></div>
-                    <div class='streak-day no-streak'></div>
-                    <div class='streak-day yes-streak'></div>
-                    <div class='streak-day no-streak'></div>
-                    <div class='streak-day no-streak'></div>
-                    <div class='streak-day yes-streak'></div>
-                    <div class='streak-day yes-streak'></div>
-                    <div class='streak-day yes-streak'></div>
-                    <!-- <div class='streak-day yes-streak'></div> -->
-                </div>
-                <div id='streak-text'>
-                    <p>You have kept a streak of <span class='text-highlight'>{{ streakDayCount }}{# not implemented #}</span> days in <span
-                            class='text-highlight'>{{ streakMonth }}{# not implemented #}</span>.<br/>Keep it up!</p>
-                </div>
-            </div>
-
-            <div>
-                <p>Last time you studied</p>
-                <p class='big-stat'>20</p>
-                <p>minutes</p>
-            </div>
-
-            <div>
-                <p>You have spent</p>
-                <p class='big-stat'>6.3</p>
-                <p>hours</p>
-            </div>
-
-            <div>
-                <p>You have learned</p>
-                <p class='big-stat'>36</p>
-                <p>words</p>
-            </div>
+  <div class='card-container' id='stats-container'>
+    <h2>Stats</h2>
+    <div id='stats-content-container'>
+      <div>
+        <div id='streak-calender'>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <!-- <div class='streak-day yes-streak'></div> -->
         </div>
+        <div id='streak-text'>
+          <p>You have kept a streak of <span class='text-highlight'>{{ streakDayCount }}{# not implemented #}</span>
+            days in <span
+                class='text-highlight'>{{ streakMonth }}{# not implemented #}</span>.<br/>Keep it up!</p>
+        </div>
+      </div>
+
+      <div>
+        <p>Last time you studied</p>
+        <p class='big-stat'>20</p>
+        <p>minutes</p>
+      </div>
+
+      <div>
+        <p>You have spent</p>
+        <p class='big-stat'>6.3</p>
+        <p>hours</p>
+      </div>
+
+      <div>
+        <p>You have learned</p>
+        <p class='big-stat'>36</p>
+        <p>words</p>
+      </div>
     </div>
+  </div>
 {% endblock %}
 {% block extra_script %}
-    <script src='{% static 'scripts/dashboard.js' %}'></script>
+  <script src='{% static 'scripts/dashboard.js' %}'></script>
 {% endblock %}
 
