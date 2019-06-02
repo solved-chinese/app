@@ -30,8 +30,8 @@ def profile(request):
 
 
 @login_required
-def manage_stack(request):
-    return render(request, 'accounts/manage_stack.html')
+def manage_library(request):
+    return render(request, 'accounts/manage_library.html')
 
 
 """
