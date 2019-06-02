@@ -4,7 +4,7 @@
   <link rel='stylesheet' type="text/css" href='{% static "styles/dashboard.css" %}'>
 {% endblock %}
 {% block content %}
-  <h1>Welcome back, {{ user.first_name }}!</h1>
+  <h1>Welcome back, {{ user.username }}!</h1>
   <a href='{% url "manage_library" %}' class='button button-primary' href='/vocab.html'>Manage Vocab List</a>
 
   <div class='card-container' id='study-container'>
@@ -64,33 +64,35 @@
           <!-- <div class='streak-day yes-streak'></div> -->
         </div>
         <div id='streak-text'>
-          <p>You have kept a streak of <span class='text-highlight'>{{ streakDayCount }}{# not implemented #}</span>
-            days in <span
-                class='text-highlight'>{{ streakMonth }}{# not implemented #}</span>.<br/>Keep it up!</p>
+          <p>You have kept a streak of <span class='text-highlight'>{{ user.study_streak }}</span>
+            days. <br> Keep it up!</p>
         </div>
       </div>
 
       <div>
         <p>Last time you studied</p>
-        <p class='big-stat'>20</p>
+        <p class='big-stat'>
+          <script> document.write(({{ user.last_study_duration.seconds }} / 60).toFixed(1)); </script>
+        </p>
         <p>minutes</p>
       </div>
 
       <div>
         <p>You have spent</p>
-        <p class='big-stat'>6.3</p>
-        <p>hours</p>
+        <p class='big-stat'>
+          <script> document.write(({{ user.total_study_duration.seconds }} / 60).toFixed(1)); </script>
+        <p>minutes</p>
       </div>
 
       <div>
         <p>You have learned</p>
-        <p class='big-stat'>36</p>
+        <p class='big-stat'>{{ user.get_total_words_learned }}</p>
         <p>words</p>
       </div>
     </div>
   </div>
 {% endblock %}
+
 {% block extra_script %}
   <script src='{% static 'scripts/dashboard.js' %}'></script>
 {% endblock %}
-
