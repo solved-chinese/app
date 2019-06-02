@@ -1,7 +1,9 @@
 import pandas as pd
+import datetime
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.utils import timezone
 
 from learning.models import update_from_df, Character, Radical, Report
 from accounts.models import User
@@ -28,7 +30,22 @@ def about_us(request):
 
 @login_required()
 def start_learning(request, minutes_to_learn):
-    pass
+    if request.user.last_study_date == timezone.now().date() - datetime.timedelta(days=1):
+        request.user.study_streak += 1
+    else:
+        request.user.study_streak = 1
+    request.user.last_study_date = timezone.now().date()
+    request.user.save()
+    request.session['last_record_time'] = timezone.now()
+
+@login_required()
+def learning_process(request):
+    """To be implemented"""
+    delta_time = timezone.now() - request.session['last_record_time']
+    request.session['last_record_time'] = timezone.now()
+    request.user.last_study_duration += delta_time
+    request.user.total_study_duration += delta_time
+    request.user.save()
 
 
 @user_passes_test(lambda u: u.is_staff)
