@@ -25,4 +25,5 @@ urlpatterns = [
     path('delete_character/', views.delete_character),
 
     path('sessionid', views.sessionid),
+    path('test', views.test)
 ]

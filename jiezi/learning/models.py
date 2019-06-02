@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 
 from django.db import models
-
 import accounts.models  # to avoid cyclic import
 
 
