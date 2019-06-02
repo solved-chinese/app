@@ -1,0 +1,16 @@
+#login-container {
+    text-align: center;
+    margin-top: calc(50vh - 320px);
+}
+
+.input-wrapper {
+    margin: 10px auto;
+}
+
+.input-box {
+    width: 200px;
+}
+
+#login-button-wrapper {
+    margin-top: 30px;
+}

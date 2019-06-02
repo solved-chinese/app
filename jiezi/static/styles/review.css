@@ -1,0 +1,30 @@
+#page-content-container {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-top: calc(50vh - 300px);
+}
+
+.big-question-text {
+    width: 100%;
+    text-align: center;
+}
+
+#character-preview {
+    display: inline-block;
+    margin: 0 5px -10px 5px;
+    width: 40px;
+    height: 40px;
+}
+
+#answers-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 330px;
+    margin-top: 40px;
+}
+
+#answers-container > .button {
+    margin-bottom: 20px;
+}

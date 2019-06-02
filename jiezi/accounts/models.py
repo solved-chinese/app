@@ -7,6 +7,11 @@ import learning.models  # to avoid cyclic import
 
 
 class User(AbstractUser):
+    # info
+    first_name = models.CharField(max_length=30, null=True)
+    last_name = models.CharField(max_length=30, null=True)
+    email = models.EmailField(max_length=255)
+    # stats
     last_study_date = models.DateField()
     study_streak = models.IntegerField(default=0)
     last_study_duration = models.DurationField(default=datetime.timedelta(seconds=0))

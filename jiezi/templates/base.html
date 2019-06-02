@@ -15,8 +15,13 @@
         crossorigin='anonymous'>
 
   <link rel='stylesheet' href="{% static 'styles/main.css' %}">
-
+  <script src='https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js'
+          integrity='sha256-chlNFSVx3TdcQ2Xlw7SvnbLAavAQLO0Y/LBiWX04viY=' crossorigin='anonymous'></script>
+  <script src='https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js'
+          integrity='sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=' crossorigin='anonymous'></script>
   {% block css %}{% endblock css %}
+
+  {% block js %}{% endblock js %}
 
   <title>{% block title %}Solved{% endblock title %}</title>
 </head>
@@ -26,7 +31,13 @@
 <header class='full-width-bg-container' id='navbar-bg'>
   <div class='main-content-container' id='navbar'>
     <a class='logo' href="{% url 'index' %}"></a>
-    <a class='username' href='#'>username - to be implemented</a>
+    {% if user.is_authenticated %}
+      <a class='username' href='#'>{{ user.username }}</a>
+      <a href="{% url 'logout' %}">logout</a>
+    {% else %}
+      <a href="{% url 'login' %}">login</a>
+      <a href="{% url 'signup' %}">signup</a>
+    {% endif %}
   </div>
 </header>
 
@@ -40,7 +51,6 @@
   </div>
 </footer>
 </body>
-
 <script src="{% static 'scripts/main.js' %}"></script>
-{% block js %}{% endblock js %}
+{% block extra_script %}{% endblock %}
 </html>
