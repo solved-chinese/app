@@ -19,27 +19,59 @@
         <div class="col-1 col-sm-2" id="sidebar-container">
             <div class="row d-none d-sm-flex" id="sidebar-user">
                 <img src="/static/images/userDashboard/defaultUserPhoto.svg" class="round_icon col-12 col-md-4">
-                <h5 class="col-12 col-md-8 align-self-center text-center" id="sidebar-info" >User Name<br>
-                    <small>example@email.com</small>
+                <h5 class="col-12 col-md-8 align-self-center text-center" id="sidebar-info" >{{ user.username }}<br>
+                    <small>{{ user.email }}</small>
                 </h5>
             </div>
-            <div class="row sidebar-item">
-                <img src="/static/images/userDashboard/dashboard.svg"><a class="align-items-center d-none d-md-flex" href="/accounts/dashboard?active=Dashboard">Dashboard</a>
-            </div>
-            <div class="row sidebar-item">
-                <img src="/static/images/userDashboard/profile.svg"><a class="align-items-center d-none d-md-flex" href="/accounts/dashboard?active=Profile">Profile</a>
-            </div>
-            <div class="row sidebar-item">
-                <img src="/static/images/userDashboard/setting.svg"><a class="align-items-center d-none d-md-flex" href="/accounts/dashboard?active=Preference">Preference</a>
-            </div>
+            <a class="row sidebar-item" href="/accounts/dashboard?active=Dashboard">
+                <img src="/static/images/userDashboard/dashboard.svg"><p class="align-items-center d-none d-md-flex">Dashboard</p>
+            </a>
+            <a class="row sidebar-item" href="/accounts/dashboard?active=Profile">
+                <img src="/static/images/userDashboard/profile.svg"><p class="align-items-center d-none d-md-flex">Profile</p>
+            </a>
+            <a class="row sidebar-item" href="/accounts/dashboard?active=Preference">
+                <img src="/static/images/userDashboard/setting.svg"><p class="align-items-center d-none d-md-flex">Preference</p>
+            </a>
         </div>
         <div class="offset-1 offset-sm-2 col-11 col-sm-10">
             {% if active == "Dashboard" %}
-                <h1>Dashboard implement here</h1>
+                <div class="dashboard-container">
+                    <h1>
+                        Dashboard
+                    </h1>
+                    <hr/>
+                </div>
             {% elif active == "Profile" %}
-                <h1>Profile implement here</h1>
+                <div class="dashboard-container">
+                    <h1>
+                        Profile
+                        <small>{{ user.username }}</small>
+                    </h1>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-12 col-md-6 profile">
+                            <h3>
+                                Username
+                            </h3>
+
+                        </div>
+                        <div class="col-12 col-md-6 profile">
+                            <h3>
+                                Email
+                            </h3>
+                            <h3>
+                                First Name
+                            </h3>
+                        </div>
+                    </div>
+                </div>
             {% elif active == "Preference" %}
-                <h1>Preference implement here</h1>
+                <div class="dashboard-container">
+                    <h1>
+                        Preference
+                    </h1>
+                    <hr/>
+                </div>
             {% endif %}
         </div>
     </div>
