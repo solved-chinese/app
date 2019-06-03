@@ -33,6 +33,11 @@ def profile(request):
 def manage_library(request):
     return render(request, 'accounts/manage_library.html')
 
+#@login_required
+def dashboard(request):
+    active = request.GET.get('active', 'Dashboard')
+    return render(request, 'accounts/dashboard.html', {'active': active})
+
 
 """
 @api {POST} /accounts/add_set Add set

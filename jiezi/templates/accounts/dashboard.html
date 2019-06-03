@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet"  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+                        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="/static/styles/UserDashboard.css">
+{% endblock css %}
+{% block js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" 
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+{% endblock js %}
+<title>{% block title %}Solved | Dashboard{% endblock title %}</title>
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-1 col-sm-2" id="sidebar-container">
+            <div class="row d-none d-sm-flex" id="sidebar-user">
+                <img src="/static/images/userDashboard/defaultUserPhoto.svg" class="round_icon col-12 col-md-4">
+                <h5 class="col-12 col-md-8 align-self-center text-center" id="sidebar-info" >User Name<br>
+                    <small>example@email.com</small>
+                </h5>
+            </div>
+            <div class="row sidebar-item">
+                <img src="/static/images/userDashboard/dashboard.svg"><a class="align-items-center d-none d-md-flex" href="/accounts/dashboard?active=Dashboard">Dashboard</a>
+            </div>
+            <div class="row sidebar-item">
+                <img src="/static/images/userDashboard/profile.svg"><a class="align-items-center d-none d-md-flex" href="/accounts/dashboard?active=Profile">Profile</a>
+            </div>
+            <div class="row sidebar-item">
+                <img src="/static/images/userDashboard/setting.svg"><a class="align-items-center d-none d-md-flex" href="/accounts/dashboard?active=Preference">Preference</a>
+            </div>
+        </div>
+        <div class="offset-1 offset-sm-2 col-11 col-sm-10">
+            {% if active == "Dashboard" %}
+                <h1>Dashboard implement here</h1>
+            {% elif active == "Profile" %}
+                <h1>Profile implement here</h1>
+            {% elif active == "Preference" %}
+                <h1>Preference implement here</h1>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

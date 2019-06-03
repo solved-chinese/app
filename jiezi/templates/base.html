@@ -15,6 +15,7 @@
         crossorigin='anonymous'>
 
   <link rel='stylesheet' href="{% static 'styles/main.css' %}">
+  <link rel="shortcut icon" href="/static/images/favicon.ico" />
   <script src='https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js'
           integrity='sha256-chlNFSVx3TdcQ2Xlw7SvnbLAavAQLO0Y/LBiWX04viY=' crossorigin='anonymous'></script>
   <script src='https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js'
@@ -29,15 +30,17 @@
 <body>
 <!--TODO header needs to be divided into registered user / non-registered users-->
 <header class='full-width-bg-container' id='navbar-bg'>
-  <div class='main-content-container' id='navbar'>
-    <a class='logo' href="{% url 'index' %}"></a>
-    {% if user.is_authenticated %}
-      <a class='username' href='#'>{{ user.username }}</a>
-      <a href="{% url 'logout' %}">logout</a>
-    {% else %}
-      <a href="{% url 'login' %}">login</a>
-      <a href="{% url 'signup' %}">signup</a>
-    {% endif %}
+  <div class='card-container' id='navbar-container'>
+    <div class='main-content-container' id='navbar'>
+      <a class='logo' href="{% url 'index' %}"></a>
+      {% if user.is_authenticated %}
+        <a class='username' href='#'>{{ user.username }}</a>
+        <a href="{% url 'logout' %}">logout</a>
+      {% else %}
+        <a href="{% url 'login' %}">login</a>
+        <a href="{% url 'signup' %}">signup</a>
+      {% endif %}
+    </div>
   </div>
 </header>
 
