@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from accounts.forms import *
 
 from learning.models import CharacterSet, Character, Radical
-from accounts.models import UserCharacter, UserCharacterTag
+from accounts.models import UserCharacter, UserCharacterTag, User 
 
 
 def signup(request):
@@ -37,6 +37,18 @@ def manage_library(request):
 def dashboard(request):
     active = request.GET.get('active', 'Dashboard')
     return render(request, 'accounts/dashboard.html', {'active': active})
+
+@login_required
+def alt_profile(request):
+    if request.method == 'POST':
+        currentUser = request.user
+        currentUser.email = request.POST.get("email")
+        currentUser.first_name = request.POST.get("first_name")
+        currentUser.last_name = request.POST.get("last_name")
+        currentUser.save()
+        return render(request, 'accounts/dashboard.html', {'active': 'Profile'})
+    else:
+        return render(request, 'accounts/dashboard.html', {'active': 'Dashboard'})
 
 
 """

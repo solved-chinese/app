@@ -23,6 +23,10 @@ div.dashboard-container {
     padding-left: 20px;
 }
 
+body {
+    background-color: #fafafa;
+}
+
 /***********************************
   Profile Page
 ***********************************/
@@ -30,8 +34,9 @@ div.dashboard-container {
     font-size: 40px;
 }
 
-.dashboard-container h1 small {
-    font-size: 0.618em;
+.dashboard-container small {
+    padding-left: 20px;
+    font-size: 0.5em;
     color: #596f7c;
 }
 
@@ -40,9 +45,29 @@ div.dashboard-container {
     margin-bottom: 10px;
 }
 
-.dashboard-container .profile h3 {
-    font-size: 1em;
-    line-height: 30px;
+.form-field {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.form-field input {
+    font-size: 0.8em;
+    width: 60%;
+    margin-left: 5%;
+    padding-left: 10px;
+    border-color: #b6b6b61f;
+    border-width: 1px;
+    color: #000000;
+}
+
+.form-field input:read-only {
+    background-color: #d1d1d1;
+    color: #616161
+}
+
+.form-field label {
+    font-size: 0.9em;
+    width: 30%;
 }
 /***********************************
   Left Sidebar
@@ -117,7 +142,7 @@ a.sidebar-item {
 }
 
 /***********************************
-  Left Sidebar
+  Responsive
 ***********************************/
 
 @media screen and (max-device-width: 768px) {

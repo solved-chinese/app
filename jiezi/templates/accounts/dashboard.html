@@ -48,22 +48,33 @@
                         <small>{{ user.username }}</small>
                     </h1>
                     <hr/>
-                    <div class="row">
-                        <div class="col-12 col-md-6 profile">
-                            <h3>
-                                Username
-                            </h3>
-
+                    <form class="row" id="form" action="{% url 'alt_profile' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="col-12 col-md-6">
+                            <div class="form-field">
+                                <label><strong>Username</strong></label>
+                                <input name="username" size="1" type="text" value="{{ user.username }}" readonly>
+                            </div>
+                            <div class="form-field">
+                                <label><strong>Email</strong></label>
+                                <input type="hidden" name="u_email" value="{{ user.email }}">
+                                <input name="email" size="1" type="email" value="{{ user.email }}">
+                            </div>
                         </div>
-                        <div class="col-12 col-md-6 profile">
-                            <h3>
-                                Email
-                            </h3>
-                            <h3>
-                                First Name
-                            </h3>
+                        <div class="col-12 col-md-6">
+                            <div class="form-field">
+                                <label><strong>First Name</strong></label>
+                                <input type="hidden" name="u_first_name" value="{{ user.first_name }}">
+                                <input name="first_name" size="1" type="text" value="{{ user.first_name }}">
+                            </div>
+                            <div class="form-field">
+                                <label><strong>Last Name</strong></label>
+                                <input type="hidden" name="u_last_name" value="{{ user.last_name }}">
+                                <input name="last_name" size="1" type="text" value="{{ user.last_name }}">
+                            </div>
                         </div>
-                    </div>
+                        <p onclick="checkForm()">/*Need a button here*/</p>
+                    </form>
                 </div>
             {% elif active == "Preference" %}
                 <div class="dashboard-container">
@@ -77,3 +88,24 @@
     </div>
 </div>
 {% endblock content %}
+{% block extra_script %}
+<script type="text/javascript">
+    function checkForm () {
+        var form = document.getElementById("form");
+        var is_legal = false; 
+        
+        for (let index = 2; index < form.elements.length-1; index+=2) {
+            if (form.elements[index].value != form.elements[index+1].value) {
+                is_legal = true;
+            }
+        }
+
+        if (is_legal) {
+            form.submit();
+        } else {
+            alert("You did not make any change.");
+        }
+
+    }
+</script>
+{% endblock %}
