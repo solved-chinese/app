@@ -1,10 +1,10 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
-from accounts.forms import SignUpForm
 
+from accounts.forms import SignUpForm
 from learning.models import CharacterSet, Character, Radical
 from accounts.models import UserCharacter, UserCharacterTag
 from jiezi.utils.json_serializer import chenyx_serialize
@@ -25,13 +25,26 @@ def signup(request):
 
 
 @login_required
-def profile(request):
-    return render(request, 'accounts/profile.html')
-
-
-@login_required
 def manage_library(request):
     return render(request, 'accounts/manage_library.html')
+
+@login_required
+def dashboard(request):
+    active = request.GET.get('active', 'Dashboard')
+    return render(request, 'accounts/dashboard.html', {'active': active})
+
+@login_required
+def alt_profile(request):
+    if request.method == 'POST':
+        currentUser = request.user
+        currentUser.email = request.POST.get("email")
+        currentUser.first_name = request.POST.get("first_name")
+        currentUser.last_name = request.POST.get("last_name")
+        currentUser.save()
+        return HttpResponseRedirect(reverse('dashboard')+"?active=Profile")
+        #render(request, 'accounts/dashboard.html', {'active': 'Profile'})
+    else:
+        return render(request, 'accounts/dashboard.html', {'active': 'Dashboard'})
 
 
 """

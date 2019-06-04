@@ -91,6 +91,12 @@ a {
     top: 0px;
 }
 
+#navbar-container {
+    margin-top: 0;
+    padding: 0;
+    border-radius: 0;
+}
+
 #navbar {
     display: flex;
     height: 80px;

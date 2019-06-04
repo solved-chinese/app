@@ -1,0 +1,175 @@
+/***********************************
+  Container
+***********************************/
+
+#page-container {
+    margin: 0; /* Override setting in main.css because of the left sidebar */
+    width: 100%;
+    padding-top: 80px;
+}
+
+#sidebar-container {
+    background-color: rgb(53, 55, 68);
+    position: fixed;
+    z-index: 100;
+}
+
+.main-content-container {
+    max-width: none; /* Bootstrap col doesn't work properly with max-width setting in main.css, override */
+}
+
+div.dashboard-container {
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+body {
+    background-color: #fafafa;
+}
+
+/***********************************
+  Profile Page
+***********************************/
+.dashboard-container h1 {
+    font-size: 40px;
+}
+
+.dashboard-container small {
+    padding-left: 20px;
+    font-size: 0.5em;
+    color: #596f7c;
+}
+
+.dashboard-container hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.form-field {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.form-field input {
+    font-size: 0.8em;
+    width: 60%;
+    margin-left: 5%;
+    padding-left: 10px;
+    border-color: #b6b6b61f;
+    border-width: 1px;
+    color: #000000;
+}
+
+.form-field input:read-only {
+    background-color: #d1d1d1;
+    color: #616161
+}
+
+.form-field label {
+    font-size: 0.9em;
+    width: 30%;
+}
+/***********************************
+  Left Sidebar
+***********************************/
+
+.sidebar-item {
+    box-shadow: 12px 0px 10px 0px rgba(53, 55, 68, 0.2);
+    transition: 250ms ease;
+}
+
+a.sidebar-item {
+    text-decoration: none;
+}
+
+.sidebar-item p {
+    color: white;
+    width: 80%;
+    height: 40px;
+    margin: auto;
+    padding-left: 0;
+    font-size: 15px;
+}
+
+.sidebar-item img {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    height: 20px;
+}
+
+.sidebar-item:hover {
+    background-color: #424c5b;
+}
+
+.round_icon{
+    width: auto;
+    padding: 3%;
+    height: 100%;
+    max-height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.icon {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-image: url(/static/images/defaultUserPhoto.svg);
+    background-position: center center;
+}
+
+#sidebar-user {
+    box-shadow: 12px 0px 10px 0px rgba(59, 73, 81, 0.2);
+    background-color: #3b4951;
+}
+
+#sidebar-info {
+    color: white;
+    line-height: 20px;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+}
+
+#sidebar-info small {
+    color: rgb(180, 180, 180);
+    line-height: 10px;
+    font-size: 0.4em;
+}
+
+/***********************************
+  Button
+***********************************/
+
+#submit-button {
+    margin-left: 15px;
+    margin-top: 20px;
+}
+
+/***********************************
+  Responsive
+***********************************/
+
+@media screen and (max-device-width: 768px) {
+    
+    .sidebar-item img {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        height: 25px;
+    }
+
+    #sidebar-info {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-device-width: 992px) {
+    #sidebar-info {
+        font-size: 15px;
+    }
+}
