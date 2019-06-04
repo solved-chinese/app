@@ -1,8 +1,9 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
+from django.urls import reverse
 from accounts.forms import *
 
 from learning.models import CharacterSet, Character, Radical
@@ -46,7 +47,8 @@ def alt_profile(request):
         currentUser.first_name = request.POST.get("first_name")
         currentUser.last_name = request.POST.get("last_name")
         currentUser.save()
-        return render(request, 'accounts/dashboard.html', {'active': 'Profile'})
+        return HttpResponseRedirect(reverse('dashboard')+"?active=Profile")
+        #render(request, 'accounts/dashboard.html', {'active': 'Profile'})
     else:
         return render(request, 'accounts/dashboard.html', {'active': 'Dashboard'})
 

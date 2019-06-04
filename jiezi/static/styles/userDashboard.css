@@ -99,8 +99,6 @@ a.sidebar-item {
     height: 20px;
 }
 
-
-
 .sidebar-item:hover {
     background-color: #424c5b;
 }
@@ -132,13 +130,22 @@ a.sidebar-item {
     line-height: 20px;
     margin: 0;
     padding: 0;
-    font-size: 22px;
+    font-size: 20px;
 }
 
 #sidebar-info small {
     color: rgb(180, 180, 180);
     line-height: 10px;
-    font-size: 0.5em;
+    font-size: 0.4em;
+}
+
+/***********************************
+  Button
+***********************************/
+
+#submit-button {
+    margin-left: 15px;
+    margin-top: 20px;
 }
 
 /***********************************
@@ -155,10 +162,14 @@ a.sidebar-item {
         margin-bottom: 10px;
         height: 25px;
     }
+
+    #sidebar-info {
+        font-size: 14px;
+    }
 }
 
 @media screen and (max-device-width: 992px) {
     #sidebar-info {
-        font-size: 16px;
+        font-size: 15px;
     }
 }
