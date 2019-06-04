@@ -3,12 +3,11 @@ from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
-from django.urls import reverse
-from accounts.forms import *
 
+from accounts.forms import SignUpForm
 from learning.models import CharacterSet, Character, Radical
-from accounts.models import UserCharacter, UserCharacterTag, User 
-
+from accounts.models import UserCharacter, UserCharacterTag
+from jiezi.utils.json_serializer import chenyx_serialize
 
 def signup(request):
     if request.method == 'POST':
@@ -71,8 +70,8 @@ def add_set(request):
 @apiGroup accounts
 
 @apiParam   {Number}   character_id  the Jiezi id of the character
-@apiParam   {Number}   set_id        (optional) the id of the user set for the character to be deleted from, 
-                                     otherwise the character will be delete from all user sets of the current user
+@apiParam   {Number}   set_id        (optional) the id of the user set for the character to be 
+    deleted from, otherwise the character will be delete from all user sets of the current user
 """
 @csrf_exempt
 def delete_character(request):
@@ -95,7 +94,8 @@ def delete_character(request):
 @apiGroup accounts
 
 @apiParam   {Number}        set_id                the id of the user set to be deleted from
-@apiParam   {Boolean} is_delete_characters=False  (optional) false will not delete the characters in this set from the user library, even if they don't belong to any sets 
+@apiParam   {Boolean} is_delete_characters=False  (optional) false will not delete the characters 
+    in this set from the user library, even if they don't belong to any sets 
 """
 @csrf_exempt
 def delete_set(request):
@@ -112,6 +112,26 @@ def delete_set(request):
 
 
 """
+@api {POST} /accounts/rename_set Rename set
+@apiDescription Rename a user set
+@apiGroup accounts
+
+@apiParam   {Number}        set_id            the id of the user set to change name
+@apiParam   {String}        new_name          this cannot be the same as the name of a current set
+"""
+@csrf_exempt
+def delete_set(request):
+    try:
+        set = UserCharacterTag.objects.get(pk=request.POST.get('set_id'))
+        set.name = request.POST.get('new_name')
+        set.save()
+        response = JsonResponse({'msg': 'good'})
+    except Exception as e:
+        response = JsonResponse({'msg': str(e)}, status=400)
+    return response
+
+
+"""
 @api {POST} /accounts/get_available_sets Get available sets
 @apiDescription Get available existing character sets to add
 @apiGroup accounts
@@ -120,14 +140,11 @@ def delete_set(request):
 @apiSuccess {string}   sets.name      the name of the set to display
 @apiSuccess {Number}   sets.id        the id to send back if the set is added
 @apiSuccessExample {json} Success-Response:
-    HTTP/1.1 200 OK
-    {
-        "sets": [
-            {
+    HTTP/1.1 200 OK{
+        "sets": [{
                 "name": "Numbers",
                 "id": 2
-            },
-            {
+            },{
                 "name": "Integrated Chinese I",
                 "id": 4
             }
@@ -141,6 +158,28 @@ def get_available_sets(request):
         if not request.user.user_character_tags.filter(name=set.name).exists():
             sets.append({'name': set.name, 'id': set.pk})
     return JsonResponse({'sets': sets})
+
+
+"""
+@api {POST} /search Search (not finished)
+@apiDescription search using a given keyword
+@apiGroup general
+
+@apiParam   {String}        key_word  the keyword to be searched
+
+@apiSuccess {Object[]} characters
+"""
+@csrf_exempt
+def search(request):
+    characters = []
+    keyword = request.POST.get('keyword')
+    return JsonResponse({'characters': characters})
+
+
+def test(request):
+    c = Character.objects.get(pk=1)
+    c = chenyx_serialize(c)
+    return JsonResponse({'c': c})
 
 
 # fill the sessionid into postman request head when testing

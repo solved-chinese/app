@@ -1,7 +1,12 @@
 import pandas as pd
+import datetime
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.utils import timezone
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.db.models import ObjectDoesNotExist
 
 from learning.models import update_from_df, Character, Radical, Report
 from accounts.models import User
@@ -13,7 +18,12 @@ def index(request):
 
 
 def display_character(request, character_pk):
-    character = Character.objects.get(pk=character_pk)
+    try:
+        character = Character.objects.get(pk=character_pk)
+    except ObjectDoesNotExist:
+        character = Character.objects.filter(pk__gt=character_pk).first()
+        return redirect('display_character', character_pk=character.pk)
+    character = Character.objects.filter(pk__gte=character_pk).first()
     radicals = [Radical.objects.get(pk=character.radical_1_id)]
     radicals.append(Radical.objects.get(pk=character.radical_2_id)
                     if character.radical_2_id else None)
@@ -29,7 +39,22 @@ def about_us(request):
 
 @login_required()
 def start_learning(request, minutes_to_learn):
-    pass
+    if request.user.last_study_date == timezone.now().date() - datetime.timedelta(days=1):
+        request.user.study_streak += 1
+    else:
+        request.user.study_streak = 1
+    request.user.last_study_date = timezone.now().date()
+    request.user.save()
+    request.session['last_record_time'] = timezone.now()
+
+@login_required()
+def learning_process(request):
+    """To be implemented"""
+    delta_time = timezone.now() - request.session['last_record_time']
+    request.session['last_record_time'] = timezone.now()
+    request.user.last_study_duration += delta_time
+    request.user.total_study_duration += delta_time
+    request.user.save()
 
 
 @user_passes_test(lambda u: u.is_staff)

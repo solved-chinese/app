@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
@@ -5,9 +7,18 @@ import learning.models  # to avoid cyclic import
 
 
 class User(AbstractUser):
+    # info
     first_name = models.CharField(max_length=30, null=True)
     last_name = models.CharField(max_length=30, null=True)
     email = models.EmailField(max_length=255)
+    # stats
+    last_study_date = models.DateField()
+    study_streak = models.IntegerField(default=0)
+    last_study_duration = models.DurationField(default=datetime.timedelta(seconds=0))
+    total_study_duration = models.DurationField(default=datetime.timedelta(seconds=0))
+
+    def get_total_words_learned(self):
+        return self.user_characters.filter(times_learned__gt=0).count()
 
 
 class UserCharacter(models.Model):
