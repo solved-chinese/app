@@ -12,7 +12,7 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=30, null=True)
     email = models.EmailField(max_length=255)
     # stats
-    last_study_date = models.DateField()
+    last_study_date = models.DateField(null=True)
     study_streak = models.IntegerField(default=0)
     last_study_duration = models.DurationField(default=datetime.timedelta(seconds=0))
     total_study_duration = models.DurationField(default=datetime.timedelta(seconds=0))
