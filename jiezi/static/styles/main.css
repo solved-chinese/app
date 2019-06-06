@@ -118,7 +118,35 @@ a {
     font-weight: 500;
 }
 
+#navbar a {
+    text-decoration: none;
+}
 
+#signup {
+    background-color: var(--main-theme-color);
+    height:50%;
+    width:100px;
+    border-radius: 10px;
+}
+
+#signup a {
+    display: flex;
+    justify-content: center;
+    padding: 7px;
+    color: white;
+}
+
+#login {
+    margin-right: 20px;
+    color: black;
+}
+
+#userDropdown {
+    background-color: var(--main-theme-color);
+    color: white;
+    width: 11%;
+    min-width: 110px;
+}
 
 /***********************************
   Footer
@@ -214,7 +242,7 @@ a {
 
 .input-box {
     width: 180px;
-    height: 35px;
+    height: 50px;
     padding: 5px 15px 5px 40px;
     font-size: 16px;
     border-radius: 4px;

@@ -4,8 +4,12 @@
   <link rel='stylesheet' type="text/css" href='{% static "styles/dashboard.css" %}'>
 {% endblock %}
 {% block content %}
+  {% if user.is_authenticated %}
   <h1>Welcome back, {{ user.username }}!</h1>
   <a href='{% url "manage_library" %}' class='button button-primary' href='/vocab.html'>Manage Vocab List</a>
+  {% else %}
+  <h1>Welcome to SolvedChinese!</h1>
+  {% endif %}
 
   <div class='card-container' id='study-container'>
     <h2>Select Duration</h2>
@@ -27,7 +31,7 @@
     </div>
     <a href="{% url 'display_character' 1 %}" class='button button-primary' id='study-button'>Study Now</a>
   </div>
-
+  {% if user.is_authenticated %}
   <div class='card-container' id='stats-container'>
     <h2>Stats</h2>
     <div id='stats-content-container'>
@@ -91,6 +95,7 @@
       </div>
     </div>
   </div>
+  {% endif %}
 {% endblock %}
 
 {% block extra_script %}
