@@ -41,7 +41,7 @@
       {% if user.is_authenticated %}
         <button class="btn dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="{% url 'dashboard' %}">Hi, {{ user.username }}</button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" hrep="{% url 'dashboard'%}">View Dashborad</a>
+          <a class="dropdown-item" href="{% url 'dashboard' %}">View Dashborad</a>
           <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
         </div>
       {% else %}
@@ -60,7 +60,8 @@
 
 <footer class='full-width-bg-container' id='footer-bg'>
   <div class='main-content-container' id='footer'>
-    <p>FOOTER NEEDS TO BE IMPLEMENTED</p>
+    <p>SolvedChinese.org©️2019</p>
+    <a href="https://github.com/chenyx512/Jiezi" target="_blank"><img src="/static/images/github.svg" class="footer-icon"></a>
   </div>
 </footer>
 </body>

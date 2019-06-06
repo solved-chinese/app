@@ -155,13 +155,28 @@ a {
 #footer-bg {
   position: absolute;
   bottom: 0;
+  background-color: #fafafa;
+  border-top: 1px solid #e8e8e8;
 }
 
 #footer {
     display: flex;
+    flex-direction: column;
     height: 80px;
     align-items: center;
-    justify-content: space-between;
+    padding-top: 10px;
+}
+
+#footer p {
+    color: #8E9DAE;
+    margin: auto;
+    font-size: 0.8em;
+    letter-spacing: 1px;
+}
+
+.footer-icon {
+    height: 1em;
+    margin-bottom: 20px;
 }
 
 
