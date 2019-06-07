@@ -8,7 +8,13 @@
   <h1>Welcome back, {{ user.username }}!</h1>
   <a href='{% url "manage_library" %}' class='button button-primary' href='/vocab.html'>Manage Vocab List</a>
   {% else %}
-  <h1>Welcome to SolvedChinese!</h1>
+  <h1>Welcome to Solved Chinese!</h1>
+  {% endif %}
+
+  {% if not user.is_authenticated %}
+    <div class="card-container d-flex justify-content-center">
+      <iframe width="90%" height="480" src="https://www.youtube.com/embed/UBG3UF9fCDE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
   {% endif %}
 
   <div class='card-container' id='study-container'>
@@ -29,14 +35,18 @@
            style='margin-left: calc(100% - 10px);'></div>
       <p id='slider-value-text'>1&#8239;min</p>
     </div>
+    {% if user.is_authenticated %}
     <a href="{% url 'display_character' 1 %}" class='button button-primary' id='study-button'>Study Now</a>
+    {% else %}
+    <a href="{% url 'display_character' 1 %}" class='button button-primary' id='study-button'>Try Now</a>
+    {% endif %}
   </div>
   {% if user.is_authenticated %}
   <div class='card-container' id='stats-container'>
     <h2>Stats</h2>
-    <div id='stats-content-container'>
-      <div>
-        <div id='streak-calender'>
+    <div id="stats-content-container" class="row">
+      <div class="col-12 col-md-6 col-lg-3">
+        <div id="streak-calender">
           <div class='streak-day no-streak'></div>
           <div class='streak-day yes-streak'></div>
           <div class='streak-day no-streak'></div>
@@ -65,37 +75,100 @@
           <div class='streak-day yes-streak'></div>
           <div class='streak-day yes-streak'></div>
           <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day no-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day yes-streak'></div>
+          <div class='streak-day no-streak'></div>
           <!-- <div class='streak-day yes-streak'></div> -->
         </div>
-        <div id='streak-text'>
-          <p>You have kept a streak of <span class='text-highlight'>{{ user.study_streak }}</span>
-            days. <br> Keep it up!</p>
-        </div>
+        <hr class="d-block d-lg-none">
       </div>
 
-      <div>
-        <p>Last time you studied</p>
+      <div class="col-12 col-md-6 col-lg-3 stat-text">
+        <h5>Last time you studied</h5>
         <p class='big-stat'>
           <script> document.write(({{ user.last_study_duration.seconds }} / 60).toFixed(1)); </script>
         </p>
-        <p>minutes</p>
+        <p><strong>minutes</strong></p>
+        <hr class="d-block d-lg-none">
       </div>
 
-      <div>
-        <p>You have spent</p>
+      <div class="col-12 col-md-6 col-lg-3 stat-text">
+        <h5>You have spent</h5>
         <p class='big-stat'>
           <script> document.write(({{ user.total_study_duration.seconds }} / 60).toFixed(1)); </script>
-        <p>minutes</p>
+        <p><strong>minutes</strong></p>
+        <hr class="d-block d-md-none">
       </div>
 
-      <div>
-        <p>You have learned</p>
+      <div class="col-12 col-md-6 col-lg-3 stat-text">
+        <h5>You have learned</h5>
         <p class='big-stat'>{{ user.get_total_words_learned }}</p>
-        <p>words</p>
+        <p><strong>words</strong></p>
+        
       </div>
     </div>
   </div>
   {% endif %}
+  <br style="line-height: 100px;">
 {% endblock %}
 
 {% block extra_script %}

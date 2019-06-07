@@ -3,7 +3,8 @@
 {% load static %}
 
 {% block css %}
-<link rel="stylesheet" href="/static/styles/UserDashboard.css">
+<link rel="stylesheet" type="text/css" href='{% static "styles/userDashboard.css" %}'>
+<link rel='stylesheet' type="text/css" href='{% static "styles/dashboard.css" %}'>
 {% endblock css %}
 
 
@@ -36,6 +37,29 @@
                         Dashboard
                     </h1>
                     <hr/>
+                    <div class='card-container' id='study-container'>
+                        <h2>Select Duration</h2>
+                        <div id='slider-bar'>
+                          <div id='slider-activated'></div>
+                          <div class='slider-value value-activated' data-value='1' data-width-percent='0'
+                               style='margin-left: calc(0% - 10px);'></div>
+                          <div class='slider-value' data-value='5' data-width-percent='8.333'
+                               style='margin-left: calc(8.333% - 10px);'></div>
+                          <div class='slider-value' data-value='15' data-width-percent='25'
+                               style='margin-left: calc(25% - 10px);'></div>
+                          <div class='slider-value' data-value='30' data-width-percent='50'
+                               style='margin-left: calc(50% - 10px);'></div>
+                          <div class='slider-value' data-value='45' data-width-percent='75'
+                               style='margin-left: calc(75% - 10px);'></div>
+                          <div class='slider-value' data-value='60' data-width-percent='100'
+                               style='margin-left: calc(100% - 10px);'></div>
+                          <p id='slider-value-text'>1&#8239;min</p>
+                        </div>
+                        <a href="{% url 'display_character' 1 %}" class='button button-primary' id='study-button'>Study Now</a>
+                      </div>
+                </div>
+                <div class="card-container">
+                    
                 </div>
             {% elif active == "Profile" %}
                 <div class="dashboard-container">
@@ -69,8 +93,12 @@
                                 <input name="last_name" size="1" type="text" value="{{ user.last_name }}">
                             </div>
                         </div>
-                        <label onclick="checkForm()" class="button button-primary" id="submit-button">Submit</label>
+                        <p onclick="checkForm()" class="button button-primary" id="submit-button">Submit</p>
                     </form>
+                    <br>
+                    <div class="alert alert-success" id="success-alert" style="visibility:hidden;">
+                        Success!
+                    </div>
                 </div>
             {% elif active == "Preference" %}
                 <div class="dashboard-container">
@@ -86,6 +114,7 @@
 {% endblock content %}
 
 {% block extra_script %}
+<script src='{% static 'scripts/dashboard.js' %}'></script>
 <script type="text/javascript">
     function checkForm () {
         var form = document.getElementById("form");
@@ -105,12 +134,15 @@
 
         pattern = /^(?!_)(?!.*?_$)[a-zA-Z0-9_\u4e00-\u9fa5]+$/;
         if (!pattern.test(document.getElementsByName("first_name")[0].value) || !pattern.test(document.getElementsByName("last_name")[0].value)) {
-            is_legal = false;
-            alert("Illegal names");
+            if (document.getElementsByName("first_name")[0].value != "" && document.getElementsByName("last_name")[0].value != "") {
+                is_legal = false;
+                alert("Illegal names");
+            }
         }
 
         if (is_legal) {
             form.submit();
+            document.getElementById("success-alert").style.visibility="visible"
         }
 
     }

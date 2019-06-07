@@ -23,13 +23,18 @@ div.dashboard-container {
     padding-left: 20px;
 }
 
-body {
-    background-color: #fafafa;
-}
-
 /***********************************
   Profile Page
 ***********************************/
+
+#success-alert {
+    display: block;
+    height: auto;
+    width: 40%;
+    text-align: center;
+    margin: auto;
+}
+
 .dashboard-container h1 {
     font-size: 40px;
 }
@@ -146,6 +151,8 @@ a.sidebar-item {
 #submit-button {
     margin-left: 15px;
     margin-top: 20px;
+    margin: auto;
+    text-align: center;
 }
 
 /***********************************

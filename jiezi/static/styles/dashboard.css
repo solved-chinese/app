@@ -69,9 +69,9 @@
 #streak-calender {
     display: inline-flex;
     margin: -2px; /* To offset the margin of inner divs */
-    width: calc(7 * (15px + 2 * 2px));
-    min-width: calc(7 * (15px + 2 * 2px));
-    height: calc(4 * (15px + 2 * 2px));
+    width: calc(15 * (10px + 2 * 2px));
+    min-width: calc(15 * (10px + 2 * 2px));
+    height: calc(7 * (10px + 2 * 2px));
     flex-direction: row;
     flex-wrap: wrap;
     align-content: flex-start;
@@ -81,8 +81,8 @@
 .streak-day {
     display: inline-block;
     margin: 2px;
-    width: 15px;
-    height: 15px;
+    width: 10px;
+    height: 10px;
 }
 
 .streak-day.yes-streak {
@@ -95,8 +95,14 @@
 
 #streak-text {
     display: inline-block;
-    margin-left: 15px;
-    width: 170px;
+    padding: 0;
+    margin: 0;
+}
+
+#streak-text p{
+    display: inline-block;
+    padding: 0;
+    margin: 0;
 }
 
 
@@ -110,4 +116,31 @@
     color: var(--main-theme-color);
     font-size: 36px;
     font-weight: 300;
+}
+
+.stat-text p {
+    display: inline;
+    height: 100px;
+}
+
+.stat-text h5 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.stat-text p strong {
+    font-size: 0.9em;
+    font-weight: 600;
+}
+
+.stat-text hr {
+    margin-top: 25px;
+}
+
+/***********************************
+  Responsive
+***********************************/
+
+@media screen and (max-device-width: 992px) {
+
 }
