@@ -74,22 +74,22 @@ WSGI_APPLICATION = 'jiezi.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'jiezi',
-#         'USER' : 'chenyxRemote',
-#         'PASSWORD' : 'chenyx',
-#         'HOST' : '47.90.245.239',
-#         'PORT' : '3306',
-#     }
-# }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'mydatabase',
-    }
+     'default': {
+         'ENGINE': 'django.db.backends.postgresql',
+         'NAME': 'postgres',
+         'USER' : 'postgres',
+         'PASSWORD' : 'jiezi',
+         'HOST' : 'localhost',
+         'PORT' : '5432',
+     }
 }
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': 'mydatabase',
+#    }
+#}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
