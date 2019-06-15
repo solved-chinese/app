@@ -11,10 +11,12 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=30, null=True)
     last_name = models.CharField(max_length=30, null=True)
     email = models.EmailField(max_length=255)
+    cn_level = models.CharField(max_length=15, default="Beginner")
     # stats
     last_study_date = models.DateField(null=True)
     study_streak = models.IntegerField(default=0)
     last_study_duration = models.DurationField(default=datetime.timedelta(seconds=0))
+    last_study_vocab_count = models.IntegerField(default=0, null=True)
     total_study_duration = models.DurationField(default=datetime.timedelta(seconds=0))
 
     def get_total_words_learned(self):
@@ -68,3 +70,4 @@ class UserCharacterTag(models.Model):
 
     class Meta:
         unique_together = ('user', 'name')
+

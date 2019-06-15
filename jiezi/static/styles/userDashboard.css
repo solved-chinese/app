@@ -23,6 +23,15 @@ div.dashboard-container {
     padding-left: 20px;
 }
 
+.card-container h2 {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.card-container h2 small {
+    font-size: 18px;
+}
+
 /***********************************
   Profile Page
 ***********************************/

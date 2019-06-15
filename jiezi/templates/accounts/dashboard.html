@@ -37,6 +37,38 @@
                         Dashboard
                     </h1>
                     <hr/>
+                    <div class="card-container">
+                        <h2>Summary
+                        <small>Last Study</small>
+                        </h2>
+                        <div class="row justify-content-center">
+                            <div class="col-12 col-md-6 col-lg-3 stat-text">
+                                    <h5>Last Studied</h5>
+                                    <p class='big-stat'>
+                                        0 <!--This needs to be implemented-->
+                                    </p>
+                                    <p><strong>minutes ago</strong></p>
+                                <hr class="d-block d-lg-none">
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-3 stat-text">
+                                <h5>Total Length</h5>
+                                <p class='big-stat'>
+                                    <script> document.write(({{ user.last_study_duration.seconds }} / 60).toFixed(1)); </script>
+                                </p>
+                                <p><strong>minutes</strong></p>
+                                <hr class="d-block d-lg-none">
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-3 stat-text">
+                                <h5>Vocab Learned</h5>
+                                <p class='big-stat'>
+                                    {{ user.last_study_vocab_count }}
+                                </p>
+                                <hr class="d-block d-lg-none">
+                            </div>
+                        </div>
+                    
+
+                    </div>
                     <div class='card-container' id='study-container'>
                         <h2>Select Duration</h2>
                         <div id='slider-bar'>
@@ -56,10 +88,12 @@
                           <p id='slider-value-text'>1&#8239;min</p>
                         </div>
                         <a href="{% url 'display_character' 1 %}" class='button button-primary' id='study-button'>Study Now</a>
-                      </div>
-                </div>
-                <div class="card-container">
-                    
+                    </div>
+                    <div class="card-container">
+                        <h2>Overview
+                        </h2>
+
+                    </div>
                 </div>
             {% elif active == "Profile" %}
                 <div class="dashboard-container">
@@ -70,27 +104,45 @@
                     <hr/>
                     <form class="row" id="form" action="{% url 'alt_profile' %}" method="POST">
                         {% csrf_token %}
-                        <div class="col-12 col-md-6">
-                            <div class="form-field">
-                                <label><strong>Username</strong></label>
-                                <input name="username" size="1" type="text" value="{{ user.username }}" readonly>
-                            </div>
-                            <div class="form-field">
-                                <label><strong>Email</strong></label>
-                                <input type="hidden" name="u_email" value="{{ user.email }}">
-                                <input name="email" size="1" type="email" value="{{ user.email }}">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label><strong>Username</strong></label>
+                                    <input name="username" class="form-control" size="1" type="text" value="{{ user.username }}" readonly>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label><strong>Email</strong></label>
+                                    <input type="hidden" name="u_email" value="{{ user.email }}">
+                                    <input name="email" class="form-control" size="1" type="email" value="{{ user.email }}" autofocus>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-6">
-                            <div class="form-field">
-                                <label><strong>First Name</strong></label>
-                                <input type="hidden" name="u_first_name" value="{{ user.first_name }}">
-                                <input name="first_name" size="1" type="text" value="{{ user.first_name }}">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label><strong>First Name</strong></label>
+                                    <input type="hidden" name="u_first_name" value="{{ user.first_name }}">
+                                    <input name="first_name" class="form-control" size="1" type="text" value="{{ user.first_name }}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label><strong>Last Name</strong></label>
+                                    <input type="hidden" name="u_last_name" value="{{ user.last_name }}">
+                                    <input name="last_name" class="form-control" size="1" type="text" value="{{ user.last_name }}">
+                                </div>
                             </div>
-                            <div class="form-field">
-                                <label><strong>Last Name</strong></label>
-                                <input type="hidden" name="u_last_name" value="{{ user.last_name }}">
-                                <input name="last_name" size="1" type="text" value="{{ user.last_name }}">
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <input type="hidden" name="u_cn_level" value="{{ user.cn_level }}">
+                                    <label><strong>Your Chinese Level</strong></label>
+                                    <select class="form-control" name="cn_level">
+                                        <option {% if user.cn_level == "Proficient" %} selected {% endif %}>Proficient</option>
+                                        <option {% if user.cn_level == "Intermediate" %} selected {% endif %}>Intermediate</option>
+                                        <option {% if user.cn_level == "Elementary" %} selected {% endif %}>Elementary</option>
+                                        <option {% if user.cn_level == "Beginner" %} selected {% endif %}>Beginner</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <p onclick="checkForm()" class="button button-primary" id="submit-button">Submit</p>

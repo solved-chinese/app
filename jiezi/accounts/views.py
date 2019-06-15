@@ -40,6 +40,7 @@ def alt_profile(request):
         currentUser.email = request.POST.get("email")
         currentUser.first_name = request.POST.get("first_name")
         currentUser.last_name = request.POST.get("last_name")
+        currentUser.cn_level = request.POST.get("cn_level")
         currentUser.save()
         return HttpResponseRedirect(reverse('dashboard')+"?active=Profile")
         #render(request, 'accounts/dashboard.html', {'active': 'Profile'})
