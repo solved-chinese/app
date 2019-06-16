@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'learning',
+    'jiezi_admin',
 ]
 
 MIDDLEWARE = [
