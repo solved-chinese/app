@@ -23,6 +23,15 @@ def display_character(request, character_pk):
     except ObjectDoesNotExist:
         character = Character.objects.filter(pk__gt=character_pk).first()
         return redirect('display_character', character_pk=character.pk)
+    try:
+        status = request.session['is_learning']
+    except KeyError:
+        status = False
+    if status == True:
+        learning_process(request)
+    else:
+        request.user.last_study_vocab_count = 0
+        start_learning(request, 10)
     character = Character.objects.filter(pk__gte=character_pk).first()
     radicals = [Radical.objects.get(pk=character.radical_1_id)]
     radicals.append(Radical.objects.get(pk=character.radical_2_id)
@@ -39,11 +48,13 @@ def about_us(request):
 
 @login_required()
 def start_learning(request, minutes_to_learn):
+    request.session['is_learning'] = True
     if request.user.last_study_date == timezone.now().date() - datetime.timedelta(days=1):
         request.user.study_streak += 1
     else:
         request.user.study_streak = 1
     request.user.last_study_date = timezone.now().date()
+    request.user.last_study_vocab_count += 1
     request.user.save()
     request.session['last_record_time'] = timezone.now()
 
@@ -53,8 +64,14 @@ def learning_process(request):
     delta_time = timezone.now() - request.session['last_record_time']
     request.session['last_record_time'] = timezone.now()
     request.user.last_study_duration += delta_time
+    request.user.last_study_vocab_count += 1
     request.user.total_study_duration += delta_time
     request.user.save()
+
+@login_required()
+def end_learning(request):
+    request.session['last_record_time'] = timezone.now()
+    request.session['is_learning'] = False
 
 
 @user_passes_test(lambda u: u.is_staff)

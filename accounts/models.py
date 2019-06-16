@@ -13,8 +13,9 @@ class User(AbstractUser):
     email = models.EmailField(max_length=255)
     cn_level = models.CharField(max_length=15, default="Beginner")
     # stats
-    last_study_date = models.DateField(null=True)
     study_streak = models.IntegerField(default=0)
+    last_study_date = models.DateField(null=True)
+    last_study_time = models.DateTimeField(null=True)
     last_study_duration = models.DurationField(default=datetime.timedelta(seconds=0))
     last_study_vocab_count = models.IntegerField(default=0, null=True)
     total_study_duration = models.DurationField(default=datetime.timedelta(seconds=0))

@@ -40,7 +40,7 @@
     <!-- we need to think about what the following buttons do -->
     <a class='button button-primary' id='next-button' href='{% url 'display_character' character.pk|add:"1" %}'>Next</a>
     <a class='button button-secondary' href='/vocab.html'>I Know This</a>
-    <a class='button button-secondary' id='end-session-button' href='/accounts/dashboard'>End Session</a>
+    <a class='button button-secondary' id='end-session-button' href='{% url 'dashboard' %}?endsession=true'>End Session</a>
     <button type='button' class='button button-secondary' style='margin-left:3px ' data-toggle='modal'
             data-target='#report-bug-modal'>Report
     </button>
