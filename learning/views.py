@@ -55,6 +55,7 @@ def start_learning(request, minutes_to_learn):
         request.user.study_streak = 1
     request.user.last_study_date = timezone.now().date()
     request.user.last_study_vocab_count += 1
+    request.user.last_study_time = timezone.now()
     request.user.save()
     request.session['last_record_time'] = timezone.now()
 
@@ -66,11 +67,13 @@ def learning_process(request):
     request.user.last_study_duration += delta_time
     request.user.last_study_vocab_count += 1
     request.user.total_study_duration += delta_time
+    request.user.last_study_time = timezone.now()
     request.user.save()
 
 @login_required()
 def end_learning(request):
     request.session['last_record_time'] = timezone.now()
+    request.user.last_study_time = timezone.now()
     request.session['is_learning'] = False
 
 

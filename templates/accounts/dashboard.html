@@ -44,10 +44,10 @@
                         <div class="row justify-content-center">
                             <div class="col-12 col-md-6 col-lg-3 stat-text">
                                     <h5>Last Studied</h5>
-                                    <p class='big-stat'>
-                                        
+                                    <p class='big-stat' id="last-study-date">
+                                        {{ user.last_study_time.hour }}
                                     </p>
-                                    <p><strong>minutes ago</strong></p>
+                                    <p><strong id="last-study-date-unit">minutes ago</strong></p>
                                 <hr class="d-block d-lg-none">
                             </div>
                             <div class="col-12 col-md-6 col-lg-3 stat-text">
@@ -168,6 +168,35 @@
 {% block extra_script %}
 <script src='{% static 'scripts/dashboard.js' %}'></script>
 <script type="text/javascript">
+    var date = new Date()
+    var strYear = date.getUTCFullYear()
+    var strMonth = date.getUTCMonth()+1
+    var strDate = date.getUTCDate()
+    var strHour = date.getUTCHours()
+    var strMin = date.getUTCMinutes()
+
+    var thisHour = {{ user.last_study_time.hour }}
+
+    if (strYear - {{ user.last_study_time.year }} > 0) {
+        document.getElementById("last-study-date").innerHTML = strYear - {{ user.last_study_time.year }}
+        document.getElementById("last-study-date-unit").innerHTML = "Year ago"
+    } else if (strMonth - {{ user.last_study_time.month }} > 0) {
+        document.getElementById("last-study-date").innerHTML = strMonth - {{ user.last_study_time.month }}
+        document.getElementById("last-study-date-unit").innerHTML = "Month ago"
+    } else if (strDate - {{ user.last_study_time.day }} > 0) {
+        document.getElementById("last-study-date").innerHTML = strDate - {{ user.last_study_time.day }}
+        document.getElementById("last-study-date-unit").innerHTML = "Days ago"
+    } else if (strHour - {{ user.last_study_time.hour}} > 0) {
+        document.getElementById("last-study-date").innerHTML = strHour - {{ user.last_study_time.hour }}
+        document.getElementById("last-study-date-unit").innerHTML = "Hours ago"
+    } else if (strMin - {{ user.last_study_time.minute}} > 0) {
+        document.getElementById("last-study-date").innerHTML = strHour - {{ user.last_study_time.minute }}
+        document.getElementById("last-study-date-unit").innerHTML = "Minutes ago"
+    } else {
+        document.getElementById("last-study-date").innerHTML = ""
+        document.getElementById("last-study-date-unit").innerHTML = "Less than a Minute ago"
+    }
+
     function checkForm () {
         var form = document.getElementById("form");
         var is_legal = false; 
