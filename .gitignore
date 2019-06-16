@@ -11,3 +11,7 @@ __pycache__
 # secret folder
 secret/
 
+# media folder except the default files
+media/*
+!media/default.jpg
+
