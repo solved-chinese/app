@@ -109,4 +109,4 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
 """ Here begins jiezi custom settings """
 # put the secert key in this path
-DATAFILE_SERVICE_ACCOUNT_FILE_PATH = os.join(BASE_DIR, 'secret/datafile_service_account.json')
+DATAFILE_SERVICE_ACCOUNT_FILE_PATH = os.path.join(BASE_DIR, 'secret/datafile_service_account.json')
