@@ -1,10 +1,13 @@
 # Python files
 __pycache__
 *.pyc
-jiezi/jiezi/__init__.py
 
 # Miscellaneous files
 .DS_Store
 .idea
 *.log
 *.pot
+
+# secret folder
+secret/
+
