@@ -65,9 +65,16 @@ WSGI_APPLICATION = 'jiezi.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 DATABASES = {
+    # this is the database for server, and connection is only allowed within
+    # internal network, set up your own database and change secret setting
+    # accordingly
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'mydatabase',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'jiezi',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 DATABASES.update(secret.DATABASES)
