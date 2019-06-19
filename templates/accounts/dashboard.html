@@ -20,12 +20,7 @@
                     <small>{{ user.email }}</small>
                 </h5>
             </div>
-            {% if user.is_superuser == 1 %}
-                <a class="row sidebar-item" href="/accounts/dashboard?active=Admin">
-                    <img src="/static/images/userDashboard/setting.svg"><p class="align-items-center d-none d-md-flex">Admin Panel</p>
-                </a>
-            {% endif %}
-            {% if user.is_staff == 1 %}
+            {% if user.is_staff %}
                 <a class="row sidebar-item" href="/accounts/dashboard?active=Staff">
                     <img src="/static/images/userDashboard/setting.svg"><p class="align-items-center d-none d-md-flex">Staff Panel</p>
                 </a>
@@ -41,12 +36,6 @@
             </a>
         </div>
         <div class="offset-1 offset-sm-2 col-11 col-sm-10">
-            {% if active == "Admin"%}
-                <div class="dashboard-container">
-                    <h1>Admin Panel</h1>
-                    <hr/>
-                </div>
-            {% endif %}
             {% if active == "Staff" %}
                 <div class="dashboard-container">
                     <h1>Staff Panel</h1>
@@ -81,7 +70,7 @@
                             <div class="col-12 col-md-6 col-lg-3 stat-text">
                                     <h5>Last Studied</h5>
                                     <p class='big-stat' id="last-study-date">
-                                        {{ user.last_study_time.hour }}
+                                        loading
                                     </p>
                                     <p><strong id="last-study-date-unit">minutes ago</strong></p>
                                 <hr class="d-block d-lg-none">
@@ -203,65 +192,34 @@
 
 {% block extra_script %}
 <script src='{% static 'scripts/dashboard.js' %}'></script>
-<script type="text/javascript">
-    var date = new Date()
-    var strYear = date.getUTCFullYear()
-    var strMonth = date.getUTCMonth()+1
-    var strDate = date.getUTCDate()
-    var strHour = date.getUTCHours()
-    var strMin = date.getUTCMinutes()
+<script>
 
-    var thisHour = {{ user.last_study_time.hour }}
+let date = new Date();
+let strYear = date.getUTCFullYear();
+let strMonth = date.getUTCMonth()+1;
+let strDate = date.getUTCDate();
+let strHour = date.getUTCHours();
+let strMin = date.getUTCMinutes();
 
-    if (strYear - {{ user.last_study_time.year }} > 0) {
-        document.getElementById("last-study-date").innerHTML = strYear - {{ user.last_study_time.year }}
-        document.getElementById("last-study-date-unit").innerHTML = "Years ago"
-    } else if (strMonth - {{ user.last_study_time.month }} > 0) {
-        document.getElementById("last-study-date").innerHTML = strMonth - {{ user.last_study_time.month }}
-        document.getElementById("last-study-date-unit").innerHTML = "Months ago"
-    } else if (strDate - {{ user.last_study_time.day }} > 0) {
-        document.getElementById("last-study-date").innerHTML = strDate - {{ user.last_study_time.day }}
-        document.getElementById("last-study-date-unit").innerHTML = "Days ago"
-    } else if (strHour - {{ user.last_study_time.hour}} > 0) {
-        document.getElementById("last-study-date").innerHTML = strHour - {{ user.last_study_time.hour }}
-        document.getElementById("last-study-date-unit").innerHTML = "Hours ago"
-    } else if (strMin - {{ user.last_study_time.minute}} > 0) {
-        document.getElementById("last-study-date").innerHTML = strHour - {{ user.last_study_time.minute }}
-        document.getElementById("last-study-date-unit").innerHTML = "Minutes ago"
-    } else {
-        document.getElementById("last-study-date").innerHTML = ""
-        document.getElementById("last-study-date-unit").innerHTML = "Less than a Minute ago"
-    }
-
-    function checkForm () {
-        var form = document.getElementById("form");
-        var is_legal = false; 
-        
-        for (let index = 2; index < form.elements.length-1; index+=2) {
-            if (form.elements[index].value != form.elements[index+1].value) {
-                is_legal = true;
-            }
-        }
-
-        var pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-        if (!pattern.test(document.getElementsByName("email")[0].value)) {
-            is_legal = false;
-            alert("Illegal email address.");
-        }
-
-        pattern = /^(?!_)(?!.*?_$)[a-zA-Z0-9_\u4e00-\u9fa5]+$/;
-        if (!pattern.test(document.getElementsByName("first_name")[0].value) || !pattern.test(document.getElementsByName("last_name")[0].value)) {
-            if (document.getElementsByName("first_name")[0].value != "" && document.getElementsByName("last_name")[0].value != "") {
-                is_legal = false;
-                alert("Illegal names");
-            }
-        }
-
-        if (is_legal) {
-            form.submit();
-            document.getElementById("success-alert").style.visibility="visible"
-        }
-
-    }
+if (strYear - {{ user.last_study_time.year }} > 0) {
+    $("#last-study-date").html(strYear - {{ user.last_study_time.year }});
+    $("#last-study-date-unit").html("Years ago");
+} else if (strMonth - {{ user.last_study_time.month }} > 0) {
+    $("#last-study-date").html(strMonth - {{ user.last_study_time.month }});
+    $("#last-study-date-unit").html("Months ago");
+} else if (strDate - {{ user.last_study_time.day }} > 0) {
+    $("#last-study-date").html(strDate - {{ user.last_study_time.day }});
+    $("#last-study-date-unit").html("Days ago");
+} else if (strHour - {{ user.last_study_time.hour}} > 0) {
+    $("#last-study-date").html(strHour - {{ user.last_study_time.hour }});
+    $("#last-study-date-unit").html("Hours ago");
+} else if (strMin - {{ user.last_study_time.minute}} > 0) {
+    $("#last-study-date").html(strMin - {{ user.last_study_time.minute }});
+    $("#last-study-date-unit").html("Minutes ago");
+} else {
+    $("#last-study-date").html("");
+    $("#last-study-date-unit").html("Less than a Minute ago");
+}
+    
 </script>
 {% endblock %}

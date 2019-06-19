@@ -14,7 +14,7 @@ from accounts.models import User
 
 def index(request):
     # because the index page isn't ready
-    return render(request,'index.html')
+    return render(request, 'index.html')
 
 
 def display_character(request, character_pk):
@@ -23,15 +23,15 @@ def display_character(request, character_pk):
     except ObjectDoesNotExist:
         character = Character.objects.filter(pk__gt=character_pk).first()
         return redirect('display_character', character_pk=character.pk)
-    try:
-        status = request.session['is_learning']
-    except KeyError:
-        status = False
-    if status == True:
+
+    status = request.session.get('is_learning', False)
+
+    if status:
         learning_process(request)
     else:
         request.user.last_study_vocab_count = 0
         start_learning(request, 10)
+
     character = Character.objects.filter(pk__gte=character_pk).first()
     radicals = [Radical.objects.get(pk=character.radical_1_id)]
     radicals.append(Radical.objects.get(pk=character.radical_2_id)
