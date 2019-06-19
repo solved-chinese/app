@@ -2,8 +2,6 @@
 __pycache__
 *.pyc
 
-jiezi_secret/
-
 # Miscellaneous files
 .DS_Store
 .idea
