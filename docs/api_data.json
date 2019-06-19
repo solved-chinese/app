@@ -1,32 +1,4 @@
-define({ "api": [
-  {
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "optional": false,
-            "field": "varname1",
-            "description": "<p>No type.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "varname2",
-            "description": "<p>With type.</p>"
-          }
-        ]
-      }
-    },
-    "type": "",
-    "url": "",
-    "version": "0.0.0",
-    "filename": "./api/main.js",
-    "group": "D__github_Jiezi_jiezi_api_main_js",
-    "groupTitle": "D__github_Jiezi_jiezi_api_main_js",
-    "name": ""
-  },
+[
   {
     "type": "POST",
     "url": "/accounts/add_set",
@@ -60,7 +32,7 @@ define({ "api": [
       }
     },
     "version": "0.0.0",
-    "filename": "./accounts/views.py",
+    "filename": "accounts/views.py",
     "groupTitle": "accounts",
     "name": "PostAccountsAdd_set"
   },
@@ -90,7 +62,7 @@ define({ "api": [
       }
     },
     "version": "0.0.0",
-    "filename": "./accounts/views.py",
+    "filename": "accounts/views.py",
     "groupTitle": "accounts",
     "name": "PostAccountsDelete_character"
   },
@@ -122,7 +94,7 @@ define({ "api": [
       }
     },
     "version": "0.0.0",
-    "filename": "./accounts/views.py",
+    "filename": "accounts/views.py",
     "groupTitle": "accounts",
     "name": "PostAccountsDelete_set"
   },
@@ -140,35 +112,82 @@ define({ "api": [
             "type": "Object[]",
             "optional": false,
             "field": "sets",
-            "description": ""
-          },
-          {
-            "group": "Success 200",
-            "type": "string",
-            "optional": false,
-            "field": "sets.name",
-            "description": "<p>the name of the set to display</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "Number",
-            "optional": false,
-            "field": "sets.id",
-            "description": "<p>the id to send back if the set is added</p>"
+            "description": "<p>list of serialized UserCharacterTag objects</p>"
           }
         ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n    \"sets\": [\n        {\n            \"name\": \"Numbers\",\n            \"id\": 2\n        },\n        {\n            \"name\": \"Integrated Chinese I\",\n            \"id\": 4\n        }\n    ]\n}",
-          "type": "json"
-        }
-      ]
+      }
     },
     "version": "0.0.0",
-    "filename": "./accounts/views.py",
+    "filename": "accounts/views.py",
     "groupTitle": "accounts",
     "name": "PostAccountsGet_available_sets"
+  },
+  {
+    "type": "POST",
+    "url": "/accounts/rename_set",
+    "title": "Rename set",
+    "description": "<p>Rename a user set</p>",
+    "group": "accounts",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "set_id",
+            "description": "<p>the id of the user set to change name</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "new_name",
+            "description": "<p>this cannot be the same as the name of a current set</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "accounts/views.py",
+    "groupTitle": "accounts",
+    "name": "PostAccountsRename_set"
+  },
+  {
+    "type": "POST",
+    "url": "/search",
+    "title": "Search (not finished)",
+    "description": "<p>search using a given keyword</p>",
+    "group": "general",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "key_word",
+            "description": "<p>the keyword to be searched</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "characters",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "accounts/views.py",
+    "groupTitle": "general",
+    "name": "PostSearch"
   }
-] });
+]

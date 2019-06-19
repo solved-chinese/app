@@ -8,7 +8,7 @@ from accounts import views
 @apiGroup index
 @apiIgnore TODO
 
-@apiParam   {String}  str             the string to be searched
+@apiParam   {String}  str    the string to be searched
 """
 
 urlpatterns = [
@@ -24,7 +24,7 @@ urlpatterns = [
     path('delete_set/', views.delete_set),
     path('get_available_sets/', views.get_available_sets),
     path('delete_character/', views.delete_character),
+    path('rename_set/', views.rename_set),
 
     path('sessionid', views.sessionid),
-    path('test', views.test)
 ]
