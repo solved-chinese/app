@@ -1,10 +1,10 @@
 """
 This contains the settings for this project, it is supposed to be kept in
-secret and never committed to public git
+jiezi_secret and never committed to public git
 """
 
 import os
-from secret import secret # this is jiezi secret file
+from jiezi_secret import secret # this is jiezi secret file
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -66,7 +66,7 @@ WSGI_APPLICATION = 'jiezi.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 DATABASES = {
     # this is the database for server, and connection is only allowed within
-    # internal network, set up your own database and change secret setting
+    # internal network, set up your own database and change jiezi_secret setting
     # accordingly
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -117,4 +117,5 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
 """ Here begins jiezi custom settings """
 # put the secert key in this path
-DATAFILE_SERVICE_ACCOUNT_FILE_PATH = os.path.join(BASE_DIR, 'secret/datafile_service_account.json')
+DATAFILE_SERVICE_ACCOUNT_FILE_PATH = os.path.join(BASE_DIR,
+                                                  'jiezi_secret/datafile_service_account.json')

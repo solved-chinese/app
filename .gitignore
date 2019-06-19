@@ -9,7 +9,7 @@ __pycache__
 *.pot
 
 # secret folder
-secret/
+jiezi_secret/
 
 # media folder except the default files
 media/*
