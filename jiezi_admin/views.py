@@ -121,8 +121,3 @@ def media_update_status(request):
     else:
         with open('media/log', 'r') as f:
             return HttpResponse(f.read(), content_type="text/plain; charset=utf-8;")
-
-
-@user_passes_test(lambda u: u.is_staff)
-def admin_home(request):
-    return render(request, 'jiezi_admin/admin_home.html')

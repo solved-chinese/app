@@ -12,25 +12,12 @@ from learning.models import update_from_df, Character, Radical, Report
 from accounts.models import User
 
 
-def index(request):
-    # because the index page isn't ready
-    return render(request, 'index.html')
-
-
 def display_character(request, character_pk):
     try:
         character = Character.objects.get(pk=character_pk)
     except ObjectDoesNotExist:
         character = Character.objects.filter(pk__gt=character_pk).first()
         return redirect('display_character', character_pk=character.pk)
-
-    status = request.session.get('is_learning', False)
-
-    if status:
-        learning_process(request)
-    else:
-        request.user.last_study_vocab_count = 0
-        start_learning(request, 10)
 
     character = Character.objects.filter(pk__gte=character_pk).first()
     radicals = [Radical.objects.get(pk=character.radical_1_id)]
@@ -42,23 +29,22 @@ def display_character(request, character_pk):
                   {'character':character, 'radicals':radicals})
 
 
-def about_us(request):
-    return render(request, 'about_us.html')
-
-
 @login_required()
 def start_learning(request, minutes_to_learn):
-    request.session['is_learning'] = True
     if request.user.last_study_date == timezone.now().date() - datetime.timedelta(days=1):
         request.user.study_streak += 1
     else:
         request.user.study_streak = 1
     request.user.last_study_date = timezone.now().date()
-    request.user.last_study_vocab_count += 1
     request.user.last_study_time = timezone.now()
     request.user.last_study_duration = datetime.timedelta(seconds=0)
     request.user.save()
+
     request.session['last_record_time'] = timezone.now()
+    request.session['is_learning'] = True
+    request.session['end_learning_time'] = timezone.now() + \
+        datetime.timedelta(minutes=minutes_to_learn)
+
 
 @login_required()
 def learning_process(request):
@@ -66,16 +52,19 @@ def learning_process(request):
     delta_time = timezone.now() - request.session['last_record_time']
     request.session['last_record_time'] = timezone.now()
     request.user.last_study_duration += delta_time
-    request.user.last_study_vocab_count += 1
     request.user.total_study_duration += delta_time
     request.user.last_study_time = timezone.now()
     request.user.save()
 
+    if request.session['end_learning_time'] > timezone.now():
+        return end_learning(request)
+
+
 @login_required()
 def end_learning(request):
-    request.session['last_record_time'] = timezone.now()
-    request.user.last_study_time = timezone.now()
-    request.session['is_learning'] = False
+    return render(request, 'simple_response.html', {
+        'content': 'You are finished.'
+    })
 
 
 def report(request):
@@ -86,7 +75,8 @@ def report(request):
         if isinstance(request.user, User):
             report.user = request.user
         report.save()
-        return render(request, 'simple_response.html', {'content':'Thank you for your response!'})
+        return render(request, 'simple_response.html', {
+            'content':'Thank you for your response!'
+        })
     except:
         return render(request, '404.html')
-    

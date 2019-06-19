@@ -41,15 +41,15 @@
                     <h1>Staff Panel</h1>
                     <hr/>
                     <div class="row align-items-center justify-content-around">
-                        <a class="col-9 col-md-5 col-xl-3 card-container image-box-wrapper" href="#" target="_blank"> 
+                        <a class="col-9 col-md-5 col-xl-3 card-container image-box-wrapper" href="{% url 'update_entry' %}" target="_blank">
                             <img src="/static/images/userDashboard/logo-color-mark-sq.png">
                             <h5> Update Entry </h5>
                         </a>
-                        <a class="col-9 col-md-5 col-xl-3 card-container image-box-wrapper" href="#"> 
+                        <a class="col-9 col-md-5 col-xl-3 card-container image-box-wrapper" href="{% url 'update_media' %}">
                             <img src="/static/images/userDashboard/Google_Drive_logo.png">
                             <h5> Update Media </h5> 
                         </a>
-                        <a class="col-9 col-md-5 col-xl-3 card-container image-box-wrapper" href="#"> 
+                        <a class="col-9 col-md-5 col-xl-3 card-container image-box-wrapper" href="{% url 'media_update_status' %}">
                             <img src="/static/images/userDashboard/Check.png">
                             <h5> Check Update Status </h5>
                         </a>

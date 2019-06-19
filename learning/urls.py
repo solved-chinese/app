@@ -16,6 +16,5 @@ register_converter(FourDigitConverter, 'dddd')
 
 urlpatterns = [
     path('C<dddd:character_pk>/', views.display_character, name='display_character'),
-    # reverse by {% url 'display_character' 1 %}
-    # path('start_learning<int:minutes_to_learn>', views.start_learning, name='start_learning'),
+    path('report/', views.report, name="report"),
 ]
