@@ -127,7 +127,7 @@ def delete_set(request):
 @apiParam   {String}        new_name          this cannot be the same as the name of a current set
 """
 @csrf_exempt
-def delete_set(request):
+def rename_set(request):
     try:
         set = UserCharacterTag.objects.get(pk=request.POST.get('set_id'))
         set.name = request.POST.get('new_name')
@@ -143,28 +143,15 @@ def delete_set(request):
 @apiDescription Get available existing character sets to add
 @apiGroup accounts
 
-@apiSuccess {Object[]} sets
-@apiSuccess {string}   sets.name      the name of the set to display
-@apiSuccess {Number}   sets.id        the id to send back if the set is added
-@apiSuccessExample {json} Success-Response:
-    HTTP/1.1 200 OK{
-        "sets": [{
-                "name": "Numbers",
-                "id": 2
-            },{
-                "name": "Integrated Chinese I",
-                "id": 4
-            }
-        ]
-    }
+@apiSuccess {Object[]} sets list of serialized UserCharacterTag objects
 """
 @csrf_exempt
 def get_available_sets(request):
     sets = []
     for set in CharacterSet.objects.all():
         if not request.user.user_character_tags.filter(name=set.name).exists():
-            sets.append({'name': set.name, 'id': set.pk})
-    return JsonResponse({'sets': sets})
+            sets.append(set)
+    return JsonResponse({'sets': chenyx_serialize(sets)})
 
 
 """
@@ -181,12 +168,6 @@ def search(request):
     characters = []
     keyword = request.POST.get('keyword')
     return JsonResponse({'characters': characters})
-
-
-def test(request):
-    c = Character.objects.get(pk=1)
-    c = chenyx_serialize(c)
-    return JsonResponse({'c': c})
 
 
 # fill the sessionid into postman request head when testing
