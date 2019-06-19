@@ -20,6 +20,11 @@
                     <small>{{ user.email }}</small>
                 </h5>
             </div>
+            {% if user.is_staff %}
+                <a class="row sidebar-item" href="/accounts/dashboard?active=Staff">
+                    <img src="/static/images/userDashboard/setting.svg"><p class="align-items-center d-none d-md-flex">Staff Panel</p>
+                </a>
+            {% endif %}
             <a class="row sidebar-item" href="/accounts/dashboard?active=Dashboard">
                 <img src="/static/images/userDashboard/dashboard.svg"><p class="align-items-center d-none d-md-flex">Dashboard</p>
             </a>
@@ -31,6 +36,26 @@
             </a>
         </div>
         <div class="offset-1 offset-sm-2 col-11 col-sm-10">
+            {% if active == "Staff" %}
+                <div class="dashboard-container">
+                    <h1>Staff Panel</h1>
+                    <hr/>
+                    <div class="row align-items-center justify-content-around">
+                        <a class="col-9 col-md-5 col-xl-3 card-container image-box-wrapper" href="#" target="_blank"> 
+                            <img src="/static/images/userDashboard/logo-color-mark-sq.png">
+                            <h5> Update Entry </h5>
+                        </a>
+                        <a class="col-9 col-md-5 col-xl-3 card-container image-box-wrapper" href="#"> 
+                            <img src="/static/images/userDashboard/Google_Drive_logo.png">
+                            <h5> Update Media </h5> 
+                        </a>
+                        <a class="col-9 col-md-5 col-xl-3 card-container image-box-wrapper" href="#"> 
+                            <img src="/static/images/userDashboard/Check.png">
+                            <h5> Check Update Status </h5>
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
             {% if active == "Dashboard" %}
                 <div class="dashboard-container">
                     <h1>
@@ -44,10 +69,10 @@
                         <div class="row justify-content-center">
                             <div class="col-12 col-md-6 col-lg-3 stat-text">
                                     <h5>Last Studied</h5>
-                                    <p class='big-stat'>
-                                        0 <!--This needs to be implemented-->
+                                    <p class='big-stat' id="last-study-date">
+                                        loading
                                     </p>
-                                    <p><strong>minutes ago</strong></p>
+                                    <p><strong id="last-study-date-unit">minutes ago</strong></p>
                                 <hr class="d-block d-lg-none">
                             </div>
                             <div class="col-12 col-md-6 col-lg-3 stat-text">
@@ -167,36 +192,34 @@
 
 {% block extra_script %}
 <script src='{% static 'scripts/dashboard.js' %}'></script>
-<script type="text/javascript">
-    function checkForm () {
-        var form = document.getElementById("form");
-        var is_legal = false; 
-        
-        for (let index = 2; index < form.elements.length-1; index+=2) {
-            if (form.elements[index].value != form.elements[index+1].value) {
-                is_legal = true;
-            }
-        }
+<script>
 
-        var pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-        if (!pattern.test(document.getElementsByName("email")[0].value)) {
-            is_legal = false;
-            alert("Illegal email address.");
-        }
+let date = new Date();
+let strYear = date.getUTCFullYear();
+let strMonth = date.getUTCMonth()+1;
+let strDate = date.getUTCDate();
+let strHour = date.getUTCHours();
+let strMin = date.getUTCMinutes();
 
-        pattern = /^(?!_)(?!.*?_$)[a-zA-Z0-9_\u4e00-\u9fa5]+$/;
-        if (!pattern.test(document.getElementsByName("first_name")[0].value) || !pattern.test(document.getElementsByName("last_name")[0].value)) {
-            if (document.getElementsByName("first_name")[0].value != "" && document.getElementsByName("last_name")[0].value != "") {
-                is_legal = false;
-                alert("Illegal names");
-            }
-        }
-
-        if (is_legal) {
-            form.submit();
-            document.getElementById("success-alert").style.visibility="visible"
-        }
-
-    }
+if (strYear - {{ user.last_study_time.year }} > 0) {
+    $("#last-study-date").html(strYear - {{ user.last_study_time.year }});
+    $("#last-study-date-unit").html("Years ago");
+} else if (strMonth - {{ user.last_study_time.month }} > 0) {
+    $("#last-study-date").html(strMonth - {{ user.last_study_time.month }});
+    $("#last-study-date-unit").html("Months ago");
+} else if (strDate - {{ user.last_study_time.day }} > 0) {
+    $("#last-study-date").html(strDate - {{ user.last_study_time.day }});
+    $("#last-study-date-unit").html("Days ago");
+} else if (strHour - {{ user.last_study_time.hour}} > 0) {
+    $("#last-study-date").html(strHour - {{ user.last_study_time.hour }});
+    $("#last-study-date-unit").html("Hours ago");
+} else if (strMin - {{ user.last_study_time.minute}} > 0) {
+    $("#last-study-date").html(strMin - {{ user.last_study_time.minute }});
+    $("#last-study-date-unit").html("Minutes ago");
+} else {
+    $("#last-study-date").html("");
+    $("#last-study-date-unit").html("Less than a Minute ago");
+}
+    
 </script>
 {% endblock %}

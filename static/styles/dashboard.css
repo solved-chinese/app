@@ -1,3 +1,13 @@
+a {
+    color: #000000;
+    text-align: center;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #222222
+}
+
 /***********************************
   Container
 ***********************************/
@@ -10,6 +20,23 @@
     display: flex;
     margin: 20px 50px 10px 0;
     justify-content: space-between;
+}
+
+.image-box-wrapper img {
+    transition: 300ms ease;
+}
+
+.image-box-wrapper img {
+    width: 40%;
+}
+
+.image-box-wrapper img:hover {
+    width: 35%;
+}
+
+.image-box-wrapper h5 {
+    font-weight: 600;
+    margin-top: 20px;
 }
 
 

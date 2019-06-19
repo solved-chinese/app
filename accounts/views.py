@@ -30,7 +30,13 @@ def manage_library(request):
 
 @login_required
 def dashboard(request):
+    if request.GET.get('endsession', False):
+        request.session['is_learning'] = False
     active = request.GET.get('active', 'Dashboard')
+
+    if active == 'Staff' and request.user.is_staff != True:
+        HttpResponseRedirect(reverse('dashboard')+"?active=Dashboard")
+
     return render(request, 'accounts/dashboard.html', {'active': active})
 
 @login_required
