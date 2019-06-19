@@ -1,7 +1,6 @@
 # Python files
 __pycache__
 *.pyc
-jiezi/jiezi/__init__.py
 
 jiezi_secret/
 
@@ -10,3 +9,11 @@ jiezi_secret/
 .idea
 *.log
 *.pot
+
+# secret folder
+jiezi_secret/
+
+# media folder except the default files
+media/*
+!media/default.jpg
+
