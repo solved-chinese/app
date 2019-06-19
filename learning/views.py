@@ -12,11 +12,6 @@ from learning.models import update_from_df, Character, Radical, Report
 from accounts.models import User
 
 
-def index(request):
-    # because the index page isn't ready
-    return render(request, 'index.html')
-
-
 def display_character(request, character_pk):
     try:
         character = Character.objects.get(pk=character_pk)
@@ -40,10 +35,6 @@ def display_character(request, character_pk):
                     if character.radical_3_id else None)
     return render(request, 'learning/display_character.html',
                   {'character':character, 'radicals':radicals})
-
-
-def about_us(request):
-    return render(request, 'about_us.html')
 
 
 @login_required()
@@ -89,4 +80,3 @@ def report(request):
         return render(request, 'simple_response.html', {'content':'Thank you for your response!'})
     except:
         return render(request, '404.html')
-    
