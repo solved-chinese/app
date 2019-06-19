@@ -26,7 +26,7 @@
                 </a>
             {% endif %}
             {% if user.is_staff == 1 %}
-                <a class="row sidebar-item" href="/accounts/dashboard?active=Admin">
+                <a class="row sidebar-item" href="/accounts/dashboard?active=Staff">
                     <img src="/static/images/userDashboard/setting.svg"><p class="align-items-center d-none d-md-flex">Staff Panel</p>
                 </a>
             {% endif %}
@@ -41,6 +41,32 @@
             </a>
         </div>
         <div class="offset-1 offset-sm-2 col-11 col-sm-10">
+            {% if active == "Admin"%}
+                <div class="dashboard-container">
+                    <h1>Admin Panel</h1>
+                    <hr/>
+                </div>
+            {% endif %}
+            {% if active == "Staff" %}
+                <div class="dashboard-container">
+                    <h1>Staff Panel</h1>
+                    <hr/>
+                    <div class="row align-items-center justify-content-around">
+                        <a class="col-9 col-md-5 col-xl-3 card-container image-box-wrapper" href="#" target="_blank"> 
+                            <img src="/static/images/userDashboard/logo-color-mark-sq.png">
+                            <h5> Update Entry </h5>
+                        </a>
+                        <a class="col-9 col-md-5 col-xl-3 card-container image-box-wrapper" href="#"> 
+                            <img src="/static/images/userDashboard/Google_Drive_logo.png">
+                            <h5> Update Media </h5> 
+                        </a>
+                        <a class="col-9 col-md-5 col-xl-3 card-container image-box-wrapper" href="#"> 
+                            <img src="/static/images/userDashboard/Check.png">
+                            <h5> Check Update Status </h5>
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
             {% if active == "Dashboard" %}
                 <div class="dashboard-container">
                     <h1>

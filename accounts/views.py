@@ -34,11 +34,11 @@ def dashboard(request):
         request.session['is_learning'] = False
     active = request.GET.get('active', 'Dashboard')
 
-    if active == 'Admin' and request.user.is_superuser != 1: 
+    if active == 'Admin' and request.user.is_superuser != True: 
         HttpResponseRedirect(reverse('dashboard')+"?active=Dashboard")
 
-    if active == 'Staff' and request.user.is_staff != 1:
-        active = 'Dashboard'
+    if active == 'Staff' and request.user.is_staff != True:
+        HttpResponseRedirect(reverse('dashboard')+"?active=Dashboard")
 
     return render(request, 'accounts/dashboard.html', {'active': active})
 

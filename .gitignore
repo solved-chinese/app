@@ -3,6 +3,8 @@ __pycache__
 *.pyc
 jiezi/jiezi/__init__.py
 
+jiezi_secret/
+
 # Miscellaneous files
 .DS_Store
 .idea
