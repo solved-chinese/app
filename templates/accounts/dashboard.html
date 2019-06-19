@@ -20,6 +20,16 @@
                     <small>{{ user.email }}</small>
                 </h5>
             </div>
+            {% if user.is_superuser == 1 %}
+                <a class="row sidebar-item" href="/accounts/dashboard?active=Admin">
+                    <img src="/static/images/userDashboard/setting.svg"><p class="align-items-center d-none d-md-flex">Admin Panel</p>
+                </a>
+            {% endif %}
+            {% if user.is_staff == 1 %}
+                <a class="row sidebar-item" href="/accounts/dashboard?active=Admin">
+                    <img src="/static/images/userDashboard/setting.svg"><p class="align-items-center d-none d-md-flex">Staff Panel</p>
+                </a>
+            {% endif %}
             <a class="row sidebar-item" href="/accounts/dashboard?active=Dashboard">
                 <img src="/static/images/userDashboard/dashboard.svg"><p class="align-items-center d-none d-md-flex">Dashboard</p>
             </a>
@@ -179,10 +189,10 @@
 
     if (strYear - {{ user.last_study_time.year }} > 0) {
         document.getElementById("last-study-date").innerHTML = strYear - {{ user.last_study_time.year }}
-        document.getElementById("last-study-date-unit").innerHTML = "Year ago"
+        document.getElementById("last-study-date-unit").innerHTML = "Years ago"
     } else if (strMonth - {{ user.last_study_time.month }} > 0) {
         document.getElementById("last-study-date").innerHTML = strMonth - {{ user.last_study_time.month }}
-        document.getElementById("last-study-date-unit").innerHTML = "Month ago"
+        document.getElementById("last-study-date-unit").innerHTML = "Months ago"
     } else if (strDate - {{ user.last_study_time.day }} > 0) {
         document.getElementById("last-study-date").innerHTML = strDate - {{ user.last_study_time.day }}
         document.getElementById("last-study-date-unit").innerHTML = "Days ago"

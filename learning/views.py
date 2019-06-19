@@ -56,6 +56,7 @@ def start_learning(request, minutes_to_learn):
     request.user.last_study_date = timezone.now().date()
     request.user.last_study_vocab_count += 1
     request.user.last_study_time = timezone.now()
+    request.user.last_study_duration = datetime.timedelta(seconds=0)
     request.user.save()
     request.session['last_record_time'] = timezone.now()
 
