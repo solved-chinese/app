@@ -56,11 +56,12 @@ class Character(models.Model):
     stroke_order_image = models.ImageField(default='default.jpg')
 
     def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
         if not Radical.objects.filter(pk=self.radical_1_id).exists() or \
                 self.radical_2_id and not Radical.objects.filter(pk=self.radical_2_id).exists() or \
                 self.radical_3_id and not Radical.objects.filter(pk=self.radical_3_id).exists():
-            raise Exception('related radicals not exist')
-        super().save(*args, **kwargs)
+            self.delete()
+            raise Exception('related radicals not exist, self deletion')
 
     def __str__(self):
         return '<C' + '%04d' % self.id + ':' + self.chinese +'>'
@@ -103,10 +104,15 @@ def update_from_df(df, Model):
     df.replace('', None, inplace=True)
     df.fillna(0, inplace=True)
     messages = []
+    good_pk = []
     for i, row in df.iterrows():
         id = row['id']
         if id == 0:
             messages.append(f'ERR at start : row {i} id not found')
+            continue
+        if '√' not in str(row['Comments']):
+            if Model.objects.filter(pk=id).exists():
+                messages.append(f'WARNING: delete id={id}')
             continue
         data = {}
         try:
@@ -123,10 +129,14 @@ def update_from_df(df, Model):
         try:
             _, is_created = Model.objects.update_or_create(id=id, defaults=data)
             messages.append(f"{'create' if is_created else 'update'} id={id}")
+            good_pk.append(id)
         except Exception as e:
             messages.append(f'ERR constructing id={id}: {str(e)}')
+    Model.objects.exclude(pk__in=good_pk).delete()
     for i, msg in enumerate(messages, 0):
         if msg[0]=='E':
             messages[i] = '<div style="color:red;">' + msg + '</div>'
+        elif msg[0]=='W':
+            messages[i] = '<div style="color:yellow;">' + msg + '</div>'
         else: messages[i] = '<div style="color:green;">' + msg + '</div>'
     return messages
