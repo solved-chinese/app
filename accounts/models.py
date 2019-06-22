@@ -14,7 +14,6 @@ class User(AbstractUser):
     cn_level = models.CharField(max_length=15, default="Beginner")
     # stats
     study_streak = models.IntegerField(default=0)
-    last_study_date = models.DateField(null=True)
     last_study_time = models.DateTimeField(null=True)
     last_study_duration = models.DurationField(default=datetime.timedelta(seconds=0))
     last_study_vocab_count = models.IntegerField(default=0, null=True)
@@ -34,23 +33,21 @@ class UserCharacter(models.Model):
     EF = models.FloatField(default=2.5)
     interval = models.DecimalField(default=1, max_digits=7, decimal_places=2)
 
-    # -1 first learn 0 wrong 1 correct
     def update(self, ans):
         self.times_learned += 1
         self.time_last_learned = timezone.now()
-        if ans != -1:
-            if ans == 1:
-                self.EF += 0.1;
-            else:
-                self.EF -= 0.8;
-            if self.EF < 1.3:
-                self.EF = 1.3
-            if self.times_learned == 1:
-                self.interval = 1
-            elif self.times_learned == 2:
-                self.interval = 6
-            else:
-                self.interval = (float)(self.interval) * self.EF
+        if ans:
+            self.EF += 0.1;
+        else:
+            self.EF -= 0.8;
+        if self.EF < 1.3:
+            self.EF = 1.3
+        if self.times_learned == 1:
+            self.interval = 1
+        elif self.times_learned == 2:
+            self.interval = 6
+        else:
+            self.interval = (float)(self.interval) * self.EF
         self.save()
 
     def __str__(self):
