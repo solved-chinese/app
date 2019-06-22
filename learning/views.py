@@ -34,15 +34,6 @@ def display_character(request, character_pk, **context_kwargs):
                   {'character':character, 'radicals':radicals, **context_kwargs})
 
 
-"""
-@api {POST} /learning/start_learning Start Learning
-@apiDescription Start Learning
-@apiGroup learning
-
-@apiParam  {int}     minutes_to_learn  how many minutes to learn
-@apiParam  {int[]}   uc_tags_filter=None  (optional, None means everything) the
-    ids of UserCharacterTags to INCLUDE
-"""
 @login_required
 def start_learning(request):
     minutes_to_learn = request.POST.get('minutes_to_learn')
@@ -115,11 +106,19 @@ def learning_process(request, session_key):
         return render('learning/review.html', {'choices': choices})
 
     def check_answer():
-        uc = UserCharacter.objects.get(pk=request.session['uc_pk'])
         correct_answer = request.session['correct_answer']
-        is_correct = request.GET.get('user_answer')==correct_answer
+        is_correct = request.GET.get('user_answer') == correct_answer
+
+        uc = UserCharacter.objects.get(pk=request.session['uc_pk'])
+        uc.times_learned += 1
+        uc.saved()
         uc.update(is_correct)
-        # TODO if wrong redirect back to learning
+
+        if not is_correct:
+            character = UserCharacter.objects.get(pk=request.session['uc_pk']).character
+            request.session['next'] = [
+                lambda req: display_character(req, character.pk, is_next=True)
+            ]
         return JsonResponse({'correct_answer': correct_answer})
 
     # prevents the user from resuming into previous session
@@ -140,21 +139,31 @@ def learning_process(request, session_key):
     if request.method == 'POST':
         return check_answer()
 
+    next_value = request.session.get('next', [])
+    if next_value:
+        request.session['next'] = next_value[1:]
+        return next_value[0](request)
+
     mode, uc = transition_stage()
     if mode is None:
         return end_learning('Add more characters to your library.')
 
-    request.session['mode']=mode
     request.session['uc_pk']=uc.pk
-    if mode == 'learn': # here learns only means learning for first time
+    if mode == 'learn': # here learn only means learning for first time
         uc.times_learned += 1
         uc.save()
         request.user.last_study_vocab_count += 1
         request.user.save()
+        request.session['next'] = [
+            lambda req: review(uc.character, 'pinyin'),
+            lambda req: review(uc.character, 'definition_1'),
+        ]
         return display_character(request, uc.character.pk, is_next=True)
-        # TODO should have reviews right after
     else:
-        return review(uc.character, 'pinyin')
+        if random.random < 0.5:
+            return review(uc.character, 'pinyin')
+        else:
+            return  review(uc.character, 'definition_1')
 
 
 def report(request):
@@ -172,23 +181,29 @@ def report(request):
         return redirect('404')
 
 """
-'learning/review.html':
-    context dictionary:
-    'choices': a list of 4 strings
-    'question': string of the question
+@api {POST} /learning/start_learning  Start Learning
+@apiDescription Start Learning
+@apiSuccessExample learning/review.html
+context dictionary:
+'choices': a list of 4 strings
+'question': string of the question
 
-    After the user selects an answer, ajax POST to the same url with following args:
-        'user_answer': integer with range [0, 4), representing user's answer
-
-    The server responds with 'correct_answer', which is in the same range,
-        display the result, and when the user clicks next, submit GET request
-        with no args
-
-    refer to old master review page for how to do specific things
+Display the question and choices with no next button
+After the user selects an answer, ajax POST to the same url with following args:
+    'user_answer': integer with range [0, 4), representing user's answer
+The server responds with 'correct_answer', which is in the same range,
+    display the result, provide next button, and when the user clicks next, 
+    submit GET request with no args
+refer to old master review page for how to do specific things
     https://github.com/chenyx512/jiezi/blob/old-master/jiezi/templates/learning/review_interface.html
 
-'learning/display_character.html':
-    There shouldn't be any ajax in this
-    In context dictionary, if 'is_next', provide an next button that submits
-        GET form to original url
+@apiSuccessExample learning/display_character.html:
+There shouldn't be any ajax in this
+In context dictionary, if 'is_next', provide an next button that submits
+    GET form to original url, otherwise keep the next button the same as before
+@apiGroup learning
+
+@apiParam  {int}     minutes_to_learn  how many minutes to learn
+@apiParam  {int[]}   uc_tags_filter=None  (optional, None means everything) the
+    ids of UserCharacterTags to INCLUDE
 """
