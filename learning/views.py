@@ -196,7 +196,7 @@ def report(request):
 
 @apiParam   {String}        key_word  the keyword to be searched
 
-@apiSuccess {Object[]} characters
+@apiSuccess {Object[]} characters list of serialized Character objects
 """
 @csrf_exempt
 def search(request):

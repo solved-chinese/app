@@ -49,7 +49,6 @@ def alt_profile(request):
         currentUser.cn_level = request.POST.get("cn_level")
         currentUser.save()
         return HttpResponseRedirect(reverse('dashboard')+"?active=Profile")
-        #render(request, 'accounts/dashboard.html', {'active': 'Profile'})
     else:
         return render(request, 'accounts/dashboard.html', {'active': 'Dashboard'})
 
@@ -59,7 +58,7 @@ def alt_profile(request):
 @apiDescription Make an copy of an existing character set in user's library
 @apiGroup accounts
 
-@apiParam   {Number}   set_id        the id of the set to be added
+@apiParam   {int}   set_id        the id of the set to be added
 @apiError (Error 400) {String} msg   the detail of the exception
 """
 @csrf_exempt
@@ -76,8 +75,8 @@ def add_set(request):
 @api {POST} /accounts/delete_character/ Delete character
 @apiGroup accounts
 
-@apiParam   {Number}   character_id  the Jiezi id of the character
-@apiParam   {Number}   set_id        (optional) the id of the user set for the character to be 
+@apiParam   {int}   character_id  the Jiezi id of the character
+@apiParam   {int}   set_id        (optional) the id of the user set for the character to be 
     deleted from, otherwise the character will be delete from all user sets of the current user
 """
 @csrf_exempt
@@ -100,7 +99,7 @@ def delete_character(request):
 @apiDescription Delete a user set
 @apiGroup accounts
 
-@apiParam   {Number}        set_id                the id of the user set to be deleted from
+@apiParam   {int}        set_id                the id of the user set to be deleted from
 @apiParam   {Boolean} is_delete_characters=False  (optional) false will not delete the characters 
     in this set from the user library, even if they don't belong to any sets 
 """
@@ -123,7 +122,7 @@ def delete_set(request):
 @apiDescription Rename a user set
 @apiGroup accounts
 
-@apiParam   {Number}        set_id            the id of the user set to change name
+@apiParam   {int}        set_id            the id of the user set to change name
 @apiParam   {String}        new_name          this cannot be the same as the name of a current set
 """
 @csrf_exempt
@@ -152,9 +151,3 @@ def get_available_sets(request):
         if not request.user.user_character_tags.filter(name=set.name).exists():
             sets.append(set)
     return JsonResponse({'sets': chenyx_serialize(sets)})
-
-
-# fill the sessionid into postman request head when testing
-@user_passes_test(lambda u: u.is_staff)
-def sessionid(request):
-    return HttpResponse(request.session.session_key)
