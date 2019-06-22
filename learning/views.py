@@ -9,9 +9,11 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
 
 from learning.models import update_from_df, Character, Radical, Report
 from accounts.models import User, UserCharacter
+from jiezi.utils.json_serializer import chenyx_serialize
 
 
 def display_character(request, character_pk, **context_kwargs):
@@ -185,8 +187,31 @@ def report(request):
     except:
         return redirect('404')
 
+
 """
-@api {POST} /learning/start_learning  Start Learning
+@api {POST} /search/ Search
+@apiDescription search characters using ONE given keyword, it will be search 
+    against pinyin (without accent), chinese, 3 definitions
+@apiGroup general
+
+@apiParam   {String}        key_word  the keyword to be searched
+
+@apiSuccess {Object[]} characters
+"""
+@csrf_exempt
+def search(request):
+    keyword = request.POST.get('keyword')
+    characters = Character.objects.filter(
+        Q(pinyin__unaccent__contains=keyword) | \
+        Q(chinese__exact=keyword) | \
+        Q(definition_1__icontains=keyword) | \
+        Q(definition_2__icontains=keyword) | \
+        Q(definition_3__icontains=keyword)
+    )
+    return JsonResponse({'characters': chenyx_serialize(characters)})
+
+"""
+@api {POST} /learning/start_learning/  Start Learning
 @apiDescription Start Learning
 @apiSuccessExample learning/review.html
 context dictionary:

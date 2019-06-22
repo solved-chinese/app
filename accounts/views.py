@@ -55,7 +55,7 @@ def alt_profile(request):
 
 
 """
-@api {POST} /accounts/add_set Add set
+@api {POST} /accounts/add_set/ Add set
 @apiDescription Make an copy of an existing character set in user's library
 @apiGroup accounts
 
@@ -73,7 +73,7 @@ def add_set(request):
 
 
 """
-@api {POST} /accounts/delete_character Delete character
+@api {POST} /accounts/delete_character/ Delete character
 @apiGroup accounts
 
 @apiParam   {Number}   character_id  the Jiezi id of the character
@@ -96,7 +96,7 @@ def delete_character(request):
 
 
 """
-@api {POST} /accounts/delete_set Delete set
+@api {POST} /accounts/delete_set/ Delete set
 @apiDescription Delete a user set
 @apiGroup accounts
 
@@ -119,7 +119,7 @@ def delete_set(request):
 
 
 """
-@api {POST} /accounts/rename_set Rename set
+@api {POST} /accounts/rename_set/ Rename set
 @apiDescription Rename a user set
 @apiGroup accounts
 
@@ -139,7 +139,7 @@ def rename_set(request):
 
 
 """
-@api {POST} /accounts/get_available_sets Get available sets
+@api {POST} /accounts/get_available_sets/ Get available sets
 @apiDescription Get available existing character sets to add
 @apiGroup accounts
 
@@ -152,22 +152,6 @@ def get_available_sets(request):
         if not request.user.user_character_tags.filter(name=set.name).exists():
             sets.append(set)
     return JsonResponse({'sets': chenyx_serialize(sets)})
-
-
-"""
-@api {POST} /search Search (not finished)
-@apiDescription search using a given keyword
-@apiGroup general
-
-@apiParam   {String}        key_word  the keyword to be searched
-
-@apiSuccess {Object[]} characters
-"""
-@csrf_exempt
-def search(request):
-    characters = []
-    keyword = request.POST.get('keyword')
-    return JsonResponse({'characters': characters})
 
 
 # fill the sessionid into postman request head when testing

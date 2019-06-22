@@ -26,5 +26,5 @@ urlpatterns = [
     path('delete_character/', views.delete_character),
     path('rename_set/', views.rename_set),
 
-    path('sessionid', views.sessionid),
+    path('sessionid/', views.sessionid),
 ]
