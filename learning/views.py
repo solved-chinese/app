@@ -64,7 +64,9 @@ def start_learning(request):
 @login_required
 @csrf_exempt
 def learning_process(request, session_key):
-    """ This is the main view that controls the learning process """
+    """ This is the main view that controls the learning process
+    Note session['next'] stores a list of callables with input request, and
+    they should be called before transition_stage happens """
     MIN_LEARN_REVIEW_INTERVAL = 180 # seconds
 
     def transition_stage():
@@ -114,7 +116,7 @@ def learning_process(request, session_key):
         uc.saved()
         uc.update(is_correct)
 
-        if not is_correct:
+        if not is_correct and not request.session['is_tolerant']:
             character = UserCharacter.objects.get(pk=request.session['uc_pk']).character
             request.session['next'] = [
                 lambda req: display_character(req, character.pk, is_next=True)
@@ -154,12 +156,15 @@ def learning_process(request, session_key):
         uc.save()
         request.user.last_study_vocab_count += 1
         request.user.save()
+        request.session['is_tolerant'] = True
         request.session['next'] = [
             lambda req: review(uc.character, 'pinyin'),
             lambda req: review(uc.character, 'definition_1'),
         ]
         return display_character(request, uc.character.pk, is_next=True)
     else:
+        # TODO separate the stats of the two attributes
+        request.session['is_tolerant'] = False
         if random.random < 0.5:
             return review(uc.character, 'pinyin')
         else:
