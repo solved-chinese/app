@@ -132,7 +132,10 @@ def update_from_df(df, Model):
             good_pk.append(id)
         except Exception as e:
             messages.append(f'ERR constructing id={id}: {str(e)}')
+
     Model.objects.exclude(pk__in=good_pk).delete()
+    # TODO possibly add delete warning
+
     for i, msg in enumerate(messages, 0):
         if msg[0]=='E':
             messages[i] = '<div style="color:red;">' + msg + '</div>'
