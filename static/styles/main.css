@@ -301,3 +301,54 @@ a {
     font-size: 26px;
     font-weight: 500;
 }
+
+/***********************************
+  Search Form
+***********************************/
+
+.search-form {
+    display: flex;
+
+    width: 80%;
+    margin: 50px auto 0;
+
+    transition: 150ms ease;
+}
+
+.search-form:hover {
+    box-shadow: 4px 5px 14px 0px rgba(4, 3, 2, 0.219);
+}
+
+.search-form-query {
+    flex-grow: 2;
+
+    height: 45px;
+    border: 1px solid var(--main-theme-color);
+    border-radius: 5px 0 0 5px;
+
+    font-size: 22px;
+    text-indent: 2%;
+    color: #252525;
+}
+
+.search-form-query::placeholder {
+    font-style: italic;
+    font-size: 19px;
+    letter-spacing: 1px;
+    color: #aaa;
+}
+
+
+.search-form-submit {
+    width: 20%;
+    border: 0;
+    border-radius: 0 5px 5px 0;
+    height: 45px;
+
+    color: #fff;
+    font-size: 20px;
+    letter-spacing: 3px;
+    font-weight: 300;
+
+    background: var(--main-theme-color);
+}

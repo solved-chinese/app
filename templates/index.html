@@ -17,6 +17,13 @@
     </div>
   {% endif %}
 
+  <form class="search-form" action="#" method="POST">
+      {% csrf_token %}
+      <input class="search-form-query" name="query" type="text" placeholder="Search characters, radicals, or explainations">
+      <input class="search-form-submit" type="submit" value="Search">
+  </form>
+
+
   <div class='card-container' id='study-container'>
     <h2>Select Duration</h2>
     <div id='slider-bar'>
