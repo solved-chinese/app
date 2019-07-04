@@ -6,6 +6,7 @@
     --main-theme-color: #be132d;
     --secondary-color: #888;
     --tertiary-color: #ccc;
+    --navbar-color: #fffefc;
 }
 
 
@@ -59,7 +60,7 @@ a {
 
 .full-width-bg-container {
     width: 100%;
-    background: rgba(255, 254, 252, 0.98);
+    background: var(--navbar-color);
     z-index: 100;
 }
 
@@ -300,4 +301,68 @@ a {
 .big-question-text {
     font-size: 26px;
     font-weight: 500;
+}
+
+/***********************************
+  Search-form
+***********************************/
+
+.search-form {
+    display: flex;
+    justify-content: center;
+
+    padding: 0 40px 0;
+    height: 50px;
+    flex-grow: 2;
+}
+
+.search-form-wrapper{
+    display: flex;
+
+    width: 70%;
+    height: inherit;
+    margin: auto;
+
+    background-color: var(--navbar-color);
+
+    border: 1px solid rgb(199, 199, 199);
+    border-radius: 25px;
+
+}
+
+.search-form-wrapper > img {
+    margin: auto;
+    padding: 0 15px 0;
+    height: 55%;
+    width: auto;
+}
+
+.search-form-wrapper > input[name="keyword"] {
+    height: inherit;
+    flex-grow: 2;
+
+    background-color: transparent;
+    color: #7c7c7c;
+    border: none;
+    outline: none;
+
+    font-size: 17px;
+}
+
+.search-form-wrapper > input[name="keyword"]::placeholder {
+    color: #a7a7a7;
+}
+
+/***********************************
+  Responsive
+***********************************/
+
+@media screen and (max-device-width: 768px) {
+    .search-form {
+        padding: 0 30px 0;
+    }
+
+    .search-form-wrapper {
+        width: 100%;
+    }
 }

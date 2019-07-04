@@ -37,9 +37,13 @@
 <header class="full-width-bg-container" id="navbar-bg">
   <div class="card-container" id="navbar-container">
     <div class="main-content-container" id="navbar">
-      <a class="logo flex-grow-1" href="{% url "index" %}"></a>
-      <form class="search-form flex-grow-2">
-        <input type="text" name="keyword"
+      <a class="logo" href="{% url "index" %}"></a>
+      <form class="search-form" action="#">
+        <div class="search-form-wrapper">
+          <img src="/static/images/search.svg">
+          <input type="text" name="keyword" placeholder="Search">
+          <input type="submit" hidden>
+        </div>
       </form>
       {% if user.is_authenticated %}
         <button class="btn dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="{% url "dashboard" %}">Hi, {{ user.username }}</button>
