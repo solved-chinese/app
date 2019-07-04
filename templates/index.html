@@ -1,12 +1,12 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
 {% block css %}
-  <link rel='stylesheet' type="text/css" href='{% static "styles/dashboard.css" %}'>
+  <link rel="stylesheet" type="text/css" href="{% static "styles/dashboard.css" %}">
 {% endblock %}
 {% block content %}
   {% if user.is_authenticated %}
   <h1>Welcome back, {{ user.username }}!</h1>
-  <a href='{% url "manage_library" %}' class='button button-primary' href='/vocab.html'>Manage Vocab List</a>
+  <a href="{% url "manage_library" %}" class="button button-primary" href="/vocab.html">Manage Vocab List</a>
   {% else %}
   <h1>Welcome to Solved Chinese!</h1>
   {% endif %}
@@ -17,38 +17,38 @@
     </div>
   {% endif %}
 
-  <div class='card-container' id='study-container'>
+  <div class="card-container" id="study-container">
     <h2>Select Duration</h2>
-    <div id='slider-bar'>
-      <div id='slider-activated'></div>
-      <div class='slider-value value-activated' data-value='1' data-width-percent='0'
-           style='margin-left: calc(0% - 10px);'></div>
-      <div class='slider-value' data-value='5' data-width-percent='8.333'
-           style='margin-left: calc(8.333% - 10px);'></div>
-      <div class='slider-value' data-value='15' data-width-percent='25'
-           style='margin-left: calc(25% - 10px);'></div>
-      <div class='slider-value' data-value='30' data-width-percent='50'
-           style='margin-left: calc(50% - 10px);'></div>
-      <div class='slider-value' data-value='45' data-width-percent='75'
-           style='margin-left: calc(75% - 10px);'></div>
-      <div class='slider-value' data-value='60' data-width-percent='100'
-           style='margin-left: calc(100% - 10px);'></div>
-      <p id='slider-value-text'>1&#8239;min</p>
+    <div id="slider-bar">
+      <div id="slider-activated"></div>
+      <div class="slider-value value-activated" data-value="1" data-width-percent="0"
+           style="margin-left: calc(0% - 10px);"></div>
+      <div class="slider-value" data-value="5" data-width-percent="8.333"
+           style="margin-left: calc(8.333% - 10px);"></div>
+      <div class="slider-value" data-value="15" data-width-percent="25"
+           style="margin-left: calc(25% - 10px);"></div>
+      <div class="slider-value" data-value="30" data-width-percent="50"
+           style="margin-left: calc(50% - 10px);"></div>
+      <div class="slider-value" data-value="45" data-width-percent="75"
+           style="margin-left: calc(75% - 10px);"></div>
+      <div class="slider-value" data-value="60" data-width-percent="100"
+           style="margin-left: calc(100% - 10px);"></div>
+      <p id="slider-value-text">1&#8239;min</p>
     </div>
     {% if user.is_authenticated %}
-    <a href="{% url 'display_character' 1 %}" class='button button-primary' id='study-button'>Study Now</a>
+    <a href="{% url "display_character" 1 %}" class="button button-primary" id="study-button">Study Now</a>
     {% else %}
-    <a href="{% url 'display_character' 1 %}" class='button button-primary' id='study-button'>Try Now</a>
+    <a href="{% url "display_character" 1 %}" class="button button-primary" id="study-button">Try Now</a>
     {% endif %}
   </div>
   {% if user.is_authenticated %}
-  <div class='card-container' id='stats-container'>
+  <div class="card-container" id="stats-container">
     <h2>Stats</h2>
     <div id="stats-content-container" class="row">
 
       <div class="col-12 col-md-6 col-lg-3 stat-text">
         <h5>Last time you studied</h5>
-        <p class='big-stat'>
+        <p class="big-stat">
           <script> document.write(({{ user.last_study_duration.seconds }} / 60).toFixed(1)); </script>
         </p>
         <p><strong>minutes</strong></p>
@@ -57,7 +57,7 @@
 
       <div class="col-12 col-md-6 col-lg-3 stat-text">
         <h5>You have spent</h5>
-        <p class='big-stat'>
+        <p class="big-stat">
           <script> document.write(({{ user.total_study_duration.seconds }} / 60).toFixed(1)); </script>
         <p><strong>minutes</strong></p>
         <hr class="d-block d-md-none">
@@ -65,7 +65,7 @@
 
       <div class="col-12 col-md-6 col-lg-3 stat-text">
         <h5>You have learned</h5>
-        <p class='big-stat'>{{ user.get_total_words_learned }}</p>
+        <p class="big-stat">{{ user.get_total_words_learned }}</p>
         <p><strong>words</strong></p>
         
       </div>
@@ -76,5 +76,5 @@
 {% endblock %}
 
 {% block extra_script %}
-  <script src='{% static 'scripts/dashboard.js' %}'></script>
+  <script src="{% static "scripts/dashboard.js" %}"></script>
 {% endblock %}
