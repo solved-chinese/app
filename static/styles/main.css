@@ -310,14 +310,16 @@ a {
 .search-form {
     display: flex;
     justify-content: center;
+    align-self: flex-start;
 
-    padding: 0 40px 0;
-    height: 50px;
+    padding: 15px 40px 0;
+    height: auto;
     flex-grow: 2;
 }
 
 .search-form-wrapper{
     display: flex;
+    flex-wrap: wrap;
 
     width: 70%;
     height: inherit;
@@ -325,7 +327,7 @@ a {
 
     background-color: var(--navbar-color);
 
-    border: 1px solid rgb(199, 199, 199);
+    border: 1px solid #c7c7c7;
     border-radius: 25px;
 
 }
@@ -333,12 +335,12 @@ a {
 .search-form-wrapper > img {
     margin: auto;
     padding: 0 15px 0;
-    height: 55%;
+    height: 28px;
     width: auto;
 }
 
 .search-form-wrapper > input[name="keyword"] {
-    height: inherit;
+    height: 50px;
     flex-grow: 2;
 
     background-color: transparent;
@@ -351,6 +353,60 @@ a {
 
 .search-form-wrapper > input[name="keyword"]::placeholder {
     color: #a7a7a7;
+}
+
+#search-dropdown-wrapper {
+    display: block;
+    width: 100%;
+}
+
+#search-dropdown-wrapper > hr {
+    margin: 0 auto;
+    width: 90%;
+    
+    border-top: 1px solid #c7c7c7;
+}
+
+.search-entry {
+    height: 50px;
+    width: 90%;
+    margin: 5px auto;
+}
+
+.search-entry > h4 {
+    display: inline-block;
+
+    font-size: 30px;
+    line-height: inherit;
+}
+
+.search-entry > h4 > small {
+    color: var(--secondary-color);
+    font-size: 0.54em;
+    letter-spacing: 1px;
+}
+
+.search-entry > p {
+    display: inline-block;
+
+    margin: 0 0 0 20px;
+
+    font-size: 15px;
+}
+
+.search-entry > p span {
+    color: var(--secondary-color);
+    font-style: italic;
+    font-size: 0.9em;
+}
+
+.error-msg {
+    display: none;
+
+    height: 40px;
+
+    color: #ce2841;
+    text-align: center;
 }
 
 /***********************************

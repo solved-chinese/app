@@ -43,6 +43,16 @@
           <img src="/static/images/search.svg">
           <input type="text" name="keyword" placeholder="Search">
           <input type="submit" hidden>
+          <div id="search-dropdown-wrapper">
+            <hr>
+            <div class="error-msg"></div>
+            <div class="search-entry">
+              <h4>字<small>
+                [Pinyin]
+              </small></h4> <!--Someone take a look, this element does not align-->
+              <p>This is going to be the definition<br><span>This would be the example sentence</span></p>
+            </div>
+          </div>
         </div>
       </form>
       {% if user.is_authenticated %}
@@ -62,7 +72,7 @@
 </header>
 
 <div class="main-content-container" id="page-container">
-  {% block content %}THIS SHOULD DEFINITELY BE IMPLEMENTED{% endblock content %}
+  {% block content %}{% endblock content %}
 </div>
 
 
@@ -76,9 +86,11 @@
 <script src="{% static "scripts/main.js" %}"></script>
 <script>
   const $target = $(".search-form-wrapper > input[name='keyword']");
+  var isToggled = false;
   const searchHandler = function() {
     keyword = $target.val();
     if (keyword != null) {
+      let $menu = $("#search-dropdown-wrapper");
       $.ajax({
           url: "{% url 'search_query' %}",
 
@@ -92,6 +104,16 @@
       })
         .done(function(json) {
           console.log(json);
+          if (!isToggled) {
+
+          }
+        })
+
+        .fail(function(xhr, status, errorThrown) {
+          $("#search-dropdown-wrapper > .errorMsg").text("There was a problem connecting with the Solved server");
+          if (!isToggled) {
+
+          }
         })
     }
   }
