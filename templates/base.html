@@ -38,7 +38,7 @@
   <div class="card-container" id="navbar-container">
     <div class="main-content-container" id="navbar">
       <a class="logo" href="{% url "index" %}"></a>
-      <form class="search-form" action="#">
+      <form class="search-form" action="/learning/search/" method="POST">
         <div class="search-form-wrapper">
           <img src="/static/images/search.svg">
           <input type="text" name="keyword" placeholder="Search">
@@ -74,5 +74,31 @@
 </footer>
 </body>
 <script src="{% static "scripts/main.js" %}"></script>
-{% block extra_script %}{% endblock %}
+<script>
+  const $target = $(".search-form-wrapper > input[name='keyword']");
+  const searchHandler = function() {
+    keyword = $target.val();
+    if (keyword != null) {
+      $.ajax({
+          url: "{% url 'search_query' %}",
+
+          data: {
+            keyword: keyword
+          },
+
+          type: "POST",
+
+          dataType : "json",
+      })
+        .done(function(json) {
+          console.log(json);
+        })
+    }
+  }
+  
+  $target.on("input propertychange", searchHandler);
+
+</script>
+{% block extra_script %}
+{% endblock %}
 </html>
