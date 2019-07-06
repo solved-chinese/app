@@ -25,6 +25,4 @@ urlpatterns = [
     path('get_available_sets/', views.get_available_sets),
     path('delete_character/', views.delete_character),
     path('rename_set/', views.rename_set),
-
-    path('sessionid', views.sessionid),
 ]

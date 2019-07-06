@@ -38,7 +38,9 @@ def _download(file, download_request):
 
 @user_passes_test(lambda u: u.is_staff)
 def update_entry(request):
-    """ pulls entry spreadsheet from GDrive and use it to update database """
+    """ pulls entry spreadsheet from GDrive and use it to update database
+    NOTE: Under current logic, it is MANDATORY that radicals are updated
+    before characters """
     download_request = _get_service().files().export_media(fileId=ENTRY_FILE_ID,
         mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     file = io.BytesIO()
