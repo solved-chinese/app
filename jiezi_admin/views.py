@@ -3,7 +3,7 @@ import os
 from tqdm import tqdm
 
 import pandas as pd
-import PIL
+from PIL import Image
 from apiclient import discovery
 from google.oauth2 import service_account
 from googleapiclient.http import MediaIoBaseDownload
@@ -83,8 +83,8 @@ def _update_media(log_file, parent_id, Model, field_name, is_make_square=False):
         _download(file, download_request)
 
         if is_make_square:
-            img = PIL.Image.open(path)
-            img = img.resize((600, 600), PIL.Image.ANTIALIAS)
+            img = Image.open(path)
+            img = img.resize((600, 600), Image.ANTIALIAS)
             img.save(path, optimize=True, quality=80)
 
         setattr(model, field_name, os.path.join(field_name, os.path.basename(path)))
