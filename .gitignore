@@ -16,3 +16,6 @@ jiezi_secret/
 media/*
 !media/default.jpg
 
+# uwsgi stuff should be kept locally
+uwsgi
+
