@@ -404,9 +404,12 @@ a {
 
 .error-msg {
     height: 40px;
+    margin-top: 10px;
 
     color: #ce2841;
+    font-size: 16px;
     text-align: center;
+    letter-spacing: 1px;
 }
 
 /***********************************

@@ -70,53 +70,12 @@
 
 <footer class="full-width-bg-container" id="footer-bg">
   <div class="main-content-container" id="footer">
-    <p>SolvedChinese.org©️2019</p>
+    <p>SolvedChinese.org&#169;2019</p>
     <a href="https://github.com/chenyx512/Jiezi" target="_blank"><img src="/static/images/github.svg" class="footer-icon"></a>
   </div>
 </footer>
 </body>
 <script src="{% static "scripts/main.js" %}"></script>
-<script>
-  const $source = $(".search-form-wrapper > input[name='keyword']");
-  const $target = $("#search-dropdown-wrapper");
-  const searchHandler = function() {
-    keyword = $source.val();
-    if (keyword != null) {
-      let $target = $("#search-dropdown-wrapper");
-      $.ajax({
-          url: "{% url 'search_query' %}",
-
-          data: {
-            keyword: keyword
-          },
-
-          type: "POST",
-
-          dataType : "json",
-      })
-        .done(function(json) {
-          console.log(json.characters.length);
-          if (json.characters.length == 0) {
-            $target.html("<hr><div class='error-msg'>No Match</div>");
-          } else {
-            $target.html("<hr>");
-            for (let i=0; i <= (json.characters.length>6 ? 6:json.characters.length) ; i++){
-              let character = json.characters[i].fields;
-              let entry = "<div class='search-entry'><h4>"+character.chinese+"<small>["+character.pinyin+"]</small></h4> \
-                <p>"+character.definition_1+"<br><span>"+character.explanation_2+"</span></p></div>";
-              $(entry).appendTo($target);
-            }
-          }
-        })
-
-        .fail(function(xhr, status, errorThrown) {
-          $target.html("<hr><div class='error-msg'>There was a problem connecting with the Solved server</div>");
-        })
-    }
-  }
-  
-  $source.on("input propertychange", searchHandler);
-</script>
 {% block extra_script %}
 {% endblock %}
 </html>
