@@ -40,10 +40,12 @@ $(document).ready(() => {
             $target.html("<hr><div class='error-msg'>NO MATCH</div>");
           } else {
             $target.html("<hr>");
-            for (let i=0; i <= (json.characters.length>6 ? 6:json.characters.length) ; i++){
+            for (let i=0; i <= (json.characters.length>6 ? 6:json.characters.length); i++){
               let character = json.characters[i].fields;
-              let entry = "<div class='search-entry'><h4>"+character.chinese+"<small>["+character.pinyin+"]</small></h4> \
-                <p>"+character.definition_1+"<br><span>"+character.explanation_2+"</span></p></div>";
+              let target_pk = ("0000" + json.characters[i].pk).slice(-4);
+              let entry = "<a href='/learning/C"+target_pk+"' class='search-entry-wrapper'><div class='search-entry'><h4>"+character.chinese+"<small>["+character.pinyin.replace(/\s+/g, '')+"]</small></h4> \
+                <p>"+character.definition_1+"<br><span>"+character.explanation_2+"</span></p></div></a>"; 
+                // The replace method is to temporarily remove the space in some pinyin entries until this issue is solved in the database.
               $(entry).appendTo($target);
             }
           }

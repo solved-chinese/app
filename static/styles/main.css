@@ -369,12 +369,17 @@ a {
 
 .search-entry {
     height: 50px;
-    width: 90%;
+    width: 95%;
     margin: 5px auto;
+    border-radius: 10px;
+
+    transition: 200ms, ease;
 }
 
 .search-entry > h4 {
     display: inline-block;
+
+    padding-left: 3%;
 
     font-size: 30px;
     line-height: inherit;
@@ -400,6 +405,17 @@ a {
     color: var(--secondary-color);
     font-style: italic;
     font-size: 0.9em;
+}
+
+.search-entry:hover {
+    background-color: #e6e6e6;
+    box-shadow: 0 0 5px 5px #e6e6e6;
+
+    transition: 150ms ease;
+}
+
+.search-entry-wrapper {
+    text-align: left;
 }
 
 .error-msg {
