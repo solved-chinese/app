@@ -44,14 +44,6 @@
           <input type="text" name="keyword" placeholder="Search">
           <input type="submit" hidden>
           <div id="search-dropdown-wrapper">
-            <hr>
-            <div class="error-msg"></div>
-            <div class="search-entry">
-              <h4>字<small>
-                [Pinyin]
-              </small></h4> <!--Someone take a look, this element does not align-->
-              <p>This is going to be the definition<br><span>This would be the example sentence</span></p>
-            </div>
           </div>
         </div>
       </form>
@@ -86,7 +78,7 @@
 <script src="{% static "scripts/main.js" %}"></script>
 <script>
   const $source = $(".search-form-wrapper > input[name='keyword']");
-  var isToggled = false;
+  const $target = $("#search-dropdown-wrapper");
   const searchHandler = function() {
     keyword = $source.val();
     if (keyword != null) {
@@ -103,32 +95,27 @@
           dataType : "json",
       })
         .done(function(json) {
-          console.log(json.characters[0]);
-          $target.html("<hr>");
-          if (json.characters.length > 6){
-            for (let i=0; i<=6; i++){
-              let model = json.characters[i].fields;
-              let entry = "<div class='search-entry'><h4>"+model.chinese+"<small>["+model.pinyin+"]</small></h4> \
-                <p>"+model.definition_1+"<br><span>"+model.explanation_2+"</span></p></div>";
+          console.log(json.characters.length);
+          if (json.characters.length == 0) {
+            $target.html("<hr><div class='error-msg'>No Match</div>");
+          } else {
+            $target.html("<hr>");
+            for (let i=0; i <= (json.characters.length>6 ? 6:json.characters.length) ; i++){
+              let character = json.characters[i].fields;
+              let entry = "<div class='search-entry'><h4>"+character.chinese+"<small>["+character.pinyin+"]</small></h4> \
+                <p>"+character.definition_1+"<br><span>"+character.explanation_2+"</span></p></div>";
               $(entry).appendTo($target);
             }
-          } else 
-          if (!isToggled) {
-
           }
         })
 
         .fail(function(xhr, status, errorThrown) {
-          $("#search-dropdown-wrapper > .errorMsg").text("There was a problem connecting with the Solved server");
-          if (!isToggled) {
-
-          }
+          $target.html("<hr><div class='error-msg'>There was a problem connecting with the Solved server</div>");
         })
     }
   }
   
   $source.on("input propertychange", searchHandler);
-
 </script>
 {% block extra_script %}
 {% endblock %}

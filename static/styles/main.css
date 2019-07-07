@@ -403,8 +403,6 @@ a {
 }
 
 .error-msg {
-    display: none;
-
     height: 40px;
 
     color: #ce2841;
