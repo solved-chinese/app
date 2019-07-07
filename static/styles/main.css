@@ -397,6 +397,10 @@ a {
     display: inline-block;
 
     margin: 0 0 0 20px;
+    max-width: 70%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     font-size: 15px;
 }
