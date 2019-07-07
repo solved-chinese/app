@@ -85,12 +85,12 @@
 </body>
 <script src="{% static "scripts/main.js" %}"></script>
 <script>
-  const $target = $(".search-form-wrapper > input[name='keyword']");
+  const $source = $(".search-form-wrapper > input[name='keyword']");
   var isToggled = false;
   const searchHandler = function() {
-    keyword = $target.val();
+    keyword = $source.val();
     if (keyword != null) {
-      let $menu = $("#search-dropdown-wrapper");
+      let $target = $("#search-dropdown-wrapper");
       $.ajax({
           url: "{% url 'search_query' %}",
 
@@ -103,7 +103,16 @@
           dataType : "json",
       })
         .done(function(json) {
-          console.log(json);
+          console.log(json.characters[0]);
+          $target.html("<hr>");
+          if (json.characters.length > 6){
+            for (let i=0; i<=6; i++){
+              let model = json.characters[i].fields;
+              let entry = "<div class='search-entry'><h4>"+model.chinese+"<small>["+model.pinyin+"]</small></h4> \
+                <p>"+model.definition_1+"<br><span>"+model.explanation_2+"</span></p></div>";
+              $(entry).appendTo($target);
+            }
+          } else 
           if (!isToggled) {
 
           }
@@ -118,7 +127,7 @@
     }
   }
   
-  $target.on("input propertychange", searchHandler);
+  $source.on("input propertychange", searchHandler);
 
 </script>
 {% block extra_script %}

@@ -384,6 +384,8 @@ a {
     color: var(--secondary-color);
     font-size: 0.54em;
     letter-spacing: 1px;
+
+    padding-left: 10px;
 }
 
 .search-entry > p {
