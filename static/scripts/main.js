@@ -43,11 +43,13 @@ $(document).ready(() => {
             for (let i=0; i <= (json.characters.length>6 ? 6:json.characters.length); i++){
               let character = json.characters[i].fields;
               let target_pk = ("0000" + json.characters[i].pk).slice(-4);
-              let entry = "<a href='/learning/C"+target_pk+"' class='search-entry-wrapper'><div class='search-entry'><h4>"+character.chinese+"<small>["+character.pinyin.replace(/\s+/g, '')+"]</small></h4> \
+              let entry = "<a href='/learning/C"+target_pk+"' class='search-entry-wrapper' id='"+i+"'><div class='search-entry'><h4>"+character.chinese+"<small>["+character.pinyin.replace(/\s+/g, '')+"]</small></h4> \
                 <p>"+character.definition_1+"<br><span>"+character.explanation_2+"</span></p></div></a>"; 
                 // The replace method is to temporarily remove the space in some pinyin entries until this issue is solved in the database.
               $(entry).appendTo($target);
             }
+            let redir = $(".search-entry-wrapper#0").attr("href");
+            $(".search-form").attr("action", redir);
           }
         })
   
