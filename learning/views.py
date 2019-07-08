@@ -201,14 +201,18 @@ def report(request):
 @csrf_exempt
 def search(request):
     keyword = request.POST.get('keyword')
-    characters = Character.objects.filter(
-        Q(pinyin__unaccent__contains=keyword) | \
-        Q(chinese__exact=keyword) | \
+    characters_1 = Character.objects.filter(
+        Q(pinyin__unaccent__iexact=keyword) | Q(chinese__exact=keyword)
+    )
+    characters_2 = Character.objects.filter(
         Q(definition_1__icontains=keyword) | \
         Q(definition_2__icontains=keyword) | \
-        Q(definition_3__icontains=keyword)
-    )
-    return JsonResponse({'characters': chenyx_serialize(characters)})
+        Q(definition_3__icontains=keyword) | \
+        Q(pinyin__unaccent__icontains=keyword)
+    ).difference(characters_1)
+    return JsonResponse({'characters':
+        chenyx_serialize(characters_1)+chenyx_serialize(characters_2)
+    })
 
 """
 @api {POST} /learning/start_learning/  Start Learning

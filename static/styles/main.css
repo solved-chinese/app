@@ -6,6 +6,7 @@
     --main-theme-color: #be132d;
     --secondary-color: #888;
     --tertiary-color: #ccc;
+    --navbar-color: #fffefc;
 }
 
 
@@ -59,7 +60,7 @@ a {
 
 .full-width-bg-container {
     width: 100%;
-    background: rgba(255, 254, 252, 0.98);
+    background: var(--navbar-color);
     z-index: 100;
 }
 
@@ -300,4 +301,147 @@ a {
 .big-question-text {
     font-size: 26px;
     font-weight: 500;
+}
+
+/***********************************
+  Search-form
+***********************************/
+
+.search-form {
+    display: flex;
+    justify-content: center;
+    align-self: flex-start;
+
+    padding: 15px 40px 0;
+    height: auto;
+    flex-grow: 2;
+}
+
+.search-form-wrapper{
+    display: flex;
+    flex-wrap: wrap;
+
+    width: 70%;
+    height: inherit;
+    margin: auto;
+
+    background-color: var(--navbar-color);
+
+    border: 1px solid #c7c7c7;
+    border-radius: 25px;
+
+}
+
+.search-form-wrapper > img {
+    margin: auto;
+    padding: 0 15px 0;
+    height: 28px;
+    width: auto;
+}
+
+.search-form-wrapper > input[name="keyword"] {
+    height: 50px;
+    flex-grow: 2;
+
+    background-color: transparent;
+    color: #7c7c7c;
+    border: none;
+    outline: none;
+
+    font-size: 17px;
+}
+
+.search-form-wrapper > input[name="keyword"]::placeholder {
+    color: #a7a7a7;
+}
+
+#search-dropdown-wrapper {
+    display: block;
+    width: 100%;
+}
+
+#search-dropdown-wrapper > hr {
+    margin: 0 auto;
+    width: 90%;
+    
+    border-top: 1px solid #c7c7c7;
+}
+
+.search-entry {
+    height: 50px;
+    width: 95%;
+    margin: 5px auto;
+    border-radius: 10px;
+
+    transition: 200ms, ease;
+}
+
+.search-entry > h4 {
+    display: inline-block;
+
+    padding-left: 3%;
+
+    font-size: 30px;
+    line-height: inherit;
+}
+
+.search-entry > h4 > small {
+    color: var(--secondary-color);
+    font-size: 0.54em;
+    letter-spacing: 1px;
+
+    padding-left: 10px;
+}
+
+.search-entry > p {
+    display: inline-block;
+
+    margin: 0 0 0 20px;
+    max-width: 70%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    font-size: 15px;
+}
+
+.search-entry > p span {
+    color: var(--secondary-color);
+    font-style: italic;
+    font-size: 0.9em;
+}
+
+.search-entry:hover {
+    background-color: #e6e6e6;
+    box-shadow: 0 0 5px 5px #e6e6e6;
+
+    transition: 150ms ease;
+}
+
+.search-entry-wrapper {
+    text-align: left;
+}
+
+.error-msg {
+    height: 40px;
+    margin-top: 10px;
+
+    color: #ce2841;
+    font-size: 16px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+/***********************************
+  Responsive
+***********************************/
+
+@media screen and (max-device-width: 768px) {
+    .search-form {
+        padding: 0 30px 0;
+    }
+
+    .search-form-wrapper {
+        width: 100%;
+    }
 }

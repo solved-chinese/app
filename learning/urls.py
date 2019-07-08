@@ -19,5 +19,5 @@ urlpatterns = [
     path('start_learning/', views.start_learning, name='start_learning'),
     path('status<slug:session_key>/', views.learning_process),
     path('report/', views.report, name="report"),
-    path('search/', views.search),
+    path('search/', views.search, name="search_query"),
 ]
