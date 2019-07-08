@@ -18,7 +18,7 @@ var app = new Vue({
 $(document).ready(() => {
   const $source = $(".search-form-wrapper > input[name='keyword']");
   const $target = $("#search-dropdown-wrapper");
-  $source.blur(() => {
+  $(".search-form-wrapper").blur(() => {
     $target.html("");
   })
   const searchHandler = () => {
@@ -26,13 +26,10 @@ $(document).ready(() => {
     if (keyword != "") {
       $.ajax({
           url: "/learning/search/",
-  
           data: {
             keyword: keyword
           },
-  
           type: "POST",
-  
           dataType : "json",
       })
         .done(json => {
