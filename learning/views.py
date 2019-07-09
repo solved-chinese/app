@@ -1,5 +1,9 @@
 import datetime
 import random
+import requests
+import time
+import hashlib
+import base64
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -14,6 +18,8 @@ from django.db.models import Q
 from learning.models import update_from_df, Character, Radical, Report
 from accounts.models import User, UserCharacter
 from jiezi.utils.json_serializer import chenyx_serialize
+
+
 
 
 def display_character(request, character_pk, **context_kwargs):
@@ -186,6 +192,72 @@ def report(request):
         })
     except:
         return redirect('404')
+
+def getAudio(request):
+
+    URL = "http://api.xfyun.cn/v1/service/v1/tts"
+    AUE = "raw"
+    APPID = "5d2407a2"
+    API_KEY = "1194c50ae845b966ade10e8b47ece15e"
+
+    def getHeader():
+        curTime = str(int(time.time()))
+        # ttp=ssml
+        param = "{\"aue\":\"" + AUE + "\",\"auf\":\"audio/L16;rate=16000\",\"voice_name\":\"aisjiuxu\",\"speed\":\"10\",\"engine_type\":\"intp65\"}"
+        print("param:{}".format(param))
+
+        paramBase64 = str(base64.b64encode(param.encode('utf-8')), 'utf-8')
+        print("x_param:{}".format(paramBase64))
+
+        m2 = hashlib.md5()
+        m2.update((API_KEY + curTime + paramBase64).encode('utf-8'))
+
+        checkSum = m2.hexdigest()
+        print('checkSum:{}'.format(checkSum))
+
+        header = {
+            'X-CurTime': curTime,
+            'X-Param': paramBase64,
+            'X-Appid': APPID,
+            'X-CheckSum': checkSum,
+            'X-Real-Ip': '127.0.0.1',
+            'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+        }
+        print(header)
+        return header
+
+
+    def getBody(text):
+        data = {'text': text}
+        return data
+
+
+    def writeFile(file, content):
+        with open(file, 'wb') as f:
+            f.write(content)
+        f.close()
+
+    #  待合成文本内容
+    r = requests.post(URL, headers=getHeader(), data=getBody(request.GET.get("t")))
+
+    contentType = r.headers['Content-Type']
+    if contentType == "audio/mpeg":
+        sid = r.headers['sid']
+        if AUE == "raw":
+            #print(r.content)
+    #   合成音频格式为pcm、wav并保存在audio目录下
+            writeFile("learning/audio/" + sid + ".wav", r.content)
+        else:
+            #print(r.content)
+    #   合成音频格式为mp3并保存在audio目录下
+            writeFile("learning/audio/" + "xiaoyan" + ".mp3", r.content)
+        print("success, sid = " + sid)
+        return JsonResponse({'success': 0})
+    else:
+    #   error-code reference: https://www.xfyun.cn/document/error-code （code返回错误码时必看）
+        print(r.text)
+        return JsonResponse({'success': 1})
+
 
 
 """
