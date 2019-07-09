@@ -204,7 +204,7 @@ def getAudio(request):
     def getHeader():
         curTime = str(int(time.time()))
         # ttp=ssml
-        param = "{\"aue\":\"" + AUE + "\",\"auf\":\"audio/L16;rate=16000\",\"voice_name\":\"aisjiuxu\",\"speed\":\"10\",\"engine_type\":\"intp65\"}"
+        param = "{\"aue\":\"" + AUE + "\",\"auf\":\"audio/L16;rate=16000\",\"voice_name\":\"aisxping\",\"speed\":\"10\",\"engine_type\":\"intp65\"}"
         print("param:{}".format(param))
 
         paramBase64 = str(base64.b64encode(param.encode('utf-8')), 'utf-8')
@@ -248,17 +248,20 @@ def getAudio(request):
                 writeFile("static/audio/" + request.GET.get("pk") + ".wav", r.content)
             else:
                 writeFile("static/audio/" + "xiaoyan" + ".mp3", r.content)
-            return JsonResponse({'success': True})
+            return True
         else:
         #   error-code reference: https://www.xfyun.cn/document/error-code
-            return JsonResponse({'success': False})
+            return False
 
     audioKey = request.GET.get("pk")
     if os.path.exists('static/audio/' + audioKey + '.wav'):
         return JsonResponse({'success': True})
     else:
-        requestAudio(request.GET.get("t"))
-        return JsonResponse({'success': True})
+        res = requestAudio(request.GET.get("t"))
+        if res:
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False})
 
 
 

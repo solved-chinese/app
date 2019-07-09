@@ -14,12 +14,19 @@ $("document").ready(function(){
                 if (data.success) {
                     var audio = new Audio('/static/audio/' + pk + '.wav');
                     audio.play();
+                } else {
+                    $("#audio-error-msg").fadeIn();
+                    setTimeout(() => {
+                        $("#audio-error-msg").fadeOut()
+                    }, 3500);
                 }
-                console.log(data.success);
             })
 
             .fail((jqXhr, textStatus, errorMessage) => {
-                console.log("fail ajax" + errorMessage);
+                $("#audio-error-msg").fadeIn();
+                setTimeout(() => {
+                    $("#audio-error-msg").fadeOut()
+                }, 3500);
             })
     })
 })
