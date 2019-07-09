@@ -205,16 +205,13 @@ def getAudio(request):
         curTime = str(int(time.time()))
         # ttp=ssml
         param = "{\"aue\":\"" + AUE + "\",\"auf\":\"audio/L16;rate=16000\",\"voice_name\":\"aisxping\",\"speed\":\"10\",\"engine_type\":\"intp65\"}"
-        print("param:{}".format(param))
 
         paramBase64 = str(base64.b64encode(param.encode('utf-8')), 'utf-8')
-        print("x_param:{}".format(paramBase64))
 
         m2 = hashlib.md5()
         m2.update((API_KEY + curTime + paramBase64).encode('utf-8'))
 
         checkSum = m2.hexdigest()
-        print('checkSum:{}'.format(checkSum))
 
         header = {
             'X-CurTime': curTime,
@@ -224,7 +221,6 @@ def getAudio(request):
             'X-Real-Ip': '127.0.0.1',
             'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
         }
-        print(header)
         return header
 
 
