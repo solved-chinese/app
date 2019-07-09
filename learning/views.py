@@ -4,6 +4,7 @@ import requests
 import time
 import hashlib
 import base64
+import os.path
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -237,26 +238,27 @@ def getAudio(request):
             f.write(content)
         f.close()
 
-    #  待合成文本内容
-    r = requests.post(URL, headers=getHeader(), data=getBody(request.GET.get("t")))
+    def requestAudio(character):
+        r = requests.post(URL, headers=getHeader(), data=getBody(character))
 
-    contentType = r.headers['Content-Type']
-    if contentType == "audio/mpeg":
-        sid = r.headers['sid']
-        if AUE == "raw":
-            #print(r.content)
-    #   合成音频格式为pcm、wav并保存在audio目录下
-            writeFile("learning/audio/" + sid + ".wav", r.content)
+        contentType = r.headers['Content-Type']
+        if contentType == "audio/mpeg":
+            sid = r.headers['sid']
+            if AUE == "raw":
+                writeFile("static/audio/" + request.GET.get("pk") + ".wav", r.content)
+            else:
+                writeFile("static/audio/" + "xiaoyan" + ".mp3", r.content)
+            return JsonResponse({'success': True})
         else:
-            #print(r.content)
-    #   合成音频格式为mp3并保存在audio目录下
-            writeFile("learning/audio/" + "xiaoyan" + ".mp3", r.content)
-        print("success, sid = " + sid)
-        return JsonResponse({'success': 0})
+        #   error-code reference: https://www.xfyun.cn/document/error-code
+            return JsonResponse({'success': False})
+
+    audioKey = request.GET.get("pk")
+    if os.path.exists('static/audio/' + audioKey + '.wav'):
+        return JsonResponse({'success': True})
     else:
-    #   error-code reference: https://www.xfyun.cn/document/error-code （code返回错误码时必看）
-        print(r.text)
-        return JsonResponse({'success': 1})
+        requestAudio(request.GET.get("t"))
+        return JsonResponse({'success': True})
 
 
 
