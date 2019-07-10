@@ -16,6 +16,8 @@
 }
 
 #speak-button {
+    position: relative;
+
     margin-left: 10px;
     color: #040302;
     cursor: pointer;
@@ -37,3 +39,17 @@
 #end-session-button {
     margin-left: auto;
 }
+
+#audio-error-msg {
+    display: none;
+    position: absolute;
+
+    top: 50px;
+    left: -120px;
+    width: 350px;
+
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+}
+

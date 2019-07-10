@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block meta %}
+<meta content="{{ character.pk }}" name="pk">
+{% endblock meta %}
+
 {% block css %}
   <link rel='stylesheet'
         href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'
@@ -26,6 +30,7 @@
           });
       });
   </script>
+  <script src="{% static 'scripts/display_character.js' %}"></script>
 
 {% endblock js %}
 
@@ -33,7 +38,7 @@
   <div id='learn-header-container'>
     <h1 id='character-text'>{{ character.chinese }}</h1>
     <span id='character-pinyin'>{{ character.pinyin }}<i class='fas fa-volume'
-                                                         id='speak-button'></i></span>
+                                                         id='speak-button'><div id="audio-error-msg" class="alert alert-danger">An error has occured, please retry</div></i></span>
     <!-- we need to think about what the following buttons do -->
     <a class='button button-primary' id='next-button' href='{% url 'display_character' character.pk|add:"1" %}'>Next</a>
     <a class='button button-secondary' href='/vocab.html'>I Know This</a>

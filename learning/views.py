@@ -1,5 +1,10 @@
 import datetime
 import random
+import requests
+import time
+import hashlib
+import base64
+import os.path
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -14,6 +19,8 @@ from django.db.models import Q
 from learning.models import update_from_df, Character, Radical, Report
 from accounts.models import User, UserCharacter
 from jiezi.utils.json_serializer import chenyx_serialize
+
+
 
 
 def display_character(request, character_pk, **context_kwargs):
@@ -186,6 +193,72 @@ def report(request):
         })
     except:
         return redirect('404')
+
+def getAudio(request):
+
+    URL = "http://api.xfyun.cn/v1/service/v1/tts"
+    AUE = "raw"
+    APPID = "5d2407a2"
+    API_KEY = "1194c50ae845b966ade10e8b47ece15e"
+
+    def getHeader():
+        curTime = str(int(time.time()))
+        # ttp=ssml
+        param = "{\"aue\":\"" + AUE + "\",\"auf\":\"audio/L16;rate=16000\",\"voice_name\":\"aisxping\",\"speed\":\"10\",\"engine_type\":\"intp65\"}"
+
+        paramBase64 = str(base64.b64encode(param.encode('utf-8')), 'utf-8')
+
+        m2 = hashlib.md5()
+        m2.update((API_KEY + curTime + paramBase64).encode('utf-8'))
+
+        checkSum = m2.hexdigest()
+
+        header = {
+            'X-CurTime': curTime,
+            'X-Param': paramBase64,
+            'X-Appid': APPID,
+            'X-CheckSum': checkSum,
+            'X-Real-Ip': '127.0.0.1',
+            'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+        }
+        return header
+
+
+    def getBody(text):
+        data = {'text': text}
+        return data
+
+
+    def writeFile(file, content):
+        with open(file, 'wb') as f:
+            f.write(content)
+        f.close()
+
+    def requestAudio(character):
+        r = requests.post(URL, headers=getHeader(), data=getBody(character))
+
+        contentType = r.headers['Content-Type']
+        if contentType == "audio/mpeg":
+            sid = r.headers['sid']
+            if AUE == "raw":
+                writeFile("media/audio/" + request.GET.get("pk") + ".wav", r.content)
+            else:
+                writeFile("media/audio/" + "xiaoyan" + ".mp3", r.content)
+            return True
+        else:
+        #   error-code reference: https://www.xfyun.cn/document/error-code
+            return False
+
+    audioKey = request.GET.get("pk")
+    if os.path.exists('media/audio/' + audioKey + '.wav'):
+        return JsonResponse({'success': True})
+    else:
+        res = requestAudio(request.GET.get("t"))
+        if res:
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False})
+
 
 
 """
