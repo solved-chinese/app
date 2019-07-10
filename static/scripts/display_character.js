@@ -12,7 +12,7 @@ $("document").ready(function(){
         })
             .done(data => {
                 if (data.success) {
-                    var audio = new Audio('/static/audio/' + pk + '.wav');
+                    var audio = new Audio('/media/audio/' + pk + '.wav');
                     audio.play();
                 } else {
                     $("#audio-error-msg").fadeIn();

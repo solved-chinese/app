@@ -241,16 +241,16 @@ def getAudio(request):
         if contentType == "audio/mpeg":
             sid = r.headers['sid']
             if AUE == "raw":
-                writeFile("static/audio/" + request.GET.get("pk") + ".wav", r.content)
+                writeFile("media/audio/" + request.GET.get("pk") + ".wav", r.content)
             else:
-                writeFile("static/audio/" + "xiaoyan" + ".mp3", r.content)
+                writeFile("media/audio/" + "xiaoyan" + ".mp3", r.content)
             return True
         else:
         #   error-code reference: https://www.xfyun.cn/document/error-code
             return False
 
     audioKey = request.GET.get("pk")
-    if os.path.exists('static/audio/' + audioKey + '.wav'):
+    if os.path.exists('media/audio/' + audioKey + '.wav'):
         return JsonResponse({'success': True})
     else:
         res = requestAudio(request.GET.get("t"))
