@@ -2,7 +2,7 @@ let snapPoints; // stores the x-coordinates of the slider values
 
 
 function checkForm () {
-    let form = document.getElementById("form");
+    let form = $("#form");
     let is_legal = false;
     
     for (let index = 2; index < form.elements.length-1; index+=2) {

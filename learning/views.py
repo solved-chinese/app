@@ -218,7 +218,6 @@ def getAudio(request):
             'X-Param': paramBase64,
             'X-Appid': APPID,
             'X-CheckSum': checkSum,
-            'X-Real-Ip': '127.0.0.1',
             'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
         }
         return header

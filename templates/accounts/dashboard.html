@@ -15,24 +15,24 @@
     <div class="row">
         <div class="col-1 col-sm-2" id="sidebar-container">
             <div class="row d-none d-sm-flex" id="sidebar-user">
-                <img src="/static/images/userDashboard/defaultUserPhoto.svg" class="round_icon col-12 col-md-4">
+                <img src="{% static "images/userDashboard/defaultUserPhoto.svg" %}" class="round_icon col-12 col-md-4">
                 <h5 class="col-12 col-md-8 align-self-center text-center" id="sidebar-info" >{{ user.username }}<br>
                     <small>{{ user.email }}</small>
                 </h5>
             </div>
             {% if user.is_staff %}
                 <a class="row sidebar-item" href="/accounts/dashboard?active=Staff">
-                    <img src="/static/images/userDashboard/setting.svg"><p class="align-items-center d-none d-md-flex">Staff Panel</p>
+                    <img src="{% static "images/userDashboard/setting.svg" %}"><p class="align-items-center d-none d-md-flex">Staff Panel</p>
                 </a>
             {% endif %}
             <a class="row sidebar-item" href="/accounts/dashboard?active=Dashboard">
-                <img src="/static/images/userDashboard/dashboard.svg"><p class="align-items-center d-none d-md-flex">Dashboard</p>
+                <img src="{% static "images/userDashboard/dashboard.svg" %}"><p class="align-items-center d-none d-md-flex">Dashboard</p>
             </a>
             <a class="row sidebar-item" href="/accounts/dashboard?active=Profile">
-                <img src="/static/images/userDashboard/profile.svg"><p class="align-items-center d-none d-md-flex">Profile</p>
+                <img src="{% static "images/userDashboard/profile.svg" %}"><p class="align-items-center d-none d-md-flex">Profile</p>
             </a>
             <a class="row sidebar-item" href="/accounts/dashboard?active=Preference">
-                <img src="/static/images/userDashboard/setting.svg"><p class="align-items-center d-none d-md-flex">Preference</p>
+                <img src="{% static "images/userDashboard/setting.svg" %}"><p class="align-items-center d-none d-md-flex">Preference</p>
             </a>
         </div>
         <div class="offset-1 offset-sm-2 col-11 col-sm-10">
@@ -42,19 +42,19 @@
                     <hr/>
                     <div class="row align-items-center justify-content-around">
                         <a class="col-9 col-md-5 col-xl-3 card-container image-box-wrapper" href="{% url 'update_entry' %}" target="_blank">
-                            <img src="/static/images/userDashboard/logo-color-mark-sq.png">
+                            <img src="{% static "images/userDashboard/logo-color-mark-sq.png" %}">
                             <h5> Update Entry </h5>
                         </a>
                         <a class="col-9 col-md-5 col-xl-3 card-container image-box-wrapper" href="{% url 'update_media' %}">
-                            <img src="/static/images/userDashboard/Google_Drive_logo.png">
+                            <img src="{% static "images/userDashboard/Google_Drive_logo.png" %}">
                             <h5> Update Media </h5> 
                         </a>
                         <a class="col-9 col-md-5 col-xl-3 card-container image-box-wrapper" href="{% url 'media_update_status' %}">
-                            <img src="/static/images/userDashboard/Check.png">
+                            <img src="{% static "images/userDashboard/Check.png" %}">
                             <h5> Check Update Status </h5>
                         </a>
                         <a class="col-9 col-md-5 col-xl-3 card-container image-box-wrapper" href="/admin/learning/report/" target="_blank">
-                            <img src="/static/images/userDashboard/logo-color-mark-sq.png">
+                            <img src="{% static "images/userDashboard/logo-color-mark-sq.png" %}">
                             <h5> View Report </h5>
                         </a>
                     </div>
@@ -197,7 +197,6 @@
 {% block extra_script %}
 <script src='{% static 'scripts/dashboard.js' %}'></script>
 <script>
-
 let date = new Date();
 let strYear = date.getUTCFullYear();
 let strMonth = date.getUTCMonth()+1;
@@ -205,25 +204,27 @@ let strDate = date.getUTCDate();
 let strHour = date.getUTCHours();
 let strMin = date.getUTCMinutes();
 
+let $target = $("#last-study-date");
+let $target_unit = $("#last-study-date-unit");
+
 if (strYear - {{ user.last_study_time.year }} > 0) {
-    $("#last-study-date").html(strYear - {{ user.last_study_time.year }});
-    $("#last-study-date-unit").html("Years ago");
+    $target.html(strYear - {{ user.last_study_time.year }});
+    $target_unit.html("Years ago");
 } else if (strMonth - {{ user.last_study_time.month }} > 0) {
-    $("#last-study-date").html(strMonth - {{ user.last_study_time.month }});
-    $("#last-study-date-unit").html("Months ago");
+    $target.html(strMonth - {{ user.last_study_time.month }});
+    $target_unit.html("Months ago");
 } else if (strDate - {{ user.last_study_time.day }} > 0) {
-    $("#last-study-date").html(strDate - {{ user.last_study_time.day }});
-    $("#last-study-date-unit").html("Days ago");
+    $target.html(strDate - {{ user.last_study_time.day }});
+    $target_unit.html("Days ago");
 } else if (strHour - {{ user.last_study_time.hour}} > 0) {
-    $("#last-study-date").html(strHour - {{ user.last_study_time.hour }});
-    $("#last-study-date-unit").html("Hours ago");
+    $target.html(strHour - {{ user.last_study_time.hour }});
+    $target_unit.html("Hours ago");
 } else if (strMin - {{ user.last_study_time.minute}} > 0) {
-    $("#last-study-date").html(strMin - {{ user.last_study_time.minute }});
-    $("#last-study-date-unit").html("Minutes ago");
+    $target.html(strMin - {{ user.last_study_time.minute }});
+    $target_unit.html("Minutes ago");
 } else {
-    $("#last-study-date").html("");
-    $("#last-study-date-unit").html("Less than a Minute ago");
-}
-    
+    $target.html("");
+    $target_unit.html("Less than a Minute ago");
+}   
 </script>
 {% endblock %}

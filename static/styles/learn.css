@@ -41,7 +41,6 @@
 }
 
 #audio-error-msg {
-    display: none;
     position: absolute;
 
     top: 50px;
