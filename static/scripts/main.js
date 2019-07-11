@@ -18,8 +18,10 @@ var app = new Vue({
 $(document).ready(() => {
   const $source = $(".search-form-wrapper > input[name='keyword']");
   const $target = $("#search-dropdown-wrapper");
-  $(".search-form-wrapper").blur(() => {
-    $target.html("");
+  $(".search-form-wrapper").focusout(() => {
+    setTimeout(() => {
+      $target.html(""); //  This is a temporary fix, which allows the click event to be completed before html is cleared.
+    }, 150);            //  Shoulda come up with a better solution in the future.
   })
   const searchHandler = () => {
     keyword = $source.val();
