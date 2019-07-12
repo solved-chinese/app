@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+{% endblock extra_css %}
+{% block title %}Help{% endblock title %}
+
+{% block content %}
+
+    <table style="margin: 0 auto; text-align:left; table-layout:fixed">
+        <tr>
+            <td class="history-update" style="width:15%">
+                <div class="cato-update"><a href="{% url 'about_us' %}">About Us</a></div>
+                <hr>
+                <div class="cato-update"><a href="{% url 'the_science_behind' %}">The Science Behind</a></div>
+                <hr>
+                <div class="cato-update"><a href="{% url 'help' %}">Help</a></div>
+                <hr>
+                <div class="cato-update"> Support Us</div>
+            </td>
+            <td class="content-update" valign="top">
+
+    <div style="color:#4D4D4D; border-left: 50px solid #ffff; font-size:4vw">Help</div><br>
+
+            </td>
+        </tr>
+    </table>
+    <br>
+{% endblock%}
+
+

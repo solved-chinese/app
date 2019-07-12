@@ -1,3 +1,4 @@
+
 <!-- TODO: change this file to what it actually should be -->
 {% load static %}
 
@@ -68,9 +69,9 @@
   {% block content %}{% endblock content %}
 </div>
 
-<div class="footer">
-        <a href="{%" url="" 'index'="" %}="">
-            <img src="{% static "images/base/logo.png" %}" style="padding-left:3vw; height:4vw; vertical-align:middle">
+<div class="footer" style="background: #ccc">
+        <a href="{% url 'index' %}">
+            <img src="{% static "images/base/logo.png" %}" style=" margin-left: 12vw; padding-left:3vw; height:4vw; vertical-align:middle">
         </a>
         <a href="{% url 'about_us' %}" style="vertical-align: middle; margin-left: 30vw; ">
             About Us
@@ -84,7 +85,7 @@
             Help
         </a>
         
-        <a href="mailto:solvedchinese@gmail.com">
+        <a href="mailto:contact@solvedchinese.org">
             <img src="{% static "images/base/mail.png" %}" style="vertical-align: middle; width: 2vw; margin-left: 3vw; margin-right: 3vw">
         </a>
         <span style="font-size: 1vw; vertical-align: middle">

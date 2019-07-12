@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+{% endblock extra_css %}
+{% block title %}About Us{% endblock title %}
+
+{% block content %}
+
+    <table style="margin: 0 auto; text-align:left; table-layout:fixed">
+        <tr>
+            <td class="history-update" style="width:15%">
+                <div class="cato-update"><a href="{% url 'about_us' %}">About Us</a></div>
+                <hr>
+                <div class="cato-update"><a href="{% url 'the_science_behind' %}">The Science Behind</a></div>
+                <hr>
+                <div class="cato-update"><a href="{% url 'help' %}">Help</a></div>
+                <hr>
+                <div class="cato-update"> Support Us</div>
+            </td>
+            <td class="content-update" valign="top">
+
+<div style="color:#4D4D4D; border-left: 50px solid #ffff; font-size:4vw">About Us</div><br>
+<div style="color:#B62C25; border-left: 50px solid #ffff; font-size:2vw"> What is Solved?</div> <br>
+<div style="border-left: 50px solid #ffff;"> For native English speakers, remembering the form and pronunciation of Chinese characters can be hard. Solved is here to make it easier, more fun and more meaningful -- we tell the vivid stories and explain the clever rules behind the formation of these characters. This method, called radical breakdown, has been theoretically and experimentally shown to effective in learning Chinese characters by many studies. </div>
+                <br><br>
+<div style="border-left: 50px solid #ffff;">
+                Solved incorporates ancient wisdom with modern technology. It is research-based, individualized, engaging, user-friendly, and free! <a href="{% url 'the_science_behind' %}">Read more about the art and science behind it here.</a></div>
+                <br><br>
+<div style="color:#B62C25; border-left: 50px solid #ffff; font-size:2vw"> The Team</div><div style="border-left: 50px solid #ffff;"><br>
+                We are a group of Chinese high schoolers passionate about linguistics and education. We attend schools in China, the U.S., Costa Rica, and Singapore.</div>
+                <br><br><div style="border-left: 50px solid #ffff;">
+                We’d love to hear any questions or comments, and we are seeking more volunteers to help improve and expand this project. Please feel free to contact us at <a href="mailto:contact@solvedchinese.org">contact@solvedchinese.org</a></div>
+
+            </td>
+        </tr>
+    </table>
+    <br>
+{% endblock%}
+
+
