@@ -1,61 +1,39 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-  <meta charset='utf-8'>
-  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-	<meta name='viewport' content='width=device-width, initial-scale=1'>
+{% extends "base.html" %}
+{% load static %}
 
-  <link rel='stylesheet' href='https://pro.fontawesome.com/releases/v5.8.1/css/all.css' integrity='sha384-Bx4pytHkyTDy3aJKjGkGoHPt3tvv6zlwwjc3iqN7ktaiEMLDPqLSZYts2OjKcBx1' crossorigin='anonymous'>
+{% block css %}
+  <link rel="stylesheet" type="text/css" href="{% static "styles/manage_library.css" %}">
+{% endblock css %}
 
-  <link rel='stylesheet' href='/static/styles/main.css'>
-  <link rel='stylesheet' href='/static/styles/vocab.css'>
 
-  <title>Solved</title>
-</head>
+{% block content %}
+  <a class='header-back-button' href='/'><i class='far fa-angle-left'></i>Dashboard</a>
+  <h1>Vocab List Management</h1>
 
-<body>
-  <header class='full-width-bg-container' id='navbar-bg'>
-    <div class='main-content-container' id='navbar'>
-      <a class='logo' href='/'></a>
-      <a class='username' href='#'>{{ username }}</a>
+  <div id='char-sets-container'>
+    <div class='char-set'>
+      <img class='char-set-cover' src='/static/images/set-covers/default-set-cover.jpg'></img>
+      <p class='char-set-title'>Integrated Chinese Class 1 Lv 1</p>
     </div>
-  </header>
-
-  <div class='main-content-container' id='page-container'>
-    <a class='header-back-button' href='/'><i class='far fa-angle-left'></i>Dashboard</a>
-    <h1>Vocab List Management</h1>
-
-    <div id='char-sets-container'>
-      <div class='char-set'>
-        <img class='char-set-cover' src='/static/images/set-covers/1.jpg'></img>
-        <p class='char-set-title'>Integrated Chinese Class 1 Lv 1</p>
-      </div>
-      <div class='char-set'>
-        <img class='char-set-cover' src='/static/images/set-covers/2.jpg'></img>
-        <p class='char-set-title'>Integrated Chinese Class 1 Lv 2</p>
-      </div>
-      <div class='char-set'>
-        <img class='char-set-cover' src='/static/images/set-covers/1.jpg'></img>
-        <p class='char-set-title'>Family Members</p>
-      </div>
-      <div class='char-set'>
-        <img class='char-set-cover' src='/static/images/set-covers/2.jpg'></img>
-        <p class='char-set-title'>Numbers</p>
-      </div>
-      <div class='char-set' id='add-set-button-container'>
-        <i class='fal fa-plus' id='add-set-button'></i>
-        <p class='char-set-title'>Add New Set</p>
-      </div>
+    <div class='char-set'>
+      <img class='char-set-cover' src='/static/images/set-covers/default-set-cover.jpg'></img>
+      <p class='char-set-title'>Integrated Chinese Class 1 Lv 2</p>
+    </div>
+    <div class='char-set'>
+      <img class='char-set-cover' src='/static/images/set-covers/default-set-cover.jpg'></img>
+      <p class='char-set-title'>Family Members</p>
+    </div>
+    <div class='char-set'>
+      <img class='char-set-cover' src='/static/images/set-covers/default-set-cover.jpg'></img>
+      <p class='char-set-title'>Numbers</p>
+    </div>
+    <div class='char-set' id='add-set-button-container'>
+      <i class='fal fa-plus' id='add-set-button'></i>
+      <p class='char-set-title'>Add New Set</p>
     </div>
   </div>
+{% endblock content %}
 
-  <footer class='full-width-bg-container' id='footer-bg'>
-    <div class='main-content-container' id='footer'>
-      <p>Hello</p>
-    </div>
-  </footer>
-</body>
-
-<script src='/static/scripts/main.js'></script>
-
-</html>
+{% block extra_script %}
+  <script src="{% static "scripts/manage_library.js" %}"></script>
+{% endblock %}

@@ -21,6 +21,9 @@ class User(AbstractUser):
 
     def get_total_words_learned(self):
         return self.user_characters.filter(times_learned__gt=0).count()
+    
+    def get_display_name(self):
+        return self.first_name or self.last_name or self.username
 
 
 class UserCharacter(models.Model):
