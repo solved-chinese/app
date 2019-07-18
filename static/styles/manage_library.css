@@ -11,6 +11,12 @@
     overflow: hidden;
     border-radius: 5px;
     box-shadow: 4px 5px 14px 0px rgba(4, 3, 2, 0.07);
+    transition: 150ms ease;
+    cursor: pointer;
+}
+
+.char-set:hover {
+    box-shadow: 1px 2px 8px 0px rgba(4, 3, 2, 0.12);
 }
 
 /* .char-set:hover::after {
