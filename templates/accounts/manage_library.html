@@ -11,22 +11,12 @@
   <h1>Vocab List Management</h1>
 
   <div id='char-sets-container'>
-    <div class='char-set'>
-      <img class='char-set-cover' src='/static/images/set-covers/default-set-cover.jpg'></img>
-      <p class='char-set-title'>Integrated Chinese Class 1 Lv 1</p>
-    </div>
-    <div class='char-set'>
-      <img class='char-set-cover' src='/static/images/set-covers/default-set-cover.jpg'></img>
-      <p class='char-set-title'>Integrated Chinese Class 1 Lv 2</p>
-    </div>
-    <div class='char-set'>
-      <img class='char-set-cover' src='/static/images/set-covers/default-set-cover.jpg'></img>
-      <p class='char-set-title'>Family Members</p>
-    </div>
-    <div class='char-set'>
-      <img class='char-set-cover' src='/static/images/set-covers/default-set-cover.jpg'></img>
-      <p class='char-set-title'>Numbers</p>
-    </div>
+    {% for set in request.user.user_character_tags.all %}
+      <div class='char-set'>
+        <img class='char-set-cover' src='/static/images/set-covers/default-set-cover.jpg'></img>
+        <p class='char-set-title'>{{ set.name }}</p>
+      </div>
+    {% endfor %}
     <div class='char-set' id='add-set-button-container'>
       <i class='fal fa-plus' id='add-set-button'></i>
       <p class='char-set-title'>Add New Set</p>
@@ -34,6 +24,6 @@
   </div>
 {% endblock content %}
 
-{% block extra_script %}
+{% block js %}
   <script src="{% static "scripts/manage_library.js" %}"></script>
-{% endblock %}
+{% endblock js %}
