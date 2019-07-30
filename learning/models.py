@@ -106,16 +106,16 @@ def update_from_df(df, Model):
     messages = []
     good_pk = []
     for i, row in df.iterrows():
-        id = row['id']
-        if id == 0:
-            messages.append(f'ERR at start : row {i} id not found')
-            continue
-        if '√' not in str(row['Comments']):
-            if Model.objects.filter(pk=id).exists():
-                messages.append(f'WARNING: delete id={id}')
-            continue
-        data = {}
         try:
+            id = row['id']
+            if id == 0:
+                messages.append(f'ERR at start : row {i} id not found')
+                continue
+            if '√' not in str(row['Comments']):
+                if Model.objects.filter(pk=id).exists():
+                    messages.append(f'WARNING: delete id={id}')
+                continue
+            data = {}
             for field in Model._meta.get_fields():
                 if field.name == 'id':
                     continue
@@ -140,6 +140,6 @@ def update_from_df(df, Model):
         if msg[0]=='E':
             messages[i] = '<div style="color:red;">' + msg + '</div>'
         elif msg[0]=='W':
-            messages[i] = '<div style="color:yellow;">' + msg + '</div>'
+            messages[i] = '<div style="color:orange;">' + msg + '</div>'
         else: messages[i] = '<div style="color:green;">' + msg + '</div>'
     return messages
