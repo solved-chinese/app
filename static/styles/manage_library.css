@@ -57,3 +57,15 @@
 #add-set-button-container:hover > #add-set-button {
     color: var(--secondary-color);
 }
+
+
+
+#add-new-set-modal .set-name-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.set-name-container {
+    margin: 20px 0;
+}

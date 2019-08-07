@@ -7,19 +7,78 @@
 
 
 {% block content %}
-  <a class='header-back-button' href='/'><i class='far fa-angle-left'></i>Dashboard</a>
+  <a class="header-back-button" href="/"><i class="far fa-angle-left"></i>Dashboard</a>
   <h1>Vocab List Management</h1>
 
-  <div id='char-sets-container'>
+  <div class="page-mask"></div>
+
+  <div class="modal" id="add-new-set-modal">
+    <div class="modal-header">
+      <h2>Add New Set</h2>
+      <!-- <i class="fas fa-times"></i> -->
+    </div class="modal-header">
+    <div class="modal-content" id="available-sets-container">
+      <div class="set-name-container">
+        <span>Yu Jiaming</span>
+        <i class="far fa-plus"></i>
+      </div>
+      <div class="set-name-container">
+          <span>Yu Jiaming</span>
+          <i class="far fa-plus"></i>
+      </div>
+      <div class="set-name-container">
+        <span>Yu Jiaming</span>
+        <i class="far fa-plus"></i>
+      </div>
+      <div class="set-name-container">
+          <span>Yu Jiaming</span>
+          <i class="far fa-plus"></i>
+      </div>
+      <div class="set-name-container">
+        <span>Yu Jiaming</span>
+        <i class="far fa-plus"></i>
+      </div>
+      <div class="set-name-container">
+          <span>Yu Jiaming</span>
+          <i class="far fa-plus"></i>
+      </div>
+      <div class="set-name-container">
+        <span>Yu Jiaming</span>
+        <i class="far fa-plus"></i>
+      </div>
+      <div class="set-name-container">
+          <span>Yu Jiaming</span>
+          <i class="far fa-plus"></i>
+      </div>
+      <div class="set-name-container">
+          <span>Yu Jiaming</span>
+          <i class="far fa-plus"></i>
+      </div>
+      <div class="set-name-container">
+        <span>Yu Jiaming</span>
+        <i class="far fa-plus"></i>
+      </div>
+      <div class="set-name-container">
+        <span>Yu Jiaming</span>
+        <i class="far fa-plus"></i>
+      </div>
+      <div class="set-name-container">
+        <span>Yu Jiaming</span>
+        <i class="far fa-plus"></i>
+      </div>
+    </div>
+  </div>
+
+  <div id="char-sets-container">
     {% for set in request.user.user_character_tags.all %}
-      <div class='char-set'>
-        <img class='char-set-cover' src='/static/images/set-covers/default-set-cover.jpg'></img>
-        <p class='char-set-title'>{{ set.name }}</p>
+      <div class="char-set">
+        <img class="char-set-cover" src="/static/images/set-covers/default-set-cover.jpg"></img>
+        <p class="char-set-title">{{ set.name }}</p>
       </div>
     {% endfor %}
-    <div class='char-set' id='add-set-button-container'>
-      <i class='fal fa-plus' id='add-set-button'></i>
-      <p class='char-set-title'>Add New Set</p>
+    <div class="char-set" id="add-set-button-container">
+      <i class="fal fa-plus" id="add-set-button"></i>
+      <p class="char-set-title">Add New Set</p>
     </div>
   </div>
 {% endblock content %}
