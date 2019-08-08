@@ -69,3 +69,7 @@
 .set-name-container {
     margin: 20px 0;
 }
+
+.list-add-set-button {
+    cursor: pointer;
+}

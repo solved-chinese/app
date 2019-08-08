@@ -351,16 +351,25 @@ a {
     margin: 0;
 }
 
-.modal > .modal-header::after {
+/* .modal > .modal-header::after {
     content: '\f00d';
     font-family: "Font Awesome 5 Pro";
     font-size: 1.5em;
     cursor: pointer;
-}
+} */
 
 /* .modal > .modal-header::after:hover {
     color: var(--secondary-color);
 } */
+
+.modal-close-button {
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.modal-close-button:hover {
+    color: var(--secondary-color);
+}
 
 .modal > .modal-content {
     padding: 0px 25px;

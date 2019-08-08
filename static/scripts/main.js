@@ -62,3 +62,13 @@ $(document).ready(() => {
   
   $source.on("input propertychange", searchHandler);
 }) 
+
+function showModal(modalId) {
+  $('.page-mask').show();
+  $(`#${modalId}`).show();
+}
+
+function hideModal(modalId) {
+  $('.page-mask').hide();
+  $(`#${modalId}`).hide();
+}

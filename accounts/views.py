@@ -28,7 +28,7 @@ def signup(request):
 def manage_library(request, set_id=None):
     if set_id:
         context = {'set_id': set_id}
-        return render(request, 'accounts/manage_library_set.html', context)
+        return render(request, 'accounts/manage_set.html', context)
     return render(request, 'accounts/manage_library.html')
 
 @login_required
