@@ -31,7 +31,8 @@
     border: none;
 }
 
-.char:hover {
+.char:hover,
+.char.selected {
     background: #f4f3f1;
 }
 

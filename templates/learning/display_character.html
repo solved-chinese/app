@@ -49,11 +49,11 @@
 
   <div class='card-container' id='stats-container'>
 
-    <div class='' id='character-card-container'>
-      <div id='character-info-container'>
-        <div id='character-preview'
+    <div class='character-card-container'>
+      <div class='character-info-container'>
+        <div class='character-preview'
              style='background-image: url({{ character.color_coded_image.url }})'></div>
-        <div id='definitions-container'>
+        <div class='definitions-container'>
           <h2>Definitions</h2>
           <ol class='character-definitions-list'>
             <li class='character-definition'>{{ character.definition_1 }}</li>
@@ -65,7 +65,7 @@
             {% endif %}
           </ol>
         </div>
-        <div id='examples-container'>
+        <div class='examples-container'>
           <h2>Examples</h2>
           <table id='examples-table'>
             <tr class='example-row'>
@@ -86,9 +86,9 @@
         </div>
       </div>
 
-      <div id='character-radicals-container'>
+      <div class='character-radicals-container'>
         <h2>Radicals</h2>
-        <div id='radicals-breakdown-container'>
+        <div class='radicals-breakdown-container'>
           {% for radical in radicals %}
             {% if radical %}
               <div class='radical-container'>

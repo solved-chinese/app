@@ -7,132 +7,88 @@
 {% endblock css %}
 
 {% block content %}
-  <a class="header-back-button" href="/vocab.html"><i class="far fa-angle-left"></i>Manage Vocab List</a>
-  <h1>Some Really Long Character Set Name</h1>
+  <a class="header-back-button" href="/accounts/manage_library/"><i class="far fa-angle-left"></i>Manage Vocab List</a>
+  <h1>{{ set.name }}</h1>
 
   <div id="page-content-container">
 
     <div class="chars-container">
-      <div class="char">
-        <div class="char-preview" style="background-image: url(/static/images/characters-radical/1.svg)"></div>
-        <p class="char-pinyin">zì</p>
-        <i class="char-edit far fa-ellipsis-h"></i>
-      </div>
-      <div class="char">
-        <div class="char-preview" style="background-image: url(/static/images/characters-radical/1.svg)"></div>
-        <p class="char-pinyin">zì</p>
-        <i class="char-edit far fa-ellipsis-h"></i>
-      </div>
-      <div class="char">
-        <div class="char-preview" style="background-image: url(/static/images/characters-radical/1.svg)"></div>
-        <p class="char-pinyin">zì</p>
-        <i class="char-edit far fa-ellipsis-h"></i>
-      </div>
-      <div class="char">
-        <div class="char-preview" style="background-image: url(/static/images/characters-radical/1.svg)"></div>
-        <p class="char-pinyin">zì</p>
-        <i class="char-edit far fa-ellipsis-h"></i>
-      </div>
-      <div class="char">
-        <div class="char-preview" style="background-image: url(/static/images/characters-radical/1.svg)"></div>
-        <p class="char-pinyin">zì</p>
-        <i class="char-edit far fa-ellipsis-h"></i>
-      </div>
-      <div class="char">
-        <div class="char-preview" style="background-image: url(/static/images/characters-radical/1.svg)"></div>
-        <p class="char-pinyin">zì</p>
-        <i class="char-edit far fa-ellipsis-h"></i>
-      </div>
-      <div class="char">
-        <div class="char-preview" style="background-image: url(/static/images/characters-radical/1.svg)"></div>
-        <p class="char-pinyin">zì</p>
-        <i class="char-edit far fa-ellipsis-h"></i>
-      </div>
-      <div class="char">
-        <div class="char-preview" style="background-image: url(/static/images/characters-radical/1.svg)"></div>
-        <p class="char-pinyin">zì</p>
-        <i class="char-edit far fa-ellipsis-h"></i>
-      </div>
-      <div class="char">
-        <div class="char-preview" style="background-image: url(/static/images/characters-radical/1.svg)"></div>
-        <p class="char-pinyin">zì</p>
-        <i class="char-edit far fa-ellipsis-h"></i>
-      </div>
-      <div class="char">
-        <div class="char-preview" style="background-image: url(/static/images/characters-radical/1.svg)"></div>
-        <p class="char-pinyin">zì</p>
-        <i class="char-edit far fa-ellipsis-h"></i>
-      </div>
-      <div class="char">
-        <div class="char-preview" style="background-image: url(/static/images/characters-radical/1.svg)"></div>
-        <p class="char-pinyin">zì</p>
-        <i class="char-edit far fa-ellipsis-h"></i>
-      </div>
-      <div class="char">
-        <div class="char-preview" style="background-image: url(/static/images/characters-radical/1.svg)"></div>
-        <p class="char-pinyin">zì</p>
-        <i class="char-edit far fa-ellipsis-h"></i>
-      </div>
-      <div class="char">
-        <div class="char-preview" style="background-image: url(/static/images/characters-radical/1.svg)"></div>
-        <p class="char-pinyin">zì</p>
-        <i class="char-edit far fa-ellipsis-h"></i>
-      </div>
+      {% for char in set.characters.all %}
+        <div class="char" data-char-id={{ char.id }}>
+          <div class="char-preview" style="background-image: url(/media/color_coded_image/C{{ char.id | stringformat:"04d" }}.png)"></div>
+          <p class="char-pinyin">{{ char.pinyin }}</p>
+          <i class="char-edit far fa-ellipsis-h"></i>
+        </div>
+      {% endfor %}
     </div>
 
     <div id="character-container-wrapper">
-      <div class="card-container">
-        <div id="character-card-container">
-          <div id="character-info-container">
-            <div id="character-preview" style="background-image: url(/static/images/characters-radical/1.svg)"></div>
-            <div id="definitions-container">
-              <h2>Definitions</h2>
-              <ol class="character-definitions-list">
-                <li class="character-definition">Some definition and definition and definition and definition and definition and definition and definition and definition</li>
-                <li>Some other definition</li>
-              </ol>
+      {% for char in set.characters.all %}
+        <div class="card-container" style="display: none">
+          <div class="character-card-container" data-char-id={{ char.id }}>
+            <div class="character-info-container">
+              <div class="character-preview" style="background-image: url(/media/color_coded_image/C{{ char.id | stringformat:"04d" }}.png)"></div>
+              <div class="definitions-container">
+                <h2>Definitions</h2>
+                <ol class="character-definitions-list">
+                  <li class="character-definition">{{ char.definition_1 }}</li>
+                  {% if char.definition_2 %}
+                    <li class="character-definition">{{ char.definition_2 }}</li>
+                  {% endif %}
+                  {% if char.definition_3 %}
+                    <li class="character-definition">{{ char.definition_3 }}</li>
+                  {% endif %}
+                </ol>
+              </div>
+              <div>
+                <h2>Examples</h2>
+                <table>
+                  <tr class="example-row">
+                    <td>{{ char.example_1_word }}</td>
+                    <td>{{ char.example_1_pinyin }}</td>
+                    <td>{{ char.example_1_character }}</td>
+                    <td>{{ char.example_1_meaning }}</td>
+                  </tr>
+                  {% if char.example_2_word %}
+                    <tr class="example-row">
+                      <td>{{ char.example_2_word }}</td>
+                      <td>{{ char.example_2_pinyin }}</td>
+                      <td>{{ char.example_2_character }}</td>
+                      <td>{{ char.example_2_meaning }}</td>
+                    </tr>
+                  {% endif %}
+                </table>
+              </div>
             </div>
-            <div>
-              <h2>Examples</h2>
-              <table>
-                <tr class="example-row">
-                  <td>名字</td>
-                  <td>míng zì</td>
-                  <td>name + character</td>
-                  <td>name</td>
-                </tr>
-                <tr class="example-row">
-                  <td>名字</td>
-                  <td>míng zì</td>
-                  <td>name + character</td>
-                  <td>name</td>
-                </tr>
-              </table>
-            </div>
-          </div>
 
-          <div id="character-radicals-container">
-            <h2>Radicals</h2>
-            <div id="radicals-breakdown-container">
-              <div class="radical-container">
-                <p>bǎo</p>
-                <p class="radical-title" style="color: #0F7633">宀</p>
-                <p>(house)</p>
-                <div class="radical-pictograph" style="background-image: url(/static/images/radical-pictograph/R0019.png)"></div>
-                <p>A description for the radical pictograph that is very very very very long so that it cannot fit in one line</p>
+            <div class="character-radicals-container">
+              <h2>Radicals</h2>
+              <div class="radicals-breakdown-container">
+                <div class="radical-container">
+                  <p>bǎo</p>
+                  <p class="radical-title" style="color: #0F7633">宀</p>
+                  <p>(house)</p>
+                  <div class="radical-pictograph" style="background-image: url(/static/images/radical-pictograph/R0019.png)"></div>
+                  <p>A description for the radical pictograph that is very very very very long so that it cannot fit in one line</p>
+                </div>
+                <div class="radical-container">
+                  <p>zǐ</p>
+                  <p class="radical-title" style="color: #0D2396">子</p>
+                  <p>(child)</p>
+                  <div class="radical-pictograph" style="background-image: url(/static/images/radical-pictograph/R0004.png)"></div>
+                  <p>A description for the radical pictograph</p>
+                </div>
               </div>
-              <div class="radical-container">
-                <p>zǐ</p>
-                <p class="radical-title" style="color: #0D2396">子</p>
-                <p>(child)</p>
-                <div class="radical-pictograph" style="background-image: url(/static/images/radical-pictograph/R0004.png)"></div>
-                <p>A description for the radical pictograph</p>
-              </div>
+              <p class="breakdown-caption">{{ char.mnemonic_explanation }}</p>
             </div>
-            <p class="breakdown-caption">The child (子) studies characters (字) in the school house (宀).</p>
           </div>
         </div>
-      </div>
+      {% endfor %}
     </div>
+  
   </div>
 {% endblock content %}
+
+{% block js %}
+  <script src="{% static "scripts/manage_set.js" %}"></script>
+{% endblock js %}
