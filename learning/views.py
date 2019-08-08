@@ -6,21 +6,17 @@ import hashlib
 import base64
 import os.path
 
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.db.models import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 
-from learning.models import update_from_df, Character, Radical, Report
+from learning.models import Character, Radical, Report
 from accounts.models import User, UserCharacter
 from jiezi.utils.json_serializer import chenyx_serialize
-
-
 
 
 def display_character(request, character_pk, **context_kwargs):
@@ -28,26 +24,30 @@ def display_character(request, character_pk, **context_kwargs):
     display the next one.
     context_kwargs are passed into render directly """
     try:
-        character = Character.objects.get(pk=character_pk)
+        Character.objects.get(pk=character_pk)
     except ObjectDoesNotExist:
         character = Character.objects.filter(pk__gt=character_pk).first()
         return redirect('display_character', character_pk=character.pk)
 
     character = Character.objects.filter(pk__gte=character_pk).first()
-    radicals = [Radical.objects.get(pk=character.radical_1_id)]
-    radicals.append(Radical.objects.get(pk=character.radical_2_id)
-                    if character.radical_2_id else None)
-    radicals.append(Radical.objects.get(pk=character.radical_3_id)
-                    if character.radical_3_id else None)
+    radicals = [
+        Radical.objects.get(pk=character.radical_1_id),
+        Radical.objects.get(pk=character.radical_2_id)
+        if character.radical_2_id else None,
+        Radical.objects.get(pk=character.radical_3_id)
+        if character.radical_3_id else None
+    ]
     return render(request, 'learning/display_character.html',
-                  {'character':character, 'radicals':radicals, **context_kwargs})
+                  {'character': character, 'radicals': radicals,
+                   **context_kwargs})
 
 
 @login_required
 def start_learning(request):
     minutes_to_learn = request.POST.get('minutes_to_learn')
     uc_tags_filter = request.POST.get('uc_tags_exclude',
-        [uc_tag.pk for uc_tag in request.user.user_character_tags.all()])
+                                      [uc_tag.pk for uc_tag in
+                                       request.user.user_character_tags.all()])
     assert isinstance(minutes_to_learn, int)
     assert isinstance(uc_tags_filter, list)
     assert all(isinstance(number, int) for number in uc_tags_filter)
@@ -63,8 +63,8 @@ def start_learning(request):
     request.user.save()
 
     request.session['uc_tags_filter'] = uc_tags_filter
-    request.session['end_learning_time'] = timezone.now() + \
-        datetime.timedelta(minutes=minutes_to_learn)
+    request.session['end_learning_time'] = \
+        timezone.now() + datetime.timedelta(minutes=minutes_to_learn)
 
     request.session.cycle_key()
     return redirect(f'/learning/status{request.session.session_key}')
@@ -76,11 +76,11 @@ def learning_process(request, session_key):
     """ This is the main view that controls the learning process
     Note session['next'] stores a list of callables with input request, and
     they should be called before transition_stage happens """
-    MIN_LEARN_REVIEW_INTERVAL = 180 # seconds
+    MIN_LEARN_REVIEW_INTERVAL = 180  # seconds
 
     def transition_stage():
         """ this function decides whether to learn or review,
-        :return (mode, uc), mode is 'learning', 'review', or None (nothing to do),
+        :return (mode, uc), mode is 'learning', 'review', or None (do nothing),
         uc UserCharacter object
         """
         to_learn = request.user.user_characters.filter(
@@ -88,7 +88,8 @@ def learning_process(request, session_key):
             tags__in=request.session.get('uc_tags_filter')
         ).first()
         to_review = request.user.user_characters.filter(
-            time_last_learned__lt=timezone.now() - datetime.timedelta(seconds=MIN_LEARN_REVIEW_INTERVAL),
+            time_last_learned__lt=timezone.now() - datetime.timedelta(
+                seconds=MIN_LEARN_REVIEW_INTERVAL),
             tags__in=request.session.get('uc_tags_filter'),
             times_learned__gte=1
         ).first()
@@ -126,7 +127,8 @@ def learning_process(request, session_key):
         uc.update(is_correct)
 
         if not is_correct and not request.session['is_tolerant']:
-            character = UserCharacter.objects.get(pk=request.session['uc_pk']).character
+            character = UserCharacter.objects.get(
+                pk=request.session['uc_pk']).character
             request.session['next'] = [
                 lambda req: display_character(req, character.pk, is_next=True)
             ]
@@ -159,8 +161,8 @@ def learning_process(request, session_key):
     if mode is None:
         return end_learning('Add more characters to your library.')
 
-    request.session['uc_pk']=uc.pk
-    if mode == 'learn': # here learn only means learning for first time
+    request.session['uc_pk'] = uc.pk
+    if mode == 'learn':  # here learn only means learning for first time
         uc.times_learned += 1
         uc.save()
         request.user.last_study_vocab_count += 1
@@ -177,25 +179,23 @@ def learning_process(request, session_key):
         if random.random < 0.5:
             return review(uc.character, 'pinyin')
         else:
-            return  review(uc.character, 'definition_1')
+            return review(uc.character, 'definition_1')
 
 
 def report(request):
-    try:
-        report = Report(origin=request.POST.get('origin'),
-                        description_1=request.POST.get('description_1'),
-                        description_2=request.POST.get('description_2'))
-        if isinstance(request.user, User):
-            report.user = request.user
-        report.save()
-        return render(request, 'simple_response.html', {
-            'content':'Thank you for your response!'
-        })
-    except:
-        return redirect('404')
+    report = Report(origin=request.POST.get('origin'),
+                    description_1=request.POST.get('description_1'),
+                    description_2=request.POST.get('description_2'))
+    if isinstance(request.user, User):
+        report.user = request.user
+    report.save()
+    return render(request, 'simple_response.html', {
+        'content': 'Thank you for your response!'
+    })
+    return redirect('404')
+
 
 def getAudio(request):
-
     URL = "http://api.xfyun.cn/v1/service/v1/tts"
     AUE = "raw"
     APPID = "5d2407a2"
@@ -222,11 +222,9 @@ def getAudio(request):
         }
         return header
 
-
     def getBody(text):
         data = {'text': text}
         return data
-
 
     def writeFile(file, content):
         with open(file, 'wb') as f:
@@ -240,12 +238,13 @@ def getAudio(request):
         if contentType == "audio/mpeg":
             sid = r.headers['sid']
             if AUE == "raw":
-                writeFile("media/audio/" + request.GET.get("pk") + ".wav", r.content)
+                writeFile("media/audio/" + request.GET.get("pk") + ".wav",
+                          r.content)
             else:
                 writeFile("media/audio/" + "xiaoyan" + ".mp3", r.content)
             return True
         else:
-        #   error-code reference: https://www.xfyun.cn/document/error-code
+            #   error-code reference: https://www.xfyun.cn/document/error-code
             return False
 
     audioKey = request.GET.get("pk")
@@ -259,7 +258,6 @@ def getAudio(request):
             return JsonResponse({'success': False})
 
 
-
 """
 @api {POST} /search/ Search
 @apiDescription search characters using ONE given keyword, it will be search 
@@ -270,6 +268,8 @@ def getAudio(request):
 
 @apiSuccess {Object[]} characters list of serialized Character objects
 """
+
+
 @csrf_exempt
 def search(request):
     keyword = request.POST.get('keyword')
@@ -277,14 +277,52 @@ def search(request):
         Q(pinyin__unaccent__iexact=keyword) | Q(chinese__exact=keyword)
     )
     characters_2 = Character.objects.filter(
-        Q(definition_1__icontains=keyword) | \
-        Q(definition_2__icontains=keyword) | \
-        Q(definition_3__icontains=keyword) | \
+        Q(definition_1__icontains=keyword) |
+        Q(definition_2__icontains=keyword) |
+        Q(definition_3__icontains=keyword) |
         Q(pinyin__unaccent__icontains=keyword)
     ).difference(characters_1)
-    return JsonResponse({'characters':
-        chenyx_serialize(characters_1)+chenyx_serialize(characters_2)
+    return JsonResponse({
+        'characters': chenyx_serialize(characters_1) +
+                      chenyx_serialize(characters_2)
     })
+
+
+"""
+@api {POST} /learning/get_character Get Character
+@apiDescription Get the detail of a Character
+@apiGroup learning
+
+@apiParam   {int}    character_id
+
+@apiSuccess {Object} character the serialized Character
+"""
+
+
+@csrf_exempt
+def get_character(request):
+    character_id = request.POST.get('character_id')
+    character = Character.objects.get(pk=character_id)
+    return JsonResponse({'character': chenyx_serialize(character)})
+
+
+"""
+@api {POST} /learning/get_radical Get Radical
+@apiDescription Get the detail of a Radical
+@apiGroup learning
+
+@apiParam   {int}    radical_id
+
+@apiSuccess {Object} radical the serialized Radical
+"""
+
+
+@csrf_exempt
+def get_radical(request):
+    radical_id = request.POST.get('radical_id')
+    radical = Character.objects.get(pk=radical_id)
+    return JsonResponse({'radical': chenyx_serialize(radical)})
+
 
 """
 @api {POST} /learning/start_learning/  Start Learning
