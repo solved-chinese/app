@@ -22,16 +22,16 @@
     "type": "",
     "url": "",
     "version": "0.0.0",
-    "filename": "Jiezi/docs/main.js",
-    "group": "_media_share_Jiezi_docs_main_js",
-    "groupTitle": "_media_share_Jiezi_docs_main_js",
+    "filename": "jiezi/docs/main.js",
+    "group": "_media_share_jiezi_docs_main_js",
+    "groupTitle": "_media_share_jiezi_docs_main_js",
     "name": ""
   },
   {
     "type": "POST",
     "url": "/accounts/add_set/",
     "title": "Add set",
-    "description": "<p>Make an copy of an existing character set in user's library</p>",
+    "description": "<p>Make an copy of an existing CharacterSet in user's library as an UserCharacterTag with the same name</p>",
     "group": "accounts",
     "parameter": {
       "fields": {
@@ -41,7 +41,7 @@
             "type": "int",
             "optional": false,
             "field": "set_id",
-            "description": "<p>the id of the set to be added</p>"
+            "description": "<p>the id of the CharacterSet to be added</p>"
           }
         ]
       }
@@ -60,7 +60,7 @@
       }
     },
     "version": "0.0.0",
-    "filename": "Jiezi/accounts/views.py",
+    "filename": "jiezi/accounts/views.py",
     "groupTitle": "accounts",
     "name": "PostAccountsAdd_set"
   },
@@ -77,20 +77,20 @@
             "type": "int",
             "optional": false,
             "field": "character_id",
-            "description": "<p>the Jiezi id of the character</p>"
+            "description": "<p>the id of the Character to be deleted</p>"
           },
           {
             "group": "Parameter",
             "type": "int",
             "optional": false,
             "field": "set_id",
-            "description": "<p>(optional) the id of the user set for the character to be deleted from, otherwise the character will be delete from all user sets of the current user</p>"
+            "description": "<p>(optional) the id of the UserCharacterTag for the character to be deleted from, otherwise the character will be delete from all UserCharacterTags of the current user</p>"
           }
         ]
       }
     },
     "version": "0.0.0",
-    "filename": "Jiezi/accounts/views.py",
+    "filename": "jiezi/accounts/views.py",
     "groupTitle": "accounts",
     "name": "PostAccountsDelete_character"
   },
@@ -98,7 +98,7 @@
     "type": "POST",
     "url": "/accounts/delete_set/",
     "title": "Delete set",
-    "description": "<p>Delete a user set</p>",
+    "description": "<p>Delete a UserCharacterTag</p>",
     "group": "accounts",
     "parameter": {
       "fields": {
@@ -108,7 +108,7 @@
             "type": "int",
             "optional": false,
             "field": "set_id",
-            "description": "<p>the id of the user set to be deleted from</p>"
+            "description": "<p>the id of the UserCharacterTag to be deleted</p>"
           },
           {
             "group": "Parameter",
@@ -116,13 +116,13 @@
             "optional": false,
             "field": "is_delete_characters",
             "defaultValue": "False",
-            "description": "<p>(optional) false will not delete the characters in this set from the user library, even if they don't belong to any sets</p>"
+            "description": "<p>(optional) false will not delete the UserCharacters in this set from the user library, even if they don't belong to any other UserCharacterTags of that user</p>"
           }
         ]
       }
     },
     "version": "0.0.0",
-    "filename": "Jiezi/accounts/views.py",
+    "filename": "jiezi/accounts/views.py",
     "groupTitle": "accounts",
     "name": "PostAccountsDelete_set"
   },
@@ -130,7 +130,7 @@
     "type": "POST",
     "url": "/accounts/get_available_sets/",
     "title": "Get available sets",
-    "description": "<p>Get available existing character sets to add</p>",
+    "description": "<p>Get available existing CharacterSets to add</p>",
     "group": "accounts",
     "success": {
       "fields": {
@@ -140,13 +140,13 @@
             "type": "Object[]",
             "optional": false,
             "field": "sets",
-            "description": "<p>list of serialized UserCharacterTag objects</p>"
+            "description": "<p>list of serialized CharacterSet objects</p>"
           }
         ]
       }
     },
     "version": "0.0.0",
-    "filename": "Jiezi/accounts/views.py",
+    "filename": "jiezi/accounts/views.py",
     "groupTitle": "accounts",
     "name": "PostAccountsGet_available_sets"
   },
@@ -154,7 +154,7 @@
     "type": "POST",
     "url": "/accounts/rename_set/",
     "title": "Rename set",
-    "description": "<p>Rename a user set</p>",
+    "description": "<p>Rename a UserCharacterTag, the new name cannot be the same as the name of a current UserCharacterTag of the same user</p>",
     "group": "accounts",
     "parameter": {
       "fields": {
@@ -164,20 +164,20 @@
             "type": "int",
             "optional": false,
             "field": "set_id",
-            "description": "<p>the id of the user set to change name</p>"
+            "description": "<p>the id of the UserCharacterTag to change name</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "new_name",
-            "description": "<p>this cannot be the same as the name of a current set</p>"
+            "description": ""
           }
         ]
       }
     },
     "version": "0.0.0",
-    "filename": "Jiezi/accounts/views.py",
+    "filename": "jiezi/accounts/views.py",
     "groupTitle": "accounts",
     "name": "PostAccountsRename_set"
   },
@@ -214,9 +214,83 @@
       }
     },
     "version": "0.0.0",
-    "filename": "Jiezi/learning/views.py",
+    "filename": "jiezi/learning/views.py",
     "groupTitle": "general",
     "name": "PostSearch"
+  },
+  {
+    "type": "POST",
+    "url": "/learning/get_character",
+    "title": "Get Character",
+    "description": "<p>Get the detail of a Character</p>",
+    "group": "learning",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": false,
+            "field": "character_id",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "character",
+            "description": "<p>the serialized Character</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "jiezi/learning/views.py",
+    "groupTitle": "learning",
+    "name": "PostLearningGet_character"
+  },
+  {
+    "type": "POST",
+    "url": "/learning/get_radical",
+    "title": "Get Radical",
+    "description": "<p>Get the detail of a Radical</p>",
+    "group": "learning",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": false,
+            "field": "radical_id",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object",
+            "optional": false,
+            "field": "radical",
+            "description": "<p>the serialized Radical</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "jiezi/learning/views.py",
+    "groupTitle": "learning",
+    "name": "PostLearningGet_radical"
   },
   {
     "type": "POST",
@@ -260,7 +334,7 @@
       }
     },
     "version": "0.0.0",
-    "filename": "Jiezi/learning/views.py",
+    "filename": "jiezi/learning/views.py",
     "groupTitle": "learning",
     "name": "PostLearningStart_learning"
   }
