@@ -320,7 +320,7 @@ def get_character(request):
 @csrf_exempt
 def get_radical(request):
     radical_id = request.POST.get('radical_id')
-    radical = Character.objects.get(pk=radical_id)
+    radical = Radical.objects.get(pk=radical_id)
     return JsonResponse({'radical': chenyx_serialize(radical)})
 
 
