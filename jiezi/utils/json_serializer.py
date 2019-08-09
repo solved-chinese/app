@@ -4,7 +4,7 @@ from django.db.models import Model
 from collections.abc import Iterable
 
 
-def deep_serialize(list_to_serialize, fields_to_expand=None):
+def deep_serialize(list_to_serialize, fields_to_expand=[]):
     """
     This function extends the default serialize function to enable
     serialization of foreign keys
@@ -26,7 +26,7 @@ def deep_serialize(list_to_serialize, fields_to_expand=None):
     return rv
 
 
-def chenyx_serialize(obj, fields_to_expand=None):
+def chenyx_serialize(obj, fields_to_expand=[]):
     """
     This function extends the deep_serialize function to enable serialization
     of model object as well as queryset
