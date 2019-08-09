@@ -24,7 +24,8 @@ $(document).ready(() => {
     }, 150);            //  Shoulda come up with a better solution in the future.
   })
   const searchHandler = () => {
-    keyword = $source.val();
+    $(".search-form").attr("action", "#");
+    let keyword = $source.val();
     if (keyword != "") {
       $.ajax({
           url: "/learning/search/",
