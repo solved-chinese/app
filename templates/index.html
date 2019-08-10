@@ -50,7 +50,7 @@
       <p id="slider-value-text">1&#8239;min</p>
     </div>
     {% if user.is_authenticated %}
-    <a href="{% url "display_character" 1 %}" class="button button-primary" id="study-button">Study Now</a>
+    <a href="#" class="button button-primary" id="study-button">Study Now</a>
     {% else %}
     <a href="{% url "display_character" 1 %}" class="button button-primary" id="study-button">Try Now</a>
     {% endif %}
@@ -89,6 +89,6 @@
   <br style="line-height: 100px;">
 {% endblock %}
 
-{% block extra_script %}
+{% block js %}
   <script src="{% static "scripts/dashboard.js" %}"></script>
 {% endblock %}
