@@ -15,7 +15,7 @@ class FourDigitConverter:
 register_converter(FourDigitConverter, 'dddd')
 
 urlpatterns = [
-    path('report/', views.report),
+    path('report/', views.report, name='report'),
     path('search/', views.search),
 
     path('C<dddd:character_pk>/', views.display_character, name='display_character'),

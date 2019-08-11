@@ -37,20 +37,29 @@ def display_character(request, character_pk, **context_kwargs):
         Radical.objects.get(pk=character.radical_3_id)
         if character.radical_3_id else None
     ]
-    return render(request, 'learning/display_character.html',
-                  {'character': character, 'radicals': radicals,
-                   **context_kwargs})
+    return render(
+        request,
+        'learning/display_character.html',
+        {'character': character, 'radicals': radicals, **context_kwargs}
+    )
 
 
 @login_required
 def start_learning(request):
-    minutes_to_learn = request.POST.get('minutes_to_learn')
-    uc_tags_filter = request.POST.get('uc_tags_exclude',
-                                      [uc_tag.pk for uc_tag in
-                                       request.user.user_character_tags.all()])
-    assert isinstance(minutes_to_learn, int)
+    # clears session data without logging out the user
+    for key in list(request.session.keys()):
+        if not key.startswith("_"):  # skip keys set by the django system
+            del request.session[key]
+    request.session.cycle_key()
+
+    minutes_to_learn = int(request.POST.get('minutes_to_learn'))
+    uc_tags_filter = request.POST.get(
+        'uc_tags_exclude',
+        [uc_tag.pk for uc_tag in request.user.user_character_tags.all()]
+    )
     assert isinstance(uc_tags_filter, list)
-    assert all(isinstance(number, int) for number in uc_tags_filter)
+    for index, value in enumerate(uc_tags_filter):
+        uc_tags_filter[index] = int(value)
 
     if request.user.last_study_time.date() == timezone.now().date() - \
             datetime.timedelta(days=1):
@@ -62,19 +71,35 @@ def start_learning(request):
     request.user.last_study_vocab_count = 0
     request.user.save()
 
+    request.session['last_record_time'] = timezone.now()
     request.session['uc_tags_filter'] = uc_tags_filter
     request.session['end_learning_time'] = \
         timezone.now() + datetime.timedelta(minutes=minutes_to_learn)
 
-    request.session.cycle_key()
     return redirect(f'/learning/status{request.session.session_key}')
+
+
+def review(request, character, field_name):
+    choices = ['B', 'C', 'D']  # TODO implement with correct choices
+    random.shuffle(choices)
+    correct_answer = random.randint(0, 3)
+    choices.insert(correct_answer, getattr(character, field_name))
+    request.session['correct_answer'] = correct_answer
+    return render(
+        request,
+        'learning/review.html',
+        {
+            'question': f'{character.chinese} {field_name}',
+            'choices': choices
+        }
+    )
 
 
 @login_required
 @csrf_exempt
 def learning_process(request, session_key):
     """ This is the main view that controls the learning process
-    Note session['next'] stores a list of callables with input request, and
+    Note session['next'] stores a list of dicts {'func', 'args'} and
     they should be called before transition_stage happens """
     MIN_LEARN_REVIEW_INTERVAL = 180  # seconds
 
@@ -85,12 +110,12 @@ def learning_process(request, session_key):
         """
         to_learn = request.user.user_characters.filter(
             times_learned=0,
-            tags__in=request.session.get('uc_tags_filter')
+            tag__in=request.session.get('uc_tags_filter')
         ).first()
         to_review = request.user.user_characters.filter(
             time_last_learned__lt=timezone.now() - datetime.timedelta(
                 seconds=MIN_LEARN_REVIEW_INTERVAL),
-            tags__in=request.session.get('uc_tags_filter'),
+            tag__in=request.session.get('uc_tags_filter'),
             times_learned__gte=1
         ).first()
         # TODO review radical
@@ -102,24 +127,16 @@ def learning_process(request, session_key):
             return 'review', to_review
         else:
             # TODO add actual logic
-            return 'learn', to_learn if random.random() < 0.5 else 'review', to_review
+            return ('learn', to_learn) if random.random() < 0.5 else ('review', to_review)
 
     def end_learning(msg=''):
         return render(request, 'simple_response.html', {
             'content': 'You are finished.<br>' + msg
         })
 
-    def review(character, field_name):
-        choices = ['B', 'C', 'D']  # TODO implement with correct choices
-        random.shuffle(choices)
-        correct_answer = random.randint(4)
-        choices.insert(correct_answer, getattr(character, field_name))
-        request.session['correct_answer'] = correct_answer
-        return render('learning/review.html', {'choices': choices})
-
     def check_answer():
         correct_answer = request.session['correct_answer']
-        is_correct = request.GET.get('user_answer') == correct_answer
+        is_correct = int(request.GET.get('user_answer')) == correct_answer
 
         uc = UserCharacter.objects.get(pk=request.session['uc_pk'])
         uc.times_learned += 1
@@ -129,9 +146,10 @@ def learning_process(request, session_key):
         if not is_correct and not request.session['is_tolerant']:
             character = UserCharacter.objects.get(
                 pk=request.session['uc_pk']).character
-            request.session['next'] = [
-                lambda req: display_character(req, character.pk, is_next=True)
-            ]
+            request.session['next'] = [{
+                'func': display_character,
+                'kwargs':{'character_pk':character.pk, 'is_next':True}
+            }]
         return JsonResponse({'correct_answer': correct_answer})
 
     # prevents the user from resuming into previous session
@@ -146,7 +164,7 @@ def learning_process(request, session_key):
     request.user.last_study_time = timezone.now()
     request.user.save()
 
-    if request.session['end_learning_time'] > timezone.now():
+    if request.session['end_learning_time'] < timezone.now():
         return end_learning()
 
     if request.method == 'POST':
@@ -155,7 +173,9 @@ def learning_process(request, session_key):
     next_value = request.session.get('next', [])
     if next_value:
         request.session['next'] = next_value[1:]
-        return next_value[0](request)
+        func = next_value[0]['func']
+        kwargs = next_value[0]['kwargs']
+        return func(request, **kwargs)
 
     mode, uc = transition_stage()
     if mode is None:
@@ -168,18 +188,22 @@ def learning_process(request, session_key):
         request.user.last_study_vocab_count += 1
         request.user.save()
         request.session['is_tolerant'] = True
-        request.session['next'] = [
-            lambda req: review(uc.character, 'pinyin'),
-            lambda req: review(uc.character, 'definition_1'),
+        request.session['next'] = [{
+                'func': review,
+                'kwargs': {'character': uc.character, 'field_name': 'pinyin'}
+            }, {
+                'func': review,
+                'kwargs': {'character': uc.character, 'field_name': 'definition_1'}
+            },
         ]
         return display_character(request, uc.character.pk, is_next=True)
-    else:
+    elif mode == 'review':
         # TODO separate the stats of the two attributes
         request.session['is_tolerant'] = False
-        if random.random < 0.5:
-            return review(uc.character, 'pinyin')
+        if random.random() < 0.5:
+            return review(request, uc.character, 'pinyin')
         else:
-            return review(uc.character, 'definition_1')
+            return review(request, uc.character, 'definition_1')
 
 
 def report(request):
@@ -326,7 +350,7 @@ def get_radical(request):
 
 """
 @api {POST} /learning/start_learning/  Start Learning
-@apiDescription Start Learning
+@apiDescription Start Learning, this should be done with an actual form submission
 @apiSuccessExample learning/review.html
 context dictionary:
 'choices': a list of 4 strings

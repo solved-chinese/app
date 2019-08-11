@@ -49,10 +49,15 @@
            style="margin-left: calc(100% - 10px);"></div>
       <p id="slider-value-text">1&#8239;min</p>
     </div>
+    <form id='start-learning-form' action='/learning/start_learning/' method='post'>
+      {% csrf_token %}
+      <input type='hidden' id='start-learning-form-minutes' name='minutes_to_learn' value='5'>
+    </form>
+
     {% if user.is_authenticated %}
-    <a href="#" class="button button-primary" id="study-button">Study Now</a>
+      <a href="#" class="button button-primary" id="study-button">Study Now</a>
     {% else %}
-    <a href="{% url "display_character" 1 %}" class="button button-primary" id="study-button">Try Now</a>
+      <a href="{% url "display_character" 1 %}" class="button button-primary" id="study-button">Try Now</a>
     {% endif %}
   </div>
   {% if user.is_authenticated %}

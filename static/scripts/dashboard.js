@@ -79,9 +79,6 @@ $('#slider-value-text').css('margin-left', `calc(-${labelWidth} / 2)`);
 $('#study-button').click(e => {
     let activated = $('.slider-value.value-activated');
     let minutes = parseInt($(activated[activated.length - 1]).attr('data-value'));
-    $.post('/learning/start_learning/', {minutes_to_learn: minutes}, data => {
-        // console.log(data);
-        // console.log(data.responseText);
-        // $('html').html(data.responseText);
-    });
+    $('start-learning-form-minutes').val(minutes)
+    $('#start-learning-form').submit()
 })

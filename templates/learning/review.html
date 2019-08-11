@@ -1,0 +1,23 @@
+{# TODO make this beautiful and finish this according to API #}
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <div>
+    question: {{ question }}
+  </div>
+  <div class=answers>
+    <form method="POST" >
+      {% csrf_token %}
+      {% for choice in choices %}
+        <button name="choice" type="submit" value="{{ forloop.counter0 }}">
+          {{ choice }}
+        </button>
+      {% endfor %}
+      <button name="choice" type="submit" value="-1" class="button">
+        I don't know
+      </button>
+    </form>
+  </div>
+{% endblock %}

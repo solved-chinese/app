@@ -14,9 +14,9 @@ class User(AbstractUser):
     cn_level = models.CharField(max_length=15, default="Beginner")
     # stats
     study_streak = models.IntegerField(default=0)
-    last_study_time = models.DateTimeField(null=True)
+    last_study_time = models.DateTimeField(default=datetime.datetime.fromtimestamp(0))
     last_study_duration = models.DurationField(default=datetime.timedelta(seconds=0))
-    last_study_vocab_count = models.IntegerField(default=0, null=True)
+    last_study_vocab_count = models.IntegerField(default=0)
     total_study_duration = models.DurationField(default=datetime.timedelta(seconds=0))
 
     def get_total_words_learned(self):
@@ -31,7 +31,7 @@ class UserCharacter(models.Model):
                              related_query_name='user_character', null=True)
     character = models.ForeignKey(learning.models.Character, on_delete=models.CASCADE)
     time_added = models.DateField(auto_now_add=True)
-    time_last_learned = models.DateTimeField(null=True)
+    time_last_learned = models.DateTimeField(default=datetime.datetime.fromtimestamp(0))
     times_learned = models.IntegerField(default=0)
     EF = models.FloatField(default=2.5)
     interval = models.DecimalField(default=1, max_digits=7, decimal_places=2)
