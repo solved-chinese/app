@@ -28,7 +28,7 @@ def signup(request):
 @login_required
 def manage_library(request, set_id=None):
     if set_id:
-        context = {'set': CharacterSet.objects.get(pk=set_id)}
+        context = {'set': UserCharacterTag.objects.get(pk=set_id)}
         return render(request, 'accounts/manage_set.html', context)
     return render(request, 'accounts/manage_library.html')
 

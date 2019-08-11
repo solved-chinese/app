@@ -13,64 +13,68 @@
   <div id="page-content-container">
 
     <div class="chars-container">
-      {% for char in set.characters.all %}
-        <div class="char" data-char-id={{ char.id }}>
-          <div class="char-preview" style="background-image: url(/media/color_coded_image/C{{ char.id | stringformat:"04d" }}.png)"></div>
-          <p class="char-pinyin">{{ char.pinyin }}</p>
-          <i class="char-edit far fa-ellipsis-h"></i>
-        </div>
+      {% for uc in set.user_characters.all %}
+        {% with char=uc.character %}
+          <div class="char" data-char-id={{ char.id }}>
+            <div class="char-preview" style="background-image: url({{ char.color_coded_image.url }})"></div>
+            <p class="char-pinyin">{{ char.pinyin }}</p>
+            <i class="char-edit far fa-ellipsis-h"></i>
+          </div>
+        {% endwith %}
       {% endfor %}
     </div>
 
     <div id="character-container-wrapper">
-      {% for char in set.characters.all %}
-        <div class="card-container" style="display: none">
-          <div class="character-card-container" data-char-id={{ char.id }}>
-            <div class="character-info-container">
-              <div class="character-preview" style="background-image: url(/media/color_coded_image/C{{ char.id | stringformat:"04d" }}.png)"></div>
-              <div class="definitions-container">
-                <h2>Definitions</h2>
-                <ol class="character-definitions-list">
-                  <li class="character-definition">{{ char.definition_1 }}</li>
-                  {% if char.definition_2 %}
-                    <li class="character-definition">{{ char.definition_2 }}</li>
-                  {% endif %}
-                  {% if char.definition_3 %}
-                    <li class="character-definition">{{ char.definition_3 }}</li>
-                  {% endif %}
-                </ol>
-              </div>
-              <div>
-                <h2>Examples</h2>
-                <table>
-                  <tr class="example-row">
-                    <td>{{ char.example_1_word }}</td>
-                    <td>{{ char.example_1_pinyin }}</td>
-                    <td>{{ char.example_1_character }}</td>
-                    <td>{{ char.example_1_meaning }}</td>
-                  </tr>
-                  {% if char.example_2_word %}
+      {% for uc in set.user_characters.all %}
+        {% with char=uc.character %}
+          <div class="card-container" style="display: none">
+            <div class="character-card-container" data-char-id={{ char.id }}>
+              <div class="character-info-container">
+                <div class="character-preview" style="background-image: url({{ char.color_coded_image.url }})"></div>
+                <div class="definitions-container">
+                  <h2>Definitions</h2>
+                  <ol class="character-definitions-list">
+                    <li class="character-definition">{{ char.definition_1 }}</li>
+                    {% if char.definition_2 %}
+                      <li class="character-definition">{{ char.definition_2 }}</li>
+                    {% endif %}
+                    {% if char.definition_3 %}
+                      <li class="character-definition">{{ char.definition_3 }}</li>
+                    {% endif %}
+                  </ol>
+                </div>
+                <div>
+                  <h2>Examples</h2>
+                  <table>
                     <tr class="example-row">
-                      <td>{{ char.example_2_word }}</td>
-                      <td>{{ char.example_2_pinyin }}</td>
-                      <td>{{ char.example_2_character }}</td>
-                      <td>{{ char.example_2_meaning }}</td>
+                      <td>{{ char.example_1_word }}</td>
+                      <td>{{ char.example_1_pinyin }}</td>
+                      <td>{{ char.example_1_character }}</td>
+                      <td>{{ char.example_1_meaning }}</td>
                     </tr>
-                  {% endif %}
-                </table>
+                    {% if char.example_2_word %}
+                      <tr class="example-row">
+                        <td>{{ char.example_2_word }}</td>
+                        <td>{{ char.example_2_pinyin }}</td>
+                        <td>{{ char.example_2_character }}</td>
+                        <td>{{ char.example_2_meaning }}</td>
+                      </tr>
+                    {% endif %}
+                  </table>
+                </div>
               </div>
-            </div>
 
-            <div class="character-radicals-container">
-              <h2>Radicals</h2>
-              <div class="radicals-breakdown-container" data-radical-ids="{{ char.radical_1_id }} {{ char.radical_2_id }} {{ char.radical_3_id }}"></div>
-              <p class="breakdown-caption">{{ char.mnemonic_explanation }}</p>
+              <div class="character-radicals-container">
+                <h2>Radicals</h2>
+                <div class="radicals-breakdown-container" data-radical-ids="{{ char.radical_1_id }} {{ char.radical_2_id }} {{ char.radical_3_id }}"></div>
+                <p class="breakdown-caption">{{ char.mnemonic_explanation }}</p>
+              </div>
             </div>
           </div>
-        </div>
+        {% endwith %}
       {% endfor %}
     </div>
-  
+
   </div>
 {% endblock content %}
 

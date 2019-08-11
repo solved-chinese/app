@@ -62,9 +62,13 @@ class UserCharacter(models.Model):
 
 
 class UserCharacterTag(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_character_tags', related_query_name='user_character_tag')
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+                             related_name='user_character_tags',
+                             related_query_name='user_character_tag')
     name = models.CharField(max_length=50)
-    user_characters = models.ManyToManyField(UserCharacter, related_name='tags', related_query_name='tag')
+    user_characters = models.ManyToManyField(UserCharacter,
+                                             related_name='tags',
+                                             related_query_name='tag')
 
     def __str__(self):
         return f"<uct {self.pk}:{self.user}'s {self.name}>"
