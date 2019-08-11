@@ -1,23 +1,30 @@
-{# TODO make this beautiful and finish this according to API #}
+{# TODO make this beautiful, below is just an example, feel free to refactor 100% of it #}
 
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
+  <form method='get'>
+    <input type='submit' value='next' id='next-button' hidden>
+  </form>
+
   <div>
-    question: {{ question }}
+  question is {{ question }} <br>
   </div>
-  <div class=answers>
-    <form method="POST" >
-      {% csrf_token %}
-      {% for choice in choices %}
-        <button name="choice" type="submit" value="{{ forloop.counter0 }}">
-          {{ choice }}
-        </button>
-      {% endfor %}
-      <button name="choice" type="submit" value="-1" class="button">
-        I don't know
+
+  <div id='choice-div'>
+    {% for choice in choices %}
+      <button class='choices' data-choice='{{ forloop.counter0 }}'>
+        {{ choice }}
       </button>
+    {% endfor %}
+    <button class='choices' data-choice='4'>
+      I don't know
+    </button>
     </form>
   </div>
 {% endblock %}
+
+{% block js %}
+  <script src="{% static "scripts/review.js" %}"></script>
+{% endblock js %}

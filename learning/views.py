@@ -5,6 +5,7 @@ import time
 import hashlib
 import base64
 import os.path
+import logging
 
 from django.utils import timezone
 from django.shortcuts import render, redirect
@@ -136,11 +137,11 @@ def learning_process(request, session_key):
 
     def check_answer():
         correct_answer = request.session['correct_answer']
-        is_correct = int(request.GET.get('user_answer')) == correct_answer
+        is_correct = int(request.POST.get('user_answer')) == correct_answer
 
         uc = UserCharacter.objects.get(pk=request.session['uc_pk'])
         uc.times_learned += 1
-        uc.saved()
+        uc.save()
         uc.update(is_correct)
 
         if not is_correct and not request.session['is_tolerant']:

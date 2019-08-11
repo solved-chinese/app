@@ -39,7 +39,7 @@
     <span id='character-pinyin'>{{ character.pinyin }}<i class='fas fa-volume'
                                                          id='speak-button'><div id="audio-error-msg" class="alert alert-danger" style="display: none">An error has occured, please retry</div></i></span>
     {% if is_next %}
-      <form method='post'>
+      <form method='get'>
         {% csrf_token %}
         <input type='submit' class='button button-primary' value='Next'>
       </form>
