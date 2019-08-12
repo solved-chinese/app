@@ -7,33 +7,33 @@
 
 
 {% block content %}
-  <a class='header-back-button' href='/'><i class='far fa-angle-left'></i>Dashboard</a>
+  <a class="header-back-button" href="/"><i class="far fa-angle-left"></i>Dashboard</a>
   <h1>Vocab List Management</h1>
 
-  <div id='char-sets-container'>
-    <div class='char-set'>
-      <img class='char-set-cover' src='/static/images/set-covers/default-set-cover.jpg'></img>
-      <p class='char-set-title'>Integrated Chinese Class 1 Lv 1</p>
-    </div>
-    <div class='char-set'>
-      <img class='char-set-cover' src='/static/images/set-covers/default-set-cover.jpg'></img>
-      <p class='char-set-title'>Integrated Chinese Class 1 Lv 2</p>
-    </div>
-    <div class='char-set'>
-      <img class='char-set-cover' src='/static/images/set-covers/default-set-cover.jpg'></img>
-      <p class='char-set-title'>Family Members</p>
-    </div>
-    <div class='char-set'>
-      <img class='char-set-cover' src='/static/images/set-covers/default-set-cover.jpg'></img>
-      <p class='char-set-title'>Numbers</p>
-    </div>
-    <div class='char-set' id='add-set-button-container'>
-      <i class='fal fa-plus' id='add-set-button'></i>
-      <p class='char-set-title'>Add New Set</p>
+  <div class="page-mask" style="display: none"></div>
+
+  <div class="modal" id="add-new-set-modal" style="display: none">
+    <div class="modal-header">
+      <h2>Add New Set</h2>
+      <i class="far fa-times modal-close-button"></i>
+    </div class="modal-header">
+    <div class="modal-content" id="available-sets-container"></div>
+  </div>
+
+  <div id="char-sets-container">
+    {% for set in request.user.user_character_tags.all %}
+      <div class="char-set" data-set-pk="{{ set.pk }}">
+        <img class="char-set-cover" src="/static/images/set-covers/default-set-cover.jpg"></img>
+        <p class="char-set-title">{{ set.name }}</p>
+      </div>
+    {% endfor %}
+    <div class="char-set" id="add-set-button-container">
+      <i class="fal fa-plus" id="add-set-button"></i>
+      <p class="char-set-title">Add New Set</p>
     </div>
   </div>
 {% endblock content %}
 
-{% block extra_script %}
+{% block js %}
   <script src="{% static "scripts/manage_library.js" %}"></script>
-{% endblock %}
+{% endblock js %}

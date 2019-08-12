@@ -18,6 +18,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('alt_profile/', views.alt_profile, name='alt_profile'),
 
+    path('manage_library/<int:set_id>', views.manage_library, name='manage_library'),
     path('manage_library/', views.manage_library, name='manage_library'),
 
     path('add_set/', views.add_set),

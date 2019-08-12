@@ -6,23 +6,23 @@
 {% endblock meta %}
 
 {% block css %}
-  <link rel='stylesheet'
-        href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'
-        integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm'
-        crossorigin='anonymous'>
+  <!-- Temporary Bootstrap reference -->
+  <link rel="stylesheet"  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
   <link rel='stylesheet' href="{% static 'styles/learn.css' %}">
   <link rel='stylesheet' href="{% static 'styles/character.css' %}">
 {% endblock css %}
 
+{% block external-lib %}
+  <!-- Temporary Bootstrap reference -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" 
+          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+{% endblock %}
+
 {% block js %}
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js'
-          integrity='sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1'
-          crossorigin='anonymous'></script>
-  <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'
-          integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM'
-          crossorigin='anonymous'></script>
-  <!-- probably we need to move this into a seperate file -->
   <script>
       $(document).ready(function () {
           $('#report-bug-form').on('submit', function (e) {
@@ -31,12 +31,12 @@
       });
   </script>
   <script src="{% static 'scripts/display_character.js' %}"></script>
-
 {% endblock js %}
 
 {% block content %}
   <div id='learn-header-container'>
     <h1 id='character-text'>{{ character.chinese }}</h1>
+
     <span id='character-pinyin'>{{ character.pinyin }}
       <i class='fas fa-volume' id='speak-button' onclick="document.getElementById('audio-ctrl').play();"></i>
       <audio id='audio-ctrl' src="#">
@@ -46,8 +46,19 @@
           An error has occured, please retry
       </div>
     </span>
+
+    {% if is_next %}
+      <form method='get'>
+        {% csrf_token %}
+        <input type='submit' class='button button-primary' value='Next'>
+      </form>
+    {% else %}
+      <a class='button button-primary' id='next-button' href='{% url 'display_character' character.pk|add:"1" %}'>
+        Next
+      </a>
+    {% endif %}
+
     <!-- we need to think about what the following buttons do -->
-    <a class='button button-primary' id='next-button' href='{% url 'display_character' character.pk|add:"1" %}'>Next</a>
     <a class='button button-secondary' href='/vocab.html'>I Know This</a>
     <a class='button button-secondary' id='end-session-button' href='{% url 'dashboard' %}?endsession=true'>End Session</a>
     <button type='button' class='button button-secondary' style='margin-left:3px ' data-toggle='modal'
@@ -57,11 +68,11 @@
 
   <div class='card-container' id='stats-container'>
 
-    <div class='' id='character-card-container'>
-      <div id='character-info-container'>
-        <div id='character-preview'
+    <div class='character-card-container'>
+      <div class='character-info-container'>
+        <div class='character-preview'
              style='background-image: url({{ character.color_coded_image.url }})'></div>
-        <div id='definitions-container'>
+        <div class='definitions-container'>
           <h2>Definitions</h2>
           <ol class='character-definitions-list'>
             <li class='character-definition'>{{ character.definition_1 }}</li>
@@ -73,7 +84,7 @@
             {% endif %}
           </ol>
         </div>
-        <div id='examples-container'>
+        <div class='examples-container'>
           <h2>Examples</h2>
           <table id='examples-table'>
             <tr class='example-row'>
@@ -94,9 +105,9 @@
         </div>
       </div>
 
-      <div id='character-radicals-container'>
+      <div class='character-radicals-container'>
         <h2>Radicals</h2>
-        <div id='radicals-breakdown-container'>
+        <div class='radicals-breakdown-container'>
           {% for radical in radicals %}
             {% if radical %}
               <div class='radical-container'>

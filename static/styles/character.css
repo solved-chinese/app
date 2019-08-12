@@ -2,18 +2,18 @@
   Containers
 ***********************************/
 
-#character-card-container {
+.character-card-container {
     display: flex;
 }
 
-#character-info-container {
+.character-info-container {
     width: 36.2%;
     margin-right: 30px;
     padding-right: 30px;
     border-right: 1px solid var(--tertiary-color);
 }
 
-#character-radicals-container {
+.character-radicals-container {
     width: 61.8%;
 }
 
@@ -23,7 +23,7 @@
   Character Preview
 ***********************************/
 
-#character-preview {
+.character-preview {
     width: 150px;
     height: 150px;
     margin: 20px auto;
@@ -38,7 +38,7 @@
   Definitions
 ***********************************/
 
-#definitions-container {
+.definitions-container {
     margin: 40px 0;
 }
 
@@ -78,7 +78,7 @@
   Radicals Breakdown
 ***********************************/
 
-#radicals-breakdown-container {
+.radicals-breakdown-container {
     display: flex;
     justify-content: space-evenly;
     margin-bottom: 30px;

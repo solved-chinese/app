@@ -1,0 +1,30 @@
+{# TODO make this beautiful, below is just an example, feel free to refactor 100% of it #}
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <form method='get'>
+    <input type='submit' value='next' id='next-button' hidden>
+  </form>
+
+  <div>
+  question is {{ question }} <br>
+  </div>
+
+  <div id='choice-div'>
+    {% for choice in choices %}
+      <button class='choices' data-choice='{{ forloop.counter0 }}'>
+        {{ choice }}
+      </button>
+    {% endfor %}
+    <button class='choices' data-choice='4'>
+      I don't know
+    </button>
+    </form>
+  </div>
+{% endblock %}
+
+{% block js %}
+  <script src="{% static "scripts/review.js" %}"></script>
+{% endblock js %}
