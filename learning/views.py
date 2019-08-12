@@ -222,7 +222,7 @@ def report(request):
 
 def getAudio(request):
     URL = "http://api.xfyun.cn/v1/service/v1/tts"
-    AUE = "raw"
+    AUE = "lame"
     APPID = "5d2407a2"
     API_KEY = "1194c50ae845b966ade10e8b47ece15e"
 
@@ -266,14 +266,14 @@ def getAudio(request):
                 writeFile("media/audio/" + request.GET.get("pk") + ".wav",
                           r.content)
             else:
-                writeFile("media/audio/" + "xiaoyan" + ".mp3", r.content)
+                writeFile("media/audio/" + request.GET.get("pk") + ".mp3", r.content)
             return True
         else:
-            #   error-code reference: https://www.xfyun.cn/document/error-code
+        #   error-code reference: https://www.xfyun.cn/document/error-code
             return False
 
     audioKey = request.GET.get("pk")
-    if os.path.exists('media/audio/' + audioKey + '.wav'):
+    if os.path.exists('media/audio/' + audioKey + '.mp3'):
         return JsonResponse({'success': True})
     else:
         res = requestAudio(request.GET.get("t"))
