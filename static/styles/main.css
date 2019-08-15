@@ -306,24 +306,14 @@ a {
 /***********************************
   Search-form
 ***********************************/
-
-.search-form {
-    display: flex;
-    justify-content: center;
-    align-self: flex-start;
-
-    padding: 15px 40px 0;
-    height: auto;
-    flex-grow: 2;
-}
-
 .search-form-wrapper{
     display: flex;
-    flex-wrap: wrap;
+    align-self: flex-start;
+    flex-direction: column;
 
-    width: 70%;
-    height: inherit;
-    margin: auto;
+    width: 60%;
+    height: auto;
+    margin: 10px auto;
 
     background-color: var(--navbar-color);
 
@@ -332,14 +322,18 @@ a {
 
 }
 
-.search-form-wrapper > img {
+.search-input-wrapper {
+    display: flex;
+}
+
+.search-input-wrapper > img {
     margin: auto;
     padding: 0 15px 0;
     height: 28px;
     width: auto;
 }
 
-.search-form-wrapper > input[name="keyword"] {
+.search-input-wrapper > input[name="keyword"] {
     height: 50px;
     flex-grow: 2;
 
@@ -351,7 +345,7 @@ a {
     font-size: 17px;
 }
 
-.search-form-wrapper > input[name="keyword"]::placeholder {
+.search-input-wrapper > input[name="keyword"]::placeholder {
     color: #a7a7a7;
 }
 

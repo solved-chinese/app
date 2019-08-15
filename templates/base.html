@@ -33,15 +33,14 @@
   <div class="card-container" id="navbar-container">
     <div class="main-content-container" id="navbar">
       <a class="logo" href="{% url "index" %}"></a>
-      <form class="search-form" action="#" method="GET" autocomplete="off" autocapitalize="off">
-        <div class="search-form-wrapper">
+      <div class="search-form-wrapper">
+        <div class="search-input-wrapper">
           <img src="/static/images/search.svg">
           <input type="text" name="keyword" placeholder="Search">
-          <input type="submit" hidden>
-          <div id="search-dropdown-wrapper">
-          </div>
         </div>
-      </form>
+        <div id="search-dropdown-wrapper">
+        </div>
+      </div>
       {% if user.is_authenticated %}
         <button class="btn dropdown-toggle button button-primary" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="{% url "dashboard" %}">Hi, {{ user.get_display_name }}</button>
         <div class="dropdown-menu">
