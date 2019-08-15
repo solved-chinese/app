@@ -20,7 +20,7 @@ $(document).ready(() => {
   const $target = $("#search-dropdown-wrapper");
   $(".search-form-wrapper").focusout(() => {
     setTimeout(() => {
-      //$target.html(""); //  This is a temporary fix, which allows the click event to be completed before html is cleared.
+      $target.html(""); //  This is a temporary fix, which allows the click event to be completed before html is cleared.
     }, 150);            //  Shoulda come up with a better solution in the future.
   })
   function searchHandler (event, enterPressed = false) {
