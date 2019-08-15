@@ -13,11 +13,6 @@ $("document").ready(function(){
             if (data.success) {
                 var audio = $("#audio-ctrl");
                 audio.attr("src", "/media/audio/"+pk+".mp3");
-            } else {
-                $("#audio-error-msg").fadeIn();
-                setTimeout(() => {
-                    $("#audio-error-msg").fadeOut();
-                }, 3500);
             }
         })
 
