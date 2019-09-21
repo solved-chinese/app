@@ -25,21 +25,29 @@ html {
     background: #fffefc;
 }
 
+/* The `!important` tags below are just for overriding
+   Bootstrap styles, will be removed in the future. */
+
 body {
     position: relative;
     min-height: 100vh;
+    background: #fffefc !important;
 }
 
 h1 {
-    margin-bottom: 20px;
+    margin-bottom: 20px !important;
+    font-size: 32px !important;
+    font-weight: 700 !important;
 }
 
 h2 {
-    margin-bottom: 10px;
+    margin-bottom: 10px !important;
+    font-size: 24px !important;
+    font-weight: 700 !important;
 }
 
 a {
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 .fas, .far, .fal, .fab {
@@ -190,6 +198,7 @@ a {
     padding: 0.6em 2em;
     border: 1px solid #040302;
     border-radius: 0.25em;
+    color: #040302;
     background: white;
     white-space: nowrap;
     background: white;
