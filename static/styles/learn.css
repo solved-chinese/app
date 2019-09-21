@@ -4,10 +4,14 @@
     width: 100%;
 }
 
+#learn-body-container {
+    margin-top: 40px;
+}
+
 /* !important is to override the override to the Bootstrap style... */
 
 #character-text {
-    margin: -2px 0 0 !important;
+    margin: 0 !important;
 }
 
 #character-pinyin {
@@ -28,6 +32,11 @@
 
 #speak-button:hover {
     color: var(--secondary-color);
+}
+
+#speak-button.disabled {
+    color: var(--secondary-color);
+    cursor: default;
 }
 
 #character-details {
