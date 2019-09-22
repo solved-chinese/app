@@ -44,7 +44,7 @@
     {% if is_next %}
       <form method='get'>
         {% csrf_token %}
-        <input type='submit' class='button button-primary' value='Next'>
+        <input type='submit' class='button button-primary' id='next-button' value='Next'>
       </form>
     {% else %}
       <a class='button button-primary' id='next-button' href='{% url 'display_character' character.pk|add:"1" %}'>
@@ -53,7 +53,7 @@
     {% endif %}
 
     <!-- we need to think about what the following buttons do -->
-    <a class='button button-secondary' href='/vocab.html' style='margin-left: 15px'>I Know This</a>
+    <a class='button button-secondary' href='/vocab.html'>I Know This</a>
     <a class='button button-secondary' id='end-session-button' href='{% url 'dashboard' %}?endsession=true'>End Session</a>
     <button type='button' class='button button-tertiary' data-toggle='modal' data-target='#report-bug-modal' style='margin-left: 15px'>Report</button>
   </div>
