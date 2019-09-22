@@ -71,12 +71,6 @@ function searchHandler(e) {
     });
 }
 
-// $(document).keypress(function(event){
-//     if (event.keyCode == 13){ 
-//         searchHandler(null, true);
-//     }
-// });
-
 $source.on('input propertychange', searchHandler);
 $source.keypress(e => {
     if (e.keyCode !== 13 || $('.search-entry-wrapper').length === 0) return;
