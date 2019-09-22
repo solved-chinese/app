@@ -22,7 +22,9 @@ const $source = $('.search-input-wrapper > input');
 const $target = $('#search-dropdown-wrapper');
 
 $('.search-form-wrapper').focusout(() => {
-    $target.html('');
+    setTimeout(() => {
+        $target.html('');
+    }, 150);
 });
 
 function searchHandler(e) {
