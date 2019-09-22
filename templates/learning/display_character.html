@@ -63,7 +63,11 @@
     <div class='character-card-container'>
       <div class='character-info-container'>
         <div class='character-preview'
-             style='background-image: url({{ character.color_coded_image.url }})'></div>
+              style="background-image: url({% get_static_prefix %}images/char-structures/{{ character.structure }}.svg)">
+          <p class='character-kai character-large'>
+            {{ character.chinese }}
+          </p>
+        </div>
         <div class='definitions-container'>
           <h2>Definitions</h2>
           <ol class='character-definitions-list'>
