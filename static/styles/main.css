@@ -328,7 +328,7 @@ a {
     z-index: 1000;
 }
 
-.modal {
+.my-modal {
     position: fixed;
     width: 500px;
     height: 500px;
@@ -343,7 +343,7 @@ a {
     z-index: 2000;
 }
 
-.modal > .modal-header {
+.my-modal > .my-modal-header {
     display: flex;
     height: 29px;
     padding: 20px 25px;
@@ -353,11 +353,13 @@ a {
     /* box-shadow: 4px 5px 14px 0px rgba(4, 3, 2, 0.1); */
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     background: var(--navbar-color);
+    box-sizing: content-box;
 }
 
-.modal > .modal-header > h2 {
+.my-modal > .my-modal-header > h2 {
     display: inline;
     margin: 0;
+    box-sizing: content-box;
 }
 
 /* .modal > .modal-header::after {
@@ -374,13 +376,14 @@ a {
 .modal-close-button {
     font-size: 1.5em;
     cursor: pointer;
+    box-sizing: content-box;
 }
 
 .modal-close-button:hover {
     color: var(--secondary-color);
 }
 
-.modal > .modal-content {
+.my-modal > .my-modal-content {
     padding: 0px 25px;
     overflow: scroll;
     height: calc(100% - 70px);
