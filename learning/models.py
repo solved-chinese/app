@@ -51,6 +51,7 @@ class Character(models.Model):
 
     is_preview_definition = models.BooleanField()
     is_preview_pinyin = models.BooleanField()
+    structure = models.IntegerField(null=True)
 
     color_coded_image = models.ImageField(default='default.jpg')
     stroke_order_image = models.ImageField(default='default.jpg')
