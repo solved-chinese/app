@@ -30,6 +30,8 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .character-kai {

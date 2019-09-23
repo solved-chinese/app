@@ -477,6 +477,7 @@ a {
 .search-entry .character {
     margin-right: 15px;
     font-size: 24px;
+    font-weight: 500;
 }
 
 .search-entry .pinyin {
