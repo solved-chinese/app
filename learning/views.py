@@ -132,7 +132,7 @@ def learning_process(request, session_key):
 
     def end_learning(msg=''):
         return render(request, 'simple_response.html', {
-            'content': 'You are finished.<br>' + msg
+            'content': 'Time’s up! Congratulations for finishing :)<br>' + msg
         })
 
     def check_answer():
