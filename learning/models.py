@@ -5,8 +5,86 @@ from django.db import models
 import accounts.models  # to avoid cyclic import
 
 
-class Radical(models.Model):
+class DFModel(models.Model):
+    """
+    This is the base for all models that rely on dataframe to update its
+    objects.
+    Fields are pulled from spreadsheet as such:
+    if field blank, set value to None
+    if Integer/Boolean/String, direct conversion
+    if ForeignField/OneToOneFIeld, find using pk
+    if ManyToManyField, pk will be added TODO delete old
+    TODO for relation fields may need a comment sign for Ling team
+    """
     id = models.IntegerField(primary_key=True)
+
+    @classmethod
+    def update_from_df(cls, df, validate=lambda row: (True, '')):
+        """
+        This function pulls the models from the given dataframe.
+        Every row of the Dataframe object must represent a object, with a
+        mandatory field id.
+        :param df: A Dataframe object
+        :param validate: this can  be overridden validate(row) must returns a
+         tuple (is_ok, msg), is_ok is a boolean saying whether this row is
+         valid, and msg is a str telling what is wrong if it is not valid
+        :return: a dict (id: msg) where msg is a HTML div ready for display
+        """
+        df.replace('', None, inplace=True)
+        df.fillna(0, inplace=True)
+        messages = []
+        good_pk = []
+        for i, row in df.iterrows():
+            messages.append(f'row {i}: ')
+            try:
+                id = row['id']
+                if id == 0 or type(id) is not int:
+                    messages[i] += f"ERROR: integer id not found"
+                    continue
+
+                is_ok, msg = validate(row)
+                if not is_ok:
+                    messages[i] += f'ERROR: {msg}'
+                    continue
+
+                data = {}
+                for field in cls._meta.get_fields():
+                    if field.name == 'id':
+                        continue
+                    if isinstance(field,
+                                  (models.IntegerField, models.BooleanField)):
+                        data[field.name] = row[field.name]
+                    elif isinstance(field, models.CharField):
+                        data[field.name] = row[field.name] if row[field.name] \
+                            else None
+            except Exception as e:
+                messages[i] += f'ERROR: {str(e)}, {messages[i]}'
+                continue
+            try:
+                _, is_created = cls.objects.update_or_create(id=id,
+                                                               defaults=data)
+                messages.append(
+                    f"{'create' if is_created else 'update'} id={id}")
+                good_pk.append(id)
+            except Exception as e:
+                messages.append(f'ERR constructing id={id}: {str(e)}')
+
+        cls.objects.exclude(pk__in=good_pk).delete()
+        # TODO possibly add delete warning
+
+        for i, msg in enumerate(messages, 0):
+            if msg[0] == 'E':
+                messages[i] = '<div style="color:red;">' + msg + '</div>'
+            elif msg[0] == 'W':
+                messages[i] = '<div style="color:orange;">' + msg + '</div>'
+            else:
+                messages[i] = '<div style="color:green;">' + msg + '</div>'
+        return messages
+
+    class Meta:
+        abstract = True
+
+class Radical(models.Model):
     chinese = models.CharField(max_length=1)
     pinyin = models.CharField(max_length=15)
     definition = models.CharField(max_length=100)
@@ -23,7 +101,6 @@ class Radical(models.Model):
 
 
 class Character(models.Model):
-    id = models.IntegerField(primary_key=True)
     chinese = models.CharField(max_length=1)
     pinyin = models.CharField(max_length=15)
     part_of_speech_1 = models.CharField(max_length=50)
@@ -98,48 +175,3 @@ class Report(models.Model):
 
     class Meta:
         ordering = ['origin']
-
-
-def update_from_df(df, Model):
-    df.replace('', None, inplace=True)
-    df.fillna(0, inplace=True)
-    messages = []
-    good_pk = []
-    for i, row in df.iterrows():
-        try:
-            id = row['id']
-            if id == 0:
-                messages.append(f'ERR at start : row {i} id not found')
-                continue
-            if '√' not in str(row['Comments']):
-                if Model.objects.filter(pk=id).exists():
-                    messages.append(f'WARNING: delete id={id}')
-                continue
-            data = {}
-            for field in Model._meta.get_fields():
-                if field.name == 'id':
-                    continue
-                if isinstance(field, (models.IntegerField, models.BooleanField)):
-                    data[field.name]=row[field.name]
-                elif isinstance(field, models.CharField):
-                    data[field.name] = row[field.name] if row[field.name] else None
-        except Exception as e:
-            messages.append(f'ERR getting fields of id={id}: {str(e)}')
-            continue
-        try:
-            _, is_created = Model.objects.update_or_create(id=id, defaults=data)
-            messages.append(f"{'create' if is_created else 'update'} id={id}")
-            good_pk.append(id)
-        except Exception as e:
-            messages.append(f'ERR constructing id={id}: {str(e)}')
-
-    Model.objects.exclude(pk__in=good_pk).delete()
-    # TODO possibly add delete warning
-
-    for i, msg in enumerate(messages, 0):
-        if msg[0]=='E':
-            messages[i] = '<div style="color:red;">' + msg + '</div>'
-        elif msg[0]=='W':
-            messages[i] = '<div style="color:orange;">' + msg + '</div>'
-        else: messages[i] = '<div style="color:green;">' + msg + '</div>'
-    return messages
