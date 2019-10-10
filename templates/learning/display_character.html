@@ -71,12 +71,12 @@
         <div class='definitions-container'>
           <h2>Definitions</h2>
           <ol class='character-definitions-list'>
-            <li class='character-definition'>(<i>{{ character.part_of_speech_1 }}</i>) {{ character.definition_1 }}</li>
+            <li class='character-definition'>(<i>{{ character.part_of_speech_1.strip }}</i>) {{ character.definition_1 }}</li>
             {% if character.definition_2 %}
-              <li class='character-definition'>(<i>{{ character.part_of_speech_2 }}</i>) {{ character.definition_2 }}</li>
+              <li class='character-definition'>(<i>{{ character.part_of_speech_2.strip }}</i>) {{ character.definition_2 }}</li>
             {% endif %}
             {% if character.definition_3 %}
-              <li class='character-definition'>(<i>{{ character.part_of_speech_3 }}</i>) {{ character.definition_3 }}</li>
+              <li class='character-definition'>(<i>{{ character.part_of_speech_3.strip }}</i>) {{ character.definition_3 }}</li>
             {% endif %}
           </ol>
         </div>
