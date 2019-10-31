@@ -7,6 +7,7 @@
   <!-- Temporary Bootstrap reference -->
   <link rel="stylesheet"  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
                           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{% static "styles/homepage.css" %}">
 {% endblock %}
 
 {% block external-lib %}
@@ -18,20 +19,77 @@
 {% endblock %}
 
 {% block content %}
+
+  {% if not user.is_authenticated %}
+  <div>
+		<div class="homepage-container">
+			<div style="width:400px;">
+		 		<h1>Solve Chinese characters like riddles</h1>
+			  	<div class="description-container">
+			  		Learning Chinese characters can be more intuitive, fun, and culturally meaningful.
+			  	</div>
+			  	<button type="button" class="btn btn-danger btn-lg" style="margin-top: 20px">
+			  		Try me
+			  	</button>
+			</div>
+			<div style="margin-left:100px;width:300px;">
+				<img src="{% static "images/homepage/slice1.png" %}">
+			</div>
+		</div>
+		<div style=" text-align: center;">
+			<div class="description-container">
+		  		630+ characters
+		  	</div>
+		  	<img src="{% static "images/homepage/slice2.png" %}" class="homepage-spacer">
+		  	<div class="description-container">
+		  		research-based learning
+		  	</div>
+		  	<img src="{% static "images/homepage/slice2.png" %}" class="homepage-spacer">
+		  	<div class="description-container">
+		  		completely free
+		  	</div>
+		  	<br>
+		  	<img src="{% static "images/homepage/slice6.png" %}">
+		</div>
+	</div>
+
+	<div>
+		<div class="homepage-container">
+			<img src="{% static "images/homepage/slice3.png" %}" style="width:500px;">
+
+		 	<div style="margin-left:60px;margin-top:20px;width:400px;">
+		 		<h1>Radical Breakdown</h1>
+			  	<div class="description-container">
+			  		Chinese characters can look intimidating. That's why we break them down into their basic building blocks (radicals) so you can stop memorizing and start understanding.
+			  	</div>
+			</div>
+		</div>
+		<div class="homepage-container">
+			<div style="margin-top:20px;width:500px;">
+		 		<h1>Spaced-repetition</h1>
+			  	<div class="description-container">
+			  		Our spaced-repetition algorithm will boost your memory by calculating the best review interval based on your past performances.
+			  	</div>
+			</div>
+			<img src="{% static "images/homepage/slice4.png" %}" style="width:450px;">
+		</div>
+		<div class="homepage-container">
+			<img src="{% static "images/homepage/slice5.png" %}" style="width:500px;">
+
+		 	<div style="margin-left:50px; margin-top:20px;width:400px;">
+		 		<h1>Visual chunking</h1>
+			  	<div class="description-container">
+			  		The color chunks make it easier for you to recall the composition of each character.
+			  	</div>
+			</div>
+		</div>
+	</div>
+  {% endif %}
+
   {% if user.is_authenticated %}
     <h1>Welcome back, {{ user.get_display_name }}!</h1>
     <a class="button button-primary" href="{% url "manage_library" %}">Manage Vocab Sets</a>
-  {% else %}
-    <h1>Welcome to Solved Chinese!</h1>
-  {% endif %}
-
-  {% if not user.is_authenticated %}
-    <div class="card-container d-flex justify-content-center">
-      <iframe width="90%" height="480" src="https://www.youtube.com/embed/UBG3UF9fCDE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-  {% endif %}
-
-  <div class="card-container" id="study-container">
+    <div class="card-container" id="study-container">
     <h2>Select Duration</h2>
     <div id="slider-bar">
       <div id="slider-activated"></div>
@@ -60,7 +118,6 @@
       <a href="{% url "display_character" 1 %}" class="button button-primary" id="study-button">Try Now</a>
     {% endif %}
   </div>
-  {% if user.is_authenticated %}
   <div class="card-container" id="stats-container">
     <h2>Stats</h2>
     <div id="stats-content-container" class="row">
