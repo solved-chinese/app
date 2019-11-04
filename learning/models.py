@@ -123,7 +123,9 @@ def update_from_df(df, Model):
                 if isinstance(field, (models.IntegerField, models.BooleanField)):
                     data[field.name]=row[field.name]
                 elif isinstance(field, models.CharField):
-                    data[field.name] = row[field.name] if row[field.name] else None
+                    # FIXME per request of LING team, remove all stars from str
+                    data[field.name] = row[field.name].replace('*', '') \
+                        if row[field.name] else None
         except Exception as e:
             messages.append(f'ERR getting fields of id={id}: {str(e)}')
             continue
