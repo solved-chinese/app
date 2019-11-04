@@ -81,7 +81,16 @@ def start_learning(request):
 
 
 def review(request, character, field_name):
-    choices = ['B', 'C', 'D']  # TODO implement with correct choices
+    other_uc = request.user.user_characters.exclude(character__pk=character.pk)
+    # TODO calling list on QuerySet may be inefficient
+    if len(other_uc) < 3:
+        other_characters = Character.objects.exclude(pk=character.pk)
+        if len(other_characters) < 3:
+            raise Exception('Database should have at least 4 characters')
+        choices = [getattr(c, field_name) for c in other_characters]
+    else:
+        other_uc = random.sample(list(other_uc), 3)
+        choices = [getattr(c.character, field_name) for c in other_uc]
     random.shuffle(choices)
     correct_answer = random.randint(0, 3)
     choices.insert(correct_answer, getattr(character, field_name))
