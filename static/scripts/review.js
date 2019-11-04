@@ -1,21 +1,31 @@
-$(document).ready(function(){
-    let is_fired = false;
+let alreadyAnswered = false;
 
-    $('.choices').click(function(){
-        if(is_fired)
-            return;
+$('.option').on('click', e => {
+    if (alreadyAnswered) return;
 
-        $.post(
-            $(location).attr('href'),
-            {user_answer: $(this).data('choice')},
-            response => {
-                $('#choice-div').append(
-                    '<br><span>answer is '+response['correct_answer']+' you choose ' +
-                    $(this).data('choice') + '</span>'
-                );
-                $('#next-button').show();
-            }
-        );
-        is_fired = true;
+    let el = $(e.target);
+    let chosen = el.data('choice');
+    let correct;
+
+    $.post('.', {user_answer: chosen}, response => {
+        correct = response.correct_answer;
+        if (correct !== chosen && chosen !== 4) {
+            el.addClass('wrong');
+        }
     })
+    .done(() => {
+        alreadyAnswered = true;
+        $.each($('.option'), (i, btn) => {
+            btn = $(btn);
+            let answerId = btn.data('choice');
+            if (answerId === correct) {
+                btn.addClass('correct');
+            } else if (answerId !== chosen || chosen === 4) {
+                btn.addClass('disabled');
+            }
+        });
+        $('#next-button').show();
+    });
 });
+
+$('#next-button').click(reload);

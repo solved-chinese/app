@@ -90,7 +90,8 @@ def review(request, character, field_name):
         request,
         'learning/review.html',
         {
-            'question': f'{character.chinese} {field_name}',
+            'character': character.chinese,
+            'type': field_name,
             'choices': choices
         }
     )

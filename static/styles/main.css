@@ -201,7 +201,6 @@ a {
     color: #040302;
     background: white;
     white-space: nowrap;
-    background: white;
     cursor: pointer;
     transition: 150ms ease;
 }
@@ -217,17 +216,17 @@ a {
 }
 
 .button.button-secondary:hover {
-    color: white;
+    color: white !important; /* Temporary Bootstrap Override */
     background: #040302;
 }
 
 .button.button-tertiary {
-    color: var(--secondary-color);
+    color: var(--secondary-color) !important; /* Temporary Bootstrap Override */
     border-color: var(--secondary-color);
 }
 
 .button.button-tertiary:hover {
-    color: white;
+    color: white !important; /* Temporary Bootstrap Override */
     background: var(--secondary-color);
 }
 

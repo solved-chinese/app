@@ -53,8 +53,8 @@
     {% endif %}
 
     <!-- we need to think about what the following buttons do -->
-    <a class='button button-secondary' href='/vocab.html'>I Know This</a>
-    <a class='button button-secondary' id='end-session-button' href='{% url 'dashboard' %}?endsession=true'>End Session</a>
+{#    <a class='button button-secondary' href='/vocab.html'>I Know This</a>#}
+{#    <a class='button button-secondary' id='end-session-button' href='{% url 'dashboard' %}?endsession=true'>End Session</a>#}
     <button type='button' class='button button-tertiary' data-toggle='modal' data-target='#report-bug-modal' style='margin-left: 15px'>Report</button>
   </div>
 
@@ -71,12 +71,12 @@
         <div class='definitions-container'>
           <h2>Definitions</h2>
           <ol class='character-definitions-list'>
-            <li class='character-definition'>(<i>{{ character.part_of_speech_1 }}</i>) {{ character.definition_1 }}</li>
+            <li class='character-definition'>(<i>{{ character.part_of_speech_1.strip }}</i>) {{ character.definition_1 }}</li>
             {% if character.definition_2 %}
-              <li class='character-definition'>(<i>{{ character.part_of_speech_2 }}</i>) {{ character.definition_2 }}</li>
+              <li class='character-definition'>(<i>{{ character.part_of_speech_2.strip }}</i>) {{ character.definition_2 }}</li>
             {% endif %}
             {% if character.definition_3 %}
-              <li class='character-definition'>(<i>{{ character.part_of_speech_3 }}</i>) {{ character.definition_3 }}</li>
+              <li class='character-definition'>(<i>{{ character.part_of_speech_3.strip }}</i>) {{ character.definition_3 }}</li>
             {% endif %}
           </ol>
         </div>
