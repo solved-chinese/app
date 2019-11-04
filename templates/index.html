@@ -21,131 +21,135 @@
 {% block content %}
 
   {% if not user.is_authenticated %}
-  <div>
-		<div class="homepage-container">
-			<div style="width:400px;">
-		 		<h1>Solve Chinese characters like riddles</h1>
-			  	<div class="description-container">
-			  		Learning Chinese characters can be more intuitive, fun, and culturally meaningful.
-			  	</div>
-          <a href="{% url "display_character" 1 %}" class="btn btn-danger btn-lg" style="margin-top: 20px">Try Me</a>
-			</div>
-			<div style="margin-left:100px;width:300px;">
-				<img src="{% static "images/homepage/slice1.png" %}">
-			</div>
-		</div>
-		<div style=" text-align: center;">
-			<div class="description-container">
-		  		630+ characters
-		  	</div>
-		  	<img src="{% static "images/homepage/slice2.png" %}" class="homepage-spacer">
-		  	<div class="description-container">
-		  		research-based learning
-		  	</div>
-		  	<img src="{% static "images/homepage/slice2.png" %}" class="homepage-spacer">
-		  	<div class="description-container">
-		  		completely free
-		  	</div>
-		  	<br>
-		  	<img src="{% static "images/homepage/slice6.png" %}">
-		</div>
-	</div>
 
-	<div>
-		<div class="homepage-container">
-			<img src="{% static "images/homepage/slice3.png" %}" style="width:500px;">
+    <div>
+      <div class="homepage-container">
+        <div style="width:400px;">
+          <h1>Solve Chinese characters like riddles</h1>
+            <div class="description-container">
+              Learning Chinese characters can be more intuitive, fun, and culturally meaningful.
+            </div>
+            <a href="{% url "display_character" 1 %}" class="btn btn-danger btn-lg" style="margin-top: 20px">Try Me</a>
+        </div>
+        <div style="margin-left:100px;width:300px;">
+          <img src="{% static "images/homepage/slice1.png" %}">
+        </div>
+      </div>
+      <div style=" text-align: center;">
+        <div class="description-container">
+            630+ characters
+          </div>
+          <img src="{% static "images/homepage/slice2.png" %}" class="homepage-spacer">
+          <div class="description-container">
+            research-based learning
+          </div>
+          <img src="{% static "images/homepage/slice2.png" %}" class="homepage-spacer">
+          <div class="description-container">
+            completely free
+          </div>
+          <br>
+          <img src="{% static "images/homepage/slice6.png" %}">
+      </div>
+    </div>
 
-		 	<div style="margin-left:60px;margin-top:20px;width:400px;">
-		 		<h1>Radical Breakdown</h1>
-			  	<div class="description-container">
-			  		Chinese characters can look intimidating. That's why we break them down into their basic building blocks (radicals) so you can stop memorizing and start understanding.
-			  	</div>
-			</div>
-		</div>
-		<div class="homepage-container">
-			<div style="margin-top:20px;width:500px;">
-		 		<h1>Spaced-repetition</h1>
-			  	<div class="description-container">
-			  		Our spaced-repetition algorithm will boost your memory by calculating the best review interval based on your past performances.
-			  	</div>
-			</div>
-			<img src="{% static "images/homepage/slice4.png" %}" style="width:450px;">
-		</div>
-		<div class="homepage-container">
-			<img src="{% static "images/homepage/slice5.png" %}" style="width:500px;">
+    <div>
+      <div class="homepage-container">
+        <img src="{% static "images/homepage/slice3.png" %}" style="width:500px;">
 
-		 	<div style="margin-left:50px; margin-top:20px;width:400px;">
-		 		<h1>Visual chunking</h1>
-			  	<div class="description-container">
-			  		The color chunks make it easier for you to recall the composition of each character.
-			  	</div>
-			</div>
-		</div>
-	</div>
-  {% endif %}
+        <div style="margin-left:60px;margin-top:20px;width:400px;">
+          <h1>Radical Breakdown</h1>
+            <div class="description-container">
+              Chinese characters can look intimidating. That's why we break them down into their basic building blocks (radicals) so you can stop memorizing and start understanding.
+            </div>
+        </div>
+      </div>
+      <div class="homepage-container">
+        <div style="margin-top:20px;width:500px;">
+          <h1>Spaced-repetition</h1>
+            <div class="description-container">
+              Our spaced-repetition algorithm will boost your memory by calculating the best review interval based on your past performances.
+            </div>
+        </div>
+        <img src="{% static "images/homepage/slice4.png" %}" style="width:450px;">
+      </div>
+      <div class="homepage-container">
+        <img src="{% static "images/homepage/slice5.png" %}" style="width:500px;">
 
-  {% if user.is_authenticated %}
+        <div style="margin-left:50px; margin-top:20px;width:400px;">
+          <h1>Visual chunking</h1>
+            <div class="description-container">
+              The color chunks make it easier for you to recall the composition of each character.
+            </div>
+        </div>
+      </div>
+    </div>
+
+  {% else %}
+
     <h1>Welcome back, {{ user.get_display_name }}!</h1>
     <a class="button button-primary" href="{% url "manage_library" %}">Manage Vocab Sets</a>
     <div class="card-container" id="study-container">
-    <h2>Select Duration</h2>
-    <div id="slider-bar">
-      <div id="slider-activated"></div>
-      <div class="slider-value value-activated" data-value="1" data-width-percent="0"
-           style="margin-left: calc(0% - 10px);"></div>
-      <div class="slider-value" data-value="5" data-width-percent="8.333"
-           style="margin-left: calc(8.333% - 10px);"></div>
-      <div class="slider-value" data-value="15" data-width-percent="25"
-           style="margin-left: calc(25% - 10px);"></div>
-      <div class="slider-value" data-value="30" data-width-percent="50"
-           style="margin-left: calc(50% - 10px);"></div>
-      <div class="slider-value" data-value="45" data-width-percent="75"
-           style="margin-left: calc(75% - 10px);"></div>
-      <div class="slider-value" data-value="60" data-width-percent="100"
-           style="margin-left: calc(100% - 10px);"></div>
-      <p id="slider-value-text">1&#8239;min</p>
+      <h2>Select Duration</h2>
+      <div id="slider-bar">
+        <div id="slider-activated"></div>
+        <div class="slider-value value-activated" data-value="1" data-width-percent="0"
+             style="margin-left: calc(0% - 10px);"></div>
+        <div class="slider-value" data-value="5" data-width-percent="8.333"
+             style="margin-left: calc(8.333% - 10px);"></div>
+        <div class="slider-value" data-value="15" data-width-percent="25"
+             style="margin-left: calc(25% - 10px);"></div>
+        <div class="slider-value" data-value="30" data-width-percent="50"
+             style="margin-left: calc(50% - 10px);"></div>
+        <div class="slider-value" data-value="45" data-width-percent="75"
+             style="margin-left: calc(75% - 10px);"></div>
+        <div class="slider-value" data-value="60" data-width-percent="100"
+             style="margin-left: calc(100% - 10px);"></div>
+        <p id="slider-value-text">1&#8239;min</p>
+      </div>
+      <form id='start-learning-form' action='/learning/start_learning/' method='post'>
+        {% csrf_token %}
+        <input type='hidden' id='start-learning-form-minutes' name='minutes_to_learn' value='5'>
+      </form>
+
+      {% if user.is_authenticated %}
+        <a href="#" class="button button-primary" id="study-button">Study Now</a>
+      {% else %}
+        <a href="{% url "display_character" 1 %}" class="button button-primary" id="study-button">Try Now</a>
+      {% endif %}
     </div>
-    <form id='start-learning-form' action='/learning/start_learning/' method='post'>
-      {% csrf_token %}
-      <input type='hidden' id='start-learning-form-minutes' name='minutes_to_learn' value='5'>
-    </form>
 
-    {% if user.is_authenticated %}
-      <a href="#" class="button button-primary" id="study-button">Study Now</a>
-    {% else %}
-      <a href="{% url "display_character" 1 %}" class="button button-primary" id="study-button">Try Now</a>
-    {% endif %}
-  </div>
-  <div class="card-container" id="stats-container">
-    <h2>Stats</h2>
-    <div id="stats-content-container" class="row">
+    <div class="card-container" id="stats-container">
+      <h2>Stats</h2>
+      <div id="stats-content-container" class="row">
 
-      <div class="col-12 col-md-6 col-lg-3 stat-text">
-        <h5>Last time you studied</h5>
-        <p class="big-stat">
-          <script> document.write(({{ user.last_study_duration.seconds }} / 60).toFixed(1)); </script>
-        </p>
-        <p><strong>minutes</strong></p>
-        <hr class="d-block d-lg-none">
-      </div>
+        <div class="col-12 col-md-6 col-lg-3 stat-text">
+          <h5>Last time you studied</h5>
+          <p class="big-stat">
+            <script> document.write(({{ user.last_study_duration.seconds }} / 60).toFixed(1)); </script>
+          </p>
+          <p><strong>minutes</strong></p>
+          <hr class="d-block d-lg-none">
+        </div>
 
-      <div class="col-12 col-md-6 col-lg-3 stat-text">
-        <h5>You have spent</h5>
-        <p class="big-stat">
-          <script> document.write(({{ user.total_study_duration.seconds }} / 60).toFixed(1)); </script>
-        <p><strong>minutes</strong></p>
-        <hr class="d-block d-md-none">
-      </div>
+        <div class="col-12 col-md-6 col-lg-3 stat-text">
+          <h5>You have spent</h5>
+          <p class="big-stat">
+            <script> document.write(({{ user.total_study_duration.seconds }} / 60).toFixed(1)); </script>
+          <p><strong>minutes</strong></p>
+          <hr class="d-block d-md-none">
+        </div>
 
-      <div class="col-12 col-md-6 col-lg-3 stat-text">
-        <h5>You have learned</h5>
-        <p class="big-stat">{{ user.get_total_words_learned }}</p>
-        <p><strong>words</strong></p>
-        
+        <div class="col-12 col-md-6 col-lg-3 stat-text">
+          <h5>You have learned</h5>
+          <p class="big-stat">{{ user.get_total_words_learned }}</p>
+          <p><strong>words</strong></p>
+        </div>
+
       </div>
     </div>
-  </div>
+
   {% endif %}
+
   <br style="line-height: 100px;">
 {% endblock %}
 
