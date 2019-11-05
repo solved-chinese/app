@@ -21,6 +21,7 @@ urlpatterns = [
     path('C<dddd:character_pk>/', views.display_character, name='display_character'),
     path('getAudio/', views.getAudio),
 
+    path('try_me/', views.try_me, name='try_me'),
     path('start_learning/', views.start_learning),
     path('status<slug:session_key>/', views.learning_process),
 

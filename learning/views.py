@@ -14,8 +14,9 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
+from django.contrib.auth import login
 
-from learning.models import Character, Radical, Report
+from learning.models import Character, CharacterSet, Radical, Report
 from accounts.models import User, UserCharacter
 from jiezi.utils.json_serializer import chenyx_serialize
 
@@ -45,6 +46,17 @@ def display_character(request, character_pk, **context_kwargs):
     )
 
 
+def try_me(request):
+    if request.user.is_authenticated:
+        return start_learning(request)
+    username = f'test_user_{random.randint(0, 1e6):06d}'
+    password = 'test'
+    user = User.objects._create_user(username, '', password)
+    login(request, user)
+    CharacterSet.objects.get(name='try_me').add_to_user(user)
+    return start_learning(request)
+
+
 @login_required
 def start_learning(request):
     # clears session data without logging out the user
@@ -53,7 +65,7 @@ def start_learning(request):
             del request.session[key]
     request.session.cycle_key()
 
-    minutes_to_learn = int(request.POST.get('minutes_to_learn'))
+    minutes_to_learn = int(request.POST.get('minutes_to_learn', 10))
     uc_tags_filter = request.POST.get(
         'uc_tags_exclude',
         [uc_tag.pk for uc_tag in request.user.user_character_tags.all()]
