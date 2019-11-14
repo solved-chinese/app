@@ -7,7 +7,7 @@ import accounts.models  # to avoid cyclic import
 
 class Radical(models.Model):
     id = models.IntegerField(primary_key=True)
-    chinese = models.CharField(max_length=1)
+    chinese = models.CharField(max_length=3)
     pinyin = models.CharField(max_length=15)
     definition = models.CharField(max_length=100)
     mnemonic_explanation = models.CharField(max_length=300, null=True, blank=True)

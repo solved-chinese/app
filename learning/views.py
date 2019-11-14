@@ -51,7 +51,7 @@ def try_me(request):
         return start_learning(request)
     username = f'test_user_{random.randint(0, 1e6):06d}'
     password = 'test'
-    user = User.objects._create_user(username, '', password)
+    user = User.objects._create_user(username, '', password, is_guest=True)
     login(request, user)
     CharacterSet.objects.get(name='try_me').add_to_user(user)
     return start_learning(request)
@@ -124,7 +124,7 @@ def learning_process(request, session_key):
     """ This is the main view that controls the learning process
     Note session['next'] stores a list of dicts {'func', 'args'} and
     they should be called before transition_stage happens """
-    MIN_LEARN_REVIEW_INTERVAL = 180  # seconds
+    MIN_LEARN_REVIEW_INTERVAL = 30  # seconds
 
     def transition_stage():
         """ this function decides whether to learn or review,
@@ -154,7 +154,7 @@ def learning_process(request, session_key):
 
     def end_learning(msg=''):
         return render(request, 'simple_response.html', {
-            'content': 'Time’s up! Congratulations for finishing :)<br>' + msg
+            'content': msg
         })
 
     def check_answer():
@@ -188,10 +188,24 @@ def learning_process(request, session_key):
     request.user.save()
 
     if request.session['end_learning_time'] < timezone.now():
-        return end_learning()
+        return end_learning(
+            '<p style="text-align:center; font-size:16px;">'
+            'Time is up!<br>'
+            'Congratulations on learning these new characters!<br>' +
+            'To save your progress, sign up now.<br>' +
+            '(Solved is completely free!)' if request.user.is_guest else ''
+            '</p>'
+        )
 
     if request.method == 'POST':
-        return check_answer()
+        if request.POST.get('i_know_this', False):
+            character_pk = int(request.POST.get('character_pk'))
+            uc = UserCharacter.objects.get(user=request.user,
+                                           character__pk=character_pk)
+            uc.delete()
+            request.session['next']=None
+        else:
+            return check_answer()
 
     next_value = request.session.get('next', [])
     if next_value:
@@ -202,7 +216,14 @@ def learning_process(request, session_key):
 
     mode, uc = transition_stage()
     if mode is None:
-        return end_learning('Add more characters to your library.')
+        return end_learning(
+            '<p style="text-align:center; font-size:16px;">'
+            'Congratulations on learning these new characters!<br>' +
+            'To save your progress, sign up now.<br>' +
+            '(Solved is completely free!)' if request.user.is_guest else
+            'Add more characters to your library.'
+            '</p>'
+        )
 
     request.session['uc_pk'] = uc.pk
     if mode == 'learn':  # here learn only means learning for first time
