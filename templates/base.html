@@ -46,7 +46,11 @@
         </div>
       </div>
       {% if user.is_authenticated %}
-        <button class="btn dropdown-toggle button button-primary" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="{% url "dashboard" %}">Hi, {{ user.get_display_name }}</button>
+        <button class="btn dropdown-toggle button button-primary" type="button"
+                id="userDropdown" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" href="{% url "dashboard" %}">
+          Hi, {{ user.get_display_name }}
+        </button>
         <div class="dropdown-menu">
           <a class="dropdown-item" href="{% url "dashboard" %}">View Dashborad</a>
           <a class="dropdown-item" href="{% url "logout" %}">Logout</a>

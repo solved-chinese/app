@@ -12,6 +12,7 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=30, null=True)
     email = models.EmailField(max_length=255)
     cn_level = models.CharField(max_length=15, default="Beginner")
+    is_guest = models.BooleanField(null=True, default=False)
     # stats
     study_streak = models.IntegerField(default=0)
     last_study_time = models.DateTimeField(default=datetime.datetime.fromtimestamp(0))
@@ -23,6 +24,8 @@ class User(AbstractUser):
         return self.user_characters.filter(times_learned__gt=0).count()
     
     def get_display_name(self):
+        if self.is_guest:
+            return 'Guest'
         return self.first_name or self.last_name or self.username
 
 
