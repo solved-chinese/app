@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 
 from learning.models import Character, CharacterSet, Radical, Report
 from accounts.models import User, UserCharacter
@@ -97,6 +97,7 @@ def review(request, character, field_name):
     # TODO calling list on QuerySet may be inefficient
     if len(other_uc) < 3:
         other_characters = Character.objects.exclude(pk=character.pk)
+        other_characters = random.sample(list(other_characters), 3)
         if len(other_characters) < 3:
             raise Exception('Database should have at least 4 characters')
         choices = [getattr(c, field_name) for c in other_characters]
@@ -188,6 +189,8 @@ def learning_process(request, session_key):
     request.user.save()
 
     if request.session['end_learning_time'] < timezone.now():
+        if request.user.is_guest:
+            logout(request)
         return end_learning(
             '<p style="text-align:center; font-size:16px;">'
             'Time is up!<br>'
@@ -216,6 +219,8 @@ def learning_process(request, session_key):
 
     mode, uc = transition_stage()
     if mode is None:
+        if request.user.is_guest:
+            logout(request)
         return end_learning(
             '<p style="text-align:center; font-size:16px;">'
             'Congratulations on learning these new characters!<br>' +
