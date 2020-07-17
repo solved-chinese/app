@@ -20,8 +20,12 @@
       {% for uc in set.user_characters.all %}
         {% with char=uc.character %}
           <div class="char" data-char-id={{ char.id }}>
-            <div class="char-preview" style="background-image: url({{ char.color_coded_image.url }})"></div>
-            <p class="char-pinyin">{{ char.pinyin }}</p>
+            <div class='character-preview character-preview-small'>
+              <p class='character character-kai character-small'>
+                {{ char.chinese }}
+              </p>
+            </div>
+            <span class="char-pinyin">{{ char.pinyin }}</span>
             <i class="char-edit far fa-ellipsis-h"></i>
           </div>
         {% endwith %}
@@ -34,7 +38,11 @@
           <div class="card-container" style="display: none">
             <div class="character-card-container" data-char-id={{ char.id }}>
               <div class="character-info-container">
-                <div class="character-preview" style="background-image: url({{ char.color_coded_image.url }})"></div>
+                <div class='character-preview' style="background-image: url({% get_static_prefix %}images/char-structures/{{ char.structure }}.svg)">
+                  <p class='character character-kai character-large'>
+                    {{ char.chinese }}
+                  </p>
+                </div>
                 <div class="definitions-container">
                   <h2>Definitions</h2>
                   <ol class="character-definitions-list">

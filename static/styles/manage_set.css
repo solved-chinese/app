@@ -52,8 +52,9 @@
 }
 
 .char-pinyin {
-    margin: 0;
+    margin-left: 20px;
     font-size: 22px;
+    line-height: 22px;
 }
 
 .char-edit {
