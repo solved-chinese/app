@@ -173,19 +173,19 @@ a {
     flex-direction: column;
     height: 80px;
     align-items: center;
-    padding-top: 10px;
+    padding: 18px;
 }
 
-#footer p {
+#footer * {
     color: #8E9DAE;
-    margin: auto;
-    font-size: 0.8em;
-    letter-spacing: 1px;
 }
 
-.footer-icon {
-    height: 1em;
-    margin-bottom: 20px;
+#footer #copyright-info {
+    font-size: 80%;
+}
+
+#footer-icon-container i:hover {
+    color: #5E6D7E;
 }
 
 
