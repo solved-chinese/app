@@ -200,7 +200,6 @@ a {
     border-radius: 0.25em;
     color: #040302;
     background: white;
-    white-space: nowrap;
     cursor: pointer;
     transition: 150ms ease;
 }
