@@ -121,7 +121,7 @@
             {% if radical %}
               <div class='radical-container'>
                 <p class='radical-pinyin'>{{ radical.pinyin }}</p>
-                <p class='radical-title' style='color: #0F7633'>{{ radical.chinese }}</p>
+                <p class='radical-title'>{{ radical.chinese }}</p>
                 <p class='radical-definition'>({{ radical.definition }})</p>
                 <div class='radical-pictograph'
                      style='background-image: url({{ radical.mnemonic_image.url }})'></div>
@@ -142,7 +142,7 @@
     <div class='modal-dialog' role='document'>
       <div class='modal-content'>
         <div class='modal-header'>
-          <h5 class='modal-title'>Report an entry</h5>
+          <h5 class='modal-title'>Report an Entry</h5>
           <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
             <span aria-hidden='true'>&times;</span>
           </button>
@@ -152,7 +152,7 @@
             {% csrf_token %}
             <input type='hidden' name='origin' value='{{ character }}'>
             <div class='form-group'>
-              <label for='categrories'>Which section doesn't make sense?</label>
+              <label for='categrories'>Which section doesn&rsquo;t make sense?</label>
               <select class='form-control' name='description_1'>
                 <option>Character Definition</option>
                 <option>Example Words</option>
