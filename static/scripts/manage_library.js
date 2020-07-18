@@ -21,18 +21,21 @@ $.post('/accounts/get_available_sets/', data => {
                         <p class="char-set-title">${ setName }</p>
                     </div>
                 `);
+                $('.char-set').off('click').click(charSetClick);
             }
         });
     });
 });
 
-$('.char-set').click(e => {
+function charSetClick(e) {
     let el = $(e.target);
     while (el.attr('class') !== 'char-set') el = el.parent();
     if (el.attr('id') === 'add-set-button-container') return;
     let pk = el.attr('data-set-pk');
     window.location.href += pk;
-});
+}
+
+$('.char-set').click(charSetClick);
 
 $('#add-set-button-container').click(e => {
     showModal('add-new-set-modal');
