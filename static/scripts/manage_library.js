@@ -1,7 +1,7 @@
 $.post('/accounts/get_available_sets/', data => {
     data.sets.forEach(set => {
         $('#available-sets-container').append(`
-            <div class="set-name-container" data-set-id="${set.pk}">
+            <div class="set-name-container" data-set-id="${ set.pk }">
                 <span>${ set.fields.name }</span>
                 <i class="far fa-plus list-add-set-button"></i>
             </div>
@@ -11,12 +11,16 @@ $.post('/accounts/get_available_sets/', data => {
         let target = $(e.target)
         let parent = target.parent();
         let parentId = parent.attr('data-set-id');
+        let setName = parent.find('span').html();
         $.post('/accounts/add_set/', {set_id: parentId}, data => {
-            // console.log(data);
-            // target.html('Success!');
-            // setTimeout(() => parent.remove(), 2000);
             if (data.msg === 'good') {
                 parent.remove();
+                $('#char-sets-container #add-set-button-container').before(`
+                    <div class="char-set" data-set-pk="${ parentId }">
+                        <img class="char-set-cover" src="/static/images/set-covers/default-set-cover.jpg">
+                        <p class="char-set-title">${ setName }</p>
+                    </div>
+                `);
             }
         });
     });
@@ -28,7 +32,7 @@ $('.char-set').click(e => {
     if (el.attr('id') === 'add-set-button-container') return;
     let pk = el.attr('data-set-pk');
     window.location.href += pk;
-})
+});
 
 $('#add-set-button-container').click(e => {
     showModal('add-new-set-modal');
