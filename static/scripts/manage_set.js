@@ -60,3 +60,13 @@ $('.char').click(e => {
 
     updateRadical();
 })
+
+$('.delete-set-button').click(e => {
+    let target = $(e.target);
+    let setId = target.data('set-id');
+    $.post('/accounts/delete_set/', {set_id: setId}, data => {
+        if (data.msg === 'good') {
+            window.location.href = '/accounts/manage_library/';
+        }
+    });
+});

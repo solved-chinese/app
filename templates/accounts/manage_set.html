@@ -21,7 +21,7 @@
 
 {% block content %}
   <a class="header-back-button" href="/accounts/manage_library/"><i class="far fa-angle-left"></i>Manage Vocab Sets</a>
-  <h1>{{ set.name }}</h1>
+  <h1>{{ set.name }}<i class='far fa-trash-alt delete-set-button' data-set-id={{ set.id }}></i></h1>
 
   <div id="page-content-container">
 
