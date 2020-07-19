@@ -7,21 +7,25 @@ $.post('/accounts/get_available_sets/', data => {
             </div>
         `);
     });
-    $('.list-add-set-button').off('click').click(e => {
+    $('.list-add-set-button:not(.success)').off('click').click(e => {
         let target = $(e.target)
         let parent = target.parent();
         let parentId = parent.attr('data-set-id');
         let setName = parent.find('span').html();
         $.post('/accounts/add_set/', {set_id: parentId}, data => {
             if (data.msg === 'good') {
-                parent.remove();
+                console.log(target);
+                parent.addClass('success');
+                target.removeClass('fa-plus')
+                      .addClass('fa-check')
+                      .off('click');
                 $('#char-sets-container #add-set-button-container').before(`
                     <div class="char-set" data-set-pk="${ parentId }">
                         <img class="char-set-cover" src="/static/images/set-covers/default-set-cover.jpg">
                         <p class="char-set-title">${ setName }</p>
                     </div>
                 `);
-                $('.char-set').off('click').click(charSetClick);
+                $('.char-set:not(#add-set-button-container)').off('click').click(charSetClick);
             }
         });
     });
