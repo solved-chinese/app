@@ -5,13 +5,14 @@
 .delete-set-button {
     margin-left: 10px;
     transform: scale(0.7);
-    color: var(--main-theme-color);
+    color: var(--secondary-color);
     cursor: pointer;
     transition: 150ms ease;
 }
 
 .delete-set-button:hover {
-    opacity: 0.5;
+    color: var(--main-theme-color);
+    opacity: 1;
 }
 
 .chars-container {
@@ -72,14 +73,15 @@
 .delete-char-button {
     margin-right: 10px;
     font-size: 20px;
+    color: var(--secondary-color);
     opacity: 0;
     transition: opacity 150ms ease;
 }
 
-.char:hover > .delete-char-button:not(:hover) {
-    opacity: 0.4;
+.char:hover > .delete-char-button {
+    opacity: 1;
 }
 
 .delete-char-button:hover {
-    opacity: 0.8;
+    color: var(--main-theme-color);
 }
