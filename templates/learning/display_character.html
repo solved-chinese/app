@@ -95,22 +95,10 @@
         </div>
         <div class='examples-container'>
           <h2>Examples</h2>
-          <table id='examples-table'>
-            <tr class='example-row'>
-              <td>{{ character.example_1_word }}</td>
-              <td>{{ character.example_1_pinyin }}</td>
-              <td>{{ character.example_1_character }}</td>
-              <td>{{ character.example_1_meaning }}</td>
-            </tr>
-            {% if character.example_2_character %}
-              <tr class='example-row'>
-                <td>{{ character.example_2_word }}</td>
-                <td>{{ character.example_2_pinyin }}</td>
-                <td>{{ character.example_2_character }}</td>
-                <td>{{ character.example_2_meaning }}</td>
-              </tr>
-            {% endif %}
-          </table>
+          <p><strong>{{ character.example_1_word }}</strong> ({{ character.example_1_pinyin.strip }}): {{ character.example_1_meaning }} (<i>{{ character.example_1_character }}</i>)</p>
+          {% if character.example_2_word %}
+            <p><strong>{{ character.example_2_word }}</strong> ({{ character.example_2_pinyin.strip }}): {{ character.example_2_meaning }} (<i>{{ character.example_2_character }}</i>)</p>
+          {% endif %}
         </div>
       </div>
 

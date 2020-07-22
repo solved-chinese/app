@@ -66,22 +66,10 @@
                 </div>
                 <div>
                   <h2>Examples</h2>
-                  <table>
-                    <tr class="example-row">
-                      <td>{{ char.example_1_word }}</td>
-                      <td>{{ char.example_1_pinyin }}</td>
-                      <td>{{ char.example_1_character }}</td>
-                      <td>{{ char.example_1_meaning }}</td>
-                    </tr>
-                    {% if char.example_2_word %}
-                      <tr class="example-row">
-                        <td>{{ char.example_2_word }}</td>
-                        <td>{{ char.example_2_pinyin }}</td>
-                        <td>{{ char.example_2_character }}</td>
-                        <td>{{ char.example_2_meaning }}</td>
-                      </tr>
-                    {% endif %}
-                  </table>
+                  <p><strong>{{ char.example_1_word }}</strong> ({{ char.example_1_pinyin.strip }}): {{ char.example_1_meaning }} (<i>{{ char.example_1_character.strip }}</i>)</p>
+                  {% if char.example_2_word %}
+                    <p><strong>{{ char.example_2_word }}</strong> ({{ char.example_2_pinyin.strip }}): {{ char.example_2_meaning }} (<i>{{ char.example_2_character.strip }}</i>)</p>
+                  {% endif %}
                 </div>
               </div>
 
