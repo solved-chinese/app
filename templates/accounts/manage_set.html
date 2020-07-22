@@ -21,7 +21,7 @@
 
 {% block content %}
   <a class="header-back-button" href="/accounts/manage_library/"><i class="far fa-angle-left"></i>Manage Vocab Sets</a>
-  <h1>{{ set.name }}<i class='far fa-trash-alt delete-set-button' data-set-id={{ set.id }}></i></h1>
+  <h1>{{ set.name }}<i class='delete-set-button far fa-trash-alt' data-set-id={{ set.id }}></i></h1>
 
   <div id="page-content-container">
 
@@ -35,7 +35,7 @@
               </p>
             </div>
             <span class="char-pinyin">{{ char.pinyin }}</span>
-            <i class="char-edit far fa-ellipsis-h"></i>
+            <i class="delete-char-button far fa-trash-alt"></i>
           </div>
         {% endwith %}
       {% endfor %}

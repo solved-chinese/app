@@ -64,18 +64,22 @@
 }
 
 .char-pinyin {
-    margin-left: 20px;
+    margin: 0 auto 0 20px;
     font-size: 22px;
     line-height: 22px;
 }
 
-.char-edit {
-    margin: 0 10px 0 auto;
+.delete-char-button {
+    margin-right: 10px;
     font-size: 20px;
     opacity: 0;
     transition: opacity 150ms ease;
 }
 
-.char:hover > .char-edit {
-    opacity: 1;
+.char:hover > .delete-char-button:not(:hover) {
+    opacity: 0.4;
+}
+
+.delete-char-button:hover {
+    opacity: 0.8;
 }
