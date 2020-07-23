@@ -1,34 +1,45 @@
 $.post('/accounts/get_available_sets/', data => {
     data.sets.forEach(set => {
         $('#available-sets-container').append(`
-            <div class="set-name-container" data-set-id="${set.pk}">
+            <div class="set-name-container" data-set-id="${ set.pk }">
                 <span>${ set.fields.name }</span>
                 <i class="far fa-plus list-add-set-button"></i>
             </div>
         `);
     });
-    $('.list-add-set-button').off('click').click(e => {
+    $('.list-add-set-button:not(.success)').off('click').click(e => {
         let target = $(e.target)
         let parent = target.parent();
         let parentId = parent.attr('data-set-id');
+        let setName = parent.find('span').html();
         $.post('/accounts/add_set/', {set_id: parentId}, data => {
-            // console.log(data);
-            // target.html('Success!');
-            // setTimeout(() => parent.remove(), 2000);
             if (data.msg === 'good') {
-                parent.remove();
+                console.log(target);
+                parent.addClass('success');
+                target.removeClass('fa-plus')
+                      .addClass('fa-check')
+                      .off('click');
+                $('#char-sets-container #add-set-button-container').before(`
+                    <div class="char-set" data-set-pk="${ parentId }">
+                        <img class="char-set-cover" src="/static/images/set-covers/default-set-cover.jpg">
+                        <p class="char-set-title">${ setName }</p>
+                    </div>
+                `);
+                $('.char-set:not(#add-set-button-container)').off('click').click(charSetClick);
             }
         });
     });
 });
 
-$('.char-set').click(e => {
+function charSetClick(e) {
     let el = $(e.target);
     while (el.attr('class') !== 'char-set') el = el.parent();
     if (el.attr('id') === 'add-set-button-container') return;
     let pk = el.attr('data-set-pk');
     window.location.href += pk;
-})
+}
+
+$('.char-set').click(charSetClick);
 
 $('#add-set-button-container').click(e => {
     showModal('add-new-set-modal');
