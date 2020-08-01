@@ -41,8 +41,9 @@
       <i class='fas fa-volume disabled' id='speak-button'></i>
     </span>
 
+    <!-- This if doesn't really make sense -->
     {% if is_next %}
-      <form method='get'>
+      <form method='GET'>
         {% csrf_token %}
         <input type='submit' class='button button-primary' id='next-button' value='Next'>
       </form>
@@ -52,7 +53,7 @@
       </a>
     {% endif %}
 
-    <!-- we need to think about what the following buttons do -->
+    <!-- We need to think about what the following buttons do -->
     <form method='post'>
       <input type='hidden' name='i_know_this' value='true'>
       <input type='hidden' name='character_pk' value='{{ character.pk }}'>
@@ -63,12 +64,11 @@
       End Session
     </a>
     {% if request.user.is_guest %}
-      &nbsp;
       <a class='button button-primary' href='{% url 'signup' %}'>
         Sign Up Now
       </a>
     {% endif %}
-    <button type='button' class='button button-tertiary' data-toggle='modal' data-target='#report-bug-modal' style='margin-left: 15px'>Report</button>
+    <button class='button button-tertiary' data-toggle='modal' data-target='#report-bug-modal'>Report</button>
   </div>
 
   <div class='card-container' id='learn-body-container'>

@@ -44,7 +44,7 @@
 }
 
 #next-button {
-    margin-right: 15px;
+    margin-right: 15px; /* Temporary solution */
 }
 
 #end-session-button {
