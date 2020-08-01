@@ -83,6 +83,7 @@ class CharacterSet(models.Model):
             character_to_add = accounts.models.UserCharacter.objects.get_or_create(
                 character=character, user=user)[0]
             tag.user_characters.add(character_to_add)
+        return tag.id
 
     def __str__(self):
         return f'<cset{self.id}:{self.name}>'

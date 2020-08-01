@@ -72,8 +72,8 @@ def alt_profile(request):
 @login_required
 def add_set(request):
     try:
-        CharacterSet.objects.get(pk=request.POST.get('set_id')).add_to_user(request.user)
-        response = JsonResponse({'msg': 'good'})
+        new_set_id = CharacterSet.objects.get(pk=request.POST.get('set_id')).add_to_user(request.user)
+        response = JsonResponse({'msg': 'good', 'id': new_set_id})
     except Exception as e:
         response = JsonResponse({'msg': str(e)}, status=400)
     return response

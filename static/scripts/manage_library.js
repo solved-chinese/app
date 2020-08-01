@@ -14,13 +14,12 @@ $.post('/accounts/get_available_sets/', data => {
         let setName = parent.find('span').html();
         $.post('/accounts/add_set/', {set_id: parentId}, data => {
             if (data.msg === 'good') {
-                console.log(target);
                 parent.addClass('success');
                 target.removeClass('fa-plus')
                       .addClass('fa-check')
                       .off('click');
                 $('#char-sets-container #add-set-button-container').before(`
-                    <div class="char-set" data-set-pk="${ parentId }">
+                    <div class="char-set" data-set-pk="${ data.id }">
                         <img class="char-set-cover" src="/static/images/set-covers/default-set-cover.jpg">
                         <p class="char-set-title">${ setName }</p>
                     </div>
