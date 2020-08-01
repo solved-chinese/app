@@ -242,7 +242,7 @@ a {
     margin-right: 0.4em;
 }
 
-.button + .button {
+.button + .button:not(.option) {
     margin-left: 15px;
 }
 
