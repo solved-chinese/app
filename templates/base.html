@@ -50,6 +50,10 @@
           Settings
         </button>
         <div class="dropdown-menu">
+          {% if user.is_staff %}
+            <a class="dropdown-item" href="{% url "dashboard" %}?active=Staff">Staff Panel</a>
+            <a class="dropdown-item" href="{% url "admin:index" %}">Admin Panel</a>
+          {% endif %}
           <a class="dropdown-item" href="{% url "dashboard" %}">View Dashborad</a>
           <a class="dropdown-item" href="{% url "logout" %}">Logout</a>
         </div>
