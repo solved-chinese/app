@@ -40,7 +40,7 @@ def dashboard(request):
     active = request.GET.get('active', 'Dashboard')
 
     if active == 'Staff' and not request.user.is_staff:
-        HttpResponseRedirect(reverse('dashboard')+"?active=Dashboard")
+        return HttpResponseRedirect(reverse('dashboard')+"?active=Dashboard")
 
     return render(request, 'accounts/dashboard.html', {'active': active})
 
