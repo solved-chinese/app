@@ -75,11 +75,11 @@
 
     <div class='character-card-container'>
       <div class='character-info-container'>
-        <div class='character-preview'
-              style="background-image: url({% get_static_prefix %}images/char-structures/{{ character.structure }}.svg)">
+        <div class='character-preview' style="background-image: url({% get_static_prefix %}images/char-structures/{{ character.structure }}.svg)">
           <p class='character character-kai character-large'>
             {{ character.chinese }}
           </p>
+          <div class='character-stroke-image' style="background-image: url(/media/{{ character.stroke_order_image }})"></div>
         </div>
         <div class='definitions-container'>
           <h2>Definitions</h2>
