@@ -6,12 +6,11 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-    - name: executing remote ssh commands using password
+    - name: Execute remote command using SSH credentials
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: ${{ secrets.SSH_PORT }}
+        username: ${{ secrets.SSH_USERNAME }}
+        password: ${{ secrets.SSH_PASSWORD }}
         script: |
           . /home/chenyx/jiezi/deploy.sh
