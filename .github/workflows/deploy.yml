@@ -1,8 +1,9 @@
-name: remote ssh command
+name: SSH and Deploy App
 on: [push]
+
 jobs:
   build:
-    name: Build
+    name: Deploy
     runs-on: ubuntu-latest
     steps:
     - name: executing remote ssh commands using password
