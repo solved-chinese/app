@@ -36,11 +36,8 @@ setup the database to match our setting file:
 'HOST': 'localhost',
 'PORT': '5432',
 ```
-4. Make the required migrations
-```shell script
-python manage.py migrate
-```
-5. Create your own secret files:
+
+4. Create your own secret files:
     1. Generate your own django secret_key, in python:  
     
    ``` python
@@ -62,6 +59,11 @@ python manage.py migrate
    ```
    
    3. get `jiezi_secret/datafile_service_account.json` from us, this is used to access our google drive data 
+
+5. Make the required migrations
+```shell script
+python manage.py migrate
+```
 
 6. Locally run the development server
 ```shell script
