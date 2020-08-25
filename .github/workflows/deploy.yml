@@ -13,4 +13,4 @@ jobs:
         username: ${{ secrets.SSH_USERNAME }}
         password: ${{ secrets.SSH_PASSWORD }}
         script: |
-          . /home/chenyx/jiezi/deploy.sh
+          systemctl restart solvedchinese
