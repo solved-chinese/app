@@ -44,20 +44,22 @@
         </div>
       </div>
       {% if user.is_authenticated %}
-        <button class="btn dropdown-toggle button button-primary" type="button"
-                id="userDropdown" data-toggle="dropdown" aria-haspopup="true"
+        <button class="button button-primary dropdown-toggle" id="userDropdown"
+                data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false" href="{% url "dashboard" %}">
-          Hi, {{ user.get_display_name }}
+          Settings
         </button>
         <div class="dropdown-menu">
+          {% if user.is_staff %}
+            <a class="dropdown-item" href="{% url "dashboard" %}?active=Staff">Staff Panel</a>
+            <a class="dropdown-item" href="{% url "admin:index" %}">Admin Panel</a>
+          {% endif %}
           <a class="dropdown-item" href="{% url "dashboard" %}">View Dashborad</a>
           <a class="dropdown-item" href="{% url "logout" %}">Logout</a>
         </div>
       {% else %}
-        <a href="{% url "login" %}" id="login">Login</a>
-        <div id ="signup" class="align-items-center">
-          <a href="{% url "signup" %}">Sign Up</a>
-        </div>
+        <a class="button button-text-only" href="{% url "login" %}">Login</a>
+        <a class="button button-primary" href="{% url "signup" %}">Sign Up</a>
       {% endif %}
     </div>
   </div>
