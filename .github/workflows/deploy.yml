@@ -1,5 +1,8 @@
 name: SSH and Deploy App
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
