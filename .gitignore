@@ -11,9 +11,6 @@ __pycache__
 *.socket
 .fuse_hidden*
 
-# secret folder
-jiezi_secret/
-
 # media folder except the default files
 media/*
 !media/default.jpg
