@@ -2,6 +2,19 @@
     display: flex;
 }
 
+.delete-set-button {
+    margin-left: 10px;
+    transform: scale(0.7);
+    color: var(--secondary-color);
+    cursor: pointer;
+    transition: 150ms ease;
+}
+
+.delete-set-button:hover {
+    color: var(--main-theme-color);
+    opacity: 1;
+}
+
 .chars-container {
     width: 20%;
     max-height: calc(100vh - 280px);
@@ -52,17 +65,23 @@
 }
 
 .char-pinyin {
-    margin: 0;
+    margin: 0 auto 0 20px;
     font-size: 22px;
+    line-height: 22px;
 }
 
-.char-edit {
-    margin: 0 10px 0 auto;
+.delete-char-button {
+    margin-right: 10px;
     font-size: 20px;
+    color: var(--secondary-color);
     opacity: 0;
     transition: opacity 150ms ease;
 }
 
-.char:hover > .char-edit {
+.char:hover > .delete-char-button {
     opacity: 1;
+}
+
+.delete-char-button:hover {
+    color: var(--main-theme-color);
 }

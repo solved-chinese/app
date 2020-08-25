@@ -43,9 +43,9 @@ class UserCharacter(models.Model):
         self.times_learned += 1
         self.time_last_learned = timezone.now()
         if ans:
-            self.EF += 0.1;
+            self.EF += 0.1
         else:
-            self.EF -= 0.8;
+            self.EF -= 0.8
         if self.EF < 1.3:
             self.EF = 1.3
         if self.times_learned == 1:

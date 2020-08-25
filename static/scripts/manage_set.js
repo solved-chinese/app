@@ -60,3 +60,26 @@ $('.char').click(e => {
 
     updateRadical();
 })
+
+$('.delete-set-button').click(e => {
+    let target = $(e.target);
+    let setId = target.data('set-id');
+    $.post('/accounts/delete_set/', {set_id: setId}, data => {
+        if (data.msg === 'good') {
+            window.location.href = '/accounts/manage_library/';
+        }
+    });
+});
+
+$('.delete-char-button').click(e => {
+    let target = $(e.target);
+    let parent = target.parent();
+    let charId = parent.data('char-id');
+    let setId = $('.delete-set-button').data('set-id');
+
+    $.post('/accounts/delete_character/', {set_id: setId, character_id: charId}, data => {
+        if (data.msg === 'good') {
+            parent.remove();
+        }
+    });
+});

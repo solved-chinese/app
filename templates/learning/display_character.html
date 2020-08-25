@@ -41,8 +41,9 @@
       <i class='fas fa-volume disabled' id='speak-button'></i>
     </span>
 
+    <!-- This if doesn't really make sense -->
     {% if is_next %}
-      <form method='get'>
+      <form method='GET'>
         {% csrf_token %}
         <input type='submit' class='button button-primary' id='next-button' value='Next'>
       </form>
@@ -52,7 +53,7 @@
       </a>
     {% endif %}
 
-    <!-- we need to think about what the following buttons do -->
+    <!-- We need to think about what the following buttons do -->
     <form method='post'>
       <input type='hidden' name='i_know_this' value='true'>
       <input type='hidden' name='character_pk' value='{{ character.pk }}'>
@@ -63,12 +64,11 @@
       End Session
     </a>
     {% if request.user.is_guest %}
-      &nbsp;
       <a class='button button-primary' href='{% url 'signup' %}'>
         Sign Up Now
       </a>
     {% endif %}
-    <button type='button' class='button button-tertiary' data-toggle='modal' data-target='#report-bug-modal' style='margin-left: 15px'>Report</button>
+    <button class='button button-tertiary' data-toggle='modal' data-target='#report-bug-modal'>Report</button>
   </div>
 
   <div class='card-container' id='learn-body-container'>
@@ -77,7 +77,7 @@
       <div class='character-info-container'>
         <div class='character-preview'
               style="background-image: url({% get_static_prefix %}images/char-structures/{{ character.structure }}.svg)">
-          <p class='character-kai character-large'>
+          <p class='character character-kai character-large'>
             {{ character.chinese }}
           </p>
         </div>
@@ -95,22 +95,10 @@
         </div>
         <div class='examples-container'>
           <h2>Examples</h2>
-          <table id='examples-table'>
-            <tr class='example-row'>
-              <td>{{ character.example_1_word }}</td>
-              <td>{{ character.example_1_pinyin }}</td>
-              <td>{{ character.example_1_character }}</td>
-              <td>{{ character.example_1_meaning }}</td>
-            </tr>
-            {% if character.example_2_character %}
-              <tr class='example-row'>
-                <td>{{ character.example_2_word }}</td>
-                <td>{{ character.example_2_pinyin }}</td>
-                <td>{{ character.example_2_character }}</td>
-                <td>{{ character.example_2_meaning }}</td>
-              </tr>
-            {% endif %}
-          </table>
+          <p><strong>{{ character.example_1_word }}</strong> ({{ character.example_1_pinyin.strip }}): {{ character.example_1_meaning }} (<i>{{ character.example_1_character }}</i>)</p>
+          {% if character.example_2_word %}
+            <p><strong>{{ character.example_2_word }}</strong> ({{ character.example_2_pinyin.strip }}): {{ character.example_2_meaning }} (<i>{{ character.example_2_character }}</i>)</p>
+          {% endif %}
         </div>
       </div>
 
@@ -121,7 +109,7 @@
             {% if radical %}
               <div class='radical-container'>
                 <p class='radical-pinyin'>{{ radical.pinyin }}</p>
-                <p class='radical-title' style='color: #0F7633'>{{ radical.chinese }}</p>
+                <p class='radical-title'>{{ radical.chinese }}</p>
                 <p class='radical-definition'>({{ radical.definition }})</p>
                 <div class='radical-pictograph'
                      style='background-image: url({{ radical.mnemonic_image.url }})'></div>
@@ -130,7 +118,7 @@
             {% endif %}
           {% endfor %}
         </div>
-        <p class='breakdown-caption'>{{ character.mnemonic_explanation }}</p>
+        <p class='breakdown-caption'>{{ character.mnemonic_explanation | linebreaks }}</p>
       </div>
     </div>
 
@@ -142,7 +130,7 @@
     <div class='modal-dialog' role='document'>
       <div class='modal-content'>
         <div class='modal-header'>
-          <h5 class='modal-title'>Report an entry</h5>
+          <h5 class='modal-title'>Report an Entry</h5>
           <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
             <span aria-hidden='true'>&times;</span>
           </button>
@@ -152,7 +140,7 @@
             {% csrf_token %}
             <input type='hidden' name='origin' value='{{ character }}'>
             <div class='form-group'>
-              <label for='categrories'>Which section doesn't make sense?</label>
+              <label for='categrories'>Which section doesn&rsquo;t make sense?</label>
               <select class='form-control' name='description_1'>
                 <option>Character Definition</option>
                 <option>Example Words</option>
