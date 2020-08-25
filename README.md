@@ -4,7 +4,7 @@
 
 
 ## File Structure
-- `docs/`: [RESTful API documentations](https://solved-chinese.github.io/app/) for front end use
+- `docs/`: [RESTful API documentations](https://solved-chinese.github.io/api-doc/) for front end use
 
 
 ## Running the App
