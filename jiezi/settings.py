@@ -77,7 +77,10 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-DATABASES.update(secret.DATABASES)
+try:
+    DATABASES.update(secret.DATABASES)
+except AttributeError:
+    pass
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

@@ -13,12 +13,13 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
-from django.db.models import Q
+from django.db.models import Q, F, Max, DurationField, ExpressionWrapper
 from django.contrib.auth import login, logout
 
 from learning.models import Character, CharacterSet, Radical, Report
-from accounts.models import User, UserCharacter
+from accounts.models import User, UserCharacter, UserCharacterTag
 from jiezi.utils.json_serializer import chenyx_serialize
+from learning.learning_algorithm_constants import Constants
 
 
 def display_character(request, character_pk, **context_kwargs):
@@ -67,10 +68,10 @@ def start_learning(request):
 
     minutes_to_learn = int(request.POST.get('minutes_to_learn', 10))
     uc_tags_filter = request.POST.get(
-        'uc_tags_exclude',
+        'uc_tags_filter',
         [uc_tag.pk for uc_tag in request.user.user_character_tags.all()]
     )
-    assert isinstance(uc_tags_filter, list)
+    assert isinstance(uc_tags_filter, list), 'uc_tags_filter must be list of ints'
     for index, value in enumerate(uc_tags_filter):
         uc_tags_filter[index] = int(value)
 
@@ -108,6 +109,7 @@ def review(request, character, field_name):
     correct_answer = random.randint(0, 3)
     choices.insert(correct_answer, getattr(character, field_name))
     request.session['correct_answer'] = correct_answer
+    request.session['field_name'] = field_name
     return render(
         request,
         'learning/review.html',
@@ -125,33 +127,59 @@ def learning_process(request, session_key):
     """ This is the main view that controls the learning process
     Note session['next'] stores a list of dicts {'func', 'args'} and
     they should be called before transition_stage happens """
-    MIN_LEARN_REVIEW_INTERVAL = 30  # seconds
 
     def transition_stage():
         """ this function decides whether to learn or review,
-        :return (mode, uc), mode is 'learning', 'review', or None (do nothing),
-        uc UserCharacter object
+        :return (mode, data)
+        mode is 'learn', 'review', or None (do nothing)
+        learning data is uc
+        review data is (uc, test_field)
         """
-        to_learn = request.user.user_characters.filter(
-            times_learned=0,
-            tag__in=request.session.get('uc_tags_filter')
-        ).first()
-        to_review = request.user.user_characters.filter(
-            time_last_learned__lt=timezone.now() - datetime.timedelta(
-                seconds=MIN_LEARN_REVIEW_INTERVAL),
-            tag__in=request.session.get('uc_tags_filter'),
-            times_learned__gte=1
-        ).first()
-        # TODO review radical
-        if to_review is None and to_learn is None:
+        tagged_ucs = request.user.user_characters.filter(
+            tag__in=request.session.get('uc_tags_filter'), mastered=False)
+        uc_to_learn = tagged_ucs.filter(learned=False).first()
+
+        ucs_to_review = tagged_ucs.filter(learned=True)
+        uc_in_progress_cnt = ucs_to_review.count()
+        uc_to_review = None
+        field_to_review = None
+        global_max_weighted_duration = datetime.timedelta(seconds=0)
+        for test_field in Character.TEST_FIELDS:
+            if not ucs_to_review.exists():
+                continue
+            annoatated_ucs = ucs_to_review.annotate(
+                weighted_duration=ExpressionWrapper(
+                    (timezone.now() - F(test_field + '_time_last_studied'))
+                    / (F(test_field + '_in_a_row') + 1)
+                    + Constants.ADDED_DURATION,
+                    output_field=DurationField()
+                )
+            )
+            local_max_weighted_duration = annoatated_ucs.aggregate(
+                Max('weighted_duration')
+            )['weighted_duration__max']
+            if local_max_weighted_duration > global_max_weighted_duration:
+                uc_to_review = annoatated_ucs.filter(
+                    weighted_duration=local_max_weighted_duration).first()
+                field_to_review = test_field
+                global_max_weighted_duration = local_max_weighted_duration
+
+        learn_rv = ('learn', uc_to_learn)
+        review_rv = ('review', (uc_to_review, field_to_review))
+        if not uc_to_learn and not uc_to_review:
             return None, None
-        elif to_review is None:
-            return 'learn', to_learn
-        elif to_learn is None:
-            return 'review', to_review
+        elif not uc_to_learn:
+            return review_rv
+        elif not uc_to_review:
+            return learn_rv
+        elif uc_in_progress_cnt >= Constants.MAX_UC_IN_PROGRESS_CNT:
+            return review_rv
+        elif uc_in_progress_cnt < Constants.MIN_UC_IN_PROGRESS_CNT:
+            return learn_rv
         else:
-            # TODO add actual logic
-            return ('learn', to_learn) if random.random() < 0.5 else ('review', to_review)
+            return learn_rv if random.random() < Constants.LEARN_PROB \
+                            else review_rv
+
 
     def end_learning(msg=''):
         return render(request, 'simple_response.html', {
@@ -163,16 +191,13 @@ def learning_process(request, session_key):
         is_correct = int(request.POST.get('user_answer')) == correct_answer
 
         uc = UserCharacter.objects.get(pk=request.session['uc_pk'])
-        uc.times_learned += 1
-        uc.save()
-        uc.update(is_correct)
+        if not request.session['is_tolerant']:
+            uc.update(is_correct, request.session['field_name'])
 
         if not is_correct and not request.session['is_tolerant']:
-            character = UserCharacter.objects.get(
-                pk=request.session['uc_pk']).character
             request.session['next'] = [{
                 'func': display_character,
-                'kwargs':{'character_pk':character.pk, 'is_next':True}
+                'kwargs':{'character_pk':uc.character.pk, 'is_next':True}
             }]
         return JsonResponse({'correct_answer': correct_answer})
 
@@ -217,42 +242,44 @@ def learning_process(request, session_key):
         kwargs = next_value[0]['kwargs']
         return func(request, **kwargs)
 
-    mode, uc = transition_stage()
-    if mode is None:
+    mode, data = transition_stage()
+    if mode is None: # this set is done
+        uc_tags_filter = request.session['uc_tags_filter']
+        msg = ('Congratulations on finishing these character sets:<br>'
+            if len(uc_tags_filter) > 1 else
+            'Congratulations on finishing this character set:<br>')
+        for uc_tag_pk in uc_tags_filter:
+            msg += f'{UserCharacterTag.objects.get(pk=uc_tag_pk).name}<br>'
         if request.user.is_guest:
+            msg += 'To save your progress, sign up now.<br>' + \
+                   '(Solved is completely free!)'
             logout(request)
         return end_learning(
             '<p style="text-align:center; font-size:16px;">'
-            'Congratulations on learning these new characters!<br>' +
-            'To save your progress, sign up now.<br>' +
-            '(Solved is completely free!)' if request.user.is_guest else
-            'Add more characters to your library.'
-            '</p>'
+             + msg +'</p>'
         )
 
-    request.session['uc_pk'] = uc.pk
     if mode == 'learn':  # here learn only means learning for first time
-        uc.times_learned += 1
-        uc.save()
+        uc = data
+        request.session['uc_pk'] = uc.pk
         request.user.last_study_vocab_count += 1
         request.user.save()
         request.session['is_tolerant'] = True
-        request.session['next'] = [{
+        request.session['next'] = []
+        uc.learned = True
+        for test_field in Character.TEST_FIELDS:
+            request.session['next'].append({
                 'func': review,
-                'kwargs': {'character': uc.character, 'field_name': 'pinyin'}
-            }, {
-                'func': review,
-                'kwargs': {'character': uc.character, 'field_name': 'definition_1'}
-            },
-        ]
+                'kwargs': {'character': uc.character, 'field_name': test_field}
+            })
+            setattr(uc, test_field + '_time_last_studied', timezone.now())
+        uc.save()
         return display_character(request, uc.character.pk, is_next=True)
     elif mode == 'review':
-        # TODO separate the stats of the two attributes
+        uc, test_field = data
+        request.session['uc_pk'] = uc.pk
         request.session['is_tolerant'] = False
-        if random.random() < 0.5:
-            return review(request, uc.character, 'pinyin')
-        else:
-            return review(request, uc.character, 'definition_1')
+        return review(request, uc.character, test_field)
 
 
 def report(request):
@@ -400,6 +427,13 @@ def get_radical(request):
 """
 @api {POST} /learning/start_learning/  Start Learning
 @apiDescription Start Learning, this should be done with an actual form submission
+@apiGroup learning
+
+@apiParam  {int}     minutes_to_learn  how many minutes to learn
+@apiParam  {int[]}   uc_tags_filter=None  (optional, None means everything) the
+    ids of UserCharacterTags to INCLUDE
+
+
 @apiSuccessExample learning/review.html
 context dictionary:
 'choices': a list of 4 strings
@@ -418,9 +452,4 @@ refer to old master review page for how to do specific things
 There shouldn't be any ajax in this
 In context dictionary, if 'is_next', provide an next button that submits
     GET form to original url, otherwise keep the next button the same as before
-@apiGroup learning
-
-@apiParam  {int}     minutes_to_learn  how many minutes to learn
-@apiParam  {int[]}   uc_tags_filter=None  (optional, None means everything) the
-    ids of UserCharacterTags to INCLUDE
 """
