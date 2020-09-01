@@ -76,6 +76,11 @@
 
 .character-preview:hover .character-stroke-image {
     display: block;
+    mix-blend-mode: multiply;
+}
+
+.character-preview:hover .character.character-large {
+    display: none;
 }
 
 
