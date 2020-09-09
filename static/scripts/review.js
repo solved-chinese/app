@@ -20,6 +20,9 @@ $('.option').on('click', e => {
             let answerId = btn.data('choice');
             if (answerId === correct) {
                 btn.addClass('correct');
+                 if (answerId === chosen) {
+                    btn.addClass('chosen');
+                 }
             } else if (answerId !== chosen || chosen === 4) {
                 btn.addClass('disabled');
             }

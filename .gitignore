@@ -2,6 +2,19 @@
 __pycache__
 *.pyc
 
+# Secret folder
+jiezi_secret/
+
+# Server deployment files
+deploy.sh
+
+# Media folder except the default files
+media/*
+!media/default.jpg
+
+# uWSGI directory
+uwsgi
+
 # Miscellaneous files
 .DS_Store
 .idea
@@ -17,4 +30,3 @@ media/*
 
 # uwsgi stuff should be kept locally
 uwsgi
-

@@ -10,9 +10,18 @@
   <link rel="stylesheet" type="text/css" href="{% static "styles/character.css" %}">
 {% endblock css %}
 
+{% block external-lib %}
+  <!-- Temporary Bootstrap reference -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" 
+          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+{% endblock %}
+
+
 {% block content %}
   <a class="header-back-button" href="/accounts/manage_library/"><i class="far fa-angle-left"></i>Manage Vocab Sets</a>
-  <h1>{{ set.name }}</h1>
+  <h1>{{ set.name }}<i class='delete-set-button far fa-trash-alt' data-set-id={{ set.id }}></i></h1>
 
   <div id="page-content-container">
 
@@ -20,9 +29,13 @@
       {% for uc in set.user_characters.all %}
         {% with char=uc.character %}
           <div class="char" data-char-id={{ char.id }}>
-            <div class="char-preview" style="background-image: url({{ char.color_coded_image.url }})"></div>
-            <p class="char-pinyin">{{ char.pinyin }}</p>
-            <i class="char-edit far fa-ellipsis-h"></i>
+            <div class='character-preview character-preview-small'>
+              <p class='character character-kai character-small'>
+                {{ char.chinese }}
+              </p>
+            </div>
+            <span class="char-pinyin">{{ char.pinyin }}</span>
+            <i class="delete-char-button far fa-trash-alt"></i>
           </div>
         {% endwith %}
       {% endfor %}
@@ -34,7 +47,12 @@
           <div class="card-container" style="display: none">
             <div class="character-card-container" data-char-id={{ char.id }}>
               <div class="character-info-container">
-                <div class="character-preview" style="background-image: url({{ char.color_coded_image.url }})"></div>
+                <div class='character-preview' style="background-image: url({% get_static_prefix %}images/char-structures/{{ char.structure }}.svg)">
+                  <p class='character character-kai character-large'>
+                    {{ char.chinese }}
+                  </p>
+                  <div class='character-stroke-image' style="background-image: url(/media/{{ char.stroke_order_image }})"></div>
+                </div>
                 <div class="definitions-container">
                   <h2>Definitions</h2>
                   <ol class="character-definitions-list">
@@ -49,29 +67,17 @@
                 </div>
                 <div>
                   <h2>Examples</h2>
-                  <table>
-                    <tr class="example-row">
-                      <td>{{ char.example_1_word }}</td>
-                      <td>{{ char.example_1_pinyin }}</td>
-                      <td>{{ char.example_1_character }}</td>
-                      <td>{{ char.example_1_meaning }}</td>
-                    </tr>
-                    {% if char.example_2_word %}
-                      <tr class="example-row">
-                        <td>{{ char.example_2_word }}</td>
-                        <td>{{ char.example_2_pinyin }}</td>
-                        <td>{{ char.example_2_character }}</td>
-                        <td>{{ char.example_2_meaning }}</td>
-                      </tr>
-                    {% endif %}
-                  </table>
+                  <p><strong>{{ char.example_1_word }}</strong> ({{ char.example_1_pinyin.strip }}): {{ char.example_1_meaning }} (<i>{{ char.example_1_character.strip }}</i>)</p>
+                  {% if char.example_2_word %}
+                    <p><strong>{{ char.example_2_word }}</strong> ({{ char.example_2_pinyin.strip }}): {{ char.example_2_meaning }} (<i>{{ char.example_2_character.strip }}</i>)</p>
+                  {% endif %}
                 </div>
               </div>
 
               <div class="character-radicals-container">
                 <h2>Radicals</h2>
                 <div class="radicals-breakdown-container" data-radical-ids="{{ char.radical_1_id }} {{ char.radical_2_id }} {{ char.radical_3_id }}"></div>
-                <p class="breakdown-caption">{{ char.mnemonic_explanation }}</p>
+                <p class="breakdown-caption">{{ char.mnemonic_explanation | linebreaks }}</p>
               </div>
             </div>
           </div>

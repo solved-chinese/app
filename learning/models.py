@@ -7,7 +7,7 @@ import accounts.models  # to avoid cyclic import
 
 class Radical(models.Model):
     id = models.IntegerField(primary_key=True)
-    chinese = models.CharField(max_length=3)
+    chinese = models.CharField(max_length=6)
     pinyin = models.CharField(max_length=15)
     definition = models.CharField(max_length=100)
     mnemonic_explanation = models.CharField(max_length=300, null=True, blank=True)
@@ -18,11 +18,13 @@ class Radical(models.Model):
     class Meta:
         ordering = ['id']
 
-    def __str__(self):
+    def __repr__(self):
         return '<R' + '%04d' % self.id + ':' + self.chinese +'>'
 
 
 class Character(models.Model):
+    TEST_FIELDS = ['pinyin', 'definition_1']
+
     id = models.IntegerField(primary_key=True)
     chinese = models.CharField(max_length=1)
     pinyin = models.CharField(max_length=15)
@@ -62,9 +64,9 @@ class Character(models.Model):
                 self.radical_2_id and not Radical.objects.filter(pk=self.radical_2_id).exists() or \
                 self.radical_3_id and not Radical.objects.filter(pk=self.radical_3_id).exists():
             self.delete()
-            raise Exception('related radicals not exist, self deletion')
+            raise ValueError('related radicals not exist, self deletion')
 
-    def __str__(self):
+    def __repr__(self):
         return '<C' + '%04d' % self.id + ':' + self.chinese +'>'
 
     class Meta:
@@ -83,8 +85,9 @@ class CharacterSet(models.Model):
             character_to_add = accounts.models.UserCharacter.objects.get_or_create(
                 character=character, user=user)[0]
             tag.user_characters.add(character_to_add)
+        return tag.id
 
-    def __str__(self):
+    def __repr__(self):
         return f'<cset{self.id}:{self.name}>'
 
 
@@ -94,7 +97,7 @@ class Report(models.Model):
     description_1 = models.CharField(max_length=100)
     description_2 = models.TextField()
 
-    def __str__(self):
+    def __repr__(self):
         return f'<Report on {self.origin}: {self.description_1}>'
 
     class Meta:

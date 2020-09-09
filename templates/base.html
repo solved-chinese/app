@@ -11,19 +11,17 @@
 
   <link rel="shortcut icon" href="{% static "images/favicon.ico" %}" />
 
-  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.8.1/css/all.css"
+  <link async rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-Bx4pytHkyTDy3aJKjGkGoHPt3tvv6zlwwjc3iqN7ktaiEMLDPqLSZYts2OjKcBx1"
         crossorigin="anonymous">
 
   <!-- Temporary Bootstrap reference -->
   <link rel="stylesheet"  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        
+
   <link rel="stylesheet" href="{% static "styles/main.css" %}">
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"
           integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  
-  <link async href="//db.onlinewebfonts.com/c/1ee9941f1b8c128110ca4307dda59917?family=STKaiti" rel="stylesheet" type="text/css"/>
   
   {% block css %}{% endblock css %}
 
@@ -46,20 +44,22 @@
         </div>
       </div>
       {% if user.is_authenticated %}
-        <button class="btn dropdown-toggle button button-primary" type="button"
-                id="userDropdown" data-toggle="dropdown" aria-haspopup="true"
+        <button class="button button-primary dropdown-toggle" id="userDropdown"
+                data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false" href="{% url "dashboard" %}">
-          Hi, {{ user.get_display_name }}
+          Settings
         </button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="{% url "dashboard" %}">View Dashborad</a>
+          {% if user.is_staff %}
+            <a class="dropdown-item" href="{% url "dashboard" %}?active=Staff">Staff Panel</a>
+            <a class="dropdown-item" href="{% url "admin:index" %}">Admin Panel</a>
+          {% endif %}
+          <a class="dropdown-item" href="{% url "dashboard" %}">Dashborad</a>
           <a class="dropdown-item" href="{% url "logout" %}">Logout</a>
         </div>
       {% else %}
-        <a href="{% url "login" %}" id="login">Login</a>
-        <div id ="signup" class="align-items-center">
-          <a href="{% url "signup" %}">Sign Up</a>
-        </div>
+        <a class="button button-text-only" href="{% url "login" %}">Login</a>
+        <a class="button button-primary" href="{% url "signup" %}">Sign Up</a>
       {% endif %}
     </div>
   </div>
@@ -72,8 +72,10 @@
 
 <footer class="full-width-bg-container" id="footer-bg">
   <div class="main-content-container" id="footer">
-    <p>SolvedChinese.org &copy; 2019.</p>
-    <a href="https://github.com/chenyx512/Jiezi" target="_blank"><img src="/static/images/github.svg" class="footer-icon"></a>
+    <span id="copyright-info">Solved Chinese &copy; 2019&ndash;2020.</span>
+    <div id="footer-icon-container">
+      <a href="https://github.com/solved-chinese" class="footer-icon"><i class="fab fa-github"></i></a>
+    </div>
   </div>
 </footer>
 </body>

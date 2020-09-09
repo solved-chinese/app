@@ -15,8 +15,7 @@ SECRET_KEY = secret.SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','47.90.245.239','solvedchinese.org',
-                 'www.solvedchinese.org']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '47.90.245.239', 'solvedchinese.org', 'www.solvedchinese.org']
 
 # Application definition
 INSTALLED_APPS = [
@@ -78,7 +77,10 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-DATABASES.update(secret.DATABASES)
+try:
+    DATABASES.update(secret.DATABASES)
+except AttributeError:
+    pass
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

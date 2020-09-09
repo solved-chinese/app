@@ -1,4 +1,19 @@
 /***********************************
+  Fonts
+***********************************/
+
+@font-face {font-family: 'STKaiti';
+    src: url('/static/fonts/STKaiti/STKaiti.eot'); /* IE9 */
+    src: url('/static/fonts/STKaiti/STKaiti.eot') format('embedded-opentype'), /* IE6 - IE8 */
+         url('/static/fonts/STKaiti/STKaiti.woff2') format('woff2'), /* chrome firefox */
+         url('/static/fonts/STKaiti/STKaiti.woff') format('woff'), /* Chrome firefox */
+         url('/static/fonts/STKaiti/STKaiti.ttf') format('truetype'), /* chrome firefox opera Safari, Android, iOS 4.2+*/
+         url('/static/fonts/STKaiti/STKaiti.svg') format('svg'); /* iOS 4.1- */
+}
+
+
+
+/***********************************
   Variable Declarations
 ***********************************/
 
@@ -123,39 +138,11 @@ a {
     cursor: pointer;
 }
 
-#navbar > .username {
-    font-weight: 500;
-}
-
 #navbar a {
     text-decoration: none;
 }
 
-#signup {
-    background-color: var(--main-theme-color);
-    height:50%;
-    width:100px;
-    border-radius: 10px;
-}
 
-#signup a {
-    display: flex;
-    justify-content: center;
-    padding: 7px;
-    color: white;
-}
-
-#login {
-    margin-right: 20px;
-    color: black;
-}
-
-#userDropdown {
-    background-color: var(--main-theme-color);
-    color: white;
-    width: 11%;
-    min-width: 110px;
-}
 
 /***********************************
   Footer
@@ -173,19 +160,19 @@ a {
     flex-direction: column;
     height: 80px;
     align-items: center;
-    padding-top: 10px;
+    padding: 18px;
 }
 
-#footer p {
+#footer * {
     color: #8E9DAE;
-    margin: auto;
-    font-size: 0.8em;
-    letter-spacing: 1px;
 }
 
-.footer-icon {
-    height: 1em;
-    margin-bottom: 20px;
+#footer #copyright-info {
+    font-size: 80%;
+}
+
+#footer-icon-container i:hover {
+    color: #5E6D7E;
 }
 
 
@@ -195,12 +182,11 @@ a {
 ***********************************/
 
 .button {
-    padding: 0.6em 2em;
+    padding: 0.6em 1.2em;
     border: 1px solid #040302;
     border-radius: 0.25em;
     color: #040302;
     background: white;
-    white-space: nowrap;
     cursor: pointer;
     transition: 150ms ease;
 }
@@ -230,6 +216,15 @@ a {
     background: var(--secondary-color);
 }
 
+.button.button-text-only {
+    padding: 0;
+    border: none;
+}
+
+.button.button-text-only:hover {
+    color: var(--main-theme-color)
+}
+
 .header-back-button {
     position: absolute;
     margin-top: -1.8em;
@@ -245,6 +240,10 @@ a {
 
 .header-back-button > i {
     margin-right: 0.4em;
+}
+
+.button + .button:not(.option) {
+    margin-left: 15px;
 }
 
 
@@ -363,7 +362,7 @@ a {
 
 /* .modal > .modal-header::after {
     content: '\f00d';
-    font-family: "Font Awesome 5 Pro";
+    font-family: 'Font Awesome 5 Pro';
     font-size: 1.5em;
     cursor: pointer;
 } */
