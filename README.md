@@ -9,11 +9,8 @@
 - `jiezi` django main app
 
 ## API generation
-our API's are currently currently served at <https://solved-chinese.github.io/app/>.  
- They are generated from python source code by apidoc (<https://apidocjs.com>).  
- 
- To install apidoc:   `npm install apidoc -g`  
- To update API's from current code, run from project root folder, and ignore the warning about missing configuration file: `apidoc -i ./ -o docs/` 
+our API's are currently currently served at <https://solved-chinese.github.io/api-doc/>.  
+ They are automatically generated from master branch python source code by apidoc (<https://apidocjs.com>).
 
 ## Installation
 this is supposed to be done on a Ubuntu machine
