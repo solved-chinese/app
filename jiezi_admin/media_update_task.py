@@ -19,7 +19,8 @@ def media_update_task(self, folder_id, model_name, field_name):
     progress_recorder = ProgressRecorder(self)
     Model = getattr(learning.models, model_name)
     msg = '-----------------<br>' \
-          + html.escape(f'PROGRESS REPORT ON UPDATE OF {field_name} of {Model.__name__}s') \
+          + html.escape(f'PROGRESS REPORT ON UPDATE OF {field_name} of '
+                        f'{Model.__name__}s') \
           + '<br>-----------------<br>'
     service = get_service()
 
@@ -53,16 +54,10 @@ def media_update_task(self, folder_id, model_name, field_name):
                     os.path.join(field_name, os.path.basename(path)))
             model.save()
             info = '<span style="color:green;">' \
-                   + html.escape(f"OK: {model}") \
-                   + f'<img src="{getattr(model, field_name).url}" style="width:50px;height:50px;display: inline-block;">' \
-                   + '</span>'
+                + html.escape(f"OK: {model}") \
+                + f'<img src="{getattr(model, field_name).url}" ' \
+                + 'style="width:50px;height:50px;display: inline-block;">' \
+                + '</span>'
             print(info)
             msg += info
         progress_recorder.set_progress(index, num_models, description=msg)
-
-        # if is_make_square:
-        #     img = Image.open(path)
-        #     img = img.resize((600, 600), Image.ANTIALIAS)
-        #     img.save(path, optimize=True, quality=80)
-
-
