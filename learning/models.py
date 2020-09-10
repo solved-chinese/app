@@ -21,6 +21,9 @@ class Radical(models.Model):
     def __repr__(self):
         return '<R' + '%04d' % self.id + ':' + self.chinese +'>'
 
+    def __str__(self):
+        return repr(self)
+
 
 class Character(models.Model):
     TEST_FIELDS = ['pinyin', 'definition_1']
@@ -55,7 +58,6 @@ class Character(models.Model):
     is_preview_pinyin = models.BooleanField()
     structure = models.IntegerField(null=True)
 
-    color_coded_image = models.ImageField(default='default.jpg')
     stroke_order_image = models.ImageField(default='default.jpg')
 
     def save(self, *args, **kwargs):
@@ -68,6 +70,9 @@ class Character(models.Model):
 
     def __repr__(self):
         return '<C' + '%04d' % self.id + ':' + self.chinese +'>'
+
+    def __str__(self):
+        return repr(self)
 
     class Meta:
         ordering = ['id']
@@ -90,6 +95,9 @@ class CharacterSet(models.Model):
     def __repr__(self):
         return f'<cset{self.id}:{self.name}>'
 
+    def __str__(self):
+        return repr(self)
+
 
 class Report(models.Model):
     user = models.ForeignKey('accounts.User', null=True, on_delete=models.SET_NULL)
@@ -99,6 +107,9 @@ class Report(models.Model):
 
     def __repr__(self):
         return f'<Report on {self.origin}: {self.description_1}>'
+
+    def __str__(self):
+        return repr(self)
 
     class Meta:
         ordering = ['origin']

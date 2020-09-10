@@ -62,7 +62,11 @@ setup the database to match our setting file:
 python manage.py migrate
 ```
 
-6. Locally run the development server
+6. For the setup of Celery and Redis, reference [wiki page](https://github.com/solved-chinese/app/wiki/Celery-and-Redis-Installation-for-progress-bar)
+  
+
+
+7. Locally run the development server
 ```shell script
 python manage.py runserver
 ```
