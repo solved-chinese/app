@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.views.generic.base import RedirectView
 from django.conf.urls.static import static
 from django.conf import settings
@@ -7,8 +7,12 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from jiezi import views
 
+# celery progress app
+
 
 urlpatterns = [
+    path('celery-progress/', include('celery_progress.urls')),
+
     # app urls
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),

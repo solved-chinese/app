@@ -26,6 +26,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
+
+    # celery apps
+    'celery',
+    'celery_progress',
+
+    # custom apps
     'accounts',
     'learning',
     'jiezi_admin',
@@ -118,7 +124,12 @@ MEDIA_URL = '/media/'
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
+# Celery Settings
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+
+
 """ Here begins jiezi custom settings """
 # put the secert key in this path
 DATAFILE_SERVICE_ACCOUNT_FILE_PATH = os.path.join(BASE_DIR,
-                                                  'jiezi_secret/datafile_service_account.json')
+    'jiezi_secret/datafile_service_account.json')
