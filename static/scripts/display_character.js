@@ -13,6 +13,7 @@ $.get({
         audio = new Howl({
             src: [`/media/audio/${pk}.mp3`]
         });
+        audio.play();
         $('#speak-button').removeClass('disabled');
         $('#speak-button').click(() => audio.play());
     }
