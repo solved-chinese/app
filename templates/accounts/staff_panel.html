@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+  <!-- Temporary Bootstrap reference -->
+  <link rel="stylesheet"  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  
+  <link rel="stylesheet" type="text/css" href="{% static "styles/profile.css" %}">
+{% endblock css %}
+
+{% block external-lib %}
+  <!-- Temporary Bootstrap reference -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" 
+          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block title %}Profile | Solved Chinese{% endblock title %}
+
+
+{% block content %}
+  <a class="header-back-button" href="/"><i class="far fa-angle-left"></i>Dashboard</a>
+  <h1>Staff Panel</h1>
+
+  <div class="row align-items-center justify-content-around">
+    <a class="col-9 col-md-5 col-xl-3 card-container image-box-wrapper" href="{% url 'update_entry' %}" target="_blank">
+      <img src="{% static "images/userDashboard/logo-color-mark-sq.png" %}">
+      <h5> Update Entry </h5>
+    </a>
+    <a class="col-9 col-md-5 col-xl-3 card-container image-box-wrapper" href="{% url 'update_media' %}">
+      <img src="{% static "images/userDashboard/Google_Drive_logo.png" %}">
+      <h5> Update Radical Mnemonic Image </h5>
+    </a>
+    <a class="col-9 col-md-5 col-xl-3 card-container image-box-wrapper" href="{% url 'update_media' %}">
+      <img src="{% static "images/userDashboard/Google_Drive_logo.png" %}">
+      <h5> Update Character Animated Stroke Order Image </h5>
+    </a>
+    <a class="col-9 col-md-5 col-xl-3 card-container image-box-wrapper" href="/admin/learning/report/" target="_blank">
+      <img src="{% static "images/userDashboard/logo-color-mark-sq.png" %}">
+      <h5> View Report </h5>
+    </a>
+  </div>
+{% endblock %}
+
+{% block js %}
+  <script src="{% static "scripts/profile.js" %}"></script>
+{% endblock js %}

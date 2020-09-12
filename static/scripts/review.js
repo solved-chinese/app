@@ -30,5 +30,3 @@ $('.option').on('click', e => {
         $('#next-button').show();
     });
 });
-
-$('#next-button').click(reload);

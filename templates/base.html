@@ -46,15 +46,15 @@
       {% if user.is_authenticated %}
         <button class="button button-primary dropdown-toggle" id="userDropdown"
                 data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false" href="{% url "dashboard" %}">
+                aria-expanded="false" href="{% url "profile" %}">
           Settings
         </button>
         <div class="dropdown-menu">
           {% if user.is_staff %}
-            <a class="dropdown-item" href="{% url "dashboard" %}?active=Staff">Staff Panel</a>
+            <a class="dropdown-item" href="{% url "staff_panel" %}">Staff Panel</a>
             <a class="dropdown-item" href="{% url "admin:index" %}">Admin Panel</a>
           {% endif %}
-          <a class="dropdown-item" href="{% url "dashboard" %}">Profile</a>
+          <a class="dropdown-item" href="{% url "profile" %}">Profile</a>
           <a class="dropdown-item" href="{% url "logout" %}">Logout</a>
         </div>
       {% else %}
