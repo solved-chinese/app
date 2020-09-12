@@ -1,6 +1,6 @@
 # Solved Chinese
 
-*Learn Chinese characters like riddles.*
+*Solve Chinese characters like riddles.*
 
 ## File Structure
 - `docs/`: <https://solved-chinese.github.io/app/> automatically generated API files
