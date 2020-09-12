@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
 
 {% block meta %}
@@ -32,6 +32,9 @@
   </script>
   <script src="{% static 'scripts/display_character.js' %}"></script>
 {% endblock js %}
+
+{% block title %}Learning | Solved Chinese{% endblock title %}
+
 
 {% block content %}
   <div id='learn-header-container'>

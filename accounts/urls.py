@@ -12,7 +12,8 @@ from accounts import views
 """
 
 urlpatterns = [
-    path('dashboard/', views.dashboard, name="dashboard"),
+    path('profile/', views.profile, name="profile"),
+    path('staff_panel/', views.staff_panel, name="staff_panel"),
     path('signup/', views.signup, name='signup'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),

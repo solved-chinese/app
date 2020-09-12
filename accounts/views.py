@@ -34,15 +34,22 @@ def manage_library(request, set_id=None):
 
 
 @login_required
-def dashboard(request):
+def profile(request):
     if request.GET.get('endsession', False):
         request.session['is_learning'] = False
-    active = request.GET.get('active', 'Dashboard')
 
-    if active == 'Staff' and not request.user.is_staff:
-        return HttpResponseRedirect(reverse('dashboard')+"?active=Dashboard")
+    return render(request, 'accounts/profile.html')
 
-    return render(request, 'accounts/dashboard.html', {'active': active})
+
+@login_required
+def staff_panel(request):
+    if request.GET.get('endsession', False):
+        request.session['is_learning'] = False
+
+    if not request.user.is_staff:
+        return HttpResponseRedirect(reverse('profile'))
+
+    return render(request, 'accounts/staff_panel.html')
 
 
 @login_required
@@ -54,9 +61,9 @@ def alt_profile(request):
         currentUser.last_name = request.POST.get("last_name")
         currentUser.cn_level = request.POST.get("cn_level")
         currentUser.save()
-        return HttpResponseRedirect(reverse('dashboard')+"?active=Profile")
+        return HttpResponseRedirect(reverse('profile'))
     else:
-        return render(request, 'accounts/dashboard.html', {'active': 'Dashboard'})
+        return render(request, 'accounts/profile.html')
 
 
 """

@@ -18,6 +18,8 @@
           integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 {% endblock %}
 
+{% block title %}Manage Set | Solved Chinese{% endblock title %}
+
 
 {% block content %}
   <a class="header-back-button" href="/accounts/manage_library/"><i class="far fa-angle-left"></i>Manage Vocab Sets</a>
@@ -35,7 +37,7 @@
               </p>
             </div>
             <span class="char-pinyin">{{ char.pinyin }}</span>
-            <i class="delete-char-button far fa-trash-alt"></i>
+            <!-- <i class="delete-char-button far fa-trash-alt"></i> -->
           </div>
         {% endwith %}
       {% endfor %}
