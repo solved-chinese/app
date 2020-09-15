@@ -93,6 +93,7 @@ def start_learning(request):
     return redirect(f'/learning/status{request.session.session_key}')
 
 
+@login_required
 def review(request, character, field_name):
     other_uc = request.user.user_characters.exclude(character__pk=character.pk)
     # TODO calling list on QuerySet may be inefficient
