@@ -47,7 +47,7 @@
         <button class="button button-primary dropdown-toggle" id="userDropdown"
                 data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false" href="{% url "profile" %}">
-          Settings
+          {{ user.get_display_name }}
         </button>
         <div class="dropdown-menu">
           {% if user.is_staff %}

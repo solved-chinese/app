@@ -30,7 +30,10 @@ class User(AbstractUser):
     def get_display_name(self):
         if self.is_guest:
             return 'Guest'
-        return self.first_name or self.last_name or self.username
+        elif self.first_name and self.first_name != 'None':
+            return self.first_name
+        else:
+            return self.username
 
 
 def user_character_factory():
