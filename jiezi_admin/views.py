@@ -10,9 +10,9 @@ from .gdrive_download import get_service, download
 from jiezi.celery import app
 
 
-RADICAL_MNEMONIC_FOLDER_ID = '1_nwXyrY-q8-3xttTR9GhX8-VC0XGJLx4'
-ANIMATED_STROKE_ORDER_FOLDER_ID = '1NA5KB_bU8J2Vkmnsx41FvOSMTpgfIipa'
-ENTRY_FILE_ID = '1AH33mxtiev_n55fOWpUQebicLLFKaQS5aZRx93sVuJc'
+RADICAL_MNEMONIC_FOLDER_ID = '1boxohVl7GYOxqM1PyXKfnAMy-VP-tfvf'
+ANIMATED_STROKE_ORDER_FOLDER_ID = '1D5nH3Z0rdWV3SrfY5CG8ahzXSDO0uTH-'
+ENTRY_FILE_ID = '18baQLqJooho2sgfy70dybynQeXN3BiuD5_lT03EGkas'
 
 
 @user_passes_test(lambda u: u.is_staff)
