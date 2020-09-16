@@ -48,6 +48,6 @@ $('#slider-value-text').css('margin-left', `calc(-${labelWidth} / 2)`);
 $('#study-button').click(e => {
     let activated = $('.slider-value.value-activated');
     let minutes = parseInt($(activated[activated.length - 1]).attr('data-value'));
-    $('start-learning-form-minutes').val(minutes)
-    $('#start-learning-form').submit()
+    $('#start-learning-form-minutes').val(minutes);
+    $('#start-learning-form').submit();
 })
