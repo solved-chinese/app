@@ -1,5 +1,6 @@
 import io
 import os
+import pandas as pd
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test
