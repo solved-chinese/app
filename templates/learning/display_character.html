@@ -98,10 +98,12 @@
         </div>
         <div class='examples-container'>
           <h2>Examples</h2>
-          <p><strong>{{ character.example_1_word }}</strong> ({{ character.example_1_pinyin.strip }}): {{ character.example_1_meaning }} (<i>{{ character.example_1_character }}</i>)</p>
-          {% if character.example_2_word %}
-            <p><strong>{{ character.example_2_word }}</strong> ({{ character.example_2_pinyin.strip }}): {{ character.example_2_meaning }} (<i>{{ character.example_2_character }}</i>)</p>
-          {% endif %}
+          <p>{{ character.get_example_sentence|safe }}</p>
+          {% with example_2_sentence=character.get_example_2_sentence %}
+            {% if example_2_sentence %}
+              <p>{{ example_2_sentence|safe }}</p>
+            {% endif %}
+          {% endwith %}
         </div>
       </div>
 

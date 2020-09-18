@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import html
 
 from django.db import models
 import accounts.models  # to avoid cyclic import
@@ -43,22 +44,48 @@ class Character(models.Model):
     radical_1_id = models.IntegerField()
     radical_2_id = models.IntegerField(null=True, blank=True)
     radical_3_id = models.IntegerField(null=True, blank=True)
-    mnemonic_explanation = models.CharField(max_length=400)
+    mnemonic_explanation = models.CharField(max_length=800)
 
-    example_1_word = models.CharField(max_length=5)
+    example_1_word = models.CharField(max_length=10)
     example_1_pinyin = models.CharField(max_length=25)
-    example_1_character = models.CharField(max_length=50)
-    example_1_meaning = models.CharField(max_length=50)
-    example_2_word = models.CharField(max_length=5, null=True, blank=True)
+    example_1_character = models.CharField(max_length=100)
+    example_1_meaning = models.CharField(max_length=100)
+    example_2_word = models.CharField(max_length=10, null=True, blank=True)
     example_2_pinyin = models.CharField(max_length=25, null=True, blank=True)
-    example_2_character = models.CharField(max_length=50, null=True, blank=True)
-    example_2_meaning = models.CharField(max_length=50, null=True, blank=True)
+    example_2_character = models.CharField(max_length=100, null=True, blank=True)
+    example_2_meaning = models.CharField(max_length=100, null=True, blank=True)
 
     is_preview_definition = models.BooleanField()
     is_preview_pinyin = models.BooleanField()
     structure = models.IntegerField(null=True)
 
     stroke_order_image = models.ImageField(default='default.jpg')
+
+    def get_example_sentence(self, index=1):
+        word = getattr(self, f'example_{index}_word')
+        pinyin = getattr(self, f'example_{index}_pinyin')
+        character = getattr(self, f'example_{index}_character')
+        meaning = getattr(self, f'example_{index}_meaning')
+        if not word and index == 2:
+            return None
+
+        assert len(word) == 2, f'example_{index}_word needs to be of length 2' \
+                               f' but "{word}" is not'
+        assert pinyin.count(' ') == 1, f'example_{index}_pinyin should contain' \
+                                       f' 1 space but "{pinyin}" does not'
+        assert character.count('+') == 1, f'example_{index}_pinyin should' \
+            f' contain 1 "+" but "{character}" does not'
+
+        pinyins = pinyin.split(' ')
+        characters = character.split('+')
+        return f"&nbsp;&nbsp;&nbsp;" \
+               f"{word[0]} /{pinyins[0].strip()}/ {characters[0].strip()}" \
+               f" + {word[1]} /{pinyins[1].strip()}/ {characters[1].strip()}" \
+               f"<br> = {word} {meaning}"
+
+    def get_example_2_sentence(self):
+        return self.get_example_sentence(index=2)
+
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -67,6 +94,11 @@ class Character(models.Model):
                 self.radical_3_id and not Radical.objects.filter(pk=self.radical_3_id).exists():
             self.delete()
             raise ValueError('related radicals not exist, self deletion')
+        try:
+            self.get_example_sentence()
+        except AssertionError as err:
+            self.delete()
+            raise err
 
     def __repr__(self):
         return '<C' + '%04d' % self.id + ':' + self.chinese +'>'
@@ -138,14 +170,19 @@ def update_from_df(df, Model):
                     data[field.name]=row[field.name]
                 elif isinstance(field, models.CharField):
                     # FIXME per request of LING team, remove all stars from str
-                    data[field.name] = row[field.name].replace('*', '') \
+                    data[field.name] = row[field.name].strip().replace('*', '') \
                         if row[field.name] else None
         except Exception as e:
-            messages.append(f'ERR getting fields of id={id}: {str(e)}')
+            try:
+                field
+            except NameError:
+                field = None
+            messages.append(f'ERR getting field {field} of id={id}: {str(e)}')
             continue
+
         try:
-            _, is_created = Model.objects.update_or_create(id=id, defaults=data)
-            messages.append(f"{'create' if is_created else 'update'} id={id}")
+            obj, is_created = Model.objects.update_or_create(id=id, defaults=data)
+            messages.append(f"{'create' if is_created else 'update'} {obj}")
             good_pk.append(id)
         except Exception as e:
             messages.append(f'ERR constructing id={id}: {str(e)}')
@@ -154,9 +191,10 @@ def update_from_df(df, Model):
     # TODO possibly add delete warning
 
     for i, msg in enumerate(messages, 0):
-        if msg[0]=='E':
+        msg = f'<pre>{html.escape(msg)}</pre>'
+        if msg[5]=='E':
             messages[i] = '<div style="color:red;">' + msg + '</div>'
-        elif msg[0]=='W':
+        elif msg[5]=='W':
             messages[i] = '<div style="color:orange;">' + msg + '</div>'
         else: messages[i] = '<div style="color:green;">' + msg + '</div>'
     return messages
