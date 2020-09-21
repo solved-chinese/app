@@ -1,61 +1,53 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-  <meta charset='utf-8'>
-  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-	<meta name='viewport' content='width=device-width, initial-scale=1'>
+{% extends "base.html" %}
+{% load static %}
 
-  <link rel='stylesheet' href='https://pro.fontawesome.com/releases/v5.8.1/css/all.css' integrity='sha384-Bx4pytHkyTDy3aJKjGkGoHPt3tvv6zlwwjc3iqN7ktaiEMLDPqLSZYts2OjKcBx1' crossorigin='anonymous'>
+{% block css %}
+  <!-- Temporary Bootstrap reference -->
+  <link rel="stylesheet"  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        
+  <link rel="stylesheet" type="text/css" href="{% static "styles/manage_library.css" %}">
+{% endblock css %}
 
-  <link rel='stylesheet' href='/static/styles/main.css'>
-  <link rel='stylesheet' href='/static/styles/vocab.css'>
+{% block external-lib %}
+  <!-- Temporary Bootstrap reference -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" 
+          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+{% endblock %}
 
-  <title>Solved</title>
-</head>
+{% block title %}Manage Library | Solved Chinese{% endblock title %}
 
-<body>
-  <header class='full-width-bg-container' id='navbar-bg'>
-    <div class='main-content-container' id='navbar'>
-      <a class='logo' href='/'></a>
-      <a class='username' href='#'>{{ username }}</a>
+
+{% block content %}
+  <a class="header-back-button" href="/"><i class="far fa-angle-left"></i>Dashboard</a>
+  <h1>Manage Vocab Sets</h1>
+
+  <div class="page-mask" style="display: none"></div>
+
+  <div class="my-modal" id="add-new-set-modal" style="display: none">
+    <div class="my-modal-header">
+      <h2>Add New Set</h2>
+      <i class="far fa-times modal-close-button"></i>
     </div>
-  </header>
-
-  <div class='main-content-container' id='page-container'>
-    <a class='header-back-button' href='/'><i class='far fa-angle-left'></i>Dashboard</a>
-    <h1>Vocab List Management</h1>
-
-    <div id='char-sets-container'>
-      <div class='char-set'>
-        <img class='char-set-cover' src='/static/images/set-covers/1.jpg'></img>
-        <p class='char-set-title'>Integrated Chinese Class 1 Lv 1</p>
-      </div>
-      <div class='char-set'>
-        <img class='char-set-cover' src='/static/images/set-covers/2.jpg'></img>
-        <p class='char-set-title'>Integrated Chinese Class 1 Lv 2</p>
-      </div>
-      <div class='char-set'>
-        <img class='char-set-cover' src='/static/images/set-covers/1.jpg'></img>
-        <p class='char-set-title'>Family Members</p>
-      </div>
-      <div class='char-set'>
-        <img class='char-set-cover' src='/static/images/set-covers/2.jpg'></img>
-        <p class='char-set-title'>Numbers</p>
-      </div>
-      <div class='char-set' id='add-set-button-container'>
-        <i class='fal fa-plus' id='add-set-button'></i>
-        <p class='char-set-title'>Add New Set</p>
-      </div>
-    </div>
+    <div class="my-modal-content" id="available-sets-container"></div>
   </div>
 
-  <footer class='full-width-bg-container' id='footer-bg'>
-    <div class='main-content-container' id='footer'>
-      <p>Hello</p>
+  <div id="char-sets-container">
+    {% for set in request.user.user_character_tags.all %}
+      <div class="char-set" data-set-pk="{{ set.pk }}">
+        <img class="char-set-cover" src="/static/images/set-covers/default-set-cover.jpg"></img>
+        <p class="char-set-title">{{ set.name }}</p>
+      </div>
+    {% endfor %}
+    <div class="char-set" id="add-set-button-container">
+      <i class="fal fa-plus" id="add-set-button"></i>
+      <p class="char-set-title">Add New Set</p>
     </div>
-  </footer>
-</body>
+  </div>
+{% endblock content %}
 
-<script src='/static/scripts/main.js'></script>
-
-</html>
+{% block js %}
+  <script src="{% static "scripts/manage_library.js" %}"></script>
+{% endblock js %}

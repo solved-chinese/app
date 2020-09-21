@@ -7,32 +7,28 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   {% block meta %}{% endblock meta %}
 
-  <!-- <script src="/static/scripts/vue.js"></script> -->
+  <link rel="shortcut icon" href="{% static "images/favicon.ico" %}" />
 
-  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.8.1/css/all.css"
+  <link async rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-Bx4pytHkyTDy3aJKjGkGoHPt3tvv6zlwwjc3iqN7ktaiEMLDPqLSZYts2OjKcBx1"
         crossorigin="anonymous">
 
-  <link rel="stylesheet" href="{% static "styles/main.css" %}">
+  <!-- Temporary Bootstrap reference -->
   <link rel="stylesheet"  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-                        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="shortcut icon" href="/static/images/favicon.ico" />
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"
-          integrity="sha256-chlNFSVx3TdcQ2Xlw7SvnbLAavAQLO0Y/LBiWX04viY=" crossorigin="anonymous"></script>
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="{% static "styles/main.css" %}">
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"
           integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" 
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  
   {% block css %}{% endblock css %}
 
-  {% block js %}{% endblock js %}
+  {% block external-lib %}{% endblock external-lib %}
 
-  <title>{% block title %}Solved{% endblock title %}</title>
+  <title>{% block title %}Solved Chinese{% endblock title %}</title>
 </head>
 
 <body>
@@ -40,26 +36,31 @@
   <div class="card-container" id="navbar-container">
     <div class="main-content-container" id="navbar">
       <a class="logo" href="{% url "index" %}"></a>
-      <form class="search-form" action="#" method="GET" autocomplete="off" autocapitalize="off">
-        <div class="search-form-wrapper">
-          <img src="/static/images/search.svg">
-          <input type="text" name="keyword" placeholder="Search">
-          <input type="submit" hidden>
-          <div id="search-dropdown-wrapper">
-          </div>
+      <div class="search-form-wrapper">
+        <div class="search-input-wrapper">
+          <i class="far fa-search search-icon"></i>
+          <input type="text" name="keyword" placeholder="Search Dictionary">
         </div>
-      </form>
+        <div id="search-dropdown-wrapper">
+        </div>
+      </div>
       {% if user.is_authenticated %}
-        <button class="btn dropdown-toggle" type="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="{% url "dashboard" %}">Hi, {{ user.username }}</button>
+        <button class="button button-primary dropdown-toggle" id="userDropdown"
+                data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" href="{% url "profile" %}">
+          {{ user.get_display_name }}
+        </button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="{% url "dashboard" %}">View Dashborad</a>
+          {% if user.is_staff %}
+            <a class="dropdown-item" href="{% url "staff_panel" %}">Staff Panel</a>
+            <a class="dropdown-item" href="{% url "admin:index" %}">Admin Panel</a>
+          {% endif %}
+          <a class="dropdown-item" href="{% url "profile" %}">Profile</a>
           <a class="dropdown-item" href="{% url "logout" %}">Logout</a>
         </div>
       {% else %}
-        <a href="{% url "login" %}" id="login">Login</a>
-        <div id ="signup" class="align-items-center">
-          <a href="{% url "signup" %}">Sign Up</a>
-        </div>
+        <a class="button button-text-only" href="{% url "login" %}">Login</a>
+        <a class="button button-primary" href="{% url "signup" %}">Sign Up</a>
       {% endif %}
     </div>
   </div>
@@ -69,34 +70,17 @@
   {% block content %}{% endblock content %}
 </div>
 
-<div class="footer" style="background: #ccc">
-        <a href="{% url 'index' %}">
-            <img src="{% static "images/logo-color-full.svg" %}" style=" margin-left: 12vw; padding-left:3vw; height:4vw; vertical-align:middle">
-        </a>
-        <a href="{% url 'about_us' %}" style="vertical-align: middle; margin-left: 30vw; ">
-            About Us
-        </a>
-        
-        <a href="{% url 'the_science_behind' %}" style="vertical-align: middle; margin-left: 3vw">
-            The Science Behind
-        </a>
-        
-        <a href="{% url 'help' %}" style="vertical-align: middle; margin-left: 3vw">
-            Help
-        </a>
-        
-        <a href="mailto:contact@solvedchinese.org">
-            <img src="{% static "images/base/mail.png" %}" style="vertical-align: middle; width: 2vw; margin-left: 3vw; margin-right: 3vw">
-        </a>
-        <span style="font-size: 1vw; vertical-align: middle">
-            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
-                <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png">
-            </a>
-        </span>
+<footer class="full-width-bg-container" id="footer-bg">
+  <div class="main-content-container" id="footer">
+    <span id="copyright-info">Solved Chinese &copy; 2019&ndash;2020.</span>
+    <div id="footer-icon-container">
+      <a href="https://github.com/solved-chinese" class="footer-icon"><i class="fab fa-github"></i></a>
     </div>
-    
+  </div>
+</footer>
+
 </body>
 <script src="{% static "scripts/main.js" %}"></script>
-{% block extra_script %}
-{% endblock %}
+{% block js %}
+{% endblock js %}
 </html>

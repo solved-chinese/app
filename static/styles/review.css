@@ -1,8 +1,28 @@
+@keyframes shake {
+    0% { transform: translate(3px, 0px); }
+    10% { transform: translate(0px, 0px); }
+    20% { transform: translate(-3px, 0px); }
+    30% { transform: translate(0px, 0px); }
+    40% { transform: translate(2px, 0px); }
+    50% { transform: translate(0px, 0px); }
+    60% { transform: translate(-2px, 0px); }
+    70% { transform: translate(0px, 0px); }
+    80% { transform: translate(1px, 0px); }
+    90% { transform: translate(0px,0px); }
+    100% { transform: translate(-1px, 0px); }
+}
+
+@keyframes bingo {
+    0% { transform: translate(0px, 0px) rotate(0deg) scale(1); }
+    75% { transform: translate(0px, 0px) rotate(2deg) scale(1.1); }
+    100% { transform: translate(0px, 0px) rotate(0deg) scale(1); }
+}
+
 #page-content-container {
     display: flex;
     justify-content: center;
     text-align: center;
-    margin-top: calc(50vh - 300px);
+    margin-top: calc(50vh - 380px);
 }
 
 .big-question-text {
@@ -12,19 +32,65 @@
 
 #character-preview {
     display: inline-block;
-    margin: 0 5px -10px 5px;
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
+    font-size: 42px;
 }
 
 #answers-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    width: 330px;
-    margin-top: 40px;
+    width: 200px;
+    margin: 20px auto 0 auto;
 }
 
-#answers-container > .button {
-    margin-bottom: 20px;
+.option {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.option.correct {
+    color: white !important;
+    background: #2ecc71;
+    border-color: #27ae60;
+    cursor: default;
+}
+
+.option.correct:hover {
+    background: #2ecc71;
+    border-color: #27ae60;
+}
+
+.option.correct.chosen {
+    animation: bingo 0.4s;
+}
+
+.option.wrong {
+    color: white !important;
+    background: #e74c3c;
+    border-color: #c0392b;
+    cursor: default;
+    animation: shake 0.5s;
+}
+
+.option.wrong:hover {
+    background: #e74c3c;
+    border-color: #c0392b;
+}
+
+.option.disabled {
+    cursor: default;
+}
+
+.option.disabled.button-secondary:hover {
+    background: white;
+    color: #040302 !important;
+}
+
+.option.disabled.button-tertiary:hover {
+    background: white;
+    color: var(--secondary-color) !important;
+}
+
+#next-button {
+    width: 50%;
+    margin: 25px auto;
 }

@@ -1,32 +1,26 @@
-$("document").ready(function(){
-    let pk = $("meta[name='pk']").attr("content");
-    $("#speak-button").click(() => {
-        $.ajax({
-            url: "/learning/getAudio/",
-            data: {
-              t: $("#character-text").text(),
-              pk: pk
-            },
-            type: "GET",
-            dataType : "json",
-        })
-            .done(data => {
-                if (data.success) {
-                    var audio = new Audio('/media/audio/' + pk + '.wav');
-                    audio.play();
-                } else {
-                    $("#audio-error-msg").fadeIn();
-                    setTimeout(() => {
-                        $("#audio-error-msg").fadeOut()
-                    }, 3500);
-                }
-            })
+const pk = $('meta[name=pk]').attr('content');
+let audio;
 
-            .fail((jqXhr, textStatus, errorMessage) => {
-                $("#audio-error-msg").fadeIn();
-                setTimeout(() => {
-                    $("#audio-error-msg").fadeOut()
-                }, 3500);
-            })
-    })
+$.get({
+    url: '/learning/getAudio/',
+    data: {
+        t: $('#character-text').text(),
+        pk: pk
+    }
 })
+.done(data => {
+    if (data.success) {
+        audio = new Howl({
+            src: [`/media/audio/${pk}.mp3`]
+        });
+        audio.play();
+        $('#speak-button').removeClass('disabled');
+        $('#speak-button').click(() => audio.play());
+    }
+})
+.fail((jqXhr, textStatus, errorMessage) => {
+    $('#audio-error-msg').fadeIn();
+    setTimeout(() => {
+        $('#audio-error-msg').fadeOut();
+    }, 3500);
+});

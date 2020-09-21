@@ -15,8 +15,7 @@ SECRET_KEY = secret.SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','47.90.245.239','solvedchinese.org',
-                 'www.solvedchinese.org']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '47.90.245.239', 'solvedchinese.org', 'www.solvedchinese.org']
 
 # Application definition
 INSTALLED_APPS = [
@@ -27,6 +26,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
+
+    # celery apps
+    'celery',
+    'celery_progress',
+
+    # custom apps
     'accounts',
     'learning',
     'jiezi_admin',
@@ -78,7 +83,10 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-DATABASES.update(secret.DATABASES)
+try:
+    DATABASES.update(secret.DATABASES)
+except AttributeError:
+    pass
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -116,7 +124,12 @@ MEDIA_URL = '/media/'
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
+# Celery Settings
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+
+
 """ Here begins jiezi custom settings """
 # put the secert key in this path
 DATAFILE_SERVICE_ACCOUNT_FILE_PATH = os.path.join(BASE_DIR,
-                                                  'jiezi_secret/datafile_service_account.json')
+    'jiezi_secret/datafile_service_account.json')

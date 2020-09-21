@@ -2,18 +2,18 @@
   Containers
 ***********************************/
 
-#character-card-container {
+.character-card-container {
     display: flex;
 }
 
-#character-info-container {
+.character-info-container {
     width: 36.2%;
     margin-right: 30px;
     padding-right: 30px;
     border-right: 1px solid var(--tertiary-color);
 }
 
-#character-radicals-container {
+.character-radicals-container {
     width: 61.8%;
 }
 
@@ -23,13 +23,64 @@
   Character Preview
 ***********************************/
 
-#character-preview {
+.character-preview {
+    position: relative;
     width: 150px;
     height: 150px;
     margin: 20px auto;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+.character-preview-small {
+    width: 50px;
+    height: 50px;
+    margin: 0;
+}
+
+.character {
+    position: relative;
+    margin: 0;
+    top: -0.28em;
+}
+
+.character-kai {
+    font-family: STKaiTi, 'Palatino Linotype', 'Book Antiqua', Palatino, KaiTi, '楷体', '华文楷体', SimKai, DFKai-SB, NSimSun, serif;
+}
+
+.character-large {
+    width: 150px;
+    height: 150px;
+    font-size: 150px;
+}
+
+.character-small {
+    width: 50px;
+    height: 50px;
+    font-size: 50px;
+}
+
+.character-preview .character-stroke-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150px;
+    height: 150px;
+    background-size: cover;
+    display: none;
+}
+
+.character-preview:hover .character-stroke-image {
+    display: block;
+    mix-blend-mode: multiply;
+}
+
+.character-preview:hover .character.character-large {
+    display: none;
 }
 
 
@@ -38,7 +89,7 @@
   Definitions
 ***********************************/
 
-#definitions-container {
+.definitions-container {
     margin: 40px 0;
 }
 
@@ -78,7 +129,7 @@
   Radicals Breakdown
 ***********************************/
 
-#radicals-breakdown-container {
+.radicals-breakdown-container {
     display: flex;
     justify-content: space-evenly;
     margin-bottom: 30px;
@@ -87,6 +138,10 @@
 .radical-container {
     width: 250px;
     text-align: center;
+}
+
+.radical-container > .radical-pinyin {
+    margin: 0;
 }
 
 .radical-container > .radical-title {

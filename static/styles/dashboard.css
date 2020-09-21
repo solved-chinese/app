@@ -18,7 +18,7 @@ a:hover {
 
 #stats-content-container {
     display: flex;
-    margin: 20px 50px 10px 0;
+    margin: 20px 0 10px 0;
     justify-content: space-between;
 }
 

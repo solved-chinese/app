@@ -9,6 +9,9 @@ from jiezi import views
 
 
 urlpatterns = [
+    # celery progress app
+    path('celery-progress/', include('celery_progress.urls')),
+
     # app urls
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
