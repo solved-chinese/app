@@ -6,6 +6,7 @@
 }
 
 .char-set {
+    position: relative;
     width: 200px;
     height: 265px;
     overflow: hidden;
@@ -39,6 +40,23 @@
     height: 65px;
     justify-content: center; /* To center single-line titles */
     text-align: center; /* To center multi-line titles */
+}
+
+.char-set > .delete-set-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: var(--secondary-color);
+    opacity: 0;
+    transition: 150ms ease;
+}
+
+.char-set > .delete-set-button:hover {
+    color: var(--main-theme-color);
+}
+
+.char-set:hover > .delete-set-button {
+    opacity: 1;
 }
 
 #add-set-button-container {

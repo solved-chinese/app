@@ -22,9 +22,11 @@ $.post('/accounts/get_available_sets/', data => {
                     <div class="char-set" data-set-pk="${ data.id }">
                         <img class="char-set-cover" src="/static/images/set-covers/default-set-cover.jpg">
                         <p class="char-set-title">${ setName }</p>
+                        <i class="delete-set-button far fa-trash-alt"></i>
                     </div>
                 `);
                 $('.char-set:not(#add-set-button-container)').off('click').click(charSetClick);
+                $('.delete-set-button').off('click').click(deleteSet);
             }
         });
     });
@@ -32,10 +34,21 @@ $.post('/accounts/get_available_sets/', data => {
 
 function charSetClick(e) {
     let el = $(e.target);
+    if (el.hasClass('delete-set-button')) return;
     while (el.attr('class') !== 'char-set') el = el.parent();
     if (el.attr('id') === 'add-set-button-container') return;
     let pk = el.attr('data-set-pk');
     window.location.href += pk;
+}
+
+function deleteSet(e) {
+    let target = $(e.target).parent();
+    let setId = target.data('set-pk');
+    $.post('/accounts/delete_set/', {set_id: setId}, data => {
+        if (data.msg === 'good') {
+            target.remove();
+        }
+    });
 }
 
 $('.char-set').click(charSetClick);
@@ -47,3 +60,5 @@ $('#add-set-button-container').click(e => {
 $('.modal-close-button').click(e => {
     hideModal(e.target.parentElement.parentElement.id);
 });
+
+$('.delete-set-button').click(deleteSet);
