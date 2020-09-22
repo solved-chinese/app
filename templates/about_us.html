@@ -1,58 +1,240 @@
 {% extends "base.html" %}
-{% load static %}
 
-{% block title %}About Us{% endblock title %}
+<!--generated from google doc by downloading as html-->
+
+{% block css %}
+  <style type="text/css">ol {
+      margin: 0;
+      padding: 0
+  }
+
+  table td, table th {
+      padding: 0
+  }
+
+  .c4 {
+      color: #990000;
+      font-weight: 700;
+      text-decoration: none;
+      vertical-align: baseline;
+      font-size: 16pt;
+      font-family: "Arial";
+      font-style: normal
+  }
+
+  .c0 {
+      padding-top: 0pt;
+      padding-bottom: 0pt;
+      line-height: 1.5;
+      orphans: 2;
+      widows: 2;
+      text-align: left;
+      height: 11pt
+  }
+
+  .c8 {
+      padding-top: 18pt;
+      padding-bottom: 6pt;
+      line-height: 1.5;
+      page-break-after: avoid;
+      orphans: 2;
+      widows: 2;
+      text-align: left
+  }
+
+  .c9 {
+      padding-top: 0pt;
+      padding-bottom: 0pt;
+      line-height: 1.15;
+      orphans: 2;
+      widows: 2;
+      text-align: left;
+      height: 11pt
+  }
+
+  .c1 {
+      color: #000000;
+      font-weight: 400;
+      text-decoration: none;
+      vertical-align: baseline;
+      font-size: 11pt;
+      font-family: "Arial";
+      font-style: normal
+  }
+
+  .c3 {
+      padding-top: 0pt;
+      padding-bottom: 0pt;
+      line-height: 1.5;
+      orphans: 2;
+      widows: 2;
+      text-align: left
+  }
+
+  .c5 {
+      background-color: #ffffff;
+      max-width: 468pt;
+      padding: 72pt 72pt 72pt 72pt
+  }
+
+  .c2 {
+      color: #980000;
+      font-weight: 700
+  }
+
+  .c6 {
+      font-weight: 700
+  }
+
+  .c7 {
+      color: #990000
+  }
+
+  .title {
+      padding-top: 0pt;
+      color: #000000;
+      font-size: 26pt;
+      padding-bottom: 3pt;
+      font-family: "Arial";
+      line-height: 1.15;
+      page-break-after: avoid;
+      orphans: 2;
+      widows: 2;
+      text-align: left
+  }
+
+  .subtitle {
+      padding-top: 0pt;
+      color: #666666;
+      font-size: 15pt;
+      padding-bottom: 16pt;
+      font-family: "Arial";
+      line-height: 1.15;
+      page-break-after: avoid;
+      orphans: 2;
+      widows: 2;
+      text-align: left
+  }
+
+  li {
+      color: #000000;
+      font-size: 11pt;
+      font-family: "Arial"
+  }
+
+  p {
+      margin: 0;
+      color: #000000;
+      font-size: 11pt;
+      font-family: "Arial"
+  }
+
+  h1 {
+      padding-top: 20pt;
+      color: #000000;
+      font-size: 20pt;
+      padding-bottom: 6pt;
+      font-family: "Arial";
+      line-height: 1.15;
+      page-break-after: avoid;
+      orphans: 2;
+      widows: 2;
+      text-align: left
+  }
+
+  h2 {
+      padding-top: 18pt;
+      color: #000000;
+      font-size: 16pt;
+      padding-bottom: 6pt;
+      font-family: "Arial";
+      line-height: 1.15;
+      page-break-after: avoid;
+      orphans: 2;
+      widows: 2;
+      text-align: left
+  }
+
+  h3 {
+      padding-top: 16pt;
+      color: #434343;
+      font-size: 14pt;
+      padding-bottom: 4pt;
+      font-family: "Arial";
+      line-height: 1.15;
+      page-break-after: avoid;
+      orphans: 2;
+      widows: 2;
+      text-align: left
+  }
+
+  h4 {
+      padding-top: 14pt;
+      color: #666666;
+      font-size: 12pt;
+      padding-bottom: 4pt;
+      font-family: "Arial";
+      line-height: 1.15;
+      page-break-after: avoid;
+      orphans: 2;
+      widows: 2;
+      text-align: left
+  }
+
+  h5 {
+      padding-top: 12pt;
+      color: #666666;
+      font-size: 11pt;
+      padding-bottom: 4pt;
+      font-family: "Arial";
+      line-height: 1.15;
+      page-break-after: avoid;
+      orphans: 2;
+      widows: 2;
+      text-align: left
+  }
+
+  h6 {
+      padding-top: 12pt;
+      color: #666666;
+      font-size: 11pt;
+      padding-bottom: 4pt;
+      font-family: "Arial";
+      line-height: 1.15;
+      page-break-after: avoid;
+      font-style: italic;
+      orphans: 2;
+      widows: 2;
+      text-align: left
+  }</style>
+{% endblock css %}
 
 {% block content %}
-
-  <table style="margin: 0 auto; text-align:left; table-layout:fixed">
-    <tr>
-      <td class="history-update" style="width:15%">
-        <div class="cato-update"><a href="{% url 'about_us' %}">About Us</a></div>
-        <hr>
-        <div class="cato-update"><a href="{% url 'the_science_behind' %}">The Science Behind</a>
-        </div>
-        <hr>
-        <div class="cato-update"><a href="{% url 'help' %}">Help</a></div>
-        <hr>
-        <div class="cato-update"> Support Us</div>
-      </td>
-      <td class="content-update" valign="top">
-
-        <div style="color:#4D4D4D; border-left: 50px solid #ffff; font-size:4vw">About Us</div>
-        <br>
-        <div style="color:#B62C25; border-left: 50px solid #ffff; font-size:2vw"> What is Solved?
-        </div>
-        <br>
-        <div style="border-left: 50px solid #ffff;"> For native English speakers, remembering the
-          form and pronunciation of Chinese characters can be hard. Solved is here to make it
-          easier, more fun and more meaningful -- we tell the vivid stories and explain the clever
-          rules behind the formation of these characters. This method, called radical breakdown,
-          has been theoretically and experimentally shown to effective in learning Chinese
-          characters by many studies.
-        </div>
-        <br><br>
-        <div style="border-left: 50px solid #ffff;">
-          Solved incorporates ancient wisdom with modern technology. It is research-based,
-          individualized, engaging, user-friendly, and free! <a
-            href="{% url 'the_science_behind' %}">Read more about the art and science behind it
-          here.</a></div>
-        <br><br>
-        <div style="color:#B62C25; border-left: 50px solid #ffff; font-size:2vw"> The Team</div>
-        <div style="border-left: 50px solid #ffff;"><br>
-          We are a group of Chinese high schoolers passionate about linguistics and education. We
-          attend schools in China, the U.S., Costa Rica, and Singapore.
-        </div>
-        <br><br>
-        <div style="border-left: 50px solid #ffff;">
-          We’d love to hear any questions or comments, and we are seeking more volunteers to help
-          improve and expand this project. Please feel free to contact us at <a
-            href="mailto:contact@solvedchinese.org">contact@solvedchinese.org</a></div>
-
-      </td>
-    </tr>
-  </table>
-  <br>
-{% endblock %}
-
-
+  <div><p class="c9"><span class="c1"></span></p></div>
+  <h2 class="c8" id="h.kbzy41urr70k"><span class="c4">What is Solved?</span></h2>
+  <p class="c3">
+    <span>We know that </span><span>Chinese characters can seem daunting, and that rote </span><span>memorization</span><span>&nbsp;can be painful, so we created </span><span
+      class="c6 c7">Solved</span><span>: </span><span class="c6">an easy, fun, authentic, and culturally meaningful way to learn Chinese characters.</span><span
+      class="c1">&nbsp;</span></p>
+  <p class="c0"><span class="c1"></span></p>
+  <p class="c3"><span>How? Chinese characters are actually made from a small base of </span><span
+      class="c6">pictographic building-blocks </span><span>(called &ldquo;radicals&rdquo;). They are like roots and affixes in English yet even easier to remember because they generally look like what they represent. </span><span
+      class="c2">Solved</span><span>&nbsp;teaches you these building-blocks and how they piece together.</span><span
+      class="c1">&nbsp;You will find that not only Chinese characters &ldquo;make sense&rdquo; now, you could even speculate the meaning and pronunciation of a character that you&rsquo;ve never learned! This method, formally called &ldquo;radical breakdown,&rdquo; is how native speakers learn Chinese characters. It has been proven effective both theoretically and experimentally by many studies.</span>
+  </p>
+  <p class="c0"><span class="c1"></span></p>
+  <p class="c3"><span class="c6 c7">Solved</span><span>&nbsp;incorporates traditional insight with modern technology. It is powered by </span><span
+      class="c6">research-based and individualized learning strategies</span><span>. Read more about them </span><span>here</span><span
+      class="c1">.</span></p>
+  <p class="c0"><span class="c1"></span></p>
+  <p class="c3"><span class="c6 c7">Solved</span><span>&nbsp;is committed to being completely, forever </span><span
+      class="c6">free</span><span class="c1">. </span></p>
+  <p class="c0"><span class="c1"></span></p>
+  <h2 class="c8" id="h.7cgdzhr4l5t3"><span class="c4">The Team</span></h2>
+  <p class="c3"><span>W</span><span>e are a group of Chinese high school students studying around the world, brought together by our passion for linguistics, culture, and education (a</span><span>nd who span so many different time zones that they can barely find a time in the day </span><span>to meet :p).</span>
+  </p>
+  <p class="c0"><span class="c1"></span></p>
+  <p class="c3"><span class="c1">We&rsquo;d love to hear any questions or comments, and we are looking for more volunteers to help us improve and expand this project. You can reach us at solvedchinese@gmail.com.</span>
+  </p>
+  <p class="c0"><span class="c1"></span>
+{% endblock content %}
