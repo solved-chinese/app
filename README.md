@@ -3,7 +3,6 @@
 *Solve Chinese characters like riddles.*
 
 ## File Structure
-- `docs/`: <https://solved-chinese.github.io/app/> automatically generated API files
 - `static/` & `templates/` for front end use
 -  `learning/` & `accounts/` & `jiezi_admin/` our custom apps for backend use
 - `jiezi` django main app
