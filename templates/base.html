@@ -69,15 +69,17 @@
   {% block content %}{% endblock content %}
 </div>
 
-
 <footer class="full-width-bg-container" id="footer-bg">
   <div class="main-content-container" id="footer">
     <span id="copyright-info">Solved Chinese &copy; 2019&ndash;2020.</span>
     <div id="footer-icon-container">
       <a href="https://github.com/solved-chinese" class="footer-icon"><i class="fab fa-github"></i></a>
+      &nbsp;&nbsp;&nbsp;
+      <a href="{% url "about_us" %}" class="footer-icon">About</a>
     </div>
   </div>
 </footer>
+
 </body>
 <script src="{% static "scripts/main.js" %}"></script>
 {% block js %}
