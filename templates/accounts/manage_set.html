@@ -69,10 +69,12 @@
                 </div>
                 <div>
                   <h2>Examples</h2>
-                  <p><strong>{{ char.example_1_word }}</strong> ({{ char.example_1_pinyin.strip }}): {{ char.example_1_meaning }} (<i>{{ char.example_1_character.strip }}</i>)</p>
-                  {% if char.example_2_word %}
-                    <p><strong>{{ char.example_2_word }}</strong> ({{ char.example_2_pinyin.strip }}): {{ char.example_2_meaning }} (<i>{{ char.example_2_character.strip }}</i>)</p>
-                  {% endif %}
+                  <p>{{ char.get_example_sentence|safe }}</p>
+                  {% with example_2_sentence=char.get_example_2_sentence %}
+                    {% if example_2_sentence %}
+                      <p>{{ example_2_sentence|safe }}</p>
+                    {% endif %}
+                  {% endwith %}
                 </div>
               </div>
 
