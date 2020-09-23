@@ -57,11 +57,11 @@
     {% endif %}
 
     <!-- We need to think about what the following buttons do -->
-    <form method='post'>
-      <input type='hidden' name='i_know_this' value='true'>
-      <input type='hidden' name='character_pk' value='{{ character.pk }}'>
-      <input type='submit' class='button button-secondary' value='I Know This'>
-    </form>
+{#    <form method='post'>#}
+{#      <input type='hidden' name='i_know_this' value='true'>#}
+{#      <input type='hidden' name='character_pk' value='{{ character.pk }}'>#}
+{#      <input type='submit' class='button button-secondary' value='I Know This'>#}
+{#    </form>#}
 
     <a class='button button-secondary' id='end-session-button' href='{% url 'index' %}'>
       End Session
