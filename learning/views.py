@@ -61,7 +61,6 @@ def try_me(request):
     return start_learning(request)
 
 
-@csrf_exempt
 @login_required
 def start_learning(request):
     # clears session data without logging out the user
@@ -70,7 +69,7 @@ def start_learning(request):
             del request.session[key]
     request.session.cycle_key()
 
-    minutes_to_learn = int(request.POST.get('minutes_to_learn', 10))
+    # minutes_to_learn = int(request.POST.get('minutes_to_learn', 10))
     uc_tags_filter = json.loads(request.POST.get('uc_tags_filter'))
     assert isinstance(uc_tags_filter, list), 'uc_tags_filter must be list of ints'
     for uc_tag in uc_tags_filter:
@@ -88,8 +87,8 @@ def start_learning(request):
 
     request.session['last_record_time'] = timezone.now()
     request.session['uc_tags_filter'] = uc_tags_filter
-    request.session['end_learning_time'] = \
-        timezone.now() + datetime.timedelta(minutes=minutes_to_learn)
+    # request.session['end_learning_time'] = \
+    #     timezone.now() + datetime.timedelta(minutes=minutes_to_learn)
 
     return redirect(f'/learning/status{request.session.session_key}')
 
@@ -215,17 +214,17 @@ def learning_process(request, session_key):
     request.user.last_study_time = timezone.now()
     request.user.save()
 
-    if request.session['end_learning_time'] < timezone.now():
-        if request.user.is_guest:
-            logout(request)
-        return end_learning(
-            '<p style="text-align:center; font-size:16px;">'
-            'Time is up!<br>'
-            'Congratulations on learning these new characters!<br>' +
-            'To save your progress, sign up now.<br>' +
-            '(Solved is completely free!)' if request.user.is_guest else ''
-            '</p>'
-        )
+    # if request.session['end_learning_time'] < timezone.now():
+    #     if request.user.is_guest:
+    #         logout(request)
+    #     return end_learning(
+    #         '<p style="text-align:center; font-size:16px;">'
+    #         'Time is up!<br>'
+    #         'Congratulations on learning these new characters!<br>' +
+    #         'To save your progress, sign up now.<br>' +
+    #         '(Solved is completely free!)' if request.user.is_guest else ''
+    #         '</p>'
+    #     )
 
     if request.method == 'POST':
         if request.POST.get('i_know_this', False):
@@ -431,9 +430,7 @@ def get_radical(request):
 @apiDescription Start Learning, this should be done with an actual form submission
 @apiGroup learning
 
-@apiParam  {int}     minutes_to_learn  how many minutes to learn
-@apiParam  {int[]}   uc_tags_filter=None  (optional, None means everything) the
-    ids of UserCharacterTags to INCLUDE
+@apiParam  {int[]}   uc_tags_filter the ids of UserCharacterTags to INCLUDE
 
 
 @apiSuccessExample learning/review.html
