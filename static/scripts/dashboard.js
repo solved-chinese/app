@@ -46,8 +46,12 @@
 
 var selected_tags = [];
 
-$.get('/accounts/my_user/?format=json', data => {
-    // TODO check if empty
+$.get('/accounts/my_user/', data => {
+    if(data.user_character_tags.length == 0) {
+        $('#available-tags-container').append(`
+            Please add more sets to your library
+        `);
+    }
     data.user_character_tags.forEach(tag => {
         $('#available-tags-container').append(`
             <button type="button" class="button button-secondary tag-button text-left">

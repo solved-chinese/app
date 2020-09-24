@@ -16,6 +16,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q, F, Max, DurationField, ExpressionWrapper
 from django.contrib.auth import login, logout
 from rest_framework import generics
+from django.utils.decorators import method_decorator
 
 from learning.models import Character, CharacterSet, Radical, Report
 from accounts.models import User, UserCharacter, UserCharacterTag
@@ -387,42 +388,6 @@ def search(request):
         'characters': chenyx_serialize(characters_1) +
                       chenyx_serialize(characters_2)
     })
-
-
-"""
-@api {POST} /learning/get_character Get Character
-@apiDescription Get the detail of a Character
-@apiGroup learning
-
-@apiParam   {int}    character_id
-
-@apiSuccess {Object} character the serialized Character
-"""
-
-
-@csrf_exempt
-def get_character(request):
-    character_id = request.POST.get('character_id')
-    character = Character.objects.get(pk=character_id)
-    return JsonResponse({'character': chenyx_serialize(character)})
-
-
-"""
-@api {POST} /learning/get_radical Get Radical
-@apiDescription Get the detail of a Radical
-@apiGroup learning
-
-@apiParam   {int}    radical_id
-
-@apiSuccess {Object} radical the serialized Radical
-"""
-
-
-@csrf_exempt
-def get_radical(request):
-    radical_id = request.POST.get('radical_id')
-    radical = Radical.objects.get(pk=radical_id)
-    return JsonResponse({'radical': chenyx_serialize(radical)})
 
 
 """

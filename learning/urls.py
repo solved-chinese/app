@@ -25,9 +25,6 @@ urlpatterns = [
     path('start_learning/', views.start_learning),
     path('status<slug:session_key>/', views.learning_process),
 
-    path('get_radical/', views.get_radical),
-    path('get_character/', views.get_character),
-
     path('radical/<int:pk>', views.RadicalDetail.as_view(),
          name='radical_detail'),
     path('character/<int:pk>', views.CharacterDetail.as_view(),
