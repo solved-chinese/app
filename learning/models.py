@@ -69,18 +69,30 @@ class Character(models.Model):
         if not word and index == 2:
             return None
 
-        assert len(word) == 2, f'example_{index}_word needs to be of length 2' \
-                               f' but "{word}" is not'
-        assert pinyin.count(' ') == 1, f'example_{index}_pinyin should contain' \
-                                       f' 1 space but "{pinyin}" does not'
+        assert len(word) == 2 or word.count('+') == 1,\
+            f'example_{index}_word needs to be of length 2 or separated by a' \
+            f'plus sign but "{word}" is not'
+        if len(word) == 2:
+            words = word
+        else:
+            words = word.split('+')
+
+
+        assert pinyin.count(' ') == 1 or pinyin.count('+'), \
+            f'example_{index}_pinyin should contain 1 space or plus sign' \
+            f'but "{pinyin} does not'
+        if pinyin.count(' ') == 1:
+            pinyin = pinyin.split(' ')
+        else:
+            pinyin = pinyin.split('+')
+
         assert character.count('+') == 1, f'example_{index}_pinyin should' \
             f' contain 1 "+" but "{character}" does not'
-
-        pinyins = pinyin.split(' ')
         characters = character.split('+')
+
         return f"&nbsp;&nbsp;&nbsp;" \
-               f"{word[0]} /{pinyins[0].strip()}/ {characters[0].strip()}" \
-               f" + {word[1]} /{pinyins[1].strip()}/ {characters[1].strip()}" \
+               f"{words[0]} /{pinyin[0].strip()}/ {characters[0].strip()}" \
+               f" + {words[1]} /{pinyin[1].strip()}/ {characters[1].strip()}" \
                f"<br> = {word} {meaning}"
 
     def get_example_2_sentence(self):
