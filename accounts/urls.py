@@ -23,8 +23,16 @@ urlpatterns = [
     path('manage_library/', views.manage_library, name='manage_library'),
 
     path('add_set/', views.add_set),
-    path('delete_set/', views.delete_set),
     path('get_available_sets/', views.get_available_sets),
     path('delete_character/', views.delete_character),
-    path('rename_set/', views.rename_set),
+
+    path('user_character_tag/<int:pk>',
+         views.UserCharacterTagDetail.as_view(),
+         name='user_character_tag_detail'),
+    path('user_character/<int:pk>',
+         views.UserCharacterDetail.as_view(),
+         name='user_character_detail'),
+    path('my_user/',
+         views.MyUserDetail.as_view(),
+         name='my_user_detail'),
 ]

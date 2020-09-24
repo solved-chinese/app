@@ -11,6 +11,8 @@ from jiezi import views
 urlpatterns = [
     # celery progress app
     path('celery-progress/', include('celery_progress.urls')),
+    # rest framework api
+    path('api/', include('rest_framework.urls', namespace='rest_framework')),
 
     # app urls
     path('admin/', admin.site.urls),

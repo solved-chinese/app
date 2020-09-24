@@ -1,3 +1,13 @@
+function getRadicalContainer(radical) {
+    return `<div class="radical-container">
+                <p>${ radical.pinyin }</p>
+                <p class="radical-title">${ radical.chinese }</p>
+                <p>${ radical.definition }</p>
+                <div class="radical-pictograph" style="background-image: url(${ radical.mnemonic_image })"></div>
+                <p>${ radical.mnemonic_explanation }</p>
+            </div>`
+}
+
 function updateRadical() {
     let charRadicalsContainer = $(`.character-card-container[data-char-id=${selectedCharId}] .radicals-breakdown-container`);
     radicalIds = charRadicalsContainer
@@ -7,32 +17,16 @@ function updateRadical() {
     charRadicalsContainer.empty();
     radicalIds.forEach(radicalId => {
         let radical = radicalsLookup[radicalId];
-        if (radical) {
-            charRadicalsContainer.append(`
-            <div class="radical-container">
-                <p>${ radical.pinyin }</p>
-                <p class="radical-title">${ radical.chinese }</p>
-                <p>${ radical.definition }</p>
-                <div class="radical-pictograph" style="background-image: url(/media/${ radical.mnemonic_image })"></div>
-                <p>${ radical.mnemonic_explanation }</p>
-            </div>`);
-        } else {
-            $.post('/learning/get_radical/', {radical_id: radicalId}, data => {
-                radical = data.radical.fields;
+        if (!radical) {
+            $.get(`/learning/radical/${radicalId}`, radical => {
                 radicalsLookup[radicalId] = radical;
-                charRadicalsContainer.append(`
-                <div class="radical-container">
-                    <p>${ radical.pinyin }</p>
-                    <p class="radical-title">${ radical.chinese }</p>
-                    <p>${ radical.definition }</p>
-                    <div class="radical-pictograph" style="background-image: url(/media/${ radical.mnemonic_image })"></div>
-                    <p>${ radical.mnemonic_explanation }</p>
-                </div>`);
+                charRadicalsContainer.append(getRadicalContainer(radical));
             });
+        } else {
+            charRadicalsContainer.append(getRadicalContainer(radical));
         }
     });
 }
-
 
 const radicalsLookup = {};
 let selectedChar = $($('.chars-container').children()[0]);
@@ -64,8 +58,10 @@ $('.char').click(e => {
 $('.delete-set-button').click(e => {
     let target = $(e.target);
     let setId = target.data('set-id');
-    $.post('/accounts/delete_set/', {set_id: setId}, data => {
-        if (data.msg === 'good') {
+    $.ajax({
+        url: `/accounts/user_character_tag/${setId}`,
+        type: 'DELETE',
+        success: function (result) {
             window.location.href = '/accounts/manage_library/';
         }
     });

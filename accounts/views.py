@@ -3,11 +3,16 @@ from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect, reverse
 from django.http import JsonResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 
 from accounts.forms import SignUpForm
 from learning.models import CharacterSet
-from accounts.models import UserCharacter, UserCharacterTag
+from accounts.models import UserCharacter, UserCharacterTag, User
 from jiezi.utils.json_serializer import chenyx_serialize
+from jiezi.permissions import IsOwner
+from .serializers import UserSerializer, UserCharacterSerializer, \
+    UserCharacterTagSerializer
 
 
 def signup(request):
@@ -112,53 +117,6 @@ def delete_character(request):
 
 
 """
-@api {POST} /accounts/delete_set/ Delete set
-@apiDescription Delete a UserCharacterTag
-@apiGroup accounts
-
-@apiParam   {int}   set_id     the id of the UserCharacterTag to be deleted
-@apiParam   {Boolean} is_delete_characters=False  (optional) false will not 
-delete the UserCharacters in this set from the user library, even if they don't
-belong to any other UserCharacterTags of that user
-"""
-@csrf_exempt
-@login_required
-def delete_set(request):
-    try:
-        set = UserCharacterTag.objects.get(pk=request.POST.get('set_id'))
-        if request.POST.get('is_delete_characters'):
-            for uc in set.user_characters.all():
-                uc.delete()
-        set.delete()
-        response = JsonResponse({'msg': 'good'})
-    except Exception as e:
-        response = JsonResponse({'msg': str(e)}, status=400)
-    return response
-
-
-"""
-@api {POST} /accounts/rename_set/ Rename set
-@apiDescription Rename a UserCharacterTag, the new name cannot be the same as 
-the name of a current UserCharacterTag of the same user
-@apiGroup accounts
-
-@apiParam   {int}    set_id      the id of the UserCharacterTag to change name
-@apiParam   {String}  new_name   
-"""
-@csrf_exempt
-@login_required
-def rename_set(request):
-    try:
-        set = UserCharacterTag.objects.get(pk=request.POST.get('set_id'))
-        set.name = request.POST.get('new_name')
-        set.save()
-        response = JsonResponse({'msg': 'good'})
-    except Exception as e:
-        response = JsonResponse({'msg': str(e)}, status=400)
-    return response
-
-
-"""
 @api {POST} /accounts/get_available_sets/ Get available sets
 @apiDescription Get available existing CharacterSets to add
 @apiGroup accounts
@@ -173,3 +131,23 @@ def get_available_sets(request):
         if not request.user.user_character_tags.filter(name=set.name).exists():
             sets.append(set)
     return JsonResponse({'sets': chenyx_serialize(sets, ['characters'])})
+
+
+class MyUserDetail(generics.RetrieveUpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user
+
+
+class UserCharacterDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsOwner]
+    queryset = UserCharacter.objects.all()
+    serializer_class = UserCharacterSerializer
+
+
+class UserCharacterTagDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsOwner]
+    queryset = UserCharacterTag.objects.all()
+    serializer_class = UserCharacterTagSerializer

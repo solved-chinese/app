@@ -5,7 +5,7 @@ import time
 import hashlib
 import base64
 import os.path
-import logging
+import json
 
 from django.utils import timezone
 from django.shortcuts import render, redirect
@@ -15,11 +15,15 @@ from django.db.models import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q, F, Max, DurationField, ExpressionWrapper
 from django.contrib.auth import login, logout
+from rest_framework import generics
+from django.utils.decorators import method_decorator
 
 from learning.models import Character, CharacterSet, Radical, Report
 from accounts.models import User, UserCharacter, UserCharacterTag
 from jiezi.utils.json_serializer import chenyx_serialize
 from learning.learning_algorithm_constants import Constants
+from .serializers import CharacterSerializer, CharacterSetSerializer, \
+    RadicalSerializer
 
 
 def display_character(request, character_pk, **context_kwargs):
@@ -66,14 +70,11 @@ def start_learning(request):
             del request.session[key]
     request.session.cycle_key()
 
-    minutes_to_learn = int(request.POST.get('minutes_to_learn', 10))
-    uc_tags_filter = request.POST.get(
-        'uc_tags_filter',
-        [uc_tag.pk for uc_tag in request.user.user_character_tags.all()]
-    )
+    # minutes_to_learn = int(request.POST.get('minutes_to_learn', 10))
+    uc_tags_filter = json.loads(request.POST.get('uc_tags_filter'))
     assert isinstance(uc_tags_filter, list), 'uc_tags_filter must be list of ints'
-    for index, value in enumerate(uc_tags_filter):
-        uc_tags_filter[index] = int(value)
+    for uc_tag in uc_tags_filter:
+        assert UserCharacterTag.objects.get(pk=uc_tag).user == request.user
 
     if request.user.last_study_time.date() == timezone.now().date() - \
             datetime.timedelta(days=1):
@@ -87,8 +88,8 @@ def start_learning(request):
 
     request.session['last_record_time'] = timezone.now()
     request.session['uc_tags_filter'] = uc_tags_filter
-    request.session['end_learning_time'] = \
-        timezone.now() + datetime.timedelta(minutes=minutes_to_learn)
+    # request.session['end_learning_time'] = \
+    #     timezone.now() + datetime.timedelta(minutes=minutes_to_learn)
 
     return redirect(f'/learning/status{request.session.session_key}')
 
@@ -214,17 +215,17 @@ def learning_process(request, session_key):
     request.user.last_study_time = timezone.now()
     request.user.save()
 
-    if request.session['end_learning_time'] < timezone.now():
-        if request.user.is_guest:
-            logout(request)
-        return end_learning(
-            '<p style="text-align:center; font-size:16px;">'
-            'Time is up!<br>'
-            'Congratulations on learning these new characters!<br>' +
-            'To save your progress, sign up now.<br>' +
-            '(Solved is completely free!)' if request.user.is_guest else ''
-            '</p>'
-        )
+    # if request.session['end_learning_time'] < timezone.now():
+    #     if request.user.is_guest:
+    #         logout(request)
+    #     return end_learning(
+    #         '<p style="text-align:center; font-size:16px;">'
+    #         'Time is up!<br>'
+    #         'Congratulations on learning these new characters!<br>' +
+    #         'To save your progress, sign up now.<br>' +
+    #         '(Solved is completely free!)' if request.user.is_guest else ''
+    #         '</p>'
+    #     )
 
     if request.method == 'POST':
         if request.POST.get('i_know_this', False):
@@ -390,49 +391,11 @@ def search(request):
 
 
 """
-@api {POST} /learning/get_character Get Character
-@apiDescription Get the detail of a Character
-@apiGroup learning
-
-@apiParam   {int}    character_id
-
-@apiSuccess {Object} character the serialized Character
-"""
-
-
-@csrf_exempt
-def get_character(request):
-    character_id = request.POST.get('character_id')
-    character = Character.objects.get(pk=character_id)
-    return JsonResponse({'character': chenyx_serialize(character)})
-
-
-"""
-@api {POST} /learning/get_radical Get Radical
-@apiDescription Get the detail of a Radical
-@apiGroup learning
-
-@apiParam   {int}    radical_id
-
-@apiSuccess {Object} radical the serialized Radical
-"""
-
-
-@csrf_exempt
-def get_radical(request):
-    radical_id = request.POST.get('radical_id')
-    radical = Radical.objects.get(pk=radical_id)
-    return JsonResponse({'radical': chenyx_serialize(radical)})
-
-
-"""
 @api {POST} /learning/start_learning/  Start Learning
 @apiDescription Start Learning, this should be done with an actual form submission
 @apiGroup learning
 
-@apiParam  {int}     minutes_to_learn  how many minutes to learn
-@apiParam  {int[]}   uc_tags_filter=None  (optional, None means everything) the
-    ids of UserCharacterTags to INCLUDE
+@apiParam  {int[]}   uc_tags_filter the ids of UserCharacterTags to INCLUDE
 
 
 @apiSuccessExample learning/review.html
@@ -454,3 +417,15 @@ There shouldn't be any ajax in this
 In context dictionary, if 'is_next', provide an next button that submits
     GET form to original url, otherwise keep the next button the same as before
 """
+
+class CharacterDetail(generics.RetrieveAPIView):
+    queryset = Character.objects.all()
+    serializer_class = CharacterSerializer
+
+class RadicalDetail(generics.RetrieveAPIView):
+    queryset = Radical.objects.all()
+    serializer_class = RadicalSerializer
+
+class CharacterSetDetail(generics.RetrieveAPIView):
+    queryset = CharacterSet.objects.all()
+    serializer_class = CharacterSetSerializer

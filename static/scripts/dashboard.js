@@ -1,53 +1,93 @@
-let snapPoints; // stores the x-coordinates of the slider values
+// let snapPoints; // stores the x-coordinates of the slider values
+//
+//
+// function updateSlider(e) {
+//     // !!!!!!!!!!!!!!
+//     // This is a very stupid implementation of the slider
+//     // Definitely needs further optimization and adjustments
+//     // !!!!!!!!!!!!!!
+//
+//     // Find the closets slider value to the click
+//     let diffs = snapPoints.map(x => Math.abs(x - e.pageX));
+//     let closestIndex = diffs.indexOf(Math.min(...diffs));
+//
+//     // Toggle slider values accordingly
+//     $('.slider-value').toArray().forEach((el, i, arr) => {
+//         if (i <= closestIndex) {
+//             $(el).addClass('value-activated');
+//         } else {
+//             $(el).removeClass('value-activated');
+//         }
+//     })
+//
+//     // Change activate bar width
+//     let activePercent = $('.slider-value')[closestIndex].getAttribute('data-width-percent') + '%';
+//     $('#slider-activated').css('width', activePercent);
+//
+//     // Update slider value text
+//     let activeValue = $('.slider-value')[closestIndex].getAttribute('data-value');
+//     $('#slider-value-text').html(activeValue + '&#8239;min');
+//     let labelWidth = $('#slider-value-text').width() + 'px';
+//     $('#slider-value-text').css('margin-left', `calc(${activePercent} - ${labelWidth} / 2)`);
+// }
+//
+// $('#slider-bar').mousedown(e => {
+//     // Get the x-coordinates of all slider values
+//     snapPoints = [];
+//     $('.slider-value').each((i, el) => snapPoints.push($(el).offset().left + $(el).width() / 2));
+//     updateSlider(e);
+//     $(this).mousemove(e => updateSlider(e));
+// })
+// .mouseup(() => $(this).off('mousemove'));
+//
+// // Initial position offset
+// let labelWidth = $('#slider-value-text').width() + 'px';
+// $('#slider-value-text').css('margin-left', `calc(-${labelWidth} / 2)`);
 
+var selected_tags = [];
 
-function updateSlider(e) {
-    // !!!!!!!!!!!!!!
-    // This is a very stupid implementation of the slider
-    // Definitely needs further optimization and adjustments
-    // !!!!!!!!!!!!!!
+$.get('/accounts/my_user/', data => {
+    if(data.user_character_tags.length == 0) {
+        $('#available-tags-container').append(`
+            Please add more sets to your library
+        `);
+    }
+    data.user_character_tags.forEach(tag => {
+        $('#available-tags-container').append(`
+            <button type="button" class="button button-secondary tag-button text-left">
+                <div class='tag-name'>
+                  ${tag.name} 
+                  <span class="checkmark" data-pk="${tag.pk}">&#10003;</span> 
+                </div>
+                Mastered: ${tag.mastered_cnt} &nbsp; In Progress: ${tag.learned_cnt - tag.mastered_cnt} &nbsp; 
+                To Learn: ${tag.total_cnt - tag.learned_cnt}
+            </button>
+        `);
+    });
 
-    // Find the closets slider value to the click
-    let diffs = snapPoints.map(x => Math.abs(x - e.pageX));
-    let closestIndex = diffs.indexOf(Math.min(...diffs));
-
-    // Toggle slider values accordingly
-    $('.slider-value').toArray().forEach((el, i, arr) => {
-        if (i <= closestIndex) {
-            $(el).addClass('value-activated');
+    $(document).on("click", ".tag-button" , function() {
+        let checkmark = $(this).find('.checkmark');
+        checkmark.toggle();
+        let pk = checkmark.data("pk");
+        if(checkmark.is(":hidden")) {
+            console.log("splice");
+            selected_tags.splice(selected_tags.indexOf(pk));
         } else {
-            $(el).removeClass('value-activated');
+            console.log("add");
+            selected_tags.push(pk);
         }
-    })
+        if (selected_tags.length == 0) {
+            $("#study-button").hide();
+        } else {
+            $("#study-button").show();
+        }
+    });
+});
 
-    // Change activate bar width
-    let activePercent = $('.slider-value')[closestIndex].getAttribute('data-width-percent') + '%';
-    $('#slider-activated').css('width', activePercent);
-
-    // Update slider value text
-    let activeValue = $('.slider-value')[closestIndex].getAttribute('data-value');
-    $('#slider-value-text').html(activeValue + '&#8239;min');
-    let labelWidth = $('#slider-value-text').width() + 'px';
-    $('#slider-value-text').css('margin-left', `calc(${activePercent} - ${labelWidth} / 2)`);
-}
-
-$('#slider-bar').mousedown(e => {
-    // Get the x-coordinates of all slider values
-    snapPoints = [];
-    $('.slider-value').each((i, el) => snapPoints.push($(el).offset().left + $(el).width() / 2));
-    updateSlider(e);
-    $(this).mousemove(e => updateSlider(e));
-})
-.mouseup(() => $(this).off('mousemove'));
-
-// Initial position offset
-let labelWidth = $('#slider-value-text').width() + 'px';
-$('#slider-value-text').css('margin-left', `calc(-${labelWidth} / 2)`);
-
-
-$('#study-button').click(e => {
-    let activated = $('.slider-value.value-activated');
-    let minutes = parseInt($(activated[activated.length - 1]).attr('data-value'));
-    $('start-learning-form-minutes').val(minutes)
-    $('#start-learning-form').submit()
+$('#study-button').click(function() {
+    // let activated = $('.slider-value.value-activated');
+    // let minutes = parseInt($(activated[activated.length - 1]).attr('data-value'));
+    // $('start-learning-form-minutes').val(minutes)
+    $('#start-learning-form-filter').val(JSON.stringify(selected_tags));
+    $('#start-learning-form').submit();
 })

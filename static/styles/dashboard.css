@@ -83,11 +83,6 @@ a:hover {
     background: var(--main-theme-color);
 }
 
-#study-button {
-    margin-left: calc(50% - 72.485px); /* Very stupid implementation! */
-}
-
-
 
 /***********************************
   Streak Calender
@@ -162,6 +157,38 @@ a:hover {
 
 .stat-text hr {
     margin-top: 25px;
+}
+
+/***********************************
+  Tag Selection
+***********************************/
+
+#available-tags-container{
+    text-align:center;
+}
+
+.tag-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--main-theme-color);
+}
+
+.checkmark {
+    float:right;
+    display: none;
+    font-size: 30px;
+    color: var(--main-theme-color);
+}
+
+.tag-button {
+    font-size: 12px;
+    margin: 10px;
+    width: 350px;
+}
+
+#study-button {
+    display: none;
+    margin-left: calc(50% - 72.485px); /* Very stupid implementation! */
 }
 
 /***********************************
