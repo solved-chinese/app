@@ -84,6 +84,7 @@
               The color chunks make it easier for you to recall the composition of each character.
             </div>
         </div>
+
       </div>
     </div>
 
@@ -91,34 +92,40 @@
 
     <h1>Welcome back, {{ user.get_display_name }}!</h1>
     <a class="button button-primary" href="{% url "manage_library" %}">Manage Vocab Sets</a>
+
     <div class="card-container" id="study-container">
-      <h2>Select Duration</h2>
-      <div id="slider-bar">
-        <div id="slider-activated"></div>
-        <div class="slider-value value-activated" data-value="1" data-width-percent="0"
-             style="margin-left: calc(0% - 10px);"></div>
-        <div class="slider-value" data-value="5" data-width-percent="8.333"
-             style="margin-left: calc(8.333% - 10px);"></div>
-        <div class="slider-value" data-value="15" data-width-percent="25"
-             style="margin-left: calc(25% - 10px);"></div>
-        <div class="slider-value" data-value="30" data-width-percent="50"
-             style="margin-left: calc(50% - 10px);"></div>
-        <div class="slider-value" data-value="45" data-width-percent="75"
-             style="margin-left: calc(75% - 10px);"></div>
-        <div class="slider-value" data-value="60" data-width-percent="100"
-             style="margin-left: calc(100% - 10px);"></div>
-        <p id="slider-value-text">1&#8239;min</p>
+{#      <h2>Select Duration</h2>#}
+{#      <div id="slider-bar">#}
+{#        <div id="slider-activated"></div>#}
+{#        <div class="slider-value value-activated" data-value="1" data-width-percent="0"#}
+{#             style="margin-left: calc(0% - 10px);"></div>#}
+{#        <div class="slider-value" data-value="5" data-width-percent="8.333"#}
+{#             style="margin-left: calc(8.333% - 10px);"></div>#}
+{#        <div class="slider-value" data-value="15" data-width-percent="25"#}
+{#             style="margin-left: calc(25% - 10px);"></div>#}
+{#        <div class="slider-value" data-value="30" data-width-percent="50"#}
+{#             style="margin-left: calc(50% - 10px);"></div>#}
+{#        <div class="slider-value" data-value="45" data-width-percent="75"#}
+{#             style="margin-left: calc(75% - 10px);"></div>#}
+{#        <div class="slider-value" data-value="60" data-width-percent="100"#}
+{#             style="margin-left: calc(100% - 10px);"></div>#}
+{#        <p id="slider-value-text">1&#8239;min</p>#}
+{#      </div>#}
+      <h2>Select Set(s) to Study</h2>
+      <br>
+
+      <div id='available-tags-container'>
       </div>
+
+      <br>
       <form id='start-learning-form' action='/learning/start_learning/' method='post'>
         {% csrf_token %}
+        <input type='hidden' id='start-learning-form-filter' name='uc_tags_filter'>
         <input type='hidden' id='start-learning-form-minutes' name='minutes_to_learn' value='5'>
+        <button class="button button-primary" id="study-button">Study Now</button>
       </form>
 
-      {% if user.is_authenticated %}
-        <a href="#" class="button button-primary" id="study-button">Study Now</a>
-      {% else %}
-        <a href="{% url "display_character" 1 %}" class="button button-primary" id="study-button">Try Now</a>
-      {% endif %}
+
     </div>
 
     <div class="card-container" id="stats-container">

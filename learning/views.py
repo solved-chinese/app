@@ -5,7 +5,7 @@ import time
 import hashlib
 import base64
 import os.path
-import logging
+import json
 
 from django.utils import timezone
 from django.shortcuts import render, redirect
@@ -15,11 +15,14 @@ from django.db.models import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q, F, Max, DurationField, ExpressionWrapper
 from django.contrib.auth import login, logout
+from rest_framework import generics
 
 from learning.models import Character, CharacterSet, Radical, Report
 from accounts.models import User, UserCharacter, UserCharacterTag
 from jiezi.utils.json_serializer import chenyx_serialize
 from learning.learning_algorithm_constants import Constants
+from .serializers import CharacterSerializer, CharacterSetSerializer, \
+    RadicalSerializer
 
 
 def display_character(request, character_pk, **context_kwargs):
@@ -58,6 +61,7 @@ def try_me(request):
     return start_learning(request)
 
 
+@csrf_exempt
 @login_required
 def start_learning(request):
     # clears session data without logging out the user
@@ -67,13 +71,10 @@ def start_learning(request):
     request.session.cycle_key()
 
     minutes_to_learn = int(request.POST.get('minutes_to_learn', 10))
-    uc_tags_filter = request.POST.get(
-        'uc_tags_filter',
-        [uc_tag.pk for uc_tag in request.user.user_character_tags.all()]
-    )
+    uc_tags_filter = json.loads(request.POST.get('uc_tags_filter'))
     assert isinstance(uc_tags_filter, list), 'uc_tags_filter must be list of ints'
-    for index, value in enumerate(uc_tags_filter):
-        uc_tags_filter[index] = int(value)
+    for uc_tag in uc_tags_filter:
+        assert UserCharacterTag.objects.get(pk=uc_tag).user == request.user
 
     if request.user.last_study_time.date() == timezone.now().date() - \
             datetime.timedelta(days=1):
@@ -454,3 +455,15 @@ There shouldn't be any ajax in this
 In context dictionary, if 'is_next', provide an next button that submits
     GET form to original url, otherwise keep the next button the same as before
 """
+
+class CharacterDetail(generics.RetrieveAPIView):
+    queryset = Character.objects.all()
+    serializer_class = CharacterSerializer
+
+class RadicalDetail(generics.RetrieveAPIView):
+    queryset = Radical.objects.all()
+    serializer_class = RadicalSerializer
+
+class CharacterSetDetail(generics.RetrieveAPIView):
+    queryset = CharacterSet.objects.all()
+    serializer_class = CharacterSetSerializer

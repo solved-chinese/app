@@ -3,11 +3,16 @@ from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect, reverse
 from django.http import JsonResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 
 from accounts.forms import SignUpForm
 from learning.models import CharacterSet
-from accounts.models import UserCharacter, UserCharacterTag
+from accounts.models import UserCharacter, UserCharacterTag, User
 from jiezi.utils.json_serializer import chenyx_serialize
+from jiezi.permissions import IsOwner
+from .serializers import UserSerializer, UserCharacterSerializer, \
+    UserCharacterTagSerializer
 
 
 def signup(request):
@@ -173,3 +178,23 @@ def get_available_sets(request):
         if not request.user.user_character_tags.filter(name=set.name).exists():
             sets.append(set)
     return JsonResponse({'sets': chenyx_serialize(sets, ['characters'])})
+
+
+class MyUserDetail(generics.RetrieveUpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user
+
+
+class UserCharacterDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsOwner]
+    queryset = UserCharacter.objects.all()
+    serializer_class = UserCharacterSerializer
+
+
+class UserCharacterTagDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsOwner]
+    queryset = UserCharacterTag.objects.all()
+    serializer_class = UserCharacterTagSerializer

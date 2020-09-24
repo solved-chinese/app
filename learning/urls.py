@@ -27,4 +27,11 @@ urlpatterns = [
 
     path('get_radical/', views.get_radical),
     path('get_character/', views.get_character),
+
+    path('radical/<int:pk>', views.RadicalDetail.as_view(),
+         name='radical_detail'),
+    path('character/<int:pk>', views.CharacterDetail.as_view(),
+         name='character_detail'),
+    path('character_set/<int:pk>', views.CharacterSetDetail.as_view(),
+         name='character_set_detail'),
 ]
