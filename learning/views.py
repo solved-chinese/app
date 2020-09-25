@@ -1,9 +1,5 @@
 import datetime
 import random
-import requests
-import time
-import hashlib
-import base64
 import os.path
 import json
 
@@ -16,7 +12,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q, F, Max, DurationField, ExpressionWrapper
 from django.contrib.auth import login, logout
 from rest_framework import generics
-from django.utils.decorators import method_decorator
 
 from learning.models import Character, CharacterSet, Radical, Report
 from accounts.models import User, UserCharacter, UserCharacterTag
@@ -24,6 +19,8 @@ from jiezi.utils.json_serializer import chenyx_serialize
 from learning.learning_algorithm_constants import Constants
 from .serializers import CharacterSerializer, CharacterSetSerializer, \
     RadicalSerializer
+from .audio import get_text_audio
+from jiezi.settings import MEDIA_ROOT
 
 
 def display_character(request, character_pk, **context_kwargs):
@@ -298,66 +295,17 @@ def report(request):
 
 
 def getAudio(request):
-    URL = "http://api.xfyun.cn/v1/service/v1/tts"
-    AUE = "lame"
-    APPID = "5d2407a2"
-    API_KEY = "1194c50ae845b966ade10e8b47ece15e"
-
-    def getHeader():
-        curTime = str(int(time.time()))
-        # ttp=ssml
-        param = "{\"aue\":\"" + AUE + "\",\"auf\":\"audio/L16;rate=16000\",\"voice_name\":\"aisxping\",\"speed\":\"10\",\"engine_type\":\"intp65\"}"
-
-        paramBase64 = str(base64.b64encode(param.encode('utf-8')), 'utf-8')
-
-        m2 = hashlib.md5()
-        m2.update((API_KEY + curTime + paramBase64).encode('utf-8'))
-
-        checkSum = m2.hexdigest()
-
-        header = {
-            'X-CurTime': curTime,
-            'X-Param': paramBase64,
-            'X-Appid': APPID,
-            'X-CheckSum': checkSum,
-            'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-        }
-        return header
-
-    def getBody(text):
-        data = {'text': text}
-        return data
-
-    def writeFile(file, content):
-        with open(file, 'wb') as f:
-            f.write(content)
-        f.close()
-
-    def requestAudio(character):
-        r = requests.post(URL, headers=getHeader(), data=getBody(character))
-
-        contentType = r.headers['Content-Type']
-        if contentType == "audio/mpeg":
-            sid = r.headers['sid']
-            if AUE == "raw":
-                writeFile("media/audio/" + request.GET.get("pk") + ".wav",
-                          r.content)
-            else:
-                writeFile("media/audio/" + request.GET.get("pk") + ".mp3", r.content)
-            return True
-        else:
-        #   error-code reference: https://www.xfyun.cn/document/error-code
-            return False
-
-    audioKey = request.GET.get("pk")
-    if os.path.exists('media/audio/' + audioKey + '.mp3'):
+    pk = request.GET.get("pk")
+    path = os.path.join(MEDIA_ROOT, 'audio/')
+    if not os.path.exists(path):
+        os.makedirs(path)
+    path = os.path.join(path, f'{pk}.mp3')
+    if os.path.exists(path):
         return JsonResponse({'success': True})
     else:
-        res = requestAudio(request.GET.get("t"))
-        if res:
-            return JsonResponse({'success': True})
-        else:
-            return JsonResponse({'success': False})
+        character = Character.objects.get(pk=pk)
+        get_text_audio(f"{character.chinese}[={character.pinyin}]", path)
+        return JsonResponse({'success': True})
 
 
 """
