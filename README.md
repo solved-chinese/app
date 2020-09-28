@@ -23,14 +23,11 @@ conda env create -f env.yaml
 conda activate jiezi
 ```
 3. Setup PostgresSQL:
-install PostgresSQL <https://www.postgresql.org/download/linux/ubuntu/>  
-setup the database to match our setting file:
-```
-'NAME': 'postgres',
-'USER': 'postgres',
-'PASSWORD': 'jiezi',
-'HOST': 'localhost',
-'PORT': '5432',
+install PostgresSQL <https://www.postgresql.org/download/linux/ubuntu/>
+setup the database to match `jiezi.settings.DATABASES`:
+``` shell script
+sudo -u postgres psql
+postgre# \password postgres (use this to change the password of postgres to 'jiezi')
 ```
 
 4. Create your own secret files:
