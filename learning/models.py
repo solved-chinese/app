@@ -14,13 +14,21 @@ class DFModel(models.Model):
     if field blank, set value to None
     if Integer/Boolean/String, direct conversion
     if ForeignField/OneToOneFIeld, find using pk
-    if ManyToManyField, pk will be added TODO delete old
+    if ManyToManyField, add the pks of all columns with the same field name
+    TODO delete old
     TODO for relation fields may need a comment sign for Ling team
     """
     id = models.IntegerField(primary_key=True)
 
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return repr(self)
+
     @classmethod
-    def update_from_df(cls, df, validate=lambda row: (True, '')):
+    def update_from_df(cls, df):
         """
         This function pulls the models from the given dataframe.
         Every row of the Dataframe object must represent a object, with a
@@ -35,15 +43,22 @@ class DFModel(models.Model):
         df.fillna(0, inplace=True)
         messages = []
         good_pk = []
+        m2m_fields = []
+        warning = ""
         for i, row in df.iterrows():
             try:
                 id = row['id']
                 if id == 0:
                     messages.append(f'ERR at start : row {i} id not found')
                     continue
+                # TODO make this a special validator
                 if '√' not in str(row['Comments']):
                     if cls.objects.filter(pk=id).exists():
-                        messages.append(f'WARNING: delete id={id}')
+                        messages.append(f'WARNING: delete id={id} due to no '
+                                        f'check in comment')
+                    else:
+                        messages.append(f'IGNORE: ignore id={id} due to no '
+                                        f'check in comment')
                     continue
                 data = {}
                 for field in cls._meta.get_fields():
@@ -54,9 +69,16 @@ class DFModel(models.Model):
                         data[field.name] = row[field.name]
                     elif isinstance(field, models.CharField):
                         # FIXME per request of LING team, remove all stars from str
-                        data[field.name] = row[field.name].strip().replace('*',
-                                                                           '') \
+                        data[field.name] = row[field.name].strip().replace('*', '') \
                             if row[field.name] else None
+                    elif isinstance(field, (models.OneToOneField,
+                                            models.ForeignKey)):
+                        data[field.name] = \
+                            field.related_model.objects.get(pk=row[field.name]) \
+                                if row[field.name] else None
+                    elif isinstance(field, models.ManyToManyField):
+                        m2m_fields.append(field)
+
             except Exception as e:
                 try:
                     field
@@ -68,12 +90,29 @@ class DFModel(models.Model):
 
             try:
                 obj, is_created = cls.objects.update_or_create(id=id,
-                                                                 defaults=data)
-                messages.append(
-                    f"{'create' if is_created else 'update'} {obj}")
+                                                               defaults=data)
+                row = row.groupby(level=0).agg(list).to_dict()
+                for field in m2m_fields:
+                    pks = row[field.name]
+                    related_objs = []
+                    for pk in pks:
+                        pk = int(pk)
+                        if not pk:
+                            continue
+                        try:
+                            related_obj = field.related_model.objects.get(pk=pk)
+                            related_objs.append(related_obj)
+                        except field.related_model.DoesNotExist:
+                            warning += f'\n{field} has no related object ' \
+                                       f'with id={pk}'
+                    getattr(obj, field.name).set(related_objs)
+                if warning:
+                    warning = f'WARNING though completed: {warning}\n'
+                messages.append(f"{warning}"
+                                f"{'create' if is_created else 'update'} {obj}")
                 good_pk.append(id)
             except Exception as e:
-                messages.append(f'ERR constructing id={id}: {str(e)}')
+                messages.append(f'ERR constructing id={id}: {repr(e)}')
 
         cls.objects.exclude(pk__in=good_pk).delete()
         # TODO possibly add delete warning
@@ -84,6 +123,8 @@ class DFModel(models.Model):
                 messages[i] = '<div style="color:red;">' + msg + '</div>'
             elif msg[5] == 'W':
                 messages[i] = '<div style="color:orange;">' + msg + '</div>'
+            elif msg[5] == "I":
+                messages[i] = '<div style="color:gray;">' + msg + '</div>'
             else:
                 messages[i] = '<div style="color:green;">' + msg + '</div>'
         return messages
@@ -91,7 +132,7 @@ class DFModel(models.Model):
     class Meta:
         abstract = True
 
-class Radical(models.Model):
+class Radical(DFModel):
     chinese = models.CharField(max_length=6)
     pinyin = models.CharField(max_length=15)
     definition = models.CharField(max_length=100)
@@ -106,11 +147,8 @@ class Radical(models.Model):
     def __repr__(self):
         return '<R' + '%04d' % self.id + ':' + self.chinese +'>'
 
-    def __str__(self):
-        return repr(self)
 
-
-class Character(models.Model):
+class Character(DFModel):
     TEST_FIELDS = ['pinyin', 'definition_1']
     chinese = models.CharField(max_length=1)
     pinyin = models.CharField(max_length=15)
@@ -197,14 +235,11 @@ class Character(models.Model):
     def __repr__(self):
         return '<C' + '%04d' % self.id + ':' + self.chinese +'>'
 
-    def __str__(self):
-        return repr(self)
-
     class Meta:
         ordering = ['id']
 
 
-class CharacterSet(models.Model):
+class CharacterSet(DFModel):
     characters = models.ManyToManyField(Character)
     name = models.CharField(max_length=50)
 
@@ -219,10 +254,8 @@ class CharacterSet(models.Model):
         return tag.id
 
     def __repr__(self):
-        return f'<cset{self.id}:{self.name}>'
-
-    def __str__(self):
-        return repr(self)
+        return f'<cset{self.id}:{self.name} ' \
+               f'{[repr(c) for c in self.characters.all()]}>'
 
 
 class Report(models.Model):

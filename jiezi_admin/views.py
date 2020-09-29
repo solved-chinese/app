@@ -5,7 +5,7 @@ import pandas as pd
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test
 
-from learning.models import update_from_df, Character, Radical
+from learning.models import Character, Radical, CharacterSet
 from .media_update_task import media_update_task
 from .gdrive_download import get_service, download
 from jiezi.celery import app
@@ -27,8 +27,11 @@ def update_entry(request):
     download(file, download_request)
     radical_df = pd.read_excel(file, 'Radicals')
     character_df = pd.read_excel(file, 'Characters')
-    response = {'radicals': update_from_df(radical_df, Radical),
-                'characters': update_from_df(character_df, Character)}
+    cset_df = pd.read_excel(file, 'CharacterSets', index_col=0, header=None).T
+    response = {}
+    response['radicals'] = Radical.update_from_df(radical_df)
+    response['characters'] = Character.update_from_df(character_df)
+    response['character_sets'] = CharacterSet.update_from_df(cset_df)
     return render(request, 'jiezi_admin/update_entry.html', response)
 
 
