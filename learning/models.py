@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import html
+from django.core.exceptions import ValidationError
 
 from django.db import models
 import accounts.models  # to avoid cyclic import
@@ -15,7 +16,6 @@ class DFModel(models.Model):
     if Integer/Boolean/String, direct conversion
     if ForeignField/OneToOneFIeld, find using pk
     if ManyToManyField, add the pks of all columns with the same field name
-    TODO delete old
     TODO for relation fields may need a comment sign for Ling team
     """
     id = models.IntegerField(primary_key=True)
@@ -85,7 +85,7 @@ class DFModel(models.Model):
                 except NameError:
                     field = None
                 messages.append(
-                    f'ERR getting field {field} of id={id}: {str(e)}')
+                    f'ERR getting field {field} of id={id}: {repr(e)}')
                 continue
 
             try:
@@ -161,9 +161,12 @@ class Character(DFModel):
     definition_3 = models.CharField(max_length=100, null=True, blank=True)
     explanation_3 = models.CharField(max_length=300, null=True, blank=True)
 
-    radical_1_id = models.IntegerField()
-    radical_2_id = models.IntegerField(null=True, blank=True)
-    radical_3_id = models.IntegerField(null=True, blank=True)
+    radical_1 = models.ForeignKey(Radical, on_delete=models.CASCADE,
+                                  related_name='+')
+    radical_2 = models.ForeignKey(Radical, on_delete=models.CASCADE,
+                                  related_name='+', null=True, blank=True)
+    radical_3 = models.ForeignKey(Radical, on_delete=models.CASCADE,
+                                  related_name='+', null=True, blank=True)
     mnemonic_explanation = models.CharField(max_length=800)
 
     example_1_word = models.CharField(max_length=10)
@@ -218,19 +221,19 @@ class Character(DFModel):
     def get_example_2_sentence(self):
         return self.get_example_sentence(index=2)
 
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if not Radical.objects.filter(pk=self.radical_1_id).exists() or \
-                self.radical_2_id and not Radical.objects.filter(pk=self.radical_2_id).exists() or \
-                self.radical_3_id and not Radical.objects.filter(pk=self.radical_3_id).exists():
-            self.delete()
-            raise ValueError('related radicals not exist, self deletion')
+    def clean(self):
+        if self.radical_2 is None and self.radical_3 is not None:
+            raise ValidationError('radical_2 is None but radical_3 exists')
         try:
             self.get_example_sentence()
-        except AssertionError as err:
-            self.delete()
-            raise err
+        except AssertionError as e:
+            raise ValidationError('example not valid') from e
+
+    def save(self, *args, **kwargs):
+        try:
+            super().save(*args, **kwargs)
+        except ValidationError as e:
+            raise Exception('self deletion') from e
 
     def __repr__(self):
         return '<C' + '%04d' % self.id + ':' + self.chinese +'>'

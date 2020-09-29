@@ -58,9 +58,11 @@ def user_character_factory():
     return AbstractModel
 
 class UserCharacter(user_character_factory()):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_characters',
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+                             related_name='user_characters',
                              related_query_name='user_character', null=True)
-    character = models.ForeignKey(learning.models.Character, on_delete=models.CASCADE)
+    character = models.ForeignKey(learning.models.Character,
+                                  on_delete=models.CASCADE)
     time_added = models.DateField(auto_now_add=True)
     learned = models.BooleanField(default=False)
     mastered = models.BooleanField(default=False)
