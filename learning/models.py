@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import html
 
 from django.db import models
 import accounts.models  # to avoid cyclic import
@@ -35,18 +36,15 @@ class DFModel(models.Model):
         messages = []
         good_pk = []
         for i, row in df.iterrows():
-            messages.append(f'row {i}: ')
             try:
                 id = row['id']
-                if id == 0 or type(id) is not int:
-                    messages[i] += f"ERROR: integer id not found"
+                if id == 0:
+                    messages.append(f'ERR at start : row {i} id not found')
                     continue
-
-                is_ok, msg = validate(row)
-                if not is_ok:
-                    messages[i] += f'ERROR: {msg}'
+                if '√' not in str(row['Comments']):
+                    if cls.objects.filter(pk=id).exists():
+                        messages.append(f'WARNING: delete id={id}')
                     continue
-
                 data = {}
                 for field in cls._meta.get_fields():
                     if field.name == 'id':
@@ -55,16 +53,24 @@ class DFModel(models.Model):
                                   (models.IntegerField, models.BooleanField)):
                         data[field.name] = row[field.name]
                     elif isinstance(field, models.CharField):
-                        data[field.name] = row[field.name] if row[field.name] \
-                            else None
+                        # FIXME per request of LING team, remove all stars from str
+                        data[field.name] = row[field.name].strip().replace('*',
+                                                                           '') \
+                            if row[field.name] else None
             except Exception as e:
-                messages[i] += f'ERROR: {str(e)}, {messages[i]}'
-                continue
-            try:
-                _, is_created = cls.objects.update_or_create(id=id,
-                                                               defaults=data)
+                try:
+                    field
+                except NameError:
+                    field = None
                 messages.append(
-                    f"{'create' if is_created else 'update'} id={id}")
+                    f'ERR getting field {field} of id={id}: {str(e)}')
+                continue
+
+            try:
+                obj, is_created = cls.objects.update_or_create(id=id,
+                                                                 defaults=data)
+                messages.append(
+                    f"{'create' if is_created else 'update'} {obj}")
                 good_pk.append(id)
             except Exception as e:
                 messages.append(f'ERR constructing id={id}: {str(e)}')
@@ -73,9 +79,10 @@ class DFModel(models.Model):
         # TODO possibly add delete warning
 
         for i, msg in enumerate(messages, 0):
-            if msg[0] == 'E':
+            msg = f'<pre>{html.escape(msg)}</pre>'
+            if msg[5] == 'E':
                 messages[i] = '<div style="color:red;">' + msg + '</div>'
-            elif msg[0] == 'W':
+            elif msg[5] == 'W':
                 messages[i] = '<div style="color:orange;">' + msg + '</div>'
             else:
                 messages[i] = '<div style="color:green;">' + msg + '</div>'
@@ -85,7 +92,7 @@ class DFModel(models.Model):
         abstract = True
 
 class Radical(models.Model):
-    chinese = models.CharField(max_length=1)
+    chinese = models.CharField(max_length=6)
     pinyin = models.CharField(max_length=15)
     definition = models.CharField(max_length=100)
     mnemonic_explanation = models.CharField(max_length=300, null=True, blank=True)
@@ -96,11 +103,15 @@ class Radical(models.Model):
     class Meta:
         ordering = ['id']
 
-    def __str__(self):
+    def __repr__(self):
         return '<R' + '%04d' % self.id + ':' + self.chinese +'>'
+
+    def __str__(self):
+        return repr(self)
 
 
 class Character(models.Model):
+    TEST_FIELDS = ['pinyin', 'definition_1']
     chinese = models.CharField(max_length=1)
     pinyin = models.CharField(max_length=15)
     part_of_speech_1 = models.CharField(max_length=50)
@@ -115,22 +126,60 @@ class Character(models.Model):
     radical_1_id = models.IntegerField()
     radical_2_id = models.IntegerField(null=True, blank=True)
     radical_3_id = models.IntegerField(null=True, blank=True)
-    mnemonic_explanation = models.CharField(max_length=400)
+    mnemonic_explanation = models.CharField(max_length=800)
 
-    example_1_word = models.CharField(max_length=5)
+    example_1_word = models.CharField(max_length=10)
     example_1_pinyin = models.CharField(max_length=25)
-    example_1_character = models.CharField(max_length=50)
-    example_1_meaning = models.CharField(max_length=50)
-    example_2_word = models.CharField(max_length=5, null=True, blank=True)
+    example_1_character = models.CharField(max_length=100)
+    example_1_meaning = models.CharField(max_length=100)
+    example_2_word = models.CharField(max_length=10, null=True, blank=True)
     example_2_pinyin = models.CharField(max_length=25, null=True, blank=True)
-    example_2_character = models.CharField(max_length=50, null=True, blank=True)
-    example_2_meaning = models.CharField(max_length=50, null=True, blank=True)
+    example_2_character = models.CharField(max_length=100, null=True, blank=True)
+    example_2_meaning = models.CharField(max_length=100, null=True, blank=True)
 
     is_preview_definition = models.BooleanField()
     is_preview_pinyin = models.BooleanField()
+    structure = models.IntegerField(null=True)
 
-    color_coded_image = models.ImageField(default='default.jpg')
     stroke_order_image = models.ImageField(default='default.jpg')
+
+    def get_example_sentence(self, index=1):
+        word = getattr(self, f'example_{index}_word')
+        pinyin = getattr(self, f'example_{index}_pinyin')
+        character = getattr(self, f'example_{index}_character')
+        meaning = getattr(self, f'example_{index}_meaning')
+        if not word and index == 2:
+            return None
+
+        assert len(word) == 2 or word.count('+') == 1,\
+            f'example_{index}_word needs to be of length 2 or separated by a' \
+            f'plus sign but "{word}" is not'
+        if len(word) == 2:
+            words = word
+        else:
+            words = word.split('+')
+
+
+        assert pinyin.count(' ') == 1 or pinyin.count('+'), \
+            f'example_{index}_pinyin should contain 1 space or plus sign' \
+            f'but "{pinyin} does not'
+        if pinyin.count(' ') == 1:
+            pinyin = pinyin.split(' ')
+        else:
+            pinyin = pinyin.split('+')
+
+        assert character.count('+') == 1, f'example_{index}_pinyin should' \
+            f' contain 1 "+" but "{character}" does not'
+        characters = character.split('+')
+
+        return f"&nbsp;&nbsp;&nbsp;" \
+               f"{words[0]} /{pinyin[0].strip()}/ {characters[0].strip()}" \
+               f" + {words[1]} /{pinyin[1].strip()}/ {characters[1].strip()}" \
+               f"<br> = {word} {meaning}"
+
+    def get_example_2_sentence(self):
+        return self.get_example_sentence(index=2)
+
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -138,10 +187,18 @@ class Character(models.Model):
                 self.radical_2_id and not Radical.objects.filter(pk=self.radical_2_id).exists() or \
                 self.radical_3_id and not Radical.objects.filter(pk=self.radical_3_id).exists():
             self.delete()
-            raise Exception('related radicals not exist, self deletion')
+            raise ValueError('related radicals not exist, self deletion')
+        try:
+            self.get_example_sentence()
+        except AssertionError as err:
+            self.delete()
+            raise err
+
+    def __repr__(self):
+        return '<C' + '%04d' % self.id + ':' + self.chinese +'>'
 
     def __str__(self):
-        return '<C' + '%04d' % self.id + ':' + self.chinese +'>'
+        return repr(self)
 
     class Meta:
         ordering = ['id']
@@ -159,9 +216,13 @@ class CharacterSet(models.Model):
             character_to_add = accounts.models.UserCharacter.objects.get_or_create(
                 character=character, user=user)[0]
             tag.user_characters.add(character_to_add)
+        return tag.id
+
+    def __repr__(self):
+        return f'<cset{self.id}:{self.name}>'
 
     def __str__(self):
-        return f'<cset{self.id}:{self.name}>'
+        return repr(self)
 
 
 class Report(models.Model):
@@ -170,8 +231,11 @@ class Report(models.Model):
     description_1 = models.CharField(max_length=100)
     description_2 = models.TextField()
 
-    def __str__(self):
+    def __repr__(self):
         return f'<Report on {self.origin}: {self.description_1}>'
+
+    def __str__(self):
+        return repr(self)
 
     class Meta:
         ordering = ['origin']

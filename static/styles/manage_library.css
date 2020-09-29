@@ -65,11 +65,19 @@
     justify-content: space-between;
 }
 
-
 .set-name-container {
     margin: 20px 0;
 }
 
 .list-add-set-button {
     cursor: pointer;
+}
+
+.set-name-container.success span {
+    color: gray;
+}
+
+.set-name-container.success .list-add-set-button {
+    color: #2ecc71;
+    cursor: default;
 }

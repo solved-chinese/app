@@ -4,8 +4,14 @@
     width: 100%;
 }
 
+#learn-body-container {
+    margin-top: 40px;
+}
+
+/* !important is to override the override to the Bootstrap style... */
+
 #character-text {
-    margin: -2px 0 0;
+    margin: 0 !important;
 }
 
 #character-pinyin {
@@ -28,12 +34,17 @@
     color: var(--secondary-color);
 }
 
+#speak-button.disabled {
+    color: var(--secondary-color);
+    cursor: default;
+}
+
 #character-details {
     border: none;
 }
 
 #next-button {
-    margin-right: 15px;
+    margin-right: 15px; /* Temporary solution */
 }
 
 #end-session-button {
@@ -51,4 +62,3 @@
     font-size: 18px;
     font-weight: 500;
 }
-

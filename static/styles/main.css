@@ -1,4 +1,19 @@
 /***********************************
+  Fonts
+***********************************/
+
+@font-face {font-family: 'STKaiti';
+    src: url('/static/fonts/STKaiti/STKaiti.eot'); /* IE9 */
+    src: url('/static/fonts/STKaiti/STKaiti.eot') format('embedded-opentype'), /* IE6 - IE8 */
+         url('/static/fonts/STKaiti/STKaiti.woff2') format('woff2'), /* chrome firefox */
+         url('/static/fonts/STKaiti/STKaiti.woff') format('woff'), /* Chrome firefox */
+         url('/static/fonts/STKaiti/STKaiti.ttf') format('truetype'), /* chrome firefox opera Safari, Android, iOS 4.2+*/
+         url('/static/fonts/STKaiti/STKaiti.svg') format('svg'); /* iOS 4.1- */
+}
+
+
+
+/***********************************
   Variable Declarations
 ***********************************/
 
@@ -25,21 +40,29 @@ html {
     background: #fffefc;
 }
 
+/* The `!important` tags below are just for overriding
+   Bootstrap styles, will be removed in the future. */
+
 body {
     position: relative;
     min-height: 100vh;
+    background: #fffefc !important;
 }
 
 h1 {
-    margin-bottom: 20px;
+    margin-bottom: 20px !important;
+    font-size: 32px !important;
+    font-weight: 700 !important;
 }
 
 h2 {
-    margin-bottom: 10px;
+    margin-bottom: 10px !important;
+    font-size: 24px !important;
+    font-weight: 700 !important;
 }
 
 a {
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 .fas, .far, .fal, .fab {
@@ -115,39 +138,11 @@ a {
     cursor: pointer;
 }
 
-#navbar > .username {
-    font-weight: 500;
-}
-
 #navbar a {
     text-decoration: none;
 }
 
-#signup {
-    background-color: var(--main-theme-color);
-    height:50%;
-    width:100px;
-    border-radius: 10px;
-}
 
-#signup a {
-    display: flex;
-    justify-content: center;
-    padding: 7px;
-    color: white;
-}
-
-#login {
-    margin-right: 20px;
-    color: black;
-}
-
-#userDropdown {
-    background-color: var(--main-theme-color);
-    color: white;
-    width: 11%;
-    min-width: 110px;
-}
 
 /***********************************
   Footer
@@ -165,19 +160,19 @@ a {
     flex-direction: column;
     height: 80px;
     align-items: center;
-    padding-top: 10px;
+    padding: 18px;
 }
 
-#footer p {
+#footer * {
     color: #8E9DAE;
-    margin: auto;
-    font-size: 0.8em;
-    letter-spacing: 1px;
 }
 
-.footer-icon {
-    height: 1em;
-    margin-bottom: 20px;
+#footer #copyright-info {
+    font-size: 80%;
+}
+
+#footer-icon-container i:hover {
+    color: #5E6D7E;
 }
 
 
@@ -187,11 +182,10 @@ a {
 ***********************************/
 
 .button {
-    padding: 0.6em 2em;
+    padding: 0.6em 1.2em;
     border: 1px solid #040302;
     border-radius: 0.25em;
-    background: white;
-    white-space: nowrap;
+    color: #040302;
     background: white;
     cursor: pointer;
     transition: 150ms ease;
@@ -208,18 +202,27 @@ a {
 }
 
 .button.button-secondary:hover {
-    color: white;
+    color: white !important; /* Temporary Bootstrap Override */
     background: #040302;
 }
 
 .button.button-tertiary {
-    color: var(--secondary-color);
+    color: var(--secondary-color) !important; /* Temporary Bootstrap Override */
     border-color: var(--secondary-color);
 }
 
 .button.button-tertiary:hover {
-    color: white;
+    color: white !important; /* Temporary Bootstrap Override */
     background: var(--secondary-color);
+}
+
+.button.button-text-only {
+    padding: 0;
+    border: none;
+}
+
+.button.button-text-only:hover {
+    color: var(--main-theme-color)
 }
 
 .header-back-button {
@@ -237,6 +240,10 @@ a {
 
 .header-back-button > i {
     margin-right: 0.4em;
+}
+
+.button + .button:not(.option) {
+    margin-left: 15px;
 }
 
 
@@ -319,7 +326,7 @@ a {
     z-index: 1000;
 }
 
-.modal {
+.my-modal {
     position: fixed;
     width: 500px;
     height: 500px;
@@ -334,7 +341,7 @@ a {
     z-index: 2000;
 }
 
-.modal > .modal-header {
+.my-modal > .my-modal-header {
     display: flex;
     height: 29px;
     padding: 20px 25px;
@@ -344,16 +351,18 @@ a {
     /* box-shadow: 4px 5px 14px 0px rgba(4, 3, 2, 0.1); */
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     background: var(--navbar-color);
+    box-sizing: content-box;
 }
 
-.modal > .modal-header > h2 {
+.my-modal > .my-modal-header > h2 {
     display: inline;
     margin: 0;
+    box-sizing: content-box;
 }
 
 /* .modal > .modal-header::after {
     content: '\f00d';
-    font-family: "Font Awesome 5 Pro";
+    font-family: 'Font Awesome 5 Pro';
     font-size: 1.5em;
     cursor: pointer;
 } */
@@ -365,13 +374,14 @@ a {
 .modal-close-button {
     font-size: 1.5em;
     cursor: pointer;
+    box-sizing: content-box;
 }
 
 .modal-close-button:hover {
     color: var(--secondary-color);
 }
 
-.modal > .modal-content {
+.my-modal > .my-modal-content {
     padding: 0px 25px;
     overflow: scroll;
     height: calc(100% - 70px);
@@ -392,52 +402,43 @@ a {
   Search-form
 ***********************************/
 
-.search-form {
+.search-form-wrapper {
     display: flex;
-    justify-content: center;
     align-self: flex-start;
+    flex-direction: column;
 
-    padding: 15px 40px 0;
+    width: 50%;
     height: auto;
-    flex-grow: 2;
-}
-
-.search-form-wrapper{
-    display: flex;
-    flex-wrap: wrap;
-
-    width: 70%;
-    height: inherit;
-    margin: auto;
+    margin: 14px auto;
 
     background-color: var(--navbar-color);
-
-    border: 1px solid #c7c7c7;
-    border-radius: 25px;
-
+    border: 1px solid var(--tertiary-color);
+    border-radius: 10px;
 }
 
-.search-form-wrapper > img {
-    margin: auto;
-    padding: 0 15px 0;
-    height: 28px;
-    width: auto;
+.search-input-wrapper {
+    display: flex;
 }
 
-.search-form-wrapper > input[name="keyword"] {
+.search-input-wrapper > .search-icon {
+    margin: auto 15px;
+    font-size: 20px;
+    color: var(--secondary-color);
+}
+
+.search-input-wrapper > input {
     height: 50px;
     flex-grow: 2;
+    font-size: 17px;
+    padding-right: 15px;
 
-    background-color: transparent;
-    color: #7c7c7c;
+    background: none;
     border: none;
     outline: none;
-
-    font-size: 17px;
 }
 
-.search-form-wrapper > input[name="keyword"]::placeholder {
-    color: #a7a7a7;
+.search-input-wrapper > input::placeholder {
+    color: var(--secondary-color);
 }
 
 #search-dropdown-wrapper {
@@ -447,74 +448,60 @@ a {
 
 #search-dropdown-wrapper > hr {
     margin: 0 auto;
-    width: 90%;
-    
-    border-top: 1px solid #c7c7c7;
-}
-
-.search-entry {
-    height: 50px;
-    width: 95%;
-    margin: 5px auto;
-    border-radius: 10px;
-
-    transition: 200ms, ease;
-}
-
-.search-entry > h4 {
-    display: inline-block;
-
-    padding-left: 3%;
-
-    font-size: 30px;
-    line-height: inherit;
-}
-
-.search-entry > h4 > small {
-    color: var(--secondary-color);
-    font-size: 0.54em;
-    letter-spacing: 1px;
-
-    padding-left: 10px;
-}
-
-.search-entry > p {
-    display: inline-block;
-
-    margin: 0 0 0 20px;
-    max-width: 70%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    font-size: 15px;
-}
-
-.search-entry > p span {
-    color: var(--secondary-color);
-    font-style: italic;
-    font-size: 0.9em;
-}
-
-.search-entry:hover {
-    background-color: #e6e6e6;
-    box-shadow: 0 0 5px 5px #e6e6e6;
-
-    transition: 150ms ease;
+    border-top: 1px solid var(--tertiary-color);
 }
 
 .search-entry-wrapper {
     text-align: left;
 }
 
-.error-msg {
-    height: 40px;
-    margin-top: 10px;
+.search-entry {
+    display: flex;
+    align-items: center;
+    height: 54px;
+    padding: 0 20px;
+    /* border-bottom: 1px solid var(--tertiary-color); */
+}
 
-    color: #ce2841;
-    font-size: 16px;
+.search-entry:hover {
+    background: #f3f2f0;
+}
+
+.search-entry-wrapper:last-child > .search-entry {
+    border: none;
+    border-radius: 0 0 9px 9px;
+}
+
+.search-entry .character {
+    margin-right: 15px;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.search-entry .pinyin {
+    min-width: 40px;
+    margin-right: 15px;
+}
+
+.search-entry .definition {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.1em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.search-entry .explanation {
+    color: var(--secondary-color);
+    font-style: italic;
+    font-size: 1em;
+}
+
+.error-msg {
+    margin: 10px 0;
+    color: var(--secondary-color);
     text-align: center;
-    letter-spacing: 1px;
 }
 
 
@@ -523,7 +510,14 @@ a {
   Responsive
 ***********************************/
 
-@media screen and (max-device-width: 768px) {
+@media only screen and (max-width: 768px) {
+
+    #navbar > .logo {
+        min-width: 32.4383075px; /* There definitely exists a better way */
+        height: 38px;
+        background-image: url('/static/images/logo-color-mark.svg');
+    }
+
     .search-form {
         padding: 0 30px 0;
     }
