@@ -1,13 +1,139 @@
 import pandas as pd
 import numpy as np
 import html
+from django.core.exceptions import ValidationError
 
 from django.db import models
 import accounts.models  # to avoid cyclic import
 
 
-class Radical(models.Model):
+class DFModel(models.Model):
+    """
+    This is the base for all models that rely on dataframe to update its
+    objects.
+    Fields are pulled from spreadsheet as such:
+    if field blank, set value to None
+    if Integer/Boolean/String, direct conversion
+    if ForeignField/OneToOneFIeld, find using pk
+    if ManyToManyField, add the pks of all columns with the same field name
+
+    At the same time, this class calls full_clean() before saving
+    """
     id = models.IntegerField(primary_key=True)
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return repr(self)
+
+    @classmethod
+    def update_from_df(cls, df):
+        """
+        This function pulls the models from the given dataframe.
+        Every row of the Dataframe object must represent a object, with a
+        mandatory field id.
+        :param df: A Dataframe object
+        :param validate: this can  be overridden validate(row) must returns a
+         tuple (is_ok, msg), is_ok is a boolean saying whether this row is
+         valid, and msg is a str telling what is wrong if it is not valid
+        :return: a dict (id: msg) where msg is a HTML div ready for display
+        """
+        df.replace('', None, inplace=True)
+        df.fillna(0, inplace=True)
+        messages = []
+        good_pk = []
+        m2m_fields = []
+        warning = ""
+        for i, row in df.iterrows():
+            try:
+                id = row['id']
+                if id == 0:
+                    messages.append(f'ERR at start : row {i} id not found')
+                    continue
+                # TODO make this a special validator
+                if '√' not in str(row['Comments']):
+                    if cls.objects.filter(pk=id).exists():
+                        messages.append(f'WARNING: delete id={id} due to no '
+                                        f'check in comment')
+                    else:
+                        messages.append(f'IGNORE: ignore id={id} due to no '
+                                        f'check in comment')
+                    continue
+                data = {}
+                for field in cls._meta.get_fields():
+                    if field.name == 'id':
+                        continue
+                    if isinstance(field,
+                                  (models.IntegerField, models.BooleanField)):
+                        data[field.name] = row[field.name]
+                    elif isinstance(field, models.CharField):
+                        # FIXME per request of LING team, remove all stars from str
+                        data[field.name] = row[field.name].strip().replace('*', '') \
+                            if row[field.name] else None
+                    elif isinstance(field, (models.OneToOneField,
+                                            models.ForeignKey)):
+                        data[field.name] = \
+                            field.related_model.objects.get(pk=row[field.name]) \
+                                if row[field.name] else None
+                    elif isinstance(field, models.ManyToManyField):
+                        m2m_fields.append(field)
+
+            except Exception as e:
+                try:
+                    field
+                except NameError:
+                    field = None
+                messages.append(
+                    f'ERR getting field {field} of id={id}: {repr(e)}')
+                continue
+
+            try:
+                obj, is_created = cls.objects.update_or_create(id=id,
+                                                               defaults=data)
+                row = row.groupby(level=0).agg(list).to_dict()
+                for field in m2m_fields:
+                    pks = row[field.name]
+                    related_objs = []
+                    for pk in pks:
+                        pk = int(pk)
+                        if not pk:
+                            continue
+                        try:
+                            related_obj = field.related_model.objects.get(pk=pk)
+                            related_objs.append(related_obj)
+                        except field.related_model.DoesNotExist:
+                            warning += f'\n{field} has no related object ' \
+                                       f'with id={pk}'
+                    getattr(obj, field.name).set(related_objs)
+                if warning:
+                    warning = f'WARNING though completed: {warning}\n'
+                messages.append(f"{warning}"
+                                f"{'create' if is_created else 'update'} {obj}")
+                good_pk.append(id)
+            except Exception as e:
+                messages.append(f'ERR constructing id={id}: {repr(e)}')
+
+        cls.objects.exclude(pk__in=good_pk).delete()
+        # TODO possibly add delete warning
+
+        for i, msg in enumerate(messages, 0):
+            msg = f'<pre>{html.escape(msg)}</pre>'
+            if msg[5] == 'E':
+                messages[i] = '<div style="color:red;">' + msg + '</div>'
+            elif msg[5] == 'W':
+                messages[i] = '<div style="color:orange;">' + msg + '</div>'
+            elif msg[5] == "I":
+                messages[i] = '<div style="color:gray;">' + msg + '</div>'
+            else:
+                messages[i] = '<div style="color:green;">' + msg + '</div>'
+        return messages
+
+    class Meta:
+        abstract = True
+
+class Radical(DFModel):
     chinese = models.CharField(max_length=6)
     pinyin = models.CharField(max_length=15)
     definition = models.CharField(max_length=100)
@@ -22,14 +148,9 @@ class Radical(models.Model):
     def __repr__(self):
         return '<R' + '%04d' % self.id + ':' + self.chinese +'>'
 
-    def __str__(self):
-        return repr(self)
 
-
-class Character(models.Model):
+class Character(DFModel):
     TEST_FIELDS = ['pinyin', 'definition_1']
-
-    id = models.IntegerField(primary_key=True)
     chinese = models.CharField(max_length=1)
     pinyin = models.CharField(max_length=15)
     part_of_speech_1 = models.CharField(max_length=50)
@@ -41,9 +162,12 @@ class Character(models.Model):
     definition_3 = models.CharField(max_length=100, null=True, blank=True)
     explanation_3 = models.CharField(max_length=300, null=True, blank=True)
 
-    radical_1_id = models.IntegerField()
-    radical_2_id = models.IntegerField(null=True, blank=True)
-    radical_3_id = models.IntegerField(null=True, blank=True)
+    radical_1 = models.ForeignKey(Radical, on_delete=models.CASCADE,
+                                  related_name='+')
+    radical_2 = models.ForeignKey(Radical, on_delete=models.CASCADE,
+                                  related_name='+', null=True, blank=True)
+    radical_3 = models.ForeignKey(Radical, on_delete=models.CASCADE,
+                                  related_name='+', null=True, blank=True)
     mnemonic_explanation = models.CharField(max_length=800)
 
     example_1_word = models.CharField(max_length=10)
@@ -98,31 +222,28 @@ class Character(models.Model):
     def get_example_2_sentence(self):
         return self.get_example_sentence(index=2)
 
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if not Radical.objects.filter(pk=self.radical_1_id).exists() or \
-                self.radical_2_id and not Radical.objects.filter(pk=self.radical_2_id).exists() or \
-                self.radical_3_id and not Radical.objects.filter(pk=self.radical_3_id).exists():
-            self.delete()
-            raise ValueError('related radicals not exist, self deletion')
+    def clean(self):
+        if self.radical_2 is None and self.radical_3 is not None:
+            raise ValidationError('radical_2 is None but radical_3 exists')
         try:
             self.get_example_sentence()
-        except AssertionError as err:
-            self.delete()
-            raise err
+        except AssertionError as e:
+            raise ValidationError('example not valid') from e
+
+    def save(self, *args, **kwargs):
+        try:
+            super().save(*args, **kwargs)
+        except ValidationError as e:
+            raise Exception('self deletion') from e
 
     def __repr__(self):
         return '<C' + '%04d' % self.id + ':' + self.chinese +'>'
-
-    def __str__(self):
-        return repr(self)
 
     class Meta:
         ordering = ['id']
 
 
-class CharacterSet(models.Model):
+class CharacterSet(DFModel):
     characters = models.ManyToManyField(Character)
     name = models.CharField(max_length=50)
 
@@ -137,10 +258,8 @@ class CharacterSet(models.Model):
         return tag.id
 
     def __repr__(self):
-        return f'<cset{self.id}:{self.name}>'
-
-    def __str__(self):
-        return repr(self)
+        return f'<cset{self.id}:{self.name} ' \
+               f'{[repr(c) for c in self.characters.all()]}>'
 
 
 class Report(models.Model):
@@ -157,56 +276,3 @@ class Report(models.Model):
 
     class Meta:
         ordering = ['origin']
-
-
-def update_from_df(df, Model):
-    df.replace('', None, inplace=True)
-    df.fillna(0, inplace=True)
-    messages = []
-    good_pk = []
-    for i, row in df.iterrows():
-        try:
-            id = row['id']
-            if id == 0:
-                messages.append(f'ERR at start : row {i} id not found')
-                continue
-            if '√' not in str(row['Comments']):
-                if Model.objects.filter(pk=id).exists():
-                    messages.append(f'WARNING: delete id={id}')
-                continue
-            data = {}
-            for field in Model._meta.get_fields():
-                if field.name == 'id':
-                    continue
-                if isinstance(field, (models.IntegerField, models.BooleanField)):
-                    data[field.name]=row[field.name]
-                elif isinstance(field, models.CharField):
-                    # FIXME per request of LING team, remove all stars from str
-                    data[field.name] = row[field.name].strip().replace('*', '') \
-                        if row[field.name] else None
-        except Exception as e:
-            try:
-                field
-            except NameError:
-                field = None
-            messages.append(f'ERR getting field {field} of id={id}: {str(e)}')
-            continue
-
-        try:
-            obj, is_created = Model.objects.update_or_create(id=id, defaults=data)
-            messages.append(f"{'create' if is_created else 'update'} {obj}")
-            good_pk.append(id)
-        except Exception as e:
-            messages.append(f'ERR constructing id={id}: {str(e)}')
-
-    Model.objects.exclude(pk__in=good_pk).delete()
-    # TODO possibly add delete warning
-
-    for i, msg in enumerate(messages, 0):
-        msg = f'<pre>{html.escape(msg)}</pre>'
-        if msg[5]=='E':
-            messages[i] = '<div style="color:red;">' + msg + '</div>'
-        elif msg[5]=='W':
-            messages[i] = '<div style="color:orange;">' + msg + '</div>'
-        else: messages[i] = '<div style="color:green;">' + msg + '</div>'
-    return messages
