@@ -16,7 +16,8 @@ class DFModel(models.Model):
     if Integer/Boolean/String, direct conversion
     if ForeignField/OneToOneFIeld, find using pk
     if ManyToManyField, add the pks of all columns with the same field name
-    TODO for relation fields may need a comment sign for Ling team
+
+    At the same time, this class calls full_clean() before saving
     """
     id = models.IntegerField(primary_key=True)
 
