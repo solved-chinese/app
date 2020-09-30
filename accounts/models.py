@@ -125,8 +125,11 @@ class UserCharacterTag(models.Model):
                 user=self.user, character=character)[0])
         self.user_characters.set(ucs)
 
+    def __str__(self):
+        return f"<uct {self.pk}:{self.user}'s {self.character_set.name}>"
+
     def __repr__(self):
-        return f"<uct {self.pk}:{self.user}'s {self.name}>"
+        return f"<uct {self.pk}:{self.user}'s {self.character_set}>"
 
     class Meta:
         unique_together = ('user', 'character_set')
