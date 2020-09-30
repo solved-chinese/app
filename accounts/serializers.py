@@ -39,12 +39,17 @@ class UserCharacterTagSerializer(SimpleUserCharacterTagSerializer):
     user_characters = serializers.HyperlinkedRelatedField(many=True,
         queryset=UserCharacter.objects.all(),
         view_name='user_character_detail')
+    name = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = UserCharacterTag
         fields = ['pk', 'url',
                   'name', 'learned_cnt', 'mastered_cnt', 'total_cnt',
                   'user_characters']
+
+    def get_name(self, obj):
+        return obj.character_set.name
+
 
 class UserSerializer(serializers.ModelSerializer):
     user_characters = serializers.HyperlinkedRelatedField(many=True,

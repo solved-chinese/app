@@ -98,17 +98,35 @@ class UserCharacter(user_character_factory()):
 
 
 class UserCharacterTag(models.Model):
+    character_set = models.ForeignKey(learning.models.CharacterSet,
+                                      on_delete=models.CASCADE,
+                                      related_name='user_character_tags',
+                                      related_query_name='user_character_tag')
     user = models.ForeignKey(User, on_delete=models.CASCADE,
                              related_name='user_character_tags',
                              related_query_name='user_character_tag')
-    name = models.CharField(max_length=50)
     user_characters = models.ManyToManyField(UserCharacter,
                                              related_name='tags',
                                              related_query_name='tag')
+
+    def update_from_character_set(self):
+        """
+        This method ensures that the relationship between this UserCharacterTag
+        and its UserCharacters follows that between its CharacterSet and the
+        corresponding Characters
+        TODO: It should be called sparingly for efficiency reasons.
+        solution 1: add a lazy tag attribute and call this method lazily
+        solution 2: in addition to solution 1, call this only when
+        character_set gets updated
+        """
+        ucs = []
+        for character in self.character_set.characters.all():
+            ucs.append(self.user.user_characters.get_or_create(
+                user=self.user, character=character)[0])
+        self.user_characters.set(ucs)
 
     def __repr__(self):
         return f"<uct {self.pk}:{self.user}'s {self.name}>"
 
     class Meta:
-        unique_together = ('user', 'name')
-
+        unique_together = ('user', 'character_set')

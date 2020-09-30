@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect, reverse
 from django.http import JsonResponse, HttpResponseRedirect
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
 
 from accounts.forms import SignUpForm
 from learning.models import CharacterSet
@@ -70,65 +72,6 @@ def alt_profile(request):
         return render(request, 'accounts/profile.html')
 
 
-"""
-@api {POST} /accounts/add_set/ Add set
-@apiDescription Make an copy of an existing CharacterSet in user's library as
-    an UserCharacterTag with the same name
-@apiGroup accounts
-
-@apiParam   {int}   set_id        the id of the CharacterSet to be added
-@apiError (Error 400) {String} msg   the detail of the exception
-"""
-@login_required
-def add_set(request):
-    try:
-        new_set_id = CharacterSet.objects.get(pk=request.POST.get('set_id')).add_to_user(request.user)
-        response = JsonResponse({'msg': 'good', 'id': new_set_id})
-    except Exception as e:
-        response = JsonResponse({'msg': str(e)}, status=400)
-    return response
-
-
-"""
-@api {POST} /accounts/delete_character/ Delete character
-@apiGroup accounts
-
-@apiParam   {int}   character_id  the id of the Character to be deleted
-@apiParam   {int}   set_id        (optional) the id of the UserCharacterTag for
-the character to be deleted from, otherwise the character will be delete from 
-all UserCharacterTags of the current user """
-@login_required
-def delete_character(request):
-    try:
-        uc = UserCharacter.objects.get(character__pk=request.POST.get('character_id'),
-                                       user=request.user)
-        set_id = request.POST.get('set_id')
-        if set_id:
-            UserCharacterTag.objects.get(pk=set_id).user_characters.remove(uc)
-        else:
-            uc.delete()
-        response = JsonResponse({'msg': 'good'})
-    except Exception as e:
-        response = JsonResponse({'msg': str(e)}, status=400)
-    return response
-
-
-"""
-@api {POST} /accounts/get_available_sets/ Get available sets
-@apiDescription Get available existing CharacterSets to add
-@apiGroup accounts
-
-@apiSuccess {Object[]} sets list of serialized CharacterSet objects
-"""
-@login_required
-def get_available_sets(request):
-    sets = []
-    for set in CharacterSet.objects.all():
-        if not request.user.user_character_tags.filter(name=set.name).exists():
-            sets.append(set)
-    return JsonResponse({'sets': chenyx_serialize(sets, ['characters'])})
-
-
 class MyUserDetail(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = UserSerializer
@@ -141,6 +84,32 @@ class UserCharacterDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsOwner]
     queryset = UserCharacter.objects.all()
     serializer_class = UserCharacterSerializer
+
+
+class UserCharacterTagList(generics.ListCreateAPIView):
+    """
+    To add a UserCharacterTag linked to a CharacterSet, __POST__ with a single
+    argument `character_set_id`
+
+    __GET__ for a list of all user character tags belonging to current user
+    """
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserCharacterTagSerializer
+
+    def create(self, request, *args, **kwargs):
+        cset_pk = request.data['character_set_id']
+        cset = CharacterSet.objects.get(pk=cset_pk)
+        obj = UserCharacterTag.objects.create(character_set=cset,
+                                              user=request.user)
+        obj.update_from_character_set()
+        data = UserCharacterTagSerializer(
+            obj, context=self.get_serializer_context()).data
+        return Response(data,
+                        status=status.HTTP_201_CREATED,
+                        headers={'Location': str(data['url'])})
+
+    def get_queryset(self):
+        return self.request.user.user_character_tags
 
 
 class UserCharacterTagDetail(generics.RetrieveUpdateDestroyAPIView):

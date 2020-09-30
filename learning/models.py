@@ -247,19 +247,14 @@ class CharacterSet(DFModel):
     characters = models.ManyToManyField(Character)
     name = models.CharField(max_length=50)
 
-    def add_to_user(self, user):
-        if user.user_character_tags.filter(name=self.name).exists():
-            raise Exception('ERROR: a set with the same name already exists')
-        tag = accounts.models.UserCharacterTag.objects.create(name=self.name, user=user)
-        for character in self.characters.all():
-            character_to_add = accounts.models.UserCharacter.objects.get_or_create(
-                character=character, user=user)[0]
-            tag.user_characters.add(character_to_add)
-        return tag.id
-
     def __repr__(self):
         return f'<cset{self.id}:{self.name} ' \
                f'{[repr(c) for c in self.characters.all()]}>'
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        for uctag in self.user_character_tags.all():
+            uctag.update_from_character_set() # FIXME make more efficient
 
 
 class Report(models.Model):

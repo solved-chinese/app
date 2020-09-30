@@ -1,8 +1,8 @@
-$.post('/accounts/get_available_sets/', data => {
-    data.sets.forEach(set => {
+$.get('/learning/character_set/', data => {
+    data.forEach(set => {
         $('#available-sets-container').append(`
-            <div class="set-name-container" data-set-id="${ set.pk }">
-                <span>${ set.fields.name }</span>
+            <div class="set-name-container" data-set-id="${ set.id }">
+                <span>${ set.name }</span>
                 <i class="far fa-plus list-add-set-button"></i>
             </div>
         `);
@@ -12,20 +12,18 @@ $.post('/accounts/get_available_sets/', data => {
         let parent = target.parent();
         let parentId = parent.attr('data-set-id');
         let setName = parent.find('span').html();
-        $.post('/accounts/add_set/', {set_id: parentId}, data => {
-            if (data.msg === 'good') {
-                parent.addClass('success');
-                target.removeClass('fa-plus')
-                      .addClass('fa-check')
-                      .off('click');
-                $('#char-sets-container #add-set-button-container').before(`
-                    <div class="char-set" data-set-pk="${ data.id }">
-                        <img class="char-set-cover" src="/static/images/set-covers/default-set-cover.jpg">
-                        <p class="char-set-title">${ setName }</p>
-                    </div>
-                `);
-                $('.char-set:not(#add-set-button-container)').off('click').click(charSetClick);
-            }
+        $.post('/accounts/user_character_tag/', {character_set_id: parentId}, data => {
+            parent.addClass('success');
+            target.removeClass('fa-plus')
+                  .addClass('fa-check')
+                  .off('click');
+            $('#char-sets-container #add-set-button-container').before(`
+                <div class="char-set" data-set-pk="${ data.pk }">
+                    <img class="char-set-cover" src="/static/images/set-covers/default-set-cover.jpg">
+                    <p class="char-set-title">${ setName }</p>
+                </div>
+            `);
+            $('.char-set:not(#add-set-button-container)').off('click').click(charSetClick);
         });
     });
 });
