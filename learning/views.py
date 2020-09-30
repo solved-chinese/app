@@ -11,6 +11,7 @@ from django.db.models import ObjectDoesNotExist
 from django.db.models import Q, F, Max, DurationField, ExpressionWrapper
 from django.contrib.auth import login, logout
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 
 from learning.models import Character, CharacterSet, Radical, Report
 from accounts.models import User, UserCharacter, UserCharacterTag
@@ -359,9 +360,20 @@ class CharacterDetail(generics.RetrieveAPIView):
     queryset = Character.objects.all()
     serializer_class = CharacterSerializer
 
+
 class RadicalDetail(generics.RetrieveAPIView):
     queryset = Radical.objects.all()
     serializer_class = RadicalSerializer
+
+
+class CharacterSetList(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = CharacterSetSerializer
+
+    def get_queryset(self):
+        return CharacterSet.objects.exclude(
+            user_character_tag__in=self.request.user.user_character_tags.all())
+
 
 class CharacterSetDetail(generics.RetrieveAPIView):
     queryset = CharacterSet.objects.all()

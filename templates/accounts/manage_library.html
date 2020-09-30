@@ -38,7 +38,7 @@
     {% for set in request.user.user_character_tags.all %}
       <div class="char-set" data-set-pk="{{ set.pk }}">
         <img class="char-set-cover" src="/static/images/set-covers/default-set-cover.jpg"></img>
-        <p class="char-set-title">{{ set.name }}</p>
+        <p class="char-set-title">{{ set.character_set.name }}</p>
       </div>
     {% endfor %}
     <div class="char-set" id="add-set-button-container">
