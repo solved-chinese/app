@@ -19,6 +19,7 @@ class SimpleUserCharacterTagSerializer(serializers.ModelSerializer):
     learned_cnt = serializers.SerializerMethodField()
     mastered_cnt = serializers.SerializerMethodField()
     total_cnt = serializers.SerializerMethodField()
+    name = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = UserCharacterTag
@@ -34,21 +35,20 @@ class SimpleUserCharacterTagSerializer(serializers.ModelSerializer):
     def get_total_cnt(self, obj):
         return obj.user_characters.count()
 
+    def get_name(self, obj):
+        return obj.character_set.name
+
 
 class UserCharacterTagSerializer(SimpleUserCharacterTagSerializer):
     user_characters = serializers.HyperlinkedRelatedField(many=True,
         queryset=UserCharacter.objects.all(),
         view_name='user_character_detail')
-    name = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = UserCharacterTag
         fields = ['pk', 'url',
                   'name', 'learned_cnt', 'mastered_cnt', 'total_cnt',
                   'user_characters']
-
-    def get_name(self, obj):
-        return obj.character_set.name
 
 
 class UserSerializer(serializers.ModelSerializer):
