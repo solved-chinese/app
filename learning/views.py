@@ -8,7 +8,6 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import ObjectDoesNotExist
-from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q, F, Max, DurationField, ExpressionWrapper
 from django.contrib.auth import login, logout
 from rest_framework import generics
@@ -115,7 +114,6 @@ def review(request, character, field_name):
 
 
 @login_required
-@csrf_exempt
 def learning_process(request, session_key):
     """ This is the main view that controls the learning process
     Note session['next'] stores a list of dicts {'func', 'args'} and
@@ -312,9 +310,6 @@ def getAudio(request):
 
 @apiSuccess {Object[]} characters list of serialized Character objects
 """
-
-
-@csrf_exempt
 def search(request):
     keyword = request.POST.get('keyword')
     characters_1 = Character.objects.filter(
