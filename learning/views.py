@@ -49,12 +49,15 @@ def try_me(request):
     password = 'test'
     user = User.objects._create_user(username, '', password, is_guest=True)
     login(request, user)
-    CharacterSet.objects.get(name='try_me').add_to_user(user)
-    return start_learning(request)
+    try_me_set = CharacterSet.objects.get(name='try_me')
+    obj = UserCharacterTag.objects.create(character_set=try_me_set,
+                                          user=user)
+    obj.update_from_character_set()
+    return start_learning(request, uc_tags_filter=[obj.id])
 
 
 @login_required
-def start_learning(request):
+def start_learning(request, uc_tags_filter=None):
     # clears session data without logging out the user
     for key in list(request.session.keys()):
         if not key.startswith("_"):  # skip keys set by the django system
@@ -62,7 +65,8 @@ def start_learning(request):
     request.session.cycle_key()
 
     # minutes_to_learn = int(request.POST.get('minutes_to_learn', 10))
-    uc_tags_filter = json.loads(request.POST.get('uc_tags_filter'))
+    if not uc_tags_filter:
+        uc_tags_filter = json.loads(request.POST.get('uc_tags_filter'))
     assert isinstance(uc_tags_filter, list), 'uc_tags_filter must be list of ints'
     for uc_tag in uc_tags_filter:
         assert UserCharacterTag.objects.get(pk=uc_tag).user == request.user
@@ -87,10 +91,14 @@ def start_learning(request):
 
 @login_required
 def review(request, character, field_name):
-    other_uc = request.user.user_characters.exclude(character__pk=character.pk)
+    kwargs = {f'character__{field_name}__iexact':
+                  getattr(character, field_name)}
+    other_uc = request.user.user_characters.exclude(character__pk=character.pk)\
+        .exclude(**kwargs)
     # TODO calling list on QuerySet may be inefficient
     if len(other_uc) < 3:
-        other_characters = Character.objects.exclude(pk=character.pk)
+        other_characters = Character.objects.exclude(pk=character.pk)\
+            .exclude(**kwargs)
         other_characters = random.sample(list(other_characters), 3)
         if len(other_characters) < 3:
             raise Exception('Database should have at least 4 characters')
@@ -241,11 +249,13 @@ def learning_process(request, session_key):
             if len(uc_tags_filter) > 1 else
             'Congratulations on finishing this character set:<br>')
         for uc_tag_pk in uc_tags_filter:
-            msg += f'{UserCharacterTag.objects.get(pk=uc_tag_pk).name}<br>'
+            msg += f'{UserCharacterTag.objects.get(pk=uc_tag_pk).character_set.name}<br>'
         if request.user.is_guest:
             msg += 'To save your progress, sign up now.<br>' + \
                    '(Solved is completely free!)'
+            guest_user = request.user
             logout(request)
+            guest_user.delete()
         return end_learning(
             '<p style="text-align:center; font-size:16px;">'
              + msg +'</p>'
