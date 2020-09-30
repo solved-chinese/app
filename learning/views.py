@@ -33,13 +33,7 @@ def display_character(request, character_pk, **context_kwargs):
         return redirect('display_character', character_pk=character.pk)
 
     character = Character.objects.filter(pk__gte=character_pk).first()
-    radicals = [
-        Radical.objects.get(pk=character.radical_1_id),
-        Radical.objects.get(pk=character.radical_2_id)
-        if character.radical_2_id else None,
-        Radical.objects.get(pk=character.radical_3_id)
-        if character.radical_3_id else None
-    ]
+    radicals = [character.radical_1, character.radical_2, character.radical_3]
     return render(
         request,
         'learning/display_character.html',

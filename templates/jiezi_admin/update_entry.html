@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Entry Update Report</title>
     <style>
         .column {
-          float: left;
-          width: 50%;
+            float: left;
+            width: 33%;
+            max-width: 33%;
+            overflow-wrap: anywhere;
         }
     </style>
 </head>
@@ -21,6 +23,13 @@
     <div class="column">
         Characters<br>
         {% for item in characters %}
+            {{ item|safe }}
+        {% endfor %}
+    </div>
+
+    <div class="column">
+        Character Sets<br>
+        {% for item in character_sets %}
             {{ item|safe }}
         {% endfor %}
     </div>
