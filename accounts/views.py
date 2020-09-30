@@ -2,7 +2,6 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect, reverse
 from django.http import JsonResponse, HttpResponseRedirect
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
@@ -80,7 +79,6 @@ def alt_profile(request):
 @apiParam   {int}   set_id        the id of the CharacterSet to be added
 @apiError (Error 400) {String} msg   the detail of the exception
 """
-@csrf_exempt
 @login_required
 def add_set(request):
     try:
@@ -99,7 +97,6 @@ def add_set(request):
 @apiParam   {int}   set_id        (optional) the id of the UserCharacterTag for
 the character to be deleted from, otherwise the character will be delete from 
 all UserCharacterTags of the current user """
-@csrf_exempt
 @login_required
 def delete_character(request):
     try:
@@ -123,7 +120,6 @@ def delete_character(request):
 
 @apiSuccess {Object[]} sets list of serialized CharacterSet objects
 """
-@csrf_exempt
 @login_required
 def get_available_sets(request):
     sets = []
