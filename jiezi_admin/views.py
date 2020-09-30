@@ -9,6 +9,7 @@ from learning.models import Character, Radical, CharacterSet
 from .media_update_task import media_update_task
 from .gdrive_download import get_service, download
 from jiezi.celery import app
+from jiezi.settings import MEDIA_ROOT
 
 
 RADICAL_MNEMONIC_FOLDER_ID = '1boxohVl7GYOxqM1PyXKfnAMy-VP-tfvf'
@@ -25,6 +26,8 @@ def update_entry(request):
         mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     file = io.BytesIO()
     download(file, download_request)
+    with open(os.path.join(MEDIA_ROOT, 'backup.xlsx'), 'wb') as backup:
+        backup.write(file.getbuffer())
     radical_df = pd.read_excel(file, 'Radicals')
     character_df = pd.read_excel(file, 'Characters')
     cset_df = pd.read_excel(file, 'CharacterSets', index_col=0, header=None).T
