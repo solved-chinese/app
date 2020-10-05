@@ -3,6 +3,20 @@ from .models import User, UserCharacterTag, UserCharacter
 from learning.serializers import CharacterSerializer
 
 
+class UserCharacterSimpleSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name='user_character_detail')
+    chinese = serializers.SerializerMethodField()
+
+    def get_chinese(self, obj):
+        return obj.character.chinese
+
+    class Meta:
+        model = UserCharacter
+        fields = ['pk', 'url',
+                  'chinese']
+
+
 class UserCharacterSerializer(serializers.ModelSerializer):
     character = CharacterSerializer(read_only=True)
 
@@ -52,14 +66,9 @@ class UserCharacterTagSerializer(SimpleUserCharacterTagSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    user_characters = serializers.HyperlinkedRelatedField(many=True,
-        queryset=UserCharacter.objects.all(),
-        view_name='user_character_detail')
-    user_character_tags = SimpleUserCharacterTagSerializer(read_only=True,
-                                                           many=True)
 
     class Meta:
         model = User
         fields = ['pk',
-                  'username',
-                  'user_characters', 'user_character_tags']
+                  'username', 'first_name', 'last_name', 'email',
+                  'is_guest', 'cn_level']

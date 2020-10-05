@@ -10,15 +10,14 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import ObjectDoesNotExist
 from django.db.models import Q, F, Max, DurationField, ExpressionWrapper
 from django.contrib.auth import login, logout
-from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
 
 from learning.models import Character, CharacterSet, Radical, Report
 from accounts.models import User, UserCharacter, UserCharacterTag
-from jiezi.utils.json_serializer import chenyx_serialize
+from learning.serializers import CharacterSerializer
 from learning.learning_algorithm_constants import Constants
-from .serializers import CharacterSerializer, CharacterSetSerializer, \
-    RadicalSerializer
 from .audio import get_text_audio
 from jiezi.settings import MEDIA_ROOT
 
@@ -310,34 +309,6 @@ def getAudio(request):
         get_text_audio(f"{character.chinese}[={character.pinyin}]", path)
         return JsonResponse({'success': True})
 
-
-"""
-@api {POST} /search/ Search
-@apiDescription search characters using ONE given keyword, it will be search 
-    against pinyin (without accent), chinese, 3 definitions
-@apiGroup general
-
-@apiParam   {String}        key_word  the keyword to be searched
-
-@apiSuccess {Object[]} characters list of serialized Character objects
-"""
-def search(request):
-    keyword = request.POST.get('keyword')
-    characters_1 = Character.objects.filter(
-        Q(pinyin__unaccent__iexact=keyword) | Q(chinese__exact=keyword)
-    )
-    characters_2 = Character.objects.filter(
-        Q(definition_1__icontains=keyword) |
-        Q(definition_2__icontains=keyword) |
-        Q(definition_3__icontains=keyword) |
-        Q(pinyin__unaccent__icontains=keyword)
-    ).difference(characters_1)
-    return JsonResponse({
-        'characters': chenyx_serialize(characters_1) +
-                      chenyx_serialize(characters_2)
-    })
-
-
 """
 @api {POST} /learning/start_learning/  Start Learning
 @apiDescription Start Learning, this should be done with an actual form submission
@@ -366,25 +337,31 @@ In context dictionary, if 'is_next', provide an next button that submits
     GET form to original url, otherwise keep the next button the same as before
 """
 
-class CharacterDetail(generics.RetrieveAPIView):
-    queryset = Character.objects.all()
-    serializer_class = CharacterSerializer
 
+class Search(APIView):
+    permission_classes = [AllowAny]
 
-class RadicalDetail(generics.RetrieveAPIView):
-    queryset = Radical.objects.all()
-    serializer_class = RadicalSerializer
+    def post(self, request):
+        keyword = request.data.get('keyword', '')
+        if not keyword:
+            return Response([])
+        characters_1 = Character.objects.filter(
+            Q(pinyin__unaccent__iexact=keyword) | Q(chinese__exact=keyword)
+        )
+        characters_2 = Character.objects.filter(
+            Q(definition_1__icontains=keyword) |
+            Q(definition_2__icontains=keyword) |
+            Q(definition_3__icontains=keyword) |
+            Q(pinyin__unaccent__icontains=keyword)
+        ).difference(characters_1)[:6]
+        data = []
+        for c in list(characters_1) + list(characters_2):
+            data.append(CharacterSerializer(c).data)
+        return Response(data)
 
-
-class CharacterSetList(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = CharacterSetSerializer
-
-    def get_queryset(self):
-        return CharacterSet.objects.exclude(
-            user_character_tag__in=self.request.user.user_character_tags.all())
-
-
-class CharacterSetDetail(generics.RetrieveAPIView):
-    queryset = CharacterSet.objects.all()
-    serializer_class = CharacterSetSerializer
+    POST_action = {
+        'keyword' : {
+            'type' : 'string',
+            'example' : 'hao',
+        }
+    }
