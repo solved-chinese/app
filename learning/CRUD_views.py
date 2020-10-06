@@ -7,28 +7,40 @@ from learning.models import Character, CharacterSet, Radical
 
 
 class CharacterList(generics.ListAPIView):
+    """
+    __GET__: List all Characters
+    """
     queryset = Character.objects.all()
     serializer_class = SimpleCharacterSerializer
 
 
 class CharacterDetail(generics.RetrieveAPIView):
+    """
+    __GET__: Retrieve the detail of a Character and its related Radical(s)
+    """
     queryset = Character.objects.all()
     serializer_class = CharacterSerializer
 
 
 class RadicalList(generics.ListAPIView):
+    """
+    __GET__: List all Radicals
+    """
     queryset = Radical.objects.all()
     serializer_class = SimpleRadicalSerializer
 
 
 class RadicalDetail(generics.RetrieveAPIView):
+    """
+    __GET__: Retrieve the detail of a Radical
+    """
     queryset = Radical.objects.all()
     serializer_class = RadicalSerializer
 
 
 class CharacterSetList(generics.ListAPIView):
     """
-    This api returns all character sets that have not been added to the user
+    __GET__: List all character sets that have not been added to current User
     """
     permission_classes = [IsAuthenticated]
     serializer_class = CharacterSetSerializer
@@ -39,5 +51,8 @@ class CharacterSetList(generics.ListAPIView):
 
 
 class CharacterSetDetail(generics.RetrieveAPIView):
+    """
+    __GET__: Retrieve the detail of a CharacterSet
+    """
     queryset = CharacterSet.objects.all()
     serializer_class = CharacterSetSerializer

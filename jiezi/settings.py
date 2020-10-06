@@ -140,8 +140,7 @@ REST_FRAMEWORK = {
     'DEFAULT_METADATA_CLASS': 'jiezi.rest.metadata.CustomActionsMetadata',
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
-        'jiezi.rest.renderers.MyBrowsableAPIRenderer',
-        # 'rest_framework.renderers.BrowsableAPIRenderer',
+        'jiezi.rest.renderers.CustomActionsBrowsableAPIRenderer',
     ],
 }
 

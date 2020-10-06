@@ -339,6 +339,18 @@ In context dictionary, if 'is_next', provide an next button that submits
 
 
 class Search(APIView):
+    """
+    This view searches all existing characters against the given `keyword`.
+
+    Listing priority is as followed:
+
+    1. characters with their `chinese` or unaccented `pinyin` being `keyword`
+    exactly
+    2. characters with their three definitions containing `keyword`
+
+    Returns: a list of character objects with length at most 8
+    """
+    MAX_NUM = 8
     permission_classes = [AllowAny]
 
     def post(self, request):
@@ -348,12 +360,12 @@ class Search(APIView):
         characters_1 = Character.objects.filter(
             Q(pinyin__unaccent__iexact=keyword) | Q(chinese__exact=keyword)
         )
+        remaining_num = max(0, self.MAX_NUM - characters_1.count())
         characters_2 = Character.objects.filter(
             Q(definition_1__icontains=keyword) |
             Q(definition_2__icontains=keyword) |
-            Q(definition_3__icontains=keyword) |
-            Q(pinyin__unaccent__icontains=keyword)
-        ).difference(characters_1)[:6]
+            Q(definition_3__icontains=keyword)
+        ).difference(characters_1)[:]
         data = []
         for c in list(characters_1) + list(characters_2):
             data.append(CharacterSerializer(c).data)

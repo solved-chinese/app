@@ -4,10 +4,17 @@ from rest_framework.metadata import SimpleMetadata
 
 
 class CustomActionsMetadata(SimpleMetadata):
+    """
+    This class enables overriding the actions key for OPTION requests.
+    To override, set attributes `POST_action` or `GET_action` in a view class.
+
+    At the same time, it modifies the OPTION response to return permissions
+    """
     def determine_metadata(self, request, view):
         metadata = OrderedDict()
         metadata['name'] = view.get_view_name()
         metadata['description'] = view.get_view_description()
+        metadata['permissions'] = [str(cls) for cls in view.permission_classes]
         actions = {}
         if hasattr(view, 'get_serializer'):
             actions = self.determine_actions(request, view)

@@ -19,6 +19,11 @@ def about_us(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def api_root(request, format=None):
+    """
+    This is the root api page
+
+    Use the OPTION request to see view permissions and available actions.
+    """
     view_list = ['my_user_detail', 'search',
                  'user_character_list', 'user_character_tag_list',
                  'radical_list', 'character_list', 'character_set_list']

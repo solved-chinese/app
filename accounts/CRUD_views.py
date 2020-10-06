@@ -11,6 +11,9 @@ from accounts.models import UserCharacter, UserCharacterTag
 
 
 class MyUserDetail(generics.RetrieveUpdateAPIView):
+    """
+    __GET__ / __PUT__ : Retrieves / update the detail of current User
+    """
     permission_classes = [IsAuthenticated]
     serializer_class = UserSerializer
 
@@ -19,6 +22,9 @@ class MyUserDetail(generics.RetrieveUpdateAPIView):
 
 
 class UserCharacterList(generics.ListAPIView):
+    """
+    __GET__: Lists all UserCharacters belonging to current User
+    """
     permission_classes = [IsAuthenticated]
     serializer_class = UserCharacterSimpleSerializer
 
@@ -27,17 +33,22 @@ class UserCharacterList(generics.ListAPIView):
 
 
 class UserCharacterDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated & IsOwner]
+    """
+    __GET__ / __PUT__ / __DELETE__: Retrieve / update / destroy the detail
+    of a UserCharacter belonging to current user
+    """
+    permission_classes = [IsAuthenticated, IsOwner]
     queryset = UserCharacter.objects.all()
     serializer_class = UserCharacterSerializer
 
 
 class UserCharacterTagList(generics.ListCreateAPIView):
     """
-    To add a UserCharacterTag linked to a CharacterSet, __POST__ with a single
-    argument `character_set_id`
+    __GET__: Lists all user character tags belonging to current user
 
-    __GET__ for a list of all user character tags belonging to current user
+    __POST__: Add a UserCharacterTag linked to a CharacterSet with the given
+    `character_set_id`. This CharacterSet must not be added to this user
+    before.
     """
     permission_classes = [IsAuthenticated]
     serializer_class = UserCharacterTagSerializer
