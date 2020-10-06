@@ -2,10 +2,26 @@ from rest_framework import serializers
 from .models import Character, Radical, CharacterSet
 
 
+class SimpleRadicalSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name='radical_detail')
+    class Meta:
+        model = Radical
+        fields = ['chinese', 'pinyin', 'url', 'id']
+
+
 class RadicalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Radical
         fields = '__all__'
+
+
+class SimpleCharacterSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name='character_detail')
+    class Meta:
+        model = Character
+        fields = ['chinese', 'pinyin', 'url', 'id']
 
 
 class CharacterSerializer(serializers.ModelSerializer):

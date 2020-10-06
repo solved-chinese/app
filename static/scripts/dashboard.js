@@ -46,13 +46,13 @@
 
 var selected_tags = [];
 
-$.get('/accounts/my_user/', data => {
-    if(data.user_character_tags.length == 0) {
+$.get('/accounts/user_character_tag/', data => {
+    if(data.length == 0) {
         $('#available-tags-container').append(`
             Please add more sets to your library
         `);
     }
-    data.user_character_tags.forEach(tag => {
+    data.forEach(tag => {
         $('#available-tags-container').append(`
             <button type="button" class="button button-secondary tag-button text-left">
                 <div class='tag-name'>

@@ -1,19 +1,11 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect, reverse
-from django.http import JsonResponse, HttpResponseRedirect
-from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework import status
+from django.http import HttpResponseRedirect
+
 
 from accounts.forms import SignUpForm
-from learning.models import CharacterSet
-from accounts.models import UserCharacter, UserCharacterTag, User
-from jiezi.utils.json_serializer import chenyx_serialize
-from jiezi.permissions import IsOwner
-from .serializers import UserSerializer, UserCharacterSerializer, \
-    UserCharacterTagSerializer
+from accounts.models import UserCharacterTag
 
 
 def signup(request):
@@ -70,49 +62,3 @@ def alt_profile(request):
         return HttpResponseRedirect(reverse('profile'))
     else:
         return render(request, 'accounts/profile.html')
-
-
-class MyUserDetail(generics.RetrieveUpdateAPIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = UserSerializer
-
-    def get_object(self):
-        return self.request.user
-
-
-class UserCharacterDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsOwner]
-    queryset = UserCharacter.objects.all()
-    serializer_class = UserCharacterSerializer
-
-
-class UserCharacterTagList(generics.ListCreateAPIView):
-    """
-    To add a UserCharacterTag linked to a CharacterSet, __POST__ with a single
-    argument `character_set_id`
-
-    __GET__ for a list of all user character tags belonging to current user
-    """
-    permission_classes = [IsAuthenticated]
-    serializer_class = UserCharacterTagSerializer
-
-    def create(self, request, *args, **kwargs):
-        cset_pk = request.data['character_set_id']
-        cset = CharacterSet.objects.get(pk=cset_pk)
-        obj = UserCharacterTag.objects.create(character_set=cset,
-                                              user=request.user)
-        obj.update_from_character_set()
-        data = UserCharacterTagSerializer(
-            obj, context=self.get_serializer_context()).data
-        return Response(data,
-                        status=status.HTTP_201_CREATED,
-                        headers={'Location': str(data['url'])})
-
-    def get_queryset(self):
-        return self.request.user.user_character_tags
-
-
-class UserCharacterTagDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsOwner]
-    queryset = UserCharacterTag.objects.all()
-    serializer_class = UserCharacterTagSerializer
