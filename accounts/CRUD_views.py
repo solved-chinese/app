@@ -77,6 +77,10 @@ class UserCharacterTagList(generics.ListCreateAPIView):
 
 
 class UserCharacterTagDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated & IsOwner]
+    """
+    __GET__ / __PUT__ / __DELETE__ : Retrieves / update / destroy the detail of
+    a UserCharacterTag belonging to the current User
+    """
+    permission_classes = [IsAuthenticated, IsOwner]
     queryset = UserCharacterTag.objects.all()
     serializer_class = UserCharacterTagSerializer
