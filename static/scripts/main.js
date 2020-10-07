@@ -62,14 +62,14 @@ function searchHandler(e) {
         $target.empty();
         $('<hr>').appendTo($target);
 
-        if (data.characters.length === 0) {
+        if (data.length === 0) {
             $('<div class="error-msg">No Match</div>').appendTo($target);
             return;
         }
 
-        for (let char of data.characters.splice(0, MAX_ENTRIES_DISPLAY)) {
-            let targetPk = char.pk.toString().padStart(4, '0');
-            char = char.fields;
+        for (i = 0; i < Math.min(data.length, MAX_ENTRIES_DISPLAY); i++) {
+            char = data[i];
+            let targetPk = char.id.toString().padStart(4, '0');
             let entry = `
                 <a href='/learning/C${targetPk}' class='search-entry-wrapper'>
                     <div class='search-entry'>

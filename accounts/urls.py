@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 
-from accounts import views
+from accounts import views, CRUD_views
 
 """
 @api {GET} /search search 
@@ -22,16 +22,20 @@ urlpatterns = [
     path('manage_library/<int:set_id>', views.manage_library, name='manage_library'),
     path('manage_library/', views.manage_library, name='manage_library'),
 
+
     path('user_character_tag/',
-         views.UserCharacterTagList.as_view(),
+         CRUD_views.UserCharacterTagList.as_view(),
          name='user_character_tag_list'),
     path('user_character_tag/<int:pk>',
-         views.UserCharacterTagDetail.as_view(),
+         CRUD_views.UserCharacterTagDetail.as_view(),
          name='user_character_tag_detail'),
+    path('user_character/',
+         CRUD_views.UserCharacterList.as_view(),
+         name='user_character_list'),
     path('user_character/<int:pk>',
-         views.UserCharacterDetail.as_view(),
+         CRUD_views.UserCharacterDetail.as_view(),
          name='user_character_detail'),
     path('my_user/',
-         views.MyUserDetail.as_view(),
+         CRUD_views.MyUserDetail.as_view(),
          name='my_user_detail'),
 ]

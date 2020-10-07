@@ -8,8 +8,7 @@
 - `jiezi` django main app
 
 ## API generation
-our API's are currently currently served at <https://solved-chinese.github.io/api-doc/>.  
- They are automatically generated from master branch python source code by apidoc (<https://apidocjs.com>).
+We are now using Django REST Framework's self-browsable API served at <https://solvedchinese.org/api_root>. You can also test it locally in your development server.
 
 ## Installation
 this is supposed to be done on a Ubuntu machine
@@ -58,7 +57,7 @@ postgre# \password postgres (use this to change the password of postgres to 'jie
 python manage.py migrate
 ```
 
-6. For the setup of Celery and Redis, reference [wiki page](https://github.com/solved-chinese/app/wiki/Celery-and-Redis-Installation-for-progress-bar)
+6. For the setup of Celery and Redis, reference [wiki page](https://github.com/solved-chinese/app/wiki/Celery-and-Redis-Installation-for-progress-bar) Note that Celery doesn't work with Windows! 
   
 
 

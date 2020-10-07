@@ -66,16 +66,3 @@ $('.delete-set-button').click(e => {
         }
     });
 });
-
-$('.delete-char-button').click(e => {
-    let target = $(e.target);
-    let parent = target.parent();
-    let charId = parent.data('char-id');
-    let setId = $('.delete-set-button').data('set-id');
-
-    $.post('/accounts/delete_character/', {set_id: setId, character_id: charId}, data => {
-        if (data.msg === 'good') {
-            parent.remove();
-        }
-    });
-});
