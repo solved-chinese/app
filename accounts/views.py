@@ -1,11 +1,9 @@
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponseRedirect
 
-
 from accounts.forms import SignUpForm
-from accounts.models import UserCharacterTag
 
 
 def signup(request):
@@ -21,14 +19,6 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
-
-
-@login_required
-def manage_library(request, set_id=None):
-    if set_id:
-        context = {'set': UserCharacterTag.objects.get(pk=set_id)}
-        return render(request, 'accounts/manage_set.html', context)
-    return render(request, 'accounts/manage_library.html')
 
 
 @login_required
@@ -57,7 +47,6 @@ def alt_profile(request):
         currentUser.email = request.POST.get("email")
         currentUser.first_name = request.POST.get("first_name")
         currentUser.last_name = request.POST.get("last_name")
-        currentUser.cn_level = request.POST.get("cn_level")
         currentUser.save()
         return HttpResponseRedirect(reverse('profile'))
     else:

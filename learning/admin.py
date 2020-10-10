@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from learning.models import Character, CharacterSet, Radical, Report
+from .models import StudentCharacter, StudentCharacterTag
+from .learning_process import LearningProcess
 
-admin.site.register(Radical)
-admin.site.register(Character)
-admin.site.register(CharacterSet)
-admin.site.register(Report)
+admin.register(StudentCharacter)
+admin.register(StudentCharacterTag)
+admin.register(LearningProcess)

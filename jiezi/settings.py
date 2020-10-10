@@ -20,6 +20,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', '47.90.245.239', 'solvedchinese.org',
 # Application definition
 INSTALLED_APPS = [
     'rest_framework',
+    'django_fsm',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -36,7 +37,8 @@ INSTALLED_APPS = [
     # custom apps
     'accounts',
     'learning',
-    'jiezi_admin',
+    'content',
+    'classroom',
 ]
 
 MIDDLEWARE = [

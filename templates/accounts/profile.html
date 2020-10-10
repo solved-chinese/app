@@ -51,19 +51,6 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="form-group col-md-6">
-          <input type="hidden" name="u_cn_level" value="{{ user.cn_level }}">
-          <label><strong>Your Chinese Level</strong></label>
-          <select class="form-control" name="cn_level">
-            <option {% if user.cn_level == "Proficient" %} selected {% endif %}>Proficient</option>
-            <option {% if user.cn_level == "Intermediate" %} selected {% endif %}>Intermediate</option>
-            <option {% if user.cn_level == "Elementary" %} selected {% endif %}>Elementary</option>
-            <option {% if user.cn_level == "Beginner" %} selected {% endif %}>Beginner</option>
-          </select>
-        </div>
-      </div>
-
       <button id="submit-button" class="button button-primary mt-4" onclick="checkForm()">Submit</button>
     </div>
   </form>

@@ -76,8 +76,6 @@ function searchHandler(e) {
                         <span class='character'>${char.chinese}</span>
                         <span class='pinyin'>${char.pinyin.replace(/\s+/g, '')}</span>
                         <p class='definition'>${char.definition_1}
-                            <br />
-                            <span class='explanation'>${char.explanation_2 || ''}</span>
                         </p>
                     </div>
                 </a>`;
