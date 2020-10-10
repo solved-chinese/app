@@ -157,10 +157,8 @@ class Character(DFModel):
     definition_1 = models.CharField(max_length=100)
     part_of_speech_2 = models.CharField(max_length=50, null=True, blank=True)
     definition_2 = models.CharField(max_length=100, null=True, blank=True)
-    explanation_2 = models.CharField(max_length=300, null=True, blank=True)
     part_of_speech_3 = models.CharField(max_length=50, null=True, blank=True)
     definition_3 = models.CharField(max_length=100, null=True, blank=True)
-    explanation_3 = models.CharField(max_length=300, null=True, blank=True)
 
     radical_1 = models.ForeignKey(Radical, on_delete=models.CASCADE,
                                   related_name='+')
