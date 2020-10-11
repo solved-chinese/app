@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+  <link rel="stylesheet" type="text/css" href="{% static "styles/student_index.css" %}">
+{% endblock %}
+
+{% block content %}
+
+  <h1>Welcome back, {{ user.get_display_name }}!</h1>
+  <a class="button button-primary" href="{% url "manage_library" %}">Manage Vocab Sets</a>
+
+  <div class="card-container" id="study-container">
+    <h2>Select Set(s) to Study</h2>
+    <br>
+
+    <div id='available-tags-container'>
+    </div>
+
+    <br>
+    <form id='start-learning-form' action='{% url 'start_learning' %}' method='post'>
+      {% csrf_token %}
+      <input type='hidden' id='start-learning-form-filter' name='sc_tags_filter'>
+      <button class="button button-primary" id="study-button">Study Now</button>
+    </form>
+
+
+  </div>
+
+  <div class="card-container" id="stats-container">
+    <h2>Stats</h2>
+    <div id="stats-content-container" class="row">
+
+      <div class="col-12 col-md-6 col-lg-3 stat-text">
+        <h5>Last time you studied for</h5>
+        <p class="big-stat">
+          <script> document.write(({{ user.last_study_duration.seconds }} / 60).toFixed(1)); </script>
+        </p>
+        <p><strong>minutes</strong></p>
+        <hr class="d-block d-lg-none">
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-3 stat-text">
+        <h5>You have studied on Solved for</h5>
+        <p class="big-stat">
+          <script> document.write(({{ user.total_study_duration.seconds }} / 60).toFixed(1)); </script>
+        <p><strong>minutes</strong></p>
+        <hr class="d-block d-md-none">
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-3 stat-text">
+        <h5>You have seen</h5>
+        <p class="big-stat">{{ user.get_total_words_learned }}</p>
+        <p><strong>words</strong></p>
+        <hr class="d-block d-md-none">
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-3 stat-text">
+        <h5>You have mastered</h5>
+        <p class="big-stat">{{ user.get_total_words_mastered }}</p>
+        <p><strong>words</strong></p>
+      </div>
+
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block js %}
+  <script src="{% static "scripts/dashboard.js" %}"></script>
+{% endblock %}

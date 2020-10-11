@@ -9,8 +9,12 @@ from rest_framework.reverse import reverse
 
 
 def index(request):
-    return render(request, 'index.html')
-
+    if not request.user.is_authenticated:
+        return render(request, 'unauthenticated_index.html')
+    elif request.user.is_student:
+        return render(request, 'student_index.html')
+    elif request.user.is_teacher:
+        return render(request, 'teacher_index.html')
 
 def about_us(request):
     return render(request, 'about_us.html')
