@@ -7,7 +7,8 @@ from classroom.models import Student
 from jiezi.utils.mixins import StrDefaultReprMixin
 import learning.learning_process as learning_process
 from learning.managers import StudentCharacterManager, \
-    factory_student_character_manager_of
+    factory_student_character_manager_of, SCTagManager
+from django_fsm import FSMIntegerField, transition, RETURN_VALUE
 
 
 class Report(models.Model, StrDefaultReprMixin):
@@ -55,8 +56,7 @@ class StudentCharacter(student_character_factory(), StrDefaultReprMixin):
         (IN_PROGRESS, 'In Progress'),
         (MASTERED, 'Mastered'),
     ]
-    state = models.PositiveSmallIntegerField(choices=STATE_CHOICES,
-                                             default=TO_LEARN)
+    state = FSMIntegerField(choices=STATE_CHOICES, default=TO_LEARN)
     student = models.ForeignKey(Student, on_delete=models.CASCADE,
                                 related_name='student_characters',
                                 related_query_name='student_character')
@@ -67,7 +67,17 @@ class StudentCharacter(student_character_factory(), StrDefaultReprMixin):
     of = factory_student_character_manager_of
     objects = StudentCharacterManager()
 
-    def update(self, is_correct, field_name):
+    @transition(state, source=TO_LEARN, target=IN_PROGRESS)
+    def _learn_update(self):
+        pass
+
+    def learn_update(self):
+        self._learn_update()
+        self.save()
+
+    @transition(state, source=IN_PROGRESS,
+                target=RETURN_VALUE(IN_PROGRESS, MASTERED))
+    def _test_review_update(self, is_correct, field_name):
         """
         N (default: 2) correct answers in a row of a field masters this field
         incorrect answers increases N up to a maximum of 4
@@ -79,8 +89,9 @@ class StudentCharacter(student_character_factory(), StrDefaultReprMixin):
             if field_in_a_row == \
                     getattr(self, field_name + '_in_a_row_required'):
                 setattr(self, field_name + '_mastered', True)
-                self.mastered = all(getattr(self, f'{test_field}_mastered')
-                                    for test_field in Character.TEST_FIELDS)
+                if all(getattr(self, f'{test_field}_mastered')
+                       for test_field in Character.TEST_FIELDS):
+                    return self.MASTERED
         else: # answer incorrect
             setattr(self, field_name + '_in_a_row', 0)
             field_in_a_row_required = \
@@ -90,6 +101,10 @@ class StudentCharacter(student_character_factory(), StrDefaultReprMixin):
             setattr(self, field_name + '_in_a_row_required',
                     field_in_a_row_required)
         setattr(self, field_name + '_time_last_studied', timezone.now())
+        return self.IN_PROGRESS
+
+    def test_review_update(self, is_correct, field_name):
+        self._test_review_update(is_correct, field_name)
         self.save()
 
     def __repr__(self):
@@ -106,12 +121,13 @@ class StudentCharacterTag(models.Model):
                                       on_delete=models.CASCADE,
                                       related_name='sc_tags',
                                       related_query_name='sc_tag')
-    student = models.ForeignKey(User, on_delete=models.CASCADE,
+    student = models.ForeignKey(Student, on_delete=models.CASCADE,
                                 related_name='sc_tags',
                                 related_query_name='sc_tag')
     student_characters = models.ManyToManyField(StudentCharacter,
                                                 related_name='sc_tags',
                                                 related_query_name='sc_tag')
+    objects = SCTagManager()
 
     def update_from_character_set(self):
         """
@@ -125,9 +141,16 @@ class StudentCharacterTag(models.Model):
         """
         scs = []
         for character in self.character_set.characters.all():
-            scs.append(self.student.student_characters.get_or_create(
-                student=self.student, character=character)[0])
+            scs.append(StudentCharacter.of(self.student, character))
         self.student_characters.set(scs)
+
+    @property
+    def states_count(self):
+        return self.student_characters.all().get_states_count()
+
+    @property
+    def name(self):
+        return self.character_set.name
 
     def __str__(self):
         return f"<sct {self.pk}:{self.student}'s {self.character_set.name}>"

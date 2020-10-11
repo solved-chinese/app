@@ -47,7 +47,7 @@ class CharacterSetList(generics.ListAPIView):
 
     def get_queryset(self):
         return CharacterSet.objects.exclude(
-            user_character_tag__in=self.request.user.user_character_tags.all())
+            sc_tag__in=self.request.user.student.sc_tags.all())
 
 
 class CharacterSetDetail(generics.RetrieveAPIView):

@@ -1,4 +1,4 @@
-$.get('/learning/character_set/', data => {
+$.get('/content/character_set/', data => {
     data.forEach(set => {
         $('#available-sets-container').append(`
             <div class="set-name-container" data-set-id="${ set.id }">
@@ -12,7 +12,7 @@ $.get('/learning/character_set/', data => {
         let parent = target.parent();
         let parentId = parent.attr('data-set-id');
         let setName = parent.find('span').html();
-        $.post('/accounts/user_character_tag/', {character_set_id: parentId}, data => {
+        $.post('/learning/student_character_tag/', {character_set_id: parentId}, data => {
             parent.addClass('success');
             target.removeClass('fa-plus')
                   .addClass('fa-check')

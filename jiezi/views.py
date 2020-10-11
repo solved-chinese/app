@@ -25,7 +25,7 @@ def api_root(request, format=None):
     Use the OPTION request to see view permissions and available actions.
     """
     view_list = ['my_user_detail', 'search',
-                 'user_character_list', 'user_character_tag_list',
+                 'student_character_list', 'student_character_tag_list',
                  'radical_list', 'character_list', 'character_set_list']
     view_dict = {
         view_name: reverse(view_name, request=request, format=format)

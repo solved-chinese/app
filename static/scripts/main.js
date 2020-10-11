@@ -53,7 +53,7 @@ function searchHandler(e) {
     }
 
     $.post({
-        url: '/learning/search/',
+        url: '/content/search/',
         data: {
             keyword: query
         }

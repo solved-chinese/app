@@ -7,8 +7,12 @@ urlpatterns = [
     path('report/', views.report, name='report'),
 
     path('try_me/', views.try_me, name='try_me'),
-    path('start_learning/', views.StartLearning.as_view, name='start_learning'),
-    path('', views.Learning.as_view, name='continue_learning'),
+    path('start_learning/', views.StartLearning.as_view(), name='start_learning'),
+    path('', views.Learning.as_view(), name='continue_learning'),
+
+    path('manage_library/<int:set_id>', views.manage_library,
+         name='manage_library'),
+    path('manage_library/', views.manage_library, name='manage_library'),
 
     path('student_character_tag/',
          CRUD_views.StudentCharacterTagList.as_view(),

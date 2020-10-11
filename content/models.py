@@ -175,7 +175,7 @@ class Character(models.Model, DFModelMixin, StrDefaultReprMixin):
     stroke_order_image = models.ImageField(default='default.jpg')
 
     def generate_question(self, test_field_index):
-        return self._TEST_QUESTIONS.format(
+        return self._TEST_QUESTIONS[test_field_index].format(
             f"<p id='character-preview' class='character-kai character-preview'>"
             f"{self.chinese}</p>"
         )

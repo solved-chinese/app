@@ -46,21 +46,24 @@
 
 var selected_tags = [];
 
-$.get('/accounts/user_character_tag/', data => {
+$.get('/learning/student_character_tag/', data => {
     if(data.length == 0) {
         $('#available-tags-container').append(`
             Please add more sets to your library
         `);
     }
     data.forEach(tag => {
+        states = ""
+        Object.entries(tag.states_count).forEach(function([key, value]) {
+           states += `${key}: ${value} &nbsp;&nbsp;&nbsp;`
+        });
         $('#available-tags-container').append(`
             <button type="button" class="button button-secondary tag-button text-left">
                 <div class='tag-name'>
                   ${tag.name} 
                   <span class="checkmark" data-pk="${tag.pk}">&#10003;</span> 
                 </div>
-                Mastered: ${tag.mastered_cnt} &nbsp; In Progress: ${tag.learned_cnt - tag.mastered_cnt} &nbsp; 
-                To Learn: ${tag.total_cnt - tag.learned_cnt}
+                ${states}
             </button>
         `);
     });
@@ -70,12 +73,11 @@ $.get('/accounts/user_character_tag/', data => {
         checkmark.toggle();
         let pk = checkmark.data("pk");
         if(checkmark.is(":hidden")) {
-            console.log("splice");
-            selected_tags.splice(selected_tags.indexOf(pk));
+            selected_tags.splice(selected_tags.indexOf(pk), 1);
         } else {
-            console.log("add");
             selected_tags.push(pk);
         }
+        console.log(selected_tags);
         if (selected_tags.length == 0) {
             $("#study-button").hide();
         } else {

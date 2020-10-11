@@ -22,14 +22,14 @@
 
 
 {% block content %}
-  <a class="header-back-button" href="/accounts/manage_library/"><i class="far fa-angle-left"></i>Manage Vocab Sets</a>
+  <a class="header-back-button" href="{% url 'manage_library' %}"><i class="far fa-angle-left"></i>Manage Vocab Sets</a>
   <h1>{{ set.name }}<i class='delete-set-button far fa-trash-alt' data-set-id={{ set.id }}></i></h1>
 
   <div id="page-content-container">
 
     <div class="chars-container">
-      {% for uc in set.user_characters.all %}
-        {% with char=uc.character %}
+      {% for sc in set.student_characters.all %}
+        {% with char=sc.character %}
           <div class="char" data-char-id={{ char.id }}>
             <div class='character-preview character-preview-small'>
               <p class='character character-kai character-small'>
@@ -44,8 +44,8 @@
     </div>
 
     <div id="character-container-wrapper">
-      {% for uc in set.user_characters.all %}
-        {% with char=uc.character %}
+      {% for sc in set.student_characters.all %}
+        {% with char=sc.character %}
           <div class="card-container" style="display: none">
             <div class="character-card-container" data-char-id={{ char.id }}>
               <div class="character-info-container">
@@ -80,6 +80,7 @@
 
               <div class="character-radicals-container">
                 <h2>Radicals</h2>
+{#                TODO we should never use char.radical_1_id#}
                 <div class="radicals-breakdown-container" data-radical-ids="{{ char.radical_1_id }} {{ char.radical_2_id }} {{ char.radical_3_id }}"></div>
                 <p class="breakdown-caption">{{ char.mnemonic_explanation | linebreaks }}</p>
               </div>

@@ -1,6 +1,7 @@
 import json
 import random
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from rest_framework import status
@@ -17,6 +18,14 @@ from .models import StudentCharacterTag, Report
 from learning.learning_process import LearningProcess
 
 
+@login_required
+def manage_library(request, set_id=None):
+    if set_id:
+        context = {'set': StudentCharacterTag.objects.get(pk=set_id)}
+        return render(request, 'accounts/manage_set.html', context)
+    return render(request, 'accounts/manage_library.html')
+
+
 def try_me(request):
     if request.user.is_authenticated:
         return redirect('')
@@ -28,7 +37,7 @@ def try_me(request):
     obj = StudentCharacterTag.objects.create(character_set=try_me_set,
                                              user=user)
     obj.update_from_character_set()
-    process = LearningProcess.objects.get_or_create(student=request.user.student)
+    process = LearningProcess.of(request.user.student)
     process.start([obj.pk])
     return redirect(reverse('continue_learning'))
 
@@ -47,8 +56,7 @@ class StartLearning(APIView):
         for sc_tag in sc_tags_filter:
             assert StudentCharacterTag.objects.get(pk=sc_tag).student \
                    == student
-        LearningProcess.objects.get_or_create(student=student).\
-            start(sc_tags_filter)
+        LearningProcess.of(student).start(sc_tags_filter)
         return redirect(reverse('continue_learning'))
 
 
@@ -57,7 +65,7 @@ class Learning(APIView):
 
     def get_learning_process(self, request):
         student = self.request.user.student
-        return LearningProcess.objects.get_or_create(student=student)
+        return LearningProcess.of(student)
 
     def finish(self, request):
         return render(request, 'simple_response.html', {
@@ -76,14 +84,14 @@ class Learning(APIView):
         if mode is None:
             return self.finish(request)
         elif mode == 'learn': # character, None
-            return display_character(data_1.pk, is_next=True)
+            return display_character(request, data_1.pk, is_next=True)
         elif mode == 'review': # question, choices
             return self.review(request, data_1, data_2)
 
     def post(self, request):
         # used for checking answer only
         process = self.get_learning_process(request)
-        ans_index = request.data['user_answer']
+        ans_index = int(request.data['user_answer'])
         ans_index = process.check_answer(ans_index)
         return Response({'correct_answer':ans_index},
                         status=status.HTTP_200_OK)

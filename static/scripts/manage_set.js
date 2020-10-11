@@ -18,7 +18,7 @@ function updateRadical() {
     radicalIds.forEach(radicalId => {
         let radical = radicalsLookup[radicalId];
         if (!radical) {
-            $.get(`/learning/radical/${radicalId}`, radical => {
+            $.get(`/content/radical/${radicalId}`, radical => {
                 radicalsLookup[radicalId] = radical;
                 charRadicalsContainer.append(getRadicalContainer(radical));
             });
@@ -59,10 +59,10 @@ $('.delete-set-button').click(e => {
     let target = $(e.target);
     let setId = target.data('set-id');
     $.ajax({
-        url: `/accounts/user_character_tag/${setId}`,
+        url: `/learning/student_character_tag/${setId}`,
         type: 'DELETE',
         success: function (result) {
-            window.location.href = '/accounts/manage_library/';
+            window.location.href = '/learning/manage_library/';
         }
     });
 });

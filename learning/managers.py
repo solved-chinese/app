@@ -13,16 +13,19 @@ import learning.models
 class SCQuerySet(models.QuerySet):
     def get_to_review(self):
         global_max_weighted_duration = timedelta(seconds=0)
+        scs_to_review = self.filter(
+            state=learning.models.StudentCharacter.IN_PROGRESS)
+        if not scs_to_review.exists():
+            return None, None
         sc_to_review = None
         field_index_to_review = None
         for index, test_field in enumerate(Character.TEST_FIELDS):
-            annotated = self.filter(
-                    state=learning.models.StudentCharacter.IN_PROGRESS
-                ).annotate(weighted_duration=ExpressionWrapper(
-                (timezone.now() - F(test_field + '_time_last_studied'))
-                / (F(test_field + '_in_a_row') + 1)
-                + learning.learning_process.LearningProcess.ADDED_DURATION,
-                    output_field=DurationField()
+            annotated = scs_to_review.annotate(
+                weighted_duration=ExpressionWrapper(
+                    (timezone.now() - F(test_field + '_time_last_studied'))
+                    / (F(test_field + '_in_a_row') + 1)
+                    + learning.learning_process.LearningProcess.ADDED_DURATION,
+                        output_field=DurationField()
                 )
             )
             local_max_weighted_duration = annotated.aggregate(
@@ -35,6 +38,11 @@ class SCQuerySet(models.QuerySet):
                 global_max_weighted_duration = local_max_weighted_duration
         return sc_to_review, field_index_to_review
 
+    def get_states_count(self):
+        d = {}
+        for num, choice in learning.models.StudentCharacter.STATE_CHOICES:
+            d[choice] = self.filter(state=num).count()
+        return d
 
 class StudentCharacterManager(models.Manager):
     def __init__(self, student=None, sc_tags = None, *args, **kwargs):
@@ -77,16 +85,25 @@ class StudentCharacterManager(models.Manager):
     def count_all_in_progress(self):
         return self.get_all_in_progress().count()
 
+    def get_states_count_dict(self):
+        return self.get_queryset().get_states_count()
+
+    def get_to_review(self):
+        return self.get_queryset().get_to_review()
+
     @classmethod
-    def of(cls, model, student=None, sc_tags=None):
+    def of(cls, model, student=None, character=None, sc_tags=None):
+        if student and character:
+            return model.objects.get_or_create(student=student,
+                                               character=character)[0]
         manager = cls(student=student, sc_tags=sc_tags)
         manager.model = model
         return manager
 
 
 def factory_student_character_manager_of(*args, **kargs):
-    return StudentCharacterManager.of_student(
-        StudentCharacterManager, *args, **kargs)
+    return StudentCharacterManager.of(learning.models.StudentCharacter,
+                                      *args, **kargs)
 
 
 class SCTagManager(models.Manager):

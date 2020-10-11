@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from content.models import CharacterSet
-from jiezi.rest.permissions import IsOwner
+from jiezi.rest.permissions import IsOwnerStudent, IsStudent
 from learning.models import StudentCharacter, StudentCharacterTag
 from learning.serializers import StudentCharacterSimpleSerializer, \
     StudentCharacterSerializer, StudentCharacterTagSerializer
@@ -13,11 +13,11 @@ class StudentCharacterList(generics.ListAPIView):
     """
     __GET__: Lists all UserCharacters belonging to current User
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsStudent]
     serializer_class = StudentCharacterSimpleSerializer
 
     def get_queryset(self):
-        return self.request.user.user_characters
+        return self.request.user.student.student_characters
 
 
 class StudentCharacterDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -25,7 +25,7 @@ class StudentCharacterDetail(generics.RetrieveUpdateDestroyAPIView):
     __GET__ / __PUT__ / __DELETE__: Retrieve / update / destroy the detail
     of a StudentCharacter belonging to current user
     """
-    permission_classes = [IsAuthenticated, IsOwner]
+    permission_classes = [IsAuthenticated, IsStudent, IsOwnerStudent]
     queryset = StudentCharacter.objects.all()
     serializer_class = StudentCharacterSerializer
 
@@ -38,7 +38,7 @@ class StudentCharacterTagList(generics.ListCreateAPIView):
     `character_set_id`. This CharacterSet must not be added to this user
     before.
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsStudent]
     serializer_class = StudentCharacterTagSerializer
 
     def create(self, request, *args, **kwargs):
@@ -69,6 +69,6 @@ class StudentCharacterTagDetail(generics.RetrieveUpdateDestroyAPIView):
     __GET__ / __PUT__ / __DELETE__ : Retrieves / update / destroy the detail of
     a StudentCharacterTag belonging to the current User
     """
-    permission_classes = [IsAuthenticated, IsOwner]
+    permission_classes = [IsAuthenticated, IsStudent, IsOwnerStudent]
     queryset = StudentCharacterTag.objects.all()
     serializer_class = StudentCharacterTagSerializer
