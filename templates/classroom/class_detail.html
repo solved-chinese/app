@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <h1>{{ object.name }}</h1>
+  <p>code: {{ object.uuid.hex }}</p>
+  <p>#students: {{ object.student_count }}</p>
+
+  <ul>
+    {% for student in object.students.all %}
+      <li>student.display_name</li>
+    {% empty %}
+      <li>You don't have any students in this yet.
+        Share the the classcode with them.</li>
+    {% endfor %}
+  </ul>
+
+{% endblock content %}

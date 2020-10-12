@@ -21,11 +21,9 @@ class Student(models.Model):
     total_study_duration = models.DurationField(
         default=datetime.timedelta(seconds=0))
 
-    def start_learning_update(self):
-        pass
-
-    def continue_learning_update(self):
-        pass
+    @property
+    def display_name(self):
+        return self.user.get_display_name()
 
 
 class Teacher(models.Model):
@@ -38,3 +36,8 @@ class Class(models.Model):
                                 related_name='classes',
                                 related_query_name='class')
     uuid = models.UUIDField(default=uuid.uuid4)
+    name = models.CharField(max_length=100)
+
+    @property
+    def student_count(self):
+        return self.students.count()
