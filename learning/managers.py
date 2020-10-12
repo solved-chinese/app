@@ -85,6 +85,14 @@ class StudentCharacterManager(models.Manager):
     def count_all_in_progress(self):
         return self.get_all_in_progress().count()
 
+    def get_mastered_count(self):
+        return self.get_queryset().filter(state=
+            learning.models.StudentCharacter.MASTERED).count()
+
+    def get_in_progress_count(self):
+        return self.get_queryset().filter(state=
+            learning.models.StudentCharacter.IN_PROGRESS).count()
+
     def get_states_count_dict(self):
         return self.get_queryset().get_states_count()
 

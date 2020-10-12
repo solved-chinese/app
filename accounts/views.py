@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponseRedirect
 
 from accounts.forms import SignUpForm
+from classroom.models import Student
 
 
 def signup(request):
@@ -14,6 +15,7 @@ def signup(request):
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
+            Student.objects.create(user=user)
             login(request, user)
             return redirect('index')
     else:
@@ -23,17 +25,11 @@ def signup(request):
 
 @login_required
 def profile(request):
-    if request.GET.get('endsession', False):
-        request.session['is_learning'] = False
-
     return render(request, 'accounts/profile.html')
 
 
 @login_required
 def staff_panel(request):
-    if request.GET.get('endsession', False):
-        request.session['is_learning'] = False
-
     if not request.user.is_staff:
         return HttpResponseRedirect(reverse('profile'))
 

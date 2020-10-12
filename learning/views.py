@@ -134,4 +134,3 @@ def report(request):
     return render(request, 'simple_response.html', {
         'content': 'Thank you for your response!'
     })
-    return redirect('404')

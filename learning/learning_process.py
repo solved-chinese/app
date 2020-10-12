@@ -1,16 +1,18 @@
 import random
 from datetime import timedelta
 
+from django.utils import timezone
 from django.core.validators import MaxValueValidator
 from django.db import models
 from django_fsm import FSMIntegerField, transition, RETURN_VALUE
 
-from classroom.models import Student
 from content.models import Character
 import learning.models
 
 
 class LearningProcess(models.Model):
+    # algorithm constants
+    MAX_INTERVAL_SECONDS = 120
     DEFAULT_IN_A_ROW_REQUIRED = 2
     MAX_IN_A_ROW_REQUIRED = 4
     ADDED_DURATION = timedelta(seconds=30)
@@ -18,8 +20,8 @@ class LearningProcess(models.Model):
     MAX_SC_IN_PROGRESS_CNT = 10
     LEARN_PROB = 1 / 3
     MAX_RANDOM_CHOICES = 20
-    # ends algorithm constants
     DECIDE = 10
+    # states
     START_LEARN = 20
     DONE_LEARN = 30
     START_RELEARN = 40
@@ -35,11 +37,11 @@ class LearningProcess(models.Model):
                (TOLERANT_REVIEW, 'tolerant_review'),
                (TEST_REVIEW, 'test_review'),
                (FINISH, 'finish')]
-    # ends states
     state = FSMIntegerField(choices=CHOICES, default=DECIDE)
-    student = models.OneToOneField(Student, on_delete=models.CASCADE,
-                                   primary_key=True,
-                                   related_name='learning_process')
+    # fields
+    student = models.OneToOneField('classroom.Student',
+                                   on_delete=models.CASCADE,
+                                   primary_key=True, related_name='+')
     character = models.ForeignKey(Character, related_name='+',
                                   null=True, on_delete=models.SET_NULL)
     sc_tags = models.ManyToManyField('learning.StudentCharacterTag',
@@ -49,6 +51,9 @@ class LearningProcess(models.Model):
         validators=[MaxValueValidator(len(Character.TEST_FIELDS) - 1)]
     )
     review_answer_index = models.PositiveSmallIntegerField(default=0)
+    # stats
+    last_study_time = models.DateTimeField(auto_now=True)
+    duration = models.DurationField(default=timedelta(0))
 
     @transition(field=state, source="*",
                 target=RETURN_VALUE(TEST_REVIEW, START_LEARN, FINISH))
@@ -118,6 +123,7 @@ class LearningProcess(models.Model):
             print(self.get_state_display())
             action = ACTIONS[self.state]()
             if isinstance(action, tuple):
+                self.update_duration()
                 self.save()
                 return action
         raise Exception('InternalError: infinite loop')
@@ -149,17 +155,34 @@ class LearningProcess(models.Model):
         """
         print(self.get_state_display())
         self._check_answer(ans_index)
+        self.update_duration()
         print(self.get_state_display())
         self.save()
         return self.review_answer_index
 
-    def start(self, sc_tags_filter):
+    def start(self, sc_tags_filter=[]):
+        """
+        This function resets the LearningProcess
+        """
         self.sc_tags.set(
             learning.models.StudentCharacterTag.objects.filter_by_pk(
             sc_tags_filter)
         )
         self.state = self.DECIDE
+        self.duration = timedelta(0)
         self.save()
+
+    def update_duration(self):
+        delta_time = timezone.now() - self.last_study_time
+        if delta_time > timedelta(seconds=self.MAX_INTERVAL_SECONDS):
+            delta_time = timedelta(seconds=self.MAX_INTERVAL_SECONDS)
+            # TODO issue a warning like Membean
+        self.duration += delta_time
+        self.student.update_duration(delta_time)
+
+    @property
+    def duration_seconds(self):
+        return self.duration.total_seconds()
 
     @classmethod
     def of(cls, student):

@@ -1,4 +1,4 @@
-import datetime
+from datetime import timedelta
 import uuid
 
 from django.db import models
@@ -13,17 +13,19 @@ class Student(models.Model):
                                  related_name='students',
                                  related_query_name='student',
                                  null=True, blank=True)
-    study_streak = models.IntegerField(default=0)
-    last_study_time = models.DateTimeField(auto_now_add=True)
-    last_study_duration = models.DurationField(
-        default=datetime.timedelta(seconds=0))
-    last_study_vocab_count = models.IntegerField(default=0)
-    total_study_duration = models.DurationField(
-        default=datetime.timedelta(seconds=0))
+    total_study_duration = models.DurationField(default=timedelta(0))
 
     @property
     def display_name(self):
         return self.user.get_display_name()
+
+    def update_duration(self, delta_time):
+        self.total_study_duration += delta_time
+        self.save()
+
+    @property
+    def total_study_duration_seconds(self):
+        return self.total_study_duration.total_seconds()
 
 
 class Teacher(models.Model):

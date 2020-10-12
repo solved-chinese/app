@@ -31,35 +31,16 @@
     <h2>Stats</h2>
     <div id="stats-content-container" class="row">
 
-      <div class="col-12 col-md-6 col-lg-3 stat-text">
-        <h5>Last time you studied for</h5>
-        <p class="big-stat">
-          <script> document.write(({{ user.last_study_duration.seconds }} / 60).toFixed(1)); </script>
-        </p>
-        <p><strong>minutes</strong></p>
-        <hr class="d-block d-lg-none">
-      </div>
-
-      <div class="col-12 col-md-6 col-lg-3 stat-text">
-        <h5>You have studied on Solved for</h5>
-        <p class="big-stat">
-          <script> document.write(({{ user.total_study_duration.seconds }} / 60).toFixed(1)); </script>
-        <p><strong>minutes</strong></p>
-        <hr class="d-block d-md-none">
-      </div>
-
-      <div class="col-12 col-md-6 col-lg-3 stat-text">
-        <h5>You have seen</h5>
-        <p class="big-stat">{{ user.get_total_words_learned }}</p>
-        <p><strong>words</strong></p>
-        <hr class="d-block d-md-none">
-      </div>
-
-      <div class="col-12 col-md-6 col-lg-3 stat-text">
-        <h5>You have mastered</h5>
-        <p class="big-stat">{{ user.get_total_words_mastered }}</p>
-        <p><strong>words</strong></p>
-      </div>
+      {% for start, num, ending in stats%}
+        <div class="col-12 col-md-6 col-lg-3 stat-text">
+          <h5>{{ start }}</h5>
+          <p class="big-stat">
+            {{ num }}
+          </p>
+          <p><strong>{{ ending }}</strong></p>
+          <hr class="d-block d-lg-none">
+        </div>
+      {% endfor %}
 
     </div>
   </div>

@@ -7,12 +7,30 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
+from learning.learning_process import LearningProcess
+from learning.models import StudentCharacter
+
 
 def index(request):
     if not request.user.is_authenticated:
         return render(request, 'unauthenticated_index.html')
     elif request.user.is_student:
-        return render(request, 'student_index.html')
+        student = request.user.student
+        stats = [
+            ('Last time you studied for',
+             int(LearningProcess.of(student).duration_seconds // 60),
+             'minutes'),
+            ('You have studied for',
+             int(student.total_study_duration_seconds // 60),
+             'minutes'),
+            ('You have ',
+             StudentCharacter.of(student=student).get_in_progress_count(),
+             'words in progress'),
+            ('You have mastered',
+             StudentCharacter.of(student=student).get_mastered_count(),
+             'minutes'),
+        ]
+        return render(request, 'student_index.html', {'stats': stats})
     elif request.user.is_teacher:
         return render(request, 'teacher_index.html')
 
