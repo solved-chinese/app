@@ -4,7 +4,7 @@ from django.views.generic.base import RedirectView
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.views.generic import TemplateView
+
 from jiezi import views
 
 
@@ -25,10 +25,7 @@ urlpatterns = [
     path('index/', views.index, name="index"),
     path('', RedirectView.as_view(url='index')),
     path('about_us/', views.about_us, name="about_us"),
-    path('api_root/', views.api_root),
-
-    #front-end testing urls
-    #path('',TemplateView.as_view(url = 'index.html'))
+    path('api_root/', views.api_root)
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()
