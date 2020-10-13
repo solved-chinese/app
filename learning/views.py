@@ -68,7 +68,7 @@ class Learning(APIView):
         return LearningProcess.of(student)
 
     def finish(self, request):
-        return render(request, 'simple_response.html', {
+        return render(request, 'utils/simple_response.html', {
             'content': 'Thank you for your response!'
         })
 
@@ -131,6 +131,6 @@ def report(request):
     if isinstance(request.user, User):
         report.user = request.user
     report.save()
-    return render(request, 'simple_response.html', {
+    return render(request, 'utils/simple_response.html', {
         'content': 'Thank you for your response!'
     })

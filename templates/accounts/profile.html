@@ -17,7 +17,7 @@
   <form class="row" id="form" method="POST">
     {% csrf_token %}
     <div class="col-12">
-      {% include "accounts/combined_forms.html" with combined_forms=forms %}
+      {% include "utils/combined_forms.html" with combined_forms=forms %}
       <button type="submit" class="button button-primary mt-4">
         Update Profile
       </button>

@@ -14,7 +14,7 @@
 
   <form method="post" autocomplete="off">
     {% csrf_token %}
-    {% include "accounts/combined_forms.html" with combined_forms=forms %}
+    {% include "utils/combined_forms.html" with combined_forms=forms %}
     <br>
     <button class='button button-primary' type="submit">Sign up</button>
   </form>

@@ -38,15 +38,30 @@ class Student(StrDefaultReprMixin, models.Model):
     def total_study_duration_seconds(self):
         return self.total_study_duration.total_seconds()
 
+    def __repr__(self):
+        return f"<student of {self.user}>"
+
 
 class Teacher(StrDefaultReprMixin, models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,
                                 primary_key=True, related_name='teacher')
-    school_name = models.CharField(max_length=200)
+    school = models.CharField(max_length=200, blank=True,
+        help_text="""Please also include the region / country. For example,
+                "St. Mark's School, Massachusetts, United States" """)
+    school_description = models.TextField(max_length=2000, blank=True,
+        verbose_name="Please describe your school",
+        help_text="""You may include the curriculum that your school uses
+        (E.g. Integrated Chinese, IB curriculum, HSK Standard Course, etc.
+        ) """)
+    wechat_id = models.CharField(max_length=40, blank=True,
+                                 help_text="Optional, if applicable")
 
     @property
     def display_name(self):
         return self.user.get_display_name()
+
+    def __repr__(self):
+        return f"<teacher {self.display_name}>"
 
 
 class Class(StrDefaultReprMixin, models.Model):

@@ -45,9 +45,11 @@ class SCQuerySet(models.QuerySet):
         return d
 
 class StudentCharacterManager(models.Manager):
-    def __init__(self, student=None, sc_tags = None, *args, **kwargs):
+    def __init__(self, student=None, sc_tags = None, cset=None,
+                 *args, **kwargs):
         self._student = student
         self._sc_tags = sc_tags
+        self._cset = cset
         super().__init__(*args, **kwargs)
 
     def get_queryset(self):
@@ -56,6 +58,8 @@ class StudentCharacterManager(models.Manager):
             queryset = queryset.filter(student=self._student)
         if self._sc_tags is not None:
             queryset = queryset.filter(sc_tag__in=self._sc_tags)
+        if self._cset is not None:
+            queryset = queryset.filter(character__in=self._cset.characters.all())
         return queryset
 
     def generate_choices(self, character, field_name, num_choices=4):
@@ -100,11 +104,11 @@ class StudentCharacterManager(models.Manager):
         return self.get_queryset().get_to_review()
 
     @classmethod
-    def of(cls, model, student=None, character=None, sc_tags=None):
+    def of(cls, model, student=None, character=None, sc_tags=None, cset=None):
         if student and character:
             return model.objects.get_or_create(student=student,
                                                character=character)[0]
-        manager = cls(student=student, sc_tags=sc_tags)
+        manager = cls(student=student, sc_tags=sc_tags, cset=cset)
         manager.model = model
         return manager
 

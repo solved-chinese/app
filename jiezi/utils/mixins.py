@@ -26,3 +26,7 @@ class CleanBeforeSaveMixin:
 class StrDefaultReprMixin:
     def __str__(self):
         return repr(self)
+
+    def __repr__(self):
+        raise NotImplementedError("__repr__ should be overriden to prevent"
+                                  "RecurssionError")
