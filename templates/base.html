@@ -59,12 +59,13 @@
             <a class="dropdown-item" href="{% url "staff_panel" %}">Staff Panel</a>
             <a class="dropdown-item" href="{% url "admin:index" %}">Admin Panel</a>
           {% endif %}
+          <a class="dropdown-item" href="{% url "change_password" %}">Change Password</a>
           <a class="dropdown-item" href="{% url "profile" %}">Profile</a>
           <a class="dropdown-item" href="{% url "logout" %}">Logout</a>
         </div>
       {% else %}
         <a class="button button-text-only" href="{% url "login" %}">Login</a>
-        <a class="button button-primary" href="{% url "signup" %}">Sign Up</a>
+        <a class="button button-primary" href="{% url "student_signup" %}">Sign Up</a>
       {% endif %}
     </div>
   </div>

@@ -30,9 +30,14 @@ def index(request):
              StudentCharacter.of(student=student).get_mastered_count(),
              'minutes'),
         ]
-        return render(request, 'student_index.html', {'stats': stats})
+        class_info = ""
+        if student.in_class:
+            class_info = f"You are now in {student.in_class}"
+        return render(request, 'student_index.html',
+                      {'stats': stats, 'class_info': class_info})
     elif request.user.is_teacher:
         return render(request, 'teacher_index.html')
+
 
 def about_us(request):
     return render(request, 'about_us.html')

@@ -10,6 +10,12 @@
   <h1>Welcome back, {{ user.get_display_name }}!</h1>
   <a class="button button-primary" href="{% url "manage_library" %}">Manage Vocab Sets</a>
 
+  {% if class_info %}
+    <div class="card-container" id="study-container">
+      {{ class_info }}
+    </div>
+  {% endif %}
+
   <div class="card-container" id="study-container">
     <h2>Select Set(s) to Study</h2>
     <br>
@@ -23,8 +29,6 @@
       <input type='hidden' id='start-learning-form-filter' name='sc_tags_filter'>
       <button class="button button-primary" id="study-button">Study Now</button>
     </form>
-
-
   </div>
 
   <div class="card-container" id="stats-container">

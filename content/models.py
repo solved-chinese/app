@@ -122,7 +122,8 @@ class DFModelMixin:
         return messages
 
 
-class Radical(models.Model, DFModelMixin, StrDefaultReprMixin):
+class Radical(DFModelMixin, StrDefaultReprMixin, CleanBeforeSaveMixin,
+              models.Model):
     chinese = models.CharField(max_length=6)
     pinyin = models.CharField(max_length=15)
     definition = models.CharField(max_length=100)
@@ -138,7 +139,8 @@ class Radical(models.Model, DFModelMixin, StrDefaultReprMixin):
         return '<R' + '%04d' % self.id + ':' + self.chinese +'>'
 
 
-class Character(models.Model, DFModelMixin, StrDefaultReprMixin):
+class Character(DFModelMixin, StrDefaultReprMixin, CleanBeforeSaveMixin,
+                models.Model):
     TEST_FIELDS = ['pinyin', 'definition_1']
     _TEST_QUESTIONS = ['What is the pinyin of {}?', 'What does {} mean?']
 
@@ -238,7 +240,8 @@ class Character(models.Model, DFModelMixin, StrDefaultReprMixin):
         ordering = ['id']
 
 
-class CharacterSet(models.Model, DFModelMixin, StrDefaultReprMixin):
+class CharacterSet(DFModelMixin, StrDefaultReprMixin, CleanBeforeSaveMixin,
+                   models.Model):
     characters = models.ManyToManyField(Character)
     name = models.CharField(max_length=50)
 

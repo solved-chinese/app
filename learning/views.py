@@ -22,8 +22,8 @@ from learning.learning_process import LearningProcess
 def manage_library(request, set_id=None):
     if set_id:
         context = {'set': StudentCharacterTag.objects.get(pk=set_id)}
-        return render(request, 'accounts/manage_set.html', context)
-    return render(request, 'accounts/manage_library.html')
+        return render(request, 'learning/manage_set.html', context)
+    return render(request, 'learning/manage_library.html')
 
 
 def try_me(request):

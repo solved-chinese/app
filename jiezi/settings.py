@@ -149,10 +149,13 @@ REST_FRAMEWORK = {
 
 # email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = secret.EMAIL_HOST
-EMAIL_PORT = secret.EMAIL_PORT
-EMAIL_HOST_USER = secret.EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = secret.EMAIL_HOST_PASSWORD
+try:
+    EMAIL_HOST = secret.EMAIL_HOST
+    EMAIL_PORT = secret.EMAIL_PORT
+    EMAIL_HOST_USER = secret.EMAIL_HOST_USER
+    EMAIL_HOST_PASSWORD = secret.EMAIL_HOST_PASSWORD
+except AttributeError:
+    pass
 EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = '解字 solvedchinese<noreply@solvedchinese.org>'
 

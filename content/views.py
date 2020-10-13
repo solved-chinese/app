@@ -44,7 +44,7 @@ def update_entry(request):
     response['radicals'] = Radical.update_from_df(radical_df)
     response['characters'] = Character.update_from_df(character_df)
     response['character_sets'] = CharacterSet.update_from_df(cset_df)
-    return render(request, 'jiezi_admin/update_entry.html', response)
+    return render(request, 'content/update_entry.html', response)
 
 
 def update_radical_mnemonic_image(request):
@@ -70,7 +70,7 @@ def media_update(request, folder_id, model_name, field_name):
 
 @user_passes_test(lambda u: u.is_staff)
 def task_info(request, task_id):
-    return render(request, 'jiezi_admin/task_info.html', {'task_id': task_id})
+    return render(request, 'content/task_info.html', {'task_id': task_id})
 
 
 @user_passes_test(lambda u: u.is_staff)
@@ -97,7 +97,7 @@ def display_character(request, character_pk, **context_kwargs):
     radicals = [character.radical_1, character.radical_2, character.radical_3]
     return render(
         request,
-        'learning/display_character.html',
+        'content/display_character.html',
         {'character': character, 'radicals': radicals, **context_kwargs}
     )
 

@@ -7,23 +7,25 @@ from jiezi.utils.mixins import IsTeacherMixin
 from .models import Class
 
 
-class ClassDetail(DetailView, IsTeacherMixin):
+class ClassDetail(IsTeacherMixin, DetailView):
     model = Class
     template_name = "classroom/class_detail.html"
 
-    # def test_func(self):
-    #     if not super().test_func():
-    #         return False
-    #     return self.get_object().teacher == self.request.user.teacher
+    def test_func(self):
+        if not super().test_func():
+            return False
+        if self.get_object().teacher != self.request.user.teacher:
+            raise PermissionError('You are not the owner of this class.')
+        else:
+            return True
 
 
-class ClassCreate(CreateView, IsTeacherMixin):
+class ClassCreate(IsTeacherMixin, CreateView):
     template_name = "classroom/class_create.html"
     model = Class
     fields = ['name']
 
     def form_valid(self, form):
-        print('done')
         form.instance.teacher = self.request.user.teacher
         return super().form_valid(form)
 
@@ -31,7 +33,7 @@ class ClassCreate(CreateView, IsTeacherMixin):
         return reverse('class_detail', args=[self.object.pk])
 
 
-class ClassList(ListView, IsTeacherMixin):
+class ClassList(IsTeacherMixin, ListView):
     template_name = "classroom/class_list.html"
 
     def get_queryset(self):
