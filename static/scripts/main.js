@@ -71,7 +71,7 @@ function searchHandler(e) {
             char = data[i];
             let targetPk = char.id.toString().padStart(4, '0');
             let entry = `
-                <a href='/learning/C${targetPk}' class='search-entry-wrapper'>
+                <a href='/content/C${targetPk}' class='search-entry-wrapper'>
                     <div class='search-entry'>
                         <span class='character'>${char.chinese}</span>
                         <span class='pinyin'>${char.pinyin.replace(/\s+/g, '')}</span>
