@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+  <link rel="stylesheet" type="text/css" href="{% static "styles/student_index.css" %}">
+{% endblock %}
+
+{% block content %}
+
+  <h1>Welcome back, {{ user.get_display_name }}!</h1>
+  <a class="button button-primary" href="{% url "manage_library" %}">Manage Vocab Sets</a>
+
+  {% if class_info %}
+    <div class="card-container" id="study-container">
+      {{ class_info }}
+    </div>
+  {% endif %}
+
+  <div class="card-container" id="study-container">
+    <h2>Select Set(s) to Study</h2>
+    <br>
+
+    <div id='available-tags-container'>
+    </div>
+
+    <br>
+    <form id='start-learning-form' action='{% url 'start_learning' %}' method='post'>
+      {% csrf_token %}
+      <input type='hidden' id='start-learning-form-filter' name='sc_tags_filter'>
+      <button class="button button-primary" id="study-button">Study Now</button>
+    </form>
+  </div>
+
+  <div class="card-container" id="stats-container">
+    <h2>Stats</h2>
+    <div id="stats-content-container" class="row">
+
+      {% for start, num, ending in stats%}
+        <div class="col-12 col-md-6 col-lg-3 stat-text">
+          <h5>{{ start }}</h5>
+          <p class="big-stat">
+            {{ num }}
+          </p>
+          <p><strong>{{ ending }}</strong></p>
+          <hr class="d-block d-lg-none">
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block js %}
+  <script src="{% static "scripts/dashboard.js" %}"></script>
+{% endblock %}

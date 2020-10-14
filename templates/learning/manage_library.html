@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+  <!-- Temporary Bootstrap reference -->
+  <link rel="stylesheet"  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        
+  <link rel="stylesheet" type="text/css" href="{% static "styles/manage_library.css" %}">
+{% endblock css %}
+
+{% block external-lib %}
+  <!-- Temporary Bootstrap reference -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" 
+          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block title %}Manage Library | Solved Chinese{% endblock title %}
+
+
+{% block content %}
+  <a class="header-back-button" href="/"><i class="far fa-angle-left"></i>Dashboard</a>
+  <h1>Manage Vocab Sets</h1>
+
+  <div class="page-mask" style="display: none"></div>
+
+  <div class="my-modal" id="add-new-set-modal" style="display: none">
+    <div class="my-modal-header">
+      <h2>Add New Set</h2>
+      <i class="far fa-times modal-close-button"></i>
+    </div>
+    <div class="my-modal-content" id="available-sets-container"></div>
+  </div>
+
+  <div id="char-sets-container">
+    {% for set in request.user.student.sc_tags.all %}
+      <div class="char-set" data-set-pk="{{ set.pk }}">
+        <img class="char-set-cover" src="/static/images/set-covers/default-set-cover.jpg"></img>
+        <p class="char-set-title">{{ set.name }}</p>
+      </div>
+    {% endfor %}
+    <div class="char-set" id="add-set-button-container">
+      <i class="fal fa-plus" id="add-set-button"></i>
+      <p class="char-set-title">Add New Set</p>
+    </div>
+  </div>
+{% endblock content %}
+
+{% block js %}
+  <script src="{% static "scripts/manage_library.js" %}"></script>
+{% endblock js %}

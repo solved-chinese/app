@@ -7,9 +7,36 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
+from learning.learning_process import LearningProcess
+from learning.models import StudentCharacter
+
 
 def index(request):
-    return render(request, 'index.html')
+    if not request.user.is_authenticated:
+        return render(request, 'unauthenticated_index.html')
+    elif request.user.is_student:
+        student = request.user.student
+        stats = [
+            ('Last time you studied for',
+             int(LearningProcess.of(student).duration_seconds // 60),
+             'minutes'),
+            ('You have studied for',
+             int(student.total_study_duration_seconds // 60),
+             'minutes'),
+            ('You have ',
+             StudentCharacter.of(student=student).get_in_progress_count(),
+             'words in progress'),
+            ('You have mastered',
+             StudentCharacter.of(student=student).get_mastered_count(),
+             'minutes'),
+        ]
+        class_info = ""
+        if student.in_class:
+            class_info = f"You are now in {student.in_class}"
+        return render(request, 'student_index.html',
+                      {'stats': stats, 'class_info': class_info})
+    elif request.user.is_teacher:
+        return render(request, 'teacher_index.html')
 
 
 def about_us(request):
@@ -25,7 +52,7 @@ def api_root(request, format=None):
     Use the OPTION request to see view permissions and available actions.
     """
     view_list = ['my_user_detail', 'search',
-                 'user_character_list', 'user_character_tag_list',
+                 'student_character_list', 'student_character_tag_list',
                  'radical_list', 'character_list', 'character_set_list']
     view_dict = {
         view_name: reverse(view_name, request=request, format=format)

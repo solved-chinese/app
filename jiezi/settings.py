@@ -12,14 +12,20 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = secret.SECRET_KEY
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+try:
+    DEBUG = secret.DEBUG # this is set to true on production server
+except AttributeError:
+    DEBUG = True
+SESSION_COOKIE_SECURE = not DEBUG
+SECURE_SSL_REDIRECT = not DEBUG
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '47.90.245.239', 'solvedchinese.org', 'www.solvedchinese.org']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '47.90.245.239',
+                 'solvedchinese.org', 'www.solvedchinese.org']
 
 # Application definition
 INSTALLED_APPS = [
     'rest_framework',
+    'django_fsm',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -36,7 +42,8 @@ INSTALLED_APPS = [
     # custom apps
     'accounts',
     'learning',
-    'jiezi_admin',
+    'content',
+    'classroom',
 ]
 
 MIDDLEWARE = [
@@ -116,6 +123,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 
 
 LOGIN_REDIRECT_URL='/'
@@ -144,6 +152,21 @@ REST_FRAMEWORK = {
     ],
 }
 
+ADMINS = [('chenyx', 'chenyx@solvedchinese.org')]
+MANAGERS = [('chenyx', 'chenyx@solvedchinese.org')]
+
+# email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+try:
+    EMAIL_HOST = secret.EMAIL_HOST
+    EMAIL_PORT = secret.EMAIL_PORT
+    EMAIL_HOST_USER = secret.EMAIL_HOST_USER
+    EMAIL_HOST_PASSWORD = secret.EMAIL_HOST_PASSWORD
+except AttributeError:
+    pass
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = '解字 solvedchinese<noreply@solvedchinese.org>'
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 """ Here begins jiezi custom settings """
 # put the secert key in this path

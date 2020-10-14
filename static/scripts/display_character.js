@@ -2,7 +2,7 @@ const pk = $('meta[name=pk]').attr('content');
 let audio;
 
 $.get({
-    url: '/learning/getAudio/',
+    url: '/content/getAudio/',
     data: {
         t: $('#character-text').text(),
         pk: pk

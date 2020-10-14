@@ -3,9 +3,12 @@
 *Solve Chinese characters like riddles.*
 
 ## File Structure
+- `jiezi/` django main app
+- `accounts/` app manages the `User` model and its basic information.
+- `content/` app manages the data created by our content team, i.e. the `Character`, `Radical`, and `CharacterSet` models. The data can be updated and synchronized from content team's Google Drive by staff when needed.  
+- `learning` app implements our learning algorithm, see the wiki page for detail
+- `classroon` app manages the `Student`, `Class`, and `Teacher` models and their interactions within a classroom setting. 
 - `static/` & `templates/` for front end use
--  `learning/` & `accounts/` & `jiezi_admin/` our custom apps for backend use
-- `jiezi` django main app
 
 ## API generation
 We are now using Django REST Framework's self-browsable API served at <https://solvedchinese.org/api_root>. You can also test it locally in your development server.

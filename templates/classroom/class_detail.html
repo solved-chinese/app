@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <h1>Class: {{ object.name }}</h1>
+
+  <p>
+    To add students to this class, have your students open this link:
+    <a href='{{ request.scheme }}://{{ request.get_host }}{% url 'join_class' object.uuid.hex %}'>
+      {{ request.scheme }}://{{ request.get_host }}{% url 'join_class' object.uuid.hex %}
+    </a>
+  </p>
+
+  <br>
+  <h2>Students:</h2>
+
+  {% if not object.students.exists %}
+    <p>You don't have any students in this yet.</p>
+  {% else %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in object.students.all %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ student.display_name }}</td>
+            <td>{{ student.user.email }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    See how the class performs on the following Character Sets?
+    {% for cset in csets %}
+      <form action="{% url 'class_detail_filter' object.pk %}"
+            target="_blank" method="get">
+        <input type='hidden' name='cset_pk' value='{{ cset.pk }}'>
+        <input type="submit" value="{{ cset.name }}">
+      </form>
+    {% endfor %}
+  {% endif %}
+
+{% endblock content %}

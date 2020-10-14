@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  {% if msg %}
+    {{ msg }}
+  {% else %}
+    <p>Join {{ class }}?</p>
+    <form method="post">{% csrf_token %}
+      <input type="submit" value="Join">
+    </form>
+  {% endif %}
+
+{% endblock content %}

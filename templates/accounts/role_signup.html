@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Sign Up | Solved Chinese{% endblock title %}
+
+{% block content %}
+  <h2>Sign up as a {{ role }}</h2>
+  <h5>
+    {% if role == 'student' %}
+      Are you a teacher? Use <a href='{% url 'teacher_signup' %}'>this</a> instead
+    {% else %}
+      Are you a student? Use <a href='{% url 'student_signup' %}'>this</a> instead
+    {% endif %}
+  </h5>
+
+  <form method="post" autocomplete="off">
+    {% csrf_token %}
+    {% include "utils/combined_forms.html" with combined_forms=forms %}
+    <br>
+    <button class='button button-primary' type="submit">Sign up</button>
+  </form>
+{% endblock %}

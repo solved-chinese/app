@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  {{ header }}
+
+  <br><br>
+
+  {% if not objects %}
+    <p>Empty list</p>
+  {% else %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          {% for label in labels %}
+            <th scope="col">{{ label }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for object in objects %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            {% for field in object %}
+              <td>{{ field }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  {% endif %}
+
+{% endblock content %}
