@@ -9,7 +9,7 @@ from celery import shared_task, task, Task
 from celery_progress.backend import ProgressRecorder
 
 from jiezi.settings import MEDIA_ROOT
-import learning.models
+import content.models
 from .gdrive_download import get_service, download
 
 
@@ -17,7 +17,7 @@ from .gdrive_download import get_service, download
 def media_update_task(self, folder_id, model_name, field_name):
     print('starting')
     progress_recorder = ProgressRecorder(self)
-    Model = getattr(learning.models, model_name)
+    Model = getattr(content.models, model_name)
     msg = '-----------------<br>' \
           + html.escape(f'PROGRESS REPORT ON UPDATE OF {field_name} of '
                         f'{Model.__name__}s') \
