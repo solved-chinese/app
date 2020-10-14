@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDom from "react-dom";
 import "bootstrap/dist/css/bootstrap.css";
-import { NavbarPage } from "./Base";
 
-function Index() {
-  return <NavbarPage />;
+function Base() {
+  return <h4>HelloWorld</h4>;
 }
-ReactDom.render(<Index />, document.getElementById("root"));
+
+ReactDom.render(<Base />, document.getElementById("root"));
