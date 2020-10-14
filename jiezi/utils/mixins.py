@@ -1,19 +1,28 @@
-from django.contrib.auth.mixins import UserPassesTestMixin
+import django.contrib.auth.mixins
 from django.shortcuts import render
 
 
-class IsTeacherMixin(UserPassesTestMixin):
+class IsTeacherMixin(django.contrib.auth.mixins.UserPassesTestMixin):
     permission_denied_message = "Only teachers can access this page"
     def test_func(self):
         return self.request.user.is_authenticated \
                and self.request.user.is_teacher
 
 
-class IsStudentMixin(UserPassesTestMixin):
+class IsStudentMixin(django.contrib.auth.mixins.UserPassesTestMixin):
     permission_denied_message = "Only students can access this page"
 
     def test_func(self):
         return self.request.user.is_authenticated \
+               and self.request.user.is_student
+
+
+class RegisteredStudentOnlyMixin(django.contrib.auth.mixins.UserPassesTestMixin):
+    permission_denied_message = "Only registered students can access this page"
+
+    def test_func(self):
+        return self.request.user.is_authenticated \
+               and not self.request.user.is_guest \
                and self.request.user.is_student
 
 

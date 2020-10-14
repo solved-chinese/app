@@ -1,11 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponseRedirect
 import django.contrib.auth.views as auth_views
 
 from .forms import UserSignupForm, UserUpdateForm
 from classroom.forms import StudentForm, TeacherForm
+from jiezi.utils.mixins import RegisteredStudentOnlyMixin
 
 
 def role_signup(request, role_form_class, role):
@@ -41,7 +43,9 @@ def teacher_signup(request):
 
 @login_required
 def profile(request):
-    if request.user.is_student:
+    if request.user.is_guest:
+        raise PermissionDenied("Only registered user can access this page")
+    elif request.user.is_student:
         role_form_class = StudentForm
         role = request.user.student
     elif request.user.is_teacher:
@@ -74,7 +78,7 @@ class Logout(auth_views.LogoutView):
     template_name = 'accounts/logged_out.html'
 
 
-class ChangePassword(auth_views.PasswordChangeView):
+class ChangePassword(RegisteredStudentOnlyMixin, auth_views.PasswordChangeView):
     template_name = 'accounts/change_password.html'
 
 

@@ -41,6 +41,11 @@ class Student(StrDefaultReprMixin, models.Model):
     def __repr__(self):
         return f"<student of {self.user}>"
 
+    @classmethod
+    def of(cls, user):
+        """convenient get_or_create"""
+        return cls.objects.get_or_create(user=user)[0]
+
 
 class Teacher(StrDefaultReprMixin, models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,
@@ -62,6 +67,11 @@ class Teacher(StrDefaultReprMixin, models.Model):
 
     def __repr__(self):
         return f"<teacher {self.display_name}>"
+
+    @classmethod
+    def of(cls, user):
+        """convenient get_or_create"""
+        return cls.objects.get_or_create(user=user)[0]
 
 
 class Class(StrDefaultReprMixin, models.Model):

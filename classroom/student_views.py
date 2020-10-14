@@ -1,11 +1,11 @@
 from django.views import View
 from django.shortcuts import get_object_or_404, render, redirect
 
-from jiezi.utils.mixins import IsStudentMixin
+from jiezi.utils.mixins import RegisteredStudentOnlyMixin
 from .models import Class
 
 
-class JoinClass(IsStudentMixin, View):
+class JoinClass(RegisteredStudentOnlyMixin, View):
     def get(self, request, *args, **kwargs):
         student = self.request.user.student
         class_object = get_object_or_404(Class, uuid=kwargs['uuid'])

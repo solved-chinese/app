@@ -5,6 +5,8 @@ from django.core import validators
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext_lazy as _
 
+from .managers import JieziUserManager
+
 
 @deconstructible
 class DisplayNameValidator(validators.RegexValidator):
@@ -26,6 +28,8 @@ class User(AbstractUser):
     is_guest = models.BooleanField(default=False)
     is_teacher = models.BooleanField(default=False)
     is_student = models.BooleanField(default=False)
+
+    objects = JieziUserManager()
 
     def get_display_name(self):
         if self.is_guest:

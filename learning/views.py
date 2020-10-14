@@ -11,11 +11,13 @@ from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 
 from accounts.models import User
+from classroom.models import Student
 from content.models import CharacterSet
 from content.views import display_character
-from jiezi.rest.permissions import IsStudent
+from jiezi.rest.permissions import IsStudent, IsNotGuest
 from .models import StudentCharacterTag, Report
 from learning.learning_process import LearningProcess
+from jiezi.utils.mixins import RegisteredStudentOnlyMixin
 
 
 @login_required
@@ -29,13 +31,12 @@ def manage_library(request, set_id=None):
 def try_me(request):
     if request.user.is_authenticated:
         return redirect('')
-    username = f'test_user_{random.randint(0, 1e6):06d}'
-    password = 'test'
-    user = User.objects.create_user(username, '', password, is_guest=True)
+    user = User.objects.create_guest_student()
+    student = Student.of(user)
     login(request, user)
     try_me_set = CharacterSet.objects.get(name='try_me')
     obj = StudentCharacterTag.objects.create(character_set=try_me_set,
-                                             user=user)
+                                             student=student)
     obj.update_from_character_set()
     process = LearningProcess.of(request.user.student)
     process.start([obj.pk])
