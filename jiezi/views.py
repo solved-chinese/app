@@ -28,7 +28,7 @@ def index(request):
              'words in progress'),
             ('You have mastered',
              StudentCharacter.of(student=student).get_mastered_count(),
-             'minutes'),
+             'words'),
         ]
         class_info = ""
         if student.in_class:
