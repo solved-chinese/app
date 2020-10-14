@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
   {% block meta %}{% endblock meta %}
 
   <link rel="shortcut icon" href="{% static "images/favicon.ico" %}" />
@@ -38,13 +38,13 @@
       <div class="search-form-wrapper">
         <div class="search-input-wrapper">
           <i class="far fa-search search-icon"></i>
-          <input type="text" name="keyword" placeholder="Search Dictionary">
+        <input type="text" name="keyword" placeholder="">
         </div>
         <div id="search-dropdown-wrapper">
         </div>
       </div>
       {% if user.is_authenticated %}
-        <button class="button button-primary dropdown-toggle" id="userDropdown"
+        <button class="button custom-btn" id="userDropdown"
                 data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false" href="{% url "profile" %}">
           {{ user.get_display_name }}
