@@ -2,10 +2,9 @@
 
 
 {% block error_header %}
-  403 Forbidden (No Permission)
+  500 Internal Server Error
 {% endblock error_header %}
 
 {% block error_description %}
-  {{ exception }}<br>
-  Did you use the wrong account?
+  Oops! Something has gone wrong in our server
 {% endblock error_description %}
