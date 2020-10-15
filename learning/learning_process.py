@@ -14,7 +14,7 @@ class LearningProcess(models.Model):
     # algorithm constants
     MAX_INTERVAL_SECONDS = 120
     DEFAULT_IN_A_ROW_REQUIRED = 2
-    MAX_IN_A_ROW_REQUIRED = 4
+    MAX_IN_A_ROW_REQUIRED = 2
     ADDED_DURATION = timedelta(seconds=30)
     MIN_SC_IN_PROGRESS_CNT = 3
     MAX_SC_IN_PROGRESS_CNT = 10
@@ -64,15 +64,16 @@ class LearningProcess(models.Model):
         sc_in_progress_cnt = scs.count_all_in_progress()
         if not sc_to_review and not sc_to_learn:
             return self.FINISH
-        if sc_to_review \
-           and sc_in_progress_cnt >= LearningProcess.MIN_SC_IN_PROGRESS_CNT \
-           and (not sc_to_learn
-                or sc_in_progress_cnt >= LearningProcess.MAX_SC_IN_PROGRESS_CNT
-                or random.random() > LearningProcess.LEARN_PROB):
+        if not sc_to_learn \
+                or sc_in_progress_cnt >= LearningProcess.MAX_SC_IN_PROGRESS_CNT:
             self.character = sc_to_review.character
             return self.TEST_REVIEW
-        self.character = sc_to_learn.character
-        return self.START_LEARN
+        if sc_in_progress_cnt <= LearningProcess.MIN_SC_IN_PROGRESS_CNT \
+                or random.random() > LearningProcess.LEARN_PROB:
+            self.character = sc_to_learn.character
+            return self.START_LEARN
+        self.character = sc_to_review.character
+        return self.TEST_REVIEW
 
     def _generate_review(self):
         choices, ans_index = learning.models.StudentCharacter.of(

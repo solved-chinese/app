@@ -70,7 +70,7 @@ class Learning(APIView):
 
     def finish(self, request):
         return render(request, 'utils/simple_response.html', {
-            'content': 'Thank you for your response!'
+            'content': 'Congrats on finishing these Character Sets!'
         })
 
     def review(self, request, question, choices):
