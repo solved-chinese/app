@@ -23,8 +23,8 @@ class User(AbstractUser):
             validators=[MinLengthValidator(4), DisplayNameValidator],
             help_text="This is the name displayed to others. We recommend using"
                       " your real name. You may change this later.")
-    email = models.EmailField(help_text="Your email is used for resetting "
-            "password and receiving notifications", blank=True)
+    email = models.EmailField(help_text="Used for resetting your password and "
+                                        "receiving notifications.", blank=True)
     is_guest = models.BooleanField(default=False)
     is_teacher = models.BooleanField(default=False)
     is_student = models.BooleanField(default=False)
