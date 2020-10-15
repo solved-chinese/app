@@ -41,7 +41,6 @@ class FilterInClass(IsTeacherMixin, TemplateView):
                 'objects': objects}
 
 
-
 class ClassDetail(IsTeacherMixin, DetailView):
     model = Class
     template_name = "classroom/class_detail.html"

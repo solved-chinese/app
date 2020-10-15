@@ -121,10 +121,9 @@ class LearningProcess(models.Model):
             self.FINISH: self._finish,
         }
         for i in range(10):
-            print(self.get_state_display())
             action = ACTIONS[self.state]()
             if isinstance(action, tuple):
-                self.update_duration()
+                self._update_duration()
                 self.save()
                 return action
         raise Exception('InternalError: infinite loop')
@@ -133,7 +132,6 @@ class LearningProcess(models.Model):
                 target=RETURN_VALUE(START_RELEARN, TOLERANT_REVIEW, DECIDE))
     def _check_answer(self, ans_index):
         is_correct = (ans_index == self.review_answer_index)
-        print(f"answer {is_correct}")
         if self.state == self.TEST_REVIEW:
             learning.models.StudentCharacter.objects.get(
                 student=self.student, character=self.character
@@ -154,10 +152,8 @@ class LearningProcess(models.Model):
         This should be called with any POST request while learning
         :returns the correct ans_index
         """
-        print(self.get_state_display())
         self._check_answer(ans_index)
-        self.update_duration()
-        print(self.get_state_display())
+        self._update_duration()
         self.save()
         return self.review_answer_index
 
@@ -173,7 +169,7 @@ class LearningProcess(models.Model):
         self.duration = timedelta(0)
         self.save()
 
-    def update_duration(self):
+    def _update_duration(self):
         delta_time = timezone.now() - self.last_study_time
         if delta_time > timedelta(seconds=self.MAX_INTERVAL_SECONDS):
             delta_time = timedelta(seconds=self.MAX_INTERVAL_SECONDS)
