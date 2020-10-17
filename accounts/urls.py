@@ -1,6 +1,5 @@
 from django.urls import path
 
-import learning.CRUD_views
 from accounts import views, CRUD_views
 
 
@@ -16,6 +15,10 @@ urlpatterns = [
 
     path('profile/', views.profile, name="profile"),
     path('staff_panel/', views.staff_panel, name="staff_panel"),
+
+    path('messages/', views.MessageList.as_view(), name='message_list'),
+    path('messages/<int:pk>', views.MessageDetail.as_view(),
+         name='message_detail'),
 
     path('my_user/',
          CRUD_views.MyUserDetail.as_view(),

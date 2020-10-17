@@ -5,7 +5,8 @@ from django.core import validators
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext_lazy as _
 
-from .managers import JieziUserManager
+from .managers import JieziUserManager, factory_message_manager_of_user, \
+    MessageManager
 
 
 @deconstructible
@@ -38,3 +39,38 @@ class User(AbstractUser):
             return self.display_name
         else:
             return self.username
+
+    def notify(self, subject, content=""):
+        msg = Message(receiver=self, subject=subject, content=content)
+        msg.save()
+        return msg
+
+    @property
+    def unread_message_count(self):
+        return Message.of(self).count_unread()
+
+
+class Message(models.Model):
+    _sender = models.ForeignKey(User, on_delete=models.CASCADE,
+                                null=True, default=None, related_name='+')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE,
+                                 related_name='+')
+    time = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+    subject = models.TextField(blank=False)
+    content = models.TextField(blank=True)
+
+    objects = MessageManager()
+    of = factory_message_manager_of_user
+
+    class Meta:
+        ordering = ['-time']
+
+    def read(self):
+        self.is_read = True
+        self.save()
+
+    @property
+    def sender(self):
+        return self._sender.display_name if self._sender else \
+            'the solved team'
