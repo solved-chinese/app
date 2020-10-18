@@ -41,8 +41,13 @@
       <div id='login-button-wrapper'>
         <button class='button button-primary' value="Login" id='login-button' type="submit">Login</button>
         <input type="hidden" name="next" value="{{ next }}"/>
+        <br><br>
+        <a href='{% url "password_reset" %}'>
+          Reset Password
+        </a>
       </div>
     </div>
   </form>
+
 {% endblock content %}
 

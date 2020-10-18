@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, reverse
+from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 import django.contrib.auth.views as auth_views
 from django.views.generic.list import ListView
@@ -88,6 +89,23 @@ class ChangePassword(RegisteredStudentOnlyMixin, auth_views.PasswordChangeView):
 
 
 class DoneChangePassword(auth_views.PasswordChangeDoneView):
+    template_name = 'accounts/done_change_password.html'
+
+
+class PasswordReset(auth_views.PasswordResetView):
+    template_name = 'accounts/password_reset.html'
+    html_email_template_name = 'emails/password_reset_email.html'
+
+
+class PasswordResetDone(auth_views.PasswordResetDoneView):
+    template_name = 'accounts/password_reset_done.html'
+
+
+class PasswordResetConfirm(auth_views.PasswordResetConfirmView):
+    template_name = 'accounts/password_reset_confirm.html'
+
+
+class PasswordResetComplete(auth_views.PasswordResetCompleteView):
     template_name = 'accounts/done_change_password.html'
 
 
