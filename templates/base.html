@@ -53,12 +53,21 @@
                 data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false" href="{% url "profile" %}">
           {{ user.get_display_name }}
+          {% if user.unread_message_count %}
+            <span class="badge badge-pill badge-danger">{{ user.unread_message_count }}</span>
+          {% endif %}
         </button>
         <div class="dropdown-menu">
           {% if user.is_staff %}
             <a class="dropdown-item" href="{% url "staff_panel" %}">Staff Panel</a>
-            <a class="dropdown-item" href="{% url "admin:index" %}">Admin Panel</a>
+            <a class="dropdown-item" href="{% url "admin:index" %}">Django Admin</a>
           {% endif %}
+          <a class="dropdown-item" href='{% url 'message_list' %}'>
+            Inbox
+            {% if user.unread_message_count %}
+              <span class="badge badge-pill badge-danger">{{ user.unread_message_count }}</span>
+            {% endif %}
+          </a>
           <a class="dropdown-item" href="{% url "change_password" %}">Change Password</a>
           <a class="dropdown-item" href="{% url "profile" %}">Profile</a>
           <a class="dropdown-item" href="{% url "logout" %}">Logout</a>

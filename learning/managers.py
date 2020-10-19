@@ -44,6 +44,7 @@ class SCQuerySet(models.QuerySet):
             d[choice] = self.filter(state=num).count()
         return d
 
+
 class StudentCharacterManager(models.Manager):
     def __init__(self, student=None, sc_tags = None, cset=None,
                  *args, **kwargs):
