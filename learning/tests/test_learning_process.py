@@ -31,7 +31,7 @@ class TestLearningProcess(TestCase):
         learning_set = set()
         review_set = set()
         for i in range(MAX_STEPS + 1):
-            mode, a, b = self.learning_process.get_action()
+            mode, a = self.learning_process.get_action()
             if mode is None:
                 break
             elif mode == 'learn':
@@ -50,7 +50,7 @@ class TestLearningProcess(TestCase):
         learning_set = set()
         review_set = set()
         for i in range(MAX_STEPS + 1):
-            mode, a, b = self.learning_process.get_action()
+            mode, a = self.learning_process.get_action()
             if mode is None:
                 break
             elif mode == 'learn':
