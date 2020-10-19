@@ -29,7 +29,9 @@ urlpatterns = [
 
     path('C<dddd:character_pk>/', views.display_character,
          name='display_character'),
-    path('getAudio/', views.getAudio),
+    path('C<dddd:character_pk>/review/<int:review_type>/',
+         views.ReviewView.as_view(),
+         name='review_character'),
 
     path('radical/', CRUD_views.RadicalList.as_view(),
          name='radical_list'),

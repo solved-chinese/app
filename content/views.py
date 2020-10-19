@@ -6,9 +6,10 @@ import pandas as pd
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.http import JsonResponse
-
-from django.shortcuts import render, redirect
+from django.views import View
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
+from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -19,7 +20,8 @@ from content.gdrive_download import get_service, download
 from content.serializers import CharacterSerializer
 from jiezi.celery import app
 from jiezi.settings import MEDIA_ROOT
-from content.audio import get_text_audio
+from .audio import get_audio
+from .reviews import ReviewQuestion, AVAILABLE_REVIEW_TYPES
 
 RADICAL_MNEMONIC_FOLDER_ID = '1boxohVl7GYOxqM1PyXKfnAMy-VP-tfvf'
 ANIMATED_STROKE_ORDER_FOLDER_ID = '1D5nH3Z0rdWV3SrfY5CG8ahzXSDO0uTH-'
@@ -93,27 +95,12 @@ def display_character(request, character_pk, **context_kwargs):
     except ObjectDoesNotExist:
         character = Character.objects.filter(pk__gt=character_pk).first()
         return redirect('display_character', character_pk=character.pk)
-
     radicals = [character.radical_1, character.radical_2, character.radical_3]
     return render(
         request,
         'content/display_character.html',
         {'character': character, 'radicals': radicals, **context_kwargs}
     )
-
-
-def getAudio(request):
-    pk = request.GET.get("pk")
-    path = os.path.join(MEDIA_ROOT, 'audio/')
-    if not os.path.exists(path):
-        os.makedirs(path)
-    path = os.path.join(path, f'{pk}.mp3')
-    if os.path.exists(path):
-        return JsonResponse({'success': True})
-    else:
-        character = Character.objects.get(pk=pk)
-        get_text_audio(f"{character.chinese}[={character.pinyin}]", path)
-        return JsonResponse({'success': True})
 
 
 class Search(APIView):
@@ -155,3 +142,29 @@ class Search(APIView):
             'example' : 'hao',
         }
     }
+
+
+class ReviewView(View):
+    ReviewQuestion = None
+    characters = None
+    character = None
+    answer_update = None
+
+    def get(self, request, *args, **kwargs):
+        if self.ReviewQuestion is None:
+            review_type = kwargs['review_type']
+            self.ReviewQuestion = AVAILABLE_REVIEW_TYPES[review_type]
+        if self.character is None:
+            character_pk = kwargs['character_pk']
+            self.character = get_object_or_404(Character, pk=character_pk)
+        correct_answer, context = self.ReviewQuestion.generate_question(
+            self.character, self.characters)
+        request.session['correct_answer'] = str(correct_answer)
+        return render(request, self.ReviewQuestion.template, context)
+
+    def post(self, request, *args, **kwargs):
+        if self.answer_update is not None:
+            self.answer_update(request.POST['user_answer'] ==
+                               request.session['correct_answer'])
+        return JsonResponse({'correct_answer':
+                             request.session['correct_answer']})

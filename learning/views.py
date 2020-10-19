@@ -13,11 +13,10 @@ from rest_framework.views import APIView
 from accounts.models import User
 from classroom.models import Student
 from content.models import CharacterSet
-from content.views import display_character
+from content.views import display_character, ReviewView
 from jiezi.rest.permissions import IsStudent, IsNotGuest
 from .models import StudentCharacterTag, Report
 from learning.learning_process import LearningProcess
-from jiezi.utils.mixins import RegisteredStudentOnlyMixin
 
 
 @login_required
@@ -86,16 +85,14 @@ class Learning(APIView):
             return self.finish(request)
         elif mode == 'learn': # character, None
             return display_character(request, data_1.pk, is_next=True)
-        elif mode == 'review': # question, choices
-            return self.review(request, data_1, data_2)
+        elif mode == 'review': # ReviewQuestion, character
+            return ReviewView.as_view(ReviewQuestion=data_1, character=data_2)\
+                (request)
 
     def post(self, request):
         # used for checking answer only
         process = self.get_learning_process(request)
-        ans_index = int(request.data['user_answer'])
-        ans_index = process.check_answer(ans_index)
-        return Response({'correct_answer':ans_index},
-                        status=status.HTTP_200_OK)
+        return ReviewView.as_view(answer_update=process.check_answer)(request)
 
 """
 @api {POST} /learning/start_learning/  Start Learning

@@ -38,8 +38,7 @@ class TestLearningProcess(TestCase):
                 learning_set.add(self.learning_process.character.pk)
             elif mode == 'review':
                 review_set.add(self.learning_process.character.pk)
-                self.learning_process.check_answer(
-                    self.learning_process.review_answer_index)
+                self.learning_process.check_answer(True)
         for sc in self.sc_tag.student_characters.all():
             self.assertSetEqual(learning_set, review_set)
             self.assertEqual(len(learning_set),
@@ -58,7 +57,7 @@ class TestLearningProcess(TestCase):
                 learning_set.add(self.learning_process.character.pk)
             elif mode == 'review':
                 review_set.add(self.learning_process.character.pk)
-                self.learning_process.check_answer(-1)
+                self.learning_process.check_answer(False)
         for sc in self.sc_tag.student_characters.all():
             self.assertSetEqual(learning_set, review_set)
             self.assertEqual(len(learning_set),
