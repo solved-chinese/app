@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Reviewing | Solved Chinese{% endblock title %}
+
+{% block css %}
+  <link rel="stylesheet" type="text/css" href="{% static "styles/character.css" %}">
+  <link rel="stylesheet" type="text/css" href="{% static "styles/review.css" %}">
+{% endblock css %}
+
+{% block content %}
+  <div id='page-content-container'>
+    <div>
+      <div id='big-question-text'>
+        {{ question|safe }}
+      </div>
+
+      <div class='answers-container'>
+        _ should be filled with
+        <input type='text' id='user_input' value=''>
+      </div>
+
+      <div id='response_div'>
+
+      </div>
+
+      <form method='get'>
+        {% csrf_token %}
+        <input type='submit' class='button button-primary' id='next-button' value='Next' style='display: none;'>
+      </form>
+    </div>
+
+  </div>
+{% endblock %}
+
+{% block js %}
+  <script>
+    window.onload = function() {
+      document.getElementById("audio").play();
+    }
+    $("#user_input").on('keyup', function (e) {
+      if (e.key === 'Enter' || e.keyCode === 13) {
+        $(this).prop( "disabled", true );
+        user_answer = $(this).val();
+        $.post('.', {"user_answer": user_answer}, response => {
+          correct = response.correct_answer;
+          if (correct != user_answer) {
+              $('#response_div').append(`wrong, answer is ${correct}`);
+          } else {
+              $('#response_div').append('correct');
+          }
+          $('#next-button').show();
+        })
+      }
+    });
+
+  </script>
+{% endblock js %}

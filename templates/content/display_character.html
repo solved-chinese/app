@@ -20,6 +20,10 @@
     $('#report-bug-form').on('submit', e => {
         $('#report-bug-modal').modal('hide');
     });
+
+    window.onload = function() {
+      document.getElementById("audio").play();
+    }
   </script>
   <script src="{% static 'scripts/display_character.js' %}"></script>
 {% endblock js %}
@@ -31,9 +35,15 @@
   <div id='learn-header-container'>
     <h1 id='character-text'>{{ character.chinese }}</h1>
 
+    <audio id="audio">
+      <source src="{{ character.pinyin_audio }}" type="audio/mpeg">
+      You browser doesn't support audio
+    </audio>
     <span id='character-pinyin'>{{ character.pinyin }}
-      <i class='fas fa-volume disabled' id='speak-button'></i>
+      <i class='fas fa-volume' id='speak-button'
+         onclick='document.getElementById("audio").play()'></i>
     </span>
+
 
     <!-- This if doesn't really make sense -->
     {% if is_next %}

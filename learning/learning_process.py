@@ -8,6 +8,7 @@ from django_fsm import FSMIntegerField, transition, RETURN_VALUE
 
 from content.models import Character
 import learning.models
+from content.reviews import ReviewManager
 
 
 class LearningProcess(models.Model):
@@ -17,7 +18,7 @@ class LearningProcess(models.Model):
     MAX_IN_A_ROW_REQUIRED = 2
     ADDED_DURATION = timedelta(seconds=30)
     MIN_SC_IN_PROGRESS_CNT = 3
-    MAX_SC_IN_PROGRESS_CNT = 10
+    MAX_SC_IN_PROGRESS_CNT = 8
     LEARN_PROB = 1 / 3
     MAX_RANDOM_CHOICES = 20
     DECIDE = 10
@@ -42,6 +43,9 @@ class LearningProcess(models.Model):
     student = models.OneToOneField('classroom.Student',
                                    on_delete=models.CASCADE,
                                    primary_key=True, related_name='+')
+    review_manager = models.ForeignKey(ReviewManager, null=True,
+                                       on_delete=models.SET_NULL,
+                                       related_name='+')
     character = models.ForeignKey(Character, related_name='+',
                                   null=True, on_delete=models.SET_NULL)
     sc_tags = models.ManyToManyField('learning.StudentCharacterTag',
@@ -76,16 +80,17 @@ class LearningProcess(models.Model):
         return self.TEST_REVIEW
 
     def _generate_review(self):
-        choices, ans_index = learning.models.StudentCharacter.of(
-            student=self.student).generate_choices(
-                self.character, Character.TEST_FIELDS[self.review_field_index])
-        self.review_answer_index = ans_index
-        question = self.character.generate_question(self.review_field_index)
-        return 'review', question, choices
+        review_question = self.review_manager.get_review_type(
+            Character.TEST_FIELDS[self.review_field_index])
+        characters = Character.objects.filter(student_character__sc_tag__in=
+                                              self.sc_tags.all())
+        return 'review', {'ReviewQuestion': review_question,
+                          'character': self.character,
+                          'characters': characters}
 
     @transition(field=state, source=START_LEARN, target=DONE_LEARN)
     def _start_learn(self):
-        return 'learn', self.character, None
+        return 'learn', self.character
 
     @transition(field=state, source=DONE_LEARN, target=TOLERANT_REVIEW)
     def _done_learn(self):
@@ -95,20 +100,20 @@ class LearningProcess(models.Model):
 
     @transition(field=state, source=START_RELEARN, target=DONE_RELEARN)
     def _start_relearn(self):
-        return 'learn', self.character, None
+        return 'learn', self.character
 
     @transition(field=state, source=DONE_RELEARN, target=DECIDE)
     def _done_relearn(self):
         pass
 
     def _finish(self):
-        return None, None, None
+        return None, None
 
     def get_action(self):
         """
         This should be called with any GET request while learning
         returns (None, None, None), or ('learn', character, None), or
-        ('review', question, choices)
+        ('review', review_type, kwargs)
         """
         ACTIONS = {
             self.DECIDE: self._decide,
@@ -130,8 +135,7 @@ class LearningProcess(models.Model):
 
     @transition(field=state, source=(TEST_REVIEW, TOLERANT_REVIEW),
                 target=RETURN_VALUE(START_RELEARN, TOLERANT_REVIEW, DECIDE))
-    def _check_answer(self, ans_index):
-        is_correct = (ans_index == self.review_answer_index)
+    def _check_answer(self, is_correct):
         if self.state == self.TEST_REVIEW:
             learning.models.StudentCharacter.objects.get(
                 student=self.student, character=self.character
@@ -147,12 +151,12 @@ class LearningProcess(models.Model):
                 return self.DECIDE
             return self.TOLERANT_REVIEW
 
-    def check_answer(self, ans_index):
+    def check_answer(self, is_correct):
         """
         This should be called with any POST request while learning
         :returns the correct ans_index
         """
-        self._check_answer(ans_index)
+        self._check_answer(is_correct)
         self._update_duration()
         self.save()
         return self.review_answer_index
@@ -165,6 +169,9 @@ class LearningProcess(models.Model):
             learning.models.StudentCharacterTag.objects.filter_by_pk(
             sc_tags_filter)
         )
+        # TODO review_manager needs to managed smarter
+        if self.review_manager is None:
+            self.review_manager = ReviewManager.get()
         self.state = self.DECIDE
         self.duration = timedelta(0)
         self.save()
