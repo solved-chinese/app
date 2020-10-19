@@ -19,8 +19,10 @@ except AttributeError:
 SESSION_COOKIE_SECURE = not DEBUG
 SECURE_SSL_REDIRECT = not DEBUG
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '47.90.245.239',
-                 'solvedchinese.org', 'www.solvedchinese.org']
+try:
+    ALLOWED_HOSTS = secret.ALLOWED_HOSTS
+except AttributeError:
+    ALLOWED_HOSTS = ['127.0.0.1']
 
 # Application definition
 INSTALLED_APPS = [
