@@ -80,13 +80,13 @@ class Learning(APIView):
 
     def get(self, request):
         process = self.get_learning_process(request)
-        mode, data_1, data_2 = process.get_action()
+        mode, data = process.get_action()
         if mode is None:
             return self.finish(request)
-        elif mode == 'learn': # character, None
-            return display_character(request, data_1.pk, is_next=True)
-        elif mode == 'review': # ReviewQuestion, character
-            return ReviewView.as_view(ReviewQuestion=data_1, character=data_2)\
+        elif mode == 'learn': # character
+            return display_character(request, data.pk, is_next=True)
+        elif mode == 'review': # kwargs
+            return ReviewView.as_view(**data)\
                 (request)
 
     def post(self, request):

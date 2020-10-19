@@ -16,6 +16,7 @@ class ReviewQuestion:
     @classmethod
     def generate_question(cls, character, characters=None):
         """ returns (correct_answer, context) """
+        # TODO handle the cases of characters too few or not needed
         raise NotImplementedError
 
 
@@ -181,5 +182,6 @@ class ReviewManager(factory_review_manager()):
         return random.choice(available_review_types)
 
     @classmethod
+    # TODO make this model an option model with unique constrainsts
     def get(cls, **kwargs):
         return cls.objects.get_or_create(**kwargs)[0]

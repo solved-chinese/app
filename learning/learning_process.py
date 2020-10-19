@@ -18,7 +18,7 @@ class LearningProcess(models.Model):
     MAX_IN_A_ROW_REQUIRED = 2
     ADDED_DURATION = timedelta(seconds=30)
     MIN_SC_IN_PROGRESS_CNT = 3
-    MAX_SC_IN_PROGRESS_CNT = 10
+    MAX_SC_IN_PROGRESS_CNT = 8
     LEARN_PROB = 1 / 3
     MAX_RANDOM_CHOICES = 20
     DECIDE = 10
@@ -82,11 +82,15 @@ class LearningProcess(models.Model):
     def _generate_review(self):
         review_question = self.review_manager.get_review_type(
             Character.TEST_FIELDS[self.review_field_index])
-        return 'review', review_question, self.character
+        characters = Character.objects.filter(student_character__sc_tag__in=
+                                              self.sc_tags.all())
+        return 'review', {'ReviewQuestion': review_question,
+                          'character': self.character,
+                          'characters': characters}
 
     @transition(field=state, source=START_LEARN, target=DONE_LEARN)
     def _start_learn(self):
-        return 'learn', self.character, None
+        return 'learn', self.character
 
     @transition(field=state, source=DONE_LEARN, target=TOLERANT_REVIEW)
     def _done_learn(self):
@@ -96,20 +100,20 @@ class LearningProcess(models.Model):
 
     @transition(field=state, source=START_RELEARN, target=DONE_RELEARN)
     def _start_relearn(self):
-        return 'learn', self.character, None
+        return 'learn', self.character
 
     @transition(field=state, source=DONE_RELEARN, target=DECIDE)
     def _done_relearn(self):
         pass
 
     def _finish(self):
-        return None, None, None
+        return None, None
 
     def get_action(self):
         """
         This should be called with any GET request while learning
         returns (None, None, None), or ('learn', character, None), or
-        ('review', question, choices)
+        ('review', review_type, kwargs)
         """
         ACTIONS = {
             self.DECIDE: self._decide,
@@ -165,6 +169,7 @@ class LearningProcess(models.Model):
             learning.models.StudentCharacterTag.objects.filter_by_pk(
             sc_tags_filter)
         )
+        # TODO review_manager needs to managed smarter
         if self.review_manager is None:
             self.review_manager = ReviewManager.get()
         self.state = self.DECIDE
