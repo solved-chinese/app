@@ -16,7 +16,6 @@ class ReviewQuestion:
     @classmethod
     def generate_question(cls, character, characters=None):
         """ returns (correct_answer, context) """
-        # TODO handle the cases of characters too few or not needed
         raise NotImplementedError
 
 
@@ -26,12 +25,16 @@ class MultipleChoice(ReviewQuestion):
     choice_field = None
 
     @classmethod
-    def get_queryset(cls, character, characters=None):
+    def get_queryset(cls, character, characters=None,
+                     assert_as_least=0):
         if characters is None:
             characters = Character.objects.all()
         kwargs = {f"{cls.choice_field}__unaccent":
                       getattr(character, cls.choice_field)}
-        return characters.exclude(**kwargs)
+        queryset = characters.exclude(**kwargs)
+        if queryset.count() < assert_as_least:
+            queryset = Character.objects.all().exclude(**kwargs)
+        return queryset
 
     @classmethod
     def get_question(cls, *args, **kwargs):
@@ -39,7 +42,8 @@ class MultipleChoice(ReviewQuestion):
 
     @classmethod
     def generate_question(cls, character, characters=None):
-        queryset = cls.get_queryset(character, characters)
+        queryset = cls.get_queryset(character, characters,
+                                    assert_as_least=cls.num_choices - 1)
         queryset = queryset[:MAX_RANDOM_CHOICES]
         choices = [getattr(c, cls.choice_field)
                    for c in random.sample(list(queryset), cls.num_choices - 1)]
@@ -80,6 +84,7 @@ class PinyinMC(MultipleChoice):
             {generate_audio_tag(pinyin=character.pinyin)}? 
         """
 
+
 class TrueOrFalse(MultipleChoice):
     TRUE_PROB = 0.5
 
@@ -94,7 +99,8 @@ class TrueOrFalse(MultipleChoice):
             field = getattr(character, cls.choice_field)
         else:
             ans_index = 1
-            queryset = cls.get_queryset(character, characters)
+            queryset = cls.get_queryset(character, characters,
+                                        assert_as_least=1)
             queryset = queryset[:MAX_RANDOM_CHOICES]
             wrong_character = random.choice(queryset)
             field = getattr(wrong_character, cls.choice_field)
