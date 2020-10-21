@@ -107,9 +107,6 @@ class DFModelMixin:
             except Exception as e:
                 messages.append(f'ERR constructing id={id}: {repr(e)}')
 
-        cls.objects.exclude(pk__in=good_pk).delete()
-        # TODO possibly add delete warning
-
         for i, msg in enumerate(messages, 0):
             msg = f'<pre>{html.escape(msg)}</pre>'
             if msg[5] == 'E':
@@ -120,6 +117,17 @@ class DFModelMixin:
                 messages[i] = '<div style="color:gray;">' + msg + '</div>'
             else:
                 messages[i] = '<div style="color:green;">' + msg + '</div>'
+
+        bad_queryset = cls.objects.exclude(pk__in=good_pk)
+        if bad_queryset.exists():
+            bad_msg = f"The following objects are not updated correctly: " \
+                      f"{[repr(obj) for obj in bad_queryset.all()]}. " \
+                      f"If you wish to delete them, " \
+                      f"save this page's html and contact chenyx." \
+                      f"{[obj.pk for obj in bad_queryset.all()]}"
+            messages.insert(0, '<div style="color:red;">' +
+                            html.escape(bad_msg) + '</div>')
+
         return messages
 
 
