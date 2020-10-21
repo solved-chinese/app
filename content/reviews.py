@@ -76,7 +76,8 @@ class PinyinMC(MultipleChoice):
     def get_question(cls, character):
         return f""" 
             Which of the following characters is pronounced 
-            {character.pinyin} {generate_audio_tag(pinyin=character.pinyin)}? 
+            "{character.pinyin}" 
+            {generate_audio_tag(pinyin=character.pinyin)}? 
         """
 
 class TrueOrFalse(MultipleChoice):
@@ -108,7 +109,7 @@ class PinyinTOF(TrueOrFalse):
     @classmethod
     def get_question(cls, character, field):
         return f"""
-        The pronunciation of {character.chinese} is "{field}" 
+        Is "{character.chinese}" pronounced as "{field}" 
         {generate_audio_tag(pinyin=field)}?
         """
 
@@ -119,7 +120,7 @@ class DefinitionTOF(TrueOrFalse):
 
     @classmethod
     def get_question(cls, character, field):
-        return f'The definition of {character.chinese} is "{field}"?'
+        return f'Does "{character.chinese}" mean "{field}"?'
 
 
 class DefinitionFITB(ReviewQuestion):
@@ -133,7 +134,7 @@ class DefinitionFITB(ReviewQuestion):
         if example is None or random.random() < 0.5:
             example = character.get_example_sentence()
         return character.chinese, \
-               {'question': example.replace(character.chinese, '_')}
+               {'question': example.replace(character.chinese, '___')}
 
 
 class PinyinFITB(ReviewQuestion):
@@ -149,7 +150,7 @@ class PinyinFITB(ReviewQuestion):
             word = character.example_1_word
             pinyin = character.example_1_pinyin
         word = word.replace('+', '')
-        word_blank = word.replace(character.chinese, '_')
+        word_blank = word.replace(character.chinese, '___')
         pinyin = pinyin.replace('+', '')
         return character.chinese, \
                {'question': f"""{word_blank} /{pinyin}/ 
