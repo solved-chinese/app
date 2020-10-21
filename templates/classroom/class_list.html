@@ -16,6 +16,7 @@
           <th scope="col">#</th>
           <th scope="col">Name</th>
           <th scope="col">NumStudents</th>
+          <th scope="col">actions</th>
         </tr>
       </thead>
       <tbody>
@@ -24,6 +25,14 @@
             <th scope="row">{{ forloop.counter }}</th>
             <td><a href="{% url 'class_detail' class.pk %}">{{ class.name }}</a></td>
             <td>{{ class.student_count }}</td>
+            <td>
+              <form action="{% url 'delete_class'%}" method="post">
+                {% csrf_token %}
+                <input type='hidden' name='class_pk' value='{{ class.pk }}'>
+                <input type="submit" value="delete"
+                       onclick="return confirm('Are you sure you want to permanently delete this class?');">
+              </form>
+            </td>
           </tr>
         {% endfor %}
       </tbody>

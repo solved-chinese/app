@@ -26,7 +26,7 @@ class Student(StrDefaultReprMixin, models.Model):
         self.in_class = class_object
         self.save()
 
-    def quit_class(self, class_object):
+    def quit_class(self):
         self.in_class = None
         self.save()
 

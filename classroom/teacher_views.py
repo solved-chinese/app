@@ -2,13 +2,13 @@ from django.urls import reverse
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView
-from django.views.generic.base import TemplateView
-from django.shortcuts import get_object_or_404
+from django.views.generic.base import TemplateView, View
+from django.shortcuts import get_object_or_404, reverse, redirect
 
 from content.models import CharacterSet
 from learning.models import StudentCharacter, StudentCharacterTag
 from jiezi.utils.mixins import IsTeacherMixin
-from .models import Class
+from .models import Class, Student
 
 
 class FilterInClass(IsTeacherMixin, TemplateView):
@@ -57,6 +57,27 @@ class ClassDetail(IsTeacherMixin, DetailView):
         content = super().get_context_data()
         content['csets'] = CharacterSet.objects.all()
         return content
+
+
+class RemoveStudent(IsTeacherMixin, View):
+    def post(self, request):
+        student_pk = request.POST.get('student_pk', 0)
+        student = get_object_or_404(Student, pk=student_pk)
+        in_class = student.in_class
+        if not in_class or in_class.teacher != request.user.teacher:
+            raise PermissionError("This student isn't in your class")
+        student.quit_class()
+        return redirect('class_detail', pk=in_class.pk)
+
+
+class DeleteClass(IsTeacherMixin, View):
+    def post(self, request):
+        class_pk = request.POST.get('class_pk', 0)
+        in_class = get_object_or_404(Class, pk=class_pk)
+        if in_class.teacher != request.user.teacher:
+            raise PermissionError("The class doesn't belong to you")
+        in_class.delete()
+        return redirect('list_class')
 
 
 class ClassCreate(IsTeacherMixin, CreateView):

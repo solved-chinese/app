@@ -14,6 +14,10 @@ urlpatterns = [
          teacher_views.ClassDetail.as_view(), name='class_detail'),
     path('teacher/create_class', teacher_views.ClassCreate.as_view(),
          name='create_class'),
+    path('teacher/delete_class', teacher_views.DeleteClass.as_view(),
+         name='delete_class'),
     path('teacher/list_class', teacher_views.ClassList.as_view(),
          name='list_class'),
+    path('teacher/remove_student/',
+         teacher_views.RemoveStudent.as_view(), name='remove_student'),
 ]
