@@ -169,7 +169,7 @@ class LearningProcess(models.Model):
             learning.models.StudentCharacterTag.objects.filter_by_pk(
             sc_tags_filter)
         )
-        # TODO review_manager needs to managed smarter
+        # TODO review_manager needs to be managed smarter
         if self.review_manager is None:
             self.review_manager = ReviewManager.get()
         self.state = self.DECIDE
