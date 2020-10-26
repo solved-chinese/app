@@ -8,7 +8,7 @@ $('.option').on('click', e => {
     let correct;
 
     $.post('.', {user_answer: chosen}, response => {
-        correct = response.correct_answer;
+        correct = parseInt(response.correct_answer);
         if (correct !== chosen && chosen !== 4) {
             el.addClass('wrong');
         }
@@ -23,7 +23,7 @@ $('.option').on('click', e => {
                  if (answerId === chosen) {
                     btn.addClass('chosen');
                  }
-            } else if (answerId !== chosen || chosen === 4) {
+            } else if (answerId !== chosen || chosen === -1) {
                 btn.addClass('disabled');
             }
         });

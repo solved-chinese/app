@@ -39,7 +39,7 @@ class UserUpdateForm(forms.ModelForm):
         model = User
         fields = ('username', 'display_name', 'email')
         help_texts = {
-            'username': 'Readonly. This is used for login.',
+            'username': 'This is used for login. You cannot change this.',
         }
 
     def clean_username(self):

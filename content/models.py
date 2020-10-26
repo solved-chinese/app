@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 from jiezi.utils.mixins import CleanBeforeSaveMixin, StrDefaultReprMixin
+from .audio import get_audio
 
 
 class DFModelMixin:
@@ -106,9 +107,6 @@ class DFModelMixin:
             except Exception as e:
                 messages.append(f'ERR constructing id={id}: {repr(e)}')
 
-        cls.objects.exclude(pk__in=good_pk).delete()
-        # TODO possibly add delete warning
-
         for i, msg in enumerate(messages, 0):
             msg = f'<pre>{html.escape(msg)}</pre>'
             if msg[5] == 'E':
@@ -119,6 +117,17 @@ class DFModelMixin:
                 messages[i] = '<div style="color:gray;">' + msg + '</div>'
             else:
                 messages[i] = '<div style="color:green;">' + msg + '</div>'
+
+        bad_queryset = cls.objects.exclude(pk__in=good_pk)
+        if bad_queryset.exists():
+            bad_msg = f"The following objects are not updated correctly: " \
+                      f"{[repr(obj) for obj in bad_queryset.all()]}. " \
+                      f"If you wish to delete them, " \
+                      f"save this page's html and contact chenyx." \
+                      f"{[obj.pk for obj in bad_queryset.all()]}"
+            messages.insert(0, '<div style="color:red;">' +
+                            html.escape(bad_msg) + '</div>')
+
         return messages
 
 
@@ -142,7 +151,6 @@ class Radical(DFModelMixin, StrDefaultReprMixin, CleanBeforeSaveMixin,
 class Character(DFModelMixin, StrDefaultReprMixin, CleanBeforeSaveMixin,
                 models.Model):
     TEST_FIELDS = ['pinyin', 'definition_1']
-    _TEST_QUESTIONS = ['What is the pinyin of {}?', 'What does {} mean?']
 
     chinese = models.CharField(max_length=1)
     pinyin = models.CharField(max_length=15)
@@ -175,12 +183,6 @@ class Character(DFModelMixin, StrDefaultReprMixin, CleanBeforeSaveMixin,
     structure = models.IntegerField(null=True)
 
     stroke_order_image = models.ImageField(default='default.jpg')
-
-    def generate_question(self, test_field_index):
-        return self._TEST_QUESTIONS[test_field_index].format(
-            f"<p id='character-preview' class='character-kai character-preview'>"
-            f"{self.chinese}</p>"
-        )
 
     def get_example_sentence(self, index=1):
         word = getattr(self, f'example_{index}_word')
@@ -218,6 +220,10 @@ class Character(DFModelMixin, StrDefaultReprMixin, CleanBeforeSaveMixin,
 
     def get_example_2_sentence(self):
         return self.get_example_sentence(index=2)
+
+    @property
+    def pinyin_audio(self):
+        return get_audio(pinyin=self.pinyin)
 
     def clean(self):
         if self.radical_2 is None and self.radical_3 is not None:

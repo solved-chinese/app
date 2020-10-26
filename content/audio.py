@@ -17,6 +17,8 @@ from time import mktime
 import _thread as thread
 import os
 
+from jiezi.settings import MEDIA_ROOT
+
 
 STATUS_FIRST_FRAME = 0  # 第一帧的标识
 STATUS_CONTINUE_FRAME = 1  # 中间帧标识
@@ -141,6 +143,39 @@ def get_text_audio(text, filepath):
                    ping_interval=2, ping_timeout=1)
 
 
+def get_audio(pinyin=None, chinese=None):
+    dir_path = os.path.join(MEDIA_ROOT, 'audio/')
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
+
+    if pinyin:
+        query = f"拼[={pinyin}]"
+    elif chinese:
+        query = chinese
+    else:
+        raise Exception("Either pinyin or chinese must be specified")
+    filename = f"{query}.mp3"
+
+    path = os.path.join(dir_path, filename)
+    if not os.path.exists(path):
+        get_text_audio(query, path)
+
+    return f'/media/audio/{filename}'
+
+
+def generate_audio_tag(pinyin=None, chinese=None):
+    path = get_audio(pinyin=pinyin, chinese=chinese)
+    return f"""
+    <audio id="audio">
+      <source src="{path}" type="audio/mpeg">
+      You browser doesn't support audio
+    </audio>
+    <i class='fas fa-volume' style='cursor: pointer;'
+      onclick='document.getElementById("audio").play()'></i>
+    """
+
+
+
 if __name__ == '__main__':
-    get_text_audio("这[=nǐ][p500]是[=hǎo][p500]一[=qǐng][p500]个[=wèn]语音合成示例",
-              '../media/test.mp3')
+    query = "你"
+    get_text_audio(query, f'../media/{query}.mp3')
