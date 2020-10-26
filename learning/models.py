@@ -69,7 +69,8 @@ class StudentCharacter(student_character_factory(), StrDefaultReprMixin):
 
     @transition(state, source=TO_LEARN, target=IN_PROGRESS)
     def _learn_update(self):
-        pass
+        for test_field in Character.TEST_FIELDS:
+            setattr(self, f"{test_field}_time_last_studied", timezone.now())
 
     def learn_update(self):
         self._learn_update()

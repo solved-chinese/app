@@ -73,7 +73,7 @@ class LearningProcess(models.Model):
             self.character = sc_to_review.character
             return self.TEST_REVIEW
         if sc_in_progress_cnt <= LearningProcess.MIN_SC_IN_PROGRESS_CNT \
-                or random.random() > LearningProcess.LEARN_PROB:
+                or random.random() < LearningProcess.LEARN_PROB:
             self.character = sc_to_learn.character
             return self.START_LEARN
         self.character = sc_to_review.character

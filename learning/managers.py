@@ -63,22 +63,6 @@ class StudentCharacterManager(models.Manager):
             queryset = queryset.filter(character__in=self._cset.characters.all())
         return queryset
 
-    def generate_choices(self, character, field_name, num_choices=4):
-        """
-        :returns choices(int[num_choices]), ans_index(int)
-        """
-        sc = self.get_queryset().get(character=character)
-        kwargs = {f'character__{field_name}__iexact':
-                      getattr(sc.character, field_name)}
-        query_set = self.get_queryset().exclude(pk=sc.pk).exclude(**kwargs)
-        query_set = query_set\
-            [:learning.learning_process.LearningProcess.MAX_RANDOM_CHOICES]
-        choices = [getattr(sc.character, field_name)
-                   for sc in random.sample(list(query_set), num_choices - 1)]
-        ans_index = random.randint(0, num_choices - 1)
-        choices.insert(ans_index, getattr(sc.character, field_name))
-        return choices, ans_index
-
     def get_one_to_learn(self):
         return self.get_queryset().filter(state=
                 learning.models.StudentCharacter.TO_LEARN).first()
