@@ -1,3 +1,4 @@
+{# TODO this page needs rework and beautification #}
 {% extends "base.html" %}
 {% load static %}
 
@@ -15,18 +16,25 @@
         {{ question|safe }}
       </div>
 
+      <br>
+
       <div class='answers-container'>
         ___ should be filled with
-        <input type='text' id='user_input' value=''>
+        <input type='text' id='user_input' value='' autofocus>
       </div>
+
+      <br>
+      <input type='submit' class='button button-primary' id='submit-button'
+               value='Submit'>
 
       <div id='response_div'>
 
       </div>
 
-      <form method='get'>
+      <form method='get' id='get_form'>
         {% csrf_token %}
-        <input type='submit' class='button button-primary' id='next-button' value='Next' style='display: none;'>
+        <input type='submit' class='button button-primary' id='next-button' value='Next'
+               style='display: none;'>
       </form>
     </div>
 
@@ -35,24 +43,41 @@
 
 {% block js %}
   <script>
-    window.onload = function() {
-      document.getElementById("audio").play();
-    }
-    $("#user_input").on('keyup', function (e) {
-      if (e.key === 'Enter' || e.keyCode === 13) {
-        $(this).prop( "disabled", true );
-        user_answer = $(this).val();
-        $.post('.', {"user_answer": user_answer}, response => {
-          correct = response.correct_answer;
-          if (correct != user_answer) {
-              $('#response_div').append(`wrong, answer is ${correct}`);
-          } else {
-              $('#response_div').append('correct');
-          }
-          $('#next-button').show();
-        })
+      window.onload = function () {
+          document.getElementById("audio").play();
       }
-    });
+
+      let is_submitted = false;
+
+      function check_answer() {
+          if (is_submitted)
+              return;
+          is_submitted = true;
+          $("#user_input").prop("disabled", true);
+          $("#submit-button").hide();
+          user_answer = $("#user_input").val();
+          $.post('.', {"user_answer": user_answer}, response => {
+              correct = response.correct_answer;
+              if (correct != user_answer) {
+                  $('#response_div').append(`wrong, answer is ${correct}`);
+              } else {
+                  $('#response_div').append('correct');
+              }
+              $('#next-button').show();
+              $('#next-button').focus();
+          })
+      }
+
+      $("#submit-button").click(function () {
+          check_answer();
+      });
+
+      $("#user_input").keypress(function (e) {
+          let keycode = (e.keyCode ? e.keyCode : e.which);
+          if (keycode === 13) {
+              check_answer();
+          }
+      });
 
   </script>
 {% endblock js %}

@@ -46,10 +46,12 @@
 
 var selected_tags = [];
 
+// TODO this can totally be done without js
 $.get('/learning/student_character_tag/', data => {
     if(data.length == 0) {
         $('#available-tags-container').append(`
-            Please add more sets to your library
+            Please add at least one set to your library. You can do so in 
+            "Manage Vocab Sets" on the top left corner.
         `);
     }
     data.forEach(tag => {

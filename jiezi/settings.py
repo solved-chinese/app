@@ -167,7 +167,7 @@ try:
 except AttributeError:
     pass
 EMAIL_USE_SSL = True
-DEFAULT_FROM_EMAIL = '解字 solvedchinese<noreply@solvedchinese.org>'
+DEFAULT_FROM_EMAIL = '解字 Solved Chinese<noreply@solvedchinese.org>'
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 """ Here begins jiezi custom settings """

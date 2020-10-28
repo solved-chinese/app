@@ -45,8 +45,9 @@ class MultipleChoice(ReviewQuestion):
         queryset = cls.get_queryset(character, characters,
                                     assert_as_least=cls.num_choices - 1)
         queryset = queryset[:MAX_RANDOM_CHOICES]
-        choices = [getattr(c, cls.choice_field)
-                   for c in random.sample(list(queryset), cls.num_choices - 1)]
+        wrong_answer_set = {getattr(c, cls.choice_field)
+                            for c in queryset.all()}
+        choices = random.sample(wrong_answer_set, cls.num_choices - 1)
         ans_index = random.randint(0, cls.num_choices - 1)
         choices.insert(ans_index, getattr(character, cls.choice_field))
         return ans_index, {'question': cls.get_question(character),
@@ -140,7 +141,8 @@ class DefinitionFITB(ReviewQuestion):
         if example is None or random.random() < 0.5:
             example = character.get_example_sentence()
         return character.chinese, \
-               {'question': example.replace(character.chinese, '___')}
+               {'question': example.replace(character.chinese, '___').
+                   replace('<br>', '')}
 
 
 class PinyinFITB(ReviewQuestion):
@@ -156,7 +158,7 @@ class PinyinFITB(ReviewQuestion):
             word = character.example_1_word
             pinyin = character.example_1_pinyin
         word = word.replace('+', '')
-        word_blank = word.replace(character.chinese, '___')
+        word_blank = word.replace(character.chinese, '___').replace('<br>', '')
         pinyin = pinyin.replace('+', '')
         return character.chinese, \
                {'question': f"""{word_blank} /{pinyin}/ 
