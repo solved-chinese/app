@@ -173,9 +173,8 @@ def factory_review_manager():
     class AbstractModel(models.Model):
         class Meta:
             abstract = True
-    _review_fields = {}
     for review_type in AVAILABLE_REVIEW_TYPES:
-        AbstractModel.add_to_class(f"use_{review_type}",
+        AbstractModel.add_to_class(f"use_{review_type.__name__}",
                                    models.BooleanField(default=True))
     return AbstractModel
 
@@ -184,13 +183,20 @@ class ReviewManager(factory_review_manager()):
         available_review_types = []
         for review_type in AVAILABLE_REVIEW_TYPES:
             if review_type.test_field == field_name \
-                    and getattr(self, f"use_{review_type}"):
+                    and getattr(self, f"use_{review_type.__name__}"):
                 available_review_types.append(review_type)
         assert available_review_types, \
             'There should be at least one review type available'
         return random.choice(available_review_types)
 
     @classmethod
-    # TODO make this model an option model with unique constrainsts
     def get(cls, **kwargs):
-        return cls.objects.get_or_create(**kwargs)[0]
+        d = {}
+        for review_type in AVAILABLE_REVIEW_TYPES:
+            d[f"use_{review_type.__name__}"] = True
+        d.update(kwargs)
+        return cls.objects.get_or_create(**d)[0]
+
+    @classmethod
+    def get_default_pk(cls):
+        return cls.get().pk

@@ -43,9 +43,10 @@ class LearningProcess(models.Model):
     student = models.OneToOneField('classroom.Student',
                                    on_delete=models.CASCADE,
                                    primary_key=True, related_name='+')
-    review_manager = models.ForeignKey(ReviewManager, null=True,
-                                       on_delete=models.SET_NULL,
-                                       related_name='+')
+    review_manager = models.ForeignKey(ReviewManager,
+                                       on_delete=models.PROTECT,
+                                       related_name='+',
+                                       default=ReviewManager.get_default_pk)
     character = models.ForeignKey(Character, related_name='+',
                                   null=True, on_delete=models.SET_NULL)
     sc_tags = models.ManyToManyField('learning.StudentCharacterTag',
@@ -169,9 +170,6 @@ class LearningProcess(models.Model):
             learning.models.StudentCharacterTag.objects.filter_by_pk(
             sc_tags_filter)
         )
-        # TODO review_manager needs to be managed smarter
-        if self.review_manager is None:
-            self.review_manager = ReviewManager.get()
         self.state = self.DECIDE
         self.duration = timedelta(0)
         self.save()
