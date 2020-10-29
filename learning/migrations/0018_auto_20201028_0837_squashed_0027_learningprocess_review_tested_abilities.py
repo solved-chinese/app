@@ -43,7 +43,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('learning', '0017_learningprocess_review_manager'),
-        ('content', '0003_reviewmanager'),
     ]
 
     operations = [

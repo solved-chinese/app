@@ -7,7 +7,6 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('content', '0003_reviewmanager'),
         ('learning', '0016_auto_20201012_1138'),
     ]
 
