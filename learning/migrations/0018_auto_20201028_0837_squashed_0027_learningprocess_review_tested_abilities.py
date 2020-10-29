@@ -144,10 +144,19 @@ class Migration(migrations.Migration):
                 'abstract': False,
             },
         ),
-        migrations.AddField(
-            model_name='learningprocess',
-            name='review_manager',
-            field=models.ForeignKey(default=learning.models.review_manager.ReviewManager.get_default_pk, on_delete=django.db.models.deletion.PROTECT, related_name='+', to='learning.reviewmanager'),
+        migrations.SeparateDatabaseAndState(
+            database_operations=[
+            ],
+            state_operations=[
+                migrations.AddField(
+                    model_name='learningprocess',
+                    name='review_manager',
+                    field=models.ForeignKey(
+                        default=learning.models.review_manager.ReviewManager.get_default_pk,
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name='+', to='learning.reviewmanager'),
+                ),
+            ]
         ),
         migrations.RunPython(
             update_SCA
