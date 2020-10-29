@@ -42,6 +42,7 @@ class Migration(migrations.Migration):
     replaces = [('learning', '0018_auto_20201028_0837'), ('learning', '0019_auto_20201029_0652'), ('learning', '0020_auto_20201029_0754'), ('learning', '0021_auto_20201029_0759'), ('learning', '0022_auto_20201029_0813'), ('learning', '0023_auto_20201029_0835'), ('learning', '0024_learningprocess_review_ability'), ('learning', '0025_auto_20201029_1133'), ('learning', '0026_remove_scability_mastered'), ('learning', '0027_learningprocess_review_tested_abilities')]
 
     dependencies = [
+        ('classroom', '0008_auto_20201015_1322'),
         ('learning', '0017_learningprocess_review_manager'),
     ]
 
