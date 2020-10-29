@@ -6,37 +6,6 @@ import django_fsm
 import learning.models.review_manager
 
 
-# Functions from the following migrations need manual copying.
-# Move them and any dependencies into this file, then update the
-# RunPython operations to refer to the local versions:
-# learning.migrations.0022_auto_20201029_0813
-# learning.migrations.0023_auto_20201029_0835
-
-def update_SCA(apps, schema_editor):
-    StudentCharacter = apps.get_model('learning', 'StudentCharacter')
-    SCAbility = apps.get_model('learning', 'SCAbility')
-    Ability = apps.get_model('learning', 'Ability')
-    for sc in StudentCharacter.objects.all():
-        for ability in Ability.objects.all():
-            # signal not active during migration so have to manually set
-            sca = SCAbility.objects.create(student_character=sc,
-                                           ability=ability,
-                                           student=sc.student,
-                                           character=sc.character)
-            if sc.state == StudentCharacter.MASTERED:
-                sca.state = SCAbility.MASTERED
-                sca.save()
-
-
-def update_review_manager(apps, schema_editor):
-    ReviewManager = apps.get_model('learning', 'ReviewManager')
-    LearningProcess = apps.get_model('learning', 'LearningProcess')
-    for lp in LearningProcess.objects.all():
-        lp.delete()
-    for rm in ReviewManager.objects.all():
-        rm.delete()
-
-
 class Migration(migrations.Migration):
 
     replaces = [('learning', '0018_auto_20201028_0837'), ('learning', '0019_auto_20201029_0652'), ('learning', '0020_auto_20201029_0754'), ('learning', '0021_auto_20201029_0759'), ('learning', '0022_auto_20201029_0813'), ('learning', '0023_auto_20201029_0835'), ('learning', '0024_learningprocess_review_ability'), ('learning', '0025_auto_20201029_1133'), ('learning', '0026_remove_scability_mastered'), ('learning', '0027_learningprocess_review_tested_abilities')]
@@ -150,12 +119,6 @@ class Migration(migrations.Migration):
                 default=learning.models.review_manager.ReviewManager.get_default_pk,
                 on_delete=django.db.models.deletion.PROTECT, related_name='+',
                 to='learning.reviewmanager'),
-        ),
-        migrations.RunPython(
-            update_SCA
-        ),
-        migrations.RunPython(
-            update_review_manager
         ),
         migrations.AddField(
             model_name='learningprocess',
