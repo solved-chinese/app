@@ -4,13 +4,14 @@ from django.db import models
 
 from .models import Character
 from .audio import generate_audio_tag
+from learning.models.ability import Ability
 
 
 MAX_RANDOM_CHOICES = 20
 
 
 class ReviewQuestion:
-    test_field = None
+    test_abilities = ()
     template = None
 
     @classmethod
@@ -55,7 +56,7 @@ class MultipleChoice(ReviewQuestion):
 
 
 class DefinitionMCAnswerField(MultipleChoice):
-    test_field = 'definition_1'
+    test_abilities = (Ability.DEFINITION,)
     choice_field = 'definition_1'
 
     @classmethod
@@ -64,7 +65,7 @@ class DefinitionMCAnswerField(MultipleChoice):
 
 
 class DefinitionMCAnswerCharacter(MultipleChoice):
-    test_field = 'definition_1'
+    test_abilities = (Ability.DEFINITION,)
     choice_field = 'chinese'
 
     @classmethod
@@ -74,7 +75,7 @@ class DefinitionMCAnswerCharacter(MultipleChoice):
 
 
 class PinyinMC(MultipleChoice):
-    test_field = 'pinyin'
+    test_abilities = (Ability.PRONUNCIATION,)
     choice_field = 'chinese'
 
     @classmethod
@@ -110,7 +111,7 @@ class TrueOrFalse(MultipleChoice):
 
 
 class PinyinTOF(TrueOrFalse):
-    test_field = 'pinyin'
+    test_abilities = (Ability.PRONUNCIATION,)
     choice_field = 'pinyin'
 
     @classmethod
@@ -122,7 +123,7 @@ class PinyinTOF(TrueOrFalse):
 
 
 class DefinitionTOF(TrueOrFalse):
-    test_field = 'definition_1'
+    test_abilities = (Ability.DEFINITION,)
     choice_field = 'definition_1'
 
     @classmethod
@@ -131,7 +132,7 @@ class DefinitionTOF(TrueOrFalse):
 
 
 class DefinitionFITB(ReviewQuestion):
-    test_field = 'definition_1'
+    test_abilities = (Ability.FORM, Ability.DEFINITION)
     template = 'content/reviews/fill_in_the_blank.html'
 
     @classmethod
@@ -146,7 +147,7 @@ class DefinitionFITB(ReviewQuestion):
 
 
 class PinyinFITB(ReviewQuestion):
-    test_field = 'pinyin'
+    test_abilities = (Ability.FORM, Ability.PRONUNCIATION)
     template = 'content/reviews/fill_in_the_blank.html'
 
     @classmethod
@@ -168,35 +169,3 @@ class PinyinFITB(ReviewQuestion):
 AVAILABLE_REVIEW_TYPES = [DefinitionMCAnswerField, DefinitionMCAnswerCharacter,
                           PinyinMC, DefinitionTOF, PinyinTOF,
                           DefinitionFITB, PinyinFITB]
-
-def factory_review_manager():
-    class AbstractModel(models.Model):
-        class Meta:
-            abstract = True
-    for review_type in AVAILABLE_REVIEW_TYPES:
-        AbstractModel.add_to_class(f"use_{review_type.__name__}",
-                                   models.BooleanField(default=True))
-    return AbstractModel
-
-class ReviewManager(factory_review_manager()):
-    def get_review_type(self, field_name):
-        available_review_types = []
-        for review_type in AVAILABLE_REVIEW_TYPES:
-            if review_type.test_field == field_name \
-                    and getattr(self, f"use_{review_type.__name__}"):
-                available_review_types.append(review_type)
-        assert available_review_types, \
-            'There should be at least one review type available'
-        return random.choice(available_review_types)
-
-    @classmethod
-    def get(cls, **kwargs):
-        d = {}
-        for review_type in AVAILABLE_REVIEW_TYPES:
-            d[f"use_{review_type.__name__}"] = True
-        d.update(kwargs)
-        return cls.objects.get_or_create(**d)[0]
-
-    @classmethod
-    def get_default_pk(cls):
-        return cls.get().pk

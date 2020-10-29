@@ -13,9 +13,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='learningprocess',
-            name='review_manager',
-            field=models.ForeignKey(default=content.reviews.ReviewManager.get_default_pk, on_delete=django.db.models.deletion.PROTECT, related_name='+', to='content.reviewmanager'),
-        ),
     ]

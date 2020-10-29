@@ -7,8 +7,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.reverse import reverse as rest_reverse
 
-from learning.learning_process import LearningProcess
-from learning.models import StudentCharacter
+from learning.models import LearningProcess, StudentCharacter
 
 
 def index(request):
@@ -23,12 +22,10 @@ def index(request):
             ('You have studied for',
              int(student.total_study_duration_seconds // 60),
              'minutes'),
-            ('You have ',
-             StudentCharacter.of(student=student).get_in_progress_count(),
-             'words in progress'),
-            ('You have mastered',
-             StudentCharacter.of(student=student).get_mastered_count(),
-             'words'),
+            ('You have seen',
+             StudentCharacter.objects.exclude(
+                 state=StudentCharacter.TO_LEARN).count(),
+             'characters'),
         ]
         class_info = ""
         if student.in_class:
