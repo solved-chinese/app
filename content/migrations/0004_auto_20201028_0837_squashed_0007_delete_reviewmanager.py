@@ -9,51 +9,9 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('content', '0003_reviewmanager'),
-        ('learning', '0019_auto_20201029_0652'),
-        ('learning', '0021_auto_20201029_0759'),
     ]
 
     operations = [
-        migrations.RenameField(
-            model_name='reviewmanager',
-            old_name="use_<class 'content.reviews.DefinitionFITB'>",
-            new_name='use_DefinitionFITB',
-        ),
-        migrations.RenameField(
-            model_name='reviewmanager',
-            old_name="use_<class 'content.reviews.DefinitionMCAnswerCharacter'>",
-            new_name='use_DefinitionMCAnswerCharacter',
-        ),
-        migrations.RenameField(
-            model_name='reviewmanager',
-            old_name="use_<class 'content.reviews.DefinitionMCAnswerField'>",
-            new_name='use_DefinitionMCAnswerField',
-        ),
-        migrations.RenameField(
-            model_name='reviewmanager',
-            old_name="use_<class 'content.reviews.DefinitionTOF'>",
-            new_name='use_DefinitionTOF',
-        ),
-        migrations.RenameField(
-            model_name='reviewmanager',
-            old_name="use_<class 'content.reviews.PinyinFITB'>",
-            new_name='use_PinyinFITB',
-        ),
-        migrations.RenameField(
-            model_name='reviewmanager',
-            old_name="use_<class 'content.reviews.PinyinMC'>",
-            new_name='use_PinyinMC',
-        ),
-        migrations.RenameField(
-            model_name='reviewmanager',
-            old_name="use_<class 'content.reviews.PinyinTOF'>",
-            new_name='use_PinyinTOF',
-        ),
-        migrations.AddField(
-            model_name='reviewmanager',
-            name='monitored_abilities',
-            field=models.ManyToManyField(related_name='_reviewmanager_monitored_abilities_+', related_query_name='+', to='learning.Ability'),
-        ),
         migrations.DeleteModel(
             name='ReviewManager',
         ),
