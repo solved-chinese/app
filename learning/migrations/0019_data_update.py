@@ -15,6 +15,9 @@ def update(apps, schema_editor):
         good_pks.append(Ability.objects.get_or_create(code=ability)[0].pk)
     Ability.objects.exclude(pk__in=good_pks).delete()
     for sc in StudentCharacter.objects.all():
+        if sc.state == 20:
+            sc.state = 10
+            sc.save()
         for ability in Ability.objects.all():
             # signal not active during migration so have to manually set
             sca = SCAbility.objects.create(student_character=sc,
@@ -22,9 +25,6 @@ def update(apps, schema_editor):
             if sc.state == 30: # MASTERED
                 sca.state = 30 # MASTERED
                 sca.save()
-            elif sc.state == 20:
-                sc.state == 10
-                sc.save()
     LearningProcess.objects.all().delete()
     ReviewManager.objects.all().delete()
 
