@@ -69,6 +69,20 @@ class DefinitionMCAnswerCharacter(MultipleChoice):
     choice_field = 'chinese'
 
     @classmethod
+    def get_queryset(cls, character, characters=None,
+                     assert_as_least=0):
+        """
+        ma and ne both mean question particle
+        """
+        if characters is None:
+            characters = Character.objects.all()
+        queryset = characters.exclude(definition_1=character.definition_1)
+        if queryset.count() < assert_as_least:
+            queryset = Character.objects.all().exclude(
+                    definition_1=character.definition_1)
+        return queryset
+
+    @classmethod
     def get_question(cls, character):
         return f'Which of the following characters means ' \
                f'"{character.definition_1}"?'
