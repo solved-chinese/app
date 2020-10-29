@@ -9,6 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('content', '0003_reviewmanager'),
+        ('learning', '0018_auto_20201028_0837_squashed_0027_learningprocess_review_tested_abilities'),
     ]
 
     operations = [
