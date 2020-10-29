@@ -1,12 +1,9 @@
 import json
-import random
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
-from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 
@@ -14,9 +11,9 @@ from accounts.models import User
 from classroom.models import Student
 from content.models import CharacterSet
 from content.views import display_character, ReviewView
-from jiezi.rest.permissions import IsStudent, IsNotGuest
+from jiezi.rest.permissions import IsStudent
 from .models import StudentCharacterTag, Report
-from learning.learning_process import LearningProcess
+from learning.models.learning_process import LearningProcess
 
 
 @login_required

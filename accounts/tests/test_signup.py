@@ -39,4 +39,5 @@ class TestUserSignup(TestCase):
         )
         user = response.wsgi_request.user
         self.assertTrue(user.is_teacher)
-        self.assertRedirects(response, reverse('index'))
+        self.assertRedirects(response, reverse('index'),
+                             target_status_code=302)
