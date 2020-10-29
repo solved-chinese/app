@@ -12,7 +12,7 @@ def update(apps, schema_editor):
     # reset Ability
     good_pks = []
     for ability in [0, 1, 2]:
-        good_pks.append(Ability.of(ability).pk)
+        good_pks.append(Ability.objects.get_or_create(code=ability)[0].pk)
     Ability.objects.exclude(pk__in=good_pks).delete()
     for sc in StudentCharacter.objects.all():
         for ability in Ability.objects.all():
