@@ -9,18 +9,24 @@ def update(apps, schema_editor):
     Ability = apps.get_model('learning', 'Ability')
     ReviewManager = apps.get_model('learning', 'ReviewManager')
     LearningProcess = apps.get_model('learning', 'LearningProcess')
+    # reset Ability
+    good_pks = []
+    for ability in [0, 1, 2]:
+        good_pks.append(Ability.of(ability).pk)
+    Ability.objects.exclude(pk__in=good_pks).delete()
     for sc in StudentCharacter.objects.all():
         for ability in Ability.objects.all():
             # signal not active during migration so have to manually set
-            sca = SCAbility.objects.get_or_create(student_character=sc,
-                ability=ability, student=sc.student, character=sc.character)[0]
+            sca = SCAbility.objects.create(student_character=sc,
+                ability=ability, student=sc.student, character=sc.character)
             if sc.state == 30: # MASTERED
                 sca.state = 30 # MASTERED
                 sca.save()
-    for lp in LearningProcess.objects.all():
-        lp.delete()
-    for rm in ReviewManager.objects.all():
-        rm.delete()
+            elif sc.state == 20:
+                sc.state == 10
+                sc.save()
+    LearningProcess.objects.all().delete()
+    ReviewManager.objects.all().delete()
 
 
 class Migration(migrations.Migration):
