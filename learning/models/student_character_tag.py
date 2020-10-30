@@ -2,11 +2,21 @@ from django.db import models
 
 from classroom.models import Student
 from content.models import CharacterSet
-from learning.managers import SCTagManager
 from learning.models import StudentCharacter
 
 
+class SCTagManager(models.Manager):
+    def filter_by_pk(self, pk):
+        if isinstance(pk, int):
+            return self.get_queryset().filter(pk=pk)
+        return self.get_queryset().filter(pk__in=pk)
+
+
 class StudentCharacterTag(models.Model):
+    """
+    This class connects a student with a character set. It syncs the changes
+    from CharacterSet.
+    """
     character_set = models.ForeignKey(CharacterSet,
                                       on_delete=models.CASCADE,
                                       related_name='sc_tags',
@@ -24,7 +34,7 @@ class StudentCharacterTag(models.Model):
         This method ensures that the relationship between this StudentCharacterTag
         and its UserCharacters follows that between its CharacterSet and the
         corresponding Characters
-        TODO: It should be called sparingly for efficiency reasons.
+        TODO: auto update though sparingly
         solution 1: add a lazy tag attribute and call this method lazily
         solution 2: in addition to solution 1, call this only when
         character_set gets updated
