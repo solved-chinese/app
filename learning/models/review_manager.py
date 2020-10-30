@@ -1,5 +1,6 @@
 import random
 
+from django.core.exceptions import ValidationError
 from django.db import models
 
 from content.reviews import *
@@ -41,6 +42,14 @@ class ReviewManager(factory_review_manager()):
         assert available_review_types, \
             'There should be at least one review type available'
         return random.choice(available_review_types)
+
+    def clean(self):
+        # at least there should be one review type available
+        if not any(getattr(self, f"use_{review_type.__name__}")
+                   for review_type in AVAILABLE_REVIEW_TYPES):
+            raise ValidationError("There must be at least one review "
+                                  "type selected",
+                                  code='invalid')
 
     @classmethod
     def get(cls, **kwargs):
