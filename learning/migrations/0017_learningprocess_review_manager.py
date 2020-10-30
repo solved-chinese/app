@@ -8,6 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('learning', '0016_auto_20201012_1138'),
+        ('content', '0003_reviewmanager'),
     ]
 
     operations = [
