@@ -45,16 +45,39 @@
       </tbody>
     </table>
 
-    See how the class performs on the following Character Sets?
-    {% for cset in csets %}
-      <form action="{% url 'class_detail_filter' object.pk %}"
-            target="_blank" method="get">
-        <input type='hidden' name='cset_pk' value='{{ cset.pk }}'>
-        <input type="submit" value="{{ cset.name }}">
-      </form>
-    {% endfor %}
+{#    See how the class performs on the following Character Sets?#}
+{#    {% for cset in csets %}#}
+{#      <form action="{% url 'class_detail_filter' object.pk %}"#}
+{#            target="_blank" method="get">#}
+{#        <input type='hidden' name='cset_pk' value='{{ cset.pk }}'>#}
+{#        <input type="submit" value="{{ cset.name }}">#}
+{#      </form>#}
+{#    {% endfor %}#}
   {% endif %}
+
+  <h2>Assignments:</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for assignment in object.assignments.all %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td><a href='{% url "assignment_detail" assignment.pk%}'>
+            {{ assignment.name }}
+          </a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href='{% url "create_assignment" object.pk %}'>Create Assignment</a>
+
   <br><br>
+
   <form action="{% url 'delete_class'%}" method="post">
     {% csrf_token %}
     <input type='hidden' name='class_pk' value='{{ object.pk }}'>

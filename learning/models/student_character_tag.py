@@ -1,12 +1,34 @@
 from django.db import models
+from django.db.models.signals import m2m_changed
+from django.dispatch import receiver
 
 from classroom.models import Student
 from content.models import CharacterSet
-from learning.managers import SCTagManager
 from learning.models import StudentCharacter
 
 
+class SCTagQuerySet(models.QuerySet):
+    def check_update(self):
+        for sc_tag in self.all():
+            sc_tag.check_update()
+
+
+class SCTagManager(models.Manager):
+    def get_queryset(self):
+        queryset = SCTagQuerySet(model=self.model, using=self._db)
+        return queryset
+
+    def filter_by_pk(self, pk):
+        if isinstance(pk, int):
+            return self.get_queryset().filter(pk=pk)
+        return self.get_queryset().filter(pk__in=pk)
+
+
 class StudentCharacterTag(models.Model):
+    """
+    This class connects a student with a character set. It syncs the changes
+    from CharacterSet.
+    """
     character_set = models.ForeignKey(CharacterSet,
                                       on_delete=models.CASCADE,
                                       related_name='sc_tags',
@@ -14,29 +36,44 @@ class StudentCharacterTag(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE,
                                 related_name='sc_tags',
                                 related_query_name='sc_tag')
+    # lazy tag
+    is_updated = models.BooleanField(default=False)
     student_characters = models.ManyToManyField(StudentCharacter,
                                                 related_name='sc_tags',
                                                 related_query_name='sc_tag')
     objects = SCTagManager()
 
-    def update_from_character_set(self):
+    def check_update(self):
         """
         This method ensures that the relationship between this StudentCharacterTag
         and its UserCharacters follows that between its CharacterSet and the
         corresponding Characters
-        TODO: It should be called sparingly for efficiency reasons.
-        solution 1: add a lazy tag attribute and call this method lazily
-        solution 2: in addition to solution 1, call this only when
-        character_set gets updated
         """
-        scs = []
-        for character in self.character_set.characters.all():
-            scs.append(StudentCharacter.of(self.student, character))
+        if self.is_updated:
+            return
+        scs = [StudentCharacter.of(self.student, character)
+               for character in self.character_set.characters.all()]
         self.student_characters.set(scs)
+        self.is_updated = True
+        self.save()
 
     @property
     def states_count(self):
-        return self.student_characters.all().get_states_count()
+        d = {}
+        for num, choice in StudentCharacter.STATE_CHOICES:
+            if choice != 'To Learn':
+                d[choice] = StudentCharacter.objects.filter(
+                    state=num,
+                    character__in=self.character_set.characters.all()
+                ).count()
+        d['To Learn'] = self.character_set.characters.count() \
+                    - sum(d.values())
+        return d
+
+    @classmethod
+    def of(cls, student, cset):
+        return cls.objects.update_or_create(student=student,
+                                             character_set=cset)[0]
 
     @property
     def name(self):
@@ -50,3 +87,13 @@ class StudentCharacterTag(models.Model):
 
     class Meta:
         unique_together = ('student', 'character_set')
+
+
+@receiver(m2m_changed, sender=CharacterSet.characters.through)
+def update_sc_tag_from_cset(sender, **kwargs):
+    action = kwargs['action']
+    pk_set = kwargs['pk_set']
+    if action in ('post_add', 'post_remove') and pk_set:
+        cset = kwargs['instance']
+        StudentCharacterTag.objects.filter(character_set=cset)\
+            .update(is_updated=False)

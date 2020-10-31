@@ -8,7 +8,8 @@ from django.shortcuts import get_object_or_404, reverse, redirect
 from content.models import CharacterSet
 from learning.models import StudentCharacter, StudentCharacterTag
 from jiezi.utils.mixins import IsTeacherMixin
-from .models import Class, Student
+from .models import Class, Student, Assignment
+from .forms import AssignmentForm
 
 
 class FilterInClass(IsTeacherMixin, TemplateView):
@@ -98,3 +99,42 @@ class ClassList(IsTeacherMixin, ListView):
 
     def get_queryset(self):
         return Class.objects.filter(teacher=self.request.user.teacher)
+
+
+class AssignmentCreate(IsTeacherMixin, CreateView):
+    template_name = "classroom/assignment_create.html"
+    model = Assignment
+    form_class = AssignmentForm
+
+    def form_valid(self, form):
+        form.instance.in_class = self.in_class
+        return super().form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['in_class'] = self.in_class
+        return kwargs
+
+    def get_success_url(self):
+        return reverse('assignment_detail', args=[self.object.pk])
+
+    def test_func(self):
+        if not super().test_func():
+            return False
+        self.in_class = get_object_or_404(Class, pk=self.kwargs['pk'])
+        if self.in_class.teacher != self.request.user.teacher:
+            raise PermissionError('You are not the owner of this class.')
+        return True
+
+
+class AssignmentDetail(IsTeacherMixin, DetailView):
+    model = Assignment
+    template_name = "classroom/assignment_detail.html"
+
+    def test_func(self):
+        if not super().test_func():
+            return False
+        if self.get_object().in_class.teacher != self.request.user.teacher:
+            raise PermissionError('You are not the owner of this class.')
+        else:
+            return True
