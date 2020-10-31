@@ -92,7 +92,8 @@ class StudentCharacterTag(models.Model):
 @receiver(m2m_changed, sender=CharacterSet.characters.through)
 def update_sc_tag_from_cset(sender, **kwargs):
     action = kwargs['action']
-    if action == 'post_add':
+    pk_set = kwargs['pk_set']
+    if action in ('post_add', 'post_remove') and pk_set:
         cset = kwargs['instance']
         StudentCharacterTag.objects.filter(character_set=cset)\
             .update(is_updated=False)

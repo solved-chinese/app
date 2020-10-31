@@ -29,4 +29,7 @@ class TestSCTag(TestCase):
         sc_tag.check_update()
         self.assertTrue(sc_tag.is_updated)
         self.assertTrue(StudentCharacter.objects.filter(
-                character=c, student=self.student).exists())
+            character=c, student=self.student).exists())
+        cset.characters.set([c])
+        sc_tag.refresh_from_db()
+        self.assertTrue(sc_tag.is_updated)
