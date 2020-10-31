@@ -11,6 +11,8 @@
          url('/static/fonts/STKaiti/STKaiti.svg') format('svg'); /* iOS 4.1- */
 }
 
+
+
 /***********************************
   Variable Declarations
 ***********************************/
@@ -21,6 +23,8 @@
     --tertiary-color: #ccc;
     --navbar-color: #fffefc;
 }
+
+
 
 /***********************************
   Base Styles
@@ -61,12 +65,11 @@ a {
     text-decoration: none !important;
 }
 
-.fas,
-.far,
-.fal,
-.fab {
+.fas, .far, .fal, .fab {
     color: inherit;
 }
+
+
 
 /***********************************
   Containers
@@ -101,6 +104,8 @@ a {
     padding-bottom: 80px;
 }
 
+
+
 /***********************************
   Header
 ***********************************/
@@ -126,7 +131,7 @@ a {
 #navbar > .logo {
     width: 108.121875px; /* There definitely exists a better way */
     height: 38px;
-    background-image: url("/static/images/logo-color-full.svg");
+    background-image: url('/static/images/logo-color-full.svg');
     background-repeat: no-repeat;
     background-position: left;
     background-size: contain;
@@ -137,15 +142,17 @@ a {
     text-decoration: none;
 }
 
+
+
 /***********************************
   Footer
 ***********************************/
 
 #footer-bg {
-    position: absolute;
-    bottom: 0;
-    background-color: #f5f5f5;
-    border-top: 1px solid #e8e8e8;
+  position: absolute;
+  bottom: 0;
+  background-color: #f5f5f5;
+  border-top: 1px solid #e8e8e8;
 }
 
 #footer {
@@ -157,7 +164,7 @@ a {
 }
 
 #footer * {
-    color: #8e9dae;
+    color: #8E9DAE;
 }
 
 #footer #copyright-info {
@@ -165,8 +172,10 @@ a {
 }
 
 #footer-icon-container i:hover {
-    color: #5e6d7e;
+    color: #5E6D7E;
 }
+
+
 
 /***********************************
   Buttons
@@ -183,7 +192,7 @@ a {
 }
 
 .button.button-primary {
-    color: var(--main-theme-color);
+    color: var(--main-theme-color)
     border-color: var(--main-theme-color);
 }
 
@@ -237,6 +246,8 @@ a {
     margin-left: 15px;
 }
 
+
+
 /***********************************
   Input Boxes
 ***********************************/
@@ -248,7 +259,7 @@ a {
 .input-wrapper::before {
     position: absolute;
     margin: 15px 0 0 15px;
-    font-family: "Font Awesome 5 Pro";
+    font-family: 'Font Awesome 5 Pro';
     color: var(--secondary-color);
 }
 
@@ -273,16 +284,18 @@ a {
 }
 
 .input-wrapper.search::before {
-    content: "\f002";
+    content: '\f002';
 }
 
 .input-wrapper.username::before {
-    content: "\f007";
+    content: '\f007';
 }
 
 .input-wrapper.password::before {
-    content: "\f023";
+    content: '\f023';
 }
+
+
 
 /***********************************
   Shorthands
@@ -296,6 +309,8 @@ a {
     font-size: 26px;
     font-weight: 500;
 }
+
+
 
 /***********************************
   Modals
@@ -380,6 +395,8 @@ a {
 
     overflow: auto; */
 }
+
+
 
 /***********************************
   Search-form
@@ -486,6 +503,8 @@ a {
     color: var(--secondary-color);
     text-align: center;
 }
+
+
 
 /***********************************
   Responsive

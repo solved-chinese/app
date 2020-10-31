@@ -7,7 +7,7 @@ function csrfSafeMethod(method) {
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
 $.ajaxSetup({
-    beforeSend: function (xhr, settings) {
+    beforeSend: function(xhr, settings) {
         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
             console.log('add csrf');
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
@@ -71,14 +71,14 @@ function searchHandler(e) {
             char = data[i];
             let targetPk = char.id.toString().padStart(4, '0');
             let entry = `
-            <a href='/content/C${targetPk}' class='search-entry-wrapper'>
-                <div class='search-entry'>
-                    <span class='character'>${char.chinese}</span>
-                    <span class='pinyin'>${char.pinyin.replace(/\s+/g, '')}</span>
-                    <p class='definition'>${char.definition_1}
-                    </p>
-                </div>
-            </a>`;
+                <a href='/content/C${targetPk}' class='search-entry-wrapper'>
+                    <div class='search-entry'>
+                        <span class='character'>${char.chinese}</span>
+                        <span class='pinyin'>${char.pinyin.replace(/\s+/g, '')}</span>
+                        <p class='definition'>${char.definition_1}
+                        </p>
+                    </div>
+                </a>`;
             // Some pinyins contain whitespaces, hence they are removed here (temporary fix)
             $(entry).appendTo($target);
         }
