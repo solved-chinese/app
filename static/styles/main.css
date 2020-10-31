@@ -2,18 +2,13 @@
   Fonts
 ***********************************/
 
-@font-face {
-    font-family: "STKaiti";
-    src: url("/static/fonts/STKaiti/STKaiti.eot"); /* IE9 */
-    src: url("/static/fonts/STKaiti/STKaiti.eot") format("embedded-opentype"),
-        /* IE6 - IE8 */ url("/static/fonts/STKaiti/STKaiti.woff2")
-            format("woff2"),
-        /* chrome firefox */ url("/static/fonts/STKaiti/STKaiti.woff")
-            format("woff"),
-        /* Chrome firefox */ url("/static/fonts/STKaiti/STKaiti.ttf")
-            format("truetype"),
-        /* chrome firefox opera Safari, Android, iOS 4.2+*/
-            url("/static/fonts/STKaiti/STKaiti.svg") format("svg"); /* iOS 4.1- */
+@font-face {font-family: 'STKaiti';
+    src: url('/static/fonts/STKaiti/STKaiti.eot'); /* IE9 */
+    src: url('/static/fonts/STKaiti/STKaiti.eot') format('embedded-opentype'), /* IE6 - IE8 */
+         url('/static/fonts/STKaiti/STKaiti.woff2') format('woff2'), /* chrome firefox */
+         url('/static/fonts/STKaiti/STKaiti.woff') format('woff'), /* Chrome firefox */
+         url('/static/fonts/STKaiti/STKaiti.ttf') format('truetype'), /* chrome firefox opera Safari, Android, iOS 4.2+*/
+         url('/static/fonts/STKaiti/STKaiti.svg') format('svg'); /* iOS 4.1- */
 }
 
 /***********************************
@@ -33,9 +28,7 @@
 
 * {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-        "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
-        "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     color: #040302;
 }
 

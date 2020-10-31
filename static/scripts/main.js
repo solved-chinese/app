@@ -4,12 +4,12 @@
 var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
-    return /^(GET|HEAD|OPTIONS|TRACE)$/.test(method);
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
 $.ajaxSetup({
     beforeSend: function (xhr, settings) {
         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            console.log("add csrf");
+            console.log('add csrf');
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
         }
     },
@@ -20,12 +20,12 @@ $.ajaxSetup({
 ***********************************/
 
 function showModal(modalId) {
-    $(".page-mask").show();
+    $('.page-mask').show();
     $(`#${modalId}`).show();
 }
 
 function hideModal(modalId) {
-    $(".page-mask").hide();
+    $('.page-mask').hide();
     $(`#${modalId}`).hide();
 }
 
@@ -34,10 +34,10 @@ function hideModal(modalId) {
 ***********************************/
 
 const MAX_ENTRIES_DISPLAY = 6;
-const $source = $(".search-input-wrapper > input");
-const $target = $("#search-dropdown-wrapper");
+const $source = $('.search-input-wrapper > input');
+const $target = $('#search-dropdown-wrapper');
 
-$(".search-form-wrapper").focusout(() => {
+$('.search-form-wrapper').focusout(() =>
     setTimeout(() => {
         $target.html("");
     }, 150);
@@ -45,20 +45,20 @@ $(".search-form-wrapper").focusout(() => {
 
 function searchHandler(e) {
     let query = $source.val();
-    if (query === "") {
-        $target.html("");
+    if (query === '') {
+        $target.html('');
         return;
     }
 
     $.post({
-        url: "/content/search/",
+        url: '/content/search/',
         data: {
-            keyword: query,
-        },
+            keyword: query
+        }
     })
-        .done((data) => {
+        .done(data => {
             $target.empty();
-            $("<hr>").appendTo($target);
+            $('<hr>').appendTo($target);
 
             if (data.length === 0) {
                 $('<div class="error-msg">No Match</div>').appendTo($target);
@@ -67,15 +67,12 @@ function searchHandler(e) {
 
             for (i = 0; i < Math.min(data.length, MAX_ENTRIES_DISPLAY); i++) {
                 char = data[i];
-                let targetPk = char.id.toString().padStart(4, "0");
+                let targetPk = char.id.toString().padStart(4, '0');
                 let entry = `
                 <a href='/content/C${targetPk}' class='search-entry-wrapper'>
                     <div class='search-entry'>
                         <span class='character'>${char.chinese}</span>
-                        <span class='pinyin'>${char.pinyin.replace(
-                            /\s+/g,
-                            ""
-                        )}</span>
+                        <span class='pinyin'>${char.pinyin.replace(/\s+/g, '')}</span>
                         <p class='definition'>${char.definition_1}
                         </p>
                     </div>
@@ -85,9 +82,7 @@ function searchHandler(e) {
             }
         })
         .fail((xhr, status, errorThrown) => {
-            $target.html(
-                '<hr><div class="error-msg">There was a problem connecting with the Solved server</div>'
-            );
+            $target.html('<hr><div class="error-msg">There was a problem connecting with the Solved server</div>');
             return;
         });
 }
