@@ -12,8 +12,3 @@ class CharacterSet(DFModelMixin, StrDefaultReprMixin, CleanBeforeSaveMixin,
     def __repr__(self):
         return f'<cset{self.id}:{self.name} ' \
                f'{[repr(c) for c in self.characters.all()]}>'
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        for sctag in self.sc_tags.all():
-            sctag.update_from_character_set() # FIXME make more efficient\

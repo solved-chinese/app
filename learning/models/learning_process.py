@@ -186,10 +186,9 @@ class LearningProcess(models.Model):
         This function resets the LearningProcess
         """
         from learning.models import StudentCharacterTag
-        self.sc_tags.set(
-            StudentCharacterTag.objects.filter_by_pk(
-            sc_tags_filter)
-        )
+        sc_tags = StudentCharacterTag.objects.filter_by_pk(sc_tags_filter)
+        sc_tags.check_update()
+        self.sc_tags.set(sc_tags)
         self.state = self.DECIDE
         self.duration = timedelta(0)
         self.save()

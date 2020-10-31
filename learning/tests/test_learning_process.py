@@ -21,9 +21,7 @@ class TestLearningProcess(TestCase):
         self.client.force_login(self.student.user)
         self.learning_process = LearningProcess.of(self.student)
         cset = CharacterSet.objects.first()
-        self.sc_tag = StudentCharacterTag.objects.create(character_set=cset,
-                                                    student=self.student)
-        self.sc_tag.update_from_character_set()
+        self.sc_tag = StudentCharacterTag.of(self.student, cset)
         self.sc_tag.save()
 
     # TODO test time shit with https://pypi.org/project/freezegun/

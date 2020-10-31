@@ -46,7 +46,6 @@ class StudentCharacterTagList(generics.ListCreateAPIView):
         cset = CharacterSet.objects.get(pk=cset_pk)
         obj = StudentCharacterTag.objects.create(character_set=cset,
                                                  student=request.user.student)
-        obj.update_from_character_set()
         data = StudentCharacterTagSerializer(
             obj, context=self.get_serializer_context()).data
         return Response(data,

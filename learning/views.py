@@ -33,9 +33,7 @@ def try_me(request):
     student = Student.of(user)
     login(request, user)
     try_me_set = CharacterSet.objects.get(name='try_me')
-    obj = StudentCharacterTag.objects.create(character_set=try_me_set,
-                                             student=student)
-    obj.update_from_character_set()
+    obj = StudentCharacterTag.of(student, try_me_set)
     process = LearningProcess.of(request.user.student)
     process.start([obj.pk])
     return redirect(reverse('continue_learning'))

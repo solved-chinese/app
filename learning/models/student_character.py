@@ -58,9 +58,9 @@ class StudentCharacter(models.Model, StrDefaultReprMixin):
     IN_PROGRESS = 20
     MASTERED = 30
     STATE_CHOICES = [
-        (TO_LEARN, 'To Learn'),
         (IN_PROGRESS, 'In Progress'),
         (MASTERED, 'Mastered'),
+        (TO_LEARN, 'To Learn'),
     ]
     state = FSMIntegerField(choices=STATE_CHOICES, default=TO_LEARN)
     student = models.ForeignKey(Student, on_delete=models.CASCADE,
