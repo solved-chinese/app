@@ -192,7 +192,7 @@ a {
 }
 
 .button.button-primary {
-    color: var(--main-theme-color)
+    color: var(--main-theme-color);
     border-color: var(--main-theme-color);
 }
 
@@ -222,7 +222,7 @@ a {
 }
 
 .button.button-text-only:hover {
-    color: var(--main-theme-color);
+    color: var(--main-theme-color)
 }
 
 .header-back-button {
@@ -511,15 +511,17 @@ a {
 ***********************************/
 
 @media only screen and (max-width: 768px) {
+
     #navbar > .logo {
         width: 32.4383075px;
         min-width: 32.4383075px; /* There definitely exists a better way */
         height: 38px;
-        background-image: url("/static/images/logo-color-mark.svg");
+        background-image: url('/static/images/logo-color-mark.svg');
     }
     .search-input-wrapper {
         position: relative;
     }
+
     .search-form {
         padding: 0 30px 0;
     }
