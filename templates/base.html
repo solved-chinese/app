@@ -43,7 +43,7 @@
       <div class="search-form-wrapper">
         <div class="search-input-wrapper">
           <i class="far fa-search search-icon"></i>
-          <input type="text" name="keyword" placeholder="Search Dictionary">
+          <input type="text" name="keyword" placeholder="">
         </div>
         <div id="search-dropdown-wrapper">
         </div>
@@ -57,7 +57,13 @@
             <span class="badge badge-pill badge-danger">{{ user.unread_message_count }}</span>
           {% endif %}
         </button>
-        <div class="dropdown-menu">
+
+        <div id="userDropdown-mobile" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false" href="{% url "profile" %}">
+          <i class="fas fa-align-justify fa-2x"></i>
+        </div>
+
+        <div class="dropdown-menu" aria-labelledby="userDropdown-mobile">
           {% if user.is_staff %}
             <a class="dropdown-item" href="{% url "staff_panel" %}">Staff Panel</a>
             <a class="dropdown-item" href="{% url "admin:index" %}">Django Admin</a>
@@ -72,6 +78,7 @@
           <a class="dropdown-item" href="{% url "profile" %}">Profile</a>
           <a class="dropdown-item" href="{% url "logout" %}">Logout</a>
         </div>
+
       {% else %}
         <a class="button button-text-only" href="{% url "login" %}">Login</a>
         <a class="button button-primary" href="{% url "student_signup" %}">Sign Up</a>

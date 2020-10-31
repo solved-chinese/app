@@ -513,9 +513,13 @@ a {
 @media only screen and (max-width: 768px) {
 
     #navbar > .logo {
+        width: 32.4383075px;
         min-width: 32.4383075px; /* There definitely exists a better way */
         height: 38px;
         background-image: url('/static/images/logo-color-mark.svg');
+    }
+    .search-input-wrapper {
+        position: relative;
     }
 
     .search-form {
@@ -523,6 +527,15 @@ a {
     }
 
     .search-form-wrapper {
-        width: 100%;
+        width: 60%;
+    }
+    .dropdown-menu.show {
+        transform: none;
+        right: 0px;
+        top: 0;
+    }
+    .dropdown-menu {
+        text-align: center;
+        background-color: #eae1e1;
     }
 }
