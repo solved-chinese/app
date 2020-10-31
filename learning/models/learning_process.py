@@ -187,6 +187,7 @@ class LearningProcess(models.Model):
         """
         from learning.models import StudentCharacterTag
         sc_tags = StudentCharacterTag.objects.filter_by_pk(sc_tags_filter)
+        assert sc_tags.count() == 1
         sc_tags.check_update()
         self.sc_tags.set(sc_tags)
         self.state = self.DECIDE

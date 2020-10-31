@@ -46,46 +46,20 @@
 
 var selected_tags = [];
 
-// TODO this can totally be done without js
-$.get('/learning/student_character_tag/', data => {
-    if(data.length == 0) {
-        $('#available-tags-container').append(`
-            Please add at least one set to your library. You can do so in 
-            "Manage Vocab Sets" on the top left corner.
-        `);
+$(document).on("click", ".tag-button" , function() {
+    let checkmark = $(this).find('.checkmark');
+    if(checkmark.is(":hidden")) {
+        // select
+        $('.checkmark').hide();
+        checkmark.show();
+        selected_tags = [checkmark.data("pk")];
+        $("#study-button").show();
+    } else {
+        // deselect
+        checkmark.hide();
+        selected_tags = [];
+        $("#study-button").hide();
     }
-    data.forEach(tag => {
-        states = ""
-        Object.entries(tag.states_count).forEach(function([key, value]) {
-           states += `${key}: ${value} &nbsp;&nbsp;&nbsp;`
-        });
-        $('#available-tags-container').append(`
-            <button type="button" class="button button-secondary tag-button text-left">
-                <div class='tag-name'>
-                  ${tag.name} 
-                  <span class="checkmark" data-pk="${tag.pk}">&#10003;</span> 
-                </div>
-                ${states}
-            </button>
-        `);
-    });
-
-    $(document).on("click", ".tag-button" , function() {
-        let checkmark = $(this).find('.checkmark');
-        checkmark.toggle();
-        let pk = checkmark.data("pk");
-        if(checkmark.is(":hidden")) {
-            selected_tags.splice(selected_tags.indexOf(pk), 1);
-        } else {
-            selected_tags.push(pk);
-        }
-        console.log(selected_tags);
-        if (selected_tags.length == 0) {
-            $("#study-button").hide();
-        } else {
-            $("#study-button").show();
-        }
-    });
 });
 
 $('#study-button').click(function() {
