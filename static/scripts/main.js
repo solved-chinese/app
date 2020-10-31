@@ -89,10 +89,10 @@ function searchHandler(e) {
     });
 }
 
-$source.on("input propertychange", searchHandler);
-$source.keypress((e) => {
-    if (e.keyCode !== 13 || $(".search-entry-wrapper").length === 0) return;
-    $(".search-entry-wrapper")[0].click();
+$source.on('input propertychange', searchHandler);
+$source.keypress(e => {
+    if (e.keyCode !== 13 || $('.search-entry-wrapper').length === 0) return;
+    $('.search-entry-wrapper')[0].click();
 });
 
 /***********************************
