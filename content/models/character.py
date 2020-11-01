@@ -49,31 +49,33 @@ class Character(DFModelMixin, CleanBeforeSaveMixin, models.Model):
         if not word and index == 2:
             return None
 
-        assert len(word) == 2 or word.count('+') == 1,\
-            f'example_{index}_word needs to be of length 2 or separated by a' \
-            f'plus sign but "{word}" is not'
-        if len(word) == 2:
-            words = word
-        else:
+        if '+' in word:
             words = word.split('+')
-
-
-        assert pinyin.count(' ') == 1 or pinyin.count('+') == 1, \
-            f'example_{index}_pinyin should contain 1 space or plus sign' \
-            f'but "{pinyin} does not'
-        if pinyin.count(' ') == 1:
-            pinyin = pinyin.split(' ')
         else:
-            pinyin = pinyin.split('+')
+            words = word
+        word_len = len(words)
 
-        assert character.count('+') == 1, f'example_{index}_pinyin should' \
-            f' contain 1 "+" but "{character}" does not'
+        if '+' in pinyin:
+            pinyins = pinyin.split('+')
+        else:
+            pinyins = pinyin.split(' ')
+        pinyin_len = len(pinyins)
+
         characters = character.split('+')
+        character_len = len(characters)
 
-        return f"&nbsp;&nbsp;&nbsp;" \
-               f"{words[0]} /{pinyin[0].strip()}/ {characters[0].strip()}" \
-               f" + {words[1]} /{pinyin[1].strip()}/ {characters[1].strip()}" \
-               f"<br> = {word} {meaning}"
+        assert character_len == pinyin_len == word_len,\
+            f"character_len={character_len} word_len={word_len} " \
+            f"pinyin_len={pinyin_len} need to be equal"
+        assert character_len > 1, 'the length needs to be greater than 1'
+
+        example = "&nbsp;&nbsp;&nbsp;"
+        for i in range(character_len):
+            example += f"{words[i]} /{pinyins[i]}/ {characters[i]}"
+            if i != character_len - 1:
+                example += ' + '
+        example += f"<br> = {word.replace('+', '')} {meaning}"
+        return example
 
     def get_example_2_sentence(self):
         return self.get_example_sentence(index=2)
@@ -88,7 +90,7 @@ class Character(DFModelMixin, CleanBeforeSaveMixin, models.Model):
         try:
             self.get_example_sentence()
         except AssertionError as e:
-            raise ValidationError('example not valid') from e
+            raise ValidationError(f'example not valid: {str(e)}') from e
 
     def __str__(self):
         return self.chinese
