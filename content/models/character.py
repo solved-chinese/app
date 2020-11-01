@@ -59,7 +59,7 @@ class Character(DFModelMixin, StrDefaultReprMixin, CleanBeforeSaveMixin,
             words = word.split('+')
 
 
-        assert pinyin.count(' ') == 1 or pinyin.count('+'), \
+        assert pinyin.count(' ') == 1 or pinyin.count('+') == 1, \
             f'example_{index}_pinyin should contain 1 space or plus sign' \
             f'but "{pinyin} does not'
         if pinyin.count(' ') == 1:
