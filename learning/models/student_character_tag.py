@@ -63,6 +63,7 @@ class StudentCharacterTag(models.Model):
         for num, choice in StudentCharacter.STATE_CHOICES:
             if choice != 'To Learn':
                 d[choice] = StudentCharacter.objects.filter(
+                    student=self.student,
                     state=num,
                     character__in=self.character_set.characters.all()
                 ).count()

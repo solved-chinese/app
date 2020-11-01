@@ -3,11 +3,10 @@ from django.db import models
 
 from content.audio import get_audio
 from content.models import DFModelMixin
-from jiezi.utils.mixins import StrDefaultReprMixin, CleanBeforeSaveMixin
+from jiezi.utils.mixins import CleanBeforeSaveMixin
 
 
-class Character(DFModelMixin, StrDefaultReprMixin, CleanBeforeSaveMixin,
-                models.Model):
+class Character(DFModelMixin, CleanBeforeSaveMixin, models.Model):
     TEST_FIELDS = ['pinyin', 'definition_1']
 
     chinese = models.CharField(max_length=1)
@@ -59,7 +58,7 @@ class Character(DFModelMixin, StrDefaultReprMixin, CleanBeforeSaveMixin,
             words = word.split('+')
 
 
-        assert pinyin.count(' ') == 1 or pinyin.count('+'), \
+        assert pinyin.count(' ') == 1 or pinyin.count('+') == 1, \
             f'example_{index}_pinyin should contain 1 space or plus sign' \
             f'but "{pinyin} does not'
         if pinyin.count(' ') == 1:
@@ -91,11 +90,8 @@ class Character(DFModelMixin, StrDefaultReprMixin, CleanBeforeSaveMixin,
         except AssertionError as e:
             raise ValidationError('example not valid') from e
 
-    def save(self, *args, **kwargs):
-        try:
-            super().save(*args, **kwargs)
-        except ValidationError as e:
-            raise Exception('self deletion') from e
+    def __str__(self):
+        return self.chinese
 
     def __repr__(self):
         return '<C' + '%04d' % self.id + ':' + self.chinese +'>'

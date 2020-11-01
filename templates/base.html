@@ -52,7 +52,7 @@
         <button class="button button-primary dropdown-toggle" id="userDropdown"
                 data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false" href="{% url "profile" %}">
-          {{ user.get_display_name }}
+          {{ user.display_name }}
           {% if user.unread_message_count %}
             <span class="badge badge-pill badge-danger">{{ user.unread_message_count }}</span>
           {% endif %}

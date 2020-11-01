@@ -5,8 +5,17 @@
   <h1>Assignment: {{ object.name }}</h1>
   <h1>Class: {{ object.in_class }}</h1>
 
+  <p>
+    {{ object.character_set }}
+  </p>
 
-  {{ object.character_set }}
+  <br>
 
+  <p>
+  {{ finished_student_cnt }} / {{ total_student_cnt }} students have finished
+  this assignment
+  </p>
+
+  {{ student_frame|safe }}
 
 {% endblock content %}
