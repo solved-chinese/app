@@ -27,5 +27,5 @@ urlpatterns = [
          CRUD_views.StudentCharacterDetail.as_view(),
          name='student_character_detail'),
 
-    path('form_test', views.form_test)
+    # path('form_test', views.form_test)
 ]

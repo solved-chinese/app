@@ -131,20 +131,13 @@ def report(request):
     })
 
 
-def form_test(request):
-    table = get_review_ability_table()
-    labels = get_ability_labels()
-    form = ReviewManagerForm()
-    labels.insert(0, 'select')
-    for row, field in zip(table, form):
-        row.insert(0, str(field))
-    return render(request, 'learning/form_test.html',
-                  {'objects': table,
-                   'labels': labels})
-    # if request.method == 'POST':
-    #     form = ReviewManagerForm(data=request.POST)
-    #     if form.is_valid():
-    #         pass
-    # else:
-    #     form = ReviewManagerForm()
-    # return render(request, 'learning/form_test.html', {'form': form})
+# def form_test(request):
+#     table = get_review_ability_table()
+#     labels = get_ability_labels()
+#     form = ReviewManagerForm()
+#     labels.insert(0, 'select')
+#     for row, field in zip(table, form):
+#         row.insert(0, str(field))
+#     return render(request, 'learning/form_test.html',
+#                   {'objects': table,
+#                    'labels': labels})
