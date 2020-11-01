@@ -31,7 +31,7 @@ class Student(StrDefaultReprMixin, models.Model):
 
     @property
     def display_name(self):
-        return self.user.get_display_name()
+        return self.user.display_name
 
     @property
     def total_study_duration_seconds(self):

@@ -21,7 +21,7 @@ class Teacher(StrDefaultReprMixin, models.Model):
 
     @property
     def display_name(self):
-        return self.user.get_display_name()
+        return self.user.display_name
 
     def __repr__(self):
         return f"<teacher {self.display_name}>"
