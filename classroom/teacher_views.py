@@ -138,3 +138,8 @@ class AssignmentDetail(IsTeacherMixin, DetailView):
             raise PermissionError('You are not the owner of this class.')
         else:
             return True
+
+    def get_context_data(self, **kwargs):
+        content = super().get_context_data()
+        content.update(self.get_object().get_stats())
+        return content
