@@ -59,7 +59,7 @@ class Character(DFModelMixin, CleanBeforeSaveMixin, models.Model):
             f'example_{index}_pinyin should contain 1 space or plus sign' \
             f'but "{pinyin} does not'
         if pinyin.count(' ') == 1:
-            pinyin = pinyin.split(' ')
+            pinyins = pinyin.split(' ')
         else:
             pinyins = pinyin.split(' ')
         pinyin_len = len(pinyins)
