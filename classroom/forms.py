@@ -1,7 +1,6 @@
 from django import forms
 from .models import Teacher, Student, Assignment
 from content.models import CharacterSet
-from django.forms import ModelChoiceField
 
 
 class TeacherForm(forms.ModelForm):
@@ -21,7 +20,9 @@ class AssignmentForm(forms.ModelForm):
         in_class = kwargs.pop('in_class')
         super().__init__(*args, **kwargs)
         self.fields['character_set'] = forms.ModelChoiceField(
-            queryset=CharacterSet.objects.exclude(assignment__in_class=in_class))
+            queryset=CharacterSet.objects.exclude(assignment__in_class=in_class),
+            widget=forms.RadioSelect()
+        )
 
     class Meta:
         model = Assignment
