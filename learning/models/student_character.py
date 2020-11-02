@@ -4,6 +4,7 @@ from django_fsm import FSMIntegerField, transition, RETURN_VALUE
 from classroom.models import Student
 from content.models import Character
 from jiezi.utils.mixins import StrDefaultReprMixin
+from ..models import ReviewAccuracyAbstractModel
 
 
 class SCQuerySet(models.QuerySet):
@@ -53,7 +54,7 @@ def factory_student_character_manager_of(*args, **kargs):
     return StudentCharacterManager.of(StudentCharacter, *args, **kargs)
 
 
-class StudentCharacter(models.Model, StrDefaultReprMixin):
+class StudentCharacter(StrDefaultReprMixin, ReviewAccuracyAbstractModel):
     TO_LEARN = 10
     IN_PROGRESS = 20
     MASTERED = 30
@@ -96,10 +97,10 @@ class StudentCharacter(models.Model, StrDefaultReprMixin):
             return self.MASTERED
         return self.IN_PROGRESS
 
-    def test_review_update(self, is_correct):
+    def test_review_update(self, is_correct, save=True):
         # this should be called after SCA update
         self._test_review_update(is_correct)
-        self.save()
+        super().test_review_update(is_correct, save=save)
 
     def __repr__(self):
         return f"<sc {self.pk}:{self.student}'s {self.character}>"

@@ -1,3 +1,4 @@
+from .review_accuracy_mixin import ReviewAccuracyAbstractModel
 from .report import Report
 from .ability import Ability
 from .review_manager import ReviewManager

@@ -5,17 +5,26 @@
   <h1>Assignment: {{ object.name }}</h1>
   <h1>Class: {{ object.in_class }}</h1>
 
-  <p>
-    {{ object.character_set }}
-  </p>
+  <h3>
+    {{ object.character_set.characters.count }} characters:
+    {{ object.character_set.render_all_character }}
+  </h3>
 
   <br>
 
-  <p>
+  <h3>
   {{ finished_student_cnt }} / {{ total_student_cnt }} students have finished
   this assignment
-  </p>
+  </h3>
 
+  <br>
+
+  <h3>Stats by student</h3>
   {{ student_frame|safe }}
+
+  <br>
+
+  <h3>Stats by character</h3>
+  {{ character_frame|safe }}
 
 {% endblock content %}

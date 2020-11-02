@@ -9,12 +9,15 @@ class CharacterSet(DFModelMixin, StrDefaultReprMixin, CleanBeforeSaveMixin,
     characters = models.ManyToManyField('Character')
     name = models.CharField(max_length=50)
 
-    def __str__(self):
-        label = f"{self.name}: "
+    def render_all_character(self):
+        output = ''
         for c in self.characters.all():
-            label += c.chinese
-            label += ','
-        return label[:-1]
+            output += c.chinese
+            output += ', '
+        return output[:-2]
+
+    def __str__(self):
+        return f"{self.name}: {self.render_all_character()}"
 
     def __repr__(self):
         return f'<cset{self.id}:{self.name} ' \

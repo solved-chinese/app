@@ -55,8 +55,11 @@ class Character(DFModelMixin, CleanBeforeSaveMixin, models.Model):
             words = word
         word_len = len(words)
 
-        if '+' in pinyin:
-            pinyins = pinyin.split('+')
+        assert pinyin.count(' ') == 1 or pinyin.count('+') == 1, \
+            f'example_{index}_pinyin should contain 1 space or plus sign' \
+            f'but "{pinyin} does not'
+        if pinyin.count(' ') == 1:
+            pinyin = pinyin.split(' ')
         else:
             pinyins = pinyin.split(' ')
         pinyin_len = len(pinyins)
