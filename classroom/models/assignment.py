@@ -33,48 +33,77 @@ class Assignment(models.Model):
                 f'An new assignment "{self.name}" has been published.')
 
     def get_stats(self):
-        from learning.models import SCAbility
+        from learning.models import SCAbility, StudentCharacter
         students = self.in_class.students.all()
         abilities = self.review_manager.monitored_abilities.all()
         characters = self.character_set.characters.all()
         characters_cnt = characters.count()
-        qs = SCAbility.objects.filter(
+        sca_qs = SCAbility.objects.filter(
             student__in=students,
             character__in=characters,
             ability__in=abilities,
             state__gt=SCAbility.TO_LEARN,
         )
-        students_frame = read_frame(students,
-                                    fieldnames=['user__display_name'],
-                                    index_col='user_id')
-        students_frame['To Learn'] = characters_cnt
-        sca_frame = read_frame(qs,
-                               fieldnames=['state', 'character',
-                                           'ability', 'student__user_id'])
-        sca_frame.rename(columns={'student__user_id': 'user_id'}, inplace=True)
-        sca_frame = sca_frame.groupby(['user_id', 'character', 'state'],
-                                      as_index=False).count()
-        mastered = (sca_frame['state'] == 'Mastered') \
-                   & (sca_frame['ability'] == abilities.count())
-        mastered_series = sca_frame[mastered].groupby('user_id')[
-            'character'].count()
-        mastered_series.name = 'Mastered'
-        in_progress_series = sca_frame[~mastered].groupby('user_id')[
-            'character'].count()
-        in_progress_series.name = 'In Progress'
-        s_frame = pd.concat([students_frame, in_progress_series, mastered_series],
+        sca_frame = read_frame(sca_qs,
+            fieldnames=['state', 'character__id', 'accuracy',
+                        'ability', 'student__user__id']
+        ).rename(columns={'student__user__id': 'user__id'})
+        sc_qs = StudentCharacter.objects.filter(
+            student__in=students, character__in=characters
+        )
+        sc_frame = read_frame(
+            sc_qs,
+            fieldnames=['character__id', 'accuracy']
+        ).dropna()
+
+        a_cnt_frame = sca_frame.groupby(['user__id', 'character__id', 'state'],
+                                        as_index=False)['ability'].count()
+        mastered = (a_cnt_frame['state'] == 'Mastered') \
+                   & (a_cnt_frame['ability'] == abilities.count())
+
+        # Student frame
+        s_mastered_series = a_cnt_frame[mastered].groupby('user__id').size()
+        s_mastered_series.name = 'Mastered'
+        s_in_progress_series = a_cnt_frame[~mastered].groupby('user__id').size()
+        s_in_progress_series.name = 'In Progress'
+        s_frame = read_frame(students,
+                             fieldnames=['user__display_name'],
+                             index_col='user__id')
+        s_frame['To Learn'] = characters_cnt
+        s_frame = pd.concat([s_frame, s_in_progress_series, s_mastered_series],
                           axis=1).fillna(0)
         s_frame['To Learn'] -= s_frame['In Progress'] + s_frame['Mastered']
-        s_frame.set_index('user__display_name', inplace=True)
+        s_frame = s_frame.set_index('user__display_name').rename_axis('student')
         finished = (s_frame['Mastered'] == characters_cnt)
         finished_cnt = finished.sum()
         total_student_cnt = students.count()
-        s_frame['Finished'] = finished
+        s_frame.insert(0, 'Completion Status', finished)
         s_frame.loc['Average'] = s_frame.mean()
+        s_frame = s_frame.astype(int)
+        s_frame['Completion Status'] = s_frame['Completion Status'].apply(
+            lambda x: '√' if x else "")
+        s_frame_style = s_frame.style.set_table_attributes('class="table"')
+
+        # Character frame
+        c_mastered_series = (a_cnt_frame[mastered].groupby('character__id')
+            .size() / total_student_cnt).rename("Mastered Percentage")
+        c_accuracy_series = sc_frame.groupby('character__id')['accuracy']\
+            .mean().rename("Average Overall Accuracy")
+        c_frame = read_frame(characters, fieldnames=['chinese'], index_col='id')
+        a_accuracy_frame = sca_frame.dropna().groupby(
+            ['character__id', 'ability'])['accuracy'].mean().unstack()\
+            .rename(lambda x:f"accuracy of {x}", axis='columns')
+        c_frame = pd.concat([c_frame, c_mastered_series, c_accuracy_series,
+                             a_accuracy_frame], axis=1)
+        c_frame = c_frame.set_index('chinese').rename_axis('character')
+        c_frame_style = c_frame.style.set_table_attributes('class="table"').\
+            format(lambda x: f"{x:.0%}", na_rep='--').\
+            set_caption('"--" means that no student has learned this yet.')
         return {
             "finished_student_cnt": finished_cnt,
             "total_student_cnt": total_student_cnt,
-            "student_frame": s_frame.to_html(classes='table', index_names=False),
+            "student_frame": s_frame_style.render(index_names=False),
+            "character_frame": c_frame_style.render(index_names=False),
         }
 
     @property
