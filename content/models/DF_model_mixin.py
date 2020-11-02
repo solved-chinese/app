@@ -33,7 +33,9 @@ class DFModelMixin:
         messages = []
         good_pk = []
         m2m_fields = []
-        warning = ""
+        for field in cls._meta.get_fields():
+            if isinstance(field, models.ManyToManyField):
+                m2m_fields.append(field)
         for i, row in df.iterrows():
             try:
                 id = row['id']
@@ -65,8 +67,6 @@ class DFModelMixin:
                         data[field.name] = \
                             field.related_model.objects.get(pk=row[field.name]) \
                                 if row[field.name] else None
-                    elif isinstance(field, models.ManyToManyField):
-                        m2m_fields.append(field)
 
             except Exception as e:
                 try:
@@ -81,6 +81,7 @@ class DFModelMixin:
                 obj, is_created = cls.objects.update_or_create(id=id,
                                                                defaults=data)
                 row = row.groupby(level=0).agg(list).to_dict()
+                warning = ""
                 for field in m2m_fields:
                     pks = row[field.name]
                     related_objs = []
@@ -98,7 +99,8 @@ class DFModelMixin:
                 if warning:
                     warning = f'WARNING though completed: {warning}\n'
                 messages.append(f"{warning}"
-                                f"{'create' if is_created else 'update'} {obj}")
+                                f"{'create' if is_created else 'update'} "
+                                f"{repr(obj)}")
                 good_pk.append(id)
             except Exception as e:
                 messages.append(f'ERR constructing id={id}: {repr(e)}')
