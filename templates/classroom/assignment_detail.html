@@ -31,4 +31,13 @@
     {{ character_frame|safe }}
 
   {% endif %}
+
+  <form action="{% url 'delete_assignment'%}" method="post">
+    {% csrf_token %}
+    <input type='hidden' name='assignment_pk' value='{{ object.pk }}'>
+    <input type="submit" value="delete this assignment" class='btn btn-danger'
+           onclick="return confirm('Are you sure you want to permanently delete this Assignment? ' +
+            'The progress of your students will be preserved, however.');">
+  </form>
+
 {% endblock content %}
