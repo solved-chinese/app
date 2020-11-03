@@ -15,7 +15,7 @@ from jiezi.rest.permissions import IsStudent
 from .models import StudentCharacterTag, Report
 from learning.models.learning_process import LearningProcess
 from .forms import ReviewManagerForm
-from content.reviews import get_ability_labels, get_review_ability_table
+# from content.reviews import get_ability_labels, get_review_ability_table
 
 
 @login_required
