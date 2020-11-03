@@ -149,7 +149,15 @@ def get_audio(pinyin=None, chinese=None):
         os.makedirs(dir_path)
 
     if pinyin:
-        query = f"拼[={pinyin}]"
+        if '/' in pinyin:
+            pinyins = pinyin.split('/')
+            query = ""
+            for i, pinyin in enumerate(pinyins):
+                query += f'拼[={pinyin}]'
+                if i != len(pinyins) - 1:
+                    query += '[p500]'
+        else:
+            query = f"拼[={pinyin}]"
     elif chinese:
         query = chinese
     else:

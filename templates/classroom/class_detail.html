@@ -23,6 +23,7 @@
           <th scope="col">#</th>
           <th scope="col">Name</th>
           <th scope="col">Email</th>
+          <th scope="col">actions</th>
         </tr>
       </thead>
       <tbody>
@@ -31,19 +32,49 @@
             <th scope="row">{{ forloop.counter }}</th>
             <td>{{ student.display_name }}</td>
             <td>{{ student.user.email }}</td>
+            <td>
+              <form action="{% url 'remove_student'%}" method="post">
+                {% csrf_token %}
+                <input type='hidden' name='student_pk' value='{{ student.pk }}'>
+                <input type="submit" value="remove"
+                       onclick="return confirm('Are you sure you want to remove this student from your class?');">
+              </form>
+            </td>
           </tr>
         {% endfor %}
       </tbody>
     </table>
 
-    See how the class performs on the following Character Sets?
-    {% for cset in csets %}
-      <form action="{% url 'class_detail_filter' object.pk %}"
-            target="_blank" method="get">
-        <input type='hidden' name='cset_pk' value='{{ cset.pk }}'>
-        <input type="submit" value="{{ cset.name }}">
-      </form>
-    {% endfor %}
   {% endif %}
+
+  <h2>Assignments:</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for assignment in object.assignments.all %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td><a href='{% url "assignment_detail" assignment.pk%}'>
+            {{ assignment.name }}
+          </a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href='{% url "create_assignment" object.pk %}'>Create Assignment</a>
+
+  <br><br>
+
+  <form action="{% url 'delete_class'%}" method="post">
+    {% csrf_token %}
+    <input type='hidden' name='class_pk' value='{{ object.pk }}'>
+    <input type="submit" value="delete this class" class='btn btn-danger'
+           onclick="return confirm('Are you sure you want to permanently delete this class?');">
+  </form>
 
 {% endblock content %}

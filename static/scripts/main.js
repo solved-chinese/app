@@ -94,3 +94,24 @@ $source.keypress(e => {
     if (e.keyCode !== 13 || $('.search-entry-wrapper').length === 0) return;
     $('.search-entry-wrapper')[0].click();
 });
+
+/***********************************
+  Responsive
+***********************************/
+
+$(function () {
+    var winWide =
+        window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth;
+    var btn = document.getElementById("userDropdown");
+    var btn_mobile = document.getElementById("userDropdown-mobile");
+
+    if (winWide <= 768) {
+        btn.style.display = "none";
+        btn_mobile.style.display = "block";
+    } else {
+        btn.style.display = "block";
+        btn_mobile.style.display = "none";
+    }
+});

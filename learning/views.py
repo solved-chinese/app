@@ -1,12 +1,9 @@
 import json
-import random
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
-from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 
@@ -14,9 +11,11 @@ from accounts.models import User
 from classroom.models import Student
 from content.models import CharacterSet
 from content.views import display_character, ReviewView
-from jiezi.rest.permissions import IsStudent, IsNotGuest
+from jiezi.rest.permissions import IsStudent
 from .models import StudentCharacterTag, Report
-from learning.learning_process import LearningProcess
+from learning.models.learning_process import LearningProcess
+from .forms import ReviewManagerForm
+from content.reviews import get_ability_labels, get_review_ability_table
 
 
 @login_required
@@ -34,9 +33,7 @@ def try_me(request):
     student = Student.of(user)
     login(request, user)
     try_me_set = CharacterSet.objects.get(name='try_me')
-    obj = StudentCharacterTag.objects.create(character_set=try_me_set,
-                                             student=student)
-    obj.update_from_character_set()
+    obj = StudentCharacterTag.of(student, try_me_set)
     process = LearningProcess.of(request.user.student)
     process.start([obj.pk])
     return redirect(reverse('continue_learning'))
@@ -132,3 +129,15 @@ def report(request):
     return render(request, 'utils/simple_response.html', {
         'content': 'Thank you for your response!'
     })
+
+
+# def form_test(request):
+#     table = get_review_ability_table()
+#     labels = get_ability_labels()
+#     form = ReviewManagerForm()
+#     labels.insert(0, 'select')
+#     for row, field in zip(table, form):
+#         row.insert(0, str(field))
+#     return render(request, 'learning/form_test.html',
+#                   {'objects': table,
+#                    'labels': labels})

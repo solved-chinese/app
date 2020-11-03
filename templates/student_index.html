@@ -7,12 +7,12 @@
 
 {% block content %}
 
-  <h1>Welcome back, {{ user.get_display_name }}!</h1>
+  <h1>Welcome back, {{ user.display_name }}!</h1>
   <a class="button button-primary" href="{% url "manage_library" %}">Manage Vocab Sets</a>
 
   {% if class_info %}
     <div class="card-container" id="study-container">
-      {{ class_info }}
+      <h2>{{ class_info }}</h2>
     </div>
   {% endif %}
 
@@ -21,6 +21,19 @@
     <br>
 
     <div id='available-tags-container'>
+      {% for tag in tags %}
+        <button type="button" class="button button-secondary tag-button text-left">
+          <div class='tag-name'>
+            {{ tag.name }}
+            <span class="checkmark" data-pk="{{ tag.pk }}">&#10003;</span>
+          </div>
+          {% for key, value in tag.states_count.items %}
+            {{ key }}: {{ value }} &nbsp;&nbsp;&nbsp;
+          {% endfor %}
+        </button>
+      {% empty %}
+        You don't have any sets
+      {% endfor %}
     </div>
 
     <br>

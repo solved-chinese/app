@@ -23,7 +23,8 @@ class User(AbstractUser):
     display_name = models.CharField(max_length=30, blank=True,
             validators=[MinLengthValidator(4), DisplayNameValidator],
             help_text="This is the name displayed to others. We recommend using"
-                      " your real name. You may change this later.")
+                      " your real name. Leave blank to use your username. "
+                      "You may change this later.")
     email = models.EmailField(help_text="Used for resetting your password and "
                                         "receiving notifications.", blank=True)
     is_guest = models.BooleanField(default=False)
@@ -32,13 +33,12 @@ class User(AbstractUser):
 
     objects = JieziUserManager()
 
-    def get_display_name(self):
+    def save(self, *args, **kwargs):
         if self.is_guest:
-            return 'Guest'
-        elif self.display_name:
-            return self.display_name
-        else:
-            return self.username
+            self.display_name = 'Guest'
+        elif not self.display_name:
+            self.display_name = self.username
+        super().save(*args, **kwargs)
 
     def notify(self, subject, content=""):
         msg = Message(receiver=self, subject=subject, content=content)

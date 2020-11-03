@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <h1>Assignment: {{ object.name }}</h1>
+  <h1>Class: {{ object.in_class }}</h1>
+
+  <h3>
+    {{ object.character_set.characters.count }} characters:
+    {{ object.character_set.render_all_character }}
+  </h3>
+
+  <br>
+
+  {% if stats_error %}
+    {{ stats_error }}
+  {% else %}
+    <h3>
+    {{ finished_student_cnt }} / {{ total_student_cnt }} students have finished
+    this assignment
+    </h3>
+
+    <br>
+
+    <h3>Stats by student</h3>
+    {{ student_frame|safe }}
+
+    <br>
+
+    <h3>Stats by character</h3>
+    {{ character_frame|safe }}
+
+  {% endif %}
+
+  <form action="{% url 'delete_assignment'%}" method="post">
+    {% csrf_token %}
+    <input type='hidden' name='assignment_pk' value='{{ object.pk }}'>
+    <input type="submit" value="delete this assignment" class='btn btn-danger'
+           onclick="return confirm('Are you sure you want to permanently delete this Assignment? ' +
+            'The progress of your students will be preserved, however.');">
+  </form>
+
+{% endblock content %}

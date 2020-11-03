@@ -7,14 +7,17 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('content', '0003_reviewmanager'),
         ('learning', '0016_auto_20201012_1138'),
+        ('content', '0003_reviewmanager'),
     ]
 
     operations = [
         migrations.AddField(
             model_name='learningprocess',
             name='review_manager',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='content.reviewmanager'),
+            field=models.ForeignKey(null=True,
+                                    on_delete=django.db.models.deletion.SET_NULL,
+                                    related_name='+',
+                                    to='content.reviewmanager'),
         ),
     ]

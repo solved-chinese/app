@@ -1,16 +1,16 @@
 import random
-
-from django.db import models
+import copy
 
 from .models import Character
 from .audio import generate_audio_tag
+from learning.models.ability import Ability
 
 
 MAX_RANDOM_CHOICES = 20
 
 
 class ReviewQuestion:
-    test_field = None
+    test_abilities = ()
     template = None
 
     @classmethod
@@ -55,7 +55,7 @@ class MultipleChoice(ReviewQuestion):
 
 
 class DefinitionMCAnswerField(MultipleChoice):
-    test_field = 'definition_1'
+    test_abilities = (Ability.DEFINITION,)
     choice_field = 'definition_1'
 
     @classmethod
@@ -64,8 +64,22 @@ class DefinitionMCAnswerField(MultipleChoice):
 
 
 class DefinitionMCAnswerCharacter(MultipleChoice):
-    test_field = 'definition_1'
+    test_abilities = (Ability.DEFINITION,)
     choice_field = 'chinese'
+
+    @classmethod
+    def get_queryset(cls, character, characters=None,
+                     assert_as_least=0):
+        """
+        ma and ne both mean question particle
+        """
+        if characters is None:
+            characters = Character.objects.all()
+        queryset = characters.exclude(definition_1=character.definition_1)
+        if queryset.count() < assert_as_least:
+            queryset = Character.objects.all().exclude(
+                    definition_1=character.definition_1)
+        return queryset
 
     @classmethod
     def get_question(cls, character):
@@ -74,7 +88,7 @@ class DefinitionMCAnswerCharacter(MultipleChoice):
 
 
 class PinyinMC(MultipleChoice):
-    test_field = 'pinyin'
+    test_abilities = (Ability.PRONUNCIATION,)
     choice_field = 'chinese'
 
     @classmethod
@@ -110,7 +124,7 @@ class TrueOrFalse(MultipleChoice):
 
 
 class PinyinTOF(TrueOrFalse):
-    test_field = 'pinyin'
+    test_abilities = (Ability.PRONUNCIATION,)
     choice_field = 'pinyin'
 
     @classmethod
@@ -122,7 +136,7 @@ class PinyinTOF(TrueOrFalse):
 
 
 class DefinitionTOF(TrueOrFalse):
-    test_field = 'definition_1'
+    test_abilities = (Ability.DEFINITION,)
     choice_field = 'definition_1'
 
     @classmethod
@@ -131,7 +145,7 @@ class DefinitionTOF(TrueOrFalse):
 
 
 class DefinitionFITB(ReviewQuestion):
-    test_field = 'definition_1'
+    test_abilities = (Ability.FORM, Ability.DEFINITION)
     template = 'content/reviews/fill_in_the_blank.html'
 
     @classmethod
@@ -146,7 +160,7 @@ class DefinitionFITB(ReviewQuestion):
 
 
 class PinyinFITB(ReviewQuestion):
-    test_field = 'pinyin'
+    test_abilities = (Ability.FORM, Ability.PRONUNCIATION)
     template = 'content/reviews/fill_in_the_blank.html'
 
     @classmethod
@@ -165,32 +179,26 @@ class PinyinFITB(ReviewQuestion):
                             {generate_audio_tag(chinese=word)}"""}
 
 
-AVAILABLE_REVIEW_TYPES = [DefinitionMCAnswerField, DefinitionMCAnswerCharacter,
+AVAILABLE_REVIEW_TYPES = (DefinitionMCAnswerField, DefinitionMCAnswerCharacter,
                           PinyinMC, DefinitionTOF, PinyinTOF,
-                          DefinitionFITB, PinyinFITB]
+                          DefinitionFITB, PinyinFITB)
 
-def factory_review_manager():
-    class AbstractModel(models.Model):
-        class Meta:
-            abstract = True
-    _review_fields = {}
-    for review_type in AVAILABLE_REVIEW_TYPES:
-        AbstractModel.add_to_class(f"use_{review_type}",
-                                   models.BooleanField(default=True))
-    return AbstractModel
+_ABILITY_LABELS = ['Review Question']
+_REVIEW_ABILITY_TABLE = []
+for ability_code in Ability.ALL_ABILITIES:
+    _ABILITY_LABELS.append(f"test "
+                           f"{Ability.of(ability_code).get_code_display()}?")
+for review_type in AVAILABLE_REVIEW_TYPES:
+    row = [review_type.__name__]
+    for ability_code in Ability.ALL_ABILITIES:
+        if ability_code in review_type.test_abilities:
+            row.append("Yes")
+        else:
+            row.append("")
+    _REVIEW_ABILITY_TABLE.append(row)
 
-class ReviewManager(factory_review_manager()):
-    def get_review_type(self, field_name):
-        available_review_types = []
-        for review_type in AVAILABLE_REVIEW_TYPES:
-            if review_type.test_field == field_name \
-                    and getattr(self, f"use_{review_type}"):
-                available_review_types.append(review_type)
-        assert available_review_types, \
-            'There should be at least one review type available'
-        return random.choice(available_review_types)
+def get_ability_labels():
+    return copy.deepcopy(_ABILITY_LABELS)
 
-    @classmethod
-    # TODO make this model an option model with unique constrainsts
-    def get(cls, **kwargs):
-        return cls.objects.get_or_create(**kwargs)[0]
+def get_review_ability_table():
+    return copy.deepcopy(_REVIEW_ABILITY_TABLE)
