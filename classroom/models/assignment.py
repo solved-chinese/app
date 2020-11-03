@@ -35,8 +35,12 @@ class Assignment(models.Model):
     def get_stats(self):
         from learning.models import SCAbility, StudentCharacter
         students = self.in_class.students.all()
+        if not students.exists():
+            return {"stats_error": "There are no students in this class"}
         abilities = self.review_manager.monitored_abilities.all()
         characters = self.character_set.characters.all()
+        if not characters.exists():
+            return {"stats_error": "There are no characters in this assignment"}
         characters_cnt = characters.count()
         sca_qs = SCAbility.objects.filter(
             student__in=students,
@@ -54,7 +58,7 @@ class Assignment(models.Model):
         sc_frame = read_frame(
             sc_qs,
             fieldnames=['character__id', 'accuracy']
-        ).dropna()
+        )
 
         a_cnt_frame = sca_frame.groupby(['user__id', 'character__id', 'state'],
                                         as_index=False)['ability'].count()
@@ -82,28 +86,34 @@ class Assignment(models.Model):
         s_frame = s_frame.astype(int)
         s_frame['Completion Status'] = s_frame['Completion Status'].apply(
             lambda x: '√' if x else "")
-        s_frame_style = s_frame.style.set_table_attributes('class="table"')
+        s_frame = s_frame.style.set_table_attributes('class="table"').\
+            render()
 
-        # Character frame
-        c_mastered_series = (a_cnt_frame[mastered].groupby('character__id')
-            .size() / total_student_cnt).rename("Mastered Percentage")
-        c_accuracy_series = sc_frame.groupby('character__id')['accuracy']\
-            .mean().rename("Average Overall Accuracy")
-        c_frame = read_frame(characters, fieldnames=['chinese'], index_col='id')
-        a_accuracy_frame = sca_frame.dropna().groupby(
-            ['character__id', 'ability'])['accuracy'].mean().unstack()\
-            .rename(lambda x:f"accuracy of {x}", axis='columns')
-        c_frame = pd.concat([c_frame, c_mastered_series, c_accuracy_series,
-                             a_accuracy_frame], axis=1)
-        c_frame = c_frame.set_index('chinese').rename_axis('character')
-        c_frame_style = c_frame.style.set_table_attributes('class="table"').\
-            format(lambda x: f"{x:.0%}", na_rep='--').\
-            set_caption('"--" means that no student has learned this yet.')
+        if not sc_qs.exists() or not sca_qs.exists():
+            c_frame = "<p>The stats will be calculated when your " \
+                      "students start learning</p>"
+        else:
+            c_frame = read_frame(characters, fieldnames=['chinese'], index_col='id')
+            c_mastered_series = (a_cnt_frame[mastered].groupby('character__id')
+                .size() / total_student_cnt).rename("Mastered Percentage")
+            c_accuracy_series = sc_frame.dropna().groupby('character__id')\
+                ['accuracy'].mean().rename("Average Overall Accuracy")
+            a_accuracy_frame = sca_frame.dropna().groupby(
+                ['character__id', 'ability'])['accuracy'].mean().unstack()\
+                .rename(lambda x:f"accuracy of {x}", axis='columns')
+            c_frame = pd.concat([c_frame, c_mastered_series, c_accuracy_series,
+                                 a_accuracy_frame], axis=1)
+            c_frame = c_frame.set_index('chinese').rename_axis('character')
+            c_frame = c_frame.style.set_table_attributes('class="table"').\
+                format(lambda x: f"{x:.0%}", na_rep='--').\
+                set_caption('"--" means that no student has learned this yet.').\
+                render()
+
         return {
             "finished_student_cnt": finished_cnt,
             "total_student_cnt": total_student_cnt,
-            "student_frame": s_frame_style.render(index_names=False),
-            "character_frame": c_frame_style.render(index_names=False),
+            "student_frame": s_frame,
+            "character_frame": c_frame,
         }
 
     @property

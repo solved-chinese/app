@@ -7,12 +7,12 @@ from django.shortcuts import get_object_or_404, reverse, redirect
 
 from content.models import CharacterSet
 from learning.models import StudentCharacter, StudentCharacterTag
-from jiezi.utils.mixins import IsTeacherMixin
+from jiezi.utils.mixins import TeacherOnlyMixin
 from .models import Class, Student, Assignment
 from .forms import AssignmentForm
 
 
-class FilterInClass(IsTeacherMixin, TemplateView):
+class FilterInClass(TeacherOnlyMixin, TemplateView):
     template_name = "utils/table_renderer.html"
 
     def get_context_data(self, **kwargs):
@@ -42,7 +42,7 @@ class FilterInClass(IsTeacherMixin, TemplateView):
                 'objects': objects}
 
 
-class ClassDetail(IsTeacherMixin, DetailView):
+class ClassDetail(TeacherOnlyMixin, DetailView):
     model = Class
     template_name = "classroom/class_detail.html"
 
@@ -60,7 +60,7 @@ class ClassDetail(IsTeacherMixin, DetailView):
         return content
 
 
-class RemoveStudent(IsTeacherMixin, View):
+class RemoveStudent(TeacherOnlyMixin, View):
     def post(self, request):
         student_pk = request.POST.get('student_pk', 0)
         student = get_object_or_404(Student, pk=student_pk)
@@ -71,7 +71,7 @@ class RemoveStudent(IsTeacherMixin, View):
         return redirect('class_detail', pk=in_class.pk)
 
 
-class DeleteClass(IsTeacherMixin, View):
+class DeleteClass(TeacherOnlyMixin, View):
     def post(self, request):
         class_pk = request.POST.get('class_pk', 0)
         in_class = get_object_or_404(Class, pk=class_pk)
@@ -81,7 +81,7 @@ class DeleteClass(IsTeacherMixin, View):
         return redirect('list_class')
 
 
-class ClassCreate(IsTeacherMixin, CreateView):
+class ClassCreate(TeacherOnlyMixin, CreateView):
     template_name = "classroom/class_create.html"
     model = Class
     fields = ['name']
@@ -94,14 +94,14 @@ class ClassCreate(IsTeacherMixin, CreateView):
         return reverse('class_detail', args=[self.object.pk])
 
 
-class ClassList(IsTeacherMixin, ListView):
+class ClassList(TeacherOnlyMixin, ListView):
     template_name = "classroom/class_list.html"
 
     def get_queryset(self):
         return Class.objects.filter(teacher=self.request.user.teacher)
 
 
-class AssignmentCreate(IsTeacherMixin, CreateView):
+class AssignmentCreate(TeacherOnlyMixin, CreateView):
     template_name = "classroom/assignment_create.html"
     model = Assignment
     form_class = AssignmentForm
@@ -127,7 +127,7 @@ class AssignmentCreate(IsTeacherMixin, CreateView):
         return True
 
 
-class AssignmentDetail(IsTeacherMixin, DetailView):
+class AssignmentDetail(TeacherOnlyMixin, DetailView):
     model = Assignment
     template_name = "classroom/assignment_detail.html"
 
