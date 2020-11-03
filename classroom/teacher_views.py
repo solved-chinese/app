@@ -143,3 +143,13 @@ class AssignmentDetail(TeacherOnlyMixin, DetailView):
         content = super().get_context_data()
         content.update(self.get_object().get_stats())
         return content
+
+class DeleteAssignemtn(TeacherOnlyMixin, View):
+    def post(self, request):
+        assignement_pk = request.POST.get('assignment_pk', 0)
+        assignment = get_object_or_404(Assignment, pk=assignement_pk)
+        in_class = assignment.in_class
+        if in_class.teacher != request.user.teacher:
+            raise PermissionError("The class doesn't belong to you")
+        assignment.delete()
+        return redirect('class_detail', pk=in_class.pk)
