@@ -183,22 +183,22 @@ AVAILABLE_REVIEW_TYPES = (DefinitionMCAnswerField, DefinitionMCAnswerCharacter,
                           PinyinMC, DefinitionTOF, PinyinTOF,
                           DefinitionFITB, PinyinFITB)
 
-_ABILITY_LABELS = ['Review Question']
-_REVIEW_ABILITY_TABLE = []
-for ability_code in Ability.ALL_ABILITIES:
-    _ABILITY_LABELS.append(f"test "
-                           f"{Ability.of(ability_code).get_code_display()}?")
-for review_type in AVAILABLE_REVIEW_TYPES:
-    row = [review_type.__name__]
-    for ability_code in Ability.ALL_ABILITIES:
-        if ability_code in review_type.test_abilities:
-            row.append("Yes")
-        else:
-            row.append("")
-    _REVIEW_ABILITY_TABLE.append(row)
-
-def get_ability_labels():
-    return copy.deepcopy(_ABILITY_LABELS)
-
-def get_review_ability_table():
-    return copy.deepcopy(_REVIEW_ABILITY_TABLE)
+# _ABILITY_LABELS = ['Review Question']
+# _REVIEW_ABILITY_TABLE = []
+# for ability_code in Ability.ALL_ABILITIES:
+#     _ABILITY_LABELS.append(f"test "
+#                            f"{Ability.of(ability_code).get_code_display()}?")
+# for review_type in AVAILABLE_REVIEW_TYPES:
+#     row = [review_type.__name__]
+#     for ability_code in Ability.ALL_ABILITIES:
+#         if ability_code in review_type.test_abilities:
+#             row.append("Yes")
+#         else:
+#             row.append("")
+#     _REVIEW_ABILITY_TABLE.append(row)
+#
+# def get_ability_labels():
+#     return copy.deepcopy(_ABILITY_LABELS)
+#
+# def get_review_ability_table():
+#     return copy.deepcopy(_REVIEW_ABILITY_TABLE)
