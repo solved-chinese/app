@@ -193,8 +193,8 @@ class LearningProcess(models.Model):
         sc = sc_tags.get()
         cset = sc.character_set
         if self.student.in_class:
-            assignment = Assignment.objects.filter(
-                in_class=self.student.in_class, character_set=cset).get()
+            assignment = Assignment.objects.get(
+                in_class=self.student.in_class, character_set=cset)
             self.review_manager = assignment.review_manager
         sc_tags.check_update()
         self.sc_tags.set(sc_tags)
