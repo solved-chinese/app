@@ -246,6 +246,15 @@ a {
     margin-left: 15px;
 }
 
+.button.button-signup{
+    color: var(--main-theme-color);
+    border-color: var(--main-theme-color);
+    margin-right: 0px;
+}
+.button.button-signin{
+    padding: 0;
+    border: none;
+}
 
 
 /***********************************
@@ -505,7 +514,6 @@ a {
 }
 
 
-
 /***********************************
   Responsive
 ***********************************/
@@ -537,5 +545,8 @@ a {
     .dropdown-menu {
         text-align: center;
         background-color: #eae1e1;
+    }
+    .search-input-wrapper > input {
+        max-width: 60%;
     }
 }

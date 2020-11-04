@@ -43,7 +43,7 @@
       <div class="search-form-wrapper">
         <div class="search-input-wrapper">
           <i class="far fa-search search-icon"></i>
-          <input type="text" name="keyword" placeholder="">
+          <input type="text" name="keyword" id="search-input" placeholder="">
         </div>
         <div id="search-dropdown-wrapper">
         </div>
@@ -80,8 +80,8 @@
         </div>
 
       {% else %}
-        <a class="button button-text-only" href="{% url "login" %}">Login</a>
-        <a class="button button-primary" href="{% url "student_signup" %}">Sign Up</a>
+        <a class="button button-signin" href="{% url "login" %}">Login</a>
+        <a class="button button-signup" href="{% url "student_signup" %}">Sign Up</a>
       {% endif %}
     </div>
   </div>
