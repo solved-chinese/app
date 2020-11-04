@@ -1,10 +1,12 @@
 from django.db import models
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
+from django.db.models import Sum
 
-from classroom.models import Student
+from classroom.models import Student, Assignment
 from content.models import CharacterSet
-from learning.models import StudentCharacter
+from ..models import StudentCharacter
+from learning.constants import DEFAULT_IN_A_ROW_REQUIRED
 
 
 class SCTagQuerySet(models.QuerySet):
@@ -59,16 +61,39 @@ class StudentCharacterTag(models.Model):
 
     @property
     def states_count(self):
-        d = {}
-        for num, choice in StudentCharacter.STATE_CHOICES:
-            if choice != 'To Learn':
-                d[choice] = StudentCharacter.objects.filter(
-                    student=self.student,
-                    state=num,
-                    character__in=self.character_set.characters.all()
-                ).count()
-        d['To Learn'] = self.character_set.characters.count() \
-                    - sum(d.values())
+        if self.student.in_class:
+            # todo temporary
+            from ..models import SCAbility
+            assignment = Assignment.objects.get(
+                in_class=self.student.in_class,
+                character_set=self.character_set,
+            )
+            abilities = assignment.review_manager.monitored_abilities.all()
+            abilities_cnt = abilities.count()
+            scas = SCAbility.objects.filter(
+                student=self.student,
+                character__in=self.character_set.characters.all(),
+                ability__in=abilities,
+            )
+            scas_cnt = scas.count()
+            missing_scas_cnt = self.character_set.characters.count() \
+                               * abilities_cnt - scas_cnt
+            result = scas.aggregate(Sum('in_a_row'), Sum('in_a_row_required'))
+            upper = result['in_a_row__sum'] or 0
+            lower = (result['in_a_row_required__sum'] or 0 ) \
+                    + missing_scas_cnt * DEFAULT_IN_A_ROW_REQUIRED
+            d = {"Progress": f"{upper / lower:.0%}"}
+        else:
+            d = {}
+            for num, choice in StudentCharacter.STATE_CHOICES:
+                if choice != 'To Learn':
+                    d[choice] = StudentCharacter.objects.filter(
+                        student=self.student,
+                        state=num,
+                        character__in=self.character_set.characters.all()
+                    ).count()
+            d['To Learn'] = self.character_set.characters.count() \
+                        - sum(d.values())
         return d
 
     @classmethod

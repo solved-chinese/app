@@ -32,6 +32,12 @@
 
   {% endif %}
 
+  <br>
+
+  <h3>Review Questions</h3>
+  {{ object.review_manager.as_display_html }}
+  <p>*you cannot change this for now</p>
+
   <form action="{% url 'delete_assignment'%}" method="post">
     {% csrf_token %}
     <input type='hidden' name='assignment_pk' value='{{ object.pk }}'>

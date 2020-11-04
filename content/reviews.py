@@ -10,6 +10,7 @@ MAX_RANDOM_CHOICES = 20
 
 
 class ReviewQuestion:
+    verbose_name = 'NOT DEFINED'
     test_abilities = ()
     template = None
 
@@ -55,6 +56,7 @@ class MultipleChoice(ReviewQuestion):
 
 
 class DefinitionMCAnswerField(MultipleChoice):
+    verbose_name = 'Definition Multiple Choice Meaning'
     test_abilities = (Ability.DEFINITION,)
     choice_field = 'definition_1'
 
@@ -64,6 +66,7 @@ class DefinitionMCAnswerField(MultipleChoice):
 
 
 class DefinitionMCAnswerCharacter(MultipleChoice):
+    verbose_name = 'Definition Multiple Choice Character'
     test_abilities = (Ability.DEFINITION,)
     choice_field = 'chinese'
 
@@ -88,6 +91,7 @@ class DefinitionMCAnswerCharacter(MultipleChoice):
 
 
 class PinyinMC(MultipleChoice):
+    verbose_name = 'Pinyin Multiple Choice'
     test_abilities = (Ability.PRONUNCIATION,)
     choice_field = 'chinese'
 
@@ -124,6 +128,7 @@ class TrueOrFalse(MultipleChoice):
 
 
 class PinyinTOF(TrueOrFalse):
+    verbose_name = 'Pinyin True or False'
     test_abilities = (Ability.PRONUNCIATION,)
     choice_field = 'pinyin'
 
@@ -136,6 +141,7 @@ class PinyinTOF(TrueOrFalse):
 
 
 class DefinitionTOF(TrueOrFalse):
+    verbose_name = 'Definition True or False'
     test_abilities = (Ability.DEFINITION,)
     choice_field = 'definition_1'
 
@@ -145,6 +151,7 @@ class DefinitionTOF(TrueOrFalse):
 
 
 class DefinitionFITB(ReviewQuestion):
+    verbose_name = 'Example Word fill-in-the-blank with Characters'
     test_abilities = (Ability.FORM, Ability.DEFINITION)
     template = 'content/reviews/fill_in_the_blank.html'
 
@@ -160,6 +167,7 @@ class DefinitionFITB(ReviewQuestion):
 
 
 class PinyinFITB(ReviewQuestion):
+    verbose_name = 'Example word fill-in-the-blank without Characters'
     test_abilities = (Ability.FORM, Ability.PRONUNCIATION)
     template = 'content/reviews/fill_in_the_blank.html'
 
@@ -182,23 +190,3 @@ class PinyinFITB(ReviewQuestion):
 AVAILABLE_REVIEW_TYPES = (DefinitionMCAnswerField, DefinitionMCAnswerCharacter,
                           PinyinMC, DefinitionTOF, PinyinTOF,
                           DefinitionFITB, PinyinFITB)
-
-# _ABILITY_LABELS = ['Review Question']
-# _REVIEW_ABILITY_TABLE = []
-# for ability_code in Ability.ALL_ABILITIES:
-#     _ABILITY_LABELS.append(f"test "
-#                            f"{Ability.of(ability_code).get_code_display()}?")
-# for review_type in AVAILABLE_REVIEW_TYPES:
-#     row = [review_type.__name__]
-#     for ability_code in Ability.ALL_ABILITIES:
-#         if ability_code in review_type.test_abilities:
-#             row.append("Yes")
-#         else:
-#             row.append("")
-#     _REVIEW_ABILITY_TABLE.append(row)
-#
-# def get_ability_labels():
-#     return copy.deepcopy(_ABILITY_LABELS)
-#
-# def get_review_ability_table():
-#     return copy.deepcopy(_REVIEW_ABILITY_TABLE)
