@@ -1,6 +1,15 @@
 from django.db import models
+from collections import namedtuple
 
 from jiezi.utils.mixins import CleanBeforeSaveMixin
+
+RawAbility = namedtuple('RawAbility',
+                        'name default_in_a_row_required max_in_a_row_required')
+RAW_ABILITIES = [
+    RawAbility('definition', 2, 2),
+    RawAbility('form', 1, 1),
+    RawAbility('pronunciation', 2, 2),
+]
 
 
 class Ability(CleanBeforeSaveMixin, models.Model):
@@ -9,16 +18,6 @@ class Ability(CleanBeforeSaveMixin, models.Model):
     PRONUNCIATION = 2
 
     ALL_ABILITIES = [DEFINITION, FORM, PRONUNCIATION]
-    ABILITY2MAX_IN_A_ROW_REQUIRED = {
-        DEFINITION: 2,
-        FORM: 1,
-        PRONUNCIATION: 2,
-    }
-    ABILITY2DEFAULT_IN_A_ROW_REQUIRED = {
-        DEFINITION: 2,
-        FORM: 1,
-        PRONUNCIATION: 2,
-    }
     CHOICES = [
         (DEFINITION, 'definition'),
         (FORM, 'form'),
@@ -26,13 +25,19 @@ class Ability(CleanBeforeSaveMixin, models.Model):
     ]
     code = models.PositiveSmallIntegerField(choices=CHOICES, unique=True)
 
+    def __str__(self):
+        return RAW_ABILITIES[self.code].name
+
+    def __repr__(self):
+        return f"<Ability {self.pk} code={self.code} name={str(self)}>"
+
     @property
     def max_in_a_row_requied(self):
-        return self.ABILITY2MAX_IN_A_ROW_REQUIRED[self.code]
+        return RAW_ABILITIES[self.code].max_in_a_row_required
 
     @property
     def default_in_a_row_required(self):
-        return self.ABILITY2DEFAULT_IN_A_ROW_REQUIRED[self.code]
+        return RAW_ABILITIES[self.code].default_in_a_row_required
 
     @classmethod
     def of(cls, value):

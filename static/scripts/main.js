@@ -98,16 +98,21 @@ $source.keypress(e => {
 /***********************************
   Responsive
 ***********************************/
+
+
 $(function () {
-    var winWide = window.innerWidth;
+    var winWide =
+        window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth;
     var btn = document.getElementById("userDropdown");
     var btn_mobile = document.getElementById("userDropdown-mobile");
-    
+
     if (winWide <= 768) {
-    btn.style.display = "none";
-    btn_mobile.style.display = "block";
+        btn.style.display = "none";
+        btn_mobile.style.display = "block";
     } else {
-    btn.style.display = "block";
-    btn_mobile.style.display = "none";
-}
+        btn.style.display = "block";
+        btn_mobile.style.display = "none";
+    }
 });

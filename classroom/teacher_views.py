@@ -7,11 +7,12 @@ from django.shortcuts import get_object_or_404, reverse, redirect
 
 from content.models import CharacterSet
 from learning.models import StudentCharacter, StudentCharacterTag
-from jiezi.utils.mixins import IsTeacherMixin
-from .models import Class, Student
+from jiezi.utils.mixins import TeacherOnlyMixin
+from .models import Class, Student, Assignment
+from .forms import AssignmentForm
 
 
-class FilterInClass(IsTeacherMixin, TemplateView):
+class FilterInClass(TeacherOnlyMixin, TemplateView):
     template_name = "utils/table_renderer.html"
 
     def get_context_data(self, **kwargs):
@@ -41,7 +42,7 @@ class FilterInClass(IsTeacherMixin, TemplateView):
                 'objects': objects}
 
 
-class ClassDetail(IsTeacherMixin, DetailView):
+class ClassDetail(TeacherOnlyMixin, DetailView):
     model = Class
     template_name = "classroom/class_detail.html"
 
@@ -59,7 +60,7 @@ class ClassDetail(IsTeacherMixin, DetailView):
         return content
 
 
-class RemoveStudent(IsTeacherMixin, View):
+class RemoveStudent(TeacherOnlyMixin, View):
     def post(self, request):
         student_pk = request.POST.get('student_pk', 0)
         student = get_object_or_404(Student, pk=student_pk)
@@ -70,7 +71,7 @@ class RemoveStudent(IsTeacherMixin, View):
         return redirect('class_detail', pk=in_class.pk)
 
 
-class DeleteClass(IsTeacherMixin, View):
+class DeleteClass(TeacherOnlyMixin, View):
     def post(self, request):
         class_pk = request.POST.get('class_pk', 0)
         in_class = get_object_or_404(Class, pk=class_pk)
@@ -80,7 +81,7 @@ class DeleteClass(IsTeacherMixin, View):
         return redirect('list_class')
 
 
-class ClassCreate(IsTeacherMixin, CreateView):
+class ClassCreate(TeacherOnlyMixin, CreateView):
     template_name = "classroom/class_create.html"
     model = Class
     fields = ['name']
@@ -93,8 +94,62 @@ class ClassCreate(IsTeacherMixin, CreateView):
         return reverse('class_detail', args=[self.object.pk])
 
 
-class ClassList(IsTeacherMixin, ListView):
+class ClassList(TeacherOnlyMixin, ListView):
     template_name = "classroom/class_list.html"
 
     def get_queryset(self):
         return Class.objects.filter(teacher=self.request.user.teacher)
+
+
+class AssignmentCreate(TeacherOnlyMixin, CreateView):
+    template_name = "classroom/assignment_create.html"
+    model = Assignment
+    form_class = AssignmentForm
+
+    def form_valid(self, form):
+        form.instance.in_class = self.in_class
+        return super().form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['in_class'] = self.in_class
+        return kwargs
+
+    def get_success_url(self):
+        return reverse('assignment_detail', args=[self.object.pk])
+
+    def test_func(self):
+        if not super().test_func():
+            return False
+        self.in_class = get_object_or_404(Class, pk=self.kwargs['pk'])
+        if self.in_class.teacher != self.request.user.teacher:
+            raise PermissionError('You are not the owner of this class.')
+        return True
+
+
+class AssignmentDetail(TeacherOnlyMixin, DetailView):
+    model = Assignment
+    template_name = "classroom/assignment_detail.html"
+
+    def test_func(self):
+        if not super().test_func():
+            return False
+        if self.get_object().in_class.teacher != self.request.user.teacher:
+            raise PermissionError('You are not the owner of this class.')
+        else:
+            return True
+
+    def get_context_data(self, **kwargs):
+        content = super().get_context_data()
+        content.update(self.get_object().get_stats())
+        return content
+
+class DeleteAssignemtn(TeacherOnlyMixin, View):
+    def post(self, request):
+        assignement_pk = request.POST.get('assignment_pk', 0)
+        assignment = get_object_or_404(Assignment, pk=assignement_pk)
+        in_class = assignment.in_class
+        if in_class.teacher != request.user.teacher:
+            raise PermissionError("The class doesn't belong to you")
+        assignment.delete()
+        return redirect('class_detail', pk=in_class.pk)

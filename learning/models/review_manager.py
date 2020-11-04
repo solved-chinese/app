@@ -1,9 +1,10 @@
-import random
-
+from django.core.exceptions import ValidationError
 from django.db import models
+from django import forms
 
 from content.reviews import *
 from learning.models import Ability
+from jiezi.utils.mixins import CleanBeforeSaveMixin
 
 
 def factory_review_manager():
@@ -16,7 +17,7 @@ def factory_review_manager():
     return AbstractModel
 
 
-class ReviewManager(factory_review_manager()):
+class ReviewManager(CleanBeforeSaveMixin, factory_review_manager()):
     TOLERANT_REVIEW_1_QUESTION = DefinitionMCAnswerField
     TOLERANT_REVIEW_2_QUESTION = PinyinMC
     monitored_abilities = models.ManyToManyField('learning.Ability',
@@ -41,6 +42,33 @@ class ReviewManager(factory_review_manager()):
         assert available_review_types, \
             'There should be at least one review type available'
         return random.choice(available_review_types)
+
+    def clean(self):
+        # at least there should be one review type available
+        if not any(getattr(self, f"use_{review_type.__name__}")
+                   for review_type in AVAILABLE_REVIEW_TYPES):
+            raise ValidationError("There must be at least one review "
+                                  "type selected",
+                                  code='invalid')
+
+    def to_get_kwargs(self, prefix_name=None):
+        kwargs = {}
+        for review_type in AVAILABLE_REVIEW_TYPES:
+            attr_name = f"use_{review_type.__name__}"
+            if prefix_name is None:
+                kwargs_name = attr_name
+            else:
+                kwargs_name = f"{prefix_name}_{attr_name}"
+            kwargs[kwargs_name] = getattr(self, attr_name)
+        return kwargs
+
+    def as_display_html(self):
+        from ..fields import ReviewManagerWidget
+        return ReviewManagerWidget().render(
+            'review_manager',
+            self.to_get_kwargs(),
+            {'disabled': True}
+        )
 
     @classmethod
     def get(cls, **kwargs):

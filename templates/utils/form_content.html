@@ -1,0 +1,14 @@
+{% for field in form %}
+  <div class="form-group col-md-12">
+    <strong>{{ field.label_tag }}</strong>
+    <br>
+    {{ field }}
+    {% if field.help_text %}
+      <br>
+      <small style="color: grey">{{ field.help_text }}</small>
+    {% endif %}
+    {% for error in field.errors %}
+      <p style="color: red">{{ error }}</p>
+    {% endfor %}
+  </div>
+{% endfor %}

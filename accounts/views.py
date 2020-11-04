@@ -2,7 +2,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, reverse
-from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 import django.contrib.auth.views as auth_views
 from django.views.generic.list import ListView
@@ -13,7 +12,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import UserSignupForm, UserUpdateForm
 from .models import Message
 from classroom.forms import StudentForm, TeacherForm
-from jiezi.utils.mixins import RegisteredStudentOnlyMixin
+from jiezi.utils.mixins import RegisteredStudentOnlyMixin, RegisteredOnlyMixin
 
 
 def role_signup(request, role_form_class, role):
@@ -84,7 +83,7 @@ class Logout(auth_views.LogoutView):
     template_name = 'accounts/logged_out.html'
 
 
-class ChangePassword(RegisteredStudentOnlyMixin, auth_views.PasswordChangeView):
+class ChangePassword(RegisteredOnlyMixin, auth_views.PasswordChangeView):
     template_name = 'accounts/change_password.html'
 
 

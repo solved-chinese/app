@@ -7,7 +7,7 @@ from django_fsm import FSMIntegerField, transition, RETURN_VALUE
 
 from learning.models.ability import Ability
 from learning.constants import *
-from learning.models import StudentCharacter
+from ..models import StudentCharacter, ReviewAccuracyAbstractModel
 
 
 class SCAbilityQuerySet(models.QuerySet):
@@ -49,7 +49,7 @@ class SCAbilityManager(models.Manager):
             self.create(student_character=sc, ability=ability)
 
 
-class SCAbility(models.Model):
+class SCAbility(ReviewAccuracyAbstractModel):
     TO_LEARN = 10
     IN_PROGRESS = 20
     MASTERED = 30
@@ -112,9 +112,9 @@ class SCAbility(models.Model):
                                          self.max_in_a_row_requied)
         return self.IN_PROGRESS
 
-    def test_review_update(self, is_correct):
+    def test_review_update(self, is_correct, save=True):
         self._test_review_update(is_correct)
-        self.save()
+        super().test_review_update(is_correct, save=save)
 
     @classmethod
     def of(cls, *args):

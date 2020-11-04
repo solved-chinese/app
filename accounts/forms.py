@@ -33,7 +33,7 @@ class UserUpdateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         instance = getattr(self, 'instance', None)
         if instance and instance.id:
-            self.fields['username'].widget.attrs['readonly'] = True
+            self.fields['username'].disabled = True
 
     class Meta:
         model = User
@@ -41,10 +41,3 @@ class UserUpdateForm(forms.ModelForm):
         help_texts = {
             'username': 'This is used for login. You cannot change this.',
         }
-
-    def clean_username(self):
-        instance = getattr(self, 'instance', None)
-        if instance and instance.id:
-            return instance.username
-        else:
-            raise Exception('Cannot use this form unbounded')

@@ -1,6 +1,5 @@
 import random
-
-from django.db import models
+import copy
 
 from .models import Character
 from .audio import generate_audio_tag
@@ -11,6 +10,7 @@ MAX_RANDOM_CHOICES = 20
 
 
 class ReviewQuestion:
+    verbose_name = 'NOT DEFINED'
     test_abilities = ()
     template = None
 
@@ -56,6 +56,7 @@ class MultipleChoice(ReviewQuestion):
 
 
 class DefinitionMCAnswerField(MultipleChoice):
+    verbose_name = 'Definition Multiple Choice Meaning'
     test_abilities = (Ability.DEFINITION,)
     choice_field = 'definition_1'
 
@@ -65,6 +66,7 @@ class DefinitionMCAnswerField(MultipleChoice):
 
 
 class DefinitionMCAnswerCharacter(MultipleChoice):
+    verbose_name = 'Definition Multiple Choice Character'
     test_abilities = (Ability.DEFINITION,)
     choice_field = 'chinese'
 
@@ -89,6 +91,7 @@ class DefinitionMCAnswerCharacter(MultipleChoice):
 
 
 class PinyinMC(MultipleChoice):
+    verbose_name = 'Pinyin Multiple Choice'
     test_abilities = (Ability.PRONUNCIATION,)
     choice_field = 'chinese'
 
@@ -125,6 +128,7 @@ class TrueOrFalse(MultipleChoice):
 
 
 class PinyinTOF(TrueOrFalse):
+    verbose_name = 'Pinyin True or False'
     test_abilities = (Ability.PRONUNCIATION,)
     choice_field = 'pinyin'
 
@@ -137,6 +141,7 @@ class PinyinTOF(TrueOrFalse):
 
 
 class DefinitionTOF(TrueOrFalse):
+    verbose_name = 'Definition True or False'
     test_abilities = (Ability.DEFINITION,)
     choice_field = 'definition_1'
 
@@ -146,6 +151,7 @@ class DefinitionTOF(TrueOrFalse):
 
 
 class DefinitionFITB(ReviewQuestion):
+    verbose_name = 'Example Word fill-in-the-blank with Characters'
     test_abilities = (Ability.FORM, Ability.DEFINITION)
     template = 'content/reviews/fill_in_the_blank.html'
 
@@ -161,6 +167,7 @@ class DefinitionFITB(ReviewQuestion):
 
 
 class PinyinFITB(ReviewQuestion):
+    verbose_name = 'Example word fill-in-the-blank without Characters'
     test_abilities = (Ability.FORM, Ability.PRONUNCIATION)
     template = 'content/reviews/fill_in_the_blank.html'
 
@@ -180,6 +187,6 @@ class PinyinFITB(ReviewQuestion):
                             {generate_audio_tag(chinese=word)}"""}
 
 
-AVAILABLE_REVIEW_TYPES = [DefinitionMCAnswerField, DefinitionMCAnswerCharacter,
+AVAILABLE_REVIEW_TYPES = (DefinitionMCAnswerField, DefinitionMCAnswerCharacter,
                           PinyinMC, DefinitionTOF, PinyinTOF,
-                          DefinitionFITB, PinyinFITB]
+                          DefinitionFITB, PinyinFITB)

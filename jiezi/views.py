@@ -7,7 +7,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.reverse import reverse as rest_reverse
 
-from learning.models import LearningProcess, StudentCharacter
+from learning.models import LearningProcess, StudentCharacter, StudentCharacterTag
 
 
 def index(request):
@@ -30,8 +30,17 @@ def index(request):
         class_info = ""
         if student.in_class:
             class_info = f"You are now in {student.in_class}"
+            tags = []
+            for assignment in student.in_class.assignments.all():
+                tags.append(StudentCharacterTag.of(student,
+                                                   assignment.character_set))
+        else:
+            class_info = ""
+            tags = StudentCharacterTag.objects.filter(student=student)
         return render(request, 'student_index.html',
-                      {'stats': stats, 'class_info': class_info})
+                      {'stats': stats,
+                       'class_info': class_info,
+                       'tags': tags})
     elif request.user.is_teacher:
         return redirect(reverse('list_class'))
 
