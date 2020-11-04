@@ -67,8 +67,8 @@ function searchHandler(e) {
             return;
         }
 
-        for (i = 0; i < Math.min(data.length, MAX_ENTRIES_DISPLAY); i++) {
-            char = data[i];
+        for (let i = 0; i < Math.min(data.length, MAX_ENTRIES_DISPLAY); i++) {
+            let char = data[i];
             let targetPk = char.id.toString().padStart(4, '0');
             let entry = `
                 <a href='/content/C${targetPk}' class='search-entry-wrapper'>
