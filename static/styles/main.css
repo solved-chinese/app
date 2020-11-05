@@ -109,6 +109,13 @@ a {
   Header
 ***********************************/
 
+header * {
+    font-family: canada-type-gibson, sans-serif;
+    font-size: 1.05rem;
+
+    transition: ease-in-out 300ms;
+}
+
 #navbar-bg {
     position: fixed;
     top: 0px;
@@ -120,14 +127,16 @@ a {
     border-radius: 0;
 }
 
-#navbar {
+#main-navbar {
     display: flex;
     height: 70px;
+    width: 100%;
+    margin: 0;
     align-items: center;
     justify-content: space-between;
 }
 
-#navbar > .logo {
+#main-navbar > .logo {
     width: 108.121875px; /* There definitely exists a better way */
     height: 38px;
     background-image: url('/static/images/logo-color-full.svg');
@@ -137,33 +146,57 @@ a {
     cursor: pointer;
 }
 
-#navbar a {
+#main-navbar a {
     text-decoration: none;
 }
 
-.navbar-item {
-    
+#main-navbar > .navbar-item#menu-toggle {
+    display: none;
+    padding: 10px 15px;
+    border-width: 0;
 }
 
-/***********************************
-  Search-form
-***********************************/
+#main-navbar > .navbar-item#menu-toggle:hover {
+    background-color: white;
+    color: var(--main-theme-color);
+}
+
+#main-navbar > .navbar-item#menu-toggle.active {
+    background-color: var(--main-theme-color);
+    color: white;
+}
+
+#main-navbar > .navbar-item#menu-toggle i {
+    font-weight: 800;
+    font-size: 1.4rem;
+}
+
+#main-navbar > .navbar-item#search-form {
+    display: flex;
+    flex-grow: 1;
+    margin: 0;
+    align-self: flex-start;
+}
+
+.navbar-item {
+    margin: 0 20px;
+}
 
 .search-form-wrapper {
     display: flex;
-    align-self: center;
     flex-grow: 1;
+    flex-direction: column;
 
     max-width: 700px;
-    height: 45px;
-    margin: 60px auto;
+    height: auto;
+    margin: 12px auto;
 
     background-color: var(--navbar-color);
     border: 1px solid var(--tertiary-color);
     border-radius: 10px;
 }
 
-.search-input-wrapper {
+.navbar-item .search-input-wrapper {
     display: flex;
 }
 
@@ -174,8 +207,8 @@ a {
 }
 
 .search-input-wrapper > input {
-    height: 50px;
-    flex-grow: 2;
+    height: 45px;
+    flex-grow: 1;
     font-size: 17px;
     padding-right: 15px;
 
@@ -250,6 +283,8 @@ a {
     color: var(--secondary-color);
     text-align: center;
 }
+
+
 
 /***********************************
   Footer
@@ -363,7 +398,6 @@ a {
     border: none;
 }
 
-
 /***********************************
   Input Boxes
 ***********************************/
@@ -425,8 +459,6 @@ a {
     font-size: 26px;
     font-weight: 500;
 }
-
-
 
 /***********************************
   Modals
@@ -518,15 +550,47 @@ a {
 
 @media only screen and (max-width: 768px) {
 
-    #navbar > .logo {
+    #main-navbar.responsive {
+        flex-wrap: wrap;
+    }
+
+    #main-navbar > .logo {
         width: 32.4383075px;
         min-width: 32.4383075px; /* There definitely exists a better way */
         height: 38px;
         background-image: url('/static/images/logo-color-mark.svg');
     }
 
-    .search-input-wrapper {
-        position: relative;
+    #main-navbar > .navbar-item#menu.responsive {
+        display: block;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        animation: growDown 200ms ease-out forwards;
+        transform-origin: top center;
+    }
+
+    #main-navbar > .navbar-item#menu.responsive a {
+        display: inline-block;
+        width: 100%;
+        margin: 0;
+        padding: 10px 0;
+        border-width: 0;
+        border-radius: 0;
+    }
+
+    #main-navbar > .navbar-item#menu.responsive > .button-primary {
+        background-color: var(--main-theme-color);
+        color: white;
+    }
+
+    #main-navbar > .navbar-item#menu {
+        display: none;
+    }
+
+    #main-navbar > .navbar-item#menu-toggle {
+        display: flex;
+        justify-content: center;
     }
 
     .search-form {
@@ -549,5 +613,18 @@ a {
     }
     .search-input-wrapper > input {
         max-width: 60%;
+    }
+}
+
+/***********************************
+  Animations
+***********************************/
+
+@keyframes growDown {
+    0% {
+      transform: scaleY(0)
+    }
+    100% {
+      transform: scaleY(1)
     }
 }

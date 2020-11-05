@@ -25,7 +25,7 @@
           integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
           integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
+  <link rel="stylesheet" href="https://use.typekit.net/fiy6cyf.css">
   <link rel="stylesheet" href="{% static "styles/main.css" %}">
   
   {% block css %}{% endblock css %}
@@ -38,14 +38,16 @@
 <body>
 <header class="full-width-bg-container" id="navbar-bg">
   <div class="card-container" id="navbar-container">
-    <div class="main-content-container" id="navbar">
-      <a class="logo" href="{% url "index" %}"></a>
-      <div class="search-form-wrapper">
-        <div class="search-input-wrapper">
-          <i class="far fa-search search-icon"></i>
-          <input type="text" name="keyword" id="search-input" placeholder="">
-        </div>
-        <div id="search-dropdown-wrapper">
+    <div class="main-content-container" id="main-navbar">
+      <a class="logo navbar-item" href="{% url "index" %}"></a>
+      <div class="navbar-item" id="search-form">
+        <div class="search-form-wrapper">
+          <div class="search-input-wrapper">
+            <i class="far fa-search search-icon"></i>
+            <input type="text" name="keyword" id="search-input" placeholder="">
+          </div>
+          <div id="search-dropdown-wrapper">
+          </div>
         </div>
       </div>
       {% if user.is_authenticated %}
@@ -80,7 +82,11 @@
         </div>
 
       {% else %}
-        <div class="navbar-item responsive">
+        <a class="navbar-item button button-primary" id="menu-toggle" 
+        href="javascript:void(0);" onclick="mobileMenuToggle()"> 
+          <i class="far fa-bars"></i>
+        </a>
+        <div class="navbar-item" id="menu">
           <a class="button button-text-only" href="{% url "login" %}">Login</a>
           <a class="button button-primary" href="{% url "student_signup" %}">Sign Up</a>
         </div>

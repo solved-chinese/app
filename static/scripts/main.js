@@ -1,6 +1,7 @@
 /***********************************
   CSRF
 ***********************************/
+
 var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
@@ -14,7 +15,6 @@ $.ajaxSetup({
         }
     }
 });
-
 
 /***********************************
   Modal Helper Functions
@@ -99,7 +99,6 @@ $source.keypress(e => {
   Responsive
 ***********************************/
 
-
 $(function () {
     var winWide =
         window.innerWidth ||
@@ -116,3 +115,10 @@ $(function () {
         btn_mobile.style.display = "none";
     }
 });
+
+function mobileMenuToggle() {
+    const navItem = $("#main-navbar > .navbar-item#menu");
+    const navbar = $("#main-navbar");
+    $.merge(navItem, navbar).toggleClass("responsive");
+    $("#main-navbar > .navbar-item#menu-toggle").toggleClass("active");
+}
