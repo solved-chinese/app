@@ -17,7 +17,7 @@ class StudentForm(forms.ModelForm):
         fields = []
 
 
-class AssignmentForm(forms.ModelForm):
+class AssignmentCreateForm(forms.ModelForm):
     review_manager = ReviewManagerField(
         label="Please select what types of review questions you want your "
               "student to encounter in this assignment"
@@ -35,3 +35,14 @@ class AssignmentForm(forms.ModelForm):
     class Meta:
         model = Assignment
         fields = ['character_set', 'review_manager']
+
+
+class AssignmentUpdateForm(forms.ModelForm):
+    review_manager = ReviewManagerField(
+        label="Please select what types of review questions you want your "
+              "student to encounter in this assignment"
+    )
+
+    class Meta:
+        model = Assignment
+        fields = ['review_manager']
