@@ -196,6 +196,10 @@ header * {
     border-radius: 10px;
 }
 
+#search-form.disabled .search-form-wrapper {
+    background-color: #5e6d7e2f;
+}
+
 .navbar-item .search-input-wrapper {
     display: flex;
 }
@@ -566,6 +570,8 @@ header * {
         margin: 0;
         padding: 0;
         width: 100%;
+        position: relative;
+        top: -1px;
         animation: growDown 200ms ease-out forwards;
         transform-origin: top center;
     }

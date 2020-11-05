@@ -89,6 +89,13 @@ function searchHandler(e) {
     });
 }
 
+function toggleSearch() {
+    $("#main-navbar #search-input").prop("disabled", (_, val) => {
+        return !val;
+    });
+    $("#main-navbar .navbar-item#search-form").toggleClass("disabled")
+}
+
 $source.on('input propertychange', searchHandler);
 $source.keypress(e => {
     if (e.keyCode !== 13 || $('.search-entry-wrapper').length === 0) return;
@@ -121,4 +128,5 @@ function mobileMenuToggle() {
     const navbar = $("#main-navbar");
     $.merge(navItem, navbar).toggleClass("responsive");
     $("#main-navbar > .navbar-item#menu-toggle").toggleClass("active");
+    toggleSearch();
 }
