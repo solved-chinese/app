@@ -1,5 +1,10 @@
 <!-- TODO: change this file to what it actually should be -->
 {% load static %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+  {% clear_breadcrumbs %}
+{% endblock %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -88,6 +93,7 @@
 </header>
 
 <div class="main-content-container" id="page-container">
+  {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap4.html" %}
   {% block content %}{% endblock content %}
 </div>
 

@@ -28,6 +28,7 @@ except AttributeError:
 INSTALLED_APPS = [
     'rest_framework',
     'django_fsm',
+    'django_bootstrap_breadcrumbs',
 
     'django.contrib.admin',
     'django.contrib.auth',

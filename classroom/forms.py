@@ -24,10 +24,11 @@ class AssignmentForm(forms.ModelForm):
     )
 
     def __init__(self, *args, **kwargs):
-        in_class = kwargs.pop('in_class')
+        self.in_class = kwargs.pop('in_class')
         super().__init__(*args, **kwargs)
         self.fields['character_set'] = forms.ModelChoiceField(
-            queryset=CharacterSet.objects.exclude(assignment__in_class=in_class),
+            queryset=CharacterSet.objects.exclude(
+                assignment__in_class=self.in_class),
             widget=forms.RadioSelect()
         )
 

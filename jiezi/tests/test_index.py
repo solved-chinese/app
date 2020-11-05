@@ -15,7 +15,7 @@ class TestIndex(TestCase):
         teacher = create_teacher()
         self.client.force_login(teacher.user)
         response = self.client.get(reverse('index'))
-        self.assertRedirects(response, reverse('list_class'))
+        self.assertRedirects(response, reverse('class_list'))
         self._test_about()
 
     def test_student(self):

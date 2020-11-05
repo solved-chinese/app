@@ -78,7 +78,7 @@ class DeleteClass(TeacherOnlyMixin, View):
         if in_class.teacher != request.user.teacher:
             raise PermissionError("The class doesn't belong to you")
         in_class.delete()
-        return redirect('list_class')
+        return redirect('class_list')
 
 
 class ClassCreate(TeacherOnlyMixin, CreateView):
@@ -126,6 +126,10 @@ class AssignmentCreate(TeacherOnlyMixin, CreateView):
             raise PermissionError('You are not the owner of this class.')
         return True
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
 
 class AssignmentDetail(TeacherOnlyMixin, DetailView):
     model = Assignment
@@ -143,6 +147,7 @@ class AssignmentDetail(TeacherOnlyMixin, DetailView):
         content = super().get_context_data()
         content.update(self.get_object().get_stats())
         return content
+
 
 class DeleteAssignemtn(TeacherOnlyMixin, View):
     def post(self, request):

@@ -42,7 +42,7 @@ def index(request):
                        'class_info': class_info,
                        'tags': tags})
     elif request.user.is_teacher:
-        return redirect(reverse('list_class'))
+        return redirect(reverse('class_list'))
 
 
 def about_us(request):

@@ -1,14 +1,18 @@
 {% extends "base.html" %}
 
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+  {{ block.super }}
+  {% breadcrumb "My Classes" "" %}
+{% endblock %}
+
+
 {% block content %}
 
-  <a href="{% url 'create_class' %}">Create Class</a>
-  <br>
-
-  <h1>Your Classes</h1>
+  <h1>My Classes</h1>
 
   {% if not object_list %}
-    You don't have any class yet. Create one with the button above.
+    You don't have any class yet. Create one with the button below.
   {% else %}
     <table class="table">
       <thead>
@@ -29,4 +33,5 @@
       </tbody>
     </table>
   {% endif %}
+  <a class='button button-primary' href="{% url 'class_create' %}">Create Class</a>
 {% endblock content %}

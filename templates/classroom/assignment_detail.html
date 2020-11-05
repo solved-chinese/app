@@ -1,9 +1,17 @@
 {% extends "base.html" %}
 
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+  {{ block.super }}
+  {% breadcrumb "My Classes" "class_list" %}
+  {% breadcrumb object.in_class object.in_class %}
+  {% breadcrumb object "" %}
+{% endblock %}
+
 {% block content %}
 
   <h1>Assignment: {{ object.name }}</h1>
-  <h1>Class: {{ object.in_class }}</h1>
+  <h1>Class: {{ object.in_class.name }}</h1>
 
   <h3>
     {{ object.character_set.characters.count }} characters:
@@ -38,7 +46,7 @@
   {{ object.review_manager.as_display_html }}
   <p>*you cannot change this for now</p>
 
-  <form action="{% url 'delete_assignment'%}" method="post">
+  <form action="{% url 'assignment_delete'%}" method="post">
     {% csrf_token %}
     <input type='hidden' name='assignment_pk' value='{{ object.pk }}'>
     <input type="submit" value="delete this assignment" class='btn btn-danger'
