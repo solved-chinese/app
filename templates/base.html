@@ -1,5 +1,10 @@
 <!-- TODO: change this file to what it actually should be -->
 {% load static %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+  {% clear_breadcrumbs %}
+{% endblock %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -50,13 +55,13 @@
           </div>
         </div>
       </div>
-      {% if user.is_authenticated %}
+      {% if user.is_authenticated and not user.is_guest %}
         <a class="navbar-item button button-primary" id="menu-toggle" 
            href="javascript:void(0);" onclick="mobileMenuToggle()"> 
           <i class="far fa-bars"></i>
         </a>
         <div class="navbar-item" id="menu">
-          <a class="button button-primary dropdown-toggle"
+          <a class="button button-primary dropdown-toggle" id="userDropdown"
                   data-toggle="dropdown" aria-haspopup="true"
                   aria-expanded="false" href="{% url "profile" %}">
             {{ user.display_name }}
@@ -103,6 +108,7 @@
 
 <div class="main-content-container" id="page-container">
   <div class="page-overlay" onclick="closeMobileMenu()"></div>
+  {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap4.html" %}
   {% block content %}{% endblock content %}
 </div>
 

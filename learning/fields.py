@@ -73,7 +73,9 @@ class ReviewManagerField(forms.Field):
             return value.to_get_kwargs()
         elif isinstance(value, dict):
             return value
-        raise TypeError(f'expect None or ReviewManager or dict, '
+        elif isinstance(value, int):
+            return ReviewManager.objects.get(pk=value).to_get_kwargs()
+        raise TypeError(f'expect None or ReviewManager or dict or, '
                         f'not {type(value)}')
 
 

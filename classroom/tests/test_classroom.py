@@ -15,19 +15,18 @@ class ClassroomTest(TestCase):
 
     def test_classroom(self):
         # have the teacher create a class
-        response = self.teacher_client.post(reverse('create_class'),
+        response = self.teacher_client.post(reverse('class_create'),
                                                     {'name': 'test_class_name'})
         self.assertEqual(self.teacher.classes.count(), 1)
         class_object = self.teacher.classes.first()
         self.assertRedirects(response, reverse('class_detail',
                                                args=[class_object.pk]))
         # class_list contains the created class
-        response = self.teacher_client.get(reverse('list_class'))
+        response = self.teacher_client.get(reverse('class_list'))
         self.assertContains(response, 'test_class_name')
         # have a student join this class
         response = self.student_client.get(
             reverse('join_class', args=[class_object.uuid.hex]))
-        self.assertContains(response, 'test_teacher_name')
         self.assertContains(response, 'test_class_name')
         response = self.student_client.post(
             reverse('join_class', args=[class_object.uuid.hex]))

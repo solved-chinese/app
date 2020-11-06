@@ -9,7 +9,7 @@ from content.models import CharacterSet
 from learning.models import StudentCharacter, StudentCharacterTag
 from jiezi.utils.mixins import TeacherOnlyMixin
 from .models import Class, Student, Assignment
-from .forms import AssignmentForm
+from .forms import AssignmentCreateForm, AssignmentUpdateForm
 
 
 class FilterInClass(TeacherOnlyMixin, TemplateView):
@@ -78,7 +78,7 @@ class DeleteClass(TeacherOnlyMixin, View):
         if in_class.teacher != request.user.teacher:
             raise PermissionError("The class doesn't belong to you")
         in_class.delete()
-        return redirect('list_class')
+        return redirect('class_list')
 
 
 class ClassCreate(TeacherOnlyMixin, CreateView):
@@ -104,7 +104,7 @@ class ClassList(TeacherOnlyMixin, ListView):
 class AssignmentCreate(TeacherOnlyMixin, CreateView):
     template_name = "classroom/assignment_create.html"
     model = Assignment
-    form_class = AssignmentForm
+    form_class = AssignmentCreateForm
 
     def form_valid(self, form):
         form.instance.in_class = self.in_class
@@ -126,10 +126,24 @@ class AssignmentCreate(TeacherOnlyMixin, CreateView):
             raise PermissionError('You are not the owner of this class.')
         return True
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
 
 class AssignmentDetail(TeacherOnlyMixin, DetailView):
     model = Assignment
     template_name = "classroom/assignment_detail.html"
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = AssignmentUpdateForm(data=request.POST, instance=self.object)
+        if form.is_valid():
+            form.save()
+        context = super().get_context_data()
+        context.update(self.object.get_stats())
+        context['form'] = form
+        return self.render_to_response(context)
 
     def test_func(self):
         if not super().test_func():
@@ -140,9 +154,12 @@ class AssignmentDetail(TeacherOnlyMixin, DetailView):
             return True
 
     def get_context_data(self, **kwargs):
-        content = super().get_context_data()
-        content.update(self.get_object().get_stats())
-        return content
+        context = super().get_context_data()
+        context.update(self.object.get_stats())
+        form = AssignmentUpdateForm(instance=self.object)
+        context['form'] = form
+        return context
+
 
 class DeleteAssignemtn(TeacherOnlyMixin, View):
     def post(self, request):
