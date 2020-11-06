@@ -23,6 +23,7 @@ uwsgi
 *.pid
 *.socket
 .fuse_hidden*
+.vscode
 
 # media folder except the default files
 media/*
