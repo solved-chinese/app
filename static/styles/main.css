@@ -120,6 +120,7 @@ a {
 
 #page-container.inactive > .page-overlay {
     background-color: #5e6d7e48;
+    pointer-events: all;
 }
 
 
