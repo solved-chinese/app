@@ -44,8 +44,7 @@ class StudentCharacterTagList(generics.ListCreateAPIView):
     def create(self, request, *args, **kwargs):
         cset_pk = request.data['character_set_id']
         cset = CharacterSet.objects.get(pk=cset_pk)
-        obj = StudentCharacterTag.objects.create(character_set=cset,
-                                                 student=request.user.student)
+        obj = StudentCharacterTag.of(request.user.student, cset)
         data = StudentCharacterTagSerializer(
             obj, context=self.get_serializer_context()).data
         return Response(data,

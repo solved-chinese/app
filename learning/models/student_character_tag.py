@@ -29,7 +29,7 @@ class SCTagManager(models.Manager):
 class StudentCharacterTag(models.Model):
     """
     This class connects a student with a character set. It syncs the changes
-    from CharacterSet.
+    from CharacterSet through the check_update method.
     """
     character_set = models.ForeignKey(CharacterSet,
                                       on_delete=models.CASCADE,
@@ -38,7 +38,7 @@ class StudentCharacterTag(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE,
                                 related_name='sc_tags',
                                 related_query_name='sc_tag')
-    # lazy tag
+    # lazy tag, set to False when the related CharacterSet changes
     is_updated = models.BooleanField(default=False)
     student_characters = models.ManyToManyField(StudentCharacter,
                                                 related_name='sc_tags',
@@ -47,9 +47,11 @@ class StudentCharacterTag(models.Model):
 
     def check_update(self):
         """
-        This method ensures that the relationship between this StudentCharacterTag
+        This method needs to be called before every operation that relies on
+        the student_characters attribute.
+        IT ensures that the relationship between this StudentCharacterTag
         and its UserCharacters follows that between its CharacterSet and the
-        corresponding Characters
+        corresponding Characters.
         """
         if self.is_updated:
             return
