@@ -8,11 +8,19 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse as rest_reverse
 from django.contrib.auth import logout
 
+from classroom.models import Student
 from learning.models import LearningProcess, StudentCharacter, StudentCharacterTag
 
 
 def index(request):
-    if not request.user.is_authenticated or request.user.is_staff:
+    # this adds the student objects to users created through createsuperuser
+    if request.user.is_staff and \
+        not (request.user.is_student or request.user.is_teacher):
+        request.user.is_student = True
+        Student.of(request.user)
+        request.user.save()
+
+    if not request.user.is_authenticated:
         return render(request, 'unauthenticated_index.html')
     elif request.user.is_guest:
         request.user.delete()
