@@ -14,8 +14,6 @@ from content.views import display_character, ReviewView
 from jiezi.rest.permissions import IsStudent
 from .models import StudentCharacterTag, Report
 from learning.models.learning_process import LearningProcess
-from .forms import ReviewManagerForm
-# from content.reviews import get_ability_labels, get_review_ability_table
 
 
 @login_required
@@ -129,15 +127,3 @@ def report(request):
     return render(request, 'utils/simple_response.html', {
         'content': 'Thank you for your response!'
     })
-
-
-# def form_test(request):
-#     table = get_review_ability_table()
-#     labels = get_ability_labels()
-#     form = ReviewManagerForm()
-#     labels.insert(0, 'select')
-#     for row, field in zip(table, form):
-#         row.insert(0, str(field))
-#     return render(request, 'learning/form_test.html',
-#                   {'objects': table,
-#                    'labels': labels})

@@ -1,14 +1,32 @@
 {% extends "base.html" %}
 
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+  {{ block.super }}
+  {% breadcrumb "My Classes" "class_list" %}
+  {% breadcrumb object.in_class object.in_class %}
+  {% breadcrumb object "" %}
+{% endblock %}
+
 {% block content %}
 
   <h1>Assignment: {{ object.name }}</h1>
-  <h1>Class: {{ object.in_class }}</h1>
+  <h1>Class: {{ object.in_class.name }}</h1>
 
   <h3>
     {{ object.character_set.characters.count }} characters:
     {{ object.character_set.render_all_character }}
   </h3>
+
+  <br>
+
+  <h3>Review Questions</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {% include 'utils/form_content.html' with form=form %}
+    <input type="submit" value="Update Review Question" class='button button-secondary'>
+  </form>
 
   <br>
 
@@ -32,12 +50,15 @@
 
   {% endif %}
 
-  <form action="{% url 'delete_assignment'%}" method="post">
+  <br>
+
+  <form action="{% url 'assignment_delete'%}" method="post">
     {% csrf_token %}
     <input type='hidden' name='assignment_pk' value='{{ object.pk }}'>
-    <input type="submit" value="delete this assignment" class='btn btn-danger'
+    <input type="submit" value="delete this assignment" class='button button-tertiary'
            onclick="return confirm('Are you sure you want to permanently delete this Assignment? ' +
             'The progress of your students will be preserved, however.');">
   </form>
+  <br>
 
 {% endblock content %}

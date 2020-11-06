@@ -1,0 +1,34 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">select</th>
+      <th scope="col">Review Question Type</th>
+      {% for ability in abilities %}
+        <th scope="col">{{ ability }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for review_type in review_types %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>
+          <input type='checkbox' name='{{ review_type.name }}' value='true'
+            {% if review_type.checked %}checked{% endif %}
+            {% if attrs.disabled %}disabled{% endif %}
+          >
+        </td>
+        <td>{{ review_type.verbose_name|safe }}</td>
+        {% for has_ability in review_type.has_ability %}
+          <td>
+            {% if has_ability %}
+              √
+            {% else %}
+            {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

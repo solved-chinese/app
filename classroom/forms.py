@@ -1,6 +1,8 @@
 from django import forms
+
 from .models import Teacher, Student, Assignment
 from content.models import CharacterSet
+from learning.fields import ReviewManagerField
 
 
 class TeacherForm(forms.ModelForm):
@@ -15,15 +17,32 @@ class StudentForm(forms.ModelForm):
         fields = []
 
 
-class AssignmentForm(forms.ModelForm):
+class AssignmentCreateForm(forms.ModelForm):
+    review_manager = ReviewManagerField(
+        label="Please select what types of review questions you want your "
+              "student to encounter in this assignment"
+    )
+
     def __init__(self, *args, **kwargs):
-        in_class = kwargs.pop('in_class')
+        self.in_class = kwargs.pop('in_class')
         super().__init__(*args, **kwargs)
         self.fields['character_set'] = forms.ModelChoiceField(
-            queryset=CharacterSet.objects.exclude(assignment__in_class=in_class),
+            queryset=CharacterSet.objects.exclude(
+                assignment__in_class=self.in_class),
             widget=forms.RadioSelect()
         )
 
     class Meta:
         model = Assignment
-        fields = ['character_set']
+        fields = ['character_set', 'review_manager']
+
+
+class AssignmentUpdateForm(forms.ModelForm):
+    review_manager = ReviewManagerField(
+        label="Please select what types of review questions you want your "
+              "student to encounter in this assignment"
+    )
+
+    class Meta:
+        model = Assignment
+        fields = ['review_manager']

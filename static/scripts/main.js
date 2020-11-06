@@ -1,6 +1,7 @@
 /***********************************
   CSRF
 ***********************************/
+
 var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
@@ -14,7 +15,6 @@ $.ajaxSetup({
         }
     }
 });
-
 
 /***********************************
   Modal Helper Functions
@@ -67,8 +67,8 @@ function searchHandler(e) {
             return;
         }
 
-        for (i = 0; i < Math.min(data.length, MAX_ENTRIES_DISPLAY); i++) {
-            char = data[i];
+        for (let i = 0; i < Math.min(data.length, MAX_ENTRIES_DISPLAY); i++) {
+            let char = data[i];
             let targetPk = char.id.toString().padStart(4, '0');
             let entry = `
                 <a href='/content/C${targetPk}' class='search-entry-wrapper'>
@@ -89,6 +89,13 @@ function searchHandler(e) {
     });
 }
 
+function toggleSearch() {
+    $("#main-navbar #search-input").prop("disabled", (_, val) => {
+        return !val;
+    });
+    $("#main-navbar .navbar-item#search-form").toggleClass("disabled");
+}
+
 $source.on('input propertychange', searchHandler);
 $source.keypress(e => {
     if (e.keyCode !== 13 || $('.search-entry-wrapper').length === 0) return;
@@ -99,19 +106,18 @@ $source.keypress(e => {
   Responsive
 ***********************************/
 
-$(function () {
-    var winWide =
-        window.innerWidth ||
-        document.documentElement.clientWidth ||
-        document.body.clientWidth;
-    var btn = document.getElementById("userDropdown");
-    var btn_mobile = document.getElementById("userDropdown-mobile");
+function mobileMenuToggle() {
+    const navItem = $("#main-navbar > .navbar-item#menu");
+    const navbar = $("#main-navbar");
+    $.merge(navItem, navbar).toggleClass("responsive");
+    $("#main-navbar > .navbar-item#menu-toggle").toggleClass("active");
+    $("#main-navbar .dropdown-menu").toggleClass("show");
+    $("#page-container").toggleClass("inactive");
+    toggleSearch();
+}
 
-    if (winWide <= 768) {
-        btn.style.display = "none";
-        btn_mobile.style.display = "block";
-    } else {
-        btn.style.display = "block";
-        btn_mobile.style.display = "none";
+function closeMobileMenu() {
+    if ($("#page-container").hasClass("inactive")) {
+        mobileMenuToggle();
     }
-});
+}

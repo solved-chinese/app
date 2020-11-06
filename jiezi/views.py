@@ -6,12 +6,25 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.reverse import reverse as rest_reverse
+from django.contrib.auth import logout
 
+from classroom.models import Student
 from learning.models import LearningProcess, StudentCharacter, StudentCharacterTag
 
 
 def index(request):
+    # this adds the student objects to users created through createsuperuser
+    if request.user.is_staff and \
+        not (request.user.is_student or request.user.is_teacher):
+        request.user.is_student = True
+        Student.of(request.user)
+        request.user.save()
+
     if not request.user.is_authenticated:
+        return render(request, 'unauthenticated_index.html')
+    elif request.user.is_guest:
+        request.user.delete()
+        logout(request)
         return render(request, 'unauthenticated_index.html')
     elif request.user.is_student:
         student = request.user.student
@@ -27,22 +40,18 @@ def index(request):
                  state=StudentCharacter.TO_LEARN).count(),
              'characters'),
         ]
-        class_info = ""
         if student.in_class:
-            class_info = f"You are now in {student.in_class}"
             tags = []
             for assignment in student.in_class.assignments.all():
                 tags.append(StudentCharacterTag.of(student,
                                                    assignment.character_set))
         else:
-            class_info = ""
             tags = StudentCharacterTag.objects.filter(student=student)
         return render(request, 'student_index.html',
                       {'stats': stats,
-                       'class_info': class_info,
                        'tags': tags})
     elif request.user.is_teacher:
-        return redirect(reverse('list_class'))
+        return redirect(reverse('class_list'))
 
 
 def about_us(request):

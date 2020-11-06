@@ -7,7 +7,7 @@
   {% else %}
     <p>Join {{ class }}?</p>
     <form method="post">{% csrf_token %}
-      <input type="submit" value="Join">
+      <input class="button button-primary" type="submit" value="Join">
     </form>
   {% endif %}
 

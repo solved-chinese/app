@@ -121,7 +121,7 @@ class Assignment(models.Model):
         return self.character_set.name
 
     def __str__(self):
-        return f'Assignment in {self.in_class}'
+        return f'Assignment: {self.name}'
 
     def __repr__(self):
-        return f'<Assignment in {repr(self.in_class)}>'
+        return f'<Assignment {self.name} in {repr(self.in_class)}>'

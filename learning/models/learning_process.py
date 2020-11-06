@@ -7,6 +7,7 @@ from django_fsm import FSMIntegerField, transition, RETURN_VALUE, \
 
 from content.models import Character
 from learning.models import SCAbility, ReviewManager, Ability
+from classroom.models import Assignment
 from learning.constants import *
 
 
@@ -187,7 +188,14 @@ class LearningProcess(models.Model):
         """
         from learning.models import StudentCharacterTag
         sc_tags = StudentCharacterTag.objects.filter_by_pk(sc_tags_filter)
+        # TODO this is temporary, needs further thoughts
         assert sc_tags.count() == 1
+        sc = sc_tags.get()
+        cset = sc.character_set
+        if self.student.in_class:
+            assignment = Assignment.objects.get(
+                in_class=self.student.in_class, character_set=cset)
+            self.review_manager = assignment.review_manager
         sc_tags.check_update()
         self.sc_tags.set(sc_tags)
         self.state = self.DECIDE

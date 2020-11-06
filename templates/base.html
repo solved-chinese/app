@@ -1,5 +1,10 @@
 <!-- TODO: change this file to what it actually should be -->
 {% load static %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+  {% clear_breadcrumbs %}
+{% endblock %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +30,7 @@
           integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
           integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
+  <link rel="stylesheet" href="https://use.typekit.net/fiy6cyf.css">
   <link rel="stylesheet" href="{% static "styles/main.css" %}">
   
   {% block css %}{% endblock css %}
@@ -38,61 +43,77 @@
 <body>
 <header class="full-width-bg-container" id="navbar-bg">
   <div class="card-container" id="navbar-container">
-    <div class="main-content-container" id="navbar">
-      <a class="logo" href="{% url "index" %}"></a>
-      <div class="search-form-wrapper">
-        <div class="search-input-wrapper">
-          <i class="far fa-search search-icon"></i>
-          <input type="text" name="keyword" placeholder="">
-        </div>
-        <div id="search-dropdown-wrapper">
+    <div class="main-content-container" id="main-navbar">
+      <a class="logo navbar-item" href="{% url "index" %}"></a>
+      <div class="navbar-item" id="search-form">
+        <div class="search-form-wrapper">
+          <div class="search-input-wrapper">
+            <i class="far fa-search search-icon"></i>
+            <input type="text" name="keyword" id="search-input" placeholder="">
+          </div>
+          <div id="search-dropdown-wrapper">
+          </div>
         </div>
       </div>
-      {% if user.is_authenticated %}
-        <button class="button button-primary dropdown-toggle" id="userDropdown"
-                data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false" href="{% url "profile" %}">
-          {{ user.display_name }}
-          {% if user.unread_message_count %}
-            <span class="badge badge-pill badge-danger">{{ user.unread_message_count }}</span>
-          {% endif %}
-        </button>
-
-        <div id="userDropdown-mobile" data-toggle="dropdown" aria-haspopup="true"
-          aria-expanded="false" href="{% url "profile" %}">
-          <i class="fas fa-align-justify fa-2x"></i>
-        </div>
-
-        <div class="dropdown-menu" aria-labelledby="userDropdown-mobile">
-          {% if user.is_staff %}
-            <a class="dropdown-item" href="{% url "staff_panel" %}">Staff Panel</a>
-            <a class="dropdown-item" href="{% url "admin:index" %}">Django Admin</a>
-          {% endif %}
-          <a class="dropdown-item" href='{% url 'message_list' %}'>
-            Inbox
+      {% if user.is_authenticated and not user.is_guest %}
+        <a class="navbar-item button button-primary" id="menu-toggle" 
+           href="javascript:void(0);" onclick="mobileMenuToggle()"> 
+          <i class="far fa-bars"></i>
+        </a>
+        <div class="navbar-item" id="menu">
+          <a class="button button-primary dropdown-toggle" id="userDropdown"
+                  data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false" href="{% url "profile" %}">
+            {{ user.display_name }}
             {% if user.unread_message_count %}
               <span class="badge badge-pill badge-danger">{{ user.unread_message_count }}</span>
             {% endif %}
           </a>
-          <a class="dropdown-item" href="{% url "change_password" %}">Change Password</a>
-          <a class="dropdown-item" href="{% url "profile" %}">Profile</a>
-          <a class="dropdown-item" href="{% url "logout" %}">Logout</a>
+          <a class="info-responsive" href="javascript:void(0)">
+            Signed in as {{ user.display_name }} 
+            {% if user.is_staff %}
+            &nbsp(Staff)
+            {% endif %}
+          </a>
+          <div class="dropdown-menu dropdown-menu-right">
+            {% if user.is_staff %}
+              <a class="dropdown-item" href="{% url "staff_panel" %}">Staff Panel</a>
+              <a class="dropdown-item" href="{% url "admin:index" %}">Django Admin</a>
+            {% endif %}
+              <a class="dropdown-item" href='{% url 'message_list' %}'>
+                Inbox
+                {% if user.unread_message_count %}
+                  <span class="badge badge-pill badge-danger">{{ user.unread_message_count }}</span>
+                {% endif %}
+              </a>
+              <a class="dropdown-item" href="{% url "change_password" %}">Change Password</a>
+              <a class="dropdown-item" href="{% url "profile" %}">Profile</a>
+              <a class="dropdown-item" href="{% url "logout" %}">Logout</a>
+          </div>
         </div>
 
       {% else %}
-        <a class="button button-text-only" href="{% url "login" %}">Login</a>
-        <a class="button button-primary" href="{% url "student_signup" %}">Sign Up</a>
+        <a class="navbar-item button button-primary" id="menu-toggle" 
+        href="javascript:void(0);" onclick="mobileMenuToggle()"> 
+          <i class="far fa-bars"></i>
+        </a>
+        <div class="navbar-item" id="menu">
+          <a class="button button-text-only" href="{% url "login" %}">Login</a>
+          <a class="button button-primary" href="{% url "student_signup" %}">Sign Up</a>
+        </div>
       {% endif %}
     </div>
   </div>
 </header>
 
 <div class="main-content-container" id="page-container">
+  <div class="page-overlay" onclick="closeMobileMenu()"></div>
+  {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap4.html" %}
   {% block content %}{% endblock content %}
 </div>
 
 <footer class="full-width-bg-container" id="footer-bg">
-  <div class="main-content-container" id="footer">
+  <div id="footer">
     <span id="copyright-info">Solved Chinese &copy; 2019&ndash;2020.</span>
     <div id="footer-icon-container">
       <a href="https://github.com/solved-chinese" class="footer-icon"><i class="fab fa-github"></i></a>

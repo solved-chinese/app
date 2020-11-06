@@ -1,11 +1,18 @@
 {% extends "base.html" %}
 
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+  {{ block.super }}
+  {% breadcrumb "My Classes" "class_list" %}
+  {% breadcrumb object "" %}
+{% endblock %}
+
 {% block content %}
 
   <h1>Class: {{ object.name }}</h1>
 
   <p>
-    To add students to this class, have your students open this link:
+    To add students to this class, have your students open this link AFTER they sign up as a student:
     <a href='{{ request.scheme }}://{{ request.get_host }}{% url 'join_class' object.uuid.hex %}'>
       {{ request.scheme }}://{{ request.get_host }}{% url 'join_class' object.uuid.hex %}
     </a>
@@ -44,36 +51,43 @@
         {% endfor %}
       </tbody>
     </table>
-
   {% endif %}
-
-  <h2>Assignments:</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Name</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for assignment in object.assignments.all %}
-        <tr>
-          <th scope="row">{{ forloop.counter }}</th>
-          <td><a href='{% url "assignment_detail" assignment.pk%}'>
-            {{ assignment.name }}
-          </a></td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  <a href='{% url "create_assignment" object.pk %}'>Create Assignment</a>
 
   <br><br>
 
-  <form action="{% url 'delete_class'%}" method="post">
+  <h2>Assignments:</h2>
+  {% if object.assignments.all %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for assignment in object.assignments.all %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td><a href='{% url "assignment_detail" assignment.pk%}'>
+              {{ assignment.name }}
+            </a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>You don't have any assignment in this class yet. Add one with the button below.</p>
+  {% endif %}
+
+  <br>
+  <a class='button button-primary'
+     href='{% url "assignment_create" object.pk %}'>Create Assignment</a>
+
+  <br>
+  <form action="{% url 'class_delete'%}" method="post">
     {% csrf_token %}
     <input type='hidden' name='class_pk' value='{{ object.pk }}'>
-    <input type="submit" value="delete this class" class='btn btn-danger'
+    <input type="submit" value="delete this class" class='button button-tertiary' style="float: right;"
            onclick="return confirm('Are you sure you want to permanently delete this class?');">
   </form>
 

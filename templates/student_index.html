@@ -8,12 +8,17 @@
 {% block content %}
 
   <h1>Welcome back, {{ user.display_name }}!</h1>
-  <a class="button button-primary" href="{% url "manage_library" %}">Manage Vocab Sets</a>
 
-  {% if class_info %}
+  {% if request.user.student.in_class %}
     <div class="card-container" id="study-container">
-      <h2>{{ class_info }}</h2>
+      <h2>You are now in {{ request.user.student.in_class }} by {{ request.user.student.in_class.teacher }}</h2>
+      <br>
+      <p>You can now only see character sets assigned by your teacher below.</p>
     </div>
+  {% else %}
+    <a class="button button-primary" href="{% url "manage_library" %}">
+      Manage Vocab Sets
+    </a>
   {% endif %}
 
   <div class="card-container" id="study-container">
