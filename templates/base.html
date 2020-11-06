@@ -65,12 +65,12 @@
             {% endif %}
           </a>
           <a class="info-responsive" href="javascript:void(0)">
-            You are signed in as {{ user.display_name }} 
+            Signed in as {{ user.display_name }} 
             {% if user.is_staff %}
             &nbsp(Staff)
             {% endif %}
           </a>
-          <div class="dropdown-menu">
+          <div class="dropdown-menu dropdown-menu-right">
             {% if user.is_staff %}
               <a class="dropdown-item" href="{% url "staff_panel" %}">Staff Panel</a>
               <a class="dropdown-item" href="{% url "admin:index" %}">Django Admin</a>
@@ -102,12 +102,12 @@
 </header>
 
 <div class="main-content-container" id="page-container">
-  <div class="page-overlay"></div>
+  <div class="page-overlay" onclick="closeMobileMenu()"></div>
   {% block content %}{% endblock content %}
 </div>
 
 <footer class="full-width-bg-container" id="footer-bg">
-  <div class="main-content-container" id="footer">
+  <div id="footer">
     <span id="copyright-info">Solved Chinese &copy; 2019&ndash;2020.</span>
     <div id="footer-icon-container">
       <a href="https://github.com/solved-chinese" class="footer-icon"><i class="fab fa-github"></i></a>

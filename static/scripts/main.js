@@ -106,23 +106,6 @@ $source.keypress(e => {
   Responsive
 ***********************************/
 
-$(function () {
-    var winWide =
-        window.innerWidth ||
-        document.documentElement.clientWidth ||
-        document.body.clientWidth;
-    var btn = document.getElementById("userDropdown");
-    var btn_mobile = document.getElementById("userDropdown-mobile");
-
-    if (winWide <= 768) {
-        btn.style.display = "none";
-        btn_mobile.style.display = "block";
-    } else {
-        btn.style.display = "block";
-        btn_mobile.style.display = "none";
-    }
-});
-
 function mobileMenuToggle() {
     const navItem = $("#main-navbar > .navbar-item#menu");
     const navbar = $("#main-navbar");
@@ -131,4 +114,10 @@ function mobileMenuToggle() {
     $("#main-navbar .dropdown-menu").toggleClass("show");
     $("#page-container").toggleClass("inactive");
     toggleSearch();
+}
+
+function closeMobileMenu() {
+    if ($("#page-container").hasClass("inactive")) {
+        mobileMenuToggle();
+    }
 }
