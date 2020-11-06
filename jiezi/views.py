@@ -40,19 +40,15 @@ def index(request):
                  state=StudentCharacter.TO_LEARN).count(),
              'characters'),
         ]
-        class_info = ""
         if student.in_class:
-            class_info = f"You are now in {student.in_class}"
             tags = []
             for assignment in student.in_class.assignments.all():
                 tags.append(StudentCharacterTag.of(student,
                                                    assignment.character_set))
         else:
-            class_info = ""
             tags = StudentCharacterTag.objects.filter(student=student)
         return render(request, 'student_index.html',
                       {'stats': stats,
-                       'class_info': class_info,
                        'tags': tags})
     elif request.user.is_teacher:
         return redirect(reverse('class_list'))
