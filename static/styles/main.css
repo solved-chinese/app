@@ -113,12 +113,14 @@ a {
     position: absolute;
     top: 0;
     left: 0;
+    pointer-events: none;
     background-color: #ffffff00;
     transition: ease-in-out 200ms;
 }
 
 #page-container.inactive > .page-overlay {
     background-color: #5e6d7e48;
+    pointer-events: all;
 }
 
 
