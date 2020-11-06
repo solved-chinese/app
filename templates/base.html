@@ -65,7 +65,10 @@
             {% endif %}
           </a>
           <a class="info-responsive" href="javascript:void(0)">
-            You are signed in as {{ user.display_name }}
+            You are signed in as {{ user.display_name }} 
+            {% if user.is_staff %}
+            &nbsp(Staff)
+            {% endif %}
           </a>
           <div class="dropdown-menu">
             {% if user.is_staff %}

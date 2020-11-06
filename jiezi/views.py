@@ -11,7 +11,7 @@ from learning.models import LearningProcess, StudentCharacter, StudentCharacterT
 
 
 def index(request):
-    if not request.user.is_authenticated:
+    if not request.user.is_authenticated or request.user.is_staff:
         return render(request, 'unauthenticated_index.html')
     elif request.user.is_student:
         student = request.user.student

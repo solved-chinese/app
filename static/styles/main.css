@@ -600,6 +600,7 @@ header * {
 
     .navbar-item#menu.responsive a {
         display: inline-block;
+        text-align: center;
         width: 100%;
         margin: 0;
         padding: 10px 0;
@@ -619,6 +620,14 @@ header * {
     .navbar-item#menu.responsive .dropdown-menu {
         border: 0;
         border-radius: 0;
+        padding-top: 0;
+        box-shadow: 0px 3px 5px 0px rgba(4, 3, 2, 0.07);
+    }
+
+    .navbar-item#menu.responsive .dropdown-menu.show {
+        text-align: center;
+        background-color: white;
+        right: 0px;
     }
 
     .navbar-item#menu .info-responsive {
@@ -632,12 +641,6 @@ header * {
     .navbar-item#menu-toggle {
         display: flex;
         justify-content: center;
-    }
-
-    .dropdown-menu.show {
-        text-align: center;
-        background-color: white;
-        right: 0px;
     }
 }
 
