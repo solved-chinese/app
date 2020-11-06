@@ -93,7 +93,7 @@ function toggleSearch() {
     $("#main-navbar #search-input").prop("disabled", (_, val) => {
         return !val;
     });
-    $("#main-navbar .navbar-item#search-form").toggleClass("disabled")
+    $("#main-navbar .navbar-item#search-form").toggleClass("disabled");
 }
 
 $source.on('input propertychange', searchHandler);
@@ -128,5 +128,7 @@ function mobileMenuToggle() {
     const navbar = $("#main-navbar");
     $.merge(navItem, navbar).toggleClass("responsive");
     $("#main-navbar > .navbar-item#menu-toggle").toggleClass("active");
+    $("#main-navbar .dropdown-menu").toggleClass("show");
+    $("#page-container").toggleClass("inactive");
     toggleSearch();
 }

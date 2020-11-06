@@ -51,34 +51,37 @@
         </div>
       </div>
       {% if user.is_authenticated %}
-        <button class="button button-primary dropdown-toggle" id="userDropdown"
-                data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false" href="{% url "profile" %}">
-          {{ user.display_name }}
-          {% if user.unread_message_count %}
-            <span class="badge badge-pill badge-danger">{{ user.unread_message_count }}</span>
-          {% endif %}
-        </button>
-
-        <div id="userDropdown-mobile" data-toggle="dropdown" aria-haspopup="true"
-          aria-expanded="false" href="{% url "profile" %}">
-          <i class="fas fa-align-justify fa-2x"></i>
-        </div>
-
-        <div class="dropdown-menu" aria-labelledby="userDropdown-mobile">
-          {% if user.is_staff %}
-            <a class="dropdown-item" href="{% url "staff_panel" %}">Staff Panel</a>
-            <a class="dropdown-item" href="{% url "admin:index" %}">Django Admin</a>
-          {% endif %}
-          <a class="dropdown-item" href='{% url 'message_list' %}'>
-            Inbox
+        <a class="navbar-item button button-primary" id="menu-toggle" 
+           href="javascript:void(0);" onclick="mobileMenuToggle()"> 
+          <i class="far fa-bars"></i>
+        </a>
+        <div class="navbar-item" id="menu">
+          <a class="button button-primary dropdown-toggle"
+                  data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false" href="{% url "profile" %}">
+            {{ user.display_name }}
             {% if user.unread_message_count %}
               <span class="badge badge-pill badge-danger">{{ user.unread_message_count }}</span>
             {% endif %}
           </a>
-          <a class="dropdown-item" href="{% url "change_password" %}">Change Password</a>
-          <a class="dropdown-item" href="{% url "profile" %}">Profile</a>
-          <a class="dropdown-item" href="{% url "logout" %}">Logout</a>
+          <a class="info-responsive" href="javascript:void(0)">
+            You are signed in as {{ user.display_name }}
+          </a>
+          <div class="dropdown-menu">
+            {% if user.is_staff %}
+              <a class="dropdown-item" href="{% url "staff_panel" %}">Staff Panel</a>
+              <a class="dropdown-item" href="{% url "admin:index" %}">Django Admin</a>
+            {% endif %}
+              <a class="dropdown-item" href='{% url 'message_list' %}'>
+                Inbox
+                {% if user.unread_message_count %}
+                  <span class="badge badge-pill badge-danger">{{ user.unread_message_count }}</span>
+                {% endif %}
+              </a>
+              <a class="dropdown-item" href="{% url "change_password" %}">Change Password</a>
+              <a class="dropdown-item" href="{% url "profile" %}">Profile</a>
+              <a class="dropdown-item" href="{% url "logout" %}">Logout</a>
+          </div>
         </div>
 
       {% else %}
@@ -96,6 +99,7 @@
 </header>
 
 <div class="main-content-container" id="page-container">
+  <div class="page-overlay"></div>
   {% block content %}{% endblock content %}
 </div>
 
