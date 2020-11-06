@@ -9,16 +9,18 @@
 {% block content %}
   <div>
     <div class="homepage-container">
-      <div style="width:400px;">
-        <h1>Solve Chinese characters like riddles</h1>
-          <div class="description-container">
-            Learning Chinese characters can be more intuitive, fun, and culturally meaningful.
-          </div>
-          <a href="{% url "try_me" %}" class="btn btn-danger btn-lg" style="margin-top: 20px">
-            Try Now
-          </a>
+      <div class="left1-container">
+        <div>
+          <h1>Solve Chinese characters like riddles</h1>
+            <div class="description-container">
+              Learning Chinese characters can be more intuitive, fun, and culturally meaningful.
+            </div>
+            <a href="{% url "try_me" %}" class="btn btn-danger btn-lg normal-btn" style="margin-top: 20px">
+              Try Now
+            </a>
+        </div>
       </div>
-      <div style="margin-left:100px;width:300px;">
+      <div class="right1-container">
         <img src="{% static "images/homepage/slice1.png" %}" style="width:400px;">
       </div>
     </div>
@@ -37,13 +39,18 @@
         <br>
         <img src="{% static "images/homepage/slice6.png" %}">
     </div>
+    <div class="homepage-container mobile">
+      <a href="{% url "try_me" %}" class="btn mobile-btn" style="margin-top: 20px">
+        Try Now
+      </a>
+    </div>
   </div>
-
   <div>
-    <div class="homepage-container">
-      <img src="{% static "images/homepage/slice3.png" %}" style="width:500px;">
-
-      <div style="margin-left:60px;margin-top:20px;width:400px;">
+    <div class="homepage-rev-container">
+      <div class="left2-container">
+        <img src="{% static "images/homepage/slice3.png" %}" style="width:100%;">
+      </div>
+      <div class="right2-container">
         <h1>Radical Breakdown</h1>
           <div class="description-container">
             Chinese characters can look intimidating. That's why we break them down into their basic building blocks (radicals) so you can stop memorizing and start understanding.
@@ -51,18 +58,21 @@
       </div>
     </div>
     <div class="homepage-container">
-      <div style="margin-top:20px;width:500px;">
+      <div class="left3-container">
         <h1>Intelligent Review</h1>
           <div class="description-container">
             Stop forgetting, and cut the useless repetitions too -- our intelligent Spaced Repetition algorithm creates a personalized review plan based on your past performances, so that it works just right for you.
           </div>
       </div>
-      <img src="{% static "images/homepage/slice4.png" %}" style="width:450px;">
+      <div class="right3-container">
+        <img src="{% static "images/homepage/slice4.png" %}" style="width:100%;">
+      </div>
     </div>
-    <div class="homepage-container">
-      <img src="{% static "images/homepage/slice5.png" %}" style="width:500px;">
-
-      <div style="margin-left:50px; margin-top:20px;width:400px;">
+    <div class="homepage-rev-container">
+      <div class="left4-container">
+        <img src="{% static "images/homepage/slice5.png" %}" style="width:100%;">
+      </div>
+      <div class="right4-container">
         <h1>Visual chunking</h1>
           <div class="description-container">
             The color chunks make it easier for you to recall the composition of each character.
