@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
 
 from accounts.models import User
 from classroom.models import Student
@@ -19,7 +20,9 @@ from learning.models.learning_process import LearningProcess
 @login_required
 def manage_library(request, set_id=None):
     if set_id:
-        context = {'set': StudentCharacterTag.objects.get(pk=set_id)}
+        sc_tag = get_object_or_404(StudentCharacterTag, pk=set_id)
+        sc_tag.check_update()
+        context = {'set': sc_tag}
         return render(request, 'learning/manage_set.html', context)
     return render(request, 'learning/manage_library.html')
 

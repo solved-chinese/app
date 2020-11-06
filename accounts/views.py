@@ -80,7 +80,7 @@ class Login(auth_views.LoginView):
 
 
 class Logout(auth_views.LogoutView):
-    template_name = 'accounts/logged_out.html'
+    next_page = 'index'
 
 
 class ChangePassword(RegisteredOnlyMixin, auth_views.PasswordChangeView):
