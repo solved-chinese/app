@@ -94,3 +94,25 @@
     width: 50%;
     margin: 25px auto;
 }
+
+/* for mobile display */
+#page-content-container {
+    margin-top: calc(10px);
+}
+
+#answers-container {
+    width: 150px;
+    margin: 10px auto 0 auto;
+}
+
+/* for tablet and desktop display */
+@media only screen and (min-width: 500px) {
+    #page-content-container {
+        margin-top: calc(50vh - 380px);
+    }
+    
+    #answers-container {
+        width: 200px;
+        margin: 20px auto 0 auto;
+    }
+}
