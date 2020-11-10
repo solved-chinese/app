@@ -3,7 +3,7 @@
 
 {% block css %}
   <link rel="stylesheet" type="text/css" href="{% static "styles/character.css" %}">
-  <link rel="stylesheet" type="text/css" href="{% static "styles/review.css" %}">
+  <link rel="stylesheet" type="text/css" href="{% static "styles/review.css" %}?v=0.1">
 {% endblock css %}
 
 {% block title %}Reviewing | Solved Chinese{% endblock title %}
@@ -22,7 +22,7 @@
             </p>
           {% endfor %}
         <p class='option button button-tertiary' data-choice='-1'>I don’t know</p>
-        <form method='get'>
+        <form method='get' id='get_form'>
           {% csrf_token %}
           <input type='submit' class='button button-primary' id='next-button' value='Next' style='display: none;'>
         </form>

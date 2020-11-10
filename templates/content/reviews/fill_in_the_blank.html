@@ -57,14 +57,19 @@
           $("#submit-button").hide();
           user_answer = $("#user_input").val();
           $.post('.', {"user_answer": user_answer}, response => {
-              correct = response.correct_answer;
-              if (correct != user_answer) {
-                  $('#response_div').append(`wrong, answer is ${correct}`);
+              if (response.error == "TransitionNotAllowed") {
+                  console.log('transition problem, reget');
+                  $('#get_form').submit();
               } else {
-                  $('#response_div').append('correct');
+                  correct = response.correct_answer;
+                  if (correct != user_answer) {
+                      $('#response_div').append(`wrong, answer is ${correct}`);
+                  } else {
+                      $('#response_div').append('correct');
+                  }
+                  $('#next-button').show();
+                  $('#next-button').focus();
               }
-              $('#next-button').show();
-              $('#next-button').focus();
           })
       }
 

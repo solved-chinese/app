@@ -1,10 +1,12 @@
 from django.contrib import admin
 from .models import Student, Teacher, Class, Assignment
 from django.utils.html import format_html
-from accounts.admin import RemoveTestersFilter
+from accounts.admin import RemoveTestersFilter, \
+    RemoveTestersRelatedOnlyFieldListFilter
 
 
 class StudentAdmin(admin.ModelAdmin):
+    list_display = ['user', 'in_class', 'total_study_duration']
     list_filter = (RemoveTestersFilter,)
 
 
@@ -12,7 +14,7 @@ admin.site.register(Student, StudentAdmin)
 
 
 class TeacherAdmin(admin.ModelAdmin):
-    list_display = ('display_name', 'school')
+    list_display = ('user', 'school')
     list_filter = (RemoveTestersFilter,)
 
 
@@ -45,10 +47,11 @@ admin.site.register(Assignment, AssignmentAdmin)
 
 
 class ClassAdmin(admin.ModelAdmin):
+
     list_display = ('detail', 'teacher_display_name', 'student_count')
     list_display_links = None
     list_filter = (
-        ('teacher', admin.RelatedOnlyFieldListFilter),
+        ('teacher', RemoveTestersRelatedOnlyFieldListFilter),
     )
 
     def teacher_display_name(self, obj):

@@ -8,9 +8,14 @@ $('.option').on('click', e => {
     let correct;
 
     $.post('.', {user_answer: chosen}, response => {
-        correct = parseInt(response.correct_answer);
-        if (correct !== chosen && chosen !== 4) {
-            el.addClass('wrong');
+        if (response.error == "TransitionNotAllowed") {
+            console.log('transition problem, reget');
+            $('#get_form').submit();
+        } else {
+            correct = parseInt(response.correct_answer);
+            if (correct !== chosen && chosen !== 4) {
+                el.addClass('wrong');
+            }
         }
     })
     .done(() => {
