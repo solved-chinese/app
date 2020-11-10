@@ -29,6 +29,14 @@ class Student(StrDefaultReprMixin, models.Model):
         self.in_class = None
         self.save()
 
+    @staticmethod
+    def remove_testers(queryset):
+        filter_kwargs = {f"user__{key}": value
+            for key, value in User.REMOVE_TESTER_FILTER_KWARGS.items()}
+        exclude_kwargs = {f"user__{key}": value
+            for key, value in User.REMOVE_TESTER_EXCLUDE_KWARGS.items()}
+        return queryset.filter(**filter_kwargs).exclude(**exclude_kwargs)
+
     @property
     def display_name(self):
         return self.user.display_name

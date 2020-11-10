@@ -30,6 +30,8 @@ class User(AbstractUser):
     is_guest = models.BooleanField(default=False)
     is_teacher = models.BooleanField(default=False)
     is_student = models.BooleanField(default=False)
+    # testers will be filtered and will not count into stats
+    is_tester = models.BooleanField(default=False)
 
     objects = JieziUserManager()
 
@@ -48,6 +50,13 @@ class User(AbstractUser):
     @property
     def unread_message_count(self):
         return Message.of(self).count_unread()
+
+    REMOVE_TESTER_FILTER_KWARGS = {'is_tester': False, 'is_guest': False}
+    REMOVE_TESTER_EXCLUDE_KWARGS = {'username__startswith': 'test_'}
+    @staticmethod
+    def remove_testers(queryset):
+        return queryset.filter(**User.REMOVE_TESTER_FILTER_KWARGS)\
+            .exclude(**User.REMOVE_TESTER_EXCLUDE_KWARGS)
 
 
 class Message(models.Model):

@@ -6,8 +6,6 @@ urlpatterns = [
     path('student/join_class/<slug:uuid>', student_views.JoinClass.as_view(),
          name='join_class'),
 
-    path('teacher/class_detail/<int:pk>/filter',
-         teacher_views.FilterInClass.as_view(), name='class_detail_filter'),
     path('teacher/class_detail/<int:pk>', teacher_views.ClassDetail.as_view(),
          name='class_detail'),
     path('teacher/assignment_detail/<int:pk>',

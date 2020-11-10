@@ -4,7 +4,7 @@ from django.db import models
 
 
 class ReviewAccuracyAbstractModel(models.Model):
-    accuracy = models.FloatField(default=float('nan'))
+    accuracy = models.FloatField(null=True)
     total_attempts = models.PositiveSmallIntegerField(default=0)
     correct_attempts = models.PositiveSmallIntegerField(default=0)
 
