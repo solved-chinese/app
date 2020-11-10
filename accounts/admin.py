@@ -19,7 +19,11 @@ class RemoveTestersFilter(admin.SimpleListFilter):
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_filter = ('is_guest', 'is_teacher', 'is_student', RemoveTestersFilter)
+    list_display = ('display_name', 'username', 'email', 'is_tester',
+                    'last_login')
+    list_editable = ('is_tester',)
+    list_filter = ('is_teacher', 'is_student', 'is_tester',
+                   RemoveTestersFilter)
 
 
 admin.site.register(User, UserAdmin)
