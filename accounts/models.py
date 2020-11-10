@@ -58,6 +58,12 @@ class User(AbstractUser):
         return queryset.filter(**User.REMOVE_TESTER_FILTER_KWARGS)\
             .exclude(**User.REMOVE_TESTER_EXCLUDE_KWARGS)
 
+    def __str__(self):
+        return f"{self.display_name} ({self.username})"
+
+    def __repr__(self):
+        return f"<user {self.pk}: {self.display_name} ({self.username})>"
+
 
 class Message(models.Model):
     _sender = models.ForeignKey(User, on_delete=models.CASCADE,
