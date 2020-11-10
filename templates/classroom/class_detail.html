@@ -7,6 +7,8 @@
   {% breadcrumb object "" %}
 {% endblock %}
 
+{% load my_tags %}
+
 {% block content %}
 
   <h1>Class: {{ object.name }}</h1>
@@ -29,6 +31,7 @@
         <tr>
           <th scope="col">#</th>
           <th scope="col">Name</th>
+          <th scope="col">Total Study Time</th>
           <th scope="col">Email</th>
           <th scope="col">actions</th>
         </tr>
@@ -38,6 +41,7 @@
           <tr>
             <th scope="row">{{ forloop.counter }}</th>
             <td>{{ student.display_name }}</td>
+            <td>{{ student.total_study_duration|pretty_duration }}</td>
             <td>{{ student.user.email }}</td>
             <td>
               <form action="{% url 'remove_student'%}" method="post">

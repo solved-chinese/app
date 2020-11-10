@@ -116,6 +116,19 @@ class Assignment(models.Model):
             "character_frame": c_frame,
         }
 
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('assignment_detail', args=[self.pk])
+
+    @staticmethod
+    def remove_testers(queryset):
+        from accounts.models import User
+        filter_kwargs = {f"in_class__teacher__user__{key}": value
+            for key, value in User.REMOVE_TESTER_FILTER_KWARGS.items()}
+        exclude_kwargs = {f"in_class__teacher__user__{key}": value
+            for key, value in User.REMOVE_TESTER_EXCLUDE_KWARGS.items()}
+        return queryset.filter(**filter_kwargs).exclude(**exclude_kwargs)
+
     @property
     def name(self):
         return self.character_set.name
