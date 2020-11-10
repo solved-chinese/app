@@ -202,6 +202,10 @@ class LearningProcess(models.Model):
         self.duration = timedelta(0)
         self.save()
 
+    def reset_state(self):
+        self.state = self.DECIDE
+        self.save()
+
     def _update_duration(self):
         delta_time = timezone.now() - self.last_study_time
         if delta_time > timedelta(seconds=MAX_INTERVAL_SECONDS):

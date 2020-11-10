@@ -6,7 +6,10 @@ from django.shortcuts import render, redirect
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
+from django.views import View
 from django.shortcuts import get_object_or_404
+from django_fsm import TransitionNotAllowed
+from django.http import JsonResponse
 
 from accounts.models import User
 from classroom.models import Student
@@ -15,6 +18,7 @@ from content.views import display_character, ReviewView
 from jiezi.rest.permissions import IsStudent
 from .models import StudentCharacterTag, Report
 from learning.models.learning_process import LearningProcess
+from jiezi.utils.mixins import StudentOnlyMixin
 
 
 @login_required
@@ -58,8 +62,19 @@ class StartLearning(APIView):
         return redirect(reverse('continue_learning'))
 
 
-class Learning(APIView):
-    permission_classes = [IsAuthenticated, IsStudent]
+class Learning(StudentOnlyMixin, View):
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            return super().dispatch(request, *args, **kwargs)
+        except TransitionNotAllowed as e:
+            # TODO issue a warning
+            print(f"Transition Error, {e}")
+            process = self.get_learning_process(request)
+            process.reset_state()
+            if request.method == 'POST':
+                return JsonResponse({'error': 'TransitionNotAllowed'})
+            else:
+                return self.get(request)
 
     def get_learning_process(self, request):
         student = self.request.user.student
