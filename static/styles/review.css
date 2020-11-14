@@ -91,20 +91,37 @@
 
 /* for mobile display */
 #page-content-container {
-    margin-top: calc(10px);
+    margin-top: 0 px;
+}
+
+#big-question-text {
+    margin-top: 5vh;
+    font-size: 6vw;
+}
+
+.big-question-text {
+    font-size: 6vw;
 }
 
 #answers-container {
-    width: 150px;
-    margin: 10px auto 0 auto;
+    width: 66% ;
+    margin: 20px auto 0 auto;
 }
 
 /* for tablet and desktop display */
-@media only screen and (min-width: 500px) {
+@media only screen and (min-width: 600px ) {
     #page-content-container {
-        margin-top: calc(50vh - 380px);
+        margin-top: calc(10vh);
     }
     
+    #big-question-text {
+    	font-size: x-large;
+    }
+	
+    .big-question-text {
+        font-size: x-large;
+    } 
+
     #answers-container {
         width: 200px;
         margin: 20px auto 0 auto;
