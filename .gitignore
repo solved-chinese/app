@@ -31,3 +31,5 @@ media/*
 
 # uwsgi stuff should be kept locally
 uwsgi
+
+celerybeat-schedule.*
