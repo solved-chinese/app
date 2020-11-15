@@ -66,11 +66,6 @@
     <a class='button button-secondary' id='end-session-button' href='{% url 'index' %}'>
       End Session
     </a>
-    {% if request.user.is_guest %}
-      <a class='button button-primary' href='{% url 'student_signup' %}'>
-        Sign Up Now
-      </a>
-    {% endif %}
     <button class='button button-tertiary' data-toggle='modal' data-target='#report-bug-modal'>Report</button>
   </div>
 
