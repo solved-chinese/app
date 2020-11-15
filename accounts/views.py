@@ -38,8 +38,7 @@ def role_signup(request, role_form_class, role):
 
 
 def signup(request):
-    context = []
-    return render(request, "accounts/signup.html", context)
+    return render(request, "accounts/signup.html")
 
 
 def student_signup(request):
