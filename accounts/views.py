@@ -8,7 +8,6 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
-
 from .forms import UserSignupForm, UserUpdateForm
 from .models import Message
 from classroom.forms import StudentForm, TeacherForm
@@ -38,6 +37,10 @@ def role_signup(request, role_form_class, role):
     return render(request, 'accounts/role_signup.html', context)
 
 
+def signup(request):
+    return render(request, "accounts/signup.html")
+
+
 def student_signup(request):
     return role_signup(request, StudentForm, 'student')
 
@@ -59,7 +62,7 @@ def profile(request):
     else:
         raise Exception("User must be either student or teacher")
 
-    success=False
+    success = False
     if request.method == 'POST':
         user_form = UserUpdateForm(instance=request.user, data=request.POST)
         role_form = role_form_class(instance=role, data=request.POST)
@@ -71,7 +74,7 @@ def profile(request):
         user_form = UserUpdateForm(instance=request.user)
         role_form = role_form_class(instance=role)
 
-    context = {'forms': [user_form, role_form], 'success' : success}
+    context = {'forms': [user_form, role_form], 'success': success}
     return render(request, 'accounts/profile.html', context)
 
 

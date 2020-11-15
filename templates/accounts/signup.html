@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign Up | Solved Chinese{% endblock title %}
+
+{% block content %}
+  <a href="{% url 'student_signup' %}" class="button button-primary">
+    Student Signup
+  </a>
+  <a href="{% url 'teacher_signup' %}" class="button button-primary">
+    Teacher Signup
+  </a>
+{% endblock %}
