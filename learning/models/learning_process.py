@@ -124,7 +124,10 @@ class LearningProcess(models.Model):
         StudentCharacter.of(self.student, self.character).learn_update()
 
     def _finish(self):
-        return None, None
+        result = '<h2>Congrats on finishing these Character Sets:<h2>'
+        for sc_tag in self.sc_tags.all():
+            result += f"<h3>{sc_tag.name}</h3>"
+        return None, result
 
     def get_action(self):
         """
