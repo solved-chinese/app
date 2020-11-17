@@ -3,10 +3,13 @@
 {% block title %}Sign Up | Solved Chinese{% endblock title %}
 
 {% block content %}
-  <a href="{% url 'student_signup' %}" class="button button-primary">
-    Student Signup
-  </a>
-  <a href="{% url 'teacher_signup' %}" class="button button-primary">
-    Teacher Signup
-  </a>
+  <div style="position:absolute; top:50%; left:50%; -ms-transform:translate(-50%,-50%); transform:translate(-50%,-50%);">
+    <a href="{% url 'student_signup' %}" class="button button-primary" >
+      Student Signup
+    </a>
+    <br><br>
+    <a href="{% url 'teacher_signup' %}" class="button button-primary">
+      Teacher Signup
+    </a>
+  </div>
 {% endblock %}
