@@ -7,11 +7,10 @@
 {% endblock %}
 
 {% block content %}
-  <div>
     <div class="homepage-container">
-      <div class="left1-container">
-        <div>
-          <h1>Solve Chinese characters like riddles</h1>
+      <div class="homepage-row">
+        <div class="homepage-section">
+          <h1>Solve Chinese Characters Like Riddles</h1>
             <div class="description-container">
               Learning Chinese characters can be more intuitive, fun, and culturally meaningful.
             </div>
@@ -19,68 +18,46 @@
               Try Now
             </a>
         </div>
+        <div class="homepage-section">
+          <img src="{% static "images/homepage/slice1.png" %}">
+        </div>
       </div>
-      <div class="right1-container">
-        <img src="{% static "images/homepage/slice1.png" %}" class = "img1">
+      <div class="homepage-row center">
+        <img src="{% static "images/homepage/slice6.png" %}" id="chevron-down">
       </div>
-    </div>
-    <div style=" text-align: center;">
-      <div class="description-container">
-{#          630+ characters#}
-{#        </div>#}
-{#        <img src="{% static "images/homepage/slice2.png" %}" class="homepage-spacer">#}
-{#        <div class="description-container">#}
-{#          research-based learning#}
-{#        </div>#}
-{#        <img src="{% static "images/homepage/slice2.png" %}" class="homepage-spacer">#}
-{#        <div class="description-container">#}
-{#          completely free#}
-{#        </div>#}
-        <br>
-        <img src="{% static "images/homepage/slice6.png" %}">
-    </div>
-    <div class="homepage-container mobile">
-      <a href="{% url "try_me" %}" class="btn mobile-btn" style="margin-top: 20px">
-        Try Now
-      </a>
-    </div>
-  </div>
-  <div>
-    <div class="homepage-rev-container">
-      <div class="left2-container col-md-auto">
-        <img src="{% static "images/homepage/slice3.png" %}" style="width:100%;">
+      <div class="homepage-row reversed">
+        <div class="homepage-section">
+          <h1>Radical Breakdown</h1>
+            <div class="description-container">
+              Chinese characters can look intimidating. That's why we break them down into their basic building blocks (radicals) so you can stop memorizing and start understanding.
+            </div>
+        </div>
+        <div class="homepage-section">
+          <img src="{% static "images/homepage/slice3.png" %}" style="width:100%;">
+        </div>
       </div>
-      <div class="right2-container col-md-auto">
-        <h1>Radical Breakdown</h1>
-          <div class="description-container">
-            Chinese characters can look intimidating. That's why we break them down into their basic building blocks (radicals) so you can stop memorizing and start understanding.
-          </div>
+      <div class="homepage-row">
+        <div class="homepage-section">
+          <h1>Intelligent Review</h1>
+            <div class="description-container">
+              Stop forgetting, and cut the useless repetitions too -- our intelligent Spaced Repetition algorithm creates a personalized review plan based on your past performances, so that it works just right for you.
+            </div>
+        </div>
+        <div class="homepage-section">
+          <img src="{% static "images/homepage/slice4.png" %}">
+        </div>
       </div>
-    </div>
-    <div class="homepage-container col-md-auto">
-      <div class="left3-container col-md-auto">
-        <h1>Intelligent Review</h1>
-          <div class="description-container">
-            Stop forgetting, and cut the useless repetitions too -- our intelligent Spaced Repetition algorithm creates a personalized review plan based on your past performances, so that it works just right for you.
-          </div>
-      </div>
-      <div class="right3-container col-md-auto">
-        <img src="{% static "images/homepage/slice4.png" %}" style="width:100%;">
+      <div class="homepage-row reversed">
+        <div class="homepage-section">
+          <h1>Visual chunking</h1>
+            <div class="description-container">
+              The color chunks make it easier for you to recall the composition of each character.
+            </div>
+        </div>
+        <div class="homepage-section">
+          <img src="{% static "images/homepage/slice5.png" %}" style="width:100%;">
+        </div>
       </div>
     </div>
-    <div class="homepage-rev-container col-md-auto">
-      <div class="left4-container">
-        <img src="{% static "images/homepage/slice5.png" %}" style="width:100%;">
-      </div>
-      <div class="right4-container col-md-auto">
-        <h1>Visual chunking</h1>
-          <div class="description-container">
-            The color chunks make it easier for you to recall the composition of each character.
-          </div>
-      </div>
-
-    </div>
-  </div>
-  <br style="line-height: 100px;">
 
 {% endblock content %}
