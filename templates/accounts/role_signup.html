@@ -1,16 +1,20 @@
 {% extends 'base.html' %}
 
-{% block title %}Student Sign Up | Solved Chinese{% endblock title %}
+{% block title %}Sign Up as a {{ role }} | Solved Chinese{% endblock title %}
+
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+  {{ block.super }}
+  {% breadcrumb "Home" "index" %}
+  {% breadcrumb "Sign Up" "signup" %}
+  {% if role == 'student' %}
+    {% breadcrumb "Sign Up as a Student" "" %}
+  {% else %}
+    {% breadcrumb "Sign Up as a Teacher" "" %}
+  {% endif %}
+{% endblock %}
 
 {% block content %}
-  <h2>Sign up as a {{ role }}</h2>
-  <h5>
-    {% if role == 'student' %}
-      Are you a teacher? Use <a href='{% url 'teacher_signup' %}'>this</a> instead
-    {% else %}
-      Are you a student? Use <a href='{% url 'student_signup' %}'>this</a> instead
-    {% endif %}
-  </h5>
 
   <form method="post" autocomplete="off">
     {% csrf_token %}
