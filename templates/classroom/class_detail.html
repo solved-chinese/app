@@ -14,7 +14,7 @@
   <h1>Class: {{ object.name }}</h1>
 
   <p>
-    To add students to this class, have your students open this link AFTER they sign up as a student:
+    To add students to this class, ask your students to open this link AFTER they sign up as a student:
     <a href='{{ request.scheme }}://{{ request.get_host }}{% url 'join_class' object.uuid.hex %}'>
       {{ request.scheme }}://{{ request.get_host }}{% url 'join_class' object.uuid.hex %}
     </a>
@@ -24,12 +24,12 @@
   <h2>Students:</h2>
 
   {% if not object.students.exists %}
-    <p>You don't have any students in this yet.</p>
+    <p>You haven’t added any students to this class yet.</p>
   {% else %}
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">#</th>
+          <th scope="col">Student ID</th>
           <th scope="col">Name</th>
           <th scope="col">Total Study Time</th>
           <th scope="col">Email</th>
