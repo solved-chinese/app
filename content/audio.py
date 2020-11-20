@@ -153,7 +153,7 @@ def get_audio(pinyin=None, chinese=None):
             pinyins = pinyin.split('/')
             query = ""
             for i, pinyin in enumerate(pinyins):
-                query += f'拼[={pinyin}]'
+                query += f'拼[={pinyin.strip()}]'
                 if i != len(pinyins) - 1:
                     query += '[p500]'
         else:

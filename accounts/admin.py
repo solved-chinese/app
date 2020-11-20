@@ -6,16 +6,36 @@ class RemoveTestersFilter(admin.SimpleListFilter):
     # reference https://docs.djangoproject.com/en/3.1/ref/contrib/admin/
     title = "Remove Testers"
     parameter_name = 'remove_testers'
+    default_filter = 'actual'
 
     def lookups(self, request, model_admin):
         return (
-            (True, 'Yes'),
+            (self.default_filter, 'Only Actualy Users'),
+            ('all', 'All users'),
+            ('testers', 'Only testers'),
         )
 
+    def choices(self, cl):
+        """ this is used to remove the all default tag """
+        for lookup, title in self.lookup_choices:
+            yield {
+                'selected': self.value() == lookup if self.value()
+                    else (True if lookup == self.default_filter else False),
+                'query_string': cl.get_query_string({
+                    self.parameter_name: lookup,
+                }, []),
+                'display': title,
+            }
+
     def queryset(self, request, queryset):
-        if self.value():
+        if self.value() == self.default_filter or self.value() is None:
             return queryset.model.remove_testers(queryset)
-        return queryset
+        elif self.value() == 'all':
+            return queryset
+        elif self.value() == 'testers':
+            actual = queryset.model.remove_testers(queryset)
+            return queryset.exclude(pk__in=actual)
+        raise Exception('should get here')
 
 
 class RemoveTestersRelatedOnlyFieldListFilter(admin.RelatedFieldListFilter):

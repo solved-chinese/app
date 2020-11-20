@@ -1,5 +1,4 @@
 import random
-import copy
 
 from .models import Character
 from .audio import generate_audio_tag
@@ -151,42 +150,23 @@ class DefinitionTOF(TrueOrFalse):
 
 
 class DefinitionFITB(ReviewQuestion):
-    verbose_name = 'Example Word fill-in-the-blank with Characters'
-    test_abilities = (Ability.FORM, Ability.DEFINITION)
+    verbose_name = 'Example Word fill-in-the-blank'
+    test_abilities = (Ability.FORM, Ability.DEFINITION, Ability.PRONUNCIATION)
     template = 'content/reviews/fill_in_the_blank.html'
 
     @classmethod
     def generate_question(cls, character, characters=None):
         # randomly select from two examples if both exist
         example = character.get_example_2_sentence()
+        word = character.example_2_word
         if example is None or random.random() < 0.5:
             example = character.get_example_sentence()
-        return character.chinese, \
-               {'question': example.replace(character.chinese, '___').
-                   replace('<br>', '')}
-
-
-class PinyinFITB(ReviewQuestion):
-    verbose_name = 'Example word fill-in-the-blank without Characters'
-    test_abilities = (Ability.FORM, Ability.PRONUNCIATION)
-    template = 'content/reviews/fill_in_the_blank.html'
-
-    @classmethod
-    def generate_question(cls, character, characters=None):
-        # randomly select from two examples if both exist
-        word = character.example_2_word
-        pinyin = character.example_2_pinyin
-        if not word or random.random() < 0.5:
             word = character.example_1_word
-            pinyin = character.example_1_pinyin
         word = word.replace('+', '')
-        word_blank = word.replace(character.chinese, '___').replace('<br>', '')
-        pinyin = pinyin.replace('+', '')
         return character.chinese, \
-               {'question': f"""{word_blank} /{pinyin}/ 
-                            {generate_audio_tag(chinese=word)}"""}
+               {'question': f"""{example.replace(character.chinese, '___').replace('<br>', '')}
+                                {generate_audio_tag(chinese=word)}"""}
 
 
 AVAILABLE_REVIEW_TYPES = (DefinitionMCAnswerField, DefinitionMCAnswerCharacter,
-                          PinyinMC, DefinitionTOF, PinyinTOF,
-                          DefinitionFITB, PinyinFITB)
+                          PinyinMC, DefinitionTOF, PinyinTOF, DefinitionFITB)

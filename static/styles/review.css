@@ -22,7 +22,6 @@
     display: flex;
     justify-content: center;
     text-align: center;
-    margin-top: calc(50vh - 380px);
 }
 
 .big-question-text {
@@ -35,11 +34,6 @@
     width: 42px;
     height: 42px;
     font-size: 42px;
-}
-
-#answers-container {
-    width: 200px;
-    margin: 20px auto 0 auto;
 }
 
 .option {
@@ -93,4 +87,43 @@
 #next-button {
     width: 50%;
     margin: 25px auto;
+}
+
+/* for mobile display */
+#page-content-container {
+    margin-top: 0 px;
+}
+
+#big-question-text {
+    margin-top: 5vh;
+    font-size: 6vw;
+}
+
+.big-question-text {
+    font-size: 6vw;
+}
+
+#answers-container {
+    width: 66% ;
+    margin: 20px auto 0 auto;
+}
+
+/* for tablet and desktop display */
+@media only screen and (min-width: 600px ) {
+    #page-content-container {
+        margin-top: calc(10vh);
+    }
+    
+    #big-question-text {
+    	font-size: x-large;
+    }
+	
+    .big-question-text {
+        font-size: x-large;
+    } 
+
+    #answers-container {
+        width: 200px;
+        margin: 20px auto 0 auto;
+    }
 }

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+  {{ block.super }}
+  {% breadcrumb "Home" "index" %}
+  {% breadcrumb "Sign Up" "signup" %}
+{% endblock %}
+
+{% block css %}
+  <link rel='stylesheet' href='{% static 'styles/signup.css' %}'>
+{% endblock css %}
+
+{% block title %}Sign Up | Solved Chinese{% endblock title %}
+
+{% block content %}
+<div class="signup-button">
+   <a href="{% url 'student_signup' %}" class="button button-primary" >
+    I'm a student
+  </a>
+  <br><br>
+  <a href="{% url 'teacher_signup' %}" class="button button-primary">
+    I'm a teacher
+  </a>
+</div>
+{% endblock %}

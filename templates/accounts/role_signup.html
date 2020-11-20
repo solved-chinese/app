@@ -1,17 +1,25 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap_breadcrumbs %}
 
-{% block title %}Student Sign Up | Solved Chinese{% endblock title %}
+{% block breadcrumbs %}
+  {{ block.super }}
+  {% breadcrumb "Home" "index" %}
+  {% breadcrumb "Sign Up" "signup" %}
+  {% if role == 'student' %}
+    {% breadcrumb "Sign Up as a Student" "" %}
+  {% else %}
+    {% breadcrumb "Sign Up as a Teacher" "" %}
+  {% endif %}
+{% endblock %}
+
+{% block css %}
+  <link rel='stylesheet' href='{% static 'styles/signup.css' %}'>
+{% endblock css %}
+
+{% block title %}Sign Up as a {{ role }} | Solved Chinese{% endblock title %}
 
 {% block content %}
-  <h2>Sign up as a {{ role }}</h2>
-  <h5>
-    {% if role == 'student' %}
-      Are you a teacher? Use <a href='{% url 'teacher_signup' %}'>this</a> instead
-    {% else %}
-      Are you a student? Use <a href='{% url 'student_signup' %}'>this</a> instead
-    {% endif %}
-  </h5>
-
   <form method="post" autocomplete="off">
     {% csrf_token %}
     {% include "utils/combined_forms.html" with combined_forms=forms %}

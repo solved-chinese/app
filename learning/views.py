@@ -80,9 +80,9 @@ class Learning(StudentOnlyMixin, View):
         student = self.request.user.student
         return LearningProcess.of(student)
 
-    def finish(self, request):
+    def finish(self, request, data):
         return render(request, 'utils/simple_response.html', {
-            'content': 'Congrats on finishing these Character Sets!'
+            'content': data
         })
 
     def review(self, request, question, choices):
@@ -95,7 +95,7 @@ class Learning(StudentOnlyMixin, View):
         process = self.get_learning_process(request)
         mode, data = process.get_action()
         if mode is None:
-            return self.finish(request)
+            return self.finish(request, data)
         elif mode == 'learn': # character
             return display_character(request, data.pk, is_next=True)
         elif mode == 'review': # kwargs

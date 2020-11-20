@@ -19,6 +19,23 @@ except AttributeError:
 SESSION_COOKIE_SECURE = not DEBUG
 SECURE_SSL_REDIRECT = not DEBUG
 
+if not DEBUG:
+    try:
+        import sentry_sdk
+        from sentry_sdk.integrations.django import DjangoIntegration
+
+        sentry_sdk.init(
+            dsn="https://8f1f521c155c42b5be26ae38e24f330a@o479182.ingest.sentry.io/5523357",
+            integrations=[DjangoIntegration()],
+            traces_sample_rate=1.0,
+
+            # If you wish to associate users to errors (assuming you are using
+            # django.contrib.auth) you may enable sending PII data.
+            send_default_pii=True
+        )
+    except ModuleNotFoundError:
+        pass
+
 try:
     ALLOWED_HOSTS = secret.ALLOWED_HOSTS
 except AttributeError:

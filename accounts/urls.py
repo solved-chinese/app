@@ -4,6 +4,7 @@ from accounts import views, CRUD_views
 
 
 urlpatterns = [
+    path('signup/', views.signup, name='signup'),
     path('student_signup/', views.student_signup, name='student_signup'),
     path('teacher_signup/', views.teacher_signup, name='teacher_signup'),
     path('password_change_done/', views.DoneChangePassword.as_view(),
