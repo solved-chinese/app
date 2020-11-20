@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+  {{ block.super }}
+  {% breadcrumb "Home" "index" %}
+  {% breadcrumb "Sign Up" "signup" %}
+{% endblock %}
 
 {% block css %}
   <link rel='stylesheet' href='{% static 'styles/signup.css' %}'>
