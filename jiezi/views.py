@@ -32,10 +32,10 @@ def index(request):
             ('Last time you studied for',
              int(LearningProcess.of(student).duration_seconds // 60),
              'minutes'),
-            ('You have studied for',
+            ('You have studied in total for',
              int(student.total_study_duration_seconds // 60),
              'minutes'),
-            ('You have seen',
+            ('You have seen in total',
              StudentCharacter.objects.exclude(
                  state=StudentCharacter.TO_LEARN).count(),
              'characters'),
