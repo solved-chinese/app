@@ -8,4 +8,4 @@ class RadicalInCharacter(models.Model):
 
     class Meta:
         ordering = ['radical_loc']
-        unique_together = ['character', 'radical']
+        unique_together = ['character', 'radical', 'radical_loc']
