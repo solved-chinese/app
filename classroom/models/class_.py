@@ -8,7 +8,7 @@ class Class(models.Model):
                                 related_name='classes',
                                 related_query_name='class')
     uuid = models.UUIDField(default=uuid.uuid4)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, verbose_name="Class name")
 
     def notify_students(self, *args, **kwargs):
         for student in self.students.all():
