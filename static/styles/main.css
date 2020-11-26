@@ -326,8 +326,20 @@ header * {
     text-align: center;
 }
 
+.selected{
+    background-color: #f19494;
+}
 
-
+li{
+    display: block;
+    list-style:none;
+}
+ul{
+    margin-bottom: 0%;
+    margin:0; 
+    padding:0; 
+    list-style:none;
+}
 /***********************************
   Footer
 ***********************************/
@@ -659,6 +671,18 @@ header * {
     .navbar-item#menu-toggle {
         display: flex;
         justify-content: center;
+    }
+    
+    .navbar-item#search-form {
+        width: 1rem;
+    }
+
+    .search-form-wrapper {
+        width: 100%;
+    }
+
+    .search-input-wrapper {
+        width: 100%;
     }
 }
 

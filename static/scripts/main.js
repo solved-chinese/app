@@ -60,7 +60,7 @@ function searchHandler(e) {
     })
     .done(data => {
         $target.empty();
-        $('<hr>').appendTo($target);
+        // $('<hr>').appendTo($target);
 
         if (data.length === 0) {
             $('<div class="error-msg">No Match</div>').appendTo($target);
@@ -71,14 +71,16 @@ function searchHandler(e) {
             let char = data[i];
             let targetPk = char.id.toString().padStart(4, '0');
             let entry = `
-                <a href='/content/C${targetPk}' class='search-entry-wrapper'>
-                    <div class='search-entry'>
-                        <span class='character'>${char.chinese}</span>
-                        <span class='pinyin'>${char.pinyin.replace(/\s+/g, '')}</span>
-                        <p class='definition'>${char.definition_1}
-                        </p>
-                    </div>
-                </a>`;
+                <li>
+                    <a href='/content/C${targetPk}' class='search-entry-wrapper' id='search'>
+                        <div class='search-entry'>
+                            <span class='character'>${char.chinese}</span>
+                            <span class='pinyin'>${char.pinyin.replace(/\s+/g, '')}</span>
+                            <p class='definition'>${char.definition_1}
+                            </p>
+                        </div>
+                    </a>
+                </li>`;
             // Some pinyins contain whitespaces, hence they are removed here (temporary fix)
             $(entry).appendTo($target);
         }
@@ -99,9 +101,50 @@ function toggleSearch() {
 $source.on('input propertychange', searchHandler);
 $source.keypress(e => {
     if (e.keyCode !== 13 || $('.search-entry-wrapper').length === 0) return;
+    if ($('.selected .search-entry-wrapper')[0]){
+        $('.selected .search-entry-wrapper')[0].click();
+        return;
+    }
     $('.search-entry-wrapper')[0].click();
 });
 
+var li;
+function find_li(){
+    li = $('li');
+}
+var input = document.getElementById("search-input")
+input.addEventListener("keyup", find_li, false);
+
+var liSelected;
+$(document).keydown(function(e) {
+    if (e.which === 40) {
+        if (liSelected) {
+            liSelected.removeClass('selected');
+            next = liSelected.next();
+            if (next.length > 0) {
+                liSelected = next.addClass('selected');
+            } else {
+                liSelected = li.eq(0).addClass('selected');
+            }
+        } else {
+            liSelected = li.eq(0).addClass('selected');
+        }
+        liSelected.trigger('click');
+    } else if (e.which === 38) {
+    if (liSelected) {
+        liSelected.removeClass('selected');
+        next = liSelected.prev();
+        if (next.length > 0) {
+            liSelected = next.addClass('selected');
+        } else {
+            liSelected = li.last().addClass('selected');
+        }
+    } else {
+        liSelected = li.last().addClass('selected');
+    }
+    liSelected.trigger('click');
+    }
+});
 /***********************************
   Responsive
 ***********************************/
