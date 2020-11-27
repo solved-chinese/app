@@ -72,7 +72,7 @@ function searchHandler(e) {
             let targetPk = char.id.toString().padStart(4, '0');
             let entry = `
                 <li>
-                    <a href='/content/C${targetPk}' class='search-entry-wrapper' id='search'>
+                    <a href='/content/C${targetPk}' class='search-entry-wrapper'>
                         <div class='search-entry'>
                             <span class='character'>${char.chinese}</span>
                             <span class='pinyin'>${char.pinyin.replace(/\s+/g, '')}</span>
@@ -110,7 +110,7 @@ $source.keypress(e => {
 
 var li;
 function find_li(){
-    li = $('li');
+    li = $('ul li');
 }
 var input = document.getElementById("search-input")
 input.addEventListener("keyup", find_li, false);
