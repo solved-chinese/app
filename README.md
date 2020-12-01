@@ -21,50 +21,44 @@ git clone git@github.com:solved-chinese/app.git
 ```
 2. Create a conda environment using the `env.yaml` file in project root and activate it:
 ```shell script
-conda env create -f env.yaml
+conda env create -f env.yaml # if you use ubuntu
+conda env create -f env_mac.yaml # if you use mac
 conda activate jiezi
 ```
 3. Setup PostgresSQL:
-install PostgresSQL <https://www.postgresql.org/download/linux/ubuntu/>
+install PostgresSQL <https://www.postgresql.org/download/>
 setup the database to match `jiezi.settings.DATABASES`:
 ``` shell script
 sudo -u postgres psql
 postgre# \password postgres (use this to change the password of postgres to 'jiezi')
 ```
 
-4. Create your own secret files:
-    1. Generate your own django secret_key, in python:  
-    
-   ``` python
-   from django.core.management.utils import get_random_secret_key  
-   get_random_secret_key() # the returned value is your secret key
-   ```  
-   
-    2. Create `jiezi_secret/secret.py` using your secret key:  
-    
+4. Create your own secret files `jiezi_secret/secret.py`:
+     
     ```python
-   """This file is suppose to keep secret variables """
-    
-    SECRET_KEY = 'YOUR_SECRET_KEY'
+   """This file is suppose to keep secret variables locally"""
+     
+    SECRET_KEY = '^&@nc_x_23(fmd9ye&v%d)x+(jo8ssqs!7+c@g(q&+4hgm8n(m'
     
     # This should store jiezi_secret or local database, and it will update setting
     # DATABASES (you may override default database if necessary)
     DATABASES = {
     }
    ```
-   
-   3. get `jiezi_secret/datafile_service_account.json` from us, this is used to access our google drive data 
-
+ 
 5. Make the required migrations
 ```shell script
 python manage.py migrate
+``` 
+
+6. Load content data
+```shell script
+python manage.py loaddata content/fixtures/content.json
 ```
-
-6. For the setup of Celery and Redis, reference [wiki page](https://github.com/solved-chinese/app/wiki/Celery-and-Redis-Installation-for-progress-bar) Note that Celery doesn't work with Windows! 
-  
-
 
 7. Locally run the development server
 ```shell script
 python manage.py runserver
 ```
+
+8. [optional]Reference our wiki page for more details.
