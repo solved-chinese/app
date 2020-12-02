@@ -208,6 +208,7 @@ header * {
 .navbar-item#search-form {
     display: flex;
     flex-grow: 1;
+    flex-shrink: 1;
     margin: 0;
     align-self: flex-start;
 }

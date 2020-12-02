@@ -5,12 +5,12 @@ function getRadicalContainer(radical) {
                 <p>${ radical.definition }</p>
                 <div class="radical-pictograph" style="background-image: url(${ radical.mnemonic_image })"></div>
                 <p>${ radical.mnemonic_explanation }</p>
-            </div>`
+            </div>`;
 }
 
 function updateRadical() {
     let charRadicalsContainer = $(`.character-card-container[data-char-id=${selectedCharId}] .radicals-breakdown-container`);
-    radicalIds = charRadicalsContainer
+    let radicalIds = charRadicalsContainer
                  .attr('data-radical-ids')
                  .split(/\s/)
                  .filter(e => e != 0);
@@ -53,7 +53,7 @@ $('.char').click(e => {
     $(`.character-card-container[data-char-id=${selectedCharId}]`).parent().show();
 
     updateRadical();
-})
+});
 
 $('.delete-set-button').click(e => {
     let target = $(e.target);
