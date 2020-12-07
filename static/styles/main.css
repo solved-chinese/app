@@ -327,7 +327,7 @@ header * {
 }
 
 .selected{
-    background-color: #f19494;
+    background-color: rgb(202, 201, 201);
 }
 
 li{
