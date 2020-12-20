@@ -17,9 +17,9 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">Name</th>
-          <th scope="col">NumStudents</th>
+          <th scope="col">Class ID</th>
+          <th scope="col">Class name</th>
+          <th scope="col">Number of students in the class</th>
         </tr>
       </thead>
       <tbody>
@@ -33,5 +33,5 @@
       </tbody>
     </table>
   {% endif %}
-  <a class='button button-primary' href="{% url 'class_create' %}">Create Class</a>
+  <a class='button button-primary' href="{% url 'class_create' %}">Create a Class</a>
 {% endblock content %}

@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 from content.audio import get_audio
-from content.models import DFModelMixin
+from content.models import DFModelMixin, RadicalInCharacter
 from jiezi.utils.mixins import CleanBeforeSaveMixin
 
 
@@ -24,6 +24,9 @@ class Character(DFModelMixin, CleanBeforeSaveMixin, models.Model):
                                   related_name='+', null=True, blank=True)
     radical_3 = models.ForeignKey('Radical', on_delete=models.CASCADE,
                                   related_name='+', null=True, blank=True)
+    radicals = models.ManyToManyField('Radical', through=RadicalInCharacter,
+                                      related_name='characters',
+                                      related_query_name='character')
     mnemonic_explanation = models.CharField(max_length=800)
 
     example_1_word = models.CharField(max_length=10)
@@ -91,6 +94,17 @@ class Character(DFModelMixin, CleanBeforeSaveMixin, models.Model):
             self.get_example_sentence()
         except AssertionError as e:
             raise ValidationError(f'example not valid: {str(e)}') from e
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        self.radicals.clear()
+        for i in range(1, 4):
+            radical = getattr(self, f"radical_{i}")
+            if radical is None:
+                break
+            RadicalInCharacter.objects.create(character=self, radical=radical,
+                                              radical_loc=i)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.chinese
