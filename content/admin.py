@@ -1,35 +1,99 @@
 from django.contrib import admin
-from .models import Character, Radical, CharacterSet
-from django.utils.html import format_html
-from django.urls import reverse
+from .models import Word, Character, Radical, RadicalInCharacter, \
+    CharacterInWord, DefinitionInWord, DefinitionInCharacter, Sentence, \
+    WordSet, WordInSet
 
 
+@admin.register(Radical)
 class RadicalAdmin(admin.ModelAdmin):
-    search_fields = ['chinese', 'id']
-    list_display = ['__str__', 'get_characters_list_display']
+    search_fields = ['chinese']
+    list_filter = ['is_done']
+    list_display = ['__str__', 'is_done', 'get_character_list_display']
 
-    def get_characters_list_display(self, radical):
+    def get_character_list_display(self, radical):
         s = ""
-        for c in radical.characters.all():
-            s += f"<a href={reverse('display_character', args=[c.pk])}>" \
-                 f"{c.chinese}</a>, "
-        return format_html(s)
+        for c in radical.characters.all().distinct():
+            s += f"{str(c)}, "
+        return s[:-2]
+    get_character_list_display.short_description = "Used In"
 
 
-admin.site.register(Radical, RadicalAdmin)
+""" Character Starts """
 
 
+class RadicalInCharacterInline(admin.TabularInline):
+    model = RadicalInCharacter
+    autocomplete_fields = ['radical']
+    extra = 0
+
+
+class DefinitionInCharacterInline(admin.TabularInline):
+    model = DefinitionInCharacter
+    extra = 0
+
+
+@admin.register(Character)
 class CharacterAdmin(admin.ModelAdmin):
-    search_fields = ['chinese', 'id']
-    list_display = ['__str__', 'id', 'radical_1', 'radical_2', 'radical_3']
+    search_fields = ['chinese', 'pinyin']
+    list_display = ['__str__', 'is_done', 'get_word_list_display']
+    list_filter = ['is_done']
+    autocomplete_fields = ["radicals"]
+    inlines = [RadicalInCharacterInline, DefinitionInCharacterInline]
+
+    def get_word_list_display(self, character):
+        s = ""
+        for w in character.words.all().distinct():
+            s += f"{str(w)}, "
+        return s[:-2]
+    get_word_list_display.short_description = "Used In"
 
 
-admin.site.register(Character, CharacterAdmin)
+""" Word starts """
 
 
-class CharacterSetAdmin(admin.ModelAdmin):
+class CharacterInWordInline(admin.TabularInline):
+    model = CharacterInWord
+    autocomplete_fields = ['character']
+    extra = 0
+
+
+class DefinitionInWordInline(admin.TabularInline):
+    model = DefinitionInWord
+    extra = 0
+
+
+class SentenceInline(admin.TabularInline):
+    model = Sentence
+    extra = 0
+
+
+@admin.register(Word)
+class WordAdmin(admin.ModelAdmin):
+    search_fields = ['chinese', 'pinyin']
+    list_display = ['__str__', 'is_done', 'get_set_list_display']
+    list_filter = ['is_done']
+    inlines = [CharacterInWordInline, DefinitionInWordInline,
+               SentenceInline]
+
+    def get_set_list_display(self, word):
+        s = ""
+        for set_ in word.word_sets.all():
+            s += f"{set_.name}, "
+        return s[:-2]
+    get_set_list_display.short_description = "Used In"
+
+
+""" WordSet starts """
+
+
+class WordInSetInline(admin.TabularInline):
+    model = WordInSet
+    autocomplete_fields = ['word']
+
+
+@admin.register(WordSet)
+class WordSetAdmin(admin.ModelAdmin):
+    list_display = ['__str__', 'is_done']
+    list_filter = ['is_done']
     search_fields = ['name', 'characters__chinese']
-    filter_horizontal = ('characters', 'characters')
-
-
-admin.site.register(CharacterSet, CharacterSetAdmin)
+    inlines = [WordInSetInline]

@@ -61,9 +61,7 @@ INSTALLED_APPS = [
 
     # custom apps
     'accounts',
-    'learning',
     'content',
-    'classroom',
 ]
 
 MIDDLEWARE = [

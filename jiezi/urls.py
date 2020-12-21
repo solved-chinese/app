@@ -18,9 +18,7 @@ urlpatterns = [
     # app urls
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
-    path('learning/', include('learning.urls')),
     path('content/', include('content.urls')),
-    path('classroom/', include('classroom.urls')),
 
     # front-page urls
     path('index/', views.index, name="index"),

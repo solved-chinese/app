@@ -1,21 +1,43 @@
+import os
+from uuid import uuid4
+
 from django.db import models
 
-from jiezi.utils.mixins import StrDefaultReprMixin, CleanBeforeSaveMixin
-from content.models import DFModelMixin
+from content.models import GeneralContentModel
 
 
-class Radical(DFModelMixin, StrDefaultReprMixin, CleanBeforeSaveMixin,
-              models.Model):
-    chinese = models.CharField(max_length=6)
-    pinyin = models.CharField(max_length=15)
-    definition = models.CharField(max_length=100)
-    mnemonic_explanation = models.CharField(max_length=300, null=True, blank=True)
-    mnemonic_image = models.ImageField(default='default.jpg')
-    is_phonetic = models.BooleanField()
-    is_semantic = models.BooleanField()
+def path_and_rename(instance, filename):
+    ext = filename.split('.')[-1]
+    # get filename
+    if instance.chinese:
+        filename = f"{repr(instance)}.{ext}"
+    else:
+        # set filename as random string
+        filename = f'{uuid4().hex}.{ext}'
+    return os.path.join('radical_images', filename)
+
+
+class Radical(GeneralContentModel):
+    chinese = models.CharField(max_length=1)
+    identifier = models.CharField(max_length=20, blank=True)
+
+    image = models.ImageField(default='default.jpg',
+                              upload_to=path_and_rename)
+    pinyin = models.CharField(max_length=20, blank=True, default='TODO')
+
+    definition = models.CharField(max_length=100,
+                                  blank=True, default='TODO')
+    explanation = models.TextField(max_length=200,
+                                   blank=True, default='TODO')
 
     class Meta:
-        ordering = ['id']
+        unique_together = ['chinese', 'identifier']
+
+    def __str__(self):
+        if self.identifier:
+            return f"{self.chinese}({self.identifier})"
+        else:
+            return self.chinese
 
     def __repr__(self):
-        return '<R' + '%04d' % self.id + ':' + self.chinese +'>'
+        return f"<R{self.id:04d}:{self.chinese}#{self.identifier}>"
