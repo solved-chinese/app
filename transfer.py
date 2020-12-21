@@ -1,3 +1,7 @@
+import os, django
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "jiezi.settings")
+django.setup()
+
 import pandas as pd
 import os
 import json
