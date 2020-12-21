@@ -50,7 +50,7 @@ class Character(GeneralContentModel):
     chinese = models.CharField(max_length=1)
     identifier = models.CharField(max_length=10, blank=True)
 
-    pinyin = models.CharField(max_length=20, default='TODO')
+    pinyin = models.CharField(max_length=40, default='TODO')
     character_type = models.CharField(max_length=30,
                                       choices=CharacterType.choices,
                                       blank=True)
@@ -59,6 +59,8 @@ class Character(GeneralContentModel):
                                       through='RadicalInCharacter')
     memory_aid = models.TextField(max_length=300,
                                   blank=True, default='TODO')
+
+    archive = models.JSONField(blank=True, default=str)
 
     class Meta:
         unique_together = ['chinese', 'identifier']

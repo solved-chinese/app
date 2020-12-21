@@ -34,6 +34,7 @@ class DefinitionInCharacterInline(admin.TabularInline):
 
 @admin.register(Character)
 class CharacterAdmin(admin.ModelAdmin):
+    readonly_fields = ['archive']
     search_fields = ['chinese', 'pinyin']
     list_display = ['__str__', 'is_done', 'get_word_list_display']
     list_filter = ['is_done']

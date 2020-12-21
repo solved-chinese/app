@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import json
 
 from content.models import *
 from django.core.files import File
@@ -79,9 +80,15 @@ if __name__ == '__main__':
         pinyin = row['pinyin'].strip()
         memory_aid = row['mnemonic_explanation'].strip()
 
-        character = Character.objects.get_or_create(
+        d = {}
+        d['structure'] = row['structure']
+        d['is_preview_definition'] = row['is_preview_definition']
+        d['is_preview_pinyin'] = row['is_preview_pinyin']
+
+        character = Character.objects.update_or_create(
             chinese=chinese,
-            defaults=dict(pinyin=pinyin, memory_aid=memory_aid)
+            defaults=dict(pinyin=pinyin, memory_aid=memory_aid,
+                          archive=json.dumps(d))
         )[0]
 
         # def starts
@@ -119,9 +126,9 @@ if __name__ == '__main__':
         # words start
         for j in range(1, 3):
             word_name = f"example_{j}_word"
+            pinyin_name = f"example_{j}_pinyin"
             if not row[word_name] or not row[pinyin_name]:
                 continue
-            pinyin_name = f"example_{j}_pinyin"
             word = row[word_name].strip()
             if len(word) > 5:
                 continue
