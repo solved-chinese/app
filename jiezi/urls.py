@@ -25,7 +25,9 @@ urlpatterns = [
     path('', RedirectView.as_view(url='admin')),
     path('about_us/', views.about_us, name="about_us"),
 
-    path('api_root/', views.api_root)
+    path('api_root/', views.api_root),
+
+    path('learning/', include('learning.urls'))
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()

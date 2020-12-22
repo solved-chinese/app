@@ -17,6 +17,9 @@
     "webpack-cli": "^4.2.0"
   },
   "scripts": {
+
+    "start": "webpack --mode development --entry ./learning/src/index.js --output-path ./learning/static/learning/ && python3 manage.py runserver",
+    "migrate": "python3 manage.py migrate",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
