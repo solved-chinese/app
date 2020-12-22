@@ -33,3 +33,4 @@ media/*
 uwsgi
 
 celerybeat-schedule.*
+node_modules
