@@ -2,6 +2,8 @@ from django.contrib import admin
 from .models import Word, Character, Radical, RadicalInCharacter, \
     CharacterInWord, DefinitionInWord, DefinitionInCharacter, Sentence, \
     WordSet, WordInSet
+from django.utils.html import format_html
+from django.urls import reverse
 
 
 @admin.register(Radical)
@@ -13,8 +15,11 @@ class RadicalAdmin(admin.ModelAdmin):
     def get_character_list_display(self, radical):
         s = ""
         for c in radical.characters.all().distinct():
-            s += f"{str(c)}, "
-        return s[:-2]
+            s += f"<a href={reverse('admin:content_character_change', args=[c.pk])}>" \
+                 f"{c.chinese}</a>, "
+        return format_html(s[:-2])
+        s = ""
+
     get_character_list_display.short_description = "Used In"
 
 
@@ -44,8 +49,10 @@ class CharacterAdmin(admin.ModelAdmin):
     def get_word_list_display(self, character):
         s = ""
         for w in character.words.all().distinct():
-            s += f"{str(w)}, "
-        return s[:-2]
+            s += f"<a href={reverse('admin:content_word_change', args=[w.pk])}>" \
+                 f"{w.chinese}</a>, "
+        return format_html(s[:-2])
+
     get_word_list_display.short_description = "Used In"
 
 
@@ -78,9 +85,10 @@ class WordAdmin(admin.ModelAdmin):
 
     def get_set_list_display(self, word):
         s = ""
-        for set_ in word.word_sets.all():
-            s += f"{set_.name}, "
-        return s[:-2]
+        for ws in word.word_sets.all().distinct():
+            s += f"<a href={reverse('admin:content_wordset_change', args=[ws.pk])}>" \
+                 f"{ws.chinese}</a>, "
+        return format_html(s[:-2])
     get_set_list_display.short_description = "Used In"
 
 
