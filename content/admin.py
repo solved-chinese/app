@@ -18,7 +18,6 @@ class RadicalAdmin(admin.ModelAdmin):
             s += f"<a href={reverse('admin:content_character_change', args=[c.pk])}>" \
                  f"{c.chinese}</a>, "
         return format_html(s[:-2])
-        s = ""
 
     get_character_list_display.short_description = "Used In"
 
