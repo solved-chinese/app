@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_fsm',
     'django_bootstrap_breadcrumbs',
+    'logentry_admin',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -62,7 +63,7 @@ INSTALLED_APPS = [
     # custom apps
     'accounts',
     'content',
-    'learning'
+    'learning',
 ]
 
 MIDDLEWARE = [
