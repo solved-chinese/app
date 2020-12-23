@@ -13,12 +13,14 @@
     "eslint-plugin-react": "^7.21.5",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "terser-webpack-plugin": "^5.0.3",
     "webpack": "^5.11.0",
-    "webpack-cli": "^4.2.0"
+    "webpack-cli": "^4.2.0",
+    "webpack-merge": "^5.7.3"
   },
   "scripts": {
-
-    "start": "webpack --mode development --entry ./learning/src/index.js --output-path ./learning/static/learning/ && python3 manage.py runserver",
+    "start": "webpack --config webpack.dev.js && python3 manage.py runserver",
+    "build": "webpack --config webpack.prod.js && python3 manage.py runserver",
     "migrate": "python3 manage.py migrate",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
