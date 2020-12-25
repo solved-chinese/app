@@ -10,7 +10,9 @@ from django.urls import reverse
 class RadicalAdmin(admin.ModelAdmin):
     search_fields = ['chinese']
     list_filter = ['is_done']
-    list_display = ['__str__', 'is_done', 'get_character_list_display']
+    list_display = ['__str__', 'is_done', 'get_image_thumbnail',
+                    'get_character_list_display']
+    readonly_fields = ['get_image_thumbnail']
 
     def get_character_list_display(self, radical):
         s = ""
@@ -18,8 +20,11 @@ class RadicalAdmin(admin.ModelAdmin):
             s += f"<a href={reverse('admin:content_character_change', args=[c.pk])}>" \
                  f"{c.chinese}</a>, "
         return format_html(s[:-2])
-
     get_character_list_display.short_description = "Used In"
+
+    def get_image_thumbnail(self, radical):
+        return format_html('<img src="%s" width="30" height="30" />' % (radical.image.url))
+    get_image_thumbnail.short_description = "image"
 
 
 """ Character Starts """
