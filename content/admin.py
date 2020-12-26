@@ -91,7 +91,7 @@ class WordAdmin(admin.ModelAdmin):
         s = ""
         for ws in word.word_sets.all().distinct():
             s += f"<a href={reverse('admin:content_wordset_change', args=[ws.pk])}>" \
-                 f"{ws.chinese}</a>, "
+                 f"{ws.name}</a>, "
         return format_html(s[:-2])
     get_set_list_display.short_description = "Used In"
 
