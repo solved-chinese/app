@@ -71,7 +71,15 @@ class CharacterAdmin(admin.ModelAdmin):
 class CharacterInWordInline(admin.TabularInline):
     model = CharacterInWord
     autocomplete_fields = ['character']
+    readonly_fields = ['get_definitions']
     extra = 0
+
+    def get_definitions(self, ciw):
+        c = ciw.character
+        definitions = ""
+        for definition in c.definitions.all():
+            definitions += f"{definition.definition}; "
+        return definitions
 
 
 class DefinitionInWordInline(admin.TabularInline):
@@ -107,6 +115,14 @@ class WordAdmin(admin.ModelAdmin):
 class WordInSetInline(admin.TabularInline):
     model = WordInSet
     autocomplete_fields = ['word']
+    readonly_fields = ['get_definitions']
+
+    def get_definitions(self, wiws):
+        w = wiws.word
+        definitions = ""
+        for d in w.definitions.all():
+            definitions += f"{d.part_of_speech} {d.definition}; "
+        return definitions
 
 
 @admin.register(WordSet)
