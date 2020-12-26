@@ -117,8 +117,9 @@ class Word(GeneralContentModel):
                 character_pinyin += character.pinyin
             word_pinyin = unaccent(word_pinyin)
             character_pinyin = unaccent(character_pinyin)
-            raise ValidationError(f"mismatch of pinyin, word gives {word_pinyin}"
-                                  f" but character gives {character_pinyin}")
+            if word_pinyin != character_pinyin:
+                raise ValidationError(f"mismatch of pinyin, word gives {word_pinyin}"
+                                      f" but character gives {character_pinyin}")
 
     def get_child_models(self):
         characters = list(self.characters.all())
