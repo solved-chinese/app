@@ -23,6 +23,7 @@ class DefinitionInCharacter(OrderableMixin):
 class RadicalInCharacter(OrderableMixin):
     class RadicalType(models.TextChoices):
         __empty__ = 'TODO'
+        PICTOGRAPHIC = 'pictographic', 'pictographic'
         SEMANTIC = 'semantic', 'semantic'
         PHONETIC = 'phonetic', 'phonetic'
         BOTH = 'both', 'both'
@@ -31,7 +32,7 @@ class RadicalInCharacter(OrderableMixin):
     character = models.ForeignKey('Character', on_delete=models.CASCADE)
     radical = models.ForeignKey('Radical', on_delete=models.CASCADE)
     radical_type = models.CharField(choices=RadicalType.choices,
-                                    max_length=8, blank=True)
+                                    max_length=12, blank=True)
 
     class Meta:
         ordering = ['order']
@@ -67,7 +68,7 @@ class Character(GeneralContentModel):
 
     def get_child_models(self):
         radicals = list(self.radicals.all())
-        return [('radicals', radical) for radical in radicals]
+        return [(repr(radical), radical) for radical in radicals]
 
     def clean(self):
         super().clean()

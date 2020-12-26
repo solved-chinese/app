@@ -14,15 +14,16 @@ class GeneralContentModel(models.Model):
         return []
 
     def clean_fields(self, exclude=None):
+        # TODO fine tune this
         assert not exclude or 'is_done' not in exclude, \
             "Impossible for is_done to be excluded"
 
         def handle_error(errors, name, exclude):
             if exclude and field.name in exclude:
                 errors['is_done'] = errors.get('is_done', '') + \
-                                    f"field {field.name} not done; "
+                                    f"field {name} not done; "
             else:
-                errors[field.name] = "This field not done"
+                errors[name] = "This field not done"
 
         if self.is_done:
             if self.pk is None:
@@ -39,7 +40,8 @@ class GeneralContentModel(models.Model):
             for name, obj in self.get_child_models():
                 assert isinstance(obj, GeneralContentModel)
                 if not obj.is_done:
-                    handle_error(errors, name, exclude)
+                    errors['is_done'] = errors.get('is_done', '') + \
+                                        f"{name} not done; "
             if errors:
                 errors['is_done'] = errors.get('is_done', '') + \
                                     "something is not done"

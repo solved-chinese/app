@@ -34,7 +34,7 @@ class WordSet(GeneralContentModel):
 
     def get_child_models(self):
         words = list(self.words.all())
-        return [('words', w) for w in words]
+        return [(repr(w), w) for w in words]
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

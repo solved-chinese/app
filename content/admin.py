@@ -12,7 +12,7 @@ class RadicalAdmin(admin.ModelAdmin):
     list_filter = ['is_done']
     list_display = ['__str__', 'is_done', 'get_image_thumbnail',
                     'get_character_list_display']
-    readonly_fields = ['get_image_thumbnail']
+    readonly_fields = ['get_image_preview']
 
     def get_character_list_display(self, radical):
         s = ""
@@ -24,7 +24,12 @@ class RadicalAdmin(admin.ModelAdmin):
 
     def get_image_thumbnail(self, radical):
         return format_html('<img src="%s" width="30" height="30" />' % (radical.image.url))
-    get_image_thumbnail.short_description = "image"
+    get_image_thumbnail.short_description = "image thumbnail"
+
+    def get_image_preview(self, radical):
+        return format_html('<img src="%s" width="150" height="150" />' % (radical.image.url))
+    get_image_preview.short_description = "image preview"
+
 
 
 """ Character Starts """

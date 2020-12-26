@@ -122,7 +122,7 @@ class Word(GeneralContentModel):
 
     def get_child_models(self):
         characters = list(self.characters.all())
-        return [('characters', c) for c in characters]
+        return [(repr(c), c) for c in characters]
 
     def save(self, *args, **kwargs):
         adding = self._state.adding
