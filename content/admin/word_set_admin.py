@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from content.models import WordInSet, WordSet
-
+from content.forms import WordSetQuickCreateFrom
 
 class WordInSetInline(admin.TabularInline):
     model = WordInSet
@@ -22,3 +22,8 @@ class WordSetAdmin(admin.ModelAdmin):
     list_filter = ['is_done']
     search_fields = ['name', 'characters__chinese']
     inlines = [WordInSetInline]
+
+    def get_form(self, request, obj=None, change=False, **kwargs):
+        if obj is None:
+            return WordSetQuickCreateFrom
+        return super().get_form(request, obj=obj, change=change, **kwargs)

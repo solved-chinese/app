@@ -1,4 +1,4 @@
-from .general_content_model import GeneralContentModel, OrderableMixin
+from .general_content_model import *
 from .radical import Radical
 from .character import Character, DefinitionInCharacter, RadicalInCharacter
 from .word import Word, DefinitionInWord, CharacterInWord, Sentence

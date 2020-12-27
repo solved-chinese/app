@@ -2,6 +2,15 @@ from django.db import models
 from django.core.exceptions import ValidationError
 
 
+def validate_chinese_character_or_x(s):
+    if s == 'x':
+        return
+    for char in s:
+        if char < '\u4e00' or char > '\u9fff':
+            raise ValidationError(f"{char} is not a chinese character "
+                                  f"and {s} is not 'x'")
+
+
 class GeneralContentModel(models.Model):
     note = models.TextField(help_text="This is for internal use only, feel free "
                                       "to use it for note taking",
@@ -14,9 +23,11 @@ class GeneralContentModel(models.Model):
         return []
 
     def clean_fields(self, exclude=None):
+        super().clean_fields(exclude=exclude)
+
         # TODO fine tune this
-        assert not exclude or 'is_done' not in exclude, \
-            "Impossible for is_done to be excluded"
+        assert not exclude or 'is_done' not in exclude or not self.is_done, \
+            "Impossible for is_done to be excluded when it is true"
 
         def handle_error(errors, name, exclude):
             if exclude and field.name in exclude:

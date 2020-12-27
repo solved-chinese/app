@@ -32,4 +32,7 @@ class CharacterAdmin(admin.ModelAdmin):
                  f"{w.chinese}</a>, "
         return format_html(s[:-2])
 
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+
     get_word_list_display.short_description = "Used In"

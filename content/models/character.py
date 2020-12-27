@@ -1,7 +1,8 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
-from content.models import GeneralContentModel, OrderableMixin
+from content.models import GeneralContentModel, OrderableMixin, \
+    validate_chinese_character_or_x
 
 
 class DefinitionInCharacter(OrderableMixin):
@@ -48,7 +49,8 @@ class Character(GeneralContentModel):
         PICTO_PHONETIC = 'Picto-phonetic', 'Picto-phonetic'
         LOAN = 'Loan', 'Loan'
 
-    chinese = models.CharField(max_length=1)
+    chinese = models.CharField(max_length=1,
+                               validators=[validate_chinese_character_or_x])
     identifier = models.CharField(max_length=10, blank=True)
 
     pinyin = models.CharField(max_length=40, default='TODO')

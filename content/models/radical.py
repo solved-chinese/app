@@ -3,7 +3,8 @@ from uuid import uuid4
 
 from django.db import models
 
-from content.models import GeneralContentModel
+from content.models import GeneralContentModel, \
+    validate_chinese_character_or_x
 
 
 def path_and_rename(instance, filename):
@@ -18,7 +19,8 @@ def path_and_rename(instance, filename):
 
 
 class Radical(GeneralContentModel):
-    chinese = models.CharField(max_length=1)
+    chinese = models.CharField(max_length=1,
+                               validators=[validate_chinese_character_or_x])
     identifier = models.CharField(max_length=20, blank=True)
 
     image = models.ImageField(default='default.jpg',
