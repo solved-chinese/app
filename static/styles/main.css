@@ -13,14 +13,66 @@
 
 @font-face {font-family: 'Lato';
     src: url('/static/fonts/Lato/Lato.ttf') format('truetype'),
-    url('/static/fonts/Lato/Lato.woff') format('woff'),
-    url('/static/fonts/Lato/Lato.woff2') format('woff2');
+        url('/static/fonts/Lato/Lato.woff') format('woff'),
+        url('/static/fonts/Lato/Lato.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {font-family: 'Lato';
+    src: url('/static/fonts/Lato/Lato-Bold.ttf') format('truetype'),
+        url('/static/fonts/Lato/Lato-Bold.woff') format('woff'),
+        url('/static/fonts/Lato/Lato-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {font-family: 'Lato';
+    src: url('/static/fonts/Lato/Lato-Light.ttf') format('truetype'),
+        url('/static/fonts/Lato/Lato-Light.woff') format('woff'),
+        url('/static/fonts/Lato/Lato-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {font-family: 'Lato';
+    src: url('/static/fonts/Lato/Lato-Thin.ttf') format('truetype'),
+        url('/static/fonts/Lato/Lato-Thin.woff') format('woff'),
+        url('/static/fonts/Lato/Lato-Thin.woff2') format('woff2');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {font-family: 'Lato';
+    src: url('/static/fonts/Lato/Lato-Black.ttf') format('truetype'),
+        url('/static/fonts/Lato/Lato-Black.woff') format('woff'),
+        url('/static/fonts/Lato/Lato-Black.woff2') format('woff2');
+    font-weight: 800;
+    font-style: normal;
 }
 
 @font-face { font-family: 'CrimsonText';
     src: url('/static/fonts/CrimsonText/CrimsonText.ttf') format('truetype'),
-    url('/static/fonts/CrimsonText/CrimsonText.woff') format('woff'),
-    url('/static/fonts/CrimsonText/CrimsonText.woff2') format('woff2');
+        url('/static/fonts/CrimsonText/CrimsonText.woff') format('woff'),
+        url('/static/fonts/CrimsonText/CrimsonText.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face { font-family: 'CrimsonText';
+    src: url('/static/fonts/CrimsonText/CrimsonText-Bold.ttf') format('truetype'),
+        url('/static/fonts/CrimsonText/CrimsonText-Bold.woff') format('woff'),
+        url('/static/fonts/CrimsonText/CrimsonText-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face { font-family: 'CrimsonText';
+    src: url('/static/fonts/CrimsonText/CrimsonText-SemiBold.ttf') format('truetype'),
+        url('/static/fonts/CrimsonText/CrimsonText-SemiBold.woff') format('woff'),
+        url('/static/fonts/CrimsonText/CrimsonText-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
 }
 
 .use-serifs {
