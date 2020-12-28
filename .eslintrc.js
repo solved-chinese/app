@@ -1,46 +1,48 @@
 module.exports = {
-    "env": {
-        "browser": true,
-        "es2021": true,
-        "amd": true
+    'env': {
+        'browser': true,
+        'es2021': true,
+        'amd': true
     },
-    "globals": {
-        "window": true,
-        "module": true
+    'globals': {
+        'window': true,
+        'module': true
     },
-    "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended"
+    'extends': [
+        'eslint:recommended',
+        'plugin:react/recommended'
     ],
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
+    'parser': 'babel-eslint',
+    'parserOptions': {
+        'ecmaFeatures': {
+            'jsx': true
         },
-        "ecmaVersion": 12,
-        "sourceType": "module"
+        'ecmaVersion': 12,
+        'sourceType': 'module'
     },
-    "plugins": [
-        "react"
+    'plugins': [
+        'react',
+        'babel'
     ],
-    "rules": {
-        "indent": [
-            "warn",
+    'rules': {
+        'indent': [
+            'warn',
             4
         ],
-        "linebreak-style": [
-            "error",
-            "unix"
+        'linebreak-style': [
+            'error',
+            'unix'
         ],
-        "quotes": [
-            "warn",
-            "double"
+        'quotes': [
+            'warn',
+            'single'
         ],
-        "semi": [
-            "error",
-            "always"
+        'semi': [
+            'error',
+            'always'
         ],
-        "no-unused-vars": [
-            "warn"
+        'no-unused-vars': [
+            'warn'
         ]
     }
 };

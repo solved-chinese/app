@@ -1,0 +1,42 @@
+.content-card-container {
+    margin-top: 60px;
+    max-width: 700px;
+    width: 100%;
+    padding: 25px 50px;
+    border-radius: 5px;
+    box-shadow: 4px 5px 14px 0px #30354510;
+    transition: 150ms ease;
+    background-color: white;
+    margin: auto;
+}
+
+.content-card-container:hover {
+    box-shadow: 1px 2px 8px 0px #30354512;
+}
+
+ul.definition-list {
+    padding-left: 70px;
+    font-size: 1.3em;
+
+}
+
+.definition-list > i {
+    font-size: 0.6em;
+    font-style: normal;
+    color: var(--teritary-text);
+    line-height: 1em;
+}
+
+.definition-list > li {
+    line-height: 1.75em;
+}
+
+@media only screen and (max-width: 768px) {
+    .content-card-container {
+        padding: 15px 10px;
+    }
+
+    ul.definition-list {
+        padding: 0;
+    }
+}

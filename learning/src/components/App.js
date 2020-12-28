@@ -1,13 +1,18 @@
-import React, { Component } from "react";
-import { render } from "react-dom";
+import React from 'react';
+import { render } from 'react-dom';
+import CharDisplay from './CharDisplay.js';
 
-class App extends Component {
+class App extends React.Component {
+
+
     render() {
-        return "Hello World";
+        return (
+            <CharDisplay />
+        );
     }
 }
 
 export default App;
 
-const container = document.getElementById("learning-app");
+const container = document.getElementById('learning-app');
 render(<App />, container);
