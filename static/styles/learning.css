@@ -1,8 +1,8 @@
 .content-card-container {
     margin-top: 60px;
-    max-width: 700px;
+    max-width: 650px;
     width: 100%;
-    padding: 25px 50px;
+    padding: 25px 50px 10px;
     border-radius: 5px;
     box-shadow: 4px 5px 14px 0px #30354510;
     transition: 150ms ease;
@@ -29,6 +29,41 @@ ul.definition-list {
 
 .definition-list > li {
     line-height: 1.75em;
+}
+
+.breakdown-container {
+    margin-top: 10px;
+    width: 100%;
+    transition: 150ms ease;
+}
+
+.breakdown-container:hover {
+    transform: scale(1.05);
+}
+
+.breakdown-toggle {
+    width: 50%;
+    min-width: 150px;
+    margin: auto;
+}
+
+.breakdown-toggle i {
+    color: #374C76;
+    width: 100%;
+    text-align: center;
+}
+
+.breakdown-toggle i.inversed {
+    transform: rotate(180deg);
+}
+
+.breakdown-toggle > h4 {
+    color: #374C76;
+    width: 100%;
+    text-align: center;
+    font-size: 0.9em;
+    font-weight: 600;
+    margin: 0;
 }
 
 @media only screen and (max-width: 768px) {

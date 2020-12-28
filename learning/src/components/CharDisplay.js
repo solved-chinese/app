@@ -2,6 +2,8 @@ import React from 'react';
 import CharItemPhonetic from './CharItemPhonetic.js';
 import CharDefinition from './CharDefinition.js';
 import styled from 'styled-components';
+import RelatedWords from './RelatedWords.js';
+import RadBreakdown from './RadBreakdown';
 
 const Row = styled.div`
     display: flex;
@@ -27,6 +29,8 @@ export default class CharDisplay extends React.Component {
                         ]}
                     />
                 </Row>
+                <RelatedWords character='word' />
+                <RadBreakdown />
             </div>
         );
     }
