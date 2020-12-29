@@ -7,6 +7,7 @@ class WordInSetInline(admin.TabularInline):
     model = WordInSet
     autocomplete_fields = ['word']
     readonly_fields = ['get_definitions']
+    extra = 0
 
     def get_definitions(self, wiws):
         w = wiws.word
