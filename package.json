@@ -23,13 +23,14 @@
     "terser-webpack-plugin": "^5.0.3",
     "webpack": "^5.11.0",
     "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^5.7.3"
   },
   "scripts": {
-    "start": "webpack --config webpack.dev.js && python3 manage.py runserver",
+    "dev:webpack": "webpack serve --config webpack.dev.js",
+    "dev:server": "python3 manage.py runserver",
     "build": "webpack --config webpack.prod.js && python3 manage.py runserver",
     "migrate": "python3 manage.py migrate",
-    "webpack": "webpack --config webpack.dev.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
