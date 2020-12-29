@@ -1,7 +1,8 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
-from content.models import GeneralContentModel, OrderableMixin
+from content.models import GeneralContentModel, OrderableMixin, \
+    validate_chinese_character_or_x
 
 
 class DefinitionInCharacter(OrderableMixin):
@@ -31,7 +32,7 @@ class RadicalInCharacter(OrderableMixin):
     character = models.ForeignKey('Character', on_delete=models.CASCADE)
     radical = models.ForeignKey('Radical', on_delete=models.CASCADE)
     radical_type = models.CharField(choices=RadicalType.choices,
-                                    max_length=8, blank=True)
+                                    max_length=12, blank=True)
 
     class Meta:
         ordering = ['order']
@@ -41,13 +42,15 @@ class RadicalInCharacter(OrderableMixin):
 class Character(GeneralContentModel):
     class CharacterType(models.TextChoices):
         __empty__ = 'TODO'
+        PICTOGRAPHIC = 'pictographic', 'pictographic'
         IDEOGRAPHIC = 'Ideographic', 'Ideographic'
         COMPOUND_IDEOGRAPHIC = 'Compound Ideographic', \
                                'Compound Ideographic'
         PICTO_PHONETIC = 'Picto-phonetic', 'Picto-phonetic'
         LOAN = 'Loan', 'Loan'
 
-    chinese = models.CharField(max_length=1)
+    chinese = models.CharField(max_length=1,
+                               validators=[validate_chinese_character_or_x])
     identifier = models.CharField(max_length=10, blank=True)
 
     pinyin = models.CharField(max_length=40, default='TODO')
@@ -67,7 +70,7 @@ class Character(GeneralContentModel):
 
     def get_child_models(self):
         radicals = list(self.radicals.all())
-        return [('radicals', radical) for radical in radicals]
+        return [(repr(radical), radical) for radical in radicals]
 
     def clean(self):
         super().clean()

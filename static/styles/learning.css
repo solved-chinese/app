@@ -1,34 +1,88 @@
 
-.exampleTitle{
-  color:grey;
+.content-card-container {
+    margin-top: 60px;
+    max-width: 650px;
+    width: 100%;
+    padding: 25px 50px;
+    border-radius: 5px;
+    box-shadow: 4px 5px 14px 0px #30354510;
+    transition: 150ms ease;
+    background-color: white;
+    margin: auto;
 }
 
-.exampleCard{
-  margin: 0 auto;
-  padding-top: 5px;
-  width: 50%;
-  height: 10vh;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 10px 10px 20px 1px grey;
+.content-card-container:hover {
+    box-shadow: 1px 2px 8px 0px #30354512;
 }
 
-.topText, .middleText, .bottomText{
-  padding-left: 20px;
-  font-family: monospace;
-  color: black;
-  line-height: 6px;
+ul.definition-list {
+    padding-left: 70px;
+    font-size: 1.3em;
+
 }
-.topText{
-  font-size: 1rem;
+
+.definition-list > i {
+    font-size: 0.6em;
+    font-style: normal;
+    color: var(--teritary-text);
+    line-height: 1em;
 }
-.middleText{
-  font-size: 2rem;
-  
-  word-spacing: 2px;
+
+.definition-list > li {
+    line-height: 1.75em;
 }
-.bottomText{
-  line-height: 0.1px;
-  font-size: 1rem;
-  font-weight: bold;
+
+.breakdown-container {
+    margin-top: 10px;
+    width: 100%;
+    transition: 300ms ease-in-out;
+}
+
+.breakdown-container * {
+    transition: 300ms ease-in-out;
+}
+
+.breakdown-container:hover {
+    transform: scale(1.05);
+}
+
+.breakdown-toggle {
+    width: 50%;
+    min-width: 150px;
+    margin: auto;
+    margin-bottom: -20px;
+}
+
+.breakdown-toggle.toggled {
+    margin-bottom: 0;
+}
+
+.breakdown-toggle i {
+    color: #374C76;
+    width: 100%;
+    text-align: center;
+}
+
+.breakdown-toggle.toggled i {
+    transform: rotate(180deg);
+}
+
+.breakdown-toggle > h4 {
+    color: #374C76;
+    width: 100%;
+    text-align: center;
+    font-size: 0.9em;
+    font-weight: 600;
+    margin: 0;
+}
+
+@media only screen and (max-width: 768px) {
+    /* .content-card-container {
+        padding: 15px 10px;
+    } */
+
+    ul.definition-list {
+        padding: 0;
+    }
+
 }

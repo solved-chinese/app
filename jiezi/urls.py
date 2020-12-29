@@ -27,7 +27,9 @@ urlpatterns = [
 
     path('api_root/', views.api_root),
 
-    path('learning/', include('learning.urls'))
+    path('learning/', include('learning.urls')),
+
+    path('favicon.ico', RedirectView.as_view(url='/static/images/favicon.ico')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()

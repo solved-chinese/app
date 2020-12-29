@@ -1,41 +1,34 @@
-import React, { Component } from "react";
-import { render } from "react-dom";
-import WordDefinition from "./WordDefinition";
-import ExampleSentences from './ExampleSentences'
 
-class App extends Component {
+import React from 'react';
+import { render } from 'react-dom';
+import { ThemeProvider } from 'styled-components';
+import CharDisplay from './CharDisplay.js';
+import RadDisplay from './RadDisplay.js';
+
+const theme = {
+    main: '#be132d',
+    primaryText: '#303545',
+    secondaryText: '#5d6165',
+    teritaryText: '#82878f',
+    contentBackground: '#fefeff'
+};
+class App extends React.Component {
+
+
+
     render() {
-        //change the following constants with actual data
-        const cn = "字";
-        const py = "zi";
-        const src = "here";
-        const arr = [
-            {
-                "part_of_speech": "n.",
-                "definition"    : "a noun \n second line"
-            },
-            {
-                "part_of_speech": "adj.",
-                "definition"    : "an adj"
-            }];
-
         return (
-            <div>
-                <WordDefinition
-                    word={cn}
-                    pinin={py}
-                    audiosrc={src}
-                    definitions={arr}
-                />
-                {/* Example Sentences */}
-                <h1 className='exampleTitle'>Example Sentences</h1>
-                <ExampleSentences/>
-            </div>
+            <ThemeProvider theme={theme}>
+                <div className='content-card-container'>
+                    <RadDisplay />
+                    {/* <CharDisplay /> */}
+                </div>
+            </ThemeProvider>
         );
     }
 }
 
 export default App;
 
-const container = document.getElementById("learning-app");
+const container = document.getElementById('learning-app');
 render(<App />, container);

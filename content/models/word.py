@@ -2,7 +2,8 @@ from django.db import models
 from django.core.exceptions import ValidationError
 import unicodedata
 
-from content.models import GeneralContentModel, OrderableMixin
+from content.models import GeneralContentModel, OrderableMixin, \
+    validate_chinese_character_or_x
 
 
 class DefinitionInWord(OrderableMixin):
@@ -75,7 +76,9 @@ class Sentence(OrderableMixin):
 
 
 class Word(GeneralContentModel):
-    chinese = models.CharField(max_length=5)
+    # TODO if word chinese field change, also change characters
+    chinese = models.CharField(max_length=5,
+                               validators=[validate_chinese_character_or_x])
     identifier = models.CharField(max_length=10, blank=True)
 
     pinyin = models.CharField(max_length=36, default='TODO')
@@ -117,17 +120,18 @@ class Word(GeneralContentModel):
                 character_pinyin += character.pinyin
             word_pinyin = unaccent(word_pinyin)
             character_pinyin = unaccent(character_pinyin)
-            raise ValidationError(f"mismatch of pinyin, word gives {word_pinyin}"
-                                  f" but character gives {character_pinyin}")
+            if word_pinyin != character_pinyin:
+                raise ValidationError(f"mismatch of pinyin, word gives {word_pinyin}"
+                                      f" but character gives {character_pinyin}")
 
     def get_child_models(self):
         characters = list(self.characters.all())
-        return [('characters', c) for c in characters]
+        return [(repr(c), c) for c in characters]
 
     def save(self, *args, **kwargs):
         adding = self._state.adding
         super().save(*args, **kwargs)
-        if adding: # if adding, connect the necessary characters
+        if adding and self.chinese != 'x': # if adding, connect the necessary characters
             from content.models import Character
             for index, chinese in enumerate(self.chinese):
                 characters = Character.objects.filter(chinese=chinese)
@@ -154,3 +158,11 @@ class Word(GeneralContentModel):
 
     def __repr__(self):
         return f"<W{self.id:04d}:{self.chinese}#{self.identifier}>"
+
+    @classmethod
+    def get_TODO_word(cls):
+        return cls.objects.get_or_create(
+            chinese='x',
+            defaults={'note': 'placeholder, do NOT edit this, '
+                              'choose an actual character'}
+        )[0]
