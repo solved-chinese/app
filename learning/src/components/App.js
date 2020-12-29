@@ -4,6 +4,7 @@ import { render } from 'react-dom';
 import { ThemeProvider } from 'styled-components';
 import CharDisplay from './CharDisplay.js';
 import RadDisplay from './RadDisplay.js';
+import WordDisplay from './WordDisplay.js'
 
 const theme = {
     main: '#be132d',
@@ -20,8 +21,10 @@ class App extends React.Component {
         return (
             <ThemeProvider theme={theme}>
                 <div className='content-card-container'>
-                    <RadDisplay />
+                    {/* Newly added WordDisplay component*/}
+                    <WordDisplay /> 
                     {/* <CharDisplay /> */}
+                    {/* <RadDisplay /> */}
                 </div>
             </ThemeProvider>
         );
