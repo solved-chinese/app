@@ -1,14 +1,11 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 
 
 def validate_chinese_character_or_x(s):
-    if s == 'x':
-        return
-    for char in s:
-        if char < '\u4e00' or char > '\u9fff':
-            raise ValidationError(f"{char} is not a chinese character "
-                                  f"and {s} is not 'x'")
+    return RegexValidator('^(([\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]+)|(x))\Z',
+                          'this need to be either in Chinese or "x"')
 
 
 class GeneralContentModel(models.Model):
