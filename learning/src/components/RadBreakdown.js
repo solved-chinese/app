@@ -20,7 +20,11 @@ export default class RadBreakdown extends React.Component {
     render() {
         return (
             <div className='breakdown-container'>
-                <div className='breakdown-toggle' onClick={this.toggle}>
+                <div 
+                    className={'breakdown-toggle ' + (
+                        this.state.show ? 'toggled' : ''
+                    )}
+                    onClick={this.toggle}>
                     <h4>
                         {(this.state.show ? 'Close' : 'Show me the') +
                             ' radical breakdown'

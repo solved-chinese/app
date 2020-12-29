@@ -8,28 +8,33 @@ const Heading = styled.h2`
     font-weight: 400;
 `;
 
-const RelatedWordsList = styled.ul`
+const RelatedItemsList = styled.ul`
     line-height: 1.5em;
 `;
 
 /** Display related words that a user has seen. */
-export default class RelatedWords extends React.Component {
+export default class RelatedItems extends React.Component {
 
     static propTypes = {
-        /** The character used to look up related */
-        character: PropTypes.string.isRequired
+        /** The character used to look up related items
+         * a user has viewed so far. */
+        item: PropTypes.string.isRequired,
+
+        /** The type of the related items to be displayed
+         * (word or character) */
+        itemType: PropTypes.oneOf(['word', 'character']).isRequired
     }
 
     constructor(props) {
         super(props);
-        this.words = [
+        this.items = [
             {
-                word: '学生',
+                itemName: '学生',
                 phonetic: 'xuéshēng',
                 def: 'n. student'
             },
             {
-                word: '学校',
+                itemName: '学校',
                 phonetic: 'xuéxiào',
                 def: 'n. school'
             }
@@ -40,17 +45,17 @@ export default class RelatedWords extends React.Component {
         return (
             <>
                 <Heading>
-                    Related words you&apos;ve seen
+                    {`Related ${this.props.itemType}s you've seen`}
                 </Heading>
-                <RelatedWordsList>
-                    {this.words.map((v, i) => {
-                        return (<RelatedWordItem 
+                <RelatedItemsList>
+                    {this.items.map((v, i) => {
+                        return (<RelatedItemEntry 
                             style={ i % 2 ? {background : '#F9F9F9'} : {}}
-                            key={v.word} 
-                            word={v}
+                            key={v.itemName} 
+                            item={v}
                         />);
                     })}
-                </RelatedWordsList>
+                </RelatedItemsList>
             </>
         );
     }
@@ -82,21 +87,21 @@ const ItemCompPhonetic = styled(ItemComp)`
 const ItemCompDef = styled(ItemComp)`
     width: 60%;
 `;
-class RelatedWordItem extends React.Component {
+class RelatedItemEntry extends React.Component {
 
     static propTypes = {
-        word: PropTypes.object,
+        item: PropTypes.object,
         style: PropTypes.object
     }
 
     render() {
-        const {word, phonetic, def} = this.props.word;
+        const {itemName, phonetic, def} = this.props.item;
 
         // TODO: The curly 
         return (
             <RelatedWordItemDisplay style={this.props.style} >
                 <ItemCompWord className='use-serifs'>
-                    {word}
+                    {itemName}
                 </ItemCompWord>
                 <ItemCompPhonetic className='use-serifs'>
                     {`/${phonetic}/`}
