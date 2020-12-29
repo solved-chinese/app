@@ -1,0 +1,34 @@
+
+.exampleTitle{
+  color:grey;
+}
+
+.exampleCard{
+  margin: 0 auto;
+  padding-top: 5px;
+  width: 50%;
+  height: 10vh;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 10px 10px 20px 1px grey;
+}
+
+.topText, .middleText, .bottomText{
+  padding-left: 20px;
+  font-family: monospace;
+  color: black;
+  line-height: 6px;
+}
+.topText{
+  font-size: 1rem;
+}
+.middleText{
+  font-size: 2rem;
+  
+  word-spacing: 2px;
+}
+.bottomText{
+  line-height: 0.1px;
+  font-size: 1rem;
+  font-weight: bold;
+}

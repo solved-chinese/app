@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import WordDefinition from "./WordDefinition";
+import ExampleSentences from './ExampleSentences'
 
 class App extends Component {
     render() {
@@ -26,6 +27,9 @@ class App extends Component {
                     audiosrc={src}
                     definitions={arr}
                 />
+                {/* Example Sentences */}
+                <h1 className='exampleTitle'>Example Sentences</h1>
+                <ExampleSentences/>
             </div>
         );
     }
