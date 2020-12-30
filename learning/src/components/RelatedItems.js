@@ -71,7 +71,7 @@ const RelatedWordItemDisplay = styled.li`
 const ItemComp = styled.p`
     display: inline-block;
     font-size: 1em;
-    color: ${ props => props.theme.secondaryText };
+    color: var(--secondary-text);
     padding-right: 15px;
     margin-bottom: 0;
 `;
