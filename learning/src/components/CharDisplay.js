@@ -3,13 +3,13 @@ import CharItemPhonetic from './CharItemPhonetic.js';
 import CharDefinition from './CharDefinition.js';
 import styled from 'styled-components';
 import RelatedItems from './RelatedItems.js';
-import RadBreakdown from './RadBreakdown';
+import BreakdownView from './BreakdownView';
 
 const Row = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    @media only screen and (max-width: 768px) {
+    @media only screen and (max-width: 480px) {
         flex-direction: column;
     }
 `;
@@ -32,7 +32,7 @@ export default class CharDisplay extends React.Component {
                 <RelatedItems 
                     item='someword'
                     itemType='word' />
-                <RadBreakdown />
+                <BreakdownView type='radical' />
             </>
         );
     }

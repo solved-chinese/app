@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 const Heading = styled.h2`
-    color: ${props => props.theme.teritaryText};
+    color: var(--teritary-text);
+    margin-top: 10px;
     font-size: 0.8em;
     font-weight: 400;
 `;
@@ -71,7 +72,7 @@ const ItemComp = styled.p`
     display: inline-block;
     font-size: 1em;
     color: ${ props => props.theme.secondaryText };
-    padding-right: 20px;
+    padding-right: 15px;
     margin-bottom: 0;
 `;
 
@@ -81,11 +82,12 @@ const ItemCompWord = styled(ItemComp)`
 
 const ItemCompPhonetic = styled(ItemComp)`
     font-size: 0.9em;
-    flex-grow: 2;
 `;
 
 const ItemCompDef = styled(ItemComp)`
-    width: 60%;
+    flex-grow: 3;
+    max-width: 75%;
+    margin-left: auto;
 `;
 class RelatedItemEntry extends React.Component {
 
@@ -97,7 +99,7 @@ class RelatedItemEntry extends React.Component {
     render() {
         const {itemName, phonetic, def} = this.props.item;
 
-        // TODO: The curly 
+        // TODO: The curly font for part of speech
         return (
             <RelatedWordItemDisplay style={this.props.style} >
                 <ItemCompWord className='use-serifs'>

@@ -17,9 +17,10 @@ class App extends React.Component {
     render() {
         return (
             <ThemeProvider theme={theme}>
-                <div className='content-card-container'>
-                    <RadDisplay />
-                    {/* <CharDisplay /> */}
+                <div className='content-card-container 
+                    box-shadow'>
+                    {/* <RadDisplay /> */}
+                    <CharDisplay />
                 </div>
             </ThemeProvider>
         );

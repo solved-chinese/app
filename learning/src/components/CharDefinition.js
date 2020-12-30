@@ -6,24 +6,45 @@ const Container = styled.div`
     display: inline-flex;
     flex-direction: column;
     align-self: flex-start;
-    @media only screen and (max-width: 768px) {
+    @media only screen and (max-width: 480px) {
         align-self: center;
     }
 `;
 
+const DefinitionList = styled.ul`
+
+    padding-left: 70px;
+    font-size: 1.3em;
+
+    @media only screen and (max-width: 480px) {
+        padding: 0;
+    }
+`;
+
+const ListTitle = styled.i`
+    font-size: 0.6em;
+    font-style: normal;
+    color: var(--teritary-text);
+    line-height: 1em;
+`;
+
+const ListItem = styled.li`
+    line-height: 1.75em;
+`
+
 export default function CharDefinition(props) {
     return (
         <Container>
-            <ul className='definition-list'>
-                <i>Definitions:</i>
+            <DefinitionList>
+                <ListTitle>Definitions:</ListTitle>
                 {props.definitions.map( (elem, i) => {
                     return (
-                        <li key={i} className='use-serifs'> 
+                        <ListItem key={i} className='use-serifs'> 
                             {elem} 
-                        </li>
+                        </ListItem>
                     );
                 })}
-            </ul>
+            </DefinitionList>
         </Container>
     );
 }
