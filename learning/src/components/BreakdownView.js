@@ -47,6 +47,43 @@ class BreakdownRad extends React.Component {
     }
 }
 
+const MemoryAidHeading = styled.h2`
+    display: inline-block;
+    width: 100%;
+    color: var(--teritary-text);
+    font-size: 0.9em;
+    font-weight: 400;
+    text-align: center;
+    margin: 20px auto 10px;
+`;
+
+const MemoryAidContent = styled.div`
+    width: 100%;
+    font-size: 0.9em;
+    color: var(--secondary-text);
+    border-radius: 5px;
+    padding: 15px 20px;
+    font-weight: 400;
+`;
+
+function MemoryAidView(props) {
+    return (
+        <>
+            <MemoryAidHeading>
+                Memory Aid
+            </MemoryAidHeading>
+            <MemoryAidContent className='box-shadow'>
+                {props.content}
+            </MemoryAidContent>
+        </>
+    );
+}
+
+MemoryAidView.propTypes = {
+    /** The associated memory aid sentence. */
+    content: PropTypes.string.isRequired
+};
+
 export default class BreakdownView extends React.Component {
 
     static propTypes = {
@@ -98,6 +135,9 @@ export default class BreakdownView extends React.Component {
                         box-shadow'>
                         <BreakdownRad />
                     </div>
+                    <MemoryAidView
+                        content='A child(子) sits under the roof of
+                        a school building to learn(学).' />
                 </div>
             </div>
         );

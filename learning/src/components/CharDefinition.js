@@ -30,7 +30,7 @@ const ListTitle = styled.i`
 
 const ListItem = styled.li`
     line-height: 1.75em;
-`
+`;
 
 export default function CharDefinition(props) {
     return (

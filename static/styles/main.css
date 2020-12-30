@@ -180,7 +180,7 @@ img {
     padding-left: 30px;
     padding-right: 30px;
     padding-top: calc(80px + 30px);
-    padding-bottom: 80px;
+    padding-bottom: calc(80px + 30px);
 }
 
 .page-overlay {
@@ -770,6 +770,7 @@ ul{
         padding-left: 15px;
         padding-right: 15px;
         padding-top: calc(80px + 15px);
+        padding-bottom: calc(80px + 15px);
     }
 }
 

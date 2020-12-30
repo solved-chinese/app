@@ -28,6 +28,9 @@ const RadDefinition = styled.h4`
 `;
 
 export default class RadDisplay extends React.Component {
+    getRadical() {
+        
+    }
     render() {
         return (
             <>

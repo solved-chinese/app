@@ -53,6 +53,7 @@
 
 .breakdown-content {
     display: flex;
+    flex-wrap: wrap;
     visibility: hidden;
     max-height: 0;
     opacity: 0;
@@ -69,9 +70,11 @@
 }
 
 .breakdown-card {
-    width: 50%;
+    width: calc(50% - 20px);
     font-size: 15px;
-    margin: 20px 10px 0;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
     border-radius: 5px;
     padding: 10px 20px;
     background-color: white;
@@ -92,7 +95,7 @@
 
 @media only screen and (max-width: 480px) {
     .breakdown-card {
-        width: 100%;
+        width: calc(100% - 20px);
     }
 
     .content-card-container {

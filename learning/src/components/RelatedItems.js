@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const Heading = styled.h2`
     color: var(--teritary-text);
     margin-top: 10px;
-    font-size: 0.8em;
+    font-size: 0.9em;
     font-weight: 400;
 `;
 
