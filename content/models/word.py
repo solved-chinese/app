@@ -61,8 +61,8 @@ class Sentence(OrderableMixin):
     word = models.ForeignKey('Word', on_delete=models.CASCADE,
                              related_name='sentences',
                              related_query_name='sentence')
-    pinyin = models.CharField(max_length=200)
     chinese = models.CharField(max_length=40)
+    pinyin = models.CharField(max_length=200)
     translation = models.CharField(max_length=200)
 
     class Meta:
@@ -88,7 +88,8 @@ class Word(GeneralContentModel):
                                         related_query_name='word',
                                         through='CharacterInWord')
     memory_aid = models.TextField(max_length=300,
-                                  blank=True, default='TODO')
+                                  blank=True, default='TODO',
+                                  verbose_name='word memory aid')
 
     class Meta:
         unique_together = ['chinese', 'identifier']

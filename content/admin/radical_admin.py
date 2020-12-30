@@ -8,7 +8,7 @@ from content.models import Radical
 @admin.register(Radical)
 class RadicalAdmin(admin.ModelAdmin):
     search_fields = ['chinese']
-    list_filter = ['is_done']
+    list_filter = ['is_done', 'character__word__word_set__name']
     list_display = ['__str__', 'is_done', 'get_image_thumbnail',
                     'get_character_list_display']
     readonly_fields = ['get_image_preview']

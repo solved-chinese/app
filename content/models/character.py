@@ -61,7 +61,8 @@ class Character(GeneralContentModel):
                                       related_query_name='character',
                                       through='RadicalInCharacter')
     memory_aid = models.TextField(max_length=300,
-                                  blank=True, default='TODO')
+                                  blank=True, default='TODO',
+                                  verbose_name='word memory aid')
 
     archive = models.JSONField(blank=True, default=str)
 

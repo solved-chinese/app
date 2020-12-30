@@ -33,9 +33,8 @@ class SentenceInline(admin.TabularInline):
 class WordAdmin(admin.ModelAdmin):
     search_fields = ['chinese', 'pinyin']
     list_display = ['__str__', 'is_done', 'get_set_list_display']
-    list_filter = ['is_done']
-    inlines = [CharacterInWordInline, DefinitionInWordInline,
-               SentenceInline]
+    list_filter = ['is_done', 'word_set__name']
+    inlines = [DefinitionInWordInline, SentenceInline, CharacterInWordInline]
 
     def get_set_list_display(self, word):
         s = ""
