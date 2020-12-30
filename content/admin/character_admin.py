@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.utils.html import format_html
 
 from content.models import RadicalInCharacter, DefinitionInCharacter, Character
+from content.admin import GeneralContentAdmin
 
 
 class RadicalInCharacterInline(admin.TabularInline):
@@ -24,7 +25,7 @@ class DefinitionInCharacterInline(admin.TabularInline):
 
 
 @admin.register(Character)
-class CharacterAdmin(admin.ModelAdmin):
+class CharacterAdmin(GeneralContentAdmin):
     readonly_fields = ['archive']
     search_fields = ['chinese', 'pinyin']
     list_display = ['__str__', 'is_done', 'get_word_list_display']

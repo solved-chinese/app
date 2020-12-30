@@ -147,6 +147,7 @@ class Word(GeneralContentModel):
                 CharacterInWord.objects.create(character=character,
                                                word=self, order=index)
 
+    def reset_order(self):
         OrderableMixin.reset_order(self.characterinword_set)
         OrderableMixin.reset_order(self.sentences)
         OrderableMixin.reset_order(self.definitions)

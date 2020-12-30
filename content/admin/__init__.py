@@ -1,3 +1,4 @@
+from .general_content_admin import GeneralContentAdmin
 from .character_admin import CharacterAdmin
 from .radical_admin import RadicalAdmin
 from .word_admin import WordAdmin

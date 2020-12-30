@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.utils.html import format_html
 
 from content.models import CharacterInWord, DefinitionInWord, Sentence, Word
+from content.admin import GeneralContentAdmin
 
 
 class CharacterInWordInline(admin.TabularInline):
@@ -30,7 +31,7 @@ class SentenceInline(admin.TabularInline):
 
 
 @admin.register(Word)
-class WordAdmin(admin.ModelAdmin):
+class WordAdmin(GeneralContentAdmin):
     search_fields = ['chinese', 'pinyin']
     list_display = ['__str__', 'is_done', 'get_set_list_display']
     list_filter = ['is_done', 'word_set__name']

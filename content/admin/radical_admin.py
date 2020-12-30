@@ -3,10 +3,11 @@ from django.urls import reverse
 from django.utils.html import format_html
 
 from content.models import Radical
+from content.admin import GeneralContentAdmin
 
 
 @admin.register(Radical)
-class RadicalAdmin(admin.ModelAdmin):
+class RadicalAdmin(GeneralContentAdmin):
     search_fields = ['chinese']
     list_filter = ['is_done', 'character__word__word_set__name']
     list_display = ['__str__', 'is_done', 'get_image_thumbnail',

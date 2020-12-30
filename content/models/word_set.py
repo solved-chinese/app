@@ -38,6 +38,8 @@ class WordSet(GeneralContentModel):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
+
+    def reset_order(self):
         OrderableMixin.reset_order(self.wordinset_set)
 
     def __str__(self):

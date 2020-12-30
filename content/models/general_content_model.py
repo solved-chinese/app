@@ -55,6 +55,9 @@ class GeneralContentModel(models.Model):
                                     "something is not done"
                 raise ValidationError(errors)
 
+    def reset_order(self):
+        pass
+
     class Meta:
         abstract = True
 

@@ -2,6 +2,8 @@ from django.contrib import admin
 
 from content.models import WordInSet, WordSet
 from content.forms import WordSetQuickCreateFrom
+from content.admin import GeneralContentAdmin
+
 
 class WordInSetInline(admin.TabularInline):
     model = WordInSet
@@ -18,7 +20,7 @@ class WordInSetInline(admin.TabularInline):
 
 
 @admin.register(WordSet)
-class WordSetAdmin(admin.ModelAdmin):
+class WordSetAdmin(GeneralContentAdmin):
     list_display = ['__str__', 'is_done']
     list_filter = ['is_done']
     search_fields = ['name', 'characters__chinese']

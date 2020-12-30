@@ -81,6 +81,8 @@ class Character(GeneralContentModel):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
+
+    def reset_order(self):
         OrderableMixin.reset_order(self.radicalincharacter_set)
         OrderableMixin.reset_order(self.definitions)
 
