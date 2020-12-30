@@ -1,7 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
-import CharDisplay from './CharDisplay.js';
 import { ThemeProvider } from 'styled-components';
+import CharDisplay from './CharDisplay.js';
+import RadDisplay from './RadDisplay.js';
 
 const theme = {
     main: '#be132d',
@@ -16,7 +17,10 @@ class App extends React.Component {
     render() {
         return (
             <ThemeProvider theme={theme}>
-                <CharDisplay />
+                <div className='content-card-container'>
+                    <RadDisplay />
+                    {/* <CharDisplay /> */}
+                </div>
             </ThemeProvider>
         );
     }

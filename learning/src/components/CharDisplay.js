@@ -2,7 +2,7 @@ import React from 'react';
 import CharItemPhonetic from './CharItemPhonetic.js';
 import CharDefinition from './CharDefinition.js';
 import styled from 'styled-components';
-import RelatedWords from './RelatedWords.js';
+import RelatedItems from './RelatedItems.js';
 import RadBreakdown from './RadBreakdown';
 
 const Row = styled.div`
@@ -17,7 +17,7 @@ const Row = styled.div`
 export default class CharDisplay extends React.Component {
     render() {
         return (
-            <div className='content-card-container'>
+            <>
                 <Row>
                     <CharItemPhonetic pinyin={['xue']}
                         audioURL=''
@@ -29,9 +29,11 @@ export default class CharDisplay extends React.Component {
                         ]}
                     />
                 </Row>
-                <RelatedWords character='word' />
+                <RelatedItems 
+                    item='someword'
+                    itemType='word' />
                 <RadBreakdown />
-            </div>
+            </>
         );
     }
 }

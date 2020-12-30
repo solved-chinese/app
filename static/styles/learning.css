@@ -2,7 +2,7 @@
     margin-top: 60px;
     max-width: 650px;
     width: 100%;
-    padding: 25px 50px 10px;
+    padding: 25px 50px;
     border-radius: 5px;
     box-shadow: 4px 5px 14px 0px #30354510;
     transition: 150ms ease;
@@ -34,7 +34,11 @@ ul.definition-list {
 .breakdown-container {
     margin-top: 10px;
     width: 100%;
-    transition: 150ms ease;
+    transition: 300ms ease-in-out;
+}
+
+.breakdown-container * {
+    transition: 300ms ease-in-out;
 }
 
 .breakdown-container:hover {
@@ -45,6 +49,11 @@ ul.definition-list {
     width: 50%;
     min-width: 150px;
     margin: auto;
+    margin-bottom: -20px;
+}
+
+.breakdown-toggle.toggled {
+    margin-bottom: 0;
 }
 
 .breakdown-toggle i {
@@ -53,7 +62,7 @@ ul.definition-list {
     text-align: center;
 }
 
-.breakdown-toggle i.inversed {
+.breakdown-toggle.toggled i {
     transform: rotate(180deg);
 }
 
@@ -67,9 +76,9 @@ ul.definition-list {
 }
 
 @media only screen and (max-width: 768px) {
-    .content-card-container {
+    /* .content-card-container {
         padding: 15px 10px;
-    }
+    } */
 
     ul.definition-list {
         padding: 0;
