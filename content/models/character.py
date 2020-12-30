@@ -42,7 +42,7 @@ class RadicalInCharacter(OrderableMixin):
 class Character(GeneralContentModel):
     class CharacterType(models.TextChoices):
         __empty__ = 'TODO'
-        PICTOGRAPHIC = 'pictographic', 'pictographic'
+        PICTOGRAPHIC = 'Pictographic', 'Pictographic'
         IDEOGRAPHIC = 'Ideographic', 'Ideographic'
         COMPOUND_IDEOGRAPHIC = 'Compound Ideographic', \
                                'Compound Ideographic'
