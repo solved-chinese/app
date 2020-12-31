@@ -2,22 +2,27 @@ import React from 'react';
 import { render } from 'react-dom';
 import CharDisplay from './CharDisplay.js';
 import RadDisplay from './RadDisplay.js';
+import { 
+    BrowserRouter as Router,
+    Switch,
+    Route
+} from 'react-router-dom';
 
 class App extends React.Component {
 
-
     render() {
         return (
-            <div className='content-card-container 
+            <Router>
+                <div className='content-card-container 
                 box-shadow'>
-                {/* <RadDisplay /> */}
-                <CharDisplay />
-            </div>
+                    {/* <RadDisplay /> */}
+                    <CharDisplay />
+                </div>
+            </Router>
         );
     }
 }
 
 export default App;
 
-const container = document.getElementById('learning-app');
-render(<App />, container);
+
