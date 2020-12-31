@@ -4,6 +4,8 @@ import CharDefinition from './CharDefinition.js';
 import styled from 'styled-components';
 import RelatedItems from './RelatedItems.js';
 import BreakdownView from './BreakdownView';
+import PropTypes from 'prop-types';
+import LoadingView from './LoadingView.js';
 
 const Row = styled.div`
     display: flex;
@@ -15,7 +17,23 @@ const Row = styled.div`
 `;
 
 export default class CharDisplay extends React.Component {
-    render() {
+
+    static propTypes = {
+        qid: PropTypes.number
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: true
+        };
+    }
+
+    showLoadingView() {
+        return <LoadingView />;
+    }
+
+    showContent() {
         return (
             <>
                 <Row>
@@ -35,5 +53,11 @@ export default class CharDisplay extends React.Component {
                 <BreakdownView type='radical' />
             </>
         );
+    }
+
+
+    render() {
+        return this.state.loading ? 
+            this.showLoadingView() : this.showContent();
     }
 }

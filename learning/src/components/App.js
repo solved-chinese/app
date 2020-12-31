@@ -9,7 +9,7 @@ import {
     Route
 } from 'react-router-dom';
 
-class App extends React.Component {
+export default class App extends React.Component {
 
     render() {
         return (
@@ -29,12 +29,12 @@ class ItemDisplay extends React.Component {
         location: PropTypes.object
     }
 
-    renderSwitch(type, id) {
+    renderSwitch(type, qid) {
         switch (type) {
         case 'character':
-            return (<CharDisplay />);
+            return (<CharDisplay qid={qid} />);
         case 'radical':
-            return <RadDisplay />;
+            return <RadDisplay qid={qid} />;
         default:
             return;
         }
@@ -43,16 +43,12 @@ class ItemDisplay extends React.Component {
     render() {
         const params = new URLSearchParams(this.props.location.search);
         const type = params.get('t');
-        const id = params.get('qid');
+        const qid = parseInt(params.get('qid'), 10);
         return (
             <div className='content-card-container
             box-shadow'>
-                { this.renderSwitch(type, id) }
+                { this.renderSwitch(type, qid) }
             </div>
         );
     }
 }
-
-export default App;
-
-
