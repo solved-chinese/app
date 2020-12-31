@@ -6,6 +6,8 @@ import RelatedItems from './RelatedItems.js';
 import BreakdownView from './BreakdownView';
 import PropTypes from 'prop-types';
 import LoadingView from './LoadingView.js';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
 const Row = styled.div`
     display: flex;
@@ -25,8 +27,29 @@ export default class CharDisplay extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: true
+            loading: true,
+            character: null
         };
+    }
+
+    componentDidMount() {
+        this.loadData();
+    }
+
+    async loadData() {
+        const response = await fetch(`/content/character/${this.props.qid}`);
+        if (!response.ok) {
+            setTimeout(() => {
+                this.loadData();
+            }, 5);
+            throw new Error(`An ${response.status} error has occured,
+                retrying in 5 seconds.`);
+        }
+
+        // parse the response object into json
+        const data = await response.json();
+        // use the json object to update component states
+        this.setState({ character: data, loading: false});
     }
 
     showLoadingView() {
@@ -57,6 +80,7 @@ export default class CharDisplay extends React.Component {
 
 
     render() {
+        // Display a loading page while `this.state.loading == true`.
         return this.state.loading ? 
             this.showLoadingView() : this.showContent();
     }
