@@ -37,6 +37,12 @@ if not DEBUG:
         pass
 
 try:
+    MEDIA_REDIRECT = secret.MEDIA_REDIRECT
+except AttributeError:
+    MEDIA_REDIRECT = 'https://dev.solvedchinese.org/media/'
+
+
+try:
     ALLOWED_HOSTS = secret.ALLOWED_HOSTS
 except AttributeError:
     ALLOWED_HOSTS = ['127.0.0.1']

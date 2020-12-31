@@ -1,11 +1,14 @@
+import posixpath
+
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.views.generic.base import RedirectView
 from django.conf.urls.static import static
+from django.shortcuts import redirect
 from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-from jiezi import views
+from jiezi import views, settings
 
 
 urlpatterns = [
@@ -31,5 +34,13 @@ urlpatterns = [
 
     path('favicon.ico', RedirectView.as_view(url='/static/images/favicon.ico')),
 ]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    # if DEBUG, redirect media according to settings
+    def serve(request, path):
+        path = posixpath.normpath(path).lstrip('/')
+        return redirect(f'{settings.MEDIA_REDIRECT}{path}')
+    if settings.MEDIA_REDIRECT is None:
+        urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    else:
+        urlpatterns.append(re_path(r'^media/(?P<path>.*)$', serve))
 urlpatterns += staticfiles_urlpatterns()
