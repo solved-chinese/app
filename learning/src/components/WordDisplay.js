@@ -31,16 +31,13 @@ export default class WordDisplay extends React.Component {
             <>
                 {/* Top: Word Definition*/}
                 <ContainerTop>
-                    {/* <WordDefinition 
+                    <WordDefinition 
                         src= {'/audio/path'}
                         word={'新生'}
                         pinyin={'/xue sheng/'}
-                        definition={'student'}
-                        // 问下props是该这么写么？
-                    /> */}
-                    <h1>Word Definition</h1>
+                        definitions={[{definition: 'student'}, {part_of_speech: 'n.'}]}
+                    />
                 </ContainerTop>
-
 
 
 
