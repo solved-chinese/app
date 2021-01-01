@@ -1,9 +1,10 @@
 import React from 'react';
 import ExampleSentences from './ExampleSentences';
 import styled from 'styled-components';
-import CharItemPhonetic from './CharItemPhonetic'
-import CharDefinition from './CharDefinition'
-import RadBreakdown from './RadBreakdown'
+import CharItemPhonetic from './CharItemPhonetic';
+import CharDefinition from './CharDefinition';
+import RadBreakdown from './RadBreakdown';
+import WordDefinition from './WordDefinition';
 
 //Top and Bottom Containters
 const ContainerTop = styled.div`
@@ -13,7 +14,8 @@ const ContainerTop = styled.div`
   @media (max-width: 768px) {
       flex-direction: column;
     }
-`
+`;
+
 const ContainerBottom = styled.div`
   display: flex;
   justify-content: center;
@@ -21,49 +23,49 @@ const ContainerBottom = styled.div`
   @media (max-width: 768px) {
     flex-direction: column;
   }
-`
+`;
 
 export default class WordDisplay extends React.Component {
-  render() {
-    return (
-      <>
-        {/* Top: to be imported? Placeholding code */}
-        <ContainerTop>
-          <CharItemPhonetic pinyin={['xue sheng']}
-                        audioURL=''
-                        character='学生'
-          />
-          <CharDefinition 
-                        definitions={[
-                            'n.',
-                            'student'
-                        ]}
-          />
-        </ContainerTop>
+    render() {
+        return (
+            <>
+                {/* Top: Word Definition*/}
+                <ContainerTop>
+                    {/* <WordDefinition 
+                        src= {'/audio/path'}
+                        word={'新生'}
+                        pinyin={'/xue sheng/'}
+                        definition={'student'}
+                        // 问下props是该这么写么？
+                    /> */}
+                    <h1>Word Definition</h1>
+                </ContainerTop>
 
-        {/* Bottom: finished. To be examined */}
 
-        <p style={{textAlign: 'center', marginTop: '10px', fontSize: '13px'}}>Example Sentences:</p>
-        <ContainerBottom>
-          <ExampleSentences 
-              word={{pinyin:'xue sheng', chinese:'学生', definition: 'student'}}
-              pinyin={'/wo shi yi ming xue sheng/'}
-              chinese={'学生是一名学生。'} 
-              translation={'I am a student.'}
-          />
-          <ExampleSentences 
-              word={{pinyin:'xue sheng', chinese:'学生', definition: 'student'}}
-              pinyin={'/wo shi yi ming xue sheng/'}
-              chinese={'学生是一名学生。'} 
-              translation={'I am a student.'}
-          />
-        </ContainerBottom>
+
+
+                {/* Bottom: Example Sentences */}
+                <p style={{textAlign: 'center', marginTop: '10px', fontSize: '13px'}}>Example Sentences:</p>
+                <ContainerBottom>
+                    <ExampleSentences 
+                        word={{pinyin:'xue sheng', chinese:'学生', definition: 'student'}}
+                        pinyin={'/wo shi yi ming xue sheng/'}
+                        chinese={'学生是一名学生。'} 
+                        translation={'I am a student.'}
+                    />
+                    <ExampleSentences 
+                        word={{pinyin:'xue sheng', chinese:'学生', definition: 'student'}}
+                        pinyin={'/wo shi yi ming xue sheng/'}
+                        chinese={'学生是一名学生。'} 
+                        translation={'I am a student.'}
+                    />
+                </ContainerBottom>
         
-        {/* Show Breakdown toggle. Borrowed from Michael*/}
+                {/* Show Breakdown toggle. Borrowed from Michael*/}
 
-        <RadBreakdown />
+                <RadBreakdown />
 
-      </>
-    )
-  }
+            </>
+        );
+    }
 }

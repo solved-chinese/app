@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { render } from "react-dom";
+import React, { Component } from 'react';
+import { render } from 'react-dom';
 
 function SoundButton(props) {
     return (
@@ -7,7 +7,7 @@ function SoundButton(props) {
             <i 
                 className="fas fa-volume"
                 id="sound-button"
-                onClick={() => document.getElementById("audio").play()}
+                onClick={() => document.getElementById('audio').play()}
             ></i>
             <audio id="audio">
                 <source src={props.src} type="audio/mpeg"></source>
@@ -27,7 +27,7 @@ function WordPinyin(props) {
     );
 }
 
-class Definitions extends Component {
+class Definitions extends React.Component {
     render() {
         const definitions = this.props.definitions.map(d => {
             return (
@@ -48,7 +48,7 @@ class Definitions extends Component {
         );
     }
 }
-class WordDefinition extends Component {
+class WordDefinition extends React.Component {
     render() {
         const cn = this.props.word;
         const py = this.props.pinyin;
