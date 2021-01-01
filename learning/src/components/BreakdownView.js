@@ -1,7 +1,11 @@
 import React from 'react';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+
 import RelatedItems from './RelatedItems.js';
+import { RadImage } from './RadDisplay.js';
 
 const Row = styled.div`
     display: inline-flex;
@@ -12,11 +16,13 @@ const Row = styled.div`
     margin-bottom: 20px;
 `;
 
-const MnemonicImage = styled.img`
+const MnemonicImageWrapper = styled.div`
     width: 35%;
     min-width: 60px;
     max-height: 150px;
     object-fit: contain;
+    font-size: 2.25em;
+    text-align: center;
 `;
 
 const RadDefinition = styled.h4`
@@ -25,25 +31,67 @@ const RadDefinition = styled.h4`
     font-size: 1.2em;
     text-align: center;
     min-width: 60px;
-    margin-top: 20px;
+    margin-top: 15px;
 `;
 
 class BreakdownRad extends React.Component {
-    render() {
+
+    static propTypes = {
+        url: PropTypes.string
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: true,
+            radical: null
+        };
+    }
+
+    componentDidMount() {
+        this.loadData();
+    }
+
+    async loadData() {
+        const response = await fetch(this.props.url);
+        if (!response.ok) {
+            setTimeout(() => {
+                this.loadData();
+            }, 5);
+        }
+
+        const data = await response.json();
+        this.setState({ loading: false, radical: data});
+    }
+
+    renderRadical = (radical) => {
+        const chinese = radical.chinese;
+        const def = radical.explanation;
+        const imageUrl = radical.image;
+
         return (
             <>
                 <Row>
-                    <MnemonicImage 
-                        src='/media/mnemonic_image/R0004.png' />
+                    <MnemonicImageWrapper>
+                        <RadImage url={imageUrl}
+                            radical={chinese}/>
+                    </MnemonicImageWrapper> 
                     <RadDefinition className='use-serifs'>
-                        perhaps a longer definition
+                        {def}
                     </RadDefinition>
                 </Row>
                 <RelatedItems 
-                    item='somechar'
+                    item={chinese}
                     itemType='character' />
             </>
         );
+    }
+
+    render() {
+        const loading = this.state.loading;
+        return loading ? 
+            'Error fetching character data, retrying' : 
+            this.renderRadical(this.state.radical);
     }
 }
 
@@ -87,7 +135,14 @@ MemoryAidView.propTypes = {
 export default class BreakdownView extends React.Component {
 
     static propTypes = {
-        type: PropTypes.oneOf(['radical', 'word'])
+        /** The type of breakdown components. */
+        type: PropTypes.oneOf(['radical', 'word']),
+
+        /** Urls of the breakdown components. */
+        componentURL: PropTypes.arrayOf(PropTypes.string),
+
+        /** The associated memory aid sentence. */
+        memoryAid: PropTypes.string
     }
 
     constructor(props) {
@@ -95,6 +150,22 @@ export default class BreakdownView extends React.Component {
         this.state = {
             show: false
         };
+    }
+
+    /**
+     * Render radicals breakdown for each radical in the urls.
+     * 
+     * @param {[String]} urls 
+     */
+    renderBreakdownRad(urls) {
+        return urls.map( url => 
+            (
+                <div key={url}
+                    className='breakdown-card box-shadow'>
+                    <BreakdownRad url={url} />
+                </div>
+            )
+        );
     }
 
     // Since this function is used as event handler, use
@@ -127,17 +198,11 @@ export default class BreakdownView extends React.Component {
                     className={'breakdown-content ' + (
                         this.state.show ? 'show' : ''
                     )}>
-                    <div className='breakdown-card 
-                        box-shadow'>
-                        <BreakdownRad />
-                    </div>
-                    <div className='breakdown-card 
-                        box-shadow'>
-                        <BreakdownRad />
-                    </div>
+
+                    {this.renderBreakdownRad(this.props.componentURL)}
+
                     <MemoryAidView
-                        content='A child(子) sits under the roof of
-                        a school building to learn(学).' />
+                        content={this.props.memoryAid}/>
                 </div>
             </div>
         );

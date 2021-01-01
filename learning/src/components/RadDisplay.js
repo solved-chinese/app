@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+
 import RelatedItems from './RelatedItems.js';
 
 const Row = styled.div`
@@ -45,6 +47,40 @@ export default class RadDisplay extends React.Component {
                     item='somechar'
                     itemType='character' />
             </>
+        );
+    }
+}
+
+export class RadImage extends React.Component {
+
+    static propTypes = {
+        /** Url of the radical image */
+        url: PropTypes.string,
+
+        /** The text radical to be displayed, in case
+         * of an error.
+         */
+        radical: PropTypes.string
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            errored: false
+        };
+    }
+
+    /** Callback function when there's an error loading
+     * the img tag.
+     */
+    onError = () => {
+        this.setState({ errored: true });
+    }
+
+    render() {
+        const {radical, url} = this.props;
+        return this.state.errored ? radical : (
+            <img src={url} onError={this.onError} />
         );
     }
 }

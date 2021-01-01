@@ -1,13 +1,16 @@
 import React from 'react';
-import CharItemPhonetic from './CharItemPhonetic.js';
-import CharDefinition from './CharDefinition.js';
-import styled from 'styled-components';
-import RelatedItems from './RelatedItems.js';
-import BreakdownView from './BreakdownView';
-import PropTypes from 'prop-types';
-import LoadingView from './LoadingView.js';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+import CharItemPhonetic from './CharItemPhonetic.js';
+import CharDefinition from './CharDefinition.js';
+import RelatedItems from './RelatedItems.js';
+import BreakdownView from './BreakdownView';
+
+import LoadingView from './LoadingView.js';
+
 
 const Row = styled.div`
     display: flex;
@@ -57,23 +60,25 @@ export default class CharDisplay extends React.Component {
     }
 
     showContent() {
+        const character = this.state.character;
         return (
             <>
                 <Row>
-                    <CharItemPhonetic pinyin={['xue']}
+                    <CharItemPhonetic pinyin={[character.pinyin]}
                         audioURL=''
-                        character='学'/>
+                        character={character.chinese}/>
                     <CharDefinition 
                         definitions={[
-                            'Foo definition',
-                            'Bar definition'
+                            'N/A'
                         ]}
                     />
                 </Row>
                 <RelatedItems 
-                    item='someword'
+                    item={character.chinese}
                     itemType='word' />
-                <BreakdownView type='radical' />
+                <BreakdownView type='radical'
+                    componentURL={character.radicals}
+                    memoryAid={character.memory_aid}/>
             </>
         );
     }
