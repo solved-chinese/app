@@ -43,7 +43,7 @@ class GeneralContentModel(models.Model):
             errors = {}
             for field in self.__class__._meta.get_fields():
                 if isinstance(field, (models.CharField, models.TextField)) and \
-                        'TODO' not in getattr(self, field.name):
+                        'TODO' in getattr(self, field.name):
                     handle_error(errors, field.name, exclude)
                 elif isinstance(field, (models.ImageField)) and \
                         getattr(self, field.name) == 'default.jpg':
