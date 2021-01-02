@@ -32,7 +32,7 @@ class SentenceInline(admin.TabularInline):
 
 @admin.register(Word)
 class WordAdmin(GeneralContentAdmin):
-    search_fields = ['chinese', 'pinyin']
+    search_fields = ['chinese', 'pinyin', 'identifier']
     list_display = ['__str__', 'is_done', 'get_set_list_display']
     list_filter = ['is_done', 'word_set__name']
     inlines = [DefinitionInWordInline, SentenceInline, CharacterInWordInline]

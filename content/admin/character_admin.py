@@ -26,7 +26,7 @@ class DefinitionInCharacterInline(admin.TabularInline):
 
 @admin.register(Character)
 class CharacterAdmin(GeneralContentAdmin):
-    search_fields = ['chinese', 'pinyin']
+    search_fields = ['chinese', 'pinyin', 'identifier']
     list_display = ['__str__', 'is_done', 'get_word_list_display']
     list_filter = ['is_done', 'word__word_set__name']
     autocomplete_fields = ["radicals"]
