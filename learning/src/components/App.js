@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import CharDisplay from './CharDisplay.js';
 import RadDisplay from './RadDisplay.js';
+import WordDefinition from "./WordDefinition";
 import PropTypes from 'prop-types';
 import { 
     BrowserRouter as Router,
@@ -10,6 +11,7 @@ import {
 } from 'react-router-dom';
 
 export default class App extends React.Component {
+
 
     render() {
         return (
