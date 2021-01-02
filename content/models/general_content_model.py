@@ -3,15 +3,18 @@ from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
 
-def validate_chinese_character_or_x(s):
-    return RegexValidator('^(([\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]+)|(x))\Z',
-                          'this need to be either in Chinese or "x"')
+validate_chinese_character_or_x = RegexValidator('^(([\u2E80-\u2FD5\u3190-\u319f'
+    '\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD\U00020000-\U0002A6D6]+)|x)\Z',
+    'this need to be either in Chinese or "x"')
 
 
 class GeneralContentModel(models.Model):
     note = models.TextField(help_text="This is for internal use only, feel free "
                                       "to use it for note taking",
                             max_length=500, blank=True)
+    archive = models.TextField(help_text="This is auto-generated as reference. "
+                                         "Read-only",
+                               max_length=500, blank=True)
     is_done = models.BooleanField(default=False)
 
     def get_child_models(self):
@@ -40,7 +43,7 @@ class GeneralContentModel(models.Model):
             errors = {}
             for field in self.__class__._meta.get_fields():
                 if isinstance(field, (models.CharField, models.TextField)) and \
-                        getattr(self, field.name) == 'TODO':
+                        'TODO' not in getattr(self, field.name):
                     handle_error(errors, field.name, exclude)
                 elif isinstance(field, (models.ImageField)) and \
                         getattr(self, field.name) == 'default.jpg':

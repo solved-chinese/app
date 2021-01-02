@@ -105,6 +105,10 @@ class Word(GeneralContentModel):
             if not self.characters.exists():
                 raise ValidationError('cannot be done without any character')
 
+            if not self.sentences.exists():
+                raise ValidationError('cannot be done without any sentence')
+            # TODO check TODO in sentences
+
             len_chinese = len(self.chinese)
             len_character = self.characters.count()
             if len_character != len_chinese:
@@ -131,9 +135,9 @@ class Word(GeneralContentModel):
 
     def save(self, *args, **kwargs):
         adding = self._state.adding
-        super().save(*args, **kwargs)
         if adding and self.chinese != 'x': # if adding, connect the necessary characters
             from content.models import Character
+            character_objects = []
             for index, chinese in enumerate(self.chinese):
                 characters = Character.objects.filter(chinese=chinese)
                 cnt = characters.count()
@@ -144,8 +148,13 @@ class Word(GeneralContentModel):
                 else:
                     character = Character.objects.get_or_create(
                         chinese=chinese)[0]
+                character_objects.append(character)
+            super().save(*args, **kwargs)
+            for index, character in enumerate(character_objects):
                 CharacterInWord.objects.create(character=character,
                                                word=self, order=index)
+        else:
+            super().save(*args, **kwargs)
 
     def reset_order(self):
         OrderableMixin.reset_order(self.characterinword_set)

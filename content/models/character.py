@@ -1,8 +1,10 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+import json
 
 from content.models import GeneralContentModel, OrderableMixin, \
     validate_chinese_character_or_x
+from content.data.makemeahanzi_dictionary import get_makemeahanzi_data
 
 
 class DefinitionInCharacter(OrderableMixin):
@@ -64,8 +66,6 @@ class Character(GeneralContentModel):
                                   blank=True, default='TODO',
                                   verbose_name='word memory aid')
 
-    archive = models.JSONField(blank=True, default=str)
-
     class Meta:
         unique_together = ['chinese', 'identifier']
 
@@ -78,9 +78,30 @@ class Character(GeneralContentModel):
         if self.is_done:
             if not self.radicals.exists():
                 raise ValidationError('cannot be done without any radical')
+            if not self.definitions.exists():
+                raise ValidationError('cannot be done without any definition')
+            for definition in self.definitions.all():
+                if not definition.definition or 'TODO' in definition.definition:
+                    raise ValidationError('definitions not done')
 
     def save(self, *args, **kwargs):
+        if self._state.adding:
+            self.fill_makemeahanzi_data()
         super().save(*args, **kwargs)
+
+    def fill_makemeahanzi_data(self):
+        """ this fills necessary data from makemeahanzi,
+        remember to save """
+        if self.chinese == 'x':
+            return
+        characters_data = get_makemeahanzi_data()
+        try:
+            data = characters_data[self.chinese]
+        except KeyError:
+            raise ValidationError(f"{self.chinese} is not proper character")
+        if not self.pinyin:
+            self.pinyin = data['pinyin']
+        self.archive = json.dumps(data, indent=4, ensure_ascii=False)
 
     def reset_order(self):
         OrderableMixin.reset_order(self.radicalincharacter_set)

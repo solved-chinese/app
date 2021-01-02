@@ -1,11 +1,13 @@
 import os
 from uuid import uuid4
+import json
 
+from django.core.exceptions import ValidationError
 from django.db import models
 
 from content.models import GeneralContentModel, \
     validate_chinese_character_or_x
-
+from content.data.makemeahanzi_dictionary import get_makemeahanzi_data
 
 def path_and_rename(instance, filename):
     ext = filename.split('.')[-1]
@@ -34,6 +36,26 @@ class Radical(GeneralContentModel):
 
     class Meta:
         unique_together = ['chinese', 'identifier']
+
+    def save(self, *args, **kwargs):
+        if self._state.adding:
+            self.fill_makemeahanzi_data()
+        super().save(*args, **kwargs)
+
+    def fill_makemeahanzi_data(self):
+        """ this fills necessary data from makemeahanzi,
+        remember to save """
+        if self.chinese == 'x':
+            return
+        characters_data = get_makemeahanzi_data()
+        try:
+            data = characters_data[self.chinese]
+        except KeyError:
+            self.note += "\r\n[WARNING]: chinese field not in dictionary. " \
+                "Reference the archived decomposition field to see if there " \
+                "is a better alternative [END WARNING]"
+        else:
+            self.archive = json.dumps(data, indent=4, ensure_ascii=False)
 
     def __str__(self):
         if self.identifier:
