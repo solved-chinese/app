@@ -3,13 +3,15 @@ import { render } from 'react-dom';
 import CharDisplay from './CharDisplay.js';
 import RadDisplay from './RadDisplay.js';
 import WordDefinition from "./WordDefinition";
+import WordDisplay from './WordDisplay.js';
 import PropTypes from 'prop-types';
 import { 
     BrowserRouter as Router,
     Switch,
     Route
 } from 'react-router-dom';
-import WordDisplay from './WordDisplay.js'
+
+
 
 export default class App extends React.Component {
 
