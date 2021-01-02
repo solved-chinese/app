@@ -35,7 +35,7 @@ export default class WordDisplay extends React.Component {
                         src= {'/audio/path'}
                         word={'新生'}
                         pinyin={'/xue sheng/'}
-                        definitions={[{definition: 'student'}, {part_of_speech: 'n.'}]}
+                        definitions={[{definition: 'student', part_of_speech: 'n.'}]}
                     />
                 </ContainerTop>
 
