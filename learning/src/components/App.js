@@ -9,6 +9,7 @@ import {
     Switch,
     Route
 } from 'react-router-dom';
+import WordDisplay from './WordDisplay.js'
 
 export default class App extends React.Component {
 

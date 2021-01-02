@@ -102,3 +102,21 @@
         padding: 25px 20px;
     }
 }
+}
+
+/* Word Displace - Example Sentences */
+.ExampleCard{
+    max-width: 300px;
+    width: 100%;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 5px 5px 15px 0px #30354512;
+    transition: 200ms ease;
+    padding: 15px 20px 20px;
+    text-align: left;
+    margin: 0px 5px 10px;
+  }
+  .ExampleCard:hover{
+    box-shadow: 2px 4px 10px 0px #30354512;
+    transition: 200ms ease;
+  }
