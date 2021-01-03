@@ -6,6 +6,16 @@ from content.models import OrderableMixin
 class GeneralContentAdmin(admin.ModelAdmin):
     disabled_fields = ['archive']
 
+    def get_fields(self, request, obj=None):
+        """ overriden to move archive to the end """
+        fields = super().get_fields(request, obj=None)
+        try:
+            index = fields.index('archive')
+        except ValueError:
+            return fields
+        fields.pop(index)
+        return [*fields, 'archive']
+
     def get_disabled_fields(self, request, obj=None):
         """ Get the list of fields to disable in form """
         if obj is not None and hasattr(obj, 'chinese'):
