@@ -6,14 +6,9 @@ class GeneralContentAdmin(admin.ModelAdmin):
 
     def get_disabled_fields(self, request, obj=None):
         """ Get the list of fields to disable in form """
-        disabled_fields = self.disabled_fields
-        if obj is not None:
-            try:
-                getattr(obj, 'chinese')
-                disabled_fields += ['chinese']
-            except AttributeError:
-                pass
-        return disabled_fields
+        if obj is not None and hasattr(obj, 'chinese'):
+            return self.disabled_fields + ['chinese']
+        return self.disabled_fields
 
     def get_form(self, request, obj=None, **kwargs):
         """ This is overriden to disable the fields in form according to
