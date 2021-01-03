@@ -8,6 +8,8 @@ import {
 
 const container = document.getElementById('learning-app');
 render(
-    <Router>
-        <Route path='/learning' component={App} />
-    </Router>, container);
+    // <Router>
+    //     <Route path='/learning' component={App} />
+    // </Router>, 
+    <App />,
+    container);

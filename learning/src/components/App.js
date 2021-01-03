@@ -2,7 +2,6 @@ import React from 'react';
 import { render } from 'react-dom';
 import CharDisplay from './CharDisplay.js';
 import RadDisplay from './RadDisplay.js';
-import WordDefinition from "./WordDefinition";
 import WordDisplay from './WordDisplay.js';
 import PropTypes from 'prop-types';
 import { 
@@ -18,13 +17,15 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <Router>
-                <Switch>
-                    <Route 
-                        exact path='/learning/display/' 
-                        component={ItemDisplay} />
-                </Switch>
-            </Router>
+            <WordDisplay qid={42} />
+            
+            // <Router>
+            //     <Switch>
+            //         <Route 
+            //             exact path='/learning/display/' 
+            //             component={ItemDisplay} />
+            //     </Switch>
+            // </Router>
         );
     }
 }
@@ -40,8 +41,10 @@ class ItemDisplay extends React.Component {
             return (<CharDisplay qid={qid} />);
         case 'radical':
             return <RadDisplay qid={qid} />;
+        case 'word':
+            return <WordDisplay qid={qid} />;
         default:
-            return;
+            return ;
         }
     }
 
@@ -57,3 +60,4 @@ class ItemDisplay extends React.Component {
         );
     }
 }
+

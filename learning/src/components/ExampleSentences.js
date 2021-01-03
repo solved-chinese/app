@@ -5,7 +5,7 @@ const ExampleSentences = (props) => {
   //Add color to the keyword in sentences
   const pinyin = props.pinyin.replace(new RegExp(props.word.pinyin, 'g'), `<span style='color:darkcyan'>${props.word.pinyin}</span>`) 
   const chinese = props.chinese.replace(new RegExp(props.word.chinese, 'g'), `<span style='color:darkcyan'>${props.word.chinese}</span>`)
-  const translation = props.translation.replace(new RegExp(props.word.definition, 'gi'), `<span style='color:darkcyan'>${props.word.definition}</span>`)
+  const translation = props.translation.replace(new RegExp(props.word.definitions[0].definition, 'gi'), `<span style='color:darkcyan'>${props.word.definitions[0].definition}</span>`)
 
   //Output the sentences with HTML <span>
   return (
