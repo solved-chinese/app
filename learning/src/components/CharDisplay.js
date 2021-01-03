@@ -61,6 +61,9 @@ export default class CharDisplay extends React.Component {
 
     showContent() {
         const character = this.state.character;
+        const definitions = character.definitions.map( v => 
+            v.definition
+        );
         return (
             <>
                 <Row>
@@ -68,9 +71,7 @@ export default class CharDisplay extends React.Component {
                         audioURL=''
                         character={character.chinese}/>
                     <CharDefinition 
-                        definitions={[
-                            'N/A'
-                        ]}
+                        definitions={ definitions }
                     />
                 </Row>
                 <RelatedItems 
