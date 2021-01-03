@@ -33,9 +33,17 @@ class SentenceInline(admin.TabularInline):
 @admin.register(Word)
 class WordAdmin(GeneralContentAdmin):
     search_fields = ['chinese', 'pinyin', 'identifier']
-    list_display = ['__str__', 'is_done', 'get_set_list_display']
+    list_display = ['is_done', '__str__', 'pinyin',
+                    'get_definitions', 'get_set_list_display']
     list_filter = ['is_done', 'word_set__name']
     inlines = [DefinitionInWordInline, SentenceInline, CharacterInWordInline]
+
+    def get_definitions(self, word):
+        s = ""
+        for definition in word.definitions.all():
+            s += f"{definition} <br>"
+        return format_html(s)
+    get_definitions.short_description = "definitions"
 
     def get_set_list_display(self, word):
         s = ""

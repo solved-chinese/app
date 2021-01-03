@@ -10,8 +10,8 @@ from content.admin import GeneralContentAdmin
 class RadicalAdmin(GeneralContentAdmin):
     search_fields = ['chinese', 'identifier']
     list_filter = ['is_done', 'character__word__word_set__name']
-    list_display = ['__str__', 'is_done', 'get_image_thumbnail',
-                    'get_character_list_display']
+    list_display = ['is_done', '__str__', 'pinyin', 'definition',
+                    'get_image_thumbnail', 'get_character_list_display']
     readonly_fields = ['get_image_preview']
 
     def get_character_list_display(self, radical):

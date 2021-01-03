@@ -27,10 +27,18 @@ class DefinitionInCharacterInline(admin.TabularInline):
 @admin.register(Character)
 class CharacterAdmin(GeneralContentAdmin):
     search_fields = ['chinese', 'pinyin', 'identifier']
-    list_display = ['__str__', 'is_done', 'get_word_list_display']
+    list_display = ['is_done', '__str__', 'pinyin',
+                    'get_definitions', 'get_word_list_display']
     list_filter = ['is_done', 'word__word_set__name']
     autocomplete_fields = ["radicals"]
     inlines = [DefinitionInCharacterInline, RadicalInCharacterInline]
+
+    def get_definitions(self, character):
+        s = ""
+        for definition in character.definitions.all():
+            s += f"{definition} <br>"
+        return format_html(s)
+    get_definitions.short_description = "definitions"
 
     def get_word_list_display(self, character):
         s = ""
