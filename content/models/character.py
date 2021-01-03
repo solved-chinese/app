@@ -116,6 +116,9 @@ class Character(GeneralContentModel):
     def __repr__(self):
         return f"<C{self.id:04d}:{self.chinese}#{self.identifier}>"
 
+    def get_absolute_url(self):
+        return f"/learning/display/?t=character&qid={self.pk}"
+
     @classmethod
     def get_TODO_character(cls):
         return cls.objects.get_or_create(
