@@ -8,7 +8,7 @@ class GeneralContentAdmin(admin.ModelAdmin):
 
     def get_fields(self, request, obj=None):
         """ overriden to move archive to the end """
-        fields = super().get_fields(request, obj=None)
+        fields = super().get_fields(request, obj=None).copy()
         try:
             index = fields.index('archive')
         except ValueError:
@@ -17,7 +17,9 @@ class GeneralContentAdmin(admin.ModelAdmin):
         return [*fields, 'archive']
 
     def get_disabled_fields(self, request, obj=None):
-        """ Get the list of fields to disable in form """
+        """ Get the list of fields to disable in form
+            disable chinese editing in change form
+         """
         if obj is not None and hasattr(obj, 'chinese'):
             return self.disabled_fields + ['chinese']
         return self.disabled_fields
@@ -31,11 +33,13 @@ class GeneralContentAdmin(admin.ModelAdmin):
         return form
 
     def save_formset(self, request, form, formset, change):
+        """ make sure the order is correct when editor doesn't specify """
         if issubclass(formset.model, OrderableMixin):
             for index, form in enumerate(formset):
                 form.instance.order += index * 1e-9
         super().save_formset(request, form, formset, change)
 
     def save_related(self, request, form, formsets, change):
+        """ reset the order to be 0,1,2... """
         super().save_related(request, form, formsets, change)
         form.instance.reset_order()

@@ -11,7 +11,6 @@ class Command(BaseCommand):
         for character in tqdm(Character.objects.all()):
             character.fill_makemeahanzi_data()
             character.save()
-            character.fill_makemeahanzi_def()
         for radical in tqdm(Radical.objects.all()):
             radical.fill_makemeahanzi_data()
             radical.save()

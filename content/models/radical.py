@@ -2,7 +2,6 @@ import os
 from uuid import uuid4
 import json
 
-from django.core.exceptions import ValidationError
 from django.db import models
 
 from content.models import GeneralContentModel, \
@@ -51,9 +50,9 @@ class Radical(GeneralContentModel):
         try:
             data = characters_data[self.chinese]
         except KeyError:
-            self.note += "\r\n[WARNING]: chinese field not in dictionary. " \
-                "Reference the archived decomposition field to see if there " \
-                "is a better alternative [END WARNING]"
+            self.add_warning("chinese field not in dictionary. Reference "
+                             "the archived decomposition field to see if "
+                             "there is a better alternative")
         else:
             self.archive = json.dumps(data, indent=4, ensure_ascii=False)
 

@@ -86,16 +86,15 @@ class Character(GeneralContentModel):
 
     def save(self, *args, **kwargs):
         adding = self._state.adding
-        if adding:
-            self.fill_makemeahanzi_data()
+        # initial save is needed for foreign keys to be related to self
         super().save(*args, **kwargs)
         if adding:
-            self.fill_makemeahanzi_def()
-            super().save(*args, **kwargs)
+            self.fill_makemeahanzi_data()
+            super().save(*args, check_chinese=False, **kwargs)
 
     def fill_makemeahanzi_data(self):
-        """ this fills necessary data from makemeahanzi,
-        remember to save """
+        """ this fills necessary data from makemeahanzi into archive field,
+         remember to save """
         if self.chinese == 'x':
             return
         characters_data = get_makemeahanzi_data()
@@ -103,14 +102,9 @@ class Character(GeneralContentModel):
             data = characters_data[self.chinese]
         except KeyError:
             raise ValidationError(f"{self.chinese} is not proper character")
+
         if self.pinyin == 'TODO' or not self.pinyin:
             self.pinyin = data['pinyin']
-        self.archive = json.dumps(data, indent=4, ensure_ascii=False)
-
-    def fill_makemeahanzi_def(self):
-        if self.chinese == 'x':
-            return
-        data = json.loads(self.archive)
         if not self.definitions.exists():
             definitions = data['definition'].split(';')
             for index, definition in enumerate(definitions):
@@ -118,8 +112,8 @@ class Character(GeneralContentModel):
                 DefinitionInCharacter.objects.create(
                     character=self, definition=definition, order=index
                 )
-            self.note += "\r\n[WARNING] definitions auto-generated, " \
-                         "please verify [END WARNING]"
+            self.add_warning(f"definitions auto-generated, please verify")
+        self.archive = json.dumps(data, indent=4, ensure_ascii=False)
 
     def reset_order(self):
         OrderableMixin.reset_order(self.radicalincharacter_set)

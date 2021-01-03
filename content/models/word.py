@@ -77,8 +77,7 @@ class Sentence(OrderableMixin):
 
 class Word(GeneralContentModel):
     # TODO if word chinese field change, also change characters
-    chinese = models.CharField(max_length=5,
-                               validators=[validate_chinese_character_or_x])
+    chinese = models.CharField(max_length=10)
     identifier = models.CharField(max_length=10, blank=True)
 
     pinyin = models.CharField(max_length=36, default='TODO')
@@ -96,10 +95,6 @@ class Word(GeneralContentModel):
 
     def clean(self):
         """check that word and characters do not mismatch in chinese & pinyin"""
-
-        def unaccent(x):
-            return unicodedata.normalize('NFKD', x).encode('ascii','ignore')
-
         super().clean()
         if self.is_done:
             if not self.characters.exists():
@@ -107,27 +102,6 @@ class Word(GeneralContentModel):
 
             if not self.sentences.exists():
                 raise ValidationError('cannot be done without any sentence')
-            # TODO check TODO in sentences
-
-            len_chinese = len(self.chinese)
-            len_character = self.characters.count()
-            if len_character != len_chinese:
-                raise ValidationError(f"length mismatch between chinese "
-                    f"{len_chinese} and characters {len_character}")
-
-            word_pinyin = self.pinyin.replace(' ', '')
-            character_pinyin = ''
-            for index, (chinese, character) in \
-                    enumerate(zip(self.chinese, self.characters.all())):
-                if chinese != character.chinese:
-                    raise ValidationError(f"mismatch at index {index}: chinese "
-                        f"is {chinese} but character is {character}")
-                character_pinyin += character.pinyin
-            word_pinyin = unaccent(word_pinyin)
-            character_pinyin = unaccent(character_pinyin)
-            if word_pinyin != character_pinyin:
-                raise ValidationError(f"mismatch of pinyin, word gives {word_pinyin}"
-                                      f" but character gives {character_pinyin}")
 
     def get_child_models(self):
         characters = list(self.characters.all())
@@ -135,7 +109,16 @@ class Word(GeneralContentModel):
 
     def save(self, *args, **kwargs):
         adding = self._state.adding
-        if adding and self.chinese != 'x': # if adding, connect the necessary characters
+        # if adding, connect the necessary characters
+        if adding and self.chinese != 'x':
+            try:
+                validate_chinese_character_or_x(self.chinese)
+            except ValidationError:
+                self.add_warning("non-chinese characters in chinese, "
+                                 "please edit manually")
+                super().save(*args, **kwargs)
+                return
+
             from content.models import Character
             character_objects = []
             for index, chinese in enumerate(self.chinese):
