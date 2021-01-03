@@ -6,7 +6,7 @@ import json
 from django.core.management.base import BaseCommand
 
 from jiezi.settings import BASE_DIR
-from content.models import Word, DefinitionInWord, WordSet
+from content.models import Word, DefinitionInWord, WordSet, WordInSet
 
 
 class Command(BaseCommand):
@@ -16,7 +16,8 @@ class Command(BaseCommand):
             level_index = index // 20 + 1
             part_index = (index % 20) // 10 + 1
             lesson_index = (index % 20) + 1
-            wordset_name = f"IC Lv.{level_index} Pt.{part_index} Lesson {lesson_index}"
+            wordset_name = f"IC Lv.{level_index} Pt.{part_index} " \
+                           f"Lesson {lesson_index}"
             if WordSet.objects.filter(name=wordset_name).exists():
                 print(f'skip {wordset_name} as it exists')
                 continue
@@ -48,4 +49,6 @@ class Command(BaseCommand):
                     DefinitionInWord.objects.create(word=word,
                                                     definition=definitions)
                 word_objects.append(word)
-            wordset.words.set(word_objects)
+            for index, word in enumerate(word_objects):
+                WordInSet.objects.create(word_set=wordset, word=word,
+                                         order=index)

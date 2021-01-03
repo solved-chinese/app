@@ -10,7 +10,7 @@ class WordInSet(OrderableMixin):
 
     class Meta:
         ordering = ['order']
-        unique_together = ['word', 'word_set']
+        unique_together = ['word', 'word_set', 'order']
 
 
 class WordSet(GeneralContentModel):
