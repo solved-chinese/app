@@ -30,24 +30,60 @@ const RadDefinition = styled.h4`
 `;
 
 export default class RadDisplay extends React.Component {
-    getRadical() {
-        
+
+    static propTypes = {
+        qid: PropTypes.number
     }
-    render() {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: true,
+            radical: null
+        };
+    }
+
+    componentDidMount() {
+        this.loadData();
+    }
+
+    async loadData() {
+        const response = await fetch(`/content/radical/${this.props.qid}`);
+        if (!response.ok) {
+            setTimeout(() => {
+                this.loadData();
+            }, 5);
+        }
+
+        const data = await response.json();
+        this.setState({ loading: false, radical: data});
+    }
+
+    renderRadical = (radical) => {
+        const chinese = radical.chinese;
+        const def = radical.explanation;
+        const imageUrl = radical.image;
+
         return (
             <>
                 <Row>
-                    <MnemonicImage 
-                        src='/media/mnemonic_image/R0004.png' />
+                    <MnemonicImage src={imageUrl}/>
                     <RadDefinition className='use-serifs'>
-                        perhaps a longer definition
+                        {def}
                     </RadDefinition>
                 </Row>
-                <RelatedItems 
-                    item='somechar'
+                <RelatedItems
+                    item={chinese}
                     itemType='character' />
             </>
         );
+    }
+
+    render() {
+        const loading = this.state.loading;
+        return loading ?
+            'Error fetching character data, retrying' :
+            this.renderRadical(this.state.radical);
     }
 }
 
