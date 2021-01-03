@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const Container = styled.div`
     display: inline-flex;
-    flex-direction: column;
+    flex-direction: row;
     align-self: flex-start;
     @media only screen and (max-width: 768px) {
         align-self: center;

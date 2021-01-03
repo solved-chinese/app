@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import { ThemeProvider } from 'styled-components';
 import CharDisplay from './CharDisplay.js';
 import RadDisplay from './RadDisplay.js';
-import WordDisplay from './WordDisplay.js'
+import WordDisplay from './WordDisplay.js';
 
 const theme = {
     main: '#be132d',
