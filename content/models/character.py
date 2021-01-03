@@ -99,7 +99,7 @@ class Character(GeneralContentModel):
             data = characters_data[self.chinese]
         except KeyError:
             raise ValidationError(f"{self.chinese} is not proper character")
-        if not self.pinyin:
+        if self.pinyin == 'TODO' or not self.pinyin:
             self.pinyin = data['pinyin']
         self.archive = json.dumps(data, indent=4, ensure_ascii=False)
 
