@@ -63,16 +63,19 @@ class GeneralContentModel(models.Model):
 
     def save(self, *args, check_chinese=True, **kwargs):
         """ gives warning if there are other objects with the same chiense """
-        if check_chinese and hasattr(self, 'chinese') and self.chinese != 'x':
-            others = self.__class__.objects.filter(chinese=self.chinese)
-            if others.exists():
-                others = list(others)
-                self.add_warning(f"there are other objects with "
-                                 f"same chinese {others}")
+        if self._state.adding:
+            if check_chinese and hasattr(self, 'chinese') \
+                    and self.chinese != 'x':
+                others = self.__class__.objects.filter(chinese=self.chinese).\
+                    exclude(pk=self.pk)
+                if others.exists():
+                    others = list(others)
+                    self.add_warning(f"there are other objects with "
+                                     f"same chinese {others}")
         super().save(*args, **kwargs)
 
     def add_warning(self, warning):
-        self.note += f"\r\n{warning}"
+        self.note += f"[WARNING]\r\n{warning}[WARNING]"
 
     class Meta:
         abstract = True
