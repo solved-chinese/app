@@ -12,6 +12,7 @@ class RadicalAdmin(GeneralContentAdmin):
     list_filter = ['is_done', 'character__word__word_set__name']
     list_display = ['is_done', '__str__', 'pinyin', 'definition',
                     'get_image_thumbnail', 'get_character_list_display']
+    list_display_links = ['__str__']
     readonly_fields = ['get_image_preview']
 
     def get_character_list_display(self, radical):

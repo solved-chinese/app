@@ -1,5 +1,7 @@
 from django.contrib import admin
 
+from content.models import OrderableMixin
+
 
 class GeneralContentAdmin(admin.ModelAdmin):
     disabled_fields = ['archive']
@@ -17,6 +19,12 @@ class GeneralContentAdmin(admin.ModelAdmin):
         for field_name in self.get_disabled_fields(request, obj=obj):
             form.base_fields[field_name].disabled = True
         return form
+
+    def save_formset(self, request, form, formset, change):
+        if issubclass(formset.model, OrderableMixin):
+            for index, form in enumerate(formset):
+                form.instance.order += index * 1e-9
+        super().save_formset(request, form, formset, change)
 
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)

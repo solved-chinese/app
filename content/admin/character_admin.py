@@ -29,6 +29,7 @@ class CharacterAdmin(GeneralContentAdmin):
     search_fields = ['chinese', 'pinyin', 'identifier']
     list_display = ['is_done', '__str__', 'pinyin',
                     'get_definitions', 'get_word_list_display']
+    list_display_links = ['__str__']
     list_filter = ['is_done', 'word__word_set__name']
     autocomplete_fields = ["radicals"]
     inlines = [DefinitionInCharacterInline, RadicalInCharacterInline]
