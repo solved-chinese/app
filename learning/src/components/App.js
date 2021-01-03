@@ -16,15 +16,15 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <WordDisplay qid={42} />
+            // <WordDisplay qid={42} />
             
-            // <Router>
-            //     <Switch>
-            //         <Route 
-            //             exact path='/learning/display/' 
-            //             component={ItemDisplay} />
-            //     </Switch>
-            // </Router>
+            <Router>
+                <Switch>
+                    <Route 
+                        exact path='/learning/display/' 
+                        component={ItemDisplay} />
+                </Switch>
+            </Router>
         );
     }
 }

@@ -73,8 +73,6 @@ export default class WordDisplay extends React.Component {
         const chinese = word.chinese;
         const pinyin = word.pinyin;
         const definitions = word.definitions;
-        const sentence1 =word.sentences[0];
-        const sentence2 =word.sentences[1];
         
         return (
             <>
@@ -85,30 +83,30 @@ export default class WordDisplay extends React.Component {
                         chinese={chinese}
                         pinyin={pinyin}
                         definitions={definitions}
-                        // [{definition: 'student', part_of_speech: 'n.'}, 
-                            // {definition:"manymnayahsujfiejfiej", part_of_speech:'adj.'}]
                     />
                 </ContainerTop>
 
                 {/* Bottom: Example Sentences */}
                 <p style={{textAlign: 'center', marginTop: '10px', fontSize: '13px'}}>Example Sentences:</p>
                 <ContainerBottom>
-                    <ExampleSentences 
-                        word={word}
-                        pinyin={sentence1.pinyin}
-                        chinese={sentence1.chinese} 
-                        translation={sentence1.translation}
-                    />
-                    <ExampleSentences 
-                        word={word}
-                        pinyin={sentence2.pinyin}
-                        chinese={sentence2.chinese} 
-                        translation={sentence2.translation}
-                    />
+                    {word.sentences.map((sen, i) => {
+                        return (
+                            <ExampleSentences
+                                word={word}
+                                pinyin={sen.pinyin}
+                                chinese={sen.chinese} 
+                                translation={sen.translation}
+                            />
+                        );
+                    })}
                 </ContainerBottom>
         
                 {/* Show Breakdown toggle. Borrowed from Michael*/}
-                {/* <BreakdownView /> */}
+                <BreakdownView 
+                    type='word'
+                    componentURL={word.characters}
+                    memoryAid={word.memory_aid}
+                />
 
             </>
         );
