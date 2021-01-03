@@ -61,6 +61,15 @@ class GeneralContentModel(models.Model):
     def reset_order(self):
         pass
 
+    def save(self, *args, **kwargs):
+        if hasattr(self, 'chinese') and self.chinese != 'x':
+            others = self.__class__.objects.filter(chinese=self.chinese)
+            if others.exists():
+                others = list(others)
+                self.note += "\r\n[WARNING] there are other objects with " \
+                             f"same chinese {others} [END WARNING]"
+        super().save(*args, **kwargs)
+
     class Meta:
         abstract = True
 
