@@ -75,7 +75,7 @@ class GeneralContentModel(models.Model):
         super().save(*args, **kwargs)
 
     def add_warning(self, warning):
-        self.note += f"[WARNING]\r\n{warning}[WARNING]"
+        self.note += f"\r\n[WARNING]{warning}[END WARNING]"
 
     class Meta:
         abstract = True
