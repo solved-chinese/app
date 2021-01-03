@@ -1,0 +1,48 @@
+﻿# Integrated Chinese, Level 1, Part 2, 3rd Edition  - Lesson 15
+# Published by Cheng & Tsui, 2010 - ISBN 9780887276880
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+病人 [bìngrén] /patient/
+病 [bìng] /illness, to become ill/
+医院 [yīyuàn] /hospital/
+看病 [kàn bìng] /to see a doctor, (of a doctor) to see a patient/
+肚子 [dùzi] /belly, abdomen/
+疼死 [téng sǐ] /really painful/
+疼 [téng] /aching/
+死 [sǐ] /to die, (a complement indicating an extreme degree)/
+夜里 [yèli] /at night/
+好几 [hǎo jǐ] /quite a few/
+厕所 [cèsuǒ] /restroom, toilet/
+把 [bǎ] /(indicating a thing disposed of)/
+冰箱 [bīngxiāng] /refrigerator/
+发烧 [fā shāo] /to have a fever/
+躺下 [tǎng xia] /to lie down/
+躺 [tǎng] /to lie/
+检查 [jiǎnchá] /to examine/
+吃坏 [chī huài] /to get sick because of bad food/
+怀 [huài] /bad/
+打针 [dǎ zhēn] /to get an injection/
+针 [zhēn] /needle/
+药 [yào] /medicine/
+片 [piàn] /(measure word for tablet, slice)/
+遍 [biàn] /(measure word for complete courses of an action or instances of an action)/
+最好 [zuìhǎo] /had better/
+小时 [xiǎoshí] /hour/
+办法 [bànfǎ] /method, way (of doing sth)/
+感冒 [gǎnmào] /to have a cold/
+生病 [shēng bìng] /to get sick/
+身体 [shēntǐ] /body, health/
+痒 [yǎng] /itchy/
+过敏 [guòmǐn] /to be allergic to/
+药店 [yàodiàn] /pharmacy/
+健康 [jiànkāng] /healthy, health/
+保险 [bǎoxiǎn] /insurance/
+赶快 [gǎnkuài] /right away, quickly, in a hurry/
+要不然 [yàobùrán] /otherwise/
+越来越 [yuè lái yuè] /more and more/
+上次 [shàng cì] /last time/
+休息 [xiūxi] /to take a break, to rest/
+懒 [lǎn] /lazy/
+再说 [zàishuō] /moreover/
+乱 [luàn] /randomly, arbitrarily, messily/
+# end

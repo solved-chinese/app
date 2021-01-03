@@ -90,7 +90,8 @@ class Character(GeneralContentModel):
         super().save(*args, **kwargs)
         if adding:
             self.fill_makemeahanzi_data()
-            super().save(*args, check_chinese=False, **kwargs)
+            # cannot also pass kwargs here or force_insert will produce an error
+            super().save(check_chinese=False)
 
     def fill_makemeahanzi_data(self):
         """ this fills necessary data from makemeahanzi into archive field,

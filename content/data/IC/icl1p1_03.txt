@@ -1,0 +1,93 @@
+﻿# Integrated Chinese, Level 1, Part 1, 3rd Edition  - Lesson 03
+# Published by Cheng & Tsui, 2008 - ISBN 9780887276385
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+九月 [jiǔyuè] /September/
+月 [yuè] /month/
+十二 [shí'èr] /twelve/
+号 [hào] /(measure word for a number in a series)/
+星期 [xīngqī] /week/
+星期四 [xīngqīsì] /Thursday/
+天 [tiān] /day/
+生日 [shēngrì] /birthday/
+生 [shēng] /to give birth to, to be born/
+日 [rì] /day; sun/
+今年 [jīnnián] /this year/
+年 [nián] /year/
+多 [duō] /how many, how much, to what extent; many/
+大 [dà] /big, old/
+十八 [shíbā] /eighteen/
+岁 [suì] /year (of age)/
+吃 [chī] /to eat/
+饭 [fàn] /meal, (cooked) rice/
+怎么样 [zěnmeyàng] /is it OK?, how is that?, how does that sound?/
+太…了 [tài...le] /too, extremely/
+谢谢 [xièxie] /to thank/
+喜欢 [xǐhuān] /to like/
+菜 [cài] /dishes, cuisine/
+还是 [háishì] /or/
+可是 [kěshì] /but/
+我们 [wǒmen] /we/
+点 [diǎn] /o'clock, dot, point/
+半 [bàn] /half, half an hour/
+晚上 [wǎnshang] /evening, night/
+见 [jiàn] /to see/
+再见 [zàijiàn] /goodbye, see you again/
+再 [zài] /again/
+英国 [Yīngguó] /Britain, England/
+星期一 [xīngqīyī] /Monday/
+星期二 [xīngqī'èr] /Tuesday/
+星期三 [xīngqīsān] /Wednesday/
+星期四 [xīngqīsì] /Thursday/
+星期五 [xīngqīwǔ] /Friday/
+星期六 [xīngxīliù] /Saturday/
+星期日 [xīngqīrì] /Sunday/
+星期天 [xīngqītiān] /Sunday/
+礼拜一 [lǐbàiyī] /Monday/
+礼拜二 [lǐbài'èr] /Tuesday/
+礼拜三 [lǐbàisān] /Wednesday/
+礼拜四 [lǐbàisì] /Thursday/
+礼拜五 [lǐbàiwǔ] /Friday/
+礼拜六 [lǐbàiliù] /Saturday/
+礼拜日 [lǐbàirì] /Sunday/
+礼拜天 [lǐbàitiān] /Sunday/
+周一 [zhōuyī] /Monday/
+周二 [zhōu'èr] /Tuesday/
+周三 [zhōusān] /Wednesday/
+周四 [zhōusì] /Thursday/
+周五 [zhōuwǔ] /Friday/
+周六 [zhōuliù] /Saturday/
+周日 [zhōurì] /Sunday/
+一月 [yīyuè] /January/
+二月 [èryuè] /February/
+三月 [sānyuè] /March/
+四月 [sìyuè] /April/
+五月 [wǔyuè] /May/
+六月 [liùyuè] /June/
+七月 [qīyuè] /July/
+八月 [bāyuè] /August/
+九月 [jiǔyuè] /September/
+十月 [shíyuè] /October/
+十一月 [shíyīyuè] /November/
+十二月 [shí'èryuè] /December/
+现在 [xiànzài] /now/
+刻 [kè] /quarter (of an hour)/
+事儿 [shìr] /matter, affair, event/
+今天 [jīntiān] /today/
+很 [hěn] /very/
+忙 [máng] /busy/
+明天 [míngtiān] /tomorrow/
+晚饭 [wǎnfàn] /dinner, supper/
+为什么 [wèishénme] /why/
+为 [wèi] /for/
+因为 [yīnwèi] /because/
+还 [hái] /also, too, as well/
+同学 [tóngxué] /classmate/
+认识 [rènshi] /to be acquainted with, to recognize/
+朋友 [péngyou] /friend/
+新年 [xīnnián] /New Year/
+情人节 [Qíngrénjié] /Valentine's Day/
+母亲节 [Mǔqīnjié] /Mother's Day/
+父亲节 [Fùqīnjié] /Father's Day/
+感恩节 [Gǎn'ēnjié] /Thanksgiving/
+# end

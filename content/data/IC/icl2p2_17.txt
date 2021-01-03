@@ -1,0 +1,49 @@
+﻿# Integrated Chinese, Level 2, Part 2, 3rd Edition  - Lesson 17
+# Published by Cheng & Tsui, 2010 - ISBN 9780887276880
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+理财 [lǐcái] /to manage money/
+投资 [tóuzī] /to invest (money); (financial) investment/
+剩余 [shèngyú] /to be left over, surplus/
+利息 [lìxī] /interest/
+增加 [zēngjiā] /to increase, to add/
+一向 [yíxiàng] /all along, the whole time, constantly/
+省吃俭用 [shěng chī jiǎn yòng] /to be frugal (with food and other living expenses)/
+存款 [cúnkuǎn] /bank savings/
+方式 [fāngshì] /way, method/
+涨 [zhǎng] /(of water, prices, etc.) to rise, to surge, to go up/
+炒 [chǎo] /to stir-fry, to sauté, to speculate (for profit)/
+消费 [xiāofèi] /to consume/
+享受 [xiǎngshòu] /to enjoy; enjoyment, pleasure/
+引起 [yǐnqǐ] /to give rise to, to lead to/
+思考 [sīkǎo] /to think deeply, to ponder over; contemplation, cogitation/
+矛盾 [máodùn] /contradiction; contradictory, conflicting/
+郁闷 [yùmèn] /gloomy, depressed/
+笔 [bǐ] /(measure word for sums of money)/
+孙子 [sūnzi] /son's son, grandson/
+孙女 [sūnnü] /son's daughter, granddaughter/
+未婚妻 [wèihūnqī] /fiancée/
+算 [suàn] /to count as, to be considered as/
+合 [hé] /to combine, to join/
+劝 [quàn] /to persuade, to advise, to urge/
+辛苦 [xīnkǔ] /hard, strenous, toilsome, laborious; to work hard, to go to trouble/
+老太太 [lǎotàitai] /elderly lady/
+攒 [zǎn] /to accumulate, to hoard, to save, to scrape together/
+老年 [lǎonián] /old age/
+说服 [shuōfú] /to persuade, to convince/
+终于 [zhōngyú] /at last, in the end, finally, eventually/
+接着 [jiēzhe] /to follow, to continue/
+中 [zhòng] /to fit exactly, to hit/
+签 [qiān] /to sign, to autograph/
+合同 [hétong] /agreement, contract/
+想法 [xiǎngfǎ] /idea, opinion/
+突然 [tūrán] /sudden, unexpected/
+姐妹 [jiěmèi] /sisters, female friends or co-workers who share a sister-like bond/
+麻将 [májiàng] /mahjong/
+股市 [gǔshì] /stock market/
+风险 [fēngxiǎn] /risk, danger, hazard/
+抵押 [dǐyǎ] /to mortgage/
+股票 [gǔpiào] /stock, share/
+跌 [diē] /to fall/
+赔 [péi] /lose (money, etc.) to suffer a loss in a deal/
+# end

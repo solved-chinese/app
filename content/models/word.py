@@ -35,7 +35,7 @@ class DefinitionInWord(OrderableMixin):
     part_of_speech = models.CharField(max_length=6,
                                       choices=PartOfSpeech.choices,
                                       blank=True)
-    definition = models.CharField(max_length=70,
+    definition = models.CharField(max_length=200,
                                   blank=True)
 
     class Meta:
@@ -111,26 +111,25 @@ class Word(GeneralContentModel):
         adding = self._state.adding
         # if adding, connect the necessary characters
         if adding and self.chinese != 'x':
-            try:
-                validate_chinese_character_or_x(self.chinese)
-            except ValidationError:
-                self.add_warning("non-chinese characters in chinese, "
-                                 "please edit manually")
-                super().save(*args, **kwargs)
-                return
-
             from content.models import Character
             character_objects = []
             for index, chinese in enumerate(self.chinese):
+                try:
+                    validate_chinese_character_or_x(chinese)
+                except ValidationError:
+                    self.add_warning(f"non-chinese characters '{chinese}' at "
+                                     f"index {index}, please verify")
+                    continue
                 characters = Character.objects.filter(chinese=chinese)
                 cnt = characters.count()
                 if cnt == 1:
                     character = characters.get()
                 elif cnt > 1:
+                    self.add_warning(f"{chinese} at index {index} have more than"
+                        f" one characters, please select manually")
                     character = Character.get_TODO_character()
                 else:
-                    character = Character.objects.get_or_create(
-                        chinese=chinese)[0]
+                    character = Character.objects.create(chinese=chinese)
                 character_objects.append(character)
             super().save(*args, **kwargs)
             for index, character in enumerate(character_objects):

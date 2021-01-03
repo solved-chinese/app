@@ -1,0 +1,54 @@
+﻿# Integrated Chinese, Level 2, Part 2, 3rd Edition  - Lesson 16
+# Published by Cheng & Tsui, 2010 - ISBN 9780887276880
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+保护 [bǎohù] /to protect, to safeguard/
+节约 [jiéyuē] /to economize, to save, to conserve/
+能源 [néngyuán] /energy, energy source/
+爬山 [pá shān] /to hike in the mountains, to climb mountains/
+有益 [yǒuyì] /beneficial, useful/
+于 [yú] /towards, in, on, at, (indicates comparison)/
+段 [duàn] /(measure word for section, segment, or part)/
+推 [tuī] /to push, to shove/
+空气 [kōngqì] /air, atmosphere/
+回收 [huíshōu] /to recycle/
+筒 [tǒng] /thick tube-shaped object/
+扔 [rēng] /to throw, to toss, to throw away/
+瓶装水 [píngzhuāng shuǐ] /bottled water/
+地球 [dìqiú] /the earth, the globe/
+亮 [liàng] /bright, light/
+太阳 [tàiyáng] /sun/
+太阳能 [tàiyángnéng] /solar energy, solar power/
+利用 [lìyòng] /to use, to utilize, to take advantage of, to exploit/
+发电 [fā diàn] /to generate electricity/
+国家 [guójiā] /country, nation/
+闹 [nào] /to suffer from, to be troubled by, to make a noise; noisy/
+危机 [wēijī] /crisis/
+取之不尽 [qǔ zhī bú jìn] /(of resources) inexhaustible/
+风 [fēng] /wind/
+全 [quán] /entire, whole, complete, completely/
+石油 [shíyóu] /petroleum, oil/
+煤 [méi] /coal/
+规定 [guīdìng] /to regulate, to specify; rules and regulations, provisions/
+公共场所 [gōnggòng chǎngsuǒ] /public place/
+暖气 [nuǎnqì] /heating/
+温度 [wēndù] /temperature/
+度 [dù] /(measure word for degree of temperature, heat, hardness, humidity, etc.)/
+赞成 [zànchéng] /to approve/
+出汗 [chū hàn] /to sweat/
+餐具 [cānjù] /eating utensils, tableware/
+一次性 [yícìxìng] /one-time/
+筷子 [kuàizi] /chopsticks/
+砍 [kǎn] /to cut, to chop/
+超市 [chāoshì] /supermarket/
+塑料袋 [sùliào dài] /plastic bag/
+减少 [jiǎnshǎo] /to reduce, to decrease, to lessen/
+污染 [wūrǎn] /to pollute, to contaminate; pollution, contamination/
+造成 [zào chéng] /to cause, to give rise to/
+随手 [suíshǒu] /without extra effort or motion, conveniently/
+后果 [hòuguǒ] /consequence, fallout, aftermath/
+不堪设想 [bùkān shèxiǎng] /(of consequences) too ghastly to contemplate, unimaginable, extremely bad or dangerous/
+加油 [jiā yóu] /to make an extra effort, to work harder, to refuel/
+马克 [Mǎkè] /Mark/
+摄氏 [Shèshì] /Celsius, centigrade/
+# end

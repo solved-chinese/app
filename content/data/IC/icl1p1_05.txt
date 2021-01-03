@@ -1,0 +1,48 @@
+﻿# Integrated Chinese, Level 1, Part 1, 3rd Edition  - Lesson 05
+# Published by Cheng & Tsui, 2008 - ISBN 9780887276385
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+呀 [ya] /(interjectory particle used to soften a question)/
+进 [jìn] /to enter/
+快 [kuài] /fast, quick, quickly/
+进来 [jìn lai] /to come in/
+来 [lái] /to come/
+介绍 [jièshào] /to introduce/
+一下 [yí xià] /once, a bit/
+高兴 [gāoxìng] /happy, pleased/
+漂亮 [piàoliang] /pretty/
+坐 [zuò] /to sit/
+在 [zài] /at, in, or/
+哪儿 [nǎr] /where/
+学校 [xuéxiào] /school/
+喝 [hē] /to drink/
+点(儿) [diǎn(r)] /a little, a bit, some/
+茶 [chá] /tea/
+咖啡 [kāfēi] /coffee/
+巴 [ba] /(a sentence-final particle)/
+要 [yào] /to want/
+瓶 [píng] /(measure word for bottles), bottle/
+可乐 [kělè] /(Coke or Pepsi) cola/
+可以 [kěyǐ] /can, may/
+对不起 [duìbuqǐ] /sorry/
+给 [gěi] /to give/
+杯 [bēi] /(measure word for cup and glass)/
+水 [shuǐ] /water/
+高小音 [Gāo Xiǎoyìn] /(a personal name)/
+玩(儿) [wán(r)] /to have fun, to play/
+了 [le] /(a dynamic particle)/
+图书馆 [túshūguǎn] /library/
+一起 [yìqǐ] /together/
+聊天(儿) [liáo tiān(r)] /to chat/
+聊 [liáo] /to chat/
+天 [tiān] /sky/
+才 [cái] /not until, only then/
+回家 [huí jiā] /to go home/
+回 [huí] /to return/
+可口可乐 [Kěkǒulělè] /Coca-Cola/
+百事可乐 [Bǎishìkělě] /Pepsi-Cola/
+雪碧 [Xuěbì] /Sprite/
+汽水(儿) [qìshuǐ(r)] /soft drink, soda pop/
+矿泉水 [kuàngquánshuǐ] /mineral water/
+果汁 [guǒzhī] /fruit juice/
+# end

@@ -1,0 +1,47 @@
+﻿# Integrated Chinese, Level 1, Part 2, 3rd Edition  - Lesson 14
+# Published by Cheng & Tsui, 2010 - ISBN 9780887276880
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+舞会 [wǔhuì] /dance party, ball/
+表姐 [biǎojiě] /older female cousin/
+中学 [zhōngxué] /middle school, secondary school/
+送 [sòng] /to give as a gift/
+礼物 [lǐwù] /gift, present/
+本 [běn] /(measure word for books)/
+饮料 [yǐnliào] /beverage/
+水果 [shuǐguǒ] /fruit/
+把 [bǎ] /(measure word for bunches of things, and chairs)/
+花 [huā] /flower/
+爱 [ài] /to love, to like, to be fond of/
+苹果 [píngguǒ] /apple/
+梨 [lí] /pear/
+西瓜 [xīgua] /watermelon/
+住 [zhù] /to live (in a certain place)/
+重 [zhòng] /heavy, serious/
+接 [jiē] /to catch, to meet, to welcome/
+楼 [lóu] /multi-storied building, floor (of a multi-level building)/
+王红 [Wáng Hóng] /(a personal name)/
+钟头 [zhōngtóu] /hour/
+以为 [yǐwéi] /to assume erroneously/
+聪明 [cōngming] /smart, bright, clever/
+用功 [yònggōng] /hard-working, diligent, studious/
+暑期 [shǔqī] /summer term/
+班 [bān] /class/
+长 [zhǎng] /to grow, to appear/
+可爱 [kě’ài] /cute, lovable/
+去年 [qùnián] /last year/
+属 [shǔ] /to belong to/
+狗 [gǒu] /dog/
+脸 [liǎn] /face/
+圆 [yuán] /round/
+眼睛 [yǎnjing] /eye/
+鼻子 [bízi] /nose/
+嘴 [zuǐ] /mouth/
+像 [xiàng] /to be like, to look like, to take after/
+长大 [zhǎng dà] /to grow up/
+一定 [yídìng] /certain(ly), definite(ly)/
+蛋糕 [dàngāo] /cake/
+最 [zuì] /most, (of a superlative degree) -est/
+海轮 [Hǎilún] /Helen/
+汤姆 [Tāngmǔ] /Tom/
+# end

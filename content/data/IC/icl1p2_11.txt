@@ -1,0 +1,37 @@
+﻿# Integrated Chinese, Level 1, Part 2, 3rd Edition  - Lesson 11
+# Published by Cheng & Tsui, 2010 - ISBN 9780887276880
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+天气 [tiānqì] /weather/
+比 [bǐ] /(comparison marker); to compare/
+下雪 [xià xuě] /to snow/
+约 [yuē] /to make an appointment/
+公园 [gōngyuán] /park/
+滑冰 [huá bīng] /to ice skate/
+会 [huì] /will/
+刚才 [gāngcái] /just now, a moment ago/
+网上 [wǎng shang] /on the internet/
+预报 [yùbào] /to forecast/
+更 [gèng] /even more/
+不但…﹐而且… [búdàn ..., érqiě ....] /not only ... but also .../
+暖和 [nuānhuo] /warm/
+冷 [lěng] /cold/
+办 [bàn] /to handle, to do/
+碟 [dié] /disc, small plate, dish, saucer/
+那么 [nàme] /(indicating degree) so, such/
+好玩儿 [hǎowánr] /fun, amazing, interesting/
+出去 [chū qu] /to go out/
+非常 [fēicháng] /very, extremely, exceedingly/
+糟糕 [zāogāo] /in a terrible mess, how terrible/
+下雨 [xià yǔ] /to rain/
+又 [yòu] /again/
+面试 [miànshì] /to interview; interview/
+回去 [huí qu] /to go back, to retun/
+冬天 [dōngtiān] /winter/
+夏天 [xiàtiān] /summer/
+热 [rè] /hot/
+春天 [chūntiān] /spring/
+秋天 [qiūtiān] /autumn, fall/
+舒服 [shūfu] /comfortable/
+加州 [Jiāzhōu] /California/
+# end

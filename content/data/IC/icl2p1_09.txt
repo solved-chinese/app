@@ -1,0 +1,44 @@
+﻿# Integrated Chinese, Level 2, Part 1, 3rd Edition  - Lesson 09
+# Published by Cheng & Tsui, 2008 - ISBN 9780887276798
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+移民 [yímín] /immigrant; to immigrate/
+博士 [bóshì] /PhD, doctor (academic degree)/
+设计 [shèjì] /to design; design/
+嫂子 [sǎozi] /older brother's wife/
+留学 [liú xué] /to study abroad/
+硕士 [shuòshì] /master's degree/
+结婚 [jié hūn] /to get married, to marry/
+美满 [měimǎn] /happy and satisfying/
+厉害 [lìhai] /terrible, formidable/
+侄女 [zhínǚ] /brother's daughter/
+小学 [xiǎoxué] /elementary school, grade school/
+安排 [ānpái] /to arrange/
+满 [mǎn] /full/
+钢琴 [gāngqín] /piano/
+画画儿 [huà huàr] /to draw, to paint/
+抱怨 [bàoyuàn] /to complain/
+儿童 [értóng] /children/
+家长 [jiāzhǎng] /parents, guardians of a child/
+尊重 [zūnzhòng] /to respect/
+选择 [xuǎnzé] /choice; to choose/
+反对 [fǎnduì] /to oppose/
+认为 [rènwéi] /to think, to consider/
+童年 [tóngnián] /childhood/
+知音 [zhīyīn] /someone who truly understands, soulmate/
+做法 [zuòfǎ] /way of doing things, course of action/
+并 [bìng] /actually, definitely/
+完全 [wánquán] /completely, fully; complete, whole/
+理解 [lǐjiě] /to understand/
+望子成龙 [wàng zǐ chéng lóng] /to hope one's son will become a dragon (i.e. successful)/
+望女成凤 [wàng nǚ chéng fèng] /to hope one's daughter will become a phoenix (i.e. successful)/
+番 [fān] /(measure word for a type or kind)/
+事业 [shìyè] /career, undertaking/
+看法 [kànfǎ] /point of view/
+社会 [shèhuì] /society/
+人材 [réncái] /person of ability, integrity, and talent/
+知识 [zhīshi] /knowledge/
+书本 [shūběn] /books/
+不是…而是 [búshì ... érshì ...] /it's not ... but .../
+墨西哥 [Mòxīgē] /Mexico/
+# end

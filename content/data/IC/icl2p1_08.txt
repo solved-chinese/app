@@ -1,0 +1,40 @@
+﻿# Integrated Chinese, Level 2, Part 1, 3rd Edition  - Lesson 08
+# Published by Cheng & Tsui, 2008 - ISBN 9780887276798
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+收入 [shōurù] /income/
+供 [gōng] /to provide, to support financially/
+压力 [yālì] /pressure/
+受到 [shòu dào] /to receive/
+良好 [liánghǎo] /good/
+教育 [jiàoyù] /education; to educate/
+生 [shēng] /to give birth to, to be born/
+存 [cún] /to save up/
+不断 [búduàn] /continously/
+大人 [dàren] /adult/
+挣钱 [zhèng qián] /to earn money, to make money/
+减轻 [jiǎnqīng] /to lessen/
+负担 [fùdān] /burden/
+适合 [shìhé] /to suit/
+影响 [yǐngxiǎng] /to influence, to have an impact; influence/
+家庭 [jiātíng] /family (unit), household/
+取得 [qǔdé] /to obtain, to gain, to acquire/
+零用钱 [língyòngqián] /allowance, spending money/
+奖学金 [jiǎngxuéjīn] /scholarship money/
+交 [jiāo] /to hand over/
+政府 [zhèngfǔ] /government/
+贷款 [dàikuǎn] /loan; to provide a loan/
+农村 [nóngcūn] /countryside, village, rural area/
+工资 [gōngzī] /wages, pay/
+低 [dī] /low/
+家教 [jiājiào] /tutor/
+读书 [dú shū] /to attend school, to study, to read aloud/
+借 [jiè] /to borrow, to lend/
+嫌 [xián] /to dislike, to mind, to complain of/
+难吃 [nánchī] /not tasty/
+欠 [qiàn] /to owe/
+银行 [yínháng] /bank/
+事情 [shìqing] /thing, matter/
+乖 [guāi] /(of children) obedient, well-behaved/
+英语 [Yīngyǔ] /English language/
+# end

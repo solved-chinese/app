@@ -8,7 +8,7 @@ class GeneralContentAdmin(admin.ModelAdmin):
 
     def get_fields(self, request, obj=None):
         """ overriden to move archive to the end """
-        fields = super().get_fields(request, obj=None).copy()
+        fields = super().get_fields(request, obj=obj).copy()
         try:
             index = fields.index('archive')
         except ValueError:
