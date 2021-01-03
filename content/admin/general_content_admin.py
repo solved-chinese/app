@@ -29,7 +29,10 @@ class GeneralContentAdmin(admin.ModelAdmin):
         the get_disabled_fields() """
         form = super().get_form(request, obj=obj, **kwargs)
         for field_name in self.get_disabled_fields(request, obj=obj):
-            form.base_fields[field_name].disabled = True
+            try:
+                form.base_fields[field_name].disabled = True
+            except KeyError:
+                pass
         return form
 
     def save_formset(self, request, form, formset, change):
