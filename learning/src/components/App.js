@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { render } from 'react-dom';
 import CharDisplay from './CharDisplay.js';
@@ -14,8 +13,6 @@ import {
 
 
 export default class App extends React.Component {
-
-
 
     render() {
         return (
@@ -33,6 +30,7 @@ export default class App extends React.Component {
 }
 
 class ItemDisplay extends React.Component {
+    
     static propTypes = {
         location: PropTypes.object
     }
