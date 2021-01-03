@@ -152,6 +152,9 @@ class Word(GeneralContentModel):
     def __repr__(self):
         return f"<W{self.id:04d}:{self.chinese}#{self.identifier}>"
 
+    def get_absolute_url(self):
+        return f"/learning/display/?t=word&qid={self.pk}"
+
     @classmethod
     def get_TODO_word(cls):
         return cls.objects.get_or_create(
