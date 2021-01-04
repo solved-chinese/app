@@ -1,3 +1,5 @@
+const { ESLint } = require("eslint");
+
 module.exports = {
     'env': {
         'browser': true,
@@ -20,9 +22,13 @@ module.exports = {
         'ecmaVersion': 12,
         'sourceType': 'module'
     },
+    'settings': {
+        'import/resolver': { 'babel-module': {} }
+    },
     'plugins': [
         'react',
-        'babel'
+        'babel',
+        'import'
     ],
     'rules': {
         'indent': [
@@ -43,6 +49,6 @@ module.exports = {
         ],
         'no-unused-vars': [
             'warn'
-        ]
+        ],
     }
 };

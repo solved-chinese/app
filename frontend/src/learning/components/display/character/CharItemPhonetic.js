@@ -27,9 +27,6 @@ const WordContainer = styled.h1`
     text-align: center;
 `;
 
-/**
- * 
- */
 export default class CharItemPhonetic extends React.Component {
 
     static propTypes = {

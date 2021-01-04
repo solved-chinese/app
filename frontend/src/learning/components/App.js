@@ -5,7 +5,7 @@ import {
     Route
 } from 'react-router-dom';
 
-import ItemDisplay from './display/ItemDisplay.js';
+import ItemDisplay from '@display/ItemDisplay.js';
 
 
 

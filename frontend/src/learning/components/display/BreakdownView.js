@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import RelatedItems from './RelatedItems.js';
-import { RadImage } from './RadDisplay.js';
+import { RadImage } from './radical/RadDisplay.js';
 
 const Row = styled.div`
     display: inline-flex;

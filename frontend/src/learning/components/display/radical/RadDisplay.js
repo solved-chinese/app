@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import RelatedItems from './RelatedItems.js';
+import RelatedItems from '@display/RelatedItems.js';
 
 const Row = styled.div`
     display: inline-flex;

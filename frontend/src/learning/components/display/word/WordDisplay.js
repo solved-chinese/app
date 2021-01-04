@@ -6,9 +6,9 @@ import styled from 'styled-components';
 
 import WordDefinition from './WordDefinition';
 import ExampleSentences from './ExampleSentences';
-import BreakdownView from './BreakdownView';
 
-import LoadingView from './LoadingView.js';
+import BreakdownView from '@display/BreakdownView';
+import LoadingView from '@display/LoadingView.js';
 
 //Top and Bottom Containters
 const ContainerTop = styled.div`

@@ -6,10 +6,10 @@ import styled from 'styled-components';
 
 import CharItemPhonetic from './CharItemPhonetic.js';
 import CharDefinition from './CharDefinition.js';
-import RelatedItems from './RelatedItems.js';
-import BreakdownView from './BreakdownView';
 
-import LoadingView from './LoadingView.js';
+import RelatedItems from '@display/RelatedItems.js';
+import BreakdownView from '@display/BreakdownView';
+import LoadingView from '@display/LoadingView.js';
 
 
 const Row = styled.div`
