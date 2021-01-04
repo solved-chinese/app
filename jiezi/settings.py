@@ -69,7 +69,7 @@ INSTALLED_APPS = [
     # custom apps
     'accounts',
     'content',
-    'learning',
+    'frontend',
 ]
 
 MIDDLEWARE = [

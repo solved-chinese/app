@@ -92,6 +92,7 @@ export default class WordDisplay extends React.Component {
                     {word.sentences.map((sen, i) => {
                         return (
                             <ExampleSentences
+                                key={word}
                                 word={word}
                                 pinyin={sen.pinyin}
                                 chinese={sen.chinese} 
