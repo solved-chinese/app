@@ -7,9 +7,9 @@ import styled from 'styled-components';
 import CharItemPhonetic from './CharItemPhonetic.js';
 import CharDefinition from './CharDefinition.js';
 
-import RelatedItems from '@display/RelatedItems.js';
-import BreakdownView from '@display/BreakdownView';
-import LoadingView from '@display/LoadingView.js';
+import RelatedItems from '@ItemDisplay/RelatedItems.js';
+import BreakdownView from '@ItemDisplay/BreakdownView';
+import LoadingView from '@ItemDisplay/LoadingView.js';
 
 
 const Row = styled.div`

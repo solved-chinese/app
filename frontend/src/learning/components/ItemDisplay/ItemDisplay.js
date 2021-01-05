@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import CharDisplay from './character/CharDisplay.js';
-import WordDisplay from './word/WordDisplay.js';
-import RadDisplay from './radical/RadDisplay.js';
+import CharDisplay from '@ItemDisplay/CharacterDisplay/CharDisplay.js';
+import WordDisplay from '@ItemDisplay/WordDisplay/WordDisplay.js';
+import RadDisplay from '@ItemDisplay/RadicalDisplay/RadDisplay.js';
 
 export default class ItemDisplay extends React.Component {
     

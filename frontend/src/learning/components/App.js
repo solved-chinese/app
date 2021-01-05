@@ -5,9 +5,7 @@ import {
     Route
 } from 'react-router-dom';
 
-import ItemDisplay from '@display/ItemDisplay.js';
-
-
+import ItemDisplay from '@ItemDisplay/ItemDisplay.js';
 
 export default class App extends React.Component {
 
@@ -23,3 +21,4 @@ export default class App extends React.Component {
         );
     }
 }
+

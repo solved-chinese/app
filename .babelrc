@@ -6,7 +6,7 @@
         "@babel/plugin-proposal-class-properties",
         ["module-resolver", {
             "alias": {
-                "@display": "./frontend/src/learning/components/display"
+                "@ItemDisplay": "./frontend/src/learning/components/ItemDisplay"
             }
         }]
     ]
