@@ -2,7 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import RelatedItems from '@ItemDisplay/RelatedItems.js';
+import RelatedItems from '@learning.components/ItemDisplay/RelatedItems.js';
+import LoadingView from '@learning.components/ItemDisplay/LoadingView.js';
+
+import useLoadRad from '@learning.hooks/useLoadRad.js';
 
 const Row = styled.div`
     display: inline-flex;
@@ -29,37 +32,11 @@ const RadDefinition = styled.h4`
     margin-top: 20px;
 `;
 
-export default class RadDisplay extends React.Component {
+export default function RadDisplay(props) {
 
-    static propTypes = {
-        qid: PropTypes.number
-    }
+    const radical = useLoadRad(`/content/radical/${props.qid}`);
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            loading: true,
-            radical: null
-        };
-    }
-
-    componentDidMount() {
-        this.loadData();
-    }
-
-    async loadData() {
-        const response = await fetch(`/content/radical/${this.props.qid}`);
-        if (!response.ok) {
-            setTimeout(() => {
-                this.loadData();
-            }, 5);
-        }
-
-        const data = await response.json();
-        this.setState({ loading: false, radical: data});
-    }
-
-    renderRadical = (radical) => {
+    const renderRadical = (radical) => {
         const chinese = radical.chinese;
         const def = radical.explanation;
         const imageUrl = radical.image;
@@ -77,15 +54,18 @@ export default class RadDisplay extends React.Component {
                     itemType='character' />
             </>
         );
-    }
+    };
 
-    render() {
-        const loading = this.state.loading;
-        return loading ?
-            'Error fetching character data, retrying' :
-            this.renderRadical(this.state.radical);
+    if (radical === null) {
+        return <LoadingView />;
+    } else {
+        return renderRadical(radical);
     }
 }
+
+RadDisplay.propTypes = {
+    qid: PropTypes.number
+};
 
 export class RadImage extends React.Component {
 

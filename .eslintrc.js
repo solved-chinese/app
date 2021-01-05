@@ -1,5 +1,3 @@
-const { ESLint } = require("eslint");
-
 module.exports = {
     'env': {
         'browser': true,

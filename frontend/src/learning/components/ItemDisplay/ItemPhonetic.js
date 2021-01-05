@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 const Container = styled.div`
     display: inline-block;
-    flex-wrap: wrap;
     width: auto;
 `;
 

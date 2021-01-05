@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import PropTypes from 'prop-types';
@@ -6,6 +6,11 @@ import styled from 'styled-components';
 
 import RelatedItems from './RelatedItems.js';
 import { RadImage } from './RadicalDisplay/RadDisplay.js';
+import ItemPhonetic from './ItemPhonetic.js';
+import CharDefinition from './CharacterDisplay/CharDefinition.js';
+
+import useLoadRad from '@learning.hooks/useLoadRad.js';
+import useLoadChar from '@learning.hooks/useLoadChar.js';
 
 const Row = styled.div`
     display: inline-flex;
@@ -34,37 +39,11 @@ const RadDefinition = styled.h4`
     margin-top: 15px;
 `;
 
-class BreakdownRad extends React.Component {
+function BreakdownRad(props) {
 
-    static propTypes = {
-        url: PropTypes.string
-    }
+    const radical = useLoadRad(props.url);
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            loading: true,
-            radical: null
-        };
-    }
-
-    componentDidMount() {
-        this.loadData();
-    }
-
-    async loadData() {
-        const response = await fetch(this.props.url);
-        if (!response.ok) {
-            setTimeout(() => {
-                this.loadData();
-            }, 5);
-        }
-
-        const data = await response.json();
-        this.setState({ loading: false, radical: data});
-    }
-
-    renderRadical = (radical) => {
+    const renderRadical = (radical) => {
         const chinese = radical.chinese;
         const def = radical.explanation;
         const imageUrl = radical.image;
@@ -85,13 +64,56 @@ class BreakdownRad extends React.Component {
                     itemType='character' />
             </>
         );
-    }
+    };
 
-    render() {
-        const loading = this.state.loading;
-        return loading ? 
-            'Error fetching character data, retrying' : 
-            this.renderRadical(this.state.radical);
+    if (radical === null) {
+        return 'Loading character data';
+    } else {
+        return renderRadical(radical);
+    }
+}
+
+BreakdownRad.propTypes = {
+    url: PropTypes.string.isRequired
+};
+
+const CharDefinitionList = styled.ul`
+    font-size: 1.1em;
+`;
+
+const CharDefinitionItem = styled.li`
+    line-height: 1.5em;
+`;
+
+function BreakdownChar(props) {
+
+    const character = useLoadChar(props.url);
+
+    const renderCharacter = (character) => {
+        const definitions = character.definitions.map( v => 
+            v.definition
+        );
+        return (
+            <>
+                <Row>
+                    <ItemPhonetic pinyin={character.pinyin}
+                        audioURL=''
+                        item={character.chinese}/>
+                    <CharDefinition 
+                        definitions={ definitions }
+                    />
+                </Row>
+                <RelatedItems 
+                    item={character.chinese}
+                    itemType='word' />
+            </>
+        );
+    };
+
+    if (character === null) {
+        return 'Loading character data';
+    } else {
+        return renderCharacter(character);
     }
 }
 
@@ -138,7 +160,7 @@ export default class BreakdownView extends React.Component {
         /** The type of breakdown components. */
         type: PropTypes.oneOf(['radical', 'word']),
 
-        /** Urls of the breakdown components. */
+        /** URLs of the breakdown components. */
         componentURL: PropTypes.arrayOf(PropTypes.string),
 
         /** The associated memory aid sentence. */
@@ -154,7 +176,6 @@ export default class BreakdownView extends React.Component {
 
     /**
      * Render radicals breakdown for each radical in the urls.
-     * 
      * @param {[String]} urls 
      */
     renderBreakdownRad(urls) {
@@ -168,6 +189,21 @@ export default class BreakdownView extends React.Component {
         );
     }
 
+    /**
+     * 
+     * @param {[String]} urls 
+     */
+    renderBreakdownChar(urls) {
+        return urls.map( url => 
+            (
+                <div key={url}
+                    className='breakdown-card box-shadow'>
+                    <BreakdownChar url={url} />
+                </div>
+            )
+        );
+    }
+
     // Since this function is used as event handler, use
     // arrow function to bind `this` to the class context.
     toggle = () => {
@@ -175,7 +211,9 @@ export default class BreakdownView extends React.Component {
     }
 
     render() {
-        const toggleTitle = this.props.type + ' breakdown';
+        const type = this.props.type;
+        const toggleTitle = type + ' breakdown';
+        const urls = this.props.componentURL;
 
         return (
             <div className='breakdown-container'>
@@ -199,7 +237,10 @@ export default class BreakdownView extends React.Component {
                         this.state.show ? 'show' : ''
                     )}>
 
-                    {this.renderBreakdownRad(this.props.componentURL)}
+                    { type == 'radical' ?
+                        this.renderBreakdownRad(urls) :
+                        this.renderBreakdownChar(urls)
+                    } 
 
                     <MemoryAidView
                         content={this.props.memoryAid}/>
