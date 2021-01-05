@@ -26,7 +26,13 @@ class WordSetAdmin(GeneralContentAdmin):
     search_fields = ['name', 'characters__chinese']
     inlines = [WordInSetInline]
 
-    def get_form(self, request, obj=None, change=False, **kwargs):
+    def get_form(self, request, obj=None, **kwargs):
+        """
+        User a special from for creation
+        reference django.contrib.auth.admin.UserAdmin.get_form
+        """
+        defaults = {}
         if obj is None:
-            return WordSetQuickCreateFrom
-        return super().get_form(request, obj=obj, change=change, **kwargs)
+            defaults['form'] = WordSetQuickCreateFrom
+        defaults.update(kwargs)
+        return super().get_form(request, obj, **defaults)

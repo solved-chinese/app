@@ -17,6 +17,16 @@ class RadicalAdmin(GeneralContentAdmin):
                     'get_image_thumbnail', 'get_character_list_display']
     readonly_fields = ['get_image_preview']
 
+    def get_exclude(self, request, obj=None):
+        """
+        not show image when creating objects
+        """
+        exclude = super().get_exclude(request, obj=obj)
+        if obj is None:
+            exclude = exclude or []
+            exclude.append('image')
+        return exclude
+
     def get_character_list_display(self, radical):
         s = ""
         for c in radical.characters.all().distinct():

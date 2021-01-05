@@ -8,6 +8,16 @@ class GeneralContentAdmin(NextAdminMixin, admin.ModelAdmin):
     disabled_fields = ['archive']
     list_per_page = 50
 
+    def get_exclude(self, request, obj=None):
+        """
+        not show is_done when creating objects
+        """
+        exclude = super().get_exclude(request, obj=obj)
+        if obj is None:
+            exclude = exclude or []
+            exclude.append('is_done')
+        return exclude
+
     def get_fields(self, request, obj=None):
         """ overriden to move archive to the end """
         fields = super().get_fields(request, obj=obj).copy()
