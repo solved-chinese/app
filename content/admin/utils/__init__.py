@@ -1,1 +1,2 @@
 from .multi_select_field_list_filter import MultiSelectFieldListFilter
+from .next_admin_mixin import NextAdminMixin

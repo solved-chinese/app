@@ -1,10 +1,12 @@
 from content.models import OrderableMixin
 
 from django.contrib import admin
+from .utils import NextAdminMixin
 
 
-class GeneralContentAdmin(admin.ModelAdmin):
+class GeneralContentAdmin(NextAdminMixin, admin.ModelAdmin):
     disabled_fields = ['archive']
+    list_per_page = 50
 
     def get_fields(self, request, obj=None):
         """ overriden to move archive to the end """

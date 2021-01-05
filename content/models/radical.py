@@ -34,6 +34,7 @@ class Radical(GeneralContentModel):
                                    blank=True, default='TODO')
 
     class Meta:
+        ordering = ['id']
         unique_together = ['chinese', 'identifier']
 
     def save(self, *args, **kwargs):

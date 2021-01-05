@@ -1,3 +1,5 @@
+# copy from https://stackoverflow.com/questions/39790087/is-multi-choice-django-admin-filters-possible
+
 from django.contrib import admin
 from django.contrib.admin.utils import reverse_field_path
 from django.utils.translation import gettext_lazy as _

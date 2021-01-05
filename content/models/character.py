@@ -67,6 +67,7 @@ class Character(GeneralContentModel):
                                   verbose_name='word memory aid')
 
     class Meta:
+        ordering = ['id']
         unique_together = ['chinese', 'identifier']
 
     def get_child_models(self):
