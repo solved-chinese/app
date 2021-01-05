@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.utils.html import format_html
 
 from content.models import CharacterInWord, DefinitionInWord, Sentence, Word
-from content.admin import GeneralContentAdmin
+from content.admin import GeneralContentAdmin, MultiSelectFieldListFilter
 
 
 class CharacterInWordInline(admin.TabularInline):
@@ -33,10 +33,10 @@ class SentenceInline(admin.TabularInline):
 @admin.register(Word)
 class WordAdmin(GeneralContentAdmin):
     search_fields = ['chinese', 'pinyin', 'identifier']
-    list_display = ['is_done', '__str__', 'pinyin',
+    list_display = ['id', 'is_done', '__str__', 'pinyin',
                     'get_definitions', 'get_set_list_display']
-    list_display_links = ['__str__']
-    list_filter = ['is_done', 'word_set__name']
+    list_filter = [('is_done', admin.BooleanFieldListFilter),
+                   ('word_set__name', MultiSelectFieldListFilter)]
     inlines = [DefinitionInWordInline, SentenceInline, CharacterInWordInline]
 
     def get_definitions(self, word):

@@ -79,6 +79,7 @@ class GeneralContentModel(models.Model):
 
     class Meta:
         abstract = True
+        ordering = ['id']
 
 
 class OrderableMixin(models.Model):

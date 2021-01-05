@@ -19,6 +19,9 @@ class WordSet(GeneralContentModel):
                                    related_name='word_sets',
                                    related_query_name='word_set')
 
+    class Meta:
+        ordering = ['id']
+
     def clean(self):
         super().clean()
         if self.is_done:

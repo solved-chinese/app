@@ -21,7 +21,7 @@ class WordInSetInline(admin.TabularInline):
 
 @admin.register(WordSet)
 class WordSetAdmin(GeneralContentAdmin):
-    list_display = ['__str__', 'is_done']
+    list_display = ['id', '__str__', 'is_done']
     list_filter = ['is_done']
     search_fields = ['name', 'characters__chinese']
     inlines = [WordInSetInline]
