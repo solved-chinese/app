@@ -8,11 +8,12 @@ from content.models import GeneralContentModel, \
     validate_chinese_character_or_x
 from content.data.makemeahanzi_dictionary import get_makemeahanzi_data
 
+
 def path_and_rename(instance, filename):
     ext = filename.split('.')[-1]
     # get filename
     if instance.chinese:
-        filename = f"{repr(instance)}.{ext}"
+        filename = f"{instance.chinese}#{instance.identifier}.{ext}"
     else:
         # set filename as random string
         filename = f'{uuid4().hex}.{ext}'
