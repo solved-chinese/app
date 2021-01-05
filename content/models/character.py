@@ -128,7 +128,8 @@ class Character(GeneralContentModel):
             return self.chinese
 
     def __repr__(self):
-        return f"<C{self.id:04d}:{self.chinese}#{self.identifier}>"
+        id = self.id or -1
+        return f"<C{id:04d}:{self.chinese}#{self.identifier}>"
 
     def get_absolute_url(self):
         return f"/learning/display/?t=character&qid={self.pk}"

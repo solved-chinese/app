@@ -65,7 +65,8 @@ class Radical(GeneralContentModel):
             return self.chinese
 
     def __repr__(self):
-        return f"<R{self.id:04d}:{self.chinese}#{self.identifier}>"
+        id = self.id or -1
+        return f"<R{id:04d}:{self.chinese}#{self.identifier}>"
 
     def get_absolute_url(self):
         return f"/learning/display/?t=radical&qid={self.pk}"

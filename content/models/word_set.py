@@ -48,5 +48,6 @@ class WordSet(GeneralContentModel):
         return f"{self.name}: {self.render_all_words()}"
 
     def __repr__(self):
-        return f'<WS{self.id}:{self.name} ' \
+        id = self.id or -1
+        return f'<WS{id}:{self.name} ' \
                f'{[repr(c) for c in self.words.all()]}>'

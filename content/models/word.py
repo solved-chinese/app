@@ -150,7 +150,8 @@ class Word(GeneralContentModel):
             return self.chinese
 
     def __repr__(self):
-        return f"<W{self.id:04d}:{self.chinese}#{self.identifier}>"
+        id = self.id or -1
+        return f"<W{id:04d}:{self.chinese}#{self.identifier}>"
 
     def get_absolute_url(self):
         return f"/learning/display/?t=word&qid={self.pk}"
