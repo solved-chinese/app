@@ -37,6 +37,7 @@ const ExampleSentenceHeading = styled.h2`
     text-align: center;
 `;
 
+/** The main function that renders a word view. */
 export default class WordDisplay extends React.Component {
     
     static propTypes = {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import PropTypes from 'prop-types';
@@ -39,6 +39,10 @@ const RadDefinition = styled.h4`
     margin-top: 15px;
 `;
 
+/** Render a single character breakdown display using the
+ * radical in props.url. Re-render automatically when props.url
+ * updates to a new value.
+ */
 function BreakdownRad(props) {
 
     const radical = useLoadRad(props.url);
@@ -77,14 +81,18 @@ BreakdownRad.propTypes = {
     url: PropTypes.string.isRequired
 };
 
-const CharDefinitionList = styled.ul`
-    font-size: 1.1em;
-`;
+// const CharDefinitionList = styled.ul`
+//     font-size: 1.1em;
+// `;
 
-const CharDefinitionItem = styled.li`
-    line-height: 1.5em;
-`;
+// const CharDefinitionItem = styled.li`
+//     line-height: 1.5em;
+// `;
 
+/** Render a single word breakdown display using the
+ * character in props.url. Re-render automatically 
+ * when props.url updates to a new value.
+ */
 function BreakdownChar(props) {
 
     const character = useLoadChar(props.url);
@@ -116,6 +124,10 @@ function BreakdownChar(props) {
         return renderCharacter(character);
     }
 }
+
+BreakdownChar.propTypes = {
+    url: PropTypes.string.isRequired
+};
 
 const MemoryAidHeading = styled.h2`
     display: inline-block;
@@ -154,6 +166,7 @@ MemoryAidView.propTypes = {
     content: PropTypes.string.isRequired
 };
 
+/** Breakdown view for words and characters */
 export default class BreakdownView extends React.Component {
 
     static propTypes = {
@@ -175,7 +188,8 @@ export default class BreakdownView extends React.Component {
     }
 
     /**
-     * Render radicals breakdown for each radical in the urls.
+     * Render the character breakdown for each radical 
+     * specified in the urls.
      * @param {[String]} urls 
      */
     renderBreakdownRad(urls) {
@@ -190,7 +204,8 @@ export default class BreakdownView extends React.Component {
     }
 
     /**
-     * 
+     * Render the word breakdown for each character 
+     * specified in the urls.
      * @param {[String]} urls 
      */
     renderBreakdownChar(urls) {
@@ -204,8 +219,6 @@ export default class BreakdownView extends React.Component {
         );
     }
 
-    // Since this function is used as event handler, use
-    // arrow function to bind `this` to the class context.
     toggle = () => {
         this.setState( prev => ({show: !prev.show}));
     }

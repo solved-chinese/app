@@ -32,6 +32,7 @@ const RadDefinition = styled.h4`
     margin-top: 20px;
 `;
 
+/** The main function that renders a radical view. */
 export default function RadDisplay(props) {
 
     const radical = useLoadRad(`/content/radical/${props.qid}`);

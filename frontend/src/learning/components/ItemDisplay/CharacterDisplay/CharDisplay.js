@@ -23,6 +23,7 @@ const Row = styled.div`
     }
 `;
 
+/** The main function that renders a character view. */
 export default function CharDisplay(props) {
 
     const character = useLoadChar(`/content/character/${props.qid}`);
