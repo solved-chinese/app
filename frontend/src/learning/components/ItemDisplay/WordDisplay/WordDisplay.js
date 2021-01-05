@@ -12,21 +12,29 @@ import LoadingView from '@ItemDisplay/LoadingView.js';
 
 //Top and Bottom Containters
 const ContainerTop = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  @media (max-width: 768px) {
-      flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @media only screen and (max-width: 480) {
+        flex-direction: column;
     }
 `;
 
 const ContainerBottom = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @media only screen and (max-width: 768px) {
+        flex-direction: column;
+    }
+`;
+
+const ExampleSentenceHeading = styled.h2`
+    color: var(--teritary-text);
+    margin-top: 10px;
+    font-size: 0.9em;
+    font-weight: 400;
+    text-align: center;
 `;
 
 export default class WordDisplay extends React.Component {
@@ -37,7 +45,7 @@ export default class WordDisplay extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state ={
+        this.state = {
             word: null,
             loading: true
         };
@@ -87,7 +95,9 @@ export default class WordDisplay extends React.Component {
                 </ContainerTop>
 
                 {/* Bottom: Example Sentences */}
-                <p style={{textAlign: 'center', marginTop: '10px', fontSize: '13px'}}>Example Sentences:</p>
+                <ExampleSentenceHeading>
+                    Example Sentences
+                </ExampleSentenceHeading>
                 <ContainerBottom>
                     {word.sentences.map((sen, i) => {
                         return (
@@ -108,7 +118,6 @@ export default class WordDisplay extends React.Component {
                     componentURL={word.characters}
                     memoryAid={word.memory_aid}
                 />
-
             </>
         );
     }

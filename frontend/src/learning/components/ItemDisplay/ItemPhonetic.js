@@ -27,26 +27,24 @@ const WordContainer = styled.h1`
     text-align: center;
 `;
 
-export default class CharItemPhonetic extends React.Component {
+export default class ItemPhonetic extends React.Component {
 
     static propTypes = {
         /** An array of possible pronunciation. */
-        pinyin: PropTypes.arrayOf(
-            PropTypes.string
-        ).isRequired,
+        pinyin: PropTypes.string,
         /** The URL of the corresponding audio file. */
         audioURL: PropTypes.string.isRequired,
         /** The character to be displayed.  */
-        character: PropTypes.string.isRequired
+        item: PropTypes.string.isRequired
     }
 
     constructor(props) {
         super(props);
         this.audio = new Audio(props.audioURL);
 
-        // Add slashes in the beginning and the end of each
-        // pronunciation and joined with 'or'
-        this.pinyin = props.pinyin.map(v => `/${v}/`).join(' or ');
+        // Add slashes at the beginning and the end
+        this.pinyin = `/${this.props.pinyin}/`;
+        
     }
 
     play() {
@@ -62,7 +60,7 @@ export default class CharItemPhonetic extends React.Component {
                         onClick= {this.play} ></SpeakButton>
                 </Phonetic>
                 <WordContainer className='use-serifs'>
-                    { this.props.character }
+                    { this.props.item }
                 </WordContainer>
             </Container>
         );

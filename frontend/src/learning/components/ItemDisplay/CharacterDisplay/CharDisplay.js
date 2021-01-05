@@ -4,10 +4,11 @@ import 'regenerator-runtime/runtime';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import CharItemPhonetic from './CharItemPhonetic.js';
+
 import CharDefinition from './CharDefinition.js';
 
 import RelatedItems from '@ItemDisplay/RelatedItems.js';
+import ItemPhonetic from '@ItemDisplay/ItemPhonetic.js';
 import BreakdownView from '@ItemDisplay/BreakdownView';
 import LoadingView from '@ItemDisplay/LoadingView.js';
 
@@ -67,9 +68,9 @@ export default class CharDisplay extends React.Component {
         return (
             <>
                 <Row>
-                    <CharItemPhonetic pinyin={[character.pinyin]}
+                    <ItemPhonetic pinyin={character.pinyin}
                         audioURL=''
-                        character={character.chinese}/>
+                        item={character.chinese}/>
                     <CharDefinition 
                         definitions={ definitions }
                     />
