@@ -10,6 +10,8 @@ import ExampleSentences from './ExampleSentences';
 import BreakdownView from '@learning.components/ItemDisplay/BreakdownView';
 import LoadingView from '@learning.components/ItemDisplay/LoadingView.js';
 
+import useLoadWord from '@learning.hooks/useLoadWord.js';
+
 //Top and Bottom Containters
 const ContainerTop = styled.div`
     display: flex;
@@ -38,47 +40,11 @@ const ExampleSentenceHeading = styled.h2`
 `;
 
 /** The main function that renders a word view. */
-export default class WordDisplay extends React.Component {
-    
-    static propTypes = {
-        qid: PropTypes.number
-    }
+export default function WordDisplay(props) {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            word: null,
-            loading: true
-        };
-    }
+    const word = useLoadWord(`/content/word/${props.qid}`);
 
-    componentDidMount() {
-        this.loadData();
-    }
-
-    async loadData() {
-        const response = await fetch(`/content/word/${this.props.qid}`);
-        if (!response.ok) {
-            setTimeout(() => {
-                this.loadData();
-            }, 5);
-            throw new Error(`An ${response.status} error has occured,
-                retrying in 5 seconds.`);
-        }
-
-        // parse the response object into json
-        const data = await response.json();
-        // use the json object to update component states
-        this.setState({ word: data, loading: false});
-    }
-
-    showLoadingView() {
-        return <LoadingView />;
-    }
-
-
-    showContent() {
-        const word = this.state.word;
+    const renderWord = (word) => {
         const chinese = word.chinese;
         const pinyin = word.pinyin;
         const definitions = word.definitions;
@@ -121,11 +87,15 @@ export default class WordDisplay extends React.Component {
                 />
             </>
         );
-    }
+    };
 
-    render() {
-        // Display a loading page while `this.state.loading == true`.
-        return this.state.loading ? 
-            this.showLoadingView() : this.showContent();
+    if (word === null) {
+        return <LoadingView />;
+    } else {
+        return renderWord(word);
     }
 }
+
+WordDisplay.propTypes = {
+    qid: PropTypes.number.isRequired
+};

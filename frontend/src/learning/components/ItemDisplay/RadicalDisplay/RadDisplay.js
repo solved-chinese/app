@@ -65,7 +65,7 @@ export default function RadDisplay(props) {
 }
 
 RadDisplay.propTypes = {
-    qid: PropTypes.number
+    qid: PropTypes.number.isRequired
 };
 
 export class RadImage extends React.Component {
