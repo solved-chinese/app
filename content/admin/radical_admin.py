@@ -3,13 +3,16 @@ from django.urls import reverse
 from django.utils.html import format_html
 
 from content.models import Radical
-from content.admin import GeneralContentAdmin
+from content.admin import GeneralContentAdmin, MultiSelectFieldListFilter
 
 
 @admin.register(Radical)
 class RadicalAdmin(GeneralContentAdmin):
     search_fields = ['chinese', 'identifier']
-    list_filter = ['is_done', 'character__word__word_set__name']
+    list_filter = [
+        ('is_done', admin.BooleanFieldListFilter),
+        ('character__word__word_set__name', MultiSelectFieldListFilter)
+    ]
     list_display = ['is_done', '__str__', 'pinyin', 'definition',
                     'get_image_thumbnail', 'get_character_list_display']
     list_display_links = ['__str__']
