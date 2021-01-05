@@ -21,7 +21,9 @@ module.exports = {
         'sourceType': 'module'
     },
     'settings': {
-        'import/resolver': { 'babel-module': {} }
+        'import/resolver': { 
+            'babel-module': {}
+        }
     },
     'plugins': [
         'react',

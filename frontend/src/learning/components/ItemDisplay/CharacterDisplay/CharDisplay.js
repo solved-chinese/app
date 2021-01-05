@@ -14,7 +14,6 @@ import LoadingView from '@learning.components/ItemDisplay/LoadingView.js';
 
 import useLoadChar from '@learning.hooks/useLoadChar.js';
 
-
 const Row = styled.div`
     display: flex;
     justify-content: center;

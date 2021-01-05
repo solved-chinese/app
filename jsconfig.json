@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "ClientApp/*": ["./ClientApp/*"],
+            "@learning.components/*": ["./frontend/src/learning/components/*"],
+            "@learning.hooks/*": ["./frontend/src/learning/hooks/*"]
+        }
+    },
+    "exclude": ["node_modules"]
+}

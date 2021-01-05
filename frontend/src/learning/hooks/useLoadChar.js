@@ -12,8 +12,6 @@ export default function useLoadChar(url) {
             setTimeout(() => {
                 this.loadData();
             }, 5);
-            throw new Error(`An ${response.status} error has occured,
-                retrying in 5 seconds.`);
         }
 
         // parse the response object into json
