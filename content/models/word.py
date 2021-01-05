@@ -100,13 +100,12 @@ class Word(GeneralContentModel):
         if self.is_done:
             if not self.characters.exists():
                 raise ValidationError('cannot be done without any character')
+            for c in self.characters.all():
+                if not c.is_done:
+                    raise ValidationError(f"{c} not done")
 
             if not self.sentences.exists():
                 raise ValidationError('cannot be done without any sentence')
-
-    def get_child_models(self):
-        characters = list(self.characters.all())
-        return [(repr(c), c) for c in characters]
 
     def save(self, *args, **kwargs):
         adding = self._state.adding

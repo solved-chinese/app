@@ -70,15 +70,15 @@ class Character(GeneralContentModel):
         ordering = ['id']
         unique_together = ['chinese', 'identifier']
 
-    def get_child_models(self):
-        radicals = list(self.radicals.all())
-        return [(repr(radical), radical) for radical in radicals]
-
     def clean(self):
         super().clean()
         if self.is_done:
             if not self.radicals.exists():
                 raise ValidationError('cannot be done without any radical')
+            for r in self.radicals.all():
+                if not r.is_done:
+                    raise ValidationError(f"{r} not done")
+
             if not self.definitions.exists():
                 raise ValidationError('cannot be done without any definition')
             for definition in self.definitions.all():

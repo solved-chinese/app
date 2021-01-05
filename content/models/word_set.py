@@ -27,6 +27,9 @@ class WordSet(GeneralContentModel):
         if self.is_done:
             if not self.words.exists():
                 raise ValidationError('cannot be done without any word')
+            for w in self.words.all():
+                if not w.is_done:
+                    raise ValidationError(f"{w} not done")
 
     def render_all_words(self):
         output = ''
@@ -34,10 +37,6 @@ class WordSet(GeneralContentModel):
             output += w.chinese
             output += ', '
         return output[:-2]
-
-    def get_child_models(self):
-        words = list(self.words.all())
-        return [(repr(w), w) for w in words]
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

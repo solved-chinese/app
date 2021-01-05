@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, NON_FIELD_ERRORS
 from django.core.validators import RegexValidator
 
 
@@ -17,29 +17,24 @@ class GeneralContentModel(models.Model):
                                max_length=500, blank=True)
     is_done = models.BooleanField(default=False)
 
-    def get_child_models(self):
-        """ This returns all child models in list[name, model] where name is
-        a field name of self. Used for validating is_done in clean_field() """
-        return []
+    def clean(self):
+        super().clean()
+        if self.pk is None and self.is_done:
+            raise ValidationError('Cannot create a done model in one step!')
 
     def clean_fields(self, exclude=None):
         super().clean_fields(exclude=exclude)
 
-        # TODO fine tune this
-        assert not exclude or 'is_done' not in exclude or not self.is_done, \
-            "Impossible for is_done to be excluded when it is true"
-
         def handle_error(errors, name, exclude):
             if exclude and field.name in exclude:
-                errors['is_done'] = errors.get('is_done', '') + \
+                errors[NON_FIELD_ERRORS] = errors.get(NON_FIELD_ERRORS, '') + \
                                     f"field {name} not done; "
             else:
                 errors[name] = "This field not done"
 
         if self.is_done:
             if self.pk is None:
-                raise ValidationError({'is_done': 'Cannot create a done model '
-                                                  'in one step!'})
+                raise ValidationError('Cannot create a done model in one step!')
             errors = {}
             for field in self.__class__._meta.get_fields():
                 if isinstance(field, (models.CharField, models.TextField)) and \
@@ -48,14 +43,7 @@ class GeneralContentModel(models.Model):
                 elif isinstance(field, (models.ImageField)) and \
                         getattr(self, field.name) == 'default.jpg':
                     handle_error(errors, field.name, exclude)
-            for name, obj in self.get_child_models():
-                assert isinstance(obj, GeneralContentModel)
-                if not obj.is_done:
-                    errors['is_done'] = errors.get('is_done', '') + \
-                                        f"{name} not done; "
             if errors:
-                errors['is_done'] = errors.get('is_done', '') + \
-                                    "something is not done"
                 raise ValidationError(errors)
 
     def reset_order(self):
