@@ -143,6 +143,11 @@ class Word(GeneralContentModel):
         OrderableMixin.reset_order(self.sentences)
         OrderableMixin.reset_order(self.definitions)
 
+    @property
+    def full_definition(self):
+        """ used in serializer """
+        return "; ".join(map(str, self.definitions.all()))
+
     def __str__(self):
         if self.identifier:
             return f"{self.chinese}({self.identifier})"
