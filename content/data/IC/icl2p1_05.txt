@@ -1,0 +1,49 @@
+﻿# Integrated Chinese, Level 2, Part 1, 3rd Edition  - Lesson 05
+# Published by Cheng & Tsui, 2008 - ISBN 9780887276798
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+选 [xuǎn] /to choose/
+门 [mén] /(measure word for academic courses)/
+世界 [shìjiè] /world/
+历史 [lìshǐ] /history/
+其他 [qítā] /other, else/
+经常 [jīngcháng] /often, frequently/
+文章 [wénzhāng] /essay, article/
+受不了 [shòu bu liǎo] /cannot take it, unable to bear/
+轻松 [qīngsōng] /light, relaxed/
+指导 [zhǐdǎo] /to guide; guidance/
+教授 [jiàoshòu] /professor/
+讨论 [tǎolùn] /to discuss/
+碰见 [pèng jiàn] /to bump into, to run into/
+肯定 [kěndìng] /definitely/
+至于 [zhìyú] /as far, as to/
+毕业 [bì yè] /to graduate/
+学位 [xuéwèi] /(academic) degree/
+化学 [huàxué] /chemistry/
+经济 [jīngjì] /economics, economy/
+系 [xì] /department (of a college or university)/
+学分 [xuéfēn] /academic credit/
+决定 [juédìng] /to decide; decision/
+解决 [jiějué] /to solve, to resolve/
+要么… [yàome...] /if it's not ..., it's ...; either ... or .../
+工学院 [gōng zuéyuàn] /school of engineering/
+管理学院 [guǎnlǐ xuéyuàn] /school of management/
+谈 [tán] /to talk, to discuss/
+文学 [wénxué] /literature/
+科 [kē] /a branch of academic or vocational study/
+将来 [jiānglái] /future/
+赚钱 [zhuàn qián] /make money/
+金融 [jīnróng] /finance, banking/
+整天 [zhěng tiān] /all day long/
+数字 [shùzì] /numeral, figure, digit/
+打交道 [dǎ jiāodào] /to deal with/
+其实 [qíshí] /actually/
+哲学 [zhéxué] /philosophy/
+管 [guǎn] /to control, manage; to mind, to care about/
+申请 [shēnqǐng] /to apply (to a school or job)/
+省下来 [shěng xia lai] /to save (money, time)/
+建议 [jiànyì] /suggestion; to suggest/
+经验 [jīngyàn] /experience; to experience/
+意见 [yìjiàn] /opinion/
+李哲 [Lǐ Zhé] /Li Zhe (a personal name)/
+# end

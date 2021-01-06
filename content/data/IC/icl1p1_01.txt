@@ -1,0 +1,45 @@
+﻿# Integrated Chinese, Level 1, Part 1, 3rd Edition  - Lesson 01
+# Published by Cheng & Tsui, 2008 - ISBN 9780887276385
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+你 [nǐ] /you/
+好 [hǎo] /fine, good, nice, OK, it's settled/
+请 [qǐng] /please (polite form of request), to treat or invite (somebody)/
+问 [wèn] /to ask (a question)/
+贵 [guì] /honorable, expensive/
+姓 [xìng] /(one's) surname is ..., to be surnamed, surname/
+我 [wǒ] /I, me/
+呢 [ne] /(question particle)/
+小姐 [xiǎojiě] /Miss, young lady/
+叫 [jiào] /to be called, to call/
+什么 [shénme] /what/
+名字 [míngzi] /name/
+先生 [xiānsheng] /Mr., husband, teacher/
+李友 [Lǐ Yǒu] /(a personal name)/
+李 [lǐ] /(a surname), plum/
+王朋 [Wáng Péng] /(a personal name)/
+王 [wáng] /(a surname), king/
+是 [shì] /to be/
+老师 [lǎoshì] /teacher/
+吗 [ma] /(question particle)/
+不 [bù] /not, no/
+学生 [xuésheng] /student/
+也 [yě] /too, also/
+人 [rén] /people, person/
+中国 [Zhōngguó] /China/
+北京 [Běijīng] /Beijing/
+美国 [Měiguó] /America/
+纽约 [Niǔyuē] /New York/
+英国 [Yīngguó] /Britain, England/
+法国 [Fǎguó] /France/
+德国 [Déguó] /Germany/
+日本 [Rìběn] /Japan/
+韩国 [Hánguó] /South Korea/
+加拿大 [Jiā’nádà] /Canada/
+墨西哥 [Mòxīgē] /Mexico/
+印度 [Yìndù] /India/
+越南 [Yuènán] /Vietnam/
+加州 [Jiāzhōu] /California/
+夏威夷 [Xiàwēiyí] /Hawaii/
+上海 [Shànghǎi] /Shanghai/
+# end

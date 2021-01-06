@@ -1,0 +1,32 @@
+﻿# Integrated Chinese, Level 2, Part 1, 3rd Edition  - Lesson 02
+# Published by Cheng & Tsui, 2008 - ISBN 9780887276798
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+同屋 [tóngwū] /roommate/
+摆 [bǎi] /to put, to place/
+被子 [bèizi] /comforter, quilt/
+毯子 [tǎnzi] /blanket/
+衣柜 [yīguì] /wardrobe/
+柜子 [guìzi] /cabinet, cupboard/
+挂 [guà] /to hang, to hang up/
+门 [mén] /door/
+空 [kōng] /empty/
+空调 [kōngtiáo] /air conditioning/
+栋 [dòng] /(measure word for buildings)/
+旧 [jiù] /(of things) old/
+恐怕 [kǒngpà] /I'm afraid that, I think perhaps, probably/
+日用品 [rìyòngpǐn] /daily necessities/
+文具 [wénjù] /stationary, writing supplies/
+洗 [xǐ] /to wash/
+层 [céng] /(measure word for stories of a building)/
+台 [tái] /(measure word for machines)/
+洗衣机 [xǐyījī] /washing machine/
+烘干机 [hōnggānjī] /(clothes) dryer/
+马路 [mǎlù] /road/
+一般 [yìbān] /generally/
+真的 [zhēn de] /really, truly/
+着急 [zháojí] /to worry/
+餐馆儿 [cānguǎnr] /restaurant/
+地道 [dìdao] /authentic, genuine, pure/
+过几天 [guó jǐ tiān] /in a few days/
+# end

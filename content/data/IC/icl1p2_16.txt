@@ -1,0 +1,25 @@
+﻿# Integrated Chinese, Level 1, Part 2, 3rd Edition  - Lesson 16
+# Published by Cheng & Tsui, 2010 - ISBN 9780887276880
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+同 [tóng] /same, alike/
+印象 [yìnxiàng] /impression/
+成 [chéng] /to become/
+演 [yǎn] /to show (a film), to perform/
+费 [fèi] /to spend, to take (effort)/
+力气 [lìqi] /strength, effort/
+就 [jiù] /just, only (indicating a small number)/
+俩 [liǎ] /two (colloquial)/
+后天 [hòutiān] /the day after tomorrow/
+一言为定 [yì yán wéi dìng] /that settles it, that's settled, it's decided/
+记得 [jìde] /to remember/
+想起来 [xiǎng qi lai] /to remember, to recall/
+号码 [hàomǎ] /number/
+搬 [bān] /to move/
+打扫 [dǎsǎo] /to clean up (a room, apartment, or house)/
+扫 [sǎo] /to sweep/
+整理 [zhěnglǐ] /to put in order/
+房间 [fángjiān] /room/
+旅行 [lǚxíng] /to travel/
+电 [diàn] /electricity/
+# end

@@ -1,0 +1,45 @@
+﻿# Integrated Chinese, Level 1, Part 2, 3rd Edition  - Lesson 13
+# Published by Cheng & Tsui, 2010 - ISBN 9780887276880
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+上 [shàng] /to go (colloquial)/
+中心 [zhōngxīn] /center/
+听说 [tīngshuō] /to be told, to hear of/
+运动 [yùndòng] /sports/
+场 [chǎng] /field/
+旁边 [pángbiān] /side/
+远 [yuǎn] /far/
+离 [lí] /away from/
+近 [jìn] /near/
+活动 [huódòng] /activity/
+中间 [zhōngjiān] /middle/
+书店 [shūdiàn] /bookstore/
+地方 [dìfang] /place/
+里边 [lǐbian] /inside/
+过 [guo] /(particle used after a verb to indicate a past experience)/
+中国城 [Zhōngguóchéng] /Chinatown/
+成 [chéng] /town, city/
+地图 [dìtú] /map/
+拿 [ná] /to take, to get/
+次 [cì] /(measure word for frequency)/
+从 [cóng] /from/
+一直 [yīzhí] /straight, continuously/
+往 [wǎng] /towards/
+南 [nán] /south/
+过 [guò] /to pass/
+路口 [lùkǒu] /intersection/
+西 [xī] /west/
+拐 [guǎi] /to turn/
+哎 [āi] /(exclamatory particle to express surprise or dissatisfaction/
+东 [dōng] /east/
+北 [běi] /north/
+前 [qián] /forward, ahead/
+红绿灯 [hónglǜdēng] /traffic light/
+灯 [dēng] /light/
+右 [yòu] /right/
+左 [zuǒ] /left/
+前面 [qiánmian] /ahead, in front of/
+日文 [Rìwén] /Japanese (language)/
+东京 [Dōngjīng] /Tokyo/
+日本 [Rìběn] /Japan/
+# end

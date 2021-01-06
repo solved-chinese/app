@@ -180,7 +180,7 @@ img {
     padding-left: 30px;
     padding-right: 30px;
     padding-top: calc(80px + 30px);
-    padding-bottom: 80px;
+    padding-bottom: calc(80px + 30px);
 }
 
 .page-overlay {
@@ -198,6 +198,14 @@ img {
 #page-container.inactive > .page-overlay {
     background-color: #5e6d7e48;
     pointer-events: all;
+}
+
+.box-shadow {
+    box-shadow: 2px 2px 6px 2px #30354514;
+}
+
+.box-shadow:hover {
+    box-shadow: 2px 2px 6px 1px #30354516;
 }
 
 
@@ -754,6 +762,15 @@ ul{
 
     .search-input-wrapper {
         width: 100%;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    #page-container {
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-top: calc(80px + 15px);
+        padding-bottom: calc(80px + 15px);
     }
 }
 

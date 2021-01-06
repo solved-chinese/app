@@ -35,14 +35,14 @@ class DefinitionInWord(OrderableMixin):
     part_of_speech = models.CharField(max_length=6,
                                       choices=PartOfSpeech.choices,
                                       blank=True)
-    definition = models.CharField(max_length=70,
+    definition = models.CharField(max_length=200,
                                   blank=True)
 
     class Meta:
         ordering = ['order']
 
     def __str__(self):
-        return f"{self.part_of_speech} {self.definition}"
+        return f"{self.part_of_speech}. {self.definition}"
 
     def __repr__(self):
         return f"<Def of {self.word}: {str(self)}>"
@@ -61,8 +61,8 @@ class Sentence(OrderableMixin):
     word = models.ForeignKey('Word', on_delete=models.CASCADE,
                              related_name='sentences',
                              related_query_name='sentence')
-    pinyin = models.CharField(max_length=200)
     chinese = models.CharField(max_length=40)
+    pinyin = models.CharField(max_length=200)
     translation = models.CharField(max_length=200)
 
     class Meta:
@@ -77,8 +77,7 @@ class Sentence(OrderableMixin):
 
 class Word(GeneralContentModel):
     # TODO if word chinese field change, also change characters
-    chinese = models.CharField(max_length=5,
-                               validators=[validate_chinese_character_or_x])
+    chinese = models.CharField(max_length=10)
     identifier = models.CharField(max_length=10, blank=True)
 
     pinyin = models.CharField(max_length=36, default='TODO')
@@ -88,64 +87,58 @@ class Word(GeneralContentModel):
                                         related_query_name='word',
                                         through='CharacterInWord')
     memory_aid = models.TextField(max_length=300,
-                                  blank=True, default='TODO')
+                                  blank=True, default='TODO',
+                                  verbose_name='word memory aid')
 
     class Meta:
+        ordering = ['id']
         unique_together = ['chinese', 'identifier']
 
     def clean(self):
         """check that word and characters do not mismatch in chinese & pinyin"""
-
-        def unaccent(x):
-            return unicodedata.normalize('NFKD', x).encode('ascii','ignore')
-
         super().clean()
         if self.is_done:
             if not self.characters.exists():
                 raise ValidationError('cannot be done without any character')
+            for c in self.characters.all():
+                if not c.is_done:
+                    raise ValidationError(f"{c} not done")
 
-            len_chinese = len(self.chinese)
-            len_character = self.characters.count()
-            if len_character != len_chinese:
-                raise ValidationError(f"length mismatch between chinese "
-                    f"{len_chinese} and characters {len_character}")
-
-            word_pinyin = self.pinyin.replace(' ', '')
-            character_pinyin = ''
-            for index, (chinese, character) in \
-                    enumerate(zip(self.chinese, self.characters.all())):
-                if chinese != character.chinese:
-                    raise ValidationError(f"mismatch at index {index}: chinese "
-                        f"is {chinese} but character is {character}")
-                character_pinyin += character.pinyin
-            word_pinyin = unaccent(word_pinyin)
-            character_pinyin = unaccent(character_pinyin)
-            if word_pinyin != character_pinyin:
-                raise ValidationError(f"mismatch of pinyin, word gives {word_pinyin}"
-                                      f" but character gives {character_pinyin}")
-
-    def get_child_models(self):
-        characters = list(self.characters.all())
-        return [(repr(c), c) for c in characters]
+            if not self.sentences.exists():
+                raise ValidationError('cannot be done without any sentence')
 
     def save(self, *args, **kwargs):
         adding = self._state.adding
-        super().save(*args, **kwargs)
-        if adding and self.chinese != 'x': # if adding, connect the necessary characters
+        # if adding, connect the necessary characters
+        if adding and self.chinese != 'x':
             from content.models import Character
+            character_objects = []
             for index, chinese in enumerate(self.chinese):
+                try:
+                    validate_chinese_character_or_x(chinese)
+                except ValidationError:
+                    self.add_warning(f"non-chinese characters '{chinese}' at "
+                                     f"index {index}, please verify")
+                    continue
                 characters = Character.objects.filter(chinese=chinese)
                 cnt = characters.count()
                 if cnt == 1:
                     character = characters.get()
                 elif cnt > 1:
+                    self.add_warning(f"{chinese} at index {index} have more than"
+                        f" one characters, please select manually")
                     character = Character.get_TODO_character()
                 else:
-                    character = Character.objects.get_or_create(
-                        chinese=chinese)[0]
+                    character = Character.objects.create(chinese=chinese)
+                character_objects.append(character)
+            super().save(*args, **kwargs)
+            for index, character in enumerate(character_objects):
                 CharacterInWord.objects.create(character=character,
                                                word=self, order=index)
+        else:
+            super().save(*args, **kwargs)
 
+    def reset_order(self):
         OrderableMixin.reset_order(self.characterinword_set)
         OrderableMixin.reset_order(self.sentences)
         OrderableMixin.reset_order(self.definitions)
@@ -157,7 +150,11 @@ class Word(GeneralContentModel):
             return self.chinese
 
     def __repr__(self):
-        return f"<W{self.id:04d}:{self.chinese}#{self.identifier}>"
+        id = self.id or -1
+        return f"<W{id:04d}:{self.chinese}#{self.identifier}>"
+
+    def get_absolute_url(self):
+        return f"/learning/display/?t=word&qid={self.pk}"
 
     @classmethod
     def get_TODO_word(cls):

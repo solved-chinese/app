@@ -1,0 +1,53 @@
+﻿# Integrated Chinese, Level 1, Part 1, 3rd Edition  - Lesson 02
+# Published by Cheng & Tsui, 2008 - ISBN 9780887276385
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+那 [nà] /that/
+的 [de] /(a possessive or descriptive particle)/
+照片 [zhàopiàn] /picture, photo/
+这 [zhè] /this/
+爸爸 [bàba] /father, dad/
+妈妈 [māma] /mother, mom/
+个 [gè/ge] /(measure word for many common everyday objects)/
+女 [nǚ] /female/
+孩子 [háizi] /child/
+谁 [shéi] /who/
+她 [tā] /she, her/
+姐姐 [jiějie] /older sister/
+男 [nán] /male/
+弟弟 [dìdi] /younger brother/
+他 [tā] /he, him/
+大哥 [dàgē] /eldest brother/
+儿子 [érzi] /son/
+有 [yǒu] /to have, to exist/
+女儿 [nǚ’ér] /daughter/
+没 [méi] /not/
+高文中 [Gāo Wénzhōng] /(a personal name)/
+高 [gāo] /(a surname), tall, high/
+家 [jiā] /family, home/
+几 [jǐ] /how many, some, a few/
+口 [kǒu] /(measure word for number of family members)/
+哥哥 [gēge] /older brother/
+两 [liǎng] /two, a couple of/
+妹妹 [mèimei] /younger sister/
+和 [hé] /and/
+大姐 [dàjiě] /eldest sister/
+二姐 [èrjiě] /second oldest sister/
+做 [zuò] /to do/
+工作 [gōngzuò] /job, to work/
+律师 [lǜshī] /lawyer/
+英文 [Yīngwén] /English (language)/
+都 [dōu] /both, all/
+大学生 [dàxuéshēng] /college student/
+大学 [dàxué] /university, college/
+医生 [yīshēng] /doctor, physician/
+白英爱 [Bái Yīng’ài] /(a personal name)/
+商人 [shāngrén] /merchant, businessperson/
+军人 [jūnrén] /soldier, military officer/
+教授 [jiàoshòu] /professor/
+经理 [jīnglǐ] /manager/
+工人 [gōngrén] /woker/
+工程师 [gōngchéngshī] /engineer/
+农民 [nóngmín] /farmer, peasant/
+护士 [hùshi] /nurse/
+# end

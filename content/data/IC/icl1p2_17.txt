@@ -1,0 +1,47 @@
+﻿# Integrated Chinese, Level 1, Part 2, 3rd Edition  - Lesson 17
+# Published by Cheng & Tsui, 2010 - ISBN 9780887276880
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+吵 [chǎo] /to quarrel, noisy/
+连 [lián] /even/
+做饭 [zuò fàn] /to cook, to prepare a meal/
+报纸 [bàozhǐ] /newspaper/
+广告 [guǎnggào] /advertisement/
+附近 [fùjìn] /vicinity, neighborhood, nearby area/
+套 [tào] /(measure word for suite or set)/
+公寓 [gōngyù] /apartment/
+出租 [chūzū] /to rent out/
+走路 [zǒu lù] /to walk/
+分钟 [fēnzhōng] /minute/
+卧室 [wòshì] /bedroom/
+厨房 [chúfáng] /kitchen/
+卫生间 [wèishēngjiān] /bathroom/
+客厅 [kètīng] /living room/
+家具 [jiājù] /furniture/
+可能 [kěnéng] /maybe, posible/
+一房一厅 [yì fáng yì tīng] /one bedroom and one living room/
+干净 [gānjìng] /clean/
+沙发 [shāfā] /sofa/
+饭桌 [fànzhuō] /dining table/
+椅子 [yǐzi] /chair/
+书桌 [shūzhuō] /desk/
+书架 [shūjià] /bookcase, bookshelf/
+那里 [nàli] /there/
+安静 [ānjìng] /quiet/
+房租 [fángzū] /rent/
+元 [yuán] /(measure for the basic Chinese monetary unit), yuan/
+美元 [Měiyuán] /U.S. currency/
+人民币 [Rénmínbì] /renminbi (RMB, Chinese currency)/
+人民 [rénmín] /the people/
+币 [bì] /currency/
+差不多 [chàbuduō] /almost, nearly, similar/
+费 [fèi] /fee, expenses/
+押金 [yājīn] /security deposit/
+当 [dāng] /to serve as, to be/
+还 [huán] /to return (something)/
+另外 [lìngwài] /furthermore, in addition/
+准 [zhǔn] /to allow, to be allowed/
+养 [yǎng] /to raise/
+宠物 [chǒngwù] /pet/
+兴趣 [xìngqù] /interest/
+# end

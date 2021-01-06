@@ -55,53 +55,53 @@
           </ul>
         </div>
       </div>
-      {% if user.is_authenticated and not user.is_guest %}
-        <a class="navbar-item button button-primary" id="menu-toggle" 
-           href="javascript:void(0);" onclick="mobileMenuToggle()"> 
-          <i class="far fa-bars"></i>
-        </a>
-        <div class="navbar-item" id="menu">
-          <a class="button button-primary dropdown-toggle" id="userDropdown"
-                  data-toggle="dropdown" aria-haspopup="true"
-                  aria-expanded="false" href="{% url "profile" %}">
-            {{ user.display_name }}
-            {% if user.unread_message_count %}
-              <span class="badge badge-pill badge-danger">{{ user.unread_message_count }}</span>
-            {% endif %}
-          </a>
-          <a class="info-responsive" href="javascript:void(0)">
-            Signed in as {{ user.display_name }} 
-            {% if user.is_staff %}
-            &nbsp(Staff)
-            {% endif %}
-          </a>
-          <div class="dropdown-menu dropdown-menu-right">
-            {% if user.is_staff %}
-              <a class="dropdown-item" href="{% url "staff_panel" %}">Staff Panel</a>
-              <a class="dropdown-item" href="{% url "admin:index" %}">Django Admin</a>
-            {% endif %}
-              <a class="dropdown-item" href='{% url 'message_list' %}'>
-                Inbox
-                {% if user.unread_message_count %}
-                  <span class="badge badge-pill badge-danger">{{ user.unread_message_count }}</span>
-                {% endif %}
-              </a>
-              <a class="dropdown-item" href="{% url "change_password" %}">Change Password</a>
-              <a class="dropdown-item" href="{% url "profile" %}">Profile</a>
-              <a class="dropdown-item" href="{% url "logout" %}">Logout</a>
-          </div>
-        </div>
-
-      {% else %}
-        <a class="navbar-item button button-primary" id="menu-toggle" 
-        href="javascript:void(0);" onclick="mobileMenuToggle()"> 
-          <i class="far fa-bars"></i>
-        </a>
-        <div class="navbar-item" id="menu">
-          <a class="button button-text-only" href="{% url "login" %}">Login</a>
-          <a class="button button-primary" href="{% url "signup" %}">Sign Up</a>
-        </div>
-      {% endif %}
+{#      {% if user.is_authenticated and not user.is_guest %}#}
+{#        <a class="navbar-item button button-primary" id="menu-toggle" #}
+{#           href="javascript:void(0);" onclick="mobileMenuToggle()"> #}
+{#          <i class="far fa-bars"></i>#}
+{#        </a>#}
+{#        <div class="navbar-item" id="menu">#}
+{#          <a class="button button-primary dropdown-toggle" id="userDropdown"#}
+{#                  data-toggle="dropdown" aria-haspopup="true"#}
+{#                  aria-expanded="false" href="{% url "profile" %}">#}
+{#            {{ user.display_name }}#}
+{#            {% if user.unread_message_count %}#}
+{#              <span class="badge badge-pill badge-danger">{{ user.unread_message_count }}</span>#}
+{#            {% endif %}#}
+{#          </a>#}
+{#          <a class="info-responsive" href="javascript:void(0)">#}
+{#            Signed in as {{ user.display_name }} #}
+{#            {% if user.is_staff %}#}
+{#            &nbsp(Staff)#}
+{#            {% endif %}#}
+{#          </a>#}
+{#          <div class="dropdown-menu dropdown-menu-right">#}
+{#            {% if user.is_staff %}#}
+{#              <a class="dropdown-item" href="{% url "staff_panel" %}">Staff Panel</a>#}
+{#              <a class="dropdown-item" href="{% url "admin:index" %}">Django Admin</a>#}
+{#            {% endif %}#}
+{#              <a class="dropdown-item" href='{% url 'message_list' %}'>#}
+{#                Inbox#}
+{#                {% if user.unread_message_count %}#}
+{#                  <span class="badge badge-pill badge-danger">{{ user.unread_message_count }}</span>#}
+{#                {% endif %}#}
+{#              </a>#}
+{#              <a class="dropdown-item" href="{% url "change_password" %}">Change Password</a>#}
+{#              <a class="dropdown-item" href="{% url "profile" %}">Profile</a>#}
+{#              <a class="dropdown-item" href="{% url "logout" %}">Logout</a>#}
+{#          </div>#}
+{#        </div>#}
+{##}
+{#      {% else %}#}
+{#        <a class="navbar-item button button-primary" id="menu-toggle" #}
+{#        href="javascript:void(0);" onclick="mobileMenuToggle()"> #}
+{#          <i class="far fa-bars"></i>#}
+{#        </a>#}
+{#        <div class="navbar-item" id="menu">#}
+{#          <a class="button button-text-only" href="{% url "login" %}">Login</a>#}
+{#          <a class="button button-primary" href="{% url "signup" %}">Sign Up</a>#}
+{#        </div>#}
+{#      {% endif %}#}
     </div>
   </div>
 </header>

@@ -1,66 +1,42 @@
 
 .content-card-container {
     margin-top: 60px;
-    max-width: 650px;
+    margin-bottom: 60px;
+    max-width: 700px;
     width: 100%;
     padding: 25px 50px;
     border-radius: 5px;
-    box-shadow: 4px 5px 14px 0px #30354510;
     transition: 150ms ease;
     background-color: white;
     margin: auto;
 }
 
-.content-card-container:hover {
-    box-shadow: 1px 2px 8px 0px #30354512;
-}
-
-ul.definition-list {
-    padding-left: 70px;
-    font-size: 1.3em;
-
-}
-
-.definition-list > i {
-    font-size: 0.6em;
-    font-style: normal;
-    color: var(--teritary-text);
-    line-height: 1em;
-}
-
-.definition-list > li {
-    line-height: 1.75em;
-}
-
 .breakdown-container {
     margin-top: 10px;
     width: 100%;
-    transition: 300ms ease-in-out;
-}
-
-.breakdown-container * {
-    transition: 300ms ease-in-out;
-}
-
-.breakdown-container:hover {
-    transform: scale(1.05);
 }
 
 .breakdown-toggle {
-    width: 50%;
+    width: 100%;
     min-width: 150px;
     margin: auto;
-    margin-bottom: -20px;
+    margin-bottom: -15px;
+    margin-top: 15px;
 }
 
 .breakdown-toggle.toggled {
-    margin-bottom: 0;
+    /* margin-bottom: 0; */
+}
+
+.breakdown-toggle:hover {
+    transform: scale(1.05);
 }
 
 .breakdown-toggle i {
     color: #374C76;
     width: 100%;
     text-align: center;
+    transition: transform 300ms ease;
 }
 
 .breakdown-toggle.toggled i {
@@ -76,19 +52,60 @@ ul.definition-list {
     margin: 0;
 }
 
+.breakdown-content {
+    display: flex;
+    flex-wrap: wrap;
+    visibility: hidden;
+    max-height: 0;
+    opacity: 0;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    transition: max-height 400ms ease-in-out, opacity 300ms 250ms ease;
+}
+
+.breakdown-content.show {
+    max-height: 3000px; /* We need a numerical value here for the animation */
+    opacity: 1;
+    visibility: visible;
+}
+
+.breakdown-card {
+    width: calc(50% - 20px);
+    font-size: 15px;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    padding: 10px 20px;
+    background-color: white;
+}
+
 @media only screen and (max-width: 768px) {
     /* .content-card-container {
         padding: 15px 10px;
     } */
-
-    ul.definition-list {
-        padding: 0;
+    .breakdown-content {
+        flex-direction: column;
     }
 
+    .breakdown-card {
+        width: 75%;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .breakdown-card {
+        width: calc(100% - 20px);
+    }
+
+    .content-card-container {
+        padding: 25px 20px;
+    }
 }
 
 /* Word Displace - Example Sentences */
-.ExampleCard{
+.ExampleCard {
     max-width: 300px;
     width: 100%;
     background-color: white;
@@ -99,7 +116,7 @@ ul.definition-list {
     text-align: left;
     margin: 0px 5px 10px;
   }
-  .ExampleCard:hover{
+  .ExampleCard:hover {
     box-shadow: 2px 4px 10px 0px #30354512;
     transition: 200ms ease;
   }

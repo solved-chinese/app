@@ -4,7 +4,11 @@
   "description": "*Solve Chinese characters like riddles.*",
   "main": "index.js",
   "dependencies": {
+    "core-js": "^3.8.1",
     "prop-types": "^15.7.2",
+    "react-content-loader": "^5.1.4",
+    "react-router-dom": "^5.2.0",
+    "regenerator-runtime": "^0.13.7",
     "styled-components": "^5.2.1"
   },
   "devDependencies": {
@@ -14,8 +18,11 @@
     "@babel/preset-react": "^7.12.10",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
+    "babel-plugin-module-resolver": "^4.1.0",
     "eslint": "^7.16.0",
+    "eslint-import-resolver-babel-module": "^5.2.0",
     "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-react": "^7.21.5",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -28,7 +35,7 @@
   "scripts": {
     "dev:webpack": "webpack --watch --config webpack.dev.js",
     "dev:server": "python3 manage.py runserver",
-    "build": "webpack --config webpack.prod.js && python3 manage.py runserver",
+    "build": "webpack --config webpack.prod.js",
     "migrate": "python3 manage.py migrate",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

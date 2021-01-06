@@ -1,8 +1,10 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+import json
 
 from content.models import GeneralContentModel, OrderableMixin, \
     validate_chinese_character_or_x
+from content.data.makemeahanzi_dictionary import get_makemeahanzi_data
 
 
 class DefinitionInCharacter(OrderableMixin):
@@ -42,7 +44,7 @@ class RadicalInCharacter(OrderableMixin):
 class Character(GeneralContentModel):
     class CharacterType(models.TextChoices):
         __empty__ = 'TODO'
-        PICTOGRAPHIC = 'pictographic', 'pictographic'
+        PICTOGRAPHIC = 'Pictographic', 'Pictographic'
         IDEOGRAPHIC = 'Ideographic', 'Ideographic'
         COMPOUND_IDEOGRAPHIC = 'Compound Ideographic', \
                                'Compound Ideographic'
@@ -61,25 +63,61 @@ class Character(GeneralContentModel):
                                       related_query_name='character',
                                       through='RadicalInCharacter')
     memory_aid = models.TextField(max_length=300,
-                                  blank=True, default='TODO')
-
-    archive = models.JSONField(blank=True, default=str)
+                                  blank=True, default='TODO',
+                                  verbose_name='word memory aid')
 
     class Meta:
+        ordering = ['id']
         unique_together = ['chinese', 'identifier']
-
-    def get_child_models(self):
-        radicals = list(self.radicals.all())
-        return [(repr(radical), radical) for radical in radicals]
 
     def clean(self):
         super().clean()
         if self.is_done:
             if not self.radicals.exists():
                 raise ValidationError('cannot be done without any radical')
+            for r in self.radicals.all():
+                if not r.is_done:
+                    raise ValidationError(f"{r} not done")
+
+            if not self.definitions.exists():
+                raise ValidationError('cannot be done without any definition')
+            for definition in self.definitions.all():
+                if not definition.definition or 'TODO' in definition.definition:
+                    raise ValidationError('definitions not done')
 
     def save(self, *args, **kwargs):
+        adding = self._state.adding
+        # initial save is needed for foreign keys to be related to self
         super().save(*args, **kwargs)
+        if adding:
+            self.fill_makemeahanzi_data()
+            # cannot also pass kwargs here or force_insert will produce an error
+            super().save(check_chinese=False)
+
+    def fill_makemeahanzi_data(self):
+        """ this fills necessary data from makemeahanzi into archive field,
+         remember to save """
+        if self.chinese == 'x':
+            return
+        characters_data = get_makemeahanzi_data()
+        try:
+            data = characters_data[self.chinese]
+        except KeyError:
+            raise ValidationError(f"{self.chinese} is not proper character")
+
+        if self.pinyin == 'TODO' or not self.pinyin:
+            self.pinyin = data['pinyin']
+        if not self.definitions.exists():
+            definitions = data['definition'].split(';')
+            for index, definition in enumerate(definitions):
+                definition = definition.strip()
+                DefinitionInCharacter.objects.create(
+                    character=self, definition=definition, order=index
+                )
+            self.add_warning(f"definitions auto-generated, please verify")
+        self.archive = json.dumps(data, indent=4, ensure_ascii=False)
+
+    def reset_order(self):
         OrderableMixin.reset_order(self.radicalincharacter_set)
         OrderableMixin.reset_order(self.definitions)
 
@@ -90,7 +128,11 @@ class Character(GeneralContentModel):
             return self.chinese
 
     def __repr__(self):
-        return f"<C{self.id:04d}:{self.chinese}#{self.identifier}>"
+        id = self.id or -1
+        return f"<C{id:04d}:{self.chinese}#{self.identifier}>"
+
+    def get_absolute_url(self):
+        return f"/learning/display/?t=character&qid={self.pk}"
 
     @classmethod
     def get_TODO_character(cls):

@@ -1,0 +1,50 @@
+﻿# Integrated Chinese, Level 1, Part 1, 3rd Edition  - Lesson 04
+# Published by Cheng & Tsui, 2008 - ISBN 9780887276385
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+周末 [zhōumò] /weekend/
+打球 [dǎ qiú] /to play ball/
+打 [dǎ] /to hit/
+球 [qiú] /ball/
+看 [kàn] /to watch, to look, to read/
+电视 [diànshì] /television/
+电 [diàn] /electricity/
+视 [shì] /vision/
+唱歌儿 [chàng gēr] /to sing (a song)/
+唱 [chàng] /to sing/
+歌 [gē] /song/
+跳舞 [tiào wǔ] /dance/
+跳 [tīng] /to listen/
+舞 [yīnyuè] /music/
+书 [shū] /book/
+对 [duì] /right, correct/
+有的 [yǒude] /some/
+时候 [shìhou] /(a point in) time, moment, (a duration of) time/
+电影 [diànyǐng] /movie/
+影 [yǐng] /shadow/
+常常 [chángcháng] /often/
+那 [nà] /in that case, then/
+去 [qù] /to go/
+外国 [wàiguó] /foreign country/
+请客 [qǐng kè] /to invite someone (to dinner, coffee, etc.), to play the host/
+昨天 [zuótiān] /yesterday/
+所以 [suǒyǐ] /so/
+小 [xiǎo] /small, little/
+好久 [hǎo jiǔ] /a long time/
+好 [hǎo] /very/
+久 [jiǔ] /long (of time)/
+不错 [búcuò] /pretty good/
+错 [cuò] /wrong/
+想 [xiǎng] /to want to, would like to, to think/
+觉得 [juéde] /to feel, to think/
+有意思 [yǒu yìsi] /interesting/
+意思 [yìsi] /meaning/
+只 [zhǐ] /only/
+睡觉 [shuì jiào] /to sleep/
+睡 [shuì] /to sleep/
+教 [jiào] /sleep/
+算了 [suàn le] /forget it, never mind/
+找 [zhǎo] /to look for/
+别人 [biérén] /other people, another person/
+别(的) [bié (de)] /other/
+# end

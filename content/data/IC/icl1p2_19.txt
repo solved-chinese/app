@@ -1,0 +1,48 @@
+﻿# Integrated Chinese, Level 1, Part 2, 3rd Edition  - Lesson 19
+# Published by Cheng & Tsui, 2010 - ISBN 9780887276880
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+马上 [mǎshàng] /immediately, right away/
+放假 [fàng jià] /go on vacation, have time off/
+放 [fàng] /to let go, to set free/
+假 [jià] /vacation, holiday/
+公司 [gōngsī] /company/
+实习 [shíxí] /to intern/
+打工 [dā gōng] /to work at a temporary job (often part time)/
+计划 [jìhuà] /plan; to plan/
+暑假 [shūjià] /summer vacation/
+打算 [dǎsuàn] /to plan; plan/
+父母 [fùmǔ] /parents, father and mother/
+首都 [shǒudū] /capital city/
+政治 [zhèngzhì] /politics/
+文化 [wénhuà] /culture/
+名胜古迹 [míngshèng gǔjì] /famous scenic spots and historic sites/
+有名 [yǒumíng] /famous, well-known/
+导游 [dǎoyóu] /tour guide/
+护照 [hùzhào] /passport/
+顶 [dìng] /to reserve, to book (a ticket,  hotel room, etc.)/
+签证 [qiānzhèng] /visa/
+旅行社 [lǚxíngshè] /travel agency/
+长成 [Chángchéng] /the Great Wall/
+香港 [Xiānggǎng] /Hong Kong/
+台北 [Táiběi] /Taipei/
+初 [chū] /beginning/
+单程 [dānchéng] /one-way trip/
+往返 [wǎngfǎn] /make a round trip, go there and back/
+航空 [hángkōng] /aviation/
+查 [chá] /to check, to look into/
+航班 [hángbān] /scheduled flight/
+千 [qiān] /thousand/
+直飞 [zhí fēi] /fly directly/
+打折 [dǎ zhé] /to sell at a discount, to give a discount/
+转机 [zhuǎn jī] /change places/
+靠 [kào] /to lean on, to lean against, to be next to/
+窗户 [chuānghu] /window/
+走道 [zǒudào] /aisle/
+份 [fèn] /(measure word for meal order, job)/
+素餐 [sùcān] /vegetarian meal/
+旅馆 [lǚguǎn] /hotel/
+租 [zū] /to rent/
+中国国际航空公司 [Zhōngguó Guójì Hángkōng Gōngsī] /Air China/
+西北航空公司 [Xīběi Hángkōng Gōngsī] /Northwest Airlines/
+# end
