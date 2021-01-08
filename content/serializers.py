@@ -37,6 +37,10 @@ class SimpleCharacterSerializer(serializers.ModelSerializer):
 class CharacterSerializer(serializers.HyperlinkedModelSerializer):
     definitions = DefinitionInCharacterSerializer(many=True, read_only=True)
     related_words = serializers.SerializerMethodField()
+    audio = serializers.SerializerMethodField()
+
+    def get_audio(self, obj):
+        return "https://solvedchinese.org/media/audio/%E6%8B%BC[=h%C7%8Eo].mp3"
 
     def get_related_words(self, character):
         """ TODO temporary """
@@ -45,7 +49,7 @@ class CharacterSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Character
-        fields = '__all__'
+        exclude = ['note', 'archive']
 
 
 class SentenceSerializer(serializers.HyperlinkedModelSerializer):
@@ -73,10 +77,14 @@ class WordSerializer(serializers.HyperlinkedModelSerializer):
         many=True, read_only=True)
     sentences = SentenceSerializer(
         many=True, read_only=True)
+    audio = serializers.SerializerMethodField()
+
+    def get_audio(self, obj):
+        return "https://solvedchinese.org/media/audio/%E6%8B%BC[=h%C7%8Eo].mp3"
 
     class Meta:
         model = Word
-        fields = '__all__'
+        exclude = ['note', 'archive']
 
 
 class WordSetSerializer(serializers.HyperlinkedModelSerializer):
