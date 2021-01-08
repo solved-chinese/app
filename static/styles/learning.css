@@ -120,3 +120,17 @@
     box-shadow: 2px 4px 10px 0px #30354512;
     transition: 200ms ease;
   }
+
+  /* For Popup Modal Animation */
+  .ReactModal__Overlay {
+    opacity: 0;
+    transition: all 500ms ease-in-out;
+  }
+  
+  .ReactModal__Overlay--after-open {
+    opacity: 1;
+  }
+  
+  .ReactModal__Overlay--before-close {
+    opacity: 0;
+  }
