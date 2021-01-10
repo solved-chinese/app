@@ -3,3 +3,5 @@ from .radical import Radical
 from .character import Character, DefinitionInCharacter, RadicalInCharacter
 from .word import Word, DefinitionInWord, CharacterInWord, Sentence
 from .word_set import WordSet, WordInSet
+from .reviewable_object import ReviewableObject
+from .questions import *
