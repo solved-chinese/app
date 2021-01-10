@@ -1,6 +1,7 @@
 import logging
 import numpy as np
 
+from rest_framework import serializers
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
@@ -76,7 +77,13 @@ class BaseConcreteQuestion(models.Model):
         return client_dict, server_dict
 
     def check_answer(self, request_dict, server_dict):
-        """ returns response_dict, is_correct """
+        """
+        returns response_dict, is_correct
+        However, be prepared to handle client error
+        """
+        client_answer = request_dict.get('answer', None)
+        if not isinstance(client_answer, int):
+            raise serializers.ValidationError("an integer answer not found")
         is_correct = request_dict['answer'] == server_dict['answer']
         response_dict = {
             'is_correct': is_correct,
