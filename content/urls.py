@@ -1,4 +1,4 @@
-from content import CRUD_views
+from content import CRUD_views, views
 from django.urls import path
 
 urlpatterns = [
@@ -12,4 +12,6 @@ urlpatterns = [
          name='wordset-detail'),
     path('word_set', CRUD_views.WordSetList.as_view(),
          name='wordset-list'),
+
+    path('question/<int:pk>', views.QuestionView.as_view())
 ]

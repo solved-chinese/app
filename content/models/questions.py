@@ -66,7 +66,6 @@ class BaseConcreteQuestion(models.Model):
             'question': self.question,
         }
         server_dict = {
-            # 'question_id': self.general_question.id,
             'give_context': give_context,
         }
         if give_context:
