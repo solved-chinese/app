@@ -218,7 +218,7 @@ export default class BreakdownView extends React.Component {
             )
         );
     }
-
+//
     /**
      * Render the word breakdown for each character 
      * specified in the urls.
