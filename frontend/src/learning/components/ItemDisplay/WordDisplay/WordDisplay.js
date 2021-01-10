@@ -84,7 +84,7 @@ export default function WordDisplay(props) {
                     type='word'
                     componentURL={word.characters}
                     memoryAid={word.memory_aid}
-                    qid={props.qid} //Question Mark
+                    qid={props.qid} 
                 />
             </>
         );

@@ -105,7 +105,7 @@ function BreakdownChar(props) {
         );
         return (
             <>
-                {/* [Faradawn] Add Popup */}
+                {/* [Faradawn] Revised Popup */}
 
                 <PopUp
                     qid = {props.qid}
@@ -201,6 +201,8 @@ export default class BreakdownView extends React.Component {
         };
     }
 
+    
+
     /**
      * Render the character breakdown for each radical 
      * specified in the urls.
@@ -277,3 +279,4 @@ export default class BreakdownView extends React.Component {
         );
     }
 }
+

@@ -2,58 +2,84 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
-import RadicalDisplay from '../RadicalDisplay/RadDisplay';
-import WordDisplay from './WordDisplay';
 import PropTypes from 'prop-types';
+import CharDisplay from '../CharacterDisplay/CharDisplay';
 
-//Can't render if uncomment the following line. Why?
-//Modal.setAppElement('#root');
+//Changed root-element-id.
+Modal.setAppElement('#learning-app');
 
 //Styles for Popup
-const DivStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'grey',
-};
+
 const ModalStyle = {
     overlay:{
-        backgroundColor: 'rgba(255, 255, 255, 0.4)'
+        backgroundColor: 'rgba(116, 116, 116, 0.3)'
     },
     content:{
         position: 'absolute',
         maxWidth: '705px',
         margin: '0 auto',
+        padding: '0',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        // Make not cover full screen
+        top: '15%',
+        bottom: 'auto',
+        height: 'auto',
+        // Try to add box-shadow    
         border: '1px solid white',
         borderRadius: '10px',
-        padding: '0',
-        
+        boxShadow: '30px 30px 30px 30px #30354512',
+        // Disables overflow 
+        overflow: 'hidden',
     }
 };
 
-//Style for '+' bottom
-const PopButton = styled.button`
-  background: none;
-  position: relative;
-  top: auto;
-  bottom: 200%;
-  left: 94%;
-  border: 1px solid white;
-  border-radius: 3px;
-  cursor: grab;
+// //Old '+' bottom
+// const PopButton = styled.button`
+//   background: none;
+//   position: relative;
+//   top: auto;
+//   bottom: 200%;
+//   left: 94%;
+//   border: 1px solid white;
+//   border-radius: 3px;
+//   cursor: grab;
+// `;
+// //Old 'x' bottom
+// const CloseButton = styled.button`
+//   background: white;
+//   position: relative;
+//   border: 1px solid white;
+//   border-radius: 3px;
+//   cursor: grab;
+// `;
+
+//New 'plus' button
+const PlusButton = styled.i`
+    position: relative;
+    top: auto;
+    bottom: 200%;
+    left: 93%;
+    margin: 0 10px;
+    cursor: grab;
+    &:hover{
+        transform: scale(1.4);
+        transition: 400ms ease;
+    }
 `;
-//Style for 'x' bottom
-const CloseButton = styled.button`
-  background: white;
-  position: relative;
-  border: 1px solid white;
-  border-radius: 3px;
-  cursor: grab;
+//New 'close' button
+const CloseButton1 = styled.i`
+    border: 1px solid white;
+    border-radius: 3px;
+    cursor: grab;
+    margin: 10px 0;
+    &:hover{
+        transform: scale(1.4);
+        transition: 400ms ease;
+    }
+    
 `;
 
 
@@ -61,17 +87,19 @@ export default function PopUp(props) {
 
   
     const [ModalState, setModalState] = useState(false);
+
+
     return (
         <>
-            <PopButton onClick={() => setModalState(true)}>
-              +
-            </PopButton>
-            <div style={DivStyle}>
+            <PlusButton className = 'fas fa-plus' onClick={() => setModalState(true)}/>
+            
+            <div>
+                {/* Modal now displays CharDisplay */}
                 <Modal closeTimeoutMS={500} style={ModalStyle} isOpen={ModalState} onRequestClose={() => setModalState(false)}>
-                    <CloseButton onClick={() => setModalState(false)}>
-                x
-                    </CloseButton>
-                    <RadicalDisplay
+                    
+                    <CloseButton1 className='fas fa-times' onClick={() => setModalState(false)}/>
+
+                    <CharDisplay
                         qid={props.qid}
                     />
 
