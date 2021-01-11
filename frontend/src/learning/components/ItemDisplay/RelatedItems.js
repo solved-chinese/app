@@ -102,10 +102,10 @@ class RelatedItemEntry extends React.Component {
         // TODO: The curly font for part of speech
         return (
             <RelatedWordItemDisplay style={this.props.style} >
-                <ItemCompWord className='use-serifs'>
+                <ItemCompWord className='use-chinese'>
                     {itemName}
                 </ItemCompWord>
-                <ItemCompPhonetic className='use-serifs'>
+                <ItemCompPhonetic className='use-chinese'>
                     {`/${phonetic}/`}
                 </ItemCompPhonetic>
                 <ItemCompDef className='use-serifs'>

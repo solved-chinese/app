@@ -53,12 +53,12 @@ export default class ItemPhonetic extends React.Component {
     render() {
         return (
             <Container>
-                <Phonetic className='use-serifs'> 
+                <Phonetic className='use-chinese'> 
                     { this.pinyin }
                     <SpeakButton className='fas fa-volume'
                         onClick= {this.play} ></SpeakButton>
                 </Phonetic>
-                <WordContainer className='use-serifs'>
+                <WordContainer className='use-chinese'>
                     { this.props.item }
                 </WordContainer>
             </Container>
