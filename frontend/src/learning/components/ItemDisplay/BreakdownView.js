@@ -66,8 +66,9 @@ function BreakdownRad(props) {
                     </RadDefinition>
                 </Row>
                 <RelatedItems 
-                    item={chinese}
-                    itemType='character' />
+                    items={radical.related_characters}
+                    item={radical.chinese}
+                    itemType='radical' />
             </>
         );
     };
@@ -94,7 +95,7 @@ BreakdownRad.propTypes = {
  * character in props.url. Re-render automatically 
  * when props.url updates to a new value.
  */
-//[Faradawn] Adds a Pop-up Card
+
 function BreakdownChar(props) {
 
     const character = useLoadChar(props.url);
@@ -113,13 +114,15 @@ function BreakdownChar(props) {
 
                 <Row>
                     <ItemPhonetic pinyin={character.pinyin}
-                        audioURL=''
+                        audioURL={character.audio}
                         item={character.chinese}/>
                     <CharDefinition 
                         definitions={ definitions }
                     />
                 </Row>
+                {/* Added items (related_words) as a props */}
                 <RelatedItems 
+                    items={character.related_words}
                     item={character.chinese}
                     itemType='word' />
             </>
@@ -218,7 +221,7 @@ export default class BreakdownView extends React.Component {
             )
         );
     }
-//
+    //
     /**
      * Render the word breakdown for each character 
      * specified in the urls.
