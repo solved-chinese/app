@@ -48,13 +48,14 @@ export default function WordDisplay(props) {
         const chinese = word.chinese;
         const pinyin = word.pinyin;
         const definitions = word.definitions;
+        const audioURL = word.audio;
         
         return (
             <>
                 {/* Top: Word Definition*/}
                 <ContainerTop>
                     <WordDefinition 
-                        audioURL= ''
+                        audioURL= {audioURL}
                         chinese={chinese}
                         pinyin={pinyin}
                         definitions={definitions}
