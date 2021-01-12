@@ -26,8 +26,6 @@ export default function useLoadChar(url) {
             setCharacter(data);
         }
     };
-    
-    loadData();
 
     // If the url changes, reload data
     useEffect(loadData, [url]);

@@ -11,7 +11,7 @@ import CharDefinition from './CharacterDisplay/CharDefinition.js';
 
 import useLoadRad from '@learning.hooks/useLoadRad.js';
 import useLoadChar from '@learning.hooks/useLoadChar.js';
-//import Popup
+
 import PopUp from './WordDisplay/PopUp';
 
 const Row = styled.div`
@@ -68,7 +68,7 @@ function BreakdownRad(props) {
                 <RelatedItems 
                     items={radical.related_characters}
                     item={radical.chinese}
-                    itemType='radical' />
+                    itemType='character' />
             </>
         );
     };
@@ -84,18 +84,11 @@ BreakdownRad.propTypes = {
     url: PropTypes.string.isRequired
 };
 
-// const CharDefinitionList = styled.ul`
-//     font-size: 1.1em;
-// `;
-
-// const CharDefinitionItem = styled.li`
-//     line-height: 1.5em;
-// `;
-/** Render a single word breakdown display using the
+/** 
+ * Render a single word breakdown display using the
  * character in props.url. Re-render automatically 
  * when props.url updates to a new value.
  */
-
 function BreakdownChar(props) {
 
     const character = useLoadChar(props.url);
@@ -186,7 +179,7 @@ MemoryAidView.propTypes = {
     content: PropTypes.string
 };
 
-/** Renders a breakdown view for word or character */
+/** Renders a breakdown view for a word or character */
 export default class BreakdownView extends React.Component {
 
     static propTypes = {
