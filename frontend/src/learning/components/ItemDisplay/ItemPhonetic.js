@@ -40,11 +40,11 @@ export default class ItemPhonetic extends React.Component {
     constructor(props) {
         super(props);
         this.audio = new Audio(props.audioURL);
-
         // Add slashes at the beginning and the end
         this.pinyin = `/${this.props.pinyin}/`;
         
     }
+
 
     play() {
         this.audio.play();
@@ -56,7 +56,7 @@ export default class ItemPhonetic extends React.Component {
                 <Phonetic className='use-chinese'> 
                     { this.pinyin }
                     <SpeakButton className='fas fa-volume'
-                        onClick= {this.play} ></SpeakButton>
+                        onClick= {() => this.play()} ></SpeakButton>
                 </Phonetic>
                 <WordContainer className='use-chinese'>
                     { this.props.item }

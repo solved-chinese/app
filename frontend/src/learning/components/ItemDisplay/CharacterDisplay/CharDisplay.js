@@ -35,15 +35,16 @@ export default function CharDisplay(props) {
             <>
                 <Row>
                     <ItemPhonetic pinyin={character.pinyin}
-                        audioURL=''
+                        audioURL={character.audio}
                         item={character.chinese}/>
                     <CharDefinition 
                         definitions={ definitions }
                     />
                 </Row>
                 <RelatedItems 
+                    items={character.related_words}
                     item={character.chinese}
-                    itemType='word' />
+                    itemType='character' />
                 <BreakdownView type='radical'
                     componentURL={character.radicals}
                     memoryAid={character.memory_aid}/>

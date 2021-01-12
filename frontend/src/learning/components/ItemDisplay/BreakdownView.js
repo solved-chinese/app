@@ -11,6 +11,8 @@ import CharDefinition from './CharacterDisplay/CharDefinition.js';
 
 import useLoadRad from '@learning.hooks/useLoadRad.js';
 import useLoadChar from '@learning.hooks/useLoadChar.js';
+//import Popup
+import PopUp from './WordDisplay/PopUp';
 
 const Row = styled.div`
     display: inline-flex;
@@ -38,7 +40,7 @@ const RadDefinition = styled.h4`
     min-width: 60px;
     margin-top: 15px;
 `;
-
+//
 /** Render a single character breakdown display using the
  * radical in props.url. Re-render automatically when props.url
  * updates to a new value.
@@ -64,8 +66,9 @@ function BreakdownRad(props) {
                     </RadDefinition>
                 </Row>
                 <RelatedItems 
-                    item={chinese}
-                    itemType='character' />
+                    items={radical.related_characters}
+                    item={radical.chinese}
+                    itemType='radical' />
             </>
         );
     };
@@ -88,11 +91,11 @@ BreakdownRad.propTypes = {
 // const CharDefinitionItem = styled.li`
 //     line-height: 1.5em;
 // `;
-
 /** Render a single word breakdown display using the
  * character in props.url. Re-render automatically 
  * when props.url updates to a new value.
  */
+
 function BreakdownChar(props) {
 
     const character = useLoadChar(props.url);
@@ -103,15 +106,23 @@ function BreakdownChar(props) {
         );
         return (
             <>
+                {/* [Faradawn] Revised Popup */}
+
+                <PopUp
+                    qid = {props.qid}
+                />
+
                 <Row>
                     <ItemPhonetic pinyin={character.pinyin}
-                        audioURL=''
+                        audioURL={character.audio}
                         item={character.chinese}/>
                     <CharDefinition 
                         definitions={ definitions }
                     />
                 </Row>
+                {/* Added items (related_words) as a props */}
                 <RelatedItems 
+                    items={character.related_words}
                     item={character.chinese}
                     itemType='word' />
             </>
@@ -147,18 +158,22 @@ const MemoryAidContent = styled.div`
     padding: 15px 20px;
     font-weight: 400;
 `;
-
+//[Faradawn] Conditionally Renders MemoryAddView
 function MemoryAidView(props) {
-    return (
-        <>
-            <MemoryAidHeading>
-                Memory Aid
-            </MemoryAidHeading>
-            <MemoryAidContent className='box-shadow'>
-                {props.content}
-            </MemoryAidContent>
-        </>
-    );
+    if(props.content)
+        return (
+            <>
+                <MemoryAidHeading>
+                    Memory Aid
+                </MemoryAidHeading>
+                <MemoryAidContent className='box-shadow'>
+                    {props.content}
+                </MemoryAidContent>
+
+            </>
+        );
+    else
+        return null;
 }
 
 MemoryAidView.propTypes = {
@@ -177,7 +192,9 @@ export default class BreakdownView extends React.Component {
         componentURL: PropTypes.arrayOf(PropTypes.string),
 
         /** The associated memory aid sentence. */
-        memoryAid: PropTypes.string
+        memoryAid: PropTypes.string,
+
+        qid: PropTypes.number
     }
 
     constructor(props) {
@@ -186,6 +203,8 @@ export default class BreakdownView extends React.Component {
             show: false
         };
     }
+
+    
 
     /**
      * Render the character breakdown for each radical 
@@ -202,18 +221,18 @@ export default class BreakdownView extends React.Component {
             )
         );
     }
-
+    //
     /**
      * Render the word breakdown for each character 
      * specified in the urls.
      * @param {[String]} urls 
      */
-    renderBreakdownChar(urls) {
+    renderBreakdownChar(urls, qid) {
         return urls.map( url => 
             (
                 <div key={url}
                     className='breakdown-card box-shadow'>
-                    <BreakdownChar url={url} />
+                    <BreakdownChar url={url} qid={qid} />
                 </div>
             )
         );
@@ -227,6 +246,7 @@ export default class BreakdownView extends React.Component {
         const type = this.props.type;
         const toggleTitle = type + ' breakdown';
         const urls = this.props.componentURL;
+        const qid = this.props.qid;
 
         return (
             <div className='breakdown-container'>
@@ -251,8 +271,8 @@ export default class BreakdownView extends React.Component {
                     )}>
 
                     { type == 'radical' ?
-                        this.renderBreakdownRad(urls) :
-                        this.renderBreakdownChar(urls)
+                        this.renderBreakdownRad(urls, qid) :
+                        this.renderBreakdownChar(urls, qid)
                     } 
 
                     <MemoryAidView
@@ -262,3 +282,4 @@ export default class BreakdownView extends React.Component {
         );
     }
 }
+
