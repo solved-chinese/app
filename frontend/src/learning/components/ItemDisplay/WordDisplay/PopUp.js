@@ -96,18 +96,12 @@ export default function PopUp(props) {
             <div>
                 {/* Modal now displays CharDisplay */}
                 <Modal closeTimeoutMS={500} style={ModalStyle} isOpen={ModalState} onRequestClose={() => setModalState(false)}>
-                    
                     <CloseButton1 className='fas fa-times' onClick={() => setModalState(false)}/>
-
                     <CharDisplay
                         qid={props.qid}
                     />
-
-                
-               
                 </Modal>
             </div>
-           
         </>
     );
 }

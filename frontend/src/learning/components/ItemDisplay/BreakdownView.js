@@ -158,9 +158,16 @@ const MemoryAidContent = styled.div`
     padding: 15px 20px;
     font-weight: 400;
 `;
-//[Faradawn] Conditionally Renders MemoryAddView
+
+/**
+ * Renders a <MemoryAidView /> component.
+ */
 function MemoryAidView(props) {
-    if(props.content)
+
+    const content =  props.content;
+
+    if (content != null && content != '' 
+            && content != 'TODO' ) {
         return (
             <>
                 <MemoryAidHeading>
@@ -169,19 +176,17 @@ function MemoryAidView(props) {
                 <MemoryAidContent className='box-shadow'>
                     {props.content}
                 </MemoryAidContent>
-
             </>
         );
-    else
-        return null;
+    } else { return null; }
 }
 
 MemoryAidView.propTypes = {
     /** The associated memory aid sentence. */
-    content: PropTypes.string.isRequired
+    content: PropTypes.string
 };
 
-/** Breakdown view for words and characters */
+/** Renders a breakdown view for word or character */
 export default class BreakdownView extends React.Component {
 
     static propTypes = {
@@ -203,8 +208,6 @@ export default class BreakdownView extends React.Component {
             show: false
         };
     }
-
-    
 
     /**
      * Render the character breakdown for each radical 
