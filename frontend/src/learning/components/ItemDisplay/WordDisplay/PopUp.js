@@ -25,6 +25,7 @@ const ModalStyle = {
         top: '15%',
         bottom: 'auto',
         height: 'auto',
+        maxHeight: '70vh',
 
         boxShadow: '2px 2px 6px 2px #30354514',
         borderRadius: '5px',

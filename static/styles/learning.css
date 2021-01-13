@@ -59,6 +59,7 @@
     display: flex;
     flex-wrap: wrap;
     visibility: hidden;
+    overflow: hidden;
     max-height: 0;
     opacity: 0;
     justify-content: center;
