@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 import json
 
 from content.models import GeneralContentModel, OrderableMixin, \
-    validate_chinese_character_or_x
+    validate_chinese_character_or_x, ReviewableMixin
 from content.data.makemeahanzi_dictionary import get_makemeahanzi_data
 
 
@@ -41,7 +41,7 @@ class RadicalInCharacter(OrderableMixin):
         unique_together = ['character', 'radical', 'order']
 
 
-class Character(GeneralContentModel):
+class Character(ReviewableMixin, GeneralContentModel):
     class CharacterType(models.TextChoices):
         __empty__ = 'TODO'
         PICTOGRAPHIC = 'Pictographic', 'Pictographic'

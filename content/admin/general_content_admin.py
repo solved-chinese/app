@@ -1,7 +1,43 @@
-from content.models import OrderableMixin
-
 from django.contrib import admin
+from django.utils.html import format_html
+from django.shortcuts import reverse
+
 from .utils import NextAdminMixin
+from content.models import OrderableMixin
+from content.question_factories import QuestionFactoryRegistry
+
+
+__all__ = ['ReviewableAdminMixin', 'GeneralContentAdmin']
+
+
+class ReviewableAdminMixin(admin.ModelAdmin):
+    def get_readonly_fields(self, request, obj=None):
+        readonly_fields = super().get_readonly_fields(request, obj=obj)
+        return list(readonly_fields) + ['get_review_questions']
+
+    def get_review_questions(self, obj):
+        reviewable = obj.get_reviewable_object()
+        existing_general_questions = reviewable.questions
+        existing_question_types = set()
+        s = ""
+        for question in existing_general_questions.all():
+            s += '<a href="{}">{}</a><br>'.format(
+                question.get_admin_url(),
+                f"{question.question_type}"
+            )
+            existing_question_types.add(question.question_type)
+        for question in QuestionFactoryRegistry.get_factories_by_model(
+                obj.__class__):
+            if question.question_type not in existing_question_types:
+                s += '<a href="{}">generate {}</a><br>'.format(
+                    reverse('review_question_factory_view', kwargs={
+                        'question_type':question.question_type,
+                        'ro_id':obj.get_reviewable_object().id}),
+                    question.question_type
+                )
+        return format_html(s)
+
+    get_review_questions.short_description = "Review Questions"
 
 
 class GeneralContentAdmin(NextAdminMixin, admin.ModelAdmin):
