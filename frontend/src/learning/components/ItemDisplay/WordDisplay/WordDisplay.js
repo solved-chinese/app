@@ -74,7 +74,7 @@ export default function WordDisplay(props) {
                     {word.sentences.map((sen, i) => {
                         return (
                             <ExampleSentences
-                                key={word}
+                                key={sen.chinese}
                                 word={word}
                                 pinyin={sen.pinyin}
                                 chinese={sen.chinese} 
