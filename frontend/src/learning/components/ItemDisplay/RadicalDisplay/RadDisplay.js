@@ -35,7 +35,11 @@ const RadDefinition = styled.h4`
 /** The main function that renders a radical view. */
 export default function RadDisplay(props) {
 
-    const radical = useLoadRad(`/content/radical/${props.qid}`);
+    const radical = useLoadRad(
+        props.url == null ?
+            `/content/radical/${props.qid}` :
+            props.url
+    );
 
     const renderRadical = (radical) => {
         const chinese = radical.chinese;
@@ -52,6 +56,7 @@ export default function RadDisplay(props) {
                 </Row>
                 <RelatedItems
                     item={chinese}
+                    items={radical.related_characters}
                     itemType='character' />
             </>
         );
@@ -65,7 +70,14 @@ export default function RadDisplay(props) {
 }
 
 RadDisplay.propTypes = {
-    qid: PropTypes.number.isRequired
+    /** URL of the radical to be rendered, if it 
+     * is not provided, then the qid is used to construct
+     * the url. */
+    url: PropTypes.string,
+
+    /** The query id of the radical to be rendered, will
+     * be omitted if url is present and not null. */
+    qid: PropTypes.number,
 };
 
 export class RadImage extends React.Component {

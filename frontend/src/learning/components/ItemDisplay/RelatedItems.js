@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
+import PropTypes, { object } from 'prop-types';
 
 const Heading = styled.h2`
     color: var(--teritary-text);
@@ -21,38 +21,39 @@ export default class RelatedItems extends React.Component {
          * a user has viewed so far. */
         item: PropTypes.string.isRequired,
 
+        // 'items' is an array of objects 
+        items: PropTypes.arrayOf(object),
+
         /** The type of the related items to be displayed
          * (word or character) */
         itemType: PropTypes.oneOf(['word', 'character']).isRequired
     }
 
-    constructor(props) {
-        super(props);
-        this.items = [
-            {
-                itemName: '学生',
-                phonetic: 'xuéshēng',
-                def: 'n. student'
-            },
-            {
-                itemName: '学校',
-                phonetic: 'xuéxiào',
-                def: 'n. school'
-            }
-        ];
-    }
+
 
     render() {
+
+        // Remove duplicated related words.
+        let uniqueItemChinese = [];
+        const items = this.props.items.filter( v => {
+            if (uniqueItemChinese.includes(v.chinese)) {
+                return false;
+            } else {
+                uniqueItemChinese.push(v.chinese);
+                return true;
+            }
+        });
+
         return (
             <>
                 <Heading>
                     {`Related ${this.props.itemType}s you've seen`}
                 </Heading>
                 <RelatedItemsList>
-                    {this.items.map((v, i) => {
+                    {items.map((v, i) => {
                         return (<RelatedItemEntry 
                             style={ i % 2 ? {background : '#F9F9F9'} : {}}
-                            key={v.itemName} 
+                            key={v.chinese} 
                             item={v}
                         />);
                     })}
@@ -74,6 +75,7 @@ const ItemComp = styled.p`
     color: var(--secondary-text);
     padding-right: 15px;
     margin-bottom: 0;
+    white-space: nowrap;
 `;
 
 const ItemCompWord = styled(ItemComp)`
@@ -88,7 +90,9 @@ const ItemCompDef = styled(ItemComp)`
     flex-grow: 3;
     max-width: 75%;
     margin-left: auto;
-`;
+    text-overflow: ellipsis;
+    overflow: hidden;
+`;//
 class RelatedItemEntry extends React.Component {
 
     static propTypes = {
@@ -97,19 +101,19 @@ class RelatedItemEntry extends React.Component {
     }
 
     render() {
-        const {itemName, phonetic, def} = this.props.item;
+        const {chinese, pinyin, full_definition} = this.props.item;
 
         // TODO: The curly font for part of speech
         return (
             <RelatedWordItemDisplay style={this.props.style} >
-                <ItemCompWord className='use-serifs'>
-                    {itemName}
+                <ItemCompWord className='use-chinese'>
+                    {chinese}
                 </ItemCompWord>
-                <ItemCompPhonetic className='use-serifs'>
-                    {`/${phonetic}/`}
+                <ItemCompPhonetic className='use-chinese'>
+                    {`/${pinyin}/`}
                 </ItemCompPhonetic>
                 <ItemCompDef className='use-serifs'>
-                    {def}
+                    {full_definition}
                 </ItemCompDef>
             </RelatedWordItemDisplay>
         );

@@ -19,12 +19,12 @@ export default function useLoadChar(url) {
             setTimeout(() => {
                 this.loadData();
             }, 5);
+        } else {
+            // parse the response object into json
+            const data = await response.json();
+            // use the json object to update component states
+            setCharacter(data);
         }
-
-        // parse the response object into json
-        const data = await response.json();
-        // use the json object to update component states
-        setCharacter(data);
     };
 
     // If the url changes, reload data

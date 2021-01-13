@@ -2,15 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const Container = styled.div`
-    display: inline-flex;
-    flex-direction: column;
-    align-self: flex-start;
-    @media only screen and (max-width: 480px) {
-        align-self: center;
-    }
-`;
-
 const DefinitionList = styled.ul`
 
     padding-left: 70px;
@@ -34,18 +25,16 @@ const ListItem = styled.li`
 
 export default function CharDefinition(props) {
     return (
-        <Container>
-            <DefinitionList>
-                <ListTitle>Definitions:</ListTitle>
-                {props.definitions.map( (elem, i) => {
-                    return (
-                        <ListItem key={i} className='use-serifs'> 
-                            {elem} 
-                        </ListItem>
-                    );
-                })}
-            </DefinitionList>
-        </Container>
+        <DefinitionList>
+            <ListTitle>Definitions:</ListTitle>
+            {props.definitions.map( (elem, i) => {
+                return (
+                    <ListItem key={i} className='use-serifs'> 
+                        {elem} 
+                    </ListItem>
+                );
+            })}
+        </DefinitionList>
     );
 }
 

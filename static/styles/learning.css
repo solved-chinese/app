@@ -2,7 +2,7 @@
 .content-card-container {
     margin-top: 60px;
     margin-bottom: 60px;
-    max-width: 700px;
+    max-width: 800px;
     width: 100%;
     padding: 25px 50px;
     border-radius: 5px;
@@ -20,16 +20,19 @@
     width: 100%;
     min-width: 150px;
     margin: auto;
-    margin-bottom: -15px;
+    margin-bottom: -18px; 
     margin-top: 15px;
 }
 
 .breakdown-toggle.toggled {
     /* margin-bottom: 0; */
+    margin-bottom: 10px;
 }
-
+/* Made toggle extends when hover */
 .breakdown-toggle:hover {
     transform: scale(1.05);
+    margin-bottom: 10px;
+    transition: 200ms ease-in-out;
 }
 
 .breakdown-toggle i {
@@ -56,6 +59,7 @@
     display: flex;
     flex-wrap: wrap;
     visibility: hidden;
+    overflow: hidden;
     max-height: 0;
     opacity: 0;
     justify-content: center;
@@ -67,6 +71,7 @@
 .breakdown-content.show {
     max-height: 3000px; /* We need a numerical value here for the animation */
     opacity: 1;
+    overflow: visible;
     visibility: visible;
 }
 
@@ -104,7 +109,7 @@
     }
 }
 
-/* Word Displace - Example Sentences */
+/* WordDisplay - Example Sentences */
 .ExampleCard {
     max-width: 300px;
     width: 100%;
@@ -119,4 +124,22 @@
   .ExampleCard:hover {
     box-shadow: 2px 4px 10px 0px #30354512;
     transition: 200ms ease;
+  }
+
+  /* Popup Modal Animation + Disable Scrolling */
+  .ReactModal__Overlay {
+    opacity: 0;
+    transition: all 500ms ease-in-out;
+  }
+  
+  .ReactModal__Overlay--after-open {
+    opacity: 1;
+  }
+  
+  .ReactModal__Overlay--before-close {
+    opacity: 0;
+  }
+
+  .ReactModal__Body--open {
+      overflow: hidden;
   }

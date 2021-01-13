@@ -11,6 +11,7 @@ const Phonetic = styled.span`
     text-align: center;
     font-size: 1.5em;
     font-weight: 200;
+    white-space: nowrap;
 `;
 
 const SpeakButton = styled.i`
@@ -26,6 +27,9 @@ const WordContainer = styled.h1`
     text-align: center;
 `;
 
+/**
+ * Renders the Chinese, phonetic(pinyin), and an audio button.
+ */
 export default class ItemPhonetic extends React.Component {
 
     static propTypes = {
@@ -40,11 +44,11 @@ export default class ItemPhonetic extends React.Component {
     constructor(props) {
         super(props);
         this.audio = new Audio(props.audioURL);
-
         // Add slashes at the beginning and the end
         this.pinyin = `/${this.props.pinyin}/`;
         
     }
+
 
     play() {
         this.audio.play();
@@ -53,12 +57,12 @@ export default class ItemPhonetic extends React.Component {
     render() {
         return (
             <Container>
-                <Phonetic className='use-serifs'> 
+                <Phonetic className='use-chinese'> 
                     { this.pinyin }
                     <SpeakButton className='fas fa-volume'
-                        onClick= {this.play} ></SpeakButton>
+                        onClick= {() => this.play()} ></SpeakButton>
                 </Phonetic>
-                <WordContainer className='use-serifs'>
+                <WordContainer className='use-chinese'>
                     { this.props.item }
                 </WordContainer>
             </Container>

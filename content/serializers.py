@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.reverse import reverse
 
 from content.models import Radical, Character, Word, WordSet, \
     DefinitionInWord, Sentence, DefinitionInCharacter
@@ -37,6 +38,7 @@ class SimpleCharacterSerializer(serializers.ModelSerializer):
 class CharacterSerializer(serializers.HyperlinkedModelSerializer):
     definitions = DefinitionInCharacterSerializer(many=True, read_only=True)
     related_words = serializers.SerializerMethodField()
+    radicals = serializers.SerializerMethodField()
     audio = serializers.SerializerMethodField()
 
     def get_audio(self, obj):
@@ -46,6 +48,14 @@ class CharacterSerializer(serializers.HyperlinkedModelSerializer):
         """ TODO temporary """
         words = character.words.all()[:RELATED_MAX_NUM]
         return SimpleWordSerializer(list(words), many=True).data
+
+    def get_radicals(self, character):
+        radicals = character.radicals.order_by('radicalincharacter')
+        l = [reverse('radical-detail',
+                     kwargs={'pk': radical.pk},
+                     request=self.context['request'])
+             for radical in radicals]
+        return l
 
     class Meta:
         model = Character
@@ -77,7 +87,16 @@ class WordSerializer(serializers.HyperlinkedModelSerializer):
         many=True, read_only=True)
     sentences = SentenceSerializer(
         many=True, read_only=True)
+    characters = serializers.SerializerMethodField()
     audio = serializers.SerializerMethodField()
+
+    def get_characters(self, word):
+        characters = word.characters.order_by('characterinword')
+        l = [reverse('character-detail',
+                     kwargs={'pk': character.pk},
+                     request=self.context['request'])
+             for character in characters]
+        return l
 
     def get_audio(self, obj):
         return "https://solvedchinese.org/media/audio/%E6%8B%BC[=h%C7%8Eo].mp3"
@@ -88,6 +107,7 @@ class WordSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class WordSetSerializer(serializers.HyperlinkedModelSerializer):
+    # TODO overwrite characters order when needed
     class Meta:
         model = WordSet
         fields = '__all__'

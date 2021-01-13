@@ -79,6 +79,10 @@
     font-family: 'CrimsonText', 'STKaiti' !important;
 }
 
+.use-chinese {
+    font-family: 'STKaiti' !important;
+}
+
 /***********************************
   Variable Declarations
 ***********************************/

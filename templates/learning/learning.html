@@ -6,8 +6,12 @@
 {% endblock css %}
 
 {% block content %}
+    <div id="temporary_access">
+        {{ temporary_access|safe }}
+    </div>
     <div id="learning-app"></div>
 {% endblock content %}
+
 {% block js %}
     <script src="{% static "scripts/learning.bundle.js" %}"></script>
 {% endblock js %}

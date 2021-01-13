@@ -4,7 +4,6 @@ import 'regenerator-runtime/runtime';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-
 import CharDefinition from './CharDefinition.js';
 
 import RelatedItems from '@learning.components/ItemDisplay/RelatedItems.js';
@@ -26,7 +25,12 @@ const Row = styled.div`
 /** The main function that renders a character view. */
 export default function CharDisplay(props) {
 
-    const character = useLoadChar(`/content/character/${props.qid}`);
+
+    const character = useLoadChar( 
+        props.url == null ?
+            `/content/character/${props.qid}` :
+            props.url
+    );
 
     const renderCharacter = (character) => {
         const definitions = character.definitions.map( v => 
@@ -36,15 +40,16 @@ export default function CharDisplay(props) {
             <>
                 <Row>
                     <ItemPhonetic pinyin={character.pinyin}
-                        audioURL=''
+                        audioURL={character.audio}
                         item={character.chinese}/>
                     <CharDefinition 
                         definitions={ definitions }
                     />
                 </Row>
                 <RelatedItems 
+                    items={character.related_words}
                     item={character.chinese}
-                    itemType='word' />
+                    itemType='character' />
                 <BreakdownView type='radical'
                     componentURL={character.radicals}
                     memoryAid={character.memory_aid}/>
@@ -60,76 +65,12 @@ export default function CharDisplay(props) {
 }
 
 CharDisplay.propTypes = {
-    qid: PropTypes.number
+    /** The URL of the character to be rendered, if it 
+     * is not provided, then the qid is used to construct
+     * the url. */
+    url: PropTypes.string,
+
+    /** The query id of the character to be rendered, will
+     * be omitted if url is present and not null. */
+    qid: PropTypes.number,
 };
-
-// export default class CharDisplay extends React.Component {
-
-//     static propTypes = {
-//         qid: PropTypes.number
-//     }
-
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             loading: true,
-//             character: null
-//         };
-//     }
-
-//     componentDidMount() {
-//         this.loadData();
-//     }
-
-//     async loadData() {
-//         const response = await fetch(`/content/character/${this.props.qid}`);
-//         if (!response.ok) {
-//             setTimeout(() => {
-//                 this.loadData();
-//             }, 5);
-//             throw new Error(`An ${response.status} error has occured,
-//                 retrying in 5 seconds.`);
-//         }
-
-//         // parse the response object into json
-//         const data = await response.json();
-//         // use the json object to update component states
-//         this.setState({ character: data, loading: false});
-//     }
-
-//     showLoadingView() {
-//         return <LoadingView />;
-//     }
-
-//     showContent() {
-//         const character = this.state.character;
-//         const definitions = character.definitions.map( v => 
-//             v.definition
-//         );
-//         return (
-//             <>
-//                 <Row>
-//                     <ItemPhonetic pinyin={character.pinyin}
-//                         audioURL=''
-//                         item={character.chinese}/>
-//                     <CharDefinition 
-//                         definitions={ definitions }
-//                     />
-//                 </Row>
-//                 <RelatedItems 
-//                     item={character.chinese}
-//                     itemType='word' />
-//                 <BreakdownView type='radical'
-//                     componentURL={character.radicals}
-//                     memoryAid={character.memory_aid}/>
-//             </>
-//         );
-//     }
-
-
-//     render() {
-//         // Display a loading page while `this.state.loading == true`.
-//         return this.state.loading ? 
-//             this.showLoadingView() : this.showContent();
-//     }
-// }
