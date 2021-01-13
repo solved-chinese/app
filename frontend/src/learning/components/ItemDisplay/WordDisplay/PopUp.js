@@ -41,20 +41,16 @@ const PlusButton = styled.i`
     margin: 0 10px;
     cursor: grab;
     &:hover{
-        transform: scale(1.1);
-        transition: 400ms ease-in-out;
+        transform: scale(1.3);
+        transition: 200ms ease-in-out;
     }
 `;
 //New 'close' button
 const CloseButton = styled.i`
     width: 100%;
     text-align: right;
+    margin-top: 10px;
     cursor: grab;
-    margin: 10px 0;
-    &:hover{
-        transform: scale(1.1);
-        transition: 400ms ease-in-out;
-    }
     
 `;
 
@@ -85,6 +81,7 @@ export default function PopUp(props) {
                     />
                     <CharDisplay
                         url={props.contentURL}
+                        alwaysDisplay={true}
                     />
                 </Modal>
             </div>

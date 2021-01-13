@@ -225,15 +225,19 @@ export default class BreakdownView extends React.Component {
         componentURL: PropTypes.arrayOf(PropTypes.string),
 
         /** The associated memory aid sentence. */
-        memoryAid: PropTypes.string
+        memoryAid: PropTypes.string,
+
+        // new alwaysDisplay prop
+        alwaysDisplay: PropTypes.bool
     }
 
     constructor(props) {
         super(props);
         this.state = {
-            show: false
+            show: this.props.alwaysDisplay
         };
     }
+    
 
     /**
      * Render the character breakdown for each radical 
@@ -281,10 +285,11 @@ export default class BreakdownView extends React.Component {
         const type = this.props.type;
         const toggleTitle = type + ' breakdown';
         const urls = this.props.componentURL;
+        
 
         return (
             <div className='breakdown-container'>
-                <div 
+                <div style={this.props.alwaysDisplay ? {display: 'none'} : {}}
                     className={'breakdown-toggle ' + (
                         this.state.show ? 'toggled' : ''
                     )}
@@ -302,7 +307,7 @@ export default class BreakdownView extends React.Component {
                 <div 
                     className={'breakdown-content ' + (
                         this.state.show ? 'show' : ''
-                    )}>
+                    )} >
 
                     { type == 'radical' ?
                         this.renderBreakdownRad(urls) :

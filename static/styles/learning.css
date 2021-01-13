@@ -20,18 +20,18 @@
     width: 100%;
     min-width: 150px;
     margin: auto;
-    margin-bottom: -18px; 
+    margin-bottom: -10px; 
     margin-top: 15px;
 }
 
 .breakdown-toggle.toggled {
     /* margin-bottom: 0; */
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
 }
 /* Made toggle extends when hover */
 .breakdown-toggle:hover {
     transform: scale(1.05);
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
     transition: 200ms ease-in-out;
 }
 
