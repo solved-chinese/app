@@ -89,6 +89,9 @@ const ItemCompDef = styled(ItemComp)`
     flex-grow: 3;
     max-width: 75%;
     margin-left: auto;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 `;//
 class RelatedItemEntry extends React.Component {
 
