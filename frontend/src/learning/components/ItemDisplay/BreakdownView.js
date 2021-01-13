@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import RelatedItems from './RelatedItems.js';
 import { RadImage } from './RadicalDisplay/RadDisplay.js';
 import ItemPhonetic from './ItemPhonetic.js';
-import CharDefinition from './CharacterDisplay/CharDefinition.js';
 
 import useLoadRad from '@learning.hooks/useLoadRad.js';
 import useLoadChar from '@learning.hooks/useLoadChar.js';
@@ -17,10 +16,14 @@ import PopUp from './WordDisplay/PopUp';
 const Row = styled.div`
     display: inline-flex;
     min-width: 100%;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     margin-bottom: 20px;
+
+    @media only screen and (max-width: 480px) {
+        flex-wrap: wrap;
+    }
 `;
 
 const MnemonicImageWrapper = styled.div`
@@ -84,6 +87,20 @@ BreakdownRad.propTypes = {
     url: PropTypes.string.isRequired
 };
 
+const CharDefList = styled.ul`
+
+    padding-left: 10px;
+    font-size: 1.3em;
+
+    @media only screen and (max-width: 480px) {
+        padding: 0;
+    }
+`;
+
+const CharDefListItem = styled.li`
+    line-height: 1.75em;
+`;
+
 /** 
  * Render a single word breakdown display using the
  * character in props.url. Re-render automatically 
@@ -92,6 +109,23 @@ BreakdownRad.propTypes = {
 function BreakdownChar(props) {
 
     const character = useLoadChar(props.url);
+
+    const renderDefinitions = (definitions) => {
+        return (
+            <CharDefList>
+                { definitions.map( (elem, i) => {
+                    return (
+                        <CharDefListItem 
+                            key={i}
+                            className='use-serifs'
+                        >
+                            {elem}
+                        </CharDefListItem>
+                    );
+                })}
+            </CharDefList>
+        );
+    };
 
     const renderCharacter = (character) => {
         const definitions = character.definitions.map( v => 
@@ -109,10 +143,9 @@ function BreakdownChar(props) {
                 <Row>
                     <ItemPhonetic pinyin={character.pinyin}
                         audioURL={character.audio}
-                        item={character.chinese}/>
-                    <CharDefinition 
-                        definitions={ definitions }
+                        item={character.chinese}
                     />
+                    {renderDefinitions(definitions)}
                 </Row>
                 {/* Added items (related_words) as a props */}
                 <RelatedItems 
@@ -208,9 +241,12 @@ export default class BreakdownView extends React.Component {
      * @param {[String]} urls 
      */
     renderBreakdownRad(urls) {
-        return urls.map( url => 
+        // It is possible to have two breakdown items with the
+        // same content (and url), and therefore we cannot use
+        // url as the key.
+        return urls.map( (url, i) => 
             (
-                <div key={url}
+                <div key={i}
                     className='breakdown-card box-shadow'>
                     <BreakdownRad url={url} />
                 </div>
@@ -224,9 +260,12 @@ export default class BreakdownView extends React.Component {
      * @param {[String]} urls 
      */
     renderBreakdownChar(urls) {
-        return urls.map( url => 
+        // It is possible to have two breakdown items with the
+        // same content (and url), and therefore we cannot use
+        // url as the key.
+        return urls.map( (url, i) => 
             (
-                <div key={url}
+                <div key={i}
                     className='breakdown-card box-shadow'>
                     <BreakdownChar url={url} />
                 </div>

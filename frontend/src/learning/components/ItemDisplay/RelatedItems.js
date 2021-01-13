@@ -75,6 +75,7 @@ const ItemComp = styled.p`
     color: var(--secondary-text);
     padding-right: 15px;
     margin-bottom: 0;
+    white-space: nowrap;
 `;
 
 const ItemCompWord = styled(ItemComp)`
@@ -90,7 +91,6 @@ const ItemCompDef = styled(ItemComp)`
     max-width: 75%;
     margin-left: auto;
     text-overflow: ellipsis;
-    white-space: nowrap;
     overflow: hidden;
 `;//
 class RelatedItemEntry extends React.Component {

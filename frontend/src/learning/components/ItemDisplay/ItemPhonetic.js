@@ -11,6 +11,7 @@ const Phonetic = styled.span`
     text-align: center;
     font-size: 1.5em;
     font-weight: 200;
+    white-space: nowrap;
 `;
 
 const SpeakButton = styled.i`
@@ -26,6 +27,9 @@ const WordContainer = styled.h1`
     text-align: center;
 `;
 
+/**
+ * Renders the Chinese, phonetic(pinyin), and an audio button.
+ */
 export default class ItemPhonetic extends React.Component {
 
     static propTypes = {
