@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 import unicodedata
 
 from content.models import GeneralContentModel, OrderableMixin, \
-    validate_chinese_character_or_x
+    validate_chinese_character_or_x, ReviewableMixin
 
 
 class DefinitionInWord(OrderableMixin):
@@ -75,7 +75,7 @@ class Sentence(OrderableMixin):
         return f"<EgSent of {self.word}: {str(self)}>"
 
 
-class Word(GeneralContentModel):
+class Word(ReviewableMixin, GeneralContentModel):
     # TODO if word chinese field change, also change characters
     chinese = models.CharField(max_length=10)
     identifier = models.CharField(max_length=10, blank=True)

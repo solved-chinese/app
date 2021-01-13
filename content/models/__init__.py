@@ -1,7 +1,7 @@
 from .general_content_model import *
+from .reviewable_object import *
 from .radical import Radical
 from .character import Character, DefinitionInCharacter, RadicalInCharacter
 from .word import Word, DefinitionInWord, CharacterInWord, Sentence
 from .word_set import WordSet, WordInSet
-from .reviewable_object import ReviewableObject
 from .questions import *

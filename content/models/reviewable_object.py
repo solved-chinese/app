@@ -2,6 +2,15 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 
+__all__ = ['ReviewableMixin', 'ReviewableObject']
+
+
+class ReviewableMixin:
+    def get_reviewable_object(self):
+        d = {self.__class__.__name__.lower(): self}
+        return ReviewableObject.objects.get_or_create(**d)[0]
+
+
 class ReviewableObject(models.Model):
     radical = models.OneToOneField('Radical', blank=True, null=True,
                                    related_name='reviewable',
@@ -32,19 +41,8 @@ class ReviewableObject(models.Model):
     def concrete_object(self):
         return self.word or self.character or self.radical
 
+    def __repr__(self):
+        return f"<RO of {repr(self.concrete_object)}>"
 
-
-
-"""
-MC single choice for now
-is_correct: True / False
-link: <C0001你#>'s pinyin field (ni)
-overwrite: ni
-weighting: 1 (regular wrong answer), 5 (somewhat misleading answer), 
-    100 (very misleading) 
-
-10 incorrect answers, 1 correct answer
-randomly draw 3 incorrect + 1 correct
-ABCD
-ABEF
-"""
+    def __str__(self):
+        return repr(self)

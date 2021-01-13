@@ -1,6 +1,8 @@
 from django import forms
+from dal_select2.widgets import Select2WidgetMixin
+from dal.widgets import WidgetMixin
 
-from .models import WordSet, Word
+from .models import WordSet, Word, Character, Radical, LinkedField
 
 
 class WordSetQuickCreateFrom(forms.ModelForm):
@@ -32,3 +34,34 @@ class WordSetQuickCreateFrom(forms.ModelForm):
     class Meta:
         model = WordSet
         fields = ['name', 'words']
+
+
+class LinkedFieldModelSelect2(WidgetMixin,
+                   Select2WidgetMixin,
+                   forms.Select):
+    def filter_choices_to_render(self, selected_choices):
+        """render the current choice as number only"""
+        if selected_choices:
+            assert len(selected_choices) == 1
+            selected_choice = selected_choices[0]
+            self.choices = [(selected_choice, selected_choice)]
+
+
+class LinkedFieldForm(forms.ModelForm):
+    object_id = forms.IntegerField(
+        widget=LinkedFieldModelSelect2(
+            url='linked_field_autocomplete',
+            forward=('content_type', 'field_name')
+        ), required=False
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        instance = getattr(self, 'instance', None)
+        if instance and instance.id:
+            self.fields['field_name'].disabled = True
+            self.fields['content_type'].disabled = True
+
+    class Meta:
+        model = LinkedField
+        fields = ['overwrite', 'content_type', 'object_id', 'field_name']

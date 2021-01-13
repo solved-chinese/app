@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
+from django.shortcuts import reverse
 
 
 logger = logging.getLogger(__name__)
@@ -42,38 +43,37 @@ class GeneralQuestion(models.Model):
     def concrete_question(self):
         return self.MC or self.FITB or self.DRAG
 
-    def render(self, give_context=False):
-        return self.concrete_question.render(give_context=give_context)
-
-    def check_answer(self, request_dict, server_dict):
-        return self.concrete_question.check_answer(request_dict, server_dict)
+    def __getattr__(self, item):
+        """ redirects requests to concrete question """
+        return getattr(self.concrete_question, item)
 
 
 class BaseConcreteQuestion(models.Model):
     question_form = None
-
-    context_link = models.OneToOneField('LinkedField',
-                                        on_delete=models.SET_NULL,
-                                        null=True, blank=True)
+    question_type = models.CharField(
+        max_length=20, blank=True, default="custom")
+    context_link = models.ForeignKey('LinkedField',
+                                     on_delete=models.SET_NULL,
+                                     null=True, blank=True)
     must_show_context = models.BooleanField(default=False)
     question = models.CharField(max_length=200)
 
     class Meta:
         abstract = True
 
-    def render(self, give_context=False):
+    def render(self, give_context='auto'):
         client_dict = {
             'form': self.question_form,
-            'question': self.question,
+            'question': _handle_text_with_audio(self.question),
         }
         server_dict = {
             'give_context': give_context,
         }
-        if give_context:
-            context = self.context
-            if not context:
-                raise ValueError("give_context true but no context found")
-            client_dict['context'] = context
+        context = self.context
+        if give_context == True and not context:
+            raise ValueError("give_context true but no context found")
+        if context:
+            client_dict['context'] = _handle_text_with_audio(context)
         return client_dict, server_dict
 
     def check_answer(self, request_dict, server_dict):
@@ -97,6 +97,17 @@ class BaseConcreteQuestion(models.Model):
             return None
         return self.context_link.value
 
+    def get_admin_url(self):
+        app = self._meta.app_label
+        model = self._meta.model_name
+        return reverse(f'admin:{app}_{model}_change', args=(self.id,))
+
+    def __str__(self):
+        return repr(self)
+
+    def __repr__(self):
+        return f"<{self.question_type} {self.pk}>"
+
 
 class LinkedField(models.Model):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE,
@@ -110,14 +121,16 @@ class LinkedField(models.Model):
     def value(self):
         if self.overwrite:
             return self.overwrite
-        try:
-            model = self.content_type.model_class()
-            obj = model.objects.get(pk=self.object_id)
-            return getattr(obj, self.field_name)
-        except Exception as e:
-            logger.warning("field value corrupt, self deletion", exc_info=True)
-            self.delete()
-        return None
+        value = getattr(self.content_object, self.field_name)
+        if not value:
+            raise ValidationError("value None")
+        return value
+
+    def clean(self):
+        if self.overwrite and self.object_id:
+            raise ValidationError("can't have overwrite and object both exist")
+        if not self.overwrite and not self.object_id:
+            raise ValidationError("can't have overwrite and object both blank")
 
     @classmethod
     def of(cls, object, field_name):
@@ -132,20 +145,21 @@ class LinkedField(models.Model):
 
     def __repr__(self):
         if self.overwrite:
-            return f"<overwritten field>"
-        model = self.content_type.model_class()
-        obj = model.objects.get(pk=self.object_id)
-        return f"<{repr(obj)}'s {self.field_name}>"
+            return f"<overwritten: {self.overwrite}>"
+        return f"<{repr(self.content_object)}'s {self.field_name}>"
 
 
 class MCChoice(models.Model):
     class WeightType(models.IntegerChoices):
         CORRECT = 0
-        COMMON_WRONG = 100
+        AUTO_COMMON_WRONG = 100
+        COMMON_WRONG = 101
         MISSLEADING = 500
         VERY_MISSLEADING = 2000
 
-    linked_value = models.OneToOneField(LinkedField, on_delete=models.CASCADE)
+    linked_value = models.ForeignKey(LinkedField,
+                                     on_delete=models.CASCADE,
+                                     related_name='+')
     weight = models.PositiveSmallIntegerField(choices=WeightType.choices)
     question = models.ForeignKey('MCQuestion', on_delete=models.CASCADE,
                                  related_name='choices',
@@ -163,7 +177,7 @@ class MCQuestion(BaseConcreteQuestion):
     question_form = 'MC'
     num_choices = models.PositiveSmallIntegerField(default=4)
 
-    def render(self, give_context=False):
+    def render(self, give_context='auto'):
         weights = np.array(self.choices.values_list('weight', flat=True))
         total_cnt = len(weights)
         if total_cnt < self.num_choices:
@@ -189,7 +203,7 @@ class MCQuestion(BaseConcreteQuestion):
 
         client_dict, server_dict = super().render(give_context=give_context)
         client_dict.update({
-            'choices': choices
+            'choices': [_handle_text_with_audio(choice) for choice in choices]
         })
         server_dict.update({
             'choice_pks': choice_pks,
@@ -200,9 +214,32 @@ class MCQuestion(BaseConcreteQuestion):
 
 class FITBQuestion(BaseConcreteQuestion):
     question_form = 'FITB'
-    pass
+    extra_information = models.ForeignKey(LinkedField,
+                                          on_delete=models.CASCADE,
+                                          related_name='+')
+    answer = models.ForeignKey(LinkedField,
+                               on_delete=models.CASCADE,
+                               related_name='+')
+
+    def render(self, give_context=False):
+        extra_information = self.extra_information.value
+        answer = self.answer.value
+        if not answer or not extra_information:
+            raise ValidationError("answer or extra_information None")
+        client_dict, server_dict = super().render(give_context=give_context)
+        client_dict.update({
+            'extra_information': _handle_text_with_audio(extra_information),
+        })
+        server_dict.update({
+            'answer': answer,
+        })
 
 
 class DRAGQuestion(BaseConcreteQuestion):
     question_form = 'DRAG'
-    pass
+    description = models.TextField(max_length=200, blank=True)
+
+
+def _handle_text_with_audio(obj):
+    assert isinstance(obj, str)
+    return {"text": obj}
