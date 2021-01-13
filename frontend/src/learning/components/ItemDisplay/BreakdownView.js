@@ -99,10 +99,11 @@ function BreakdownChar(props) {
         );
         return (
             <>
-                {/* [Faradawn] Revised Popup */}
 
+                {/* This should be optimized (character is
+                    loaded twice) */}
                 <PopUp
-                    qid = {props.qid}
+                    contentURL = {props.url}
                 />
 
                 <Row>
@@ -117,7 +118,8 @@ function BreakdownChar(props) {
                 <RelatedItems 
                     items={character.related_words}
                     item={character.chinese}
-                    itemType='word' />
+                    itemType='word' 
+                />
             </>
         );
     };
@@ -190,9 +192,7 @@ export default class BreakdownView extends React.Component {
         componentURL: PropTypes.arrayOf(PropTypes.string),
 
         /** The associated memory aid sentence. */
-        memoryAid: PropTypes.string,
-
-        qid: PropTypes.number
+        memoryAid: PropTypes.string
     }
 
     constructor(props) {
@@ -223,12 +223,12 @@ export default class BreakdownView extends React.Component {
      * specified in the urls.
      * @param {[String]} urls 
      */
-    renderBreakdownChar(urls, qid) {
+    renderBreakdownChar(urls) {
         return urls.map( url => 
             (
                 <div key={url}
                     className='breakdown-card box-shadow'>
-                    <BreakdownChar url={url} qid={qid} />
+                    <BreakdownChar url={url} />
                 </div>
             )
         );
@@ -242,7 +242,6 @@ export default class BreakdownView extends React.Component {
         const type = this.props.type;
         const toggleTitle = type + ' breakdown';
         const urls = this.props.componentURL;
-        const qid = this.props.qid;
 
         return (
             <div className='breakdown-container'>
@@ -267,8 +266,8 @@ export default class BreakdownView extends React.Component {
                     )}>
 
                     { type == 'radical' ?
-                        this.renderBreakdownRad(urls, qid) :
-                        this.renderBreakdownChar(urls, qid)
+                        this.renderBreakdownRad(urls) :
+                        this.renderBreakdownChar(urls)
                     } 
 
                     <MemoryAidView

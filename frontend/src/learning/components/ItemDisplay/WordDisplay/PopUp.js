@@ -5,11 +5,9 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import CharDisplay from '../CharacterDisplay/CharDisplay';
 
-//Changed root-element-id.
 Modal.setAppElement('#learning-app');
 
 //Styles for Popup
-
 const ModalStyle = {
     overlay:{
         backgroundColor: 'rgba(116, 116, 116, 0.3)'
@@ -42,27 +40,30 @@ const PlusButton = styled.i`
     margin: 0 10px;
     cursor: grab;
     &:hover{
-        transform: scale(1.4);
-        transition: 400ms ease;
+        transform: scale(1.1);
+        transition: 400ms ease-in-out;
     }
 `;
 //New 'close' button
-const CloseButton1 = styled.i`
+const CloseButton = styled.i`
     width: 100%;
     text-align: right;
     cursor: grab;
     margin: 10px 0;
     &:hover{
-        transform: scale(1.4);
-        transition: 400ms ease;
+        transform: scale(1.1);
+        transition: 400ms ease-in-out;
     }
     
 `;
 
-
+/**
+ * Renders a popup modal that displays a character in
+ * a word breakdown.
+ * @param {{contentURL: String}} props 
+ */
 export default function PopUp(props) {
 
-  
     const [ModalState, setModalState] = useState(false);
 
     return (
@@ -77,12 +78,12 @@ export default function PopUp(props) {
                     isOpen={ModalState} 
                     onRequestClose={() => setModalState(false)}
                 >
-                    <CloseButton1 
+                    <CloseButton 
                         className='fas fa-times' 
                         onClick={() => setModalState(false)} 
                     />
                     <CharDisplay
-                        qid={props.qid}
+                        url={props.contentURL}
                     />
                 </Modal>
             </div>
@@ -91,5 +92,6 @@ export default function PopUp(props) {
 }
 
 PopUp.propTypes = {
-    qid: PropTypes.number
+    /** URL of the character presented in the popup modal. */
+    contentURL: PropTypes.string.isRequired
 };

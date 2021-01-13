@@ -42,7 +42,11 @@ const ExampleSentenceHeading = styled.h2`
 /** The main function that renders a word view. */
 export default function WordDisplay(props) {
 
-    const word = useLoadWord(`/content/word/${props.qid}`);
+    const word = useLoadWord( 
+        props.url == null ?
+            `/content/word/${props.qid}` :
+            props.url
+    );
 
     const renderWord = (word) => {
         const chinese = word.chinese;
@@ -85,7 +89,6 @@ export default function WordDisplay(props) {
                     type='word'
                     componentURL={word.characters}
                     memoryAid={word.memory_aid}
-                    qid={props.qid} 
                 />
             </>
         );
@@ -99,5 +102,12 @@ export default function WordDisplay(props) {
 }
 
 WordDisplay.propTypes = {
-    qid: PropTypes.number.isRequired
+    /** The URL of the word to be rendered, if it 
+     * is not provided, then the qid is used to construct
+     * the url. */
+    url: PropTypes.string,
+
+    /** The query id of the word to be rendered, will
+     * be omitted if url is present and not null. */
+    qid: PropTypes.number,
 };
