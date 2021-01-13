@@ -8,7 +8,7 @@ from content.forms import LinkedFieldForm
 __all__ = ['GeneralAdmin', 'MCChoiceInlineAdmin', 'MCQuestionAdmin']
 
 
-@admin.register(ReviewableObject, MCChoice, GeneralQuestion)
+@admin.register(ReviewableObject, GeneralQuestion)
 class GeneralAdmin(admin.ModelAdmin):
     pass
 
@@ -23,6 +23,7 @@ class LinkedFieldAdmin(admin.ModelAdmin):
 
 class MCChoiceInlineAdmin(admin.TabularInline):
     model = MCChoice
+    fields = ['linked_value', 'get_value', 'weight']
     readonly_fields = ['get_value']
     extra = 0
 
