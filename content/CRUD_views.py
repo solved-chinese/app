@@ -1,11 +1,13 @@
+import re
+
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from content.models import Radical, Character, Sentence, DefinitionInWord, \
     Word, WordSet
 from content.serializers import RadicalSerializer, CharacterSerializer, \
     SentenceSerializer, DefinitionInWordSerializer, WordSerializer, \
-    WordSetSerializer
+    WordSetSerializer, RELATED_MAX_NUM, SimpleWordSerializer
 
 
 class WordSetList(generics.ListAPIView):
@@ -30,6 +32,25 @@ class CharacterDetail(generics.RetrieveAPIView):
     """
     queryset = Character.objects.all()
     serializer_class = CharacterSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        """ TODO temporary """
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        data = serializer.data
+        referer = request.META.get('HTTP_REFERER', "")
+        pattern = r'^.*\/learning\/display\/\?t=word&qid=([0-9]+)$'
+        match = re.match(pattern, referer)
+        if match:
+            word = Word.objects.get(pk=int(match.group(1)))
+            wordset = word.word_sets.first()
+            if wordset:
+                words = instance.words.filter(
+                    word_set__pk__lt=wordset.pk
+                ).distinct()[:RELATED_MAX_NUM]
+                data['related_words'] = SimpleWordSerializer(
+                    list(words), many=True).data
+        return Response(data)
 
 
 class WordDetail(generics.RetrieveAPIView):

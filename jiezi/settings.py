@@ -49,6 +49,9 @@ except AttributeError:
 
 # Application definition
 INSTALLED_APPS = [
+    'dal', # make sure dal appear before django.contrib.admin
+    'dal_select2',
+    'dal_queryset_sequence',
     'rest_framework',
     'django_fsm',
     'django_bootstrap_breadcrumbs',
@@ -126,6 +129,18 @@ try:
 except AttributeError:
     pass
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/var/tmp/django_select2',
+    },
+    'select2': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/var/tmp/django_select2_cache',
+    }
+}
+SELECT2_CACHE_BACKEND = "select2"
+
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
@@ -171,9 +186,6 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ],
     'DEFAULT_METADATA_CLASS': 'jiezi.rest.metadata.CustomActionsMetadata',
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',

@@ -17,6 +17,7 @@ urlpatterns = [
     # rest framework api
     path('api_auth/', include('rest_framework.urls',
                               namespace='rest_framework')),
+    path("select2/", include("django_select2.urls")),
 
     # app urls
     path('admin/', admin.site.urls),

@@ -5,7 +5,7 @@ import json
 from django.db import models
 
 from content.models import GeneralContentModel, \
-    validate_chinese_character_or_x
+    validate_chinese_character_or_x, ReviewableMixin
 from content.data.makemeahanzi_dictionary import get_makemeahanzi_data
 
 
@@ -20,7 +20,7 @@ def path_and_rename(instance, filename):
     return os.path.join('radical_images', filename)
 
 
-class Radical(GeneralContentModel):
+class Radical(ReviewableMixin, GeneralContentModel):
     chinese = models.CharField(max_length=1,
                                validators=[validate_chinese_character_or_x])
     identifier = models.CharField(max_length=20, blank=True)
