@@ -68,7 +68,7 @@ function BreakdownRad(props) {
                 <RelatedItems 
                     items={radical.related_characters}
                     item={radical.chinese}
-                    itemType='radical' />
+                    itemType='character' />
             </>
         );
     };

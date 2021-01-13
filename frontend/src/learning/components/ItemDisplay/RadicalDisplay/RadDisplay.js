@@ -52,6 +52,7 @@ export default function RadDisplay(props) {
                 </Row>
                 <RelatedItems
                     item={chinese}
+                    items={radical.related_characters}
                     itemType='character' />
             </>
         );
