@@ -52,7 +52,10 @@ export default function CharDisplay(props) {
                     itemType='character' />
                 <BreakdownView type='radical'
                     componentURL={character.radicals}
-                    memoryAid={character.memory_aid}/>
+                    memoryAid={character.memory_aid}
+                    alwaysDisplay={props.alwaysDisplay}
+                />
+                    
             </>
         );
     };
@@ -73,4 +76,10 @@ CharDisplay.propTypes = {
     /** The query id of the character to be rendered, will
      * be omitted if url is present and not null. */
     qid: PropTypes.number,
+
+    // new alwaysDisplay prop.
+    alwaysDisplay: PropTypes.bool,
+};
+CharDisplay.defaultProps = {
+    alwaysDisplay: false,
 };
