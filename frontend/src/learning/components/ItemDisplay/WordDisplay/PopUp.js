@@ -35,23 +35,25 @@ const ModalStyle = {
 //New 'plus' button
 const PlusButton = styled.i`
     position: relative;
-    top: auto;
-    bottom: 200%;
-    left: 93%;
-    margin: 0 10px;
-    cursor: grab;
+    top: 0;
+    left: 95%;
+    margin: 5px;
+    cursor: pointer;
     &:hover{
-        transform: scale(1.3);
+        transform: scale(1.2);
         transition: 200ms ease-in-out;
     }
 `;
 //New 'close' button
 const CloseButton = styled.i`
-    width: 100%;
-    text-align: right;
-    margin-top: 10px;
+    position: relative;
+    top: 0;
+    left: 100%;
     cursor: grab;
-    
+    &:hover{
+        transform: scale(1.2);
+        transition: 200ms ease-in-out;
+    }
 `;
 
 /**
