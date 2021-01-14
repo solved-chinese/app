@@ -80,3 +80,6 @@ CharDisplay.propTypes = {
     // new alwaysDisplay prop.
     alwaysDisplay: PropTypes.bool,
 };
+CharDisplay.defaultProps = {
+    alwaysDisplay: false,
+};
