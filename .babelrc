@@ -10,6 +10,7 @@
             "alias": {
                 "@learning.components": "./frontend/src/learning/components",
                 "@learning.hooks": "./frontend/src/learning/hooks",
+                "@learning.styles": "./frontend/src/learning/styles",
                 "@interfaces": "./frontend/src/interfaces"
             }
         }]

@@ -27,6 +27,11 @@ module.exports = {
                         '@babel/preset-typescript'
                     ],
                 }
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'],
+                exclude: /node_modules/
             }
         ]
     },

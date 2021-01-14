@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import ItemPhonetic from '@learning.components/ItemDisplay/ItemPhonetic.js';
+import ItemPhonetic from '@learning.components/ItemDisplay/ItemPhonetic';
+
+import '@learning.styles/ItemDisplay.css';
 
 const TableContainer = styled.table`
     margin-left: 70px;

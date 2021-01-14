@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes, { object } from 'prop-types';
 
+import '@learning.styles/ItemDisplay.css';
+
 const Heading = styled.h2`
     color: var(--teritary-text);
     margin-top: 10px;

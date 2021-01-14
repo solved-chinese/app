@@ -3,7 +3,10 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import CharDisplay from '../CharacterDisplay/CharDisplay';
+import CharDisplay from 
+    '@learning.components/ItemDisplay/CharacterDisplay/CharDisplay';
+
+import '@learning.styles/ItemDisplay.css';
 
 Modal.setAppElement('#learning-app');
 

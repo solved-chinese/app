@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import '@learning.styles/ItemDisplay.css';
+
 function ExampleSentences(props) {
 
     //Add color to the keyword in sentences
