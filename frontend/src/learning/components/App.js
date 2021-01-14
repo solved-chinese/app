@@ -6,6 +6,8 @@ import {
 } from 'react-router-dom';
 //
 import ItemDisplay from './ItemDisplay/ItemDisplay.js';
+import ReviewQuestion from './ReviewQuestion/ReviewQuestion.js';
+
 
 export default class App extends React.Component {
 
@@ -15,7 +17,12 @@ export default class App extends React.Component {
                 <Switch>
                     <Route 
                         exact path='/learning/display/' 
-                        component={ItemDisplay} />
+                        component={ItemDisplay} 
+                    />
+                    <Route 
+                        exact path='/learning/review/'
+                        component={ReviewQuestion}
+                    />
                 </Switch>
             </Router>
         );

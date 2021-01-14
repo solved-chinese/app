@@ -17,9 +17,8 @@ export default function useLoadWord(url) {
     const loadData = async () => {
         const response = await fetch(url);
         if (!response.ok) {
-            setTimeout(() => {
-                loadData();
-            }, 5);
+            if (response.status == 404) { return; }
+            setTimeout(loadData, 5000);
         }
 
         // parse the response object into json
