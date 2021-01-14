@@ -32,34 +32,27 @@ export default class RelatedItems extends React.Component {
 
 
     render() {
-
-        // Remove duplicated related words.
-        let uniqueItemChinese = [];
-        const items = this.props.items.filter( v => {
-            if (uniqueItemChinese.includes(v.chinese)) {
-                return false;
-            } else {
-                uniqueItemChinese.push(v.chinese);
-                return true;
-            }
-        });
-
-        return (
-            <>
-                <Heading>
-                    {`Related ${this.props.itemType}s you've seen`}
-                </Heading>
-                <RelatedItemsList>
-                    {items.map((v, i) => {
-                        return (<RelatedItemEntry 
-                            style={ i % 2 ? {background : '#F9F9F9'} : {}}
-                            key={v.chinese} 
-                            item={v}
-                        />);
-                    })}
-                </RelatedItemsList>
-            </>
-        );
+        const items = this.props.items;
+        if (items.length == 0) {
+            return <></>;
+        } else {
+            return (
+                <>
+                    <Heading>
+                        {`Related ${this.props.itemType}s you've seen`}
+                    </Heading>
+                    <RelatedItemsList>
+                        {items.map((v, i) => {
+                            return (<RelatedItemEntry
+                                style={i % 2 ? {background: '#F9F9F9'} : {}}
+                                key={v.chinese}
+                                item={v}
+                            />);
+                        })}
+                    </RelatedItemsList>
+                </>
+            );
+        }
     }
 }
 

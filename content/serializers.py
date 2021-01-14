@@ -13,7 +13,7 @@ class RadicalSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_related_characters(self, radical):
         """ TODO temporary """
-        characters = radical.characters.all()[:RELATED_MAX_NUM]
+        characters = radical.characters.distinct()[:RELATED_MAX_NUM]
         return SimpleCharacterSerializer(list(characters), many=True).data
 
     class Meta:
@@ -46,7 +46,7 @@ class CharacterSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_related_words(self, character):
         """ TODO temporary """
-        words = character.words.all()[:RELATED_MAX_NUM]
+        words = character.words.distinct()[:RELATED_MAX_NUM]
         return SimpleWordSerializer(list(words), many=True).data
 
     def get_radicals(self, character):
