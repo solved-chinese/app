@@ -22,17 +22,17 @@ class GeneralQuestion(models.Model):
     FITB = models.OneToOneField('FITBQuestion', blank=True, null=True,
                                 on_delete=models.CASCADE,
                                 related_name='general_question')
-    DRAG = models.OneToOneField('DRAGQuestion', blank=True, null=True,
+    CND = models.OneToOneField('CNDQuestion', blank=True, null=True,
                                 on_delete=models.CASCADE,
                                 related_name='general_question')
 
     def clean(self):
         """ make sure there is only one concrete review question """
         super().clean()
-        i = iter([self.MC, self.FITB, self.DRAG])
+        i = iter([self.MC, self.FITB, self.CND])
         if not any(i) or any(i):
             raise ValidationError(
-                f"MC {self.MC} FITB {self.FITB} drag {self.DRAG} "
+                f"MC {self.MC} FITB {self.FITB} CND {self.CND} "
                 f"not only one exists")
 
     def save(self, *args, **kwargs):
@@ -41,7 +41,7 @@ class GeneralQuestion(models.Model):
 
     @property
     def concrete_question(self):
-        return self.MC or self.FITB or self.DRAG
+        return self.MC or self.FITB or self.CND
 
     def __getattr__(self, item):
         """ redirects requests to concrete question """
@@ -49,31 +49,40 @@ class GeneralQuestion(models.Model):
 
 
 class BaseConcreteQuestion(models.Model):
+    class ContextOption(models.TextChoices):
+        NOT_SHOW = 'NOT', 'Not show'
+        MUST_SHOW = 'MUST', 'Must show'
+        AUTO = 'AUTO', 'Auto'
+
     question_form = None
     question_type = models.CharField(
         max_length=20, blank=True, default="custom")
     context_link = models.ForeignKey('LinkedField',
                                      on_delete=models.SET_NULL,
                                      null=True, blank=True)
-    must_show_context = models.BooleanField(default=False)
+    context_option = models.CharField(max_length=4,
+                                      choices=ContextOption.choices,
+                                      default=ContextOption.AUTO)
     question = models.CharField(max_length=200)
 
     class Meta:
         abstract = True
 
-    def render(self, give_context='auto'):
+    def render(self):
         client_dict = {
-            'form': self.question_form,
             'question': _handle_text_with_audio(self.question),
         }
-        server_dict = {
-            'give_context': give_context,
-        }
         context = self.context
-        if give_context == True and not context:
-            raise ValueError("give_context true but no context found")
+        if self.context_option == self.ContextOption.MUST_SHOW:
+            if not context:
+                raise ValueError("must show context but no context found")
+        elif self.context_option == self.ContextOption.NOT_SHOW:
+            context = None
         if context:
             client_dict['context'] = _handle_text_with_audio(context)
+        server_dict = {
+            'give_context': bool(context),
+        }
         return client_dict, server_dict
 
     def check_answer(self, request_dict, server_dict):
@@ -177,7 +186,7 @@ class MCQuestion(BaseConcreteQuestion):
     question_form = 'MC'
     num_choices = models.PositiveSmallIntegerField(default=4)
 
-    def render(self, give_context='auto'):
+    def render(self):
         weights = np.array(self.choices.values_list('weight', flat=True))
         total_cnt = len(weights)
         if total_cnt < self.num_choices:
@@ -201,7 +210,7 @@ class MCQuestion(BaseConcreteQuestion):
         choices = [choice_list[i].value for i in choice_indexes]
         choice_pks = [choice_list[i].pk for i in choice_indexes]
 
-        client_dict, server_dict = super().render(give_context=give_context)
+        client_dict, server_dict = super().render()
         client_dict.update({
             'choices': [_handle_text_with_audio(choice) for choice in choices]
         })
@@ -221,12 +230,12 @@ class FITBQuestion(BaseConcreteQuestion):
                                on_delete=models.CASCADE,
                                related_name='+')
 
-    def render(self, give_context=False):
+    def render(self):
         extra_information = self.extra_information.value
         answer = self.answer.value
         if not answer or not extra_information:
             raise ValidationError("answer or extra_information None")
-        client_dict, server_dict = super().render(give_context=give_context)
+        client_dict, server_dict = super().render()
         client_dict.update({
             'extra_information': _handle_text_with_audio(extra_information),
         })
@@ -235,11 +244,12 @@ class FITBQuestion(BaseConcreteQuestion):
         })
 
 
-class DRAGQuestion(BaseConcreteQuestion):
-    question_form = 'DRAG'
+class CNDQuestion(BaseConcreteQuestion):
+    question_form = 'CND'
     description = models.TextField(max_length=200, blank=True)
 
 
 def _handle_text_with_audio(obj):
     assert isinstance(obj, str)
-    return {"text": obj}
+    return {"text": obj,
+            "audio": "https://solvedchinese.org/media/audio/%E6%8B%BC[=h%C7%8Eo].mp3"}

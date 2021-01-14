@@ -17,9 +17,6 @@ class GeneralAdmin(admin.ModelAdmin):
 class LinkedFieldAdmin(admin.ModelAdmin):
     form = LinkedFieldForm
 
-    def has_add_permission(self, request, obj=None):
-        return False
-
 
 class MCChoiceInlineAdmin(admin.TabularInline):
     model = MCChoice

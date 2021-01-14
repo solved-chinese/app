@@ -28,10 +28,16 @@ class QuestionView(APIView):
     def get(self, request):
         client_dict, server_dict = self.question.render()
         question_id = uuid4().hex
-        client_dict['id'] = question_id
-        server_dict['id'] = question_id
-        server_dict['start_time'] = timezone.now()
-        server_dict['question_pk'] = self.question.pk
+        client_dict = {
+            "id": question_id,
+            "form": self.question.question_form,
+            "content": client_dict,
+        }
+        server_dict.update({
+            "id": question_id,
+            "start_time": timezone.now(),
+            "question_pk": self.question.pk,
+        })
         request.session['question'] = server_dict
         return Response(client_dict)
 
