@@ -85,21 +85,6 @@ class BaseConcreteQuestion(models.Model):
         }
         return client_dict, server_dict
 
-    def check_answer(self, request_dict, server_dict):
-        """
-        returns response_dict, is_correct
-        However, be prepared to handle client error
-        """
-        client_answer = request_dict.get('answer', None)
-        if not isinstance(client_answer, int):
-            raise serializers.ValidationError("an integer answer not found")
-        is_correct = request_dict['answer'] == server_dict['answer']
-        response_dict = {
-            'is_correct': is_correct,
-            'answer': server_dict['answer'],
-        }
-        return response_dict, is_correct
-
     @property
     def context(self):
         if self.context_link is None:
@@ -219,6 +204,25 @@ class MCQuestion(BaseConcreteQuestion):
             'answer': answer,
         })
         return client_dict, server_dict
+
+    def check_answer(self, request_dict, server_dict):
+        """
+        returns response_dict, is_correct
+        However, be prepared to handle client error
+        """
+        if 'answer' not in request_dict:
+            raise serializers.ValidationError('"answer" not found in request')
+        try:
+            client_answer = int(request_dict['answer'])
+        except ValueError:
+            raise serializers.ValidationError(
+                '"answer" cannot be converted to int')
+        is_correct = client_answer == server_dict['answer']
+        response_dict = {
+            'is_correct': is_correct,
+            'answer': server_dict['answer'],
+        }
+        return response_dict, is_correct
 
 
 class FITBQuestion(BaseConcreteQuestion):
