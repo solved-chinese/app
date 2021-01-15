@@ -9,13 +9,7 @@ RELATED_MAX_NUM = 3
 
 
 class RadicalSerializer(serializers.HyperlinkedModelSerializer):
-    related_characters = serializers.SerializerMethodField()
     audio = serializers.SerializerMethodField()
-
-    def get_related_characters(self, radical):
-        """ TODO temporary """
-        characters = radical.characters.distinct()[:RELATED_MAX_NUM]
-        return SimpleCharacterSerializer(list(characters), many=True).data
 
     def get_audio(self, obj):
         if obj.pinyin:
@@ -43,17 +37,11 @@ class SimpleCharacterSerializer(serializers.ModelSerializer):
 
 class CharacterSerializer(serializers.HyperlinkedModelSerializer):
     definitions = DefinitionInCharacterSerializer(many=True, read_only=True)
-    related_words = serializers.SerializerMethodField()
     radicals = serializers.SerializerMethodField()
     audio = serializers.SerializerMethodField()
 
     def get_audio(self, obj):
         return "https://solvedchinese.org/media/audio/%E6%8B%BC[=h%C7%8Eo].mp3"
-
-    def get_related_words(self, character):
-        """ TODO temporary """
-        words = character.words.distinct()[:RELATED_MAX_NUM]
-        return SimpleWordSerializer(list(words), many=True).data
 
     def get_radicals(self, character):
         radicals = character.radicals.order_by('radicalincharacter')
