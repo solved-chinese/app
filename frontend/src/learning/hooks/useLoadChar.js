@@ -16,9 +16,8 @@ export default function useLoadChar(url) {
     const loadData = async () => {
         const response = await fetch(url);
         if (!response.ok) {
-            setTimeout(() => {
-                this.loadData();
-            }, 5);
+            if (response.status == 404) { return; }
+            setTimeout(loadData, 5000);
         } else {
             // parse the response object into json
             const data = await response.json();

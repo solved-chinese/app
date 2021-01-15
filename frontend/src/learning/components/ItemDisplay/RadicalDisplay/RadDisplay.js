@@ -2,10 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import RelatedItems from '@learning.components/ItemDisplay/RelatedItems.js';
-import LoadingView from '@learning.components/ItemDisplay/LoadingView.js';
+import RelatedItems from '@learning.components/ItemDisplay/RelatedItems';
+import LoadingView from '@learning.components/ItemDisplay/LoadingView';
 
-import useLoadRad from '@learning.hooks/useLoadRad.js';
+import useLoadRad from '@learning.hooks/useLoadRad';
+
+import '@learning.styles/ItemDisplay.css';
 
 const Row = styled.div`
     display: inline-flex;

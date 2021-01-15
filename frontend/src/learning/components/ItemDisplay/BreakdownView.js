@@ -4,14 +4,16 @@ import 'regenerator-runtime/runtime';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import RelatedItems from './RelatedItems.js';
-import { RadImage } from './RadicalDisplay/RadDisplay.js';
-import ItemPhonetic from './ItemPhonetic.js';
+import RelatedItems from './RelatedItems';
+import { RadImage } from './RadicalDisplay/RadDisplay';
+import ItemPhonetic from './ItemPhonetic';
 
-import useLoadRad from '@learning.hooks/useLoadRad.js';
-import useLoadChar from '@learning.hooks/useLoadChar.js';
+import useLoadRad from '@learning.hooks/useLoadRad';
+import useLoadChar from '@learning.hooks/useLoadChar';
 
 import PopUp from './WordDisplay/PopUp';
+
+import '@learning.styles/ItemDisplay.css';
 
 const Row = styled.div`
     display: inline-flex;

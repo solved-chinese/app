@@ -3,7 +3,10 @@
         "baseUrl": ".",
         "paths": {
             "@learning.components/*": ["./frontend/src/learning/components/*"],
-            "@learning.hooks/*": ["./frontend/src/learning/hooks/*"]
+            "@learning.hooks/*": ["./frontend/src/learning/hooks/*"],
+            "@learning.styles/*": ["./frontend/src/learning/styles/*"],
+            "@learning.services/*": ["./frontend/src/learning/services/*"],
+            "@interfaces/*": ["./frontend/src/interfaces/*"]
         }
     },
     "exclude": ["node_modules"]

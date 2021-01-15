@@ -6,12 +6,14 @@ import styled from 'styled-components';
 
 import CharDefinition from './CharDefinition.js';
 
-import RelatedItems from '@learning.components/ItemDisplay/RelatedItems.js';
-import ItemPhonetic from '@learning.components/ItemDisplay/ItemPhonetic.js';
+import RelatedItems from '@learning.components/ItemDisplay/RelatedItems';
+import ItemPhonetic from '@learning.components/ItemDisplay/ItemPhonetic';
 import BreakdownView from '@learning.components/ItemDisplay/BreakdownView';
-import LoadingView from '@learning.components/ItemDisplay/LoadingView.js';
+import LoadingView from '@learning.components/ItemDisplay/LoadingView';
 
-import useLoadChar from '@learning.hooks/useLoadChar.js';
+import useLoadChar from '@learning.hooks/useLoadChar';
+
+import '@learning.styles/ItemDisplay.css';
 
 const Row = styled.div`
     display: flex;
@@ -24,7 +26,6 @@ const Row = styled.div`
 
 /** The main function that renders a character view. */
 export default function CharDisplay(props) {
-
 
     const character = useLoadChar( 
         props.url == null ?
