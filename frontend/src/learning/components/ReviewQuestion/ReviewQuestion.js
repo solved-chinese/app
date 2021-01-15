@@ -17,7 +17,10 @@ export default function ReviewQuestion(props) {
     if (question != null) {
         switch (question.form) {
         case 'MC':
-            return <MultipleChoice content={question.content}/>;
+            return <MultipleChoice 
+                content={question.content}
+                id={qid}
+            />;
         default:
             return <LoadingView />;
         }

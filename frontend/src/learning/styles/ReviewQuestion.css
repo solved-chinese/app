@@ -2,15 +2,28 @@ button.choice-button  {
     border: 1px solid var(--secondary-text);
     border-radius: 5px;
 
-    min-width: 170px;
     color: var(--secondary-text);
     background-color: transparent;
-    font-size: 1.1em;
+    font-size: 1em;
 
     margin: 5px auto;
-    padding: 7px 40px;
+    padding: 7px 35px;
 
-    transition: background-color 250ms ease-in-out;
+    transition: all 250ms ease-in-out;
+}
+
+button.choice-button:focus {
+    outline: none;
+}
+
+button.choice-button.active {
+    background-color: var(--main-theme-color);
+    border: 1px solid transparent;
+    color: white
+}
+
+button.choice-button.active:hover {
+    background-color: var(--main-theme-color);
 }
 
 button.choice-button:hover {

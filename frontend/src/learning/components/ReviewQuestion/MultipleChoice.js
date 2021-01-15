@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import { MCQuestionContent } from '@interfaces/ReviewQuestion';
+
+import submitAnswer from '@learning.services/submitAnswer';
 
 import '@learning.styles/ReviewQuestion.css';
 
@@ -34,29 +36,61 @@ const Question = styled.h2`
 const ChoicesContainer = styled.div`
     display: flex;
     flex-direction: column;
+    margin-bottom: 50px;
+`;
+
+const SubmitContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    font-size: 15px;
+
+    width: 100%;
 `;
 
 /**
  * Render a multiple choice component.
  * @param {Object} props 
  * @param {MCQuestionContent} props.content
+ * @param {String} props.id
  * 
  * @returns {React.Component} A multiple choice component
  */
 export default function MultipleChoice(props) {
 
+    const [selectedAnswer, setSelectedAnswer] = useState(null);
+
+    const [CorrectAnswer, setCorrectAnswer] = useState(null);
+
+    const onSubmit = () => {
+        submitAnswer(props.id, selectedAnswer).then(response => {
+            setCorrectAnswer(response.correct_answer);
+        }).catch( msg => {
+            console.log(msg);
+        });
+    };
+
     const choices = (() => {
-        return props.content.choices.map( v => 
+        return props.content.choices.map( (v, i) => 
             <button 
                 key={v.text}
-                className='choice-button use-serifs'
+                className={`choice-button use-serifs${
+                    selectedAnswer == i ? ' active' : ''
+                }`}
+                style={{minWidth: '170px'}}
+                onClick={() => {
+                    if (selectedAnswer != i) {
+                        setSelectedAnswer(i);
+                    } else {
+                        setSelectedAnswer(null);
+                    }
+                }}
             >
                 {v.text}
             </button>
         );
     })();
-
-    console.log(choices);
 
     return (
         <ContentWrapper>
@@ -70,11 +104,28 @@ export default function MultipleChoice(props) {
                 <ChoicesContainer>
                     {choices}
                 </ChoicesContainer>
+                <SubmitContainer>
+                    <button
+                        className='choice-button'
+                    >
+                        I know this
+                    </button>
+                    <button
+                        className={`choice-button${
+                            selectedAnswer != null ? ' active' : ''
+                        }`}
+                        onClick={onSubmit}
+                    >
+                        Submit
+                    </button>
+                </SubmitContainer>
             </div>
         </ContentWrapper>
     );
 }
 
 MultipleChoice.propTypes = {
-    content: PropTypes.object.isRequired
+    content: PropTypes.object.isRequired,
+
+    id: PropTypes.string.isRequired
 };
