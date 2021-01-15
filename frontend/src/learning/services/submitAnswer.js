@@ -14,18 +14,19 @@ import AnswerVerificationResponse from '@interfaces/AnswerVerificationResponse';
  * @returns {Promise<AnswerVerificationResponse>} Server response
  */
 export default function submitAnswer(id, answer) {
+    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
     return new Promise((resolve, reject) => {
         fetch(`/content/question/${id}`, {
             method: 'POST',
             headers: {
-                'Accept': 'application/json, text/plain',
-                'Content-Type': 'application/json;charset=UTF-8'
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
             },
-            mode: 'no-cors',
-            body: {
+            body: JSON.stringify({
                 'id': id,
                 'answer': answer
-            }
+            })
         }).then( response => {
             if (response.ok) {
                 return response.json();
