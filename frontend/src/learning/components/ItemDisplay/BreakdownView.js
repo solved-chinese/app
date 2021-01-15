@@ -36,11 +36,12 @@ const MnemonicImage = styled.img`
 `;
 
 const RadDefinition = styled.h4`
-    flex-grow: 2;
-    font-size: 1.75em;
+    display: inline-block;
+    width: 100%;
+    font-size: 1.3em;
     text-align: center;
-    min-width: 200px;
-    margin-top: 20px;
+    min-width: 60px;
+    margin-top: 15px;
 `;
 
 const Phonetic = styled.span`
@@ -65,9 +66,8 @@ const DefPhoneticContainer = styled.div`
 `;
 
 const Explanation = styled.div`
-    color: var(--primary-text);
-    font-size: 0.9em;
-    font-weight: 400;
+    color: var(--secondary-text);
+    font-size: 0.8em;
     text-align: center;
 `;
 
@@ -109,9 +109,15 @@ function BreakdownRad(props) {
                         </RadDefinition>
                     </DefPhoneticContainer>
                 </Row>
-                <Explanation>
-                    {explanation}
-                </Explanation>
+                {
+                    explanation != '' && (
+                        <Row>
+                            <Explanation>
+                                {explanation}
+                            </Explanation>
+                        </Row>
+                    )
+                }
                 <RelatedItems
                     item={chinese}
                     items={radical.relatedCharacters}

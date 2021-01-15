@@ -55,9 +55,8 @@ const DefPhoneticContainer = styled.div`
 `;
 
 const Explanation = styled.div`
-    color: var(--primary-text);
-    font-size: 0.9em;
-    font-weight: 400;
+    color: var(--secondary-text);
+    font-size: 0.8em;
     text-align: center;
 `;
 
@@ -99,9 +98,15 @@ export default function RadDisplay(props) {
                         </RadDefinition>
                     </DefPhoneticContainer>
                 </Row>
-                <Explanation>
-                    {explanation}
-                </Explanation>
+                {
+                    explanation != '' && (
+                        <Row>
+                            <Explanation>
+                                {explanation}
+                            </Explanation>
+                        </Row>
+                    )
+                }
                 <RelatedItems
                     item={chinese}
                     items={radical.relatedCharacters}
