@@ -96,7 +96,7 @@ class RelatedItemEntry extends React.Component {
     }
 
     render() {
-        const {chinese, pinyin, full_definition} = this.props.item;
+        const {chinese, pinyin, fullDefinition} = this.props.item;
 
         // TODO: The curly font for part of speech
         return (
@@ -108,7 +108,7 @@ class RelatedItemEntry extends React.Component {
                     {`/${pinyin}/`}
                 </ItemCompPhonetic>
                 <ItemCompDef className='use-serifs'>
-                    {full_definition}
+                    {fullDefinition}
                 </ItemCompDef>
             </RelatedWordItemDisplay>
         );

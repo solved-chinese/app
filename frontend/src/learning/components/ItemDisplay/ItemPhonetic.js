@@ -61,8 +61,10 @@ export default class ItemPhonetic extends React.Component {
             <Container>
                 <Phonetic className='use-chinese'> 
                     { this.pinyin }
-                    <SpeakButton className='fas fa-volume'
-                        onClick= {() => this.play()} ></SpeakButton>
+                    <SpeakButton 
+                        className='fas fa-volume'
+                        onClick={() => this.play()} 
+                    ></SpeakButton>
                 </Phonetic>
                 <WordContainer className='use-chinese'>
                     { this.props.item }

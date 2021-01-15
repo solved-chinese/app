@@ -26,12 +26,32 @@ const MnemonicImage = styled.img`
 `;
 
 const RadDefinition = styled.h4`
-    display: inline-block;
     flex-grow: 2;
     font-size: 1.75em;
     text-align: center;
     min-width: 200px;
     margin-top: 20px;
+`;
+
+const Phonetic = styled.span`
+    text-align: center;
+    font-size: 1.6em;
+    font-weight: 200;
+    white-space: nowrap;
+`;
+
+const SpeakButton = styled.i`
+    position: relative;
+    margin-left: 10px;
+    margin-top: auto;
+    font-weight: 200;
+    cursor: pointer;
+`;
+
+const DefPhoneticContainer = styled.div`
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
 `;
 
 /** The main function that renders a radical view. */
@@ -43,7 +63,11 @@ export default function RadDisplay(props) {
             props.url
     );
 
-    const renderRadical = (radical) => {
+    const audio = radical != null ? 
+        new Audio(radical.audio) :
+        null;
+
+    const renderRadical = () => {
         const chinese = radical.chinese;
         const def = radical.explanation;
         const imageUrl = radical.image;
@@ -52,13 +76,24 @@ export default function RadDisplay(props) {
             <>
                 <Row>
                     <MnemonicImage src={imageUrl}/>
-                    <RadDefinition className='use-serifs'>
-                        {def}
-                    </RadDefinition>
+                    <DefPhoneticContainer>
+                        { radical.pinyin != '' && (
+                            <Phonetic className='use-chinese'>
+                                { radical.pinyin }
+                                <SpeakButton 
+                                    className='fas fa-volume'
+                                    onClick={() => audio.play()}
+                                ></SpeakButton>
+                            </Phonetic>
+                        )}
+                        <RadDefinition className='use-serifs'>
+                            {def}
+                        </RadDefinition>
+                    </DefPhoneticContainer>
                 </Row>
                 <RelatedItems
                     item={chinese}
-                    items={radical.related_characters}
+                    items={radical.relatedCharacters}
                     itemType='character' />
             </>
         );
@@ -67,7 +102,7 @@ export default function RadDisplay(props) {
     if (radical === null) {
         return <LoadingView />;
     } else {
-        return renderRadical(radical);
+        return renderRadical();
     }
 }
 

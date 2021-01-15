@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+import 'camelcase-keys';
 import ReviewQuestion from '@interfaces/ReviewQuestion';
 import { async } from 'regenerator-runtime/runtime';
+import camelcaseKeys from 'camelcase-keys';
 
 /**
  * Return a hook to the review question provided by the URL.
@@ -20,7 +22,7 @@ export default function useReviewQuestion(url) {
             setTimeout(loadData, 5000);
         } else {
             let data = await response.json();
-            setQuestion(data);
+            setQuestion(camelcaseKeys(data, {deep: true}));
         }
     };
 

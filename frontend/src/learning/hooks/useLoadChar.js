@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+import camelcaseKeys from 'camelcase-keys';
+
+import { Character } from '@interfaces/CoreItem';
 
 /**
  * Load a character from URL, returns null when it is still
@@ -8,6 +11,8 @@ import 'regenerator-runtime/runtime';
  * returned character if the URL that's passed in changes. 
  * Reattempt in 5 seconds if loading fails.
  * @param {String} url 
+ * 
+ * @return {Character}
  */
 export default function useLoadChar(url) {
 
@@ -22,7 +27,7 @@ export default function useLoadChar(url) {
             // parse the response object into json
             const data = await response.json();
             // use the json object to update component states
-            setCharacter(data);
+            setCharacter(camelcaseKeys(data, {deep: true}));
         }
     };
 
