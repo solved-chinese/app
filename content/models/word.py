@@ -45,7 +45,10 @@ class DefinitionInWord(OrderableMixin):
         ordering = ['order']
 
     def __str__(self):
-        return f"{self.part_of_speech}. {self.definition}"
+        if self.part_of_speech not in ('', ' '):
+            return f"{self.part_of_speech}. {self.definition}"
+        else:
+            return self.definition
 
     def __repr__(self):
         return f"<Def of {self.word}: {str(self)}>"
