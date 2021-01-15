@@ -43,12 +43,13 @@ class QuestionView(APIView):
 
     def post(self, request):
         server_dict = request.session.get('question', None)
-        question_id = request.data.pop('id', None)
+        data = request.data.copy()
+        question_id = data.pop('id', None)
         if server_dict is None \
                 or question_id != server_dict.get('id', None) \
                 or self.question.pk != server_dict.get('question_pk', None):
             return Response(status=status.HTTP_409_CONFLICT)
-        response_dict, is_correct = self.question.check_answer(request.data,
+        response_dict, is_correct = self.question.check_answer(data,
                                                                server_dict)
         return Response(response_dict)
 
