@@ -28,23 +28,49 @@ const Row = styled.div`
     }
 `;
 
-const MnemonicImageWrapper = styled.div`
+const MnemonicImage = styled.img`
     width: 35%;
-    min-width: 60px;
-    max-height: 150px;
+    min-width: 150px;
+    max-height: 300px;
     object-fit: contain;
-    font-size: 2.25em;
-    text-align: center;
 `;
 
 const RadDefinition = styled.h4`
-    display: inline-block;
-    width: 60%;
-    font-size: 1.2em;
+    flex-grow: 2;
+    font-size: 1.75em;
     text-align: center;
-    min-width: 60px;
-    margin-top: 15px;
+    min-width: 200px;
+    margin-top: 20px;
 `;
+
+const Phonetic = styled.span`
+    text-align: center;
+    font-size: 1.6em;
+    font-weight: 200;
+    white-space: nowrap;
+`;
+
+const SpeakButton = styled.i`
+    position: relative;
+    margin-left: 10px;
+    margin-top: auto;
+    font-weight: 200;
+    cursor: pointer;
+`;
+
+const DefPhoneticContainer = styled.div`
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+`;
+
+const Explanation = styled.div`
+    color: var(--primary-text);
+    font-size: 0.9em;
+    font-weight: 400;
+    text-align: center;
+`;
+
 //
 /** Render a single character breakdown display using the
  * radical in props.url. Re-render automatically when props.url
@@ -56,23 +82,39 @@ function BreakdownRad(props) {
 
     const renderRadical = () => {
         const chinese = radical.chinese;
-        const def = radical.explanation;
+        const def = radical.definition;
         const imageUrl = radical.image;
+        const explanation = radical.explanation;
+
+        const audio = radical != null ?
+            new Audio(radical.audio) :
+            null;
 
         return (
             <>
                 <Row>
-                    <MnemonicImageWrapper>
-                        <RadImage url={imageUrl}
-                            radical={chinese}/>
-                    </MnemonicImageWrapper> 
-                    <RadDefinition className='use-serifs'>
-                        {def}
-                    </RadDefinition>
+                    <MnemonicImage src={imageUrl}/>
+                    <DefPhoneticContainer>
+                        { radical.pinyin != '' && (
+                            <Phonetic className='use-chinese'>
+                                { radical.pinyin }
+                                <SpeakButton
+                                    className='fas fa-volume'
+                                    onClick={() => audio.play()}
+                                ></SpeakButton>
+                            </Phonetic>
+                        )}
+                        <RadDefinition className='use-serifs'>
+                            {def}
+                        </RadDefinition>
+                    </DefPhoneticContainer>
                 </Row>
-                <RelatedItems 
+                <Explanation>
+                    {explanation}
+                </Explanation>
+                <RelatedItems
+                    item={chinese}
                     items={radical.relatedCharacters}
-                    item={radical.chinese}
                     itemType='character' />
             </>
         );

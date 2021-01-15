@@ -54,6 +54,13 @@ const DefPhoneticContainer = styled.div`
     justify-content: center;
 `;
 
+const Explanation = styled.div`
+    color: var(--primary-text);
+    font-size: 0.9em;
+    font-weight: 400;
+    text-align: center;
+`;
+
 /** The main function that renders a radical view. */
 export default function RadDisplay(props) {
 
@@ -69,7 +76,8 @@ export default function RadDisplay(props) {
 
     const renderRadical = () => {
         const chinese = radical.chinese;
-        const def = radical.explanation;
+        const def = radical.definition;
+        const explanation = radical.explanation;
         const imageUrl = radical.image;
 
         return (
@@ -91,6 +99,9 @@ export default function RadDisplay(props) {
                         </RadDefinition>
                     </DefPhoneticContainer>
                 </Row>
+                <Explanation>
+                    {explanation}
+                </Explanation>
                 <RelatedItems
                     item={chinese}
                     items={radical.relatedCharacters}
