@@ -50,7 +50,7 @@ export default function CharDisplay(props) {
                 <RelatedItems 
                     items={character.relatedWords}
                     item={character.chinese}
-                    itemType='character' />
+                    itemType='word' />
                 <BreakdownView type='radical'
                     componentURL={character.radicals}
                     memoryAid={character.memoryAid}
