@@ -64,7 +64,7 @@ class Character(ReviewableMixin, GeneralContentModel):
                                       through='RadicalInCharacter')
     memory_aid = models.TextField(max_length=300,
                                   blank=True, default='TODO',
-                                  verbose_name='word memory aid')
+                                  verbose_name='character memory aid')
 
     class Meta:
         ordering = ['id']
@@ -77,7 +77,7 @@ class Character(ReviewableMixin, GeneralContentModel):
                 raise ValidationError('cannot be done without any radical')
             for r in self.radicals.all():
                 if not r.is_done:
-                    raise ValidationError(f"{r} not done")
+                    raise ValidationError(f"{repr(r)} not done")
 
             if not self.definitions.exists():
                 raise ValidationError('cannot be done without any definition')

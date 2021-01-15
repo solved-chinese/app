@@ -45,7 +45,7 @@ class CharacterAdmin(GeneralContentAdmin):
         s = ""
         for w in character.words.all().distinct():
             s += f"<a href={reverse('admin:content_word_change', args=[w.pk])}>" \
-                 f"{w.chinese}</a>, "
+                 f"{w}</a>, "
         return format_html(s[:-2])
 
     get_word_list_display.short_description = "Used In"

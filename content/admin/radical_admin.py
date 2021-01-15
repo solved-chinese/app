@@ -31,7 +31,7 @@ class RadicalAdmin(GeneralContentAdmin):
         s = ""
         for c in radical.characters.all().distinct():
             s += f"<a href={reverse('admin:content_character_change', args=[c.pk])}>" \
-                 f"{c.chinese}</a>, "
+                 f"{c}</a>, "
         return format_html(s[:-2])
     get_character_list_display.short_description = "Used In"
 
