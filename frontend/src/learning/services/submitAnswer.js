@@ -16,14 +16,15 @@ import camelcaseKeys from 'camelcase-keys';
  * @returns {Promise<AnswerVerificationResponse>} Server response
  */
 export default function submitAnswer(id, answer) {
+    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
     return new Promise((resolve, reject) => {
         fetch(`/content/question/${id}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json;charset=UTF-8'
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
             },
-            mode: 'cors',
             body: JSON.stringify({
                 'id': id,
                 'answer': answer
