@@ -10,7 +10,7 @@ from django.contrib.auth import logout
 
 
 def index(request):
-    return render(request, 'unauthenticated_index.html')
+    return about_us(request)
 
 
 def about_us(request):
