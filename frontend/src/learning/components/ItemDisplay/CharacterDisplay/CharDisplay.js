@@ -33,7 +33,7 @@ export default function CharDisplay(props) {
             props.url
     );
 
-    const renderCharacter = (character) => {
+    const renderCharacter = () => {
         const definitions = character.definitions.map( v => 
             v.definition
         );
@@ -48,12 +48,12 @@ export default function CharDisplay(props) {
                     />
                 </Row>
                 <RelatedItems 
-                    items={character.related_words}
+                    items={character.relatedWords}
                     item={character.chinese}
                     itemType='character' />
                 <BreakdownView type='radical'
                     componentURL={character.radicals}
-                    memoryAid={character.memory_aid}
+                    memoryAid={character.memoryAid}
                     alwaysDisplay={props.alwaysDisplay}
                 />
                     

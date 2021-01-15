@@ -1,7 +1,9 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+import 'camelcase-keys';
 
 import AnswerVerificationResponse from '@interfaces/AnswerVerificationResponse';
+import camelcaseKeys from 'camelcase-keys';
 
 /** 
  * Check the correctness of an answer given review question designated by
@@ -34,7 +36,7 @@ export default function submitAnswer(id, answer) {
                 reject(`Couldn't verify the answer, response: ${response.status}`);
             }
         }).then( json => {
-            resolve(json);
+            resolve(camelcaseKeys(json, {deep: true}));
         });
     });
 }

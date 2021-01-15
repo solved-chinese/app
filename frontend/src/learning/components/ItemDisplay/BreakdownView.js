@@ -54,7 +54,7 @@ function BreakdownRad(props) {
 
     const radical = useLoadRad(props.url);
 
-    const renderRadical = (radical) => {
+    const renderRadical = () => {
         const chinese = radical.chinese;
         const def = radical.explanation;
         const imageUrl = radical.image;
@@ -71,7 +71,7 @@ function BreakdownRad(props) {
                     </RadDefinition>
                 </Row>
                 <RelatedItems 
-                    items={radical.related_characters}
+                    items={radical.relatedCharacters}
                     item={radical.chinese}
                     itemType='character' />
             </>
@@ -129,7 +129,7 @@ function BreakdownChar(props) {
         );
     };
 
-    const renderCharacter = (character) => {
+    const renderCharacter = () => {
         const definitions = character.definitions.map( v => 
             v.definition
         );
@@ -151,7 +151,7 @@ function BreakdownChar(props) {
                 </Row>
                 {/* Added items (related_words) as a props */}
                 <RelatedItems 
-                    items={character.related_words}
+                    items={character.relatedWords}
                     item={character.chinese}
                     itemType='word' 
                 />

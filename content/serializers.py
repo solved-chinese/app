@@ -10,11 +10,17 @@ RELATED_MAX_NUM = 3
 
 class RadicalSerializer(serializers.HyperlinkedModelSerializer):
     related_characters = serializers.SerializerMethodField()
+    audio = serializers.SerializerMethodField()
 
     def get_related_characters(self, radical):
         """ TODO temporary """
         characters = radical.characters.distinct()[:RELATED_MAX_NUM]
         return SimpleCharacterSerializer(list(characters), many=True).data
+
+    def get_audio(self, obj):
+        if obj.pinyin:
+            return "https://solvedchinese.org/media/audio/%E6%8B%BC[=h%C7%8Eo].mp3"
+        return None
 
     class Meta:
         model = Radical

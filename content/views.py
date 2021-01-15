@@ -10,7 +10,7 @@ from dal import autocomplete
 
 from uuid import uuid4
 from content.models import GeneralQuestion, LinkedField, ContentType, Word, \
-    ReviewableObject
+    ReviewableObject, Sentence
 from .question_factories import QuestionFactoryRegistry
 
 
@@ -73,15 +73,12 @@ class LinkedFieldAutocomplete(autocomplete.Select2QuerySetView):
             return LinkedField.objects.none()
 
         model_class = ContentType.objects.get(pk=content_type_id).model_class()
-        if model_class == Word:
+        if model_class in (Word, Sentence):
             self.search_fields = ['chinese']
         else:
             return LinkedField.objects.none()
 
-        assert self.field_name in [field.name for field in Word._meta.fields] or \
-               self.field_name == '__str__', 'field_name not found in model'
-
-        if self.field_name != '__str__':
+        if self.field_name in [field.name for field in Word._meta.fields]:
             self.search_fields.append(self.field_name)
         qs = model_class.objects.all()
         qs = self.get_search_results(qs, self.q)
