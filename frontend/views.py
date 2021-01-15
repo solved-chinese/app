@@ -8,7 +8,13 @@ from content.models import WordSet
 def temporary_access(request, access_id=1):
     wordset = get_object_or_404(WordSet, pk=access_id)
     request.session['temporary_access'] = wordset
-    return HttpResponseRedirect(wordset.words.first().get_absolute_url())
+    words = wordset.words.order_by('wordinset')
+    done_words = words.filter(is_done=True)
+    if done_words.exists():
+        word = done_words.first()
+    else:
+        word = words.first()
+    return HttpResponseRedirect(word.get_absolute_url())
 
 
 def index(request):
