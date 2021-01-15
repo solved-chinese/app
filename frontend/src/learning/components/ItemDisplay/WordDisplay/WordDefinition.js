@@ -39,7 +39,7 @@ class Definitions extends React.Component {
             return (
                 <tr key={d.definition}>
                     <PofSpeech className='use-serifs'>
-                        {d.part_of_speech}
+                        {d.partOfSpeech}
                     </PofSpeech>
                     <td className='use-serifs'>
                         {d.definition}
