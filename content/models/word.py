@@ -8,7 +8,9 @@ from content.models import GeneralContentModel, OrderableMixin, \
 
 class DefinitionInWord(OrderableMixin):
     class PartOfSpeech(models.TextChoices):
-        __empty__ = 'TODO'
+        __empty__ = 'N/A'
+        TODO = ' ', 'TODO'
+        IDIOM = 'idiom', 'idiom'
         ADJ = 'adj', 'adjective'
         ADV = 'adv', 'adverb'
         CONJ = 'conj', 'conjunction'
@@ -34,6 +36,7 @@ class DefinitionInWord(OrderableMixin):
                              related_query_name='definition')
     part_of_speech = models.CharField(max_length=6,
                                       choices=PartOfSpeech.choices,
+                                      default=PartOfSpeech.TODO,
                                       blank=True)
     definition = models.CharField(max_length=200,
                                   blank=True)
@@ -102,7 +105,17 @@ class Word(ReviewableMixin, GeneralContentModel):
                 raise ValidationError('cannot be done without any character')
             for c in self.characters.all():
                 if not c.is_done:
-                    raise ValidationError(f"{c} not done")
+                    raise ValidationError(f"{repr(c)} not done")
+
+            if not self.definitions.exists():
+                raise ValidationError('cannot be done with no definition')
+            for index, definition in enumerate(self.definitions.all()):
+                if not definition.definition:
+                    raise ValidationError(f'definition {index + 1} empty')
+                if definition.part_of_speech == \
+                        DefinitionInWord.PartOfSpeech.TODO:
+                    raise ValidationError(
+                        f'definition {index + 1} part of speech not done')
 
             if not self.sentences.exists():
                 raise ValidationError('cannot be done without any sentence')
