@@ -88,7 +88,7 @@ export default function WordDisplay(props) {
                 <BreakdownView 
                     type='word'
                     componentURL={word.characters}
-                    memoryAid={word.memory_aid}
+                    memoryAid={word.memoryAid}
                 />
             </>
         );
