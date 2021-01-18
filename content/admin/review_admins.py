@@ -1,14 +1,14 @@
 from django.contrib import admin
 
 from content.models import GeneralQuestion, ReviewableObject, MCChoice, \
-    LinkedField, MCQuestion
+    LinkedField, MCQuestion, FITBQuestion
 from content.forms import LinkedFieldForm
 
 
 __all__ = ['GeneralAdmin', 'MCChoiceInlineAdmin', 'MCQuestionAdmin']
 
 
-@admin.register(ReviewableObject, GeneralQuestion)
+@admin.register(ReviewableObject, GeneralQuestion, FITBQuestion)
 class GeneralAdmin(admin.ModelAdmin):
     pass
 

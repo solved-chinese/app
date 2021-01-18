@@ -1,2 +1,4 @@
-from .question_factories import Chinese2PinyinMCFactory
+from .chinese2def_MC_factory import Chinese2DefMCFactory
+from .pinyin2def_MC_factory import Pinyin2DefMCFactory
+from .def2chinese_FITB_factory import Def2ChineseFITBFactory
 from .question_factory_registry import QuestionFactoryRegistry

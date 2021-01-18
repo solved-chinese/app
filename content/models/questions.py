@@ -2,7 +2,7 @@ import logging
 import numpy as np
 
 from rest_framework import serializers
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -55,6 +55,9 @@ class BaseConcreteQuestion(models.Model):
         AUTO = 'AUTO', 'Auto'
 
     question_form = None
+    reviewable = models.ForeignKey('ReviewableObject',
+                                   on_delete=models.CASCADE,
+                                   related_name='+')
     question_type = models.CharField(
         max_length=20, blank=True, default="custom")
     context_link = models.ForeignKey('LinkedField',
@@ -91,10 +94,27 @@ class BaseConcreteQuestion(models.Model):
             return None
         return self.context_link.value
 
+    def get_general_question(self):
+        try:
+            return self.general_question
+        except ObjectDoesNotExist:
+            kwargs = {
+                'reviewable': self.reviewable,
+                self.question_form: self
+            }
+            return GeneralQuestion.objects.create(**kwargs)
+
     def get_admin_url(self):
         app = self._meta.app_label
         model = self._meta.model_name
         return reverse(f'admin:{app}_{model}_change', args=(self.id,))
+
+    def check_answer(self, request_dict, server_dict):
+        """
+        returns response_dict, is_correct
+        However, be prepared to handle client error
+        """
+        raise NotImplementedError
 
     def __str__(self):
         return repr(self)
@@ -224,28 +244,53 @@ class MCQuestion(BaseConcreteQuestion):
         }
         return response_dict, is_correct
 
+    def get_absolute_url(self):
+        return f"/learning/review/?qid={self.get_general_question().pk}"
+
 
 class FITBQuestion(BaseConcreteQuestion):
     question_form = 'FITB'
-    extra_information = models.ForeignKey(LinkedField,
-                                          on_delete=models.CASCADE,
-                                          related_name='+')
-    answer = models.ForeignKey(LinkedField,
-                               on_delete=models.CASCADE,
-                               related_name='+')
+    title_link = models.ForeignKey(LinkedField,
+                                   on_delete=models.CASCADE,
+                                   related_name='+')
+    answer_link = models.ForeignKey(LinkedField,
+                                    on_delete=models.CASCADE,
+                                    related_name='+')
 
     def render(self):
-        extra_information = self.extra_information.value
-        answer = self.answer.value
-        if not answer or not extra_information:
+        title = self.title_link.value
+        answer = self.answer_link.value
+        if not answer or not title:
             raise ValidationError("answer or extra_information None")
         client_dict, server_dict = super().render()
         client_dict.update({
-            'extra_information': _handle_text_with_audio(extra_information),
+            'title': _handle_text_with_audio(title),
         })
         server_dict.update({
             'answer': answer,
         })
+        return client_dict, server_dict
+
+    def check_answer(self, request_dict, server_dict):
+        """
+        returns response_dict, is_correct
+        However, be prepared to handle client error
+        """
+        if 'answer' not in request_dict:
+            raise serializers.ValidationError('"answer" not found in request')
+        try:
+            client_answer = request_dict['answer'].strip()
+        except ValueError:
+            raise serializers.ValidationError('"answer" is not string')
+        is_correct = client_answer == server_dict['answer']
+        response_dict = {
+            'is_correct': is_correct,
+            'answer': server_dict['answer'],
+        }
+        return response_dict, is_correct
+
+    def get_absolute_url(self):
+        return f"/content/question/{self.get_general_question().pk}"
 
 
 class CNDQuestion(BaseConcreteQuestion):

@@ -160,6 +160,24 @@ class Word(ReviewableMixin, GeneralContentModel):
         OrderableMixin.reset_order(self.definitions)
 
     @property
+    def primary_definition(self):
+        if self.definitions.exists():
+            return str(self.definitions.first())
+        return None
+
+    @property
+    def primary_sentence_chinese(self):
+        if self.sentences.exists():
+            return self.sentences.first().chinese
+        return None
+
+    @property
+    def primary_sentence_pinyin(self):
+        if self.sentences.exists():
+            return self.sentences.first().pinyin
+        return None
+
+    @property
     def full_definition(self):
         """ used in serializer """
         return "; ".join(map(str, self.definitions.all()))
