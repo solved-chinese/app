@@ -1,15 +1,28 @@
 from django.contrib import admin
+from django.db import models
 
 from content.models import GeneralQuestion, ReviewableObject, MCChoice, \
     LinkedField, MCQuestion, FITBQuestion
 from content.forms import LinkedFieldForm
+from .utils import DisabledFieldMixin
 
 
-__all__ = ['GeneralAdmin', 'MCChoiceInlineAdmin', 'MCQuestionAdmin']
+__all__ = ['FITBAdmin', 'MCChoiceInlineAdmin', 'MCQuestionAdmin']
 
 
-@admin.register(ReviewableObject, GeneralQuestion, FITBQuestion)
-class GeneralAdmin(admin.ModelAdmin):
+class GeneralReviewQuestionAdmin(DisabledFieldMixin, admin.ModelAdmin):
+    def get_disabled_fields(self, request, obj=None):
+        disabled_fields = list(super().get_disabled_fields(request, obj=obj))
+        disabled_fields.extend(['reviewable', 'question_type'])
+        for field in self.model._meta.fields:
+            if isinstance(field, models.ForeignKey) and \
+                    field.related_model == LinkedField: # including 1-to-1
+                disabled_fields.append(field.name)
+        return disabled_fields
+
+
+@admin.register(FITBQuestion)
+class FITBAdmin(GeneralReviewQuestionAdmin):
     pass
 
 
@@ -29,6 +42,6 @@ class MCChoiceInlineAdmin(admin.TabularInline):
 
 
 @admin.register(MCQuestion)
-class MCQuestionAdmin(admin.ModelAdmin):
+class MCQuestionAdmin(GeneralReviewQuestionAdmin):
     model = MCQuestion
     inlines = [MCChoiceInlineAdmin]

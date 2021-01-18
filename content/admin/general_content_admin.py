@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.shortcuts import reverse
 
-from .utils import NextAdminMixin
+from .utils import NextAdminMixin, DisabledFieldMixin
 from content.models import OrderableMixin
 from content.question_factories import QuestionFactoryRegistry
 
@@ -40,7 +40,7 @@ class ReviewableAdminMixin(admin.ModelAdmin):
     get_review_questions.short_description = "Review Questions"
 
 
-class GeneralContentAdmin(NextAdminMixin, admin.ModelAdmin):
+class GeneralContentAdmin(NextAdminMixin, DisabledFieldMixin, admin.ModelAdmin):
     disabled_fields = ['archive']
     list_per_page = 50
 
@@ -68,20 +68,10 @@ class GeneralContentAdmin(NextAdminMixin, admin.ModelAdmin):
         """ Get the list of fields to disable in form
             disable chinese editing in change form
          """
+        disabled_fields = super().get_disabled_fields(request, obj=obj)
         if obj is not None and hasattr(obj, 'chinese'):
-            return self.disabled_fields + ['chinese']
-        return self.disabled_fields
-
-    def get_form(self, request, obj=None, **kwargs):
-        """ This is overriden to disable the fields in form according to
-        the get_disabled_fields() """
-        form = super().get_form(request, obj=obj, **kwargs)
-        for field_name in self.get_disabled_fields(request, obj=obj):
-            try:
-                form.base_fields[field_name].disabled = True
-            except KeyError:
-                pass
-        return form
+            return disabled_fields + ['chinese']
+        return disabled_fields
 
     def save_formset(self, request, form, formset, change):
         """ make sure the order is correct when editor doesn't specify """

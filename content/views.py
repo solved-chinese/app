@@ -1,6 +1,7 @@
 from django.utils import timezone
 from django.views.generic import View
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -11,7 +12,7 @@ from dal import autocomplete
 from uuid import uuid4
 from content.models import GeneralQuestion, LinkedField, ContentType, Word, \
     ReviewableObject, Sentence
-from .question_factories import QuestionFactoryRegistry
+from .question_factories import QuestionFactoryRegistry, CannotAutoGenerate
 
 
 class QuestionView(APIView):
@@ -89,5 +90,9 @@ class ReviewQuestionFactoryView(View):
     def get(self, request, question_type, ro_id):
         ro = get_object_or_404(ReviewableObject, pk=ro_id)
         factory = QuestionFactoryRegistry.get_factory_by_type(question_type)
-        general_question = factory.generate(ro)
+        try:
+            general_question = factory.generate(ro)
+        except CannotAutoGenerate as e:
+            return render(request, 'utils/simple_response.html',
+                          {'content': repr(e)})
         return HttpResponseRedirect(general_question.get_admin_url())
