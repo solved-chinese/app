@@ -34,6 +34,9 @@ class GeneralQuestion(models.Model):
             raise ValidationError(
                 f"MC {self.MC} FITB {self.FITB} CND {self.CND} "
                 f"not only one exists")
+        if self.reviewable != self.concrete_question.reviewable:
+            raise ValidationError("self reviewable not same as concrete "
+                                  "question reviewable")
 
     def save(self, *args, **kwargs):
         self.clean()
@@ -42,6 +45,12 @@ class GeneralQuestion(models.Model):
     @property
     def concrete_question(self):
         return self.MC or self.FITB or self.CND
+
+    def __str__(self):
+        return repr(self)
+
+    def __repr__(self):
+        return f"<Q{self.id}:{self.concrete_question}>"
 
     def __getattr__(self, item):
         """ redirects requests to concrete question """
@@ -120,7 +129,8 @@ class BaseConcreteQuestion(models.Model):
         return repr(self)
 
     def __repr__(self):
-        return f"<{self.question_type} {self.pk}>"
+        return f"<{self.question_form}{self.id}: " \
+               f"{self.question_type} on {self.reviewable}>"
 
 
 class LinkedField(models.Model):
