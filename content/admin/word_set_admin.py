@@ -8,8 +8,11 @@ from content.admin import GeneralContentAdmin
 class WordInSetInline(admin.TabularInline):
     model = WordInSet
     autocomplete_fields = ['word']
-    readonly_fields = ['get_definitions']
+    readonly_fields = ['is_done', 'get_definitions']
     extra = 0
+
+    def is_done(self, obj):
+        return '\u2705' if obj.word.is_done else '\u274c'
 
     def get_definitions(self, wiws):
         w = wiws.word

@@ -9,8 +9,11 @@ from content.admin import GeneralContentAdmin, MultiSelectFieldListFilter
 class RadicalInCharacterInline(admin.TabularInline):
     model = RadicalInCharacter
     autocomplete_fields = ['radical']
-    readonly_fields = ['radical_definition', 'radical_pinyin']
+    readonly_fields = ['is_done', 'radical_definition', 'radical_pinyin']
     extra = 0
+
+    def is_done(self, obj):
+        return '\u2705' if obj.radical.is_done else '\u274c'
 
     def radical_definition(self, obj):
         return obj.radical.definition

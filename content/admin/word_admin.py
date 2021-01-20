@@ -10,8 +10,11 @@ from content.admin import GeneralContentAdmin, ReviewableAdminMixin, \
 class CharacterInWordInline(admin.TabularInline):
     model = CharacterInWord
     autocomplete_fields = ['character']
-    readonly_fields = ['get_definitions']
+    readonly_fields = ['is_done', 'get_definitions']
     extra = 0
+
+    def is_done(self, obj):
+        return '\u2705' if obj.character.is_done else '\u274c'
 
     def get_definitions(self, ciw):
         c = ciw.character
