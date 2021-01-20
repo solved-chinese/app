@@ -74,7 +74,7 @@ class GeneralContentModel(models.Model):
 
 
 class OrderableMixin(models.Model):
-    order = models.FloatField(default=0,
+    order = models.FloatField(default=99,
         help_text="This determines the order of the elements")
 
     @classmethod
