@@ -41,6 +41,7 @@ class WordAdmin(ReviewableAdminMixin, GeneralContentAdmin):
                     'get_definitions', 'get_set_list_display']
     list_filter = [('is_done', admin.BooleanFieldListFilter),
                    ('word_set__name', MultiSelectFieldListFilter)]
+    readonly_fields = ('get_set_list_display',)
     inlines = [DefinitionInWordInline, SentenceInline, CharacterInWordInline]
 
     def get_definitions(self, word):

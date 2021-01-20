@@ -15,7 +15,7 @@ class RadicalAdmin(GeneralContentAdmin):
     ]
     list_display = ['id', 'is_done', '__str__', 'pinyin', 'definition',
                     'get_image_thumbnail', 'get_character_list_display']
-    readonly_fields = ['get_image_preview']
+    readonly_fields = ('get_character_list_display', 'get_image_preview')
 
     def get_exclude(self, request, obj=None):
         """
