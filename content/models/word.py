@@ -1,9 +1,11 @@
 from django.db import models
 from django.core.exceptions import ValidationError
-import unicodedata
+import re
 
 from content.models import GeneralContentModel, OrderableMixin, \
-    validate_chinese_character_or_x, ReviewableMixin
+    ReviewableMixin
+from content.utils import validate_chinese_character_or_x, \
+    punctuate_Chinese, punctuate_English
 
 
 class DefinitionInWord(OrderableMixin):
@@ -70,6 +72,12 @@ class Sentence(OrderableMixin):
     chinese = models.CharField(max_length=40)
     pinyin = models.CharField(max_length=200)
     translation = models.CharField(max_length=200)
+
+    def save(self, *args, **kwargs):
+        self.chinese = punctuate_Chinese(self.chinese)
+        self.pinyin = punctuate_English(self.pinyin)
+        self.translation = punctuate_English(self.translation)
+        return super().save(*args, **kwargs)
 
     class Meta:
         ordering = ['order']

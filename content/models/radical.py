@@ -5,7 +5,8 @@ import json
 from django.db import models
 
 from content.models import GeneralContentModel, \
-    validate_chinese_character_or_x, ReviewableMixin
+    ReviewableMixin
+from content.utils import validate_chinese_character_or_x
 from content.data.makemeahanzi_dictionary import get_makemeahanzi_data
 
 

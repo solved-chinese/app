@@ -1,8 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.core.exceptions import ValidationError
 
-
-from content.models.general_content_model import validate_chinese_character_or_x
+from content.utils import validate_chinese_character_or_x
 from content.models import Radical, Character, Word
 
 
