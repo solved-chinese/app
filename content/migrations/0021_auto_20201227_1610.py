@@ -3,6 +3,8 @@
 import content.models.general_content_model
 from django.db import migrations, models
 
+import content.utils
+
 
 class Migration(migrations.Migration):
 
@@ -14,16 +16,16 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='character',
             name='chinese',
-            field=models.CharField(max_length=1, validators=[content.models.general_content_model.validate_chinese_character_or_x]),
+            field=models.CharField(max_length=1, validators=[content.utils.validate_chinese_character_or_x]),
         ),
         migrations.AlterField(
             model_name='radical',
             name='chinese',
-            field=models.CharField(max_length=1, validators=[content.models.general_content_model.validate_chinese_character_or_x]),
+            field=models.CharField(max_length=1, validators=[content.utils.validate_chinese_character_or_x]),
         ),
         migrations.AlterField(
             model_name='word',
             name='chinese',
-            field=models.CharField(max_length=5, validators=[content.models.general_content_model.validate_chinese_character_or_x]),
+            field=models.CharField(max_length=5, validators=[content.utils.validate_chinese_character_or_x]),
         ),
     ]
