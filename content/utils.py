@@ -12,7 +12,7 @@ def punctuate_English(s):
     s = s.translate(C2E_PUN_TABLE)
     # guarantee space after punctuation
     s = re.sub(r'(?<=[,.!?])(?! |$)', r' ', s)
-    return s.capitalize()
+    return "%s%s" % (s[0].upper(), s[1:])
 
 
 def punctuate_Chinese(s):
