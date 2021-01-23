@@ -59,7 +59,8 @@ class CharacterSerializer(serializers.HyperlinkedModelSerializer):
 class SentenceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Sentence
-        fields = ['pinyin', 'chinese', 'translation']
+        fields = ['pinyin_highlight', 'chinese_highlight',
+                  'translation_highlight']
 
 
 class SimpleWordSerializer(serializers.ModelSerializer):

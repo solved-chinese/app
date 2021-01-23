@@ -70,13 +70,35 @@ class Sentence(OrderableMixin):
                              related_name='sentences',
                              related_query_name='sentence')
     chinese = models.CharField(max_length=40)
+    chinese_highlight = models.CharField(max_length=60)
     pinyin = models.CharField(max_length=200)
+    pinyin_highlight = models.CharField(max_length=200)
     translation = models.CharField(max_length=200)
+    translation_highlight = models.CharField(max_length=200)
+
+    def add_highlight(self, s, target):
+        # if already manually highlighted, do nothing
+        if re.search(r"<.*?>", s):
+            return re.sub(r"<(.*?)>", r"\1", s), s
+        return s, re.sub(f"({target})", r'<\1>', s, flags=re.IGNORECASE)
 
     def save(self, *args, **kwargs):
-        self.chinese = punctuate_Chinese(self.chinese)
-        self.pinyin = punctuate_English(self.pinyin)
-        self.translation = punctuate_English(self.translation)
+        if not self._state.adding:
+            old_self = Sentence.objects.get(pk=self.pk)
+        if self._state.adding or old_self.chinese != self.chinese:
+            self.chinese = punctuate_Chinese(self.chinese)
+            self.chienese, self.chinese_highlight = \
+                self.add_highlight(self.chinese, self.word.chinese)
+        if self._state.adding or old_self.pinyin != self.pinyin:
+            self.pinyin = punctuate_English(self.pinyin)
+            self.pinyin, self.pinyin_highlight = \
+                self.add_highlight(self.pinyin, self.word.pinyin)
+        if self._state.adding or old_self.translation != self.translation:
+            self.translation = punctuate_English(self.translation)
+            definition = self.word.definitions.first()
+            if definition:
+                self.translation, self.translation_highlight = \
+                    self.add_highlight(self.translation, definition.definition)
         return super().save(*args, **kwargs)
 
     class Meta:

@@ -7,20 +7,17 @@ function ExampleSentences(props) {
 
     //Add color to the keyword in sentences
     const pinyin = props.pinyin.replace(
-        new RegExp(props.word.pinyin, 'g'),
-        `<span class='use-serifs'
-            style='color:darkcyan'>${props.word.pinyin}</span>`
+        new RegExp('<(.*?)>', 'g'),
+        `<span class='use-serifs' style='color:darkcyan'>$1</span>`
     );
     const chinese = props.chinese.replace(
-        new RegExp(props.word.chinese, 'g'),
-        `<span class='use-serifs'
-            style='color:darkcyan'>${props.word.chinese}</span>`);
+        new RegExp('<(.*?)>', 'g'),
+        `<span class='use-serifs' style='color:darkcyan'>$1</span>`
+    );
     const translation = props.translation.replace(
-        new RegExp(props.word.definitions[0].definition, 'gi'),
-        `<span class='use-serifs'
-            style='color:darkcyan'>
-            ${props.word.definitions[0].definition}
-        </span>`);
+        new RegExp('<(.*?)>', 'g'),
+        `<span class='use-serifs' style='color:darkcyan'>$1</span>`
+    );
 
     //Output the sentences with HTML <span>
     return (

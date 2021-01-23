@@ -29,9 +29,19 @@ class DefinitionInWordInline(admin.TabularInline):
     extra = 0
 
 
-class SentenceInline(admin.TabularInline):
+class SentenceInline(admin.StackedInline):
     model = Sentence
     extra = 0
+    fieldsets = ((None, {
+        'fields': ('order',
+            ('chinese', 'chinese_highlight'),
+            ('pinyin', 'pinyin_highlight'),
+            ('translation', 'translation_highlight'),
+        ),
+        'description': "Use <> to indicate highlight"
+    }),)
+    readonly_fields = ['chinese_highlight', 'pinyin_highlight',
+                       'translation_highlight']
 
 
 @admin.register(Word)

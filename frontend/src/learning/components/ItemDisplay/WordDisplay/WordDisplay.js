@@ -74,11 +74,11 @@ export default function WordDisplay(props) {
                     {word.sentences.map((sen, i) => {
                         return (
                             <ExampleSentences
-                                key={sen.chinese}
+                                key={sen.chineseHighlight}
                                 word={word}
-                                pinyin={sen.pinyin}
-                                chinese={sen.chinese} 
-                                translation={sen.translation}
+                                pinyin={sen.pinyinHighlight}
+                                chinese={sen.chineseHighlight}
+                                translation={sen.translationHighlight}
                             />
                         );
                     })}
