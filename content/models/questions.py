@@ -2,6 +2,7 @@ import logging
 import numpy as np
 
 from rest_framework import serializers
+from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
@@ -123,7 +124,24 @@ class BaseConcreteQuestion(models.Model):
         returns response_dict, is_correct
         However, be prepared to handle client error
         """
-        raise NotImplementedError
+        if 'answer' not in request_dict:
+            raise serializers.ValidationError('"answer" not found in request')
+        client_answer = request_dict['answer']
+        server_answer = server_dict['answer']
+        if client_answer is None:
+            is_correct = False
+        else:
+            if isinstance(server_answer, int):
+                client_answer = int(client_answer)
+            is_correct = client_answer == server_dict['answer']
+        response_dict = {
+            'is_correct': is_correct,
+            'answer': server_answer,
+        }
+        return response_dict, is_correct
+
+    def get_absolute_url(self):
+        return f"/learning/review/?qid={self.get_general_question().pk}"
 
     def __str__(self):
         return repr(self)
@@ -235,28 +253,6 @@ class MCQuestion(BaseConcreteQuestion):
         })
         return client_dict, server_dict
 
-    def check_answer(self, request_dict, server_dict):
-        """
-        returns response_dict, is_correct
-        However, be prepared to handle client error
-        """
-        if 'answer' not in request_dict:
-            raise serializers.ValidationError('"answer" not found in request')
-        try:
-            client_answer = int(request_dict['answer'])
-        except ValueError:
-            raise serializers.ValidationError(
-                '"answer" cannot be converted to int')
-        is_correct = client_answer == server_dict['answer']
-        response_dict = {
-            'is_correct': is_correct,
-            'answer': server_dict['answer'],
-        }
-        return response_dict, is_correct
-
-    def get_absolute_url(self):
-        return f"/learning/review/?qid={self.get_general_question().pk}"
-
 
 class FITBQuestion(BaseConcreteQuestion):
     question_form = 'FITB'
@@ -281,23 +277,6 @@ class FITBQuestion(BaseConcreteQuestion):
         })
         return client_dict, server_dict
 
-    def check_answer(self, request_dict, server_dict):
-        """
-        returns response_dict, is_correct
-        However, be prepared to handle client error
-        """
-        if 'answer' not in request_dict:
-            raise serializers.ValidationError('"answer" not found in request')
-        try:
-            client_answer = request_dict['answer'].strip()
-        except ValueError:
-            raise serializers.ValidationError('"answer" is not string')
-        is_correct = client_answer == server_dict['answer']
-        response_dict = {
-            'is_correct': is_correct,
-            'answer': server_dict['answer'],
-        }
-        return response_dict, is_correct
 
     def get_absolute_url(self):
         return f"/content/question/{self.get_general_question().pk}"
@@ -306,6 +285,33 @@ class FITBQuestion(BaseConcreteQuestion):
 class CNDQuestion(BaseConcreteQuestion):
     question_form = 'CND'
     description = models.TextField(max_length=200, blank=True)
+    title_link = models.ForeignKey(LinkedField,
+                                   on_delete=models.CASCADE,
+                                   related_name='+')
+    correct_answers = ArrayField(models.CharField(max_length=5))
+    wrong_answers = ArrayField(models.CharField(max_length=5))
+
+    def render(self):
+        title = self.title_link.value
+        if not self.correct_answers:
+            raise ValidationError("no correct_answers")
+        choices = self.correct_answers.copy()
+        choices.extend(self.wrong_answers)
+        np.random.shuffle(choices)
+        client_dict, server_dict = super().render()
+        client_dict.update({
+            'title': _handle_text_with_audio(title),
+            'description': self.description,
+            'answer_length': len(self.correct_answers),
+            'choices': choices
+        })
+        server_dict.update({
+            'answer': self.correct_answers,
+        })
+        return client_dict, server_dict
+
+    def get_absolute_url(self):
+        return f"/content/question/{self.get_general_question().pk}"
 
 
 def _handle_text_with_audio(obj):

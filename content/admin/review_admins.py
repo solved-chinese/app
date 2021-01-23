@@ -3,7 +3,7 @@ from django.db import models
 from django.shortcuts import HttpResponseRedirect
 
 from content.models import GeneralQuestion, ReviewableObject, MCChoice, \
-    LinkedField, MCQuestion, FITBQuestion
+    LinkedField, MCQuestion, FITBQuestion, CNDQuestion
 from content.forms import LinkedFieldForm
 from .utils import DisabledFieldMixin
 
@@ -22,7 +22,7 @@ class GeneralReviewQuestionAdmin(DisabledFieldMixin, admin.ModelAdmin):
         return disabled_fields
 
 
-@admin.register(FITBQuestion)
+@admin.register(FITBQuestion, CNDQuestion)
 class FITBAdmin(GeneralReviewQuestionAdmin):
     pass
 
