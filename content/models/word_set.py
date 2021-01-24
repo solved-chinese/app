@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.shortcuts import reverse
 
 from content.models import GeneralContentModel, OrderableMixin
 
@@ -43,6 +44,9 @@ class WordSet(GeneralContentModel):
 
     def reset_order(self):
         OrderableMixin.reset_order(self.wordinset_set)
+
+    def get_absolute_url(self):
+        return reverse('set_display', args=(self.pk,))
 
     def __str__(self):
         return f"{self.name}: {self.render_all_words()}"
