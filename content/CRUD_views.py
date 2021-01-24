@@ -32,9 +32,9 @@ class RadicalDetail(generics.RetrieveAPIView):
         data = serializer.data
         referer = request.META.get('HTTP_REFERER', "")
 
-        word_pattern = r'^.*\/learning\/display\/\?t=word&qid=([0-9]+)$'
+        word_pattern = r'^.*\/content\/display\/word\/([0-9]+)$'
         word_match = re.match(word_pattern, referer)
-        character_pattern = r'^.*\/learning\/display\/\?t=character&qid=([0-9]+)$'
+        character_pattern = r'^.*\/content\/display\/character\/([0-9]+)$'
         character_match = re.match(character_pattern, referer)
 
         related_characters = instance.characters.all()
@@ -71,7 +71,7 @@ class CharacterDetail(generics.RetrieveAPIView):
         serializer = self.get_serializer(instance)
         data = serializer.data
         referer = request.META.get('HTTP_REFERER', "")
-        pattern = r'^.*\/learning\/display\/\?t=word&qid=([0-9]+)$'
+        pattern = r'^.*\/content\/display\/word\/([0-9]+)$'
         match = re.match(pattern, referer)
 
         related_words = instance.words.all()

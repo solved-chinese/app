@@ -10,8 +10,7 @@ import LoadingView from './LoadingView';
  * @returns {?React.Component} Review Question 
  */
 export default function ReviewQuestion(props) {
-    const params = new URLSearchParams(props.location.search);
-    const qid = params.get('qid');
+    const qid = props.qid;
     const question = useReviewQuestion(`/content/question/${qid}`);
     
     if (question != null) {

@@ -1,11 +1,16 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.shortcuts import reverse
 
 
 __all__ = ['ReviewableMixin', 'ReviewableObject']
 
 
 class ReviewableMixin:
+    def get_absolute_url(self):
+        return reverse(f'{self.__class__.__name__.lower()}_display',
+                       args=(self.pk,))
+
     def get_reviewable_object(self):
         d = {self.__class__.__name__.lower(): self}
         return ReviewableObject.objects.get_or_create(**d)[0]

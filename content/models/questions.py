@@ -141,7 +141,8 @@ class BaseConcreteQuestion(models.Model):
         return response_dict, is_correct
 
     def get_absolute_url(self):
-        return f"/learning/review/?qid={self.get_general_question().pk}"
+        return reverse('question_display',
+                       args=(self.get_general_question().pk,))
 
     def __str__(self):
         return repr(self)

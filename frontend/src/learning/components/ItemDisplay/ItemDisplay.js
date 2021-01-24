@@ -27,13 +27,10 @@ export default class ItemDisplay extends React.Component {
     }
 
     render() {
-        const params = new URLSearchParams(this.props.location.search);
-        const type = params.get('t');
-        const qid = parseInt(params.get('qid'), 10);
         return (
             <div className='content-card-container
             box-shadow'>
-                { this.renderSwitch(type, qid) }
+                { this.renderSwitch(this.props.type, this.props.qid) }
             </div>
         );
     }

@@ -1,15 +1,10 @@
 import React from 'react';
 import { render } from 'react-dom';
-import {
-    BrowserRouter as Router,
-    Route
-} from 'react-router-dom';
 
 import App from './components/App.js';
 
 const container = document.getElementById('learning-app');
+const reactData = JSON.parse(document.getElementById('react-data').textContent);
 render(
-    <Router>
-        <Route path='/learning' component={App} />
-    </Router>, container
+    <App {...reactData}/>, container
 );

@@ -1,16 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block css %}
-{% endblock css %}
-
 {% block content %}
-    <div id="temporary_access">
-        {{ temporary_access|safe }}
-    </div>
+    {{ pre_react|safe }}
     <div id="learning-app"></div>
 {% endblock content %}
 
 {% block js %}
+    {{ react_data|json_script:'react-data' }}
     <script src="{% static "scripts/learning.bundle.js" %}"></script>
 {% endblock js %}
