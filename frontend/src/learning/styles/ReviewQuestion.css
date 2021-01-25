@@ -31,11 +31,31 @@ button.choice-button:focus {
 button.choice-button.active {
     background-color: var(--main-theme-color);
     border: 1px solid transparent;
-    color: white
+    color: white;
 }
 
 button.choice-button.active:hover {
     background-color: var(--main-theme-color);
+}
+
+button.choice-button.correct {
+    background-color: #54A21E;
+    border: 1px solid transparent;
+    color: white;
+}
+
+button.choice-button.correct:hover {
+    background-color: #54A21E;
+}
+
+button.choice-button.incorrect {
+    background-color: #ff6300;
+    border: 1px solid transparent;
+    color: white;
+}
+
+button.choice-button.incorrect:hover {
+    background-color: #ff6300;
 }
 
 button.choice-button:hover {

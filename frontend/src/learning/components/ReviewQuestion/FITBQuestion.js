@@ -69,7 +69,7 @@ export default function FITBQuestion(props) {
 
     const onSubmit = () => {
         submitAnswer(props.qid, props.id, answer).then(response => {
-
+            console.log(response);
         }).catch( msg => {
             console.log(msg);
         });
@@ -98,6 +98,7 @@ export default function FITBQuestion(props) {
                         className={`choice-button${
                             answer != '' ? ' active' : ''
                         }`}
+                        onClick={onSubmit}
                     >
                         Submit
                     </button>

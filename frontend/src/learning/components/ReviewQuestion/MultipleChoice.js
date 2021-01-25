@@ -50,23 +50,35 @@ export default function MultipleChoice(props) {
 
     const [selectedAnswer, setSelectedAnswer] = useState(null);
 
-    const [CorrectAnswer, setCorrectAnswer] = useState(null);
+    const [correctAnswer, setCorrectAnswer] = useState(null);
 
     const onSubmit = () => {
         submitAnswer(props.qid, props.id, selectedAnswer).then(response => {
-            setCorrectAnswer(response.correct_answer);
+            setCorrectAnswer(response.answer);
+            console.log(correctAnswer);
+            console.log(response);
         }).catch( msg => {
             console.log(msg);
         });
+    };
+
+    const getChoiceClassName = index => {
+        var name = 'choice-button use-serifs';
+        if (index == selectedAnswer) {
+            if (correctAnswer != null) {
+                name += index == correctAnswer ? ' correct' : ' incorrect';
+            } else {
+                name += ' active';
+            }
+        }
+        return name;
     };
 
     const choices = (() => {
         return props.content.choices.map( (v, i) => 
             <button 
                 key={v.text}
-                className={`choice-button use-serifs${
-                    selectedAnswer == i ? ' active' : ''
-                }`}
+                className={getChoiceClassName(i)}
                 style={{minWidth: '170px'}}
                 onClick={() => {
                     if (selectedAnswer != i) {
