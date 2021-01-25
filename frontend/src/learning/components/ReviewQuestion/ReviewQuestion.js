@@ -2,6 +2,7 @@ import React from 'react';
 
 import useReviewQuestion from '@learning.hooks/useReviewQuestion';
 import MultipleChoice from './MultipleChoice';
+import FITBQuestion from './FITBQuestion';
 
 import LoadingView from './LoadingView';
 
@@ -18,7 +19,12 @@ export default function ReviewQuestion(props) {
         case 'MC':
             return <MultipleChoice 
                 content={question.content}
-                id={qid}
+                qid={qid}
+                id={question.id}
+            />;
+        case 'FITB':
+            return <FITBQuestion 
+                content={question.content}
             />;
         default:
             return <LoadingView />;

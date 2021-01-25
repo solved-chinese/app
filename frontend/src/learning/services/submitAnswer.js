@@ -10,15 +10,16 @@ import camelcaseKeys from 'camelcase-keys';
  * the question id. Return a promise of the question verification server 
  * response object.
  * 
+ * @param {Number} qid The question's query id
  * @param {String} id The question id
  * @param {?String|Number|[Number]} answer The pending answer
  * 
  * @returns {Promise<AnswerVerificationResponse>} Server response
  */
-export default function submitAnswer(id, answer) {
+export default function submitAnswer(qid, id, answer) {
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
     return new Promise((resolve, reject) => {
-        fetch(`/content/question/${id}`, {
+        fetch(`/content/question/${qid}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

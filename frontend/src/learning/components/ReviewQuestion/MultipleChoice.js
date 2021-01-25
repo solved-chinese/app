@@ -8,18 +8,6 @@ import submitAnswer from '@learning.services/submitAnswer';
 
 import '@learning.styles/ReviewQuestion.css';
 
-const ContentWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    max-width: 800px;
-    height: 65vh;
-    overflow: hidden;
-    margin: auto;
-    padding-top: 50px;
-`;
-
 const Context = styled.h1`
     font-size: 1.6em;
     margin-bottom: 40px;
@@ -44,7 +32,7 @@ const SubmitContainer = styled.div`
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-between;
-    font-size: 15px;
+    font-size: 14px;
 
     width: 100%;
 `;
@@ -53,6 +41,7 @@ const SubmitContainer = styled.div`
  * Render a multiple choice component.
  * @param {Object} props 
  * @param {MCQuestionContent} props.content
+ * @param {Number} props.qid
  * @param {String} props.id
  * 
  * @returns {React.Component} A multiple choice component
@@ -64,7 +53,7 @@ export default function MultipleChoice(props) {
     const [CorrectAnswer, setCorrectAnswer] = useState(null);
 
     const onSubmit = () => {
-        submitAnswer(props.id, selectedAnswer).then(response => {
+        submitAnswer(props.qid, props.id, selectedAnswer).then(response => {
             setCorrectAnswer(response.correct_answer);
         }).catch( msg => {
             console.log(msg);
@@ -93,7 +82,7 @@ export default function MultipleChoice(props) {
     })();
 
     return (
-        <ContentWrapper>
+        <div className='question-content'>
             <div style={{width: '100%'}}>
                 <Context className='use-chinese'>
                     {props.content.context.text}
@@ -120,12 +109,14 @@ export default function MultipleChoice(props) {
                     </button>
                 </SubmitContainer>
             </div>
-        </ContentWrapper>
+        </div>
     );
 }
 
 MultipleChoice.propTypes = {
     content: PropTypes.object.isRequired,
 
-    id: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+
+    qid: PropTypes.number.isRequired
 };
