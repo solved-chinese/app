@@ -1,3 +1,15 @@
+.question-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 800px;
+    height: 65vh;
+    overflow: hidden;
+    margin: auto;
+    padding-top: 50px;
+}
+
 button.choice-button  {
     border: 1px solid var(--secondary-text);
     border-radius: 5px;

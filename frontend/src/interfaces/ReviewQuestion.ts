@@ -13,6 +13,10 @@ export interface MCQuestionContent extends ReviewQuestionContent {
     choices: [TextProvider]
 }
 
+export interface FITBQuestionContent extends ReviewQuestionContent {
+    title: TextProvider
+}
+
 interface TextProvider {
     text: String,
     audio: String

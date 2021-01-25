@@ -25,6 +25,8 @@ export default function ReviewQuestion(props) {
         case 'FITB':
             return <FITBQuestion 
                 content={question.content}
+                qid={qid}
+                id={question.id}
             />;
         default:
             return <LoadingView />;
