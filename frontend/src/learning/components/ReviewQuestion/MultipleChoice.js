@@ -55,8 +55,6 @@ export default function MultipleChoice(props) {
     const onSubmit = () => {
         submitAnswer(props.qid, props.id, selectedAnswer).then(response => {
             setCorrectAnswer(response.answer);
-            console.log(correctAnswer);
-            console.log(response);
         }).catch( msg => {
             console.log(msg);
         });

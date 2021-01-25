@@ -1,3 +1,8 @@
+:root {
+    --color-accent-correct: #54A21E;
+    --color-accent-incorrect: #ff6300;
+}
+
 .question-content {
     display: flex;
     align-items: center;
@@ -8,6 +13,38 @@
     overflow: hidden;
     margin: auto;
     padding-top: 50px;
+}
+
+.question-text-field {
+    width: 200px;
+    height: 2em;
+    margin: auto;
+    display: block;
+    margin-bottom: 30px;
+    border: none;
+    text-align: center;
+
+    font-size: 1.5em;
+
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+    border-bottom: 2px solid #bec0c4;
+    background-color: #ebebeb;
+
+    transition: all ease-in-out 200ms;
+}
+
+.question-text-field:focus {
+    outline: none;
+}
+
+.question-text-field.correct {
+    border-color: var(--color-accent-correct);
+}
+
+.question-text-field.incorrect {
+    border-color: var(--color-accent-incorrect);
 }
 
 button.choice-button  {
@@ -39,23 +76,23 @@ button.choice-button.active:hover {
 }
 
 button.choice-button.correct {
-    background-color: #54A21E;
+    background-color: var(--color-accent-correct);
     border: 1px solid transparent;
     color: white;
 }
 
 button.choice-button.correct:hover {
-    background-color: #54A21E;
+    background-color: var(--color-accent-correct);
 }
 
 button.choice-button.incorrect {
-    background-color: #ff6300;
+    background-color: var(--color-accent-incorrect);
     border: 1px solid transparent;
     color: white;
 }
 
 button.choice-button.incorrect:hover {
-    background-color: #ff6300;
+    background-color: var(--color-accent-incorrect);
 }
 
 button.choice-button:hover {

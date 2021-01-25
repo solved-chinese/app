@@ -1,6 +1,6 @@
 interface AnswerVerificationResponse {
-    'id': String,
-    'correctAnswer': String|Number|[Number]
+    'isCorrect': Boolean,
+    'answer': String|Number|[Number]
 }
 
 export default AnswerVerificationResponse;
