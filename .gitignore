@@ -11,6 +11,7 @@ deploy.sh
 # Media folder except the default files
 media/*
 !media/default.jpg
+!media/default.mp3
 
 # uWSGI directory
 uwsgi
