@@ -13,7 +13,7 @@ class RadicalSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_audio(self, obj):
         if obj.pinyin:
-            return "https://solvedchinese.org/media/audio/%E6%8B%BC[=h%C7%8Eo].mp3"
+            return obj.audio.file.url
         return None
 
     class Meta:
@@ -41,7 +41,7 @@ class CharacterSerializer(serializers.HyperlinkedModelSerializer):
     audio = serializers.SerializerMethodField()
 
     def get_audio(self, obj):
-        return "https://solvedchinese.org/media/audio/%E6%8B%BC[=h%C7%8Eo].mp3"
+        return obj.audio.file.url
 
     def get_radicals(self, character):
         radicals = character.radicals.order_by('radicalincharacter')
@@ -94,7 +94,7 @@ class WordSerializer(serializers.HyperlinkedModelSerializer):
         return l
 
     def get_audio(self, obj):
-        return "https://solvedchinese.org/media/audio/%E6%8B%BC[=h%C7%8Eo].mp3"
+        return obj.audio.file.url
 
     class Meta:
         model = Word

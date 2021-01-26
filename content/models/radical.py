@@ -5,7 +5,7 @@ import json
 from django.db import models
 
 from content.models import GeneralContentModel, \
-    ReviewableMixin
+    ReviewableMixin, AudioFile
 from content.utils import validate_chinese_character_or_x
 from content.data.makemeahanzi_dictionary import get_makemeahanzi_data
 
@@ -29,6 +29,11 @@ class Radical(ReviewableMixin, GeneralContentModel):
     image = models.ImageField(default='default.jpg',
                               upload_to=path_and_rename)
     pinyin = models.CharField(max_length=20, blank=True, default='TODO')
+    audio = models.ForeignKey('AudioFile',
+                              related_name='radicals',
+                              related_query_name='radical',
+                              null=True, blank=True,
+                              on_delete=models.SET_NULL,)
 
     definition = models.CharField(max_length=100,
                                   blank=True, default='TODO')
@@ -41,10 +46,15 @@ class Radical(ReviewableMixin, GeneralContentModel):
 
     def save(self, *args, **kwargs):
         if self._state.adding:
-            self.fill_makemeahanzi_data()
+            self.fill_data()
+        else:
+            old_self = Radical.objects.get(pk=self.pk)
+        if self._state.adding or \
+                (self.pinyin and self.pinyin != old_self.pinyin):
+            audio = AudioFile.get_by_pinyin(self.pinyin)
         super().save(*args, **kwargs)
 
-    def fill_makemeahanzi_data(self):
+    def fill_data(self):
         """ this fills necessary data from makemeahanzi,
         remember to save """
         if self.chinese == 'x':

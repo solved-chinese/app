@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 import re
 
 from content.models import GeneralContentModel, OrderableMixin, \
-    ReviewableMixin
+    ReviewableMixin, AudioFile
 from content.utils import validate_chinese_character_or_x, \
     punctuate_Chinese, punctuate_English
 
@@ -117,6 +117,11 @@ class Word(ReviewableMixin, GeneralContentModel):
     identifier = models.CharField(max_length=10, blank=True)
 
     pinyin = models.CharField(max_length=36, default='TODO')
+    audio = models.ForeignKey('AudioFile',
+                              related_name='words',
+                              related_query_name='word',
+                              default=AudioFile.get_default_pk,
+                              on_delete=models.SET_DEFAULT, )
 
     characters = models.ManyToManyField('Character',
                                         related_name='words',
@@ -155,6 +160,8 @@ class Word(ReviewableMixin, GeneralContentModel):
 
     def save(self, *args, **kwargs):
         adding = self._state.adding
+        if not adding:
+            old_self = Word.objects.get(pk=self.pk)
         # if adding, connect the necessary characters
         if adding and self.chinese != 'x':
             from content.models import Character
@@ -182,6 +189,10 @@ class Word(ReviewableMixin, GeneralContentModel):
                 CharacterInWord.objects.create(character=character,
                                                word=self, order=index)
         else:
+            super().save(*args, **kwargs)
+        if (adding or self.pinyin != old_self.pinyin) and \
+                len(self.chinese) == 1:
+            self.audio = AudioFile.get_by_pinyin(self.pinyin)
             super().save(*args, **kwargs)
 
     def reset_order(self):

@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 import json
 
 from content.models import GeneralContentModel, OrderableMixin, \
-    ReviewableMixin
+    ReviewableMixin, AudioFile
 from content.utils import validate_chinese_character_or_x
 from content.data.makemeahanzi_dictionary import get_makemeahanzi_data
 
@@ -57,6 +57,12 @@ class Character(ReviewableMixin, GeneralContentModel):
     identifier = models.CharField(max_length=10, blank=True)
 
     pinyin = models.CharField(max_length=40, default='TODO')
+    audio = models.ForeignKey('AudioFile',
+                              related_name='characters',
+                              related_query_name='character',
+                              default=AudioFile.get_default_pk,
+                              on_delete=models.SET_DEFAULT, )
+
     character_type = models.CharField(max_length=30,
                                       choices=CharacterType.choices,
                                       blank=True)
@@ -88,14 +94,19 @@ class Character(ReviewableMixin, GeneralContentModel):
 
     def save(self, *args, **kwargs):
         adding = self._state.adding
+        if not adding:
+            old_self = Character.objects.get(pk=self.pk)
         # initial save is needed for foreign keys to be related to self
         super().save(*args, **kwargs)
         if adding:
-            self.fill_makemeahanzi_data()
+            self.fill_data()
             # cannot also pass kwargs here or force_insert will produce an error
             super().save(check_chinese=False)
+        if adding or self.pinyin != old_self.pinyin:
+            self.audio = AudioFile.get_by_pinyin(self.pinyin)
+            super().save(check_chinese=False)
 
-    def fill_makemeahanzi_data(self):
+    def fill_data(self):
         """ this fills necessary data from makemeahanzi into archive field,
          remember to save """
         if self.chinese == 'x':
@@ -108,6 +119,7 @@ class Character(ReviewableMixin, GeneralContentModel):
 
         if self.pinyin == 'TODO' or not self.pinyin:
             self.pinyin = data['pinyin']
+
         if not self.definitions.exists():
             definitions = data['definition'].split(';')
             for index, definition in enumerate(definitions):
