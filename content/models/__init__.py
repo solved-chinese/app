@@ -1,3 +1,4 @@
+from .audio_file import AudioFile
 from .general_content_model import *
 from .reviewable_object import *
 from .radical import Radical

@@ -3,11 +3,16 @@ from django.utils.html import format_html
 from django.shortcuts import reverse
 
 from .utils import NextAdminMixin, DisabledFieldMixin
-from content.models import OrderableMixin
+from content.models import OrderableMixin, AudioFile
 from content.question_factories import QuestionFactoryRegistry
 
 
 __all__ = ['ReviewableAdminMixin', 'GeneralContentAdmin']
+
+
+@admin.register(AudioFile)
+class AudioFileAdmin(admin.ModelAdmin):
+    search_fields = ('content__unaccent',)
 
 
 class ReviewableAdminMixin(admin.ModelAdmin):
