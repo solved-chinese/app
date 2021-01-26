@@ -26,10 +26,6 @@ uwsgi
 .fuse_hidden*
 .vscode
 
-# media folder except the default files
-media/*
-!media/default.jpg
-
 # uwsgi stuff should be kept locally
 uwsgi
 
