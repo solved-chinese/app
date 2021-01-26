@@ -34,7 +34,7 @@ class CharacterAdmin(GeneralContentAdmin):
                     'get_definitions', 'get_word_list_display']
     list_filter = [('is_done', admin.BooleanFieldListFilter),
                    ('word__word_set__name', MultiSelectFieldListFilter)]
-    autocomplete_fields = ["radicals"]
+    autocomplete_fields = ["radicals", 'audio']
     readonly_fields = ('get_word_list_display',)
     inlines = [DefinitionInCharacterInline, RadicalInCharacterInline]
 

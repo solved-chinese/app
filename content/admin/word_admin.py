@@ -52,6 +52,7 @@ class WordAdmin(ReviewableAdminMixin, GeneralContentAdmin):
     list_filter = [('is_done', admin.BooleanFieldListFilter),
                    ('word_set__name', MultiSelectFieldListFilter)]
     readonly_fields = ('get_set_list_display',)
+    autocomplete_fields = ('audio',)
     inlines = [DefinitionInWordInline, SentenceInline, CharacterInWordInline]
 
     def get_definitions(self, word):

@@ -9,6 +9,7 @@ from content.admin import GeneralContentAdmin, MultiSelectFieldListFilter
 @admin.register(Radical)
 class RadicalAdmin(GeneralContentAdmin):
     search_fields = ['chinese', 'identifier']
+    autocomplete_fields = ['audio']
     list_filter = [
         ('is_done', admin.BooleanFieldListFilter),
         ('character__word__word_set__name', MultiSelectFieldListFilter)

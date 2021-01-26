@@ -12,7 +12,7 @@ __all__ = ['ReviewableAdminMixin', 'GeneralContentAdmin']
 
 @admin.register(AudioFile)
 class AudioFileAdmin(admin.ModelAdmin):
-    search_fields = ('content__unaccent',)
+    search_fields = ('content__unaccent__iexact',)
 
 
 class ReviewableAdminMixin(admin.ModelAdmin):
