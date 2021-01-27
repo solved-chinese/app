@@ -16,7 +16,7 @@ class RadicalSerializer(serializers.HyperlinkedModelSerializer):
             try:
                 return obj.audio.file.url
             except AttributeError:
-                return AudioFile.get_by_pinyin(obj.pinyin).url
+                return AudioFile.get_by_pinyin(obj.pinyin).file.url
         return None
 
     class Meta:
