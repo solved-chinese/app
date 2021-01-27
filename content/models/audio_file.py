@@ -1,10 +1,19 @@
+import os
+import json
+import logging
+from jiezi.settings import BASE_DIR
+
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
+
+
+logger = logging.getLogger(__name__)
 
 
 class AudioFile(models.Model):
     class Origin(models.TextChoices):
         TAIWAN = 'taiwan', 'taiwan'
+        BAIDU = 'baidu', 'baidu'
         SELF_RECORDED = 'self', 'self recorded'
 
     class Type(models.TextChoices):
@@ -27,7 +36,10 @@ class AudioFile(models.Model):
                               choices=Origin.choices,
                               default=Origin.SELF_RECORDED)
     type = models.CharField(max_length=10,
-                            choices=Origin.choices)
+                            choices=Type.choices)
+    archive = models.TextField(help_text="This is auto-generated as reference. "
+                                         "Read-only",
+                               max_length=500, blank=True)
 
     class Meta:
         ordering = ('id',)
@@ -42,6 +54,39 @@ class AudioFile(models.Model):
         return cls.objects.get_or_create(file='default.mp3',
                                          content='default',
                                          origin='default')[0]
+
+    @classmethod
+    def get_by_chinese(cls, chinese):
+        try:
+            return cls.objects.filter(content=chinese, type=cls.Type.WORD).get()
+        except ObjectDoesNotExist:
+            from aip import AipSpeech
+            from jiezi_secret.secret import BAIDU_APP_ID, \
+                BAIDU_API_KEY, BAIDU_SECRET_KEY
+
+            client = AipSpeech(BAIDU_APP_ID, BAIDU_API_KEY, BAIDU_SECRET_KEY)
+            request_kwargs = {
+                'text': chinese,
+                'lang': 'zh',
+                'ctp': 1,
+                'options': {'per': 0},
+            }
+            result = client.synthesis(**request_kwargs)
+            if not isinstance(result, dict):
+                audio_path = os.path.join(BASE_DIR, f'media/audio/{chinese}.mp3')
+                audio_url = f'audio/{chinese}.mp3'
+                with open(audio_path, 'wb') as f:
+                    f.write(result)
+                archive = json.dumps(request_kwargs, indent=4,
+                                     ensure_ascii=False)
+                return cls.objects.create(origin=cls.Origin.BAIDU,
+                                          type=cls.Type.WORD,
+                                          archive=archive,
+                                          content=chinese,
+                                          file=audio_url)
+            else:
+                logger.warning(f"fail Baidu API with {result}")
+                return cls.get_default()
 
     @classmethod
     def get_by_pinyin(cls, pinyin):
