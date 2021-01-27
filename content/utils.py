@@ -1,5 +1,5 @@
 import re
-
+import unicodedata
 from django.core.validators import RegexValidator
 
 E_pun = u',.!?()'
@@ -27,3 +27,7 @@ validate_chinese_character_or_x = RegexValidator(
     f'^(({CHINESE_CHAR_REGEX}+)|x)\Z',
     'this need to be either in Chinese or "x"'
 )
+
+def unaccent(s):
+    return unicodedata.normalize('NFKD', s).encode('ascii','ignore'
+                                                   ).decode('utf-8')

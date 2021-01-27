@@ -9,6 +9,11 @@ class GeneralContentModel(models.Model):
     archive = models.TextField(help_text="This is auto-generated as reference. "
                                          "Read-only",
                                max_length=500, blank=True)
+    IC_level = models.IntegerField(
+        null=True, blank=True,
+        help_text="the first appearance of this in IC, 1 means lv1 part1 "
+                  "lesson 1, leave blank if it doesn't appear in IC.",
+    )
     is_done = models.BooleanField(default=False)
 
     def clean(self):
