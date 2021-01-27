@@ -71,7 +71,8 @@ class SentenceForm(forms.ModelForm):
     create_audio = forms.BooleanField(required=False)
 
     def save(self, commit=True):
+        self.instance.add_highlight()
         if self.cleaned_data.get('create_audio', False):
             self.instance.audio = AudioFile.get_by_chinese(
-                self.instance.chinese)
+                self.instance.chinese, speed=self.instance.audio_speed)
         return super().save(commit=commit)

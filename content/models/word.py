@@ -81,30 +81,35 @@ class Sentence(OrderableMixin):
                               default=AudioFile.get_default_pk,
                               on_delete=models.SET_DEFAULT, )
 
-    def add_highlight(self, s, target):
+    def add_highlight(self):
+        self.chinese = punctuate_Chinese(self.chinese)
+        self.chienese, self.chinese_highlight = \
+            self._add_highlight(self.chinese, self.word.chinese)
+        self.pinyin = punctuate_English(self.pinyin)
+        self.pinyin, self.pinyin_highlight = \
+            self._add_highlight(self.pinyin, self.word.pinyin)
+        self.translation = punctuate_English(self.translation)
+        definition = self.word.definitions.first()
+        if definition:
+            self.translation, self.translation_highlight = \
+                self._add_highlight(self.translation, definition.definition)
+
+    def _add_highlight(self, s, target):
         # if already manually highlighted, do nothing
         if re.search(r"<.*?>", s):
             return re.sub(r"<(.*?)>", r"\1", s), s
         return s, re.sub(f"({target})", r'<\1>', s, flags=re.IGNORECASE)
 
-    def save(self, *args, **kwargs):
-        if not self._state.adding:
-            old_self = Sentence.objects.get(pk=self.pk)
-        if self._state.adding or old_self.chinese != self.chinese:
-            self.chinese = punctuate_Chinese(self.chinese)
-            self.chienese, self.chinese_highlight = \
-                self.add_highlight(self.chinese, self.word.chinese)
-        if self._state.adding or old_self.pinyin != self.pinyin:
-            self.pinyin = punctuate_English(self.pinyin)
-            self.pinyin, self.pinyin_highlight = \
-                self.add_highlight(self.pinyin, self.word.pinyin)
-        if self._state.adding or old_self.translation != self.translation:
-            self.translation = punctuate_English(self.translation)
-            definition = self.word.definitions.first()
-            if definition:
-                self.translation, self.translation_highlight = \
-                    self.add_highlight(self.translation, definition.definition)
-        return super().save(*args, **kwargs)
+    @property
+    def audio_speed(self):
+        if self.word.IC_level is None:
+            return 2
+        elif self.word.IC_level < 10:
+            return 1
+        elif self.word.IC_level < 20:
+            return 2
+        else:
+            return 3
 
     class Meta:
         ordering = ['order']
@@ -170,7 +175,7 @@ class Word(ReviewableMixin, GeneralContentModel):
             if len(self.chinese) == 1:
                 self.audio = AudioFile.get_by_pinyin(self.pinyin)
             else:
-                self.audio = AudioFile.get_by_chinese(self.chinese)
+                self.audio = AudioFile.get_by_chinese(self.audio_chinese)
             # connect related characters
             from content.models import Character
             character_objects = []
@@ -203,6 +208,15 @@ class Word(ReviewableMixin, GeneralContentModel):
         OrderableMixin.reset_order(self.characterinword_set)
         OrderableMixin.reset_order(self.sentences)
         OrderableMixin.reset_order(self.definitions)
+
+    @property
+    def audio_chinese(self):
+        if '(' in self.chinese:
+            return "{}, {}".format(
+                re.sub(r"\(.*?\)", '', self.chinese),
+                self.chinese.replace('(', '').replace(')', '')
+            )
+        return self.chinese
 
     @property
     def primary_definition(self):

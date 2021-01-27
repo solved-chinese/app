@@ -56,7 +56,7 @@ class AudioFile(models.Model):
                                          origin='default')[0]
 
     @classmethod
-    def get_by_chinese(cls, chinese):
+    def get_by_chinese(cls, chinese, speed=0):
         try:
             return cls.objects.filter(content=chinese, type=cls.Type.WORD).get()
         except ObjectDoesNotExist:
@@ -65,7 +65,7 @@ class AudioFile(models.Model):
                 from jiezi_secret.secret import BAIDU_APP_ID, \
                     BAIDU_API_KEY, BAIDU_SECRET_KEY
             except (ModuleNotFoundError, ImportError):
-                logger.info("cannot connect to baidu API, use dummy instead")
+                logger.warning("cannot connect to baidu API, use dummy instead")
                 return cls.get_default()
 
             client = AipSpeech(BAIDU_APP_ID, BAIDU_API_KEY, BAIDU_SECRET_KEY)
@@ -73,7 +73,7 @@ class AudioFile(models.Model):
                 'text': chinese,
                 'lang': 'zh',
                 'ctp': 1,
-                'options': {'per': 5118, 'spd': 2, 'pit': 4, 'vol': 8},
+                'options': {'per': 5118, 'spd': speed, 'pit': 4, 'vol': 8},
             }
             result = client.synthesis(**request_kwargs)
             if not isinstance(result, dict):
