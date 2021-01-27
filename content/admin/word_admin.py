@@ -5,6 +5,7 @@ from django.utils.html import format_html
 from content.models import CharacterInWord, DefinitionInWord, Sentence, Word
 from content.admin import GeneralContentAdmin, ReviewableAdminMixin, \
     MultiSelectFieldListFilter
+from content.forms import SentenceForm
 
 
 class CharacterInWordInline(admin.TabularInline):
@@ -32,8 +33,11 @@ class DefinitionInWordInline(admin.TabularInline):
 class SentenceInline(admin.StackedInline):
     model = Sentence
     extra = 0
+    form = SentenceForm
     fieldsets = ((None, {
-        'fields': ('order',
+        'fields': (
+            'order',
+            ('audio', 'create_audio'),
             ('chinese', 'chinese_highlight'),
             ('pinyin', 'pinyin_highlight'),
             ('translation', 'translation_highlight'),

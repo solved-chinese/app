@@ -75,6 +75,11 @@ class Sentence(OrderableMixin):
     pinyin_highlight = models.CharField(max_length=200)
     translation = models.CharField(max_length=200)
     translation_highlight = models.CharField(max_length=200)
+    audio = models.ForeignKey('AudioFile',
+                              related_name='sentences',
+                              related_query_name='sentence',
+                              default=AudioFile.get_default_pk,
+                              on_delete=models.SET_DEFAULT, )
 
     def add_highlight(self, s, target):
         # if already manually highlighted, do nothing
@@ -121,7 +126,7 @@ class Word(ReviewableMixin, GeneralContentModel):
                               related_name='words',
                               related_query_name='word',
                               default=AudioFile.get_default_pk,
-                              on_delete=models.SET_DEFAULT, )
+                              on_delete=models.SET_DEFAULT,)
 
     characters = models.ManyToManyField('Character',
                                         related_name='words',
@@ -159,11 +164,14 @@ class Word(ReviewableMixin, GeneralContentModel):
                 raise ValidationError('cannot be done without any sentence')
 
     def save(self, *args, **kwargs):
-        adding = self._state.adding
-        if not adding:
-            old_self = Word.objects.get(pk=self.pk)
         # if adding, connect the necessary characters
-        if adding and self.chinese != 'x':
+        if self._state.adding and self.chinese != 'x':
+            # connect audio
+            if len(self.chinese) == 1:
+                self.audio = AudioFile.get_by_pinyin(self.pinyin)
+            else:
+                self.audio = AudioFile.get_by_chinese(self.chinese)
+            # connect related characters
             from content.models import Character
             character_objects = []
             for index, chinese in enumerate(self.chinese):
@@ -189,10 +197,6 @@ class Word(ReviewableMixin, GeneralContentModel):
                 CharacterInWord.objects.create(character=character,
                                                word=self, order=index)
         else:
-            super().save(*args, **kwargs)
-        if (adding or self.pinyin != old_self.pinyin) and \
-                len(self.chinese) == 1:
-            self.audio = AudioFile.get_by_pinyin(self.pinyin)
             super().save(*args, **kwargs)
 
     def reset_order(self):

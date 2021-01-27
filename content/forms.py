@@ -2,7 +2,7 @@ from django import forms
 from dal_select2.widgets import Select2WidgetMixin
 from dal.widgets import WidgetMixin
 
-from .models import WordSet, Word, Character, Radical, LinkedField
+from .models import WordSet, Word, Sentence, LinkedField, AudioFile
 
 
 class WordSetQuickCreateFrom(forms.ModelForm):
@@ -37,8 +37,8 @@ class WordSetQuickCreateFrom(forms.ModelForm):
 
 
 class LinkedFieldModelSelect2(WidgetMixin,
-                   Select2WidgetMixin,
-                   forms.Select):
+                              Select2WidgetMixin,
+                              forms.Select):
     def filter_choices_to_render(self, selected_choices):
         """render the current choice as number only"""
         if selected_choices:
@@ -65,3 +65,13 @@ class LinkedFieldForm(forms.ModelForm):
     class Meta:
         model = LinkedField
         fields = ['overwrite', 'content_type', 'object_id', 'field_name']
+
+
+class SentenceForm(forms.ModelForm):
+    create_audio = forms.BooleanField(required=False)
+
+    def save(self, commit=True):
+        if self.cleaned_data.get('create_audio', False):
+            self.instance.audio = AudioFile.get_by_chinese(
+                self.instance.chinese)
+        return super().save(commit=commit)

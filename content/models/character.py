@@ -102,7 +102,8 @@ class Character(ReviewableMixin, GeneralContentModel):
             self.fill_data()
             # cannot also pass kwargs here or force_insert will produce an error
             super().save(check_chinese=False)
-        if adding or self.pinyin != old_self.pinyin:
+        if (adding or self.pinyin != old_self.pinyin) and \
+                (not self.audio or self.audio.type != AudioFile.Type.CUSTOM):
             self.audio = AudioFile.get_by_pinyin(self.pinyin)
             super().save(check_chinese=False)
 
