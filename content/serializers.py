@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework.reverse import reverse
 
 from content.models import Radical, Character, Word, WordSet, \
-    DefinitionInWord, Sentence, DefinitionInCharacter
+    DefinitionInWord, Sentence, DefinitionInCharacter, AudioFile
 
 
 RELATED_MAX_NUM = 3
@@ -13,7 +13,10 @@ class RadicalSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_audio(self, obj):
         if obj.pinyin:
-            return obj.audio.file.url
+            try:
+                return obj.audio.file.url
+            except AttributeError:
+                return AudioFile.get_by_pinyin(obj.pinyin).url
         return None
 
     class Meta:
