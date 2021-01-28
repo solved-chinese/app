@@ -251,7 +251,7 @@ function MemoryAidView(props) {
                 <MemoryAidHeading>
                     Memory Aid
                 </MemoryAidHeading>
-                <MemoryAidContent className='box-shadow'>
+                <MemoryAidContent className='box-shadow' style={{whiteSpace: 'pre-line'}}>
                     {props.content}
                 </MemoryAidContent>
             </>
