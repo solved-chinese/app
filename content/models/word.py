@@ -105,7 +105,7 @@ class Sentence(OrderableMixin):
         try:
             return self.audio.file.url
         except AttributeError:
-            return AudioFile.get_default().url
+            return AudioFile.get_default().file.url
 
     @property
     def audio_speed(self):
@@ -221,7 +221,7 @@ class Word(ReviewableMixin, GeneralContentModel):
         try:
             return self.audio.file.url
         except AttributeError:
-            return AudioFile.get_default().url
+            return AudioFile.get_default().file.url
 
     @property
     def audio_chinese(self):

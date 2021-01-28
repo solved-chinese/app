@@ -75,7 +75,7 @@ class Radical(ReviewableMixin, GeneralContentModel):
         try:
             return self.audio.file.url
         except AttributeError:
-            return AudioFile.get_default().url
+            return AudioFile.get_default().file.url
 
     def __str__(self):
         if self.identifier:
