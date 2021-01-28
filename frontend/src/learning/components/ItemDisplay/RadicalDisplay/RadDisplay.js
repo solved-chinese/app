@@ -70,7 +70,7 @@ export default function RadDisplay(props) {
     );
 
     const audio = radical != null ? 
-        new Audio(radical.audio) :
+        new Audio(radical.audioUrl) :
         null;
 
     const renderRadical = () => {

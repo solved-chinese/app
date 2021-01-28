@@ -87,7 +87,7 @@ function BreakdownRad(props) {
         const explanation = radical.explanation;
 
         const audio = radical != null ?
-            new Audio(radical.audio) :
+            new Audio(radical.audioUrl) :
             null;
 
         return (
@@ -192,7 +192,7 @@ function BreakdownChar(props) {
 
                 <Row>
                     <ItemPhonetic pinyin={character.pinyin}
-                        audioURL={character.audio}
+                        audioURL={character.audioUrl}
                         item={character.chinese}
                     />
                     {renderDefinitions(definitions)}

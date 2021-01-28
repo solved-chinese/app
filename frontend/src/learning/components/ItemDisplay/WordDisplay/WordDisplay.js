@@ -52,7 +52,7 @@ export default function WordDisplay(props) {
         const chinese = word.chinese;
         const pinyin = word.pinyin;
         const definitions = word.definitions;
-        const audioURL = word.audio;
+        const audioURL = word.audioUrl;
         
         return (
             <>
@@ -77,6 +77,7 @@ export default function WordDisplay(props) {
                                 key={sen.chineseHighlight}
                                 word={word}
                                 pinyin={sen.pinyinHighlight}
+                                audioURL={sen.audioUrl}
                                 chinese={sen.chineseHighlight}
                                 translation={sen.translationHighlight}
                             />

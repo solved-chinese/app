@@ -78,8 +78,8 @@ class Sentence(OrderableMixin):
     audio = models.ForeignKey('AudioFile',
                               related_name='sentences',
                               related_query_name='sentence',
-                              default=AudioFile.get_default_pk,
-                              on_delete=models.SET_DEFAULT, )
+                              null=True, blank=True,
+                              on_delete=models.SET_NULL)
 
     def add_highlight(self):
         self.chinese = punctuate_Chinese(self.chinese)
@@ -99,6 +99,13 @@ class Sentence(OrderableMixin):
         if re.search(r"<.*?>", s):
             return re.sub(r"<(.*?)>", r"\1", s), s
         return s, re.sub(f"({target})", r'<\1>', s, flags=re.IGNORECASE)
+
+    @property
+    def audio_url(self):
+        try:
+            return self.audio.file.url
+        except AttributeError:
+            return AudioFile.get_default()
 
     @property
     def audio_speed(self):
@@ -130,8 +137,8 @@ class Word(ReviewableMixin, GeneralContentModel):
     audio = models.ForeignKey('AudioFile',
                               related_name='words',
                               related_query_name='word',
-                              default=AudioFile.get_default_pk,
-                              on_delete=models.SET_DEFAULT,)
+                              null=True, blank=True,
+                              on_delete=models.SET_NULL)
 
     characters = models.ManyToManyField('Character',
                                         related_name='words',
@@ -208,6 +215,13 @@ class Word(ReviewableMixin, GeneralContentModel):
         OrderableMixin.reset_order(self.characterinword_set)
         OrderableMixin.reset_order(self.sentences)
         OrderableMixin.reset_order(self.definitions)
+
+    @property
+    def audio_url(self):
+        try:
+            return self.audio.file.url
+        except AttributeError:
+            return AudioFile.get_default()
 
     @property
     def audio_chinese(self):

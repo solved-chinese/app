@@ -33,7 +33,7 @@ class Radical(ReviewableMixin, GeneralContentModel):
                               related_name='radicals',
                               related_query_name='radical',
                               null=True, blank=True,
-                              on_delete=models.SET_NULL,)
+                              on_delete=models.SET_NULL)
 
     definition = models.CharField(max_length=100,
                                   blank=True, default='TODO')
@@ -69,6 +69,13 @@ class Radical(ReviewableMixin, GeneralContentModel):
                              "there is a better alternative")
         else:
             self.archive = json.dumps(data, indent=4, ensure_ascii=False)
+
+    @property
+    def audio_url(self):
+        try:
+            return self.audio.file.url
+        except AttributeError:
+            return AudioFile.get_default()
 
     def __str__(self):
         if self.identifier:

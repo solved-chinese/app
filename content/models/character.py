@@ -60,8 +60,8 @@ class Character(ReviewableMixin, GeneralContentModel):
     audio = models.ForeignKey('AudioFile',
                               related_name='characters',
                               related_query_name='character',
-                              default=AudioFile.get_default_pk,
-                              on_delete=models.SET_DEFAULT, )
+                              null=True, blank=True,
+                              on_delete=models.SET_NULL)
 
     character_type = models.CharField(max_length=30,
                                       choices=CharacterType.choices,
@@ -134,6 +134,13 @@ class Character(ReviewableMixin, GeneralContentModel):
     def reset_order(self):
         OrderableMixin.reset_order(self.radicalincharacter_set)
         OrderableMixin.reset_order(self.definitions)
+
+    @property
+    def audio_url(self):
+        try:
+            return self.audio.file.url
+        except AttributeError:
+            return AudioFile.get_default()
 
     @property
     def full_definition(self):

@@ -9,19 +9,11 @@ RELATED_MAX_NUM = 3
 
 
 class RadicalSerializer(serializers.HyperlinkedModelSerializer):
-    audio = serializers.SerializerMethodField()
-
-    def get_audio(self, obj):
-        if obj.pinyin:
-            try:
-                return obj.audio.file.url
-            except AttributeError:
-                return AudioFile.get_by_pinyin(obj.pinyin).file.url
-        return None
+    audio_url = serializers.ReadOnlyField()
 
     class Meta:
         model = Radical
-        fields = '__all__'
+        exclude = ['audio']
 
 
 class DefinitionInCharacterSerializer(serializers.HyperlinkedModelSerializer):
@@ -41,10 +33,7 @@ class SimpleCharacterSerializer(serializers.ModelSerializer):
 class CharacterSerializer(serializers.HyperlinkedModelSerializer):
     definitions = DefinitionInCharacterSerializer(many=True, read_only=True)
     radicals = serializers.SerializerMethodField()
-    audio = serializers.SerializerMethodField()
-
-    def get_audio(self, obj):
-        return obj.audio.file.url
+    audio_url = serializers.ReadOnlyField()
 
     def get_radicals(self, character):
         radicals = character.radicals.order_by('radicalincharacter')
@@ -56,14 +45,16 @@ class CharacterSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Character
-        exclude = ['note', 'archive']
+        exclude = ['note', 'archive', 'audio']
 
 
 class SentenceSerializer(serializers.HyperlinkedModelSerializer):
+    audio_url = serializers.ReadOnlyField()
+
     class Meta:
         model = Sentence
         fields = ['pinyin_highlight', 'chinese_highlight',
-                  'translation_highlight']
+                  'translation_highlight', 'audio_url']
 
 
 class SimpleWordSerializer(serializers.ModelSerializer):
@@ -86,7 +77,7 @@ class WordSerializer(serializers.HyperlinkedModelSerializer):
     sentences = SentenceSerializer(
         many=True, read_only=True)
     characters = serializers.SerializerMethodField()
-    audio = serializers.SerializerMethodField()
+    audio_url = serializers.ReadOnlyField()
 
     def get_characters(self, word):
         characters = word.characters.order_by('characterinword')
@@ -96,12 +87,9 @@ class WordSerializer(serializers.HyperlinkedModelSerializer):
              for character in characters]
         return l
 
-    def get_audio(self, obj):
-        return obj.audio.file.url
-
     class Meta:
         model = Word
-        exclude = ['note', 'archive']
+        exclude = ['note', 'archive', 'audio']
 
 
 class WordSetSerializer(serializers.HyperlinkedModelSerializer):
