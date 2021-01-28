@@ -279,10 +279,6 @@ class FITBQuestion(BaseConcreteQuestion):
         return client_dict, server_dict
 
 
-    def get_absolute_url(self):
-        return f"/content/question/{self.get_general_question().pk}"
-
-
 class CNDQuestion(BaseConcreteQuestion):
     question_form = 'CND'
     description = models.TextField(max_length=200, blank=True)
