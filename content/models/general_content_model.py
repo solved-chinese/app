@@ -1,8 +1,33 @@
 from django.db import models
+from django.shortcuts import reverse
 from django.core.exceptions import ValidationError, NON_FIELD_ERRORS
 
 
-class GeneralContentModel(models.Model):
+__all__ = ['GeneralContentModel', 'OrderableMixin', 'AdminUrlMixin']
+
+
+class OrderableMixin(models.Model):
+    order = models.FloatField(default=99,
+        help_text="This determines the order of the elements")
+
+    @classmethod
+    def reset_order(cls, manager):
+        objects = list(manager.all())
+        for index, obj in enumerate(objects):
+            obj.order = index
+            obj.save()
+
+    class Meta:
+        abstract = True
+
+
+class AdminUrlMixin:
+    def get_admin_url(self):
+        return reverse('admin:{}_{}_change'.format(
+            self._meta.app_label, self._meta.model_name), args=[self.pk])
+
+
+class GeneralContentModel(AdminUrlMixin, models.Model):
     note = models.TextField(help_text="This is for internal use only, feel free "
                                       "to use it for note taking",
                             max_length=500, blank=True)
@@ -67,18 +92,3 @@ class GeneralContentModel(models.Model):
     class Meta:
         abstract = True
         ordering = ['id']
-
-
-class OrderableMixin(models.Model):
-    order = models.FloatField(default=99,
-        help_text="This determines the order of the elements")
-
-    @classmethod
-    def reset_order(cls, manager):
-        objects = list(manager.all())
-        for index, obj in enumerate(objects):
-            obj.order = index
-            obj.save()
-
-    class Meta:
-        abstract = True

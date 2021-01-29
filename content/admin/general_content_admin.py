@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from django.shortcuts import reverse
+from django.utils.html import escape
 
 from .utils import NextAdminMixin, DisabledFieldMixin
 from content.models import OrderableMixin, AudioFile
@@ -11,8 +12,25 @@ __all__ = ['ReviewableAdminMixin', 'GeneralContentAdmin']
 
 
 @admin.register(AudioFile)
-class AudioFileAdmin(admin.ModelAdmin):
+class AudioFileAdmin(DisabledFieldMixin, admin.ModelAdmin):
+    list_filter = ('origin', 'type')
     search_fields = ('content__unaccent__iexact',)
+    disabled_fields = ('archive',)
+    list_display = ('__str__', 'used_in')
+    readonly_fields = ('used_in',)
+
+    def used_in(self, audio):
+        models = ['radicals', 'characters', 'words', 'sentences']
+        links = []
+        for model in models:
+            for obj in getattr(audio, model).all():
+                try:
+                    admin_url = obj.get_admin_url()
+                except AttributeError:
+                    links.append(escape(repr(obj)))
+                else:
+                    links.append(f"<a href={admin_url}>{escape(repr(obj))}</a>")
+        return format_html(', '.join(links))
 
 
 class ReviewableAdminMixin(admin.ModelAdmin):
@@ -46,7 +64,7 @@ class ReviewableAdminMixin(admin.ModelAdmin):
 
 
 class GeneralContentAdmin(NextAdminMixin, DisabledFieldMixin, admin.ModelAdmin):
-    disabled_fields = ['archive']
+    disabled_fields = ['archive', 'IC_level']
     list_per_page = 50
 
     def get_exclude(self, request, obj=None):

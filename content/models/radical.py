@@ -47,11 +47,7 @@ class Radical(ReviewableMixin, GeneralContentModel):
     def save(self, *args, **kwargs):
         if self._state.adding:
             self.fill_data()
-        else:
-            old_self = Radical.objects.get(pk=self.pk)
-        if self._state.adding or \
-                (self.pinyin and self.pinyin != old_self.pinyin):
-            if not self.audio or self.audio.type != AudioFile.Type.CUSTOM:
+            if self.pinyin and not self.audio:
                 self.audio = AudioFile.get_by_pinyin(self.pinyin)
         super().save(*args, **kwargs)
 

@@ -100,6 +100,9 @@ class Sentence(OrderableMixin):
             return re.sub(r"<(.*?)>", r"\1", s), s
         return s, re.sub(f"({target})", r'<\1>', s, flags=re.IGNORECASE)
 
+    def get_admin_url(self):
+        return self.word.get_admin_url()
+
     @property
     def audio_url(self):
         try:
