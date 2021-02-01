@@ -38,7 +38,7 @@ const SubmitContainer = styled.div`
 `;
 
 /**
- * Render a multiple choice component.
+ * Render a multiple choice (MT) component.
  * @param {Object} props 
  * @param {MCQuestionContent} props.content
  * @param {Number} props.qid

@@ -9,7 +9,14 @@ import LoadingView from './LoadingView';
 import {ReviewQuestionDescriptor} from '@interfaces/ReviewQuestion';
 
 /** 
- * Render a review question view.
+ * Render a review question view using a ReviewQuestionDescriptor.
+ * Review questions have three types: multiple choice (MT), fill
+ * in the blank (FITB), and click and drop (CND). Each review
+ * question has a submit button. A user cannot resubmit once a
+ * question has been submitted. After submission, the user will
+ * be shown the correct answer regardless of their choice, and
+ * the submit button will display 'next' if props.hasNext == true.
+ * 
  * @param { ReviewQuestionDescriptor } props
  * @returns {?React.Component} Review Question 
  */

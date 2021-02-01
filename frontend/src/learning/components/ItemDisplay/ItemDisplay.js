@@ -10,8 +10,8 @@ import '@learning.styles/ItemDisplay.css';
 import { ItemDescriptor } from '@interfaces/CoreItem';
 
 /**
- * Display an item (word, character, or radical) using an
- * ItemDescriptor.
+ * Statically display an item (word, character, or radical) 
+ * using an ItemDescriptor.
  * @param { ItemDescriptor } props 
  */
 export default function ItemDisplay(props) {

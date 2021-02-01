@@ -7,9 +7,9 @@ import AnswerVerificationResponse from '@interfaces/AnswerVerificationResponse';
 import camelcaseKeys from 'camelcase-keys';
 
 /** 
- * Check the correctness of an answer given review question designated by
+ * Check the correctness of an answer for the review question designated by
  * the question id. Return a promise of the question verification server 
- * response object.
+ * response object. Reject the promise if the server didn't respond ok.
  * 
  * @param {Number} qid The question's query id
  * @param {String} id The question id

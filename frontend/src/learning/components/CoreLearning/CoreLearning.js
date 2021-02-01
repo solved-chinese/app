@@ -7,11 +7,18 @@ import ItemDisplay from
 import ReviewQuestion from 
     '@learning.components/ReviewQuestion/ReviewQuestion';
 
+import getLearningNext from '@learning.services/getLearningNext';
+
 import { ReviewQuestionDescriptor } from '@interfaces/ReviewQuestion';
 import { ItemDescriptor } from '@interfaces/CoreItem';
 
 /**
- * The main component for users' learning experience.
+ * The main component for users' learning experience. The component
+ * will present a set of dynamically determined series of learning 
+ * items (i.e. word, character, or radical) and review questions, 
+ * and display a progress bar on top that shows the user's mastery 
+ * of the current set.
+ * 
  * @param {Object} props 
  * @param {Object} props.progressBar
  * @param {ReviewQuestionDescriptor | ItemDescriptor} props.content
@@ -23,10 +30,8 @@ export default function CoreLearning(props) {
     const [content, setContent] = useState(props.content);
     const [progressBar, setProgressBar] = useState(props.progressBar);
 
-    const actionUpdater = (action, content, progressBar) => {
-        setAction(action);
-        setContent(content);
-        setProgressBar(progressBar);
+    const onActionNext = () => {
+        getLearningNext();
     };
 
     const renderItemDisplay = () => (
@@ -34,7 +39,7 @@ export default function CoreLearning(props) {
             <ProgressBar {...progressBar} />
             <ItemDisplay 
                 {...content}
-                onActionNext={actionUpdater}
+                onActionNext={onActionNext}
             />
         </>
     );
@@ -44,7 +49,7 @@ export default function CoreLearning(props) {
             <ProgressBar {...progressBar} />
             <ReviewQuestion 
                 {...content} 
-                onActionNext={actionUpdater}
+                onActionNext={onActionNext}
             />
         </>
     );

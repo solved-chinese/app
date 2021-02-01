@@ -56,7 +56,7 @@ const Text = styled.div`
 
 /**
  * Render a progress bar component with the number of items from 
- * the 4 catagories (mastered, familiar, remaining, bonus).
+ * the 4 experience catagories (mastered, familiar, remaining, bonus).
  */
 export default class ProgressBar extends React.Component {
 

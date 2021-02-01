@@ -33,7 +33,7 @@ const SubmitContainer = styled.div`
 `;
 
 /**
- * Return a fill in the blank question.
+ * Render a fill in the blank (FITB) question.
  * @param {Object} props 
  * @param {FITBQuestionContent} props.content
  * @param {Number} props.qid
