@@ -1,6 +1,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import 'camelcase-keys';
+import { $ } from 'jquery';
 
 import AnswerVerificationResponse from '@interfaces/AnswerVerificationResponse';
 import camelcaseKeys from 'camelcase-keys';
@@ -17,7 +18,7 @@ import camelcaseKeys from 'camelcase-keys';
  * @returns {Promise<AnswerVerificationResponse>} Server response
  */
 export default function submitAnswer(qid, id, answer) {
-    var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+    var csrftoken = $('[name=csrfmiddlewaretoken]').val();
     return new Promise((resolve, reject) => {
         fetch(`/content/question/${qid}`, {
             method: 'POST',
