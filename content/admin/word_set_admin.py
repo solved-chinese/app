@@ -26,7 +26,7 @@ class WordInSetInline(admin.TabularInline):
 class WordSetAdmin(GeneralContentAdmin):
     list_display = ['id', '__str__', 'is_done']
     list_filter = ['is_done']
-    search_fields = ['name', 'characters__chinese']
+    search_fields = ['name__search']
     inlines = [WordInSetInline]
 
     def get_form(self, request, obj=None, **kwargs):
