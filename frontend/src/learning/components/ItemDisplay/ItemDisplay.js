@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import CharDisplay from './CharacterDisplay/CharDisplay';
 import WordDisplay from './WordDisplay/WordDisplay';
 import RadDisplay from './RadicalDisplay/RadDisplay';
+import ProgressBar from './ProgressBar'
 
 import '@learning.styles/ItemDisplay.css';
 
@@ -30,10 +31,18 @@ export default class ItemDisplay extends React.Component {
 
     render() {
         return (
-            <div className='content-card-container
-            box-shadow'>
-                { this.renderSwitch(this.props.type, this.props.qid) }
-            </div>
+            <>
+                <ProgressBar 
+                    mastered={6}
+                    familiar={11}
+                    remaining={10}
+                    bonus={2}
+                />
+                <div className='content-card-container
+                box-shadow'>
+                    { this.renderSwitch(this.props.type, this.props.qid) }
+                </div>
+            </>
         );
     }
 }

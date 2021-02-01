@@ -9,7 +9,13 @@ const Body = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 10px 30px;
+    padding: 20px 30px;
+    font-size: 14px;
+
+    @media only screen and (max-width: 480px) {
+        padding: 20px 10px;
+        font-size: 13px;
+    }
 `;
 // Outer bar container
 const BarContainer = styled.div`
@@ -40,7 +46,7 @@ const TextContainer = styled.div`
     display: flex;
     flex-direction: row;
     margin-top: 7px;
-    font-size: 15px;
+    font-size: 1em;
     
 `;
 const Text = styled.div`
@@ -115,7 +121,6 @@ export default class ProgressBar extends React.Component {
     render(){
         return (
             <Body>
-          
                 <BarContainer>
                     <Bar style = {this.bar.bar1}/>
                     <Bar style = {this.bar.bar2}/>
@@ -129,7 +134,6 @@ export default class ProgressBar extends React.Component {
                     <Text style = {this.text.text3}> {this.props.remaining} remaining</Text>
                     {this.props.bonus > 0 && <Text style = {this.text.text4}> {this.props.bonus}  bonus!</Text>}
                 </TextContainer>
-
             </Body>
         );
     }
