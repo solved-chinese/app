@@ -21,16 +21,16 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='character',
             name='audio',
-            field=models.ForeignKey(default=content.models.audio_file.AudioFile.get_default_pk, on_delete=django.db.models.deletion.SET_DEFAULT, related_name='characters', related_query_name='character', to='content.audiofile'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='characters', related_query_name='character', to='content.audiofile'),
         ),
         migrations.AddField(
             model_name='radical',
             name='audio',
-            field=models.ForeignKey(blank=True, default=content.models.audio_file.AudioFile.get_default_pk, null=True, on_delete=django.db.models.deletion.SET_DEFAULT, related_name='radicals', related_query_name='radical', to='content.audiofile'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='radicals', related_query_name='radical', to='content.audiofile'),
         ),
         migrations.AddField(
             model_name='word',
             name='audio',
-            field=models.ForeignKey(default=content.models.audio_file.AudioFile.get_default_pk, on_delete=django.db.models.deletion.SET_DEFAULT, related_name='words', related_query_name='word', to='content.audiofile'),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='words', related_query_name='word', to='content.audiofile'),
         ),
     ]
