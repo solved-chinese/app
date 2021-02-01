@@ -47,7 +47,6 @@ const TextContainer = styled.div`
     flex-direction: row;
     margin-top: 7px;
     font-size: 1em;
-    
 `;
 const Text = styled.div`
     width: 0px;
@@ -55,6 +54,10 @@ const Text = styled.div`
     text-align: left;
 `;
 
+/**
+ * Render a progress bar component with the number of items from 
+ * the 4 catagories (mastered, familiar, remaining, bonus).
+ */
 export default class ProgressBar extends React.Component {
 
     static propTypes = {
@@ -107,16 +110,6 @@ export default class ProgressBar extends React.Component {
             }
         };
     }
-
-    // setbar = (percent) => {
-    //   const newbar = {
-    //     opacity: '1',
-    //     width: `${percent}%`,
-    //     background: 'black',
-    //   }
-    //   this.setbar({bar: newbar})
-    // }
-
 
     render(){
         return (
