@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ItemDisplay from './ItemDisplay/ItemDisplay.js';
-import ReviewQuestion from './ReviewQuestion/ReviewQuestion.js';
+import ItemDisplay from './ItemDisplay/ItemDisplay';
+import ReviewQuestion from './ReviewQuestion/ReviewQuestion';
+import CoreLearning from './CoreLearning/CoreLearning';
 
 
 export default class App extends React.Component {
@@ -19,6 +20,8 @@ export default class App extends React.Component {
             return <ItemDisplay {...this.props.content} />;
         case 'review':
             return <ReviewQuestion {...this.props.content} />;
+        case 'learning':
+            return <CoreLearning {...this.props.content} />;
         default:
             return;
         }

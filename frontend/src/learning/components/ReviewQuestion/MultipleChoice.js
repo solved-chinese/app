@@ -43,6 +43,8 @@ const SubmitContainer = styled.div`
  * @param {MCQuestionContent} props.content
  * @param {Number} props.qid
  * @param {String} props.id
+ * @param {Boolean} props.hasNext
+ * @param {Function} props.onActionNext
  * 
  * @returns {React.Component} A multiple choice component
  */

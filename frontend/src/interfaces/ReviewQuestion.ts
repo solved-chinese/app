@@ -17,6 +17,12 @@ export interface FITBQuestionContent extends ReviewQuestionContent {
     title: TextProvider
 }
 
+export interface ReviewQuestionDescriptor {
+    qid: Number,
+    hasNext: Boolean,
+    onActionNext: Function
+}
+
 interface TextProvider {
     text: String,
     audio: String

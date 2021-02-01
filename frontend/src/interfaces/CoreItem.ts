@@ -48,3 +48,10 @@ export interface WordShort {
     pinyin: String,
     fullDefinition: String
 }
+
+export interface ItemDescriptor {
+    qid: Number,
+    type: String,
+    hasNext: Boolean,
+    onActionNext: Function
+}

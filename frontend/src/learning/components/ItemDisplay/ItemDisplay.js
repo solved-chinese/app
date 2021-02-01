@@ -7,15 +7,16 @@ import RadDisplay from './RadicalDisplay/RadDisplay';
 
 import '@learning.styles/ItemDisplay.css';
 
-export default class ItemDisplay extends React.Component {
-    
-    static propTypes = {
-        location: PropTypes.object,
-        type: PropTypes.string,
-        qid: PropTypes.number,
-    }
+import { ItemDescriptor } from '@interfaces/CoreItem';
 
-    renderSwitch(type, qid) {
+/**
+ * Display an item (word, character, or radical) using an
+ * ItemDescriptor.
+ * @param { ItemDescriptor } props 
+ */
+export default function ItemDisplay(props) {
+    
+    const renderSwitch = (type, qid) => {
         switch (type) {
         case 'character':
             return (<CharDisplay qid={qid} />);
@@ -26,14 +27,17 @@ export default class ItemDisplay extends React.Component {
         default:
             return ;
         }
-    }
+    };
 
-    render() {
-        return (
-            <div className='content-card-container
-            box-shadow'>
-                { this.renderSwitch(this.props.type, this.props.qid) }
-            </div>
-        );
-    }
+    return (
+        <div className='content-card-container
+        box-shadow'>
+            { renderSwitch(props.type, props.qid) }
+        </div>
+    );
 }
+
+ItemDisplay.propTypes = {
+    type: PropTypes.string,
+    qid: PropTypes.number,
+};

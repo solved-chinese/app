@@ -72,7 +72,8 @@ const Explanation = styled.div`
 `;
 
 //
-/** Render a single character breakdown display using the
+/** 
+ * Render a single character breakdown display using the
  * radical in props.url. Re-render automatically when props.url
  * updates to a new value.
  */
