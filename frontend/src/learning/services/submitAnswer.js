@@ -1,7 +1,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import 'camelcase-keys';
-import { $ } from 'jquery';
+import $ from 'jquery';
 
 import AnswerVerificationResponse from '@interfaces/AnswerVerificationResponse';
 import camelcaseKeys from 'camelcase-keys';

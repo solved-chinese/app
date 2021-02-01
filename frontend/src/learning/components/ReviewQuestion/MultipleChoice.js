@@ -54,9 +54,12 @@ export default function MultipleChoice(props) {
 
     const [correctAnswer, setCorrectAnswer] = useState(null);
 
+    const [submitted, setSubmitted] = useState(false);
+
     const onSubmit = () => {
         submitAnswer(props.qid, props.id, selectedAnswer).then(response => {
             setCorrectAnswer(response.answer);
+            setSubmitted(true);
         }).catch( msg => {
             console.log(msg);
         });
@@ -70,6 +73,8 @@ export default function MultipleChoice(props) {
             } else {
                 name += ' active';
             }
+        } else if (index == correctAnswer) {
+            name += ' correct';
         }
         return name;
     };
@@ -80,13 +85,13 @@ export default function MultipleChoice(props) {
                 key={v.text}
                 className={getChoiceClassName(i)}
                 style={{minWidth: '170px'}}
-                onClick={() => {
+                onClick={!submitted ? (() => {
                     if (selectedAnswer != i) {
                         setSelectedAnswer(i);
                     } else {
                         setSelectedAnswer(null);
                     }
-                }}
+                }) : null}
             >
                 {v.text}
             </button>
@@ -113,11 +118,11 @@ export default function MultipleChoice(props) {
                     </button>
                     <button
                         className={`choice-button${
-                            selectedAnswer != null ? ' active' : ''
+                            selectedAnswer != null || submitted ? ' active' : ''
                         }`}
-                        onClick={onSubmit}
+                        onClick={submitted && props.hasNext ? props.onActionNext : onSubmit }
                     >
-                        Submit
+                        {submitted && props.hasNext ? 'Next' : 'Submit' }
                     </button>
                 </SubmitContainer>
             </div>
@@ -130,5 +135,9 @@ MultipleChoice.propTypes = {
 
     id: PropTypes.string.isRequired,
 
-    qid: PropTypes.number.isRequired
+    qid: PropTypes.number.isRequired,
+
+    hasNext: PropTypes.bool,
+
+    onActionNext: PropTypes.func
 };
