@@ -42,11 +42,12 @@ class ReviewableAdminMixin(admin.ModelAdmin):
         reviewable = obj.get_reviewable_object()
         existing_general_questions = reviewable.questions
         existing_question_types = set()
-        s = ""
+        s = "<a href='{}'>Reviewable Object</a><br>".format(
+            reviewable.get_admin_url())
         for question in existing_general_questions.all():
             s += '<a href="{}">{}</a><br>'.format(
                 question.get_admin_url(),
-                f"{question.question_type}"
+                f"No.{question.order}: {question.question_type}"
             )
             existing_question_types.add(question.question_type)
         for question in QuestionFactoryRegistry.get_factories_by_model(

@@ -17,6 +17,7 @@ class GeneralQuestion(models.Model):
     reviewable = models.ForeignKey('ReviewableObject',
                                    on_delete=models.CASCADE,
                                    related_name='questions')
+    order = models.PositiveSmallIntegerField()
     MC = models.OneToOneField('MCQuestion', blank=True, null=True,
                               on_delete=models.CASCADE,
                               related_name='general_question')
@@ -26,6 +27,10 @@ class GeneralQuestion(models.Model):
     CND = models.OneToOneField('CNDQuestion', blank=True, null=True,
                                 on_delete=models.CASCADE,
                                 related_name='general_question')
+
+    class Meta:
+        ordering = ('order',)
+        unique_together = ('reviewable', 'order')
 
     def clean(self):
         """ make sure there is only one concrete review question """
@@ -104,12 +109,16 @@ class BaseConcreteQuestion(models.Model):
             return None
         return self.context_link.value
 
-    def get_general_question(self):
+    def get_general_question(self, order=None):
         try:
             return self.general_question
         except ObjectDoesNotExist:
+            if order is None:
+                raise ValueError("creating general_question, "
+                                 "must specify order")
             kwargs = {
                 'reviewable': self.reviewable,
+                'order': order,
                 self.question_form: self
             }
             return GeneralQuestion.objects.create(**kwargs)

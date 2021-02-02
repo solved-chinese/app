@@ -27,6 +27,17 @@ class FITBAdmin(GeneralReviewQuestionAdmin):
     pass
 
 
+class GeneralQuestionInlineAdmin(admin.TabularInline):
+    model = GeneralQuestion
+    extra = 0
+
+
+@admin.register(ReviewableObject)
+class ReviwableObjectAdmin(DisabledFieldMixin, admin.ModelAdmin):
+    disabled_fields = ('radical', 'character', 'word')
+    inlines = [GeneralQuestionInlineAdmin]
+
+
 @admin.register(LinkedField)
 class LinkedFieldAdmin(admin.ModelAdmin):
     form = LinkedFieldForm

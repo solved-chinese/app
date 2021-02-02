@@ -2,6 +2,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.shortcuts import reverse
 
+from .general_content_model import AdminUrlMixin
 
 __all__ = ['ReviewableMixin', 'ReviewableObject']
 
@@ -16,7 +17,7 @@ class ReviewableMixin:
         return ReviewableObject.objects.get_or_create(**d)[0]
 
 
-class ReviewableObject(models.Model):
+class ReviewableObject(AdminUrlMixin, models.Model):
     radical = models.OneToOneField('Radical', blank=True, null=True,
                                    related_name='reviewable',
                                    on_delete=models.CASCADE)
