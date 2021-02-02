@@ -287,13 +287,16 @@ class CNDQuestion(BaseConcreteQuestion):
                                    related_name='+')
     correct_answers = ArrayField(models.CharField(max_length=5))
     wrong_answers = ArrayField(models.CharField(max_length=5))
+    choice_num = models.PositiveSmallIntegerField(default=5)
 
     def render(self):
         title = self.title_link.value
         if not self.correct_answers:
             raise ValidationError("no correct_answers")
         choices = self.correct_answers.copy()
-        choices.extend(self.wrong_answers)
+        wrong_answer_len = max(0, self.choice_num - len(choices))
+        wrong_answers = self.wrong_answers[:wrong_answer_len]
+        choices.extend(wrong_answers)
         np.random.shuffle(choices)
         client_dict, server_dict = super().render()
         client_dict.update({
