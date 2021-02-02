@@ -23,7 +23,7 @@ const Question = styled.h2`
 
 const ChoicesContainer = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin-bottom: 50px;
 `;
 
