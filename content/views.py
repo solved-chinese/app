@@ -90,7 +90,7 @@ class LinkedFieldAutocomplete(autocomplete.Select2QuerySetView):
 class ReviewQuestionFactoryView(View):
     def get(self, request, question_type, ro_id):
         ro = get_object_or_404(ReviewableObject, pk=ro_id)
-        factory = QuestionFactoryRegistry.get_factory_by_type(question_type)
+        factory = QuestionFactoryRegistry.get_factory_by_type(question_type)()
         try:
             general_question = factory.generate(ro)
         except CannotAutoGenerate as e:

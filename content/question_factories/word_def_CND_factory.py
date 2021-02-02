@@ -1,60 +1,56 @@
 import logging
 
-from django.core.exceptions import ObjectDoesNotExist, ValidationError
-
-from content.models import Word, LinkedField, CNDQuestion
+from content.models import Character
 from .question_factory_registry import QuestionFactoryRegistry
-from content.question_factories.constants import CannotAutoGenerate, \
-    TOTAL_CND_OPTIONS, MAX_RANDOM_CHOICE_NUM
-from content.utils import validate_chinese_character_or_x
-
-
-logger = logging.getLogger(__name__)
+from .general_factory import GeneralFactory, CNDFactoryMixin, WordFactoryMixin
+from .constants import MIN_CND_OPTIONS, MAX_CND_OPTIONS, CannotAutoGenerate
 
 
 @QuestionFactoryRegistry.register
-class WordDefCNDFactory:
+class WordDefCNDFactory(WordFactoryMixin,
+                        CNDFactoryMixin,
+                        GeneralFactory):
     question_type = "WordDefCND"
-    question_model = Word
+    question_order = 30
+    logger = logging.getLogger(__name__)
 
-    @classmethod
-    def generate(cls, ro):
-        """
-        incorrect answers should have the same number of question
-        """
-        word = ro.word
-        assert word is not None
+    def clean(self, ro):
+        super().clean(ro)
+        if len(ro.word.chinese) == 1:
+            raise CannotAutoGenerate("meaningless for single char word")
 
-        old_question = CNDQuestion.objects.filter(
-            question_type=cls.question_type,
-            reviewable=ro,
-        ).first()
-        if old_question is not None:
-            try:
-                raise CannotAutoGenerate(f'the same question already generated '
-                    f'(Q{old_question.general_question.pk})')
-            except ObjectDoesNotExist:
-                logger.warning("caught orphan CND, delete and regenerate")
-                old_question.delete()
+    def generate_correct_answer(self, ro):
+        chinese = ro.word.chinese
+        answer = list(chinese)
+        left_index = chinese.find('(')
+        if left_index != -1:
+            assert chinese[left_index + 2] == ')', \
+                'left right bracket not match'
+            chinese.replace('(', '')
+            chinese.replace(')', '')
+            answer[left_index] = f"({answer[left_index]})"
+        return answer
 
-        if not word.primary_definition:
-            raise CannotAutoGenerate('this word has no primary definition')
-
-        if len(word.chinese) == 1:
-            raise CannotAutoGenerate("Doesn't make sense for single char word")
-
-        try:
-            validate_chinese_character_or_x(word.chinese)
-        except ValidationError:
-            raise CannotAutoGenerate('This word contains wierd characters ')
-
-        CND = CNDQuestion.objects.create(
-            reviewable=ro,
-            question_type=cls.question_type,
-            question="How do you spell the word below",
-            description="Drag the correct characters into the right order",
-            title_link=LinkedField.of(word, 'primary_definition'),
-            correct_answers=list(word.chinese),
-            wrong_answers=[],
+    def generate_wrong_answer(self, ro):
+        min_num = MIN_CND_OPTIONS - len(self.correct_answer)
+        max_num = MAX_CND_OPTIONS - len(self.correct_answer)
+        answer_list = self.extract_from_qs(
+            [self.generate_related_words(ro.word),
+             self.generate_same_level_words(ro.word),
+             self.generate_dummy_words()],
+            ro.word,
+            min_num,
+            max_num
         )
-        return CND.get_general_question()
+        return [c.chinese for c in answer_list]
+
+    def extract_from_qs(self, querysets, obj, min_num, max_num):
+        new_querysets = []
+        for queryset in querysets:
+            queryset = Character.objects.filter(
+                word__in=queryset.all()
+            ).exclude(
+                id__in=obj.characters.all()
+            )
+            new_querysets.append(queryset)
+        return super().extract_from_qs(new_querysets, obj, min_num, max_num)
