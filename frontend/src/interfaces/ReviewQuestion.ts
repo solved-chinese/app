@@ -13,6 +13,12 @@ export interface MCQuestionContent extends ReviewQuestionContent {
     choices: [TextProvider]
 }
 
+export interface CNDQuestionContent extends ReviewQuestionContent {
+    title: TextProvider,
+    answer_length: TextProvider,
+    choices: [TextProvider]
+}
+
 export interface FITBQuestionContent extends ReviewQuestionContent {
     title: TextProvider
 }

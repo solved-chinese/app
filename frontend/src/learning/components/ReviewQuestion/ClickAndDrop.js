@@ -2,29 +2,42 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import { MCQuestionContent } from '@interfaces/ReviewQuestion';
+import { CNDQuestionContent } from '@interfaces/ReviewQuestion';
 
 import submitAnswer from '@learning.services/submitAnswer';
 
 import '@learning.styles/ReviewQuestion.css';
 
-const Context = styled.h1`
+const Description = styled.h1`
     font-size: 1.6em;
     margin-bottom: 40px;
+    text-align: center;
     color: var(--primary-text);
 `;
 
 const Question = styled.h2`
     font-size: 1.5em;
     margin-bottom: 30px;
-    text-align: center;
+    text-align: left;
     font-weight: 400;
+    color: var(--primary-text);
 `;
 
 const ChoicesContainer = styled.div`
     display: flex;
+    text-align: center;
     flex-direction: row;
-    margin-bottom: 50px;
+    margin-right: 50px;
+    height: 20%;
+`;
+
+const AnswerContainer = styled.div`
+    display: flex;
+    text-align:center;
+    background-color: gray;
+    flex-direction: row;
+    margin-right: 50px;
+    height: 20%;
 `;
 
 const SubmitContainer = styled.div`
@@ -38,19 +51,17 @@ const SubmitContainer = styled.div`
 `;
 
 /**
- * Render a multiple choice component.
+ * Render a CND component.
  * @param {Object} props 
- * @param {MCQuestionContent} props.content
+ * @param {CNDQuestionContent} props.content
  * @param {Number} props.qid
  * @param {String} props.id
  * 
- * @returns {React.Component} A multiple choice component
+ * @returns {React.Component}
  */
-export default function MultipleChoice(props) {
+export default function ClickAndDrop(props) {
 
     const [selectedAnswer, setSelectedAnswer] = useState(null);
-
-    const [correctAnswer, setCorrectAnswer] = useState(null);
 
     const onSubmit = () => {
         submitAnswer(props.qid, props.id, selectedAnswer).then(response => {
@@ -60,33 +71,43 @@ export default function MultipleChoice(props) {
         });
     };
 
-    const getChoiceClassName = index => {
-        var name = 'choice-button use-serifs';
-        if (index == selectedAnswer) {
-            if (correctAnswer != null) {
-                name += index == correctAnswer ? ' correct' : ' incorrect';
-            } else {
-                name += ' active';
-            }
+    const select = (() => {
+        var answers = [];
+        for(var i=1;i<=parseInt(props.content.answer_length);i++){
+            answers.push(' ');
         }
-        return name;
-    };
-
-    const choices = (() => {
-        return props.content.choices.map( (v, i) => 
+        // console.log(props.content.answer_length);  cannot get answer_length?
+        return answers.map( i => 
             <button 
-                key={v.text}
-                className={getChoiceClassName(i)}
-                style={{minWidth: '170px'}}
+                key={i}
+                style={{Width: '50px'}}
                 onClick={() => {
                     if (selectedAnswer != i) {
                         setSelectedAnswer(i);
-                    } else {
+                    } else {    
                         setSelectedAnswer(null);
                     }
                 }}
             >
-                {v.text}
+                {i}
+            </button>
+        );
+    })();
+
+    const choices = (() => {
+        return props.content.choices.map( i => 
+            <button 
+                key={i}
+                style={{Width: '50px'}}
+                onClick={() => {
+                    if (selectedAnswer != i) {
+                        setSelectedAnswer(i);
+                    } else {    
+                        setSelectedAnswer(null);
+                    }
+                }}
+            >
+                {i}
             </button>
         );
     })();
@@ -94,20 +115,26 @@ export default function MultipleChoice(props) {
     return (
         <div className='question-content'>
             <div style={{width: '100%'}}>
-                <Context className='use-chinese'>
-                    {props.content.context.text}
-                </Context>
-                <Question>
+                <Question className='use-chinese'>
                     {props.content.question.text}
                 </Question>
+                <Description>
+                    {props.content.description.text}
+                </Description>
+                <Description>
+                    {props.content.title.text}
+                </Description>
                 <ChoicesContainer>
                     {choices}
                 </ChoicesContainer>
+                <AnswerContainer>
+                    {select}
+                </AnswerContainer>
                 <SubmitContainer>
                     <button
                         className='choice-button'
                     >
-                        I know this
+                        Skip this term
                     </button>
                     <button
                         className={`choice-button${
@@ -123,7 +150,7 @@ export default function MultipleChoice(props) {
     );
 }
 
-MultipleChoice.propTypes = {
+ClickAndDrop.propTypes = {
     content: PropTypes.object.isRequired,
 
     id: PropTypes.string.isRequired,

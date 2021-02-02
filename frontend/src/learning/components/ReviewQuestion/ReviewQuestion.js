@@ -3,7 +3,7 @@ import React from 'react';
 import useReviewQuestion from '@learning.hooks/useReviewQuestion';
 import MultipleChoice from './MultipleChoice';
 import FITBQuestion from './FITBQuestion';
-
+import ClickAndDrop from './ClickAndDrop';
 import LoadingView from './LoadingView';
 
 /** 
@@ -24,6 +24,12 @@ export default function ReviewQuestion(props) {
             />;
         case 'FITB':
             return <FITBQuestion 
+                content={question.content}
+                qid={qid}
+                id={question.id}
+            />;
+        case 'CND':
+            return <ClickAndDrop
                 content={question.content}
                 qid={qid}
                 id={question.id}
