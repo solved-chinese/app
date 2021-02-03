@@ -55,13 +55,6 @@ class LinkedFieldForm(forms.ModelForm):
         ), required=False
     )
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        instance = getattr(self, 'instance', None)
-        if instance and instance.id:
-            self.fields['field_name'].disabled = True
-            self.fields['content_type'].disabled = True
-
     class Meta:
         model = LinkedField
         fields = ['overwrite', 'content_type', 'object_id', 'field_name']

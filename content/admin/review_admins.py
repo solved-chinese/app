@@ -12,6 +12,9 @@ __all__ = ['FITBAdmin', 'MCChoiceInlineAdmin', 'MCQuestionAdmin']
 
 
 class GeneralReviewQuestionAdmin(DisabledFieldMixin, admin.ModelAdmin):
+    def get_autocomplete_fields(self, request):
+        return self.get_disabled_fields(request)
+
     def get_disabled_fields(self, request, obj=None):
         disabled_fields = list(super().get_disabled_fields(request, obj=obj))
         disabled_fields.extend(['reviewable', 'question_type'])
@@ -41,6 +44,7 @@ class ReviwableObjectAdmin(DisabledFieldMixin, admin.ModelAdmin):
 @admin.register(LinkedField)
 class LinkedFieldAdmin(admin.ModelAdmin):
     form = LinkedFieldForm
+    search_fields = ('id',)
 
     def has_change_permission(self, request, obj=None):
         return False
@@ -61,7 +65,9 @@ class GeneralQuestionAdmin(admin.ModelAdmin):
 
 class MCChoiceInlineAdmin(admin.TabularInline):
     model = MCChoice
-    fields = ['linked_value', 'weight']
+    autocomplete_fields = ('linked_value',)
+    fields = ['linked_value', 'value', 'weight']
+    readonly_fields = ['value']
     extra = 0
 
 
