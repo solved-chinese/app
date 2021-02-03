@@ -229,12 +229,17 @@ class MCQuestion(BaseConcreteQuestion):
     question_form = 'MC'
     num_choices = models.PositiveSmallIntegerField(default=4)
 
-    def render(self):
+    def render(self, show_all_options=False):
         weights = np.array(self.choices.values_list('weight', flat=True))
         total_cnt = len(weights)
         if total_cnt < self.num_choices:
             raise ValidationError(f"there are {total_cnt} choices, "
                                   f"fewer than {self.num_choices}")
+
+        if show_all_options:
+            num_choices = total_cnt
+        else:
+            num_choices = self.num_choices
 
         answer_cnt = total_cnt - np.count_nonzero(weights)
         if answer_cnt != 1:
@@ -242,11 +247,11 @@ class MCQuestion(BaseConcreteQuestion):
                                   f"not one")
 
         choice_indexes = np.random.choice(np.arange(total_cnt),
-                                          size=self.num_choices - 1,
+                                          size=num_choices - 1,
                                           replace=False,
                                           p=weights / np.sum(weights)
                                           ).tolist()
-        answer = np.random.randint(self.num_choices)
+        answer = np.random.randint(num_choices)
         choice_indexes.insert(answer, 0)
 
         choice_list = list(self.choices.all())
@@ -273,7 +278,7 @@ class FITBQuestion(BaseConcreteQuestion):
                                     on_delete=models.CASCADE,
                                     related_name='+')
 
-    def render(self):
+    def render(self, show_all_options=False):
         title = self.title_link.value
         answer = self.answer_link.value
         if not answer or not title:
@@ -298,13 +303,16 @@ class CNDQuestion(BaseConcreteQuestion):
     wrong_answers = ArrayField(models.CharField(max_length=5))
     choice_num = models.PositiveSmallIntegerField(default=5)
 
-    def render(self):
+    def render(self, show_all_options=False):
         title = self.title_link.value
         if not self.correct_answers:
             raise ValidationError("no correct_answers")
         choices = self.correct_answers.copy()
-        wrong_answer_len = max(0, self.choice_num - len(choices))
-        wrong_answers = self.wrong_answers[:wrong_answer_len]
+        if show_all_options:
+            wrong_answers = self.wrong_answers
+        else:
+            wrong_answer_len = max(0, self.choice_num - len(choices))
+            wrong_answers = self.wrong_answers[:wrong_answer_len]
         choices.extend(wrong_answers)
         np.random.shuffle(choices)
         client_dict, server_dict = super().render()

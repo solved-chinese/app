@@ -1,9 +1,10 @@
 import html
 
 from django.views.generic import View
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.views.generic import DetailView, TemplateView
 from django.shortcuts import render, get_object_or_404, reverse
+from django.contrib.auth.decorators import user_passes_test
 
 from content.models import GeneralQuestion, Word, \
     ReviewableObject, Radical, Character, WordSet
@@ -98,6 +99,8 @@ class QuestionDisplayView(TemplateView):
             questions = questions.filter(reviewable__word__word_set=wordset)
             if question_pk is None:
                 question_obj = questions.first()
+            if question_obj is None:
+                raise Http404
             all_display += "You are now viewing questions with order {} in {}<br>"\
                 .format(question_order, wordset.name)
             all_display += ", ".join('<a href="{}" {}>{}</a>'.format(
@@ -108,6 +111,8 @@ class QuestionDisplayView(TemplateView):
             ) for question in questions.all())
             all_display += '<br><a href="{}">click here to edit this question</a>'\
                 .format(question_obj.get_admin_url())
+            all_display += '<br><a href="{}">click here to toggle show all options</a>' \
+                .format(reverse('show_all_options_toggle'))
         context = {
             'pre_react': all_display,
             'react_data': {
@@ -116,3 +121,12 @@ class QuestionDisplayView(TemplateView):
             }
         }
         return context
+
+
+@user_passes_test(lambda user: user.is_staff)
+def show_all_options_toggle(request):
+    show_all_options = request.session.get('show_all_options', False)
+    show_all_options = not show_all_options
+    request.session['show_all_options'] = show_all_options
+    return render(request, 'utils/simple_response.html',
+                  {'content': f"show all options: {show_all_options}"})

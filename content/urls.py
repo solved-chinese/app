@@ -47,4 +47,8 @@ urlpatterns = [
     path('review_question_factory/<slug:question_type>/<int:ro_id>',
          views.ReviewQuestionFactoryView.as_view(),
          name='review_question_factory_view'),
+
+    path('show_all_options_toggle',
+         views.show_all_options_toggle,
+         name='show_all_options_toggle')
 ]

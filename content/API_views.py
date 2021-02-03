@@ -23,7 +23,10 @@ class QuestionView(APIView):
                                           pk=question_pk)
 
     def get(self, request):
-        client_dict, server_dict = self.question.render()
+        show_all_options = request.session.get('show_all_options', False)
+        client_dict, server_dict = self.question.render(
+            show_all_options=show_all_options
+        )
         question_id = uuid4().hex
         client_dict = {
             "id": question_id,
