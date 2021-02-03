@@ -60,54 +60,77 @@ const SubmitContainer = styled.div`
  * @returns {React.Component}
  */
 export default function ClickAndDrop(props) {
-
-    const [selectedAnswer, setSelectedAnswer] = useState(null);
+    const [selected, setSelected] = useState(Array(props.content.answerLength).fill(null))
+    const [choices, setChoices] = useState([...props.content.choices.slice()])
 
     const onSubmit = () => {
-        submitAnswer(props.qid, props.id, selectedAnswer).then(response => {
+        submitAnswer(props.qid, props.id, selected).then(response => {
             setCorrectAnswer(response.answer);
+            setChoices(choices.slice().fill(' '))
+            alert("is_correct: " + response.isCorrect);
         }).catch( msg => {
             console.log(msg);
         });
     };
 
-    const select = (() => {
-        var answers = [];
-        for(var i=1;i<=parseInt(props.content.answer_length);i++){
-            answers.push(' ');
-        }
-        // console.log(props.content.answer_length);  cannot get answer_length?
-        return answers.map( i => 
-            <button 
+    const setCorrectAnswer = (correctAnswer) => {
+        setSelected(correctAnswer);
+    };
+
+    const handleChoiceClick = (choiceIndex) => {
+        if (choices[choiceIndex] === null)
+            return; // meaningless click on blank
+        const selectedIndex = selected.findIndex(value => value===null);
+        if (selectedIndex == -1)
+            return; // meaningless click when selected full
+        // make copy
+        const newSelected = selected.slice();
+        const newChoices = choices.slice();
+        // move clicked choice to seleceted
+        newSelected[selectedIndex] = newChoices[choiceIndex];
+        newChoices[choiceIndex] = null
+        setSelected(newSelected);
+        setChoices(newChoices);
+    }
+
+    const handleSelectedClick = (selectedIndex) => {
+        if (selected[selectedIndex] === null)
+            return; // meaningless click on blank
+        // make copy
+        const newSelected = selected.slice();
+        const newChoices = choices.slice();
+        // move selected choice to choices
+        const choiceIndex = choices.findIndex(value => value===null);
+        newChoices[choiceIndex] = newSelected[selectedIndex];
+        newSelected[selectedIndex] = null
+        setSelected(newSelected);
+        setChoices(newChoices);
+    }
+
+    const showSelected = (() => {
+        return selected.map((value, i) =>
+            <button
                 key={i}
-                style={{Width: '50px'}}
+                style={{width: '50px', height: '50px'}}
                 onClick={() => {
-                    if (selectedAnswer != i) {
-                        setSelectedAnswer(i);
-                    } else {    
-                        setSelectedAnswer(null);
-                    }
+                    handleSelectedClick(i)
                 }}
             >
-                {i}
+                {value === null? " " : value}
             </button>
         );
     })();
 
-    const choices = (() => {
-        return props.content.choices.map( i => 
-            <button 
+    const showChoices = (() => {
+        return choices.map((value, i) =>
+            <button
                 key={i}
-                style={{Width: '50px'}}
+                style={{width: '50px', height: '50px'}}
                 onClick={() => {
-                    if (selectedAnswer != i) {
-                        setSelectedAnswer(i);
-                    } else {    
-                        setSelectedAnswer(null);
-                    }
+                    handleChoiceClick(i)
                 }}
             >
-                {i}
+                {value === null? " " : value}
             </button>
         );
     })();
@@ -124,12 +147,12 @@ export default function ClickAndDrop(props) {
                 <Description>
                     {props.content.title.text}
                 </Description>
-                <ChoicesContainer>
-                    {choices}
-                </ChoicesContainer>
                 <AnswerContainer>
-                    {select}
+                    {showSelected}
                 </AnswerContainer>
+                <ChoicesContainer>
+                    {showChoices}
+                </ChoicesContainer>
                 <SubmitContainer>
                     <button
                         className='choice-button'
@@ -138,7 +161,7 @@ export default function ClickAndDrop(props) {
                     </button>
                     <button
                         className={`choice-button${
-                            selectedAnswer != null ? ' active' : ''
+                            selected.every(value => value != null) ? ' active' : ''
                         }`}
                         onClick={onSubmit}
                     >
