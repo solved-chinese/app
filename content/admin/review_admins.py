@@ -42,6 +42,9 @@ class ReviwableObjectAdmin(DisabledFieldMixin, admin.ModelAdmin):
 class LinkedFieldAdmin(admin.ModelAdmin):
     form = LinkedFieldForm
 
+    def has_change_permission(self, request, obj=None):
+        return False
+
 
 @admin.register(GeneralQuestion)
 class GeneralQuestionAdmin(admin.ModelAdmin):
@@ -58,12 +61,8 @@ class GeneralQuestionAdmin(admin.ModelAdmin):
 
 class MCChoiceInlineAdmin(admin.TabularInline):
     model = MCChoice
-    fields = ['linked_value', 'get_value', 'weight']
-    readonly_fields = ['get_value']
+    fields = ['linked_value', 'weight']
     extra = 0
-
-    def get_value(self, obj):
-        return obj.value
 
 
 @admin.register(MCQuestion)

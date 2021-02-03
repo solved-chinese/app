@@ -173,9 +173,13 @@ class LinkedField(models.Model):
     def value(self):
         if self.overwrite:
             return self.overwrite
-        value = getattr(self.content_object, self.field_name)
+        try:
+            value = getattr(self.content_object, self.field_name)
+        except AttributeError:
+            logger.error(f"{repr(self)} link broken, AttributeError")
+            return None
         if not value:
-            raise ValidationError("value None")
+            logger.error(f"{repr(self)} has falsy value")
         return value
 
     def clean(self):
@@ -188,9 +192,9 @@ class LinkedField(models.Model):
     def of(cls, object, field_name):
         content_type = ContentType.objects.get_for_model(object)
         object_id = object.id
-        return cls.objects.get_or_create(content_type=content_type,
-                                         object_id=object_id,
-                                         field_name=field_name)[0]
+        return cls.objects.create(content_type=content_type,
+                                  object_id=object_id,
+                                  field_name=field_name)
 
     def __str__(self):
         return repr(self)
@@ -198,7 +202,11 @@ class LinkedField(models.Model):
     def __repr__(self):
         if self.overwrite:
             return f"<overwritten: {self.overwrite}>"
-        return f"<{repr(self.content_object)}'s {self.field_name}>"
+        try:
+            value = getattr(self.content_object, self.field_name)
+        except Exception:
+            value = None
+        return f"<{repr(self.content_object)}'s {self.field_name}: {value}>"
 
 
 class MCChoice(models.Model):
