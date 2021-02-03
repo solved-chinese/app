@@ -1,4 +1,5 @@
 from uuid import uuid4
+import json
 
 from dal import autocomplete
 from django.contrib.contenttypes.models import ContentType
@@ -7,8 +8,10 @@ from rest_framework import status
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.core.serializers.json import DjangoJSONEncoder
 
 from content.models import GeneralQuestion, LinkedField, Word, Sentence
+from learning.models import Record
 
 
 class QuestionView(APIView):
@@ -51,6 +54,19 @@ class QuestionView(APIView):
             return Response(status=status.HTTP_409_CONFLICT)
         response_dict, is_correct = self.question.check_answer(data,
                                                                server_dict)
+        # create Record
+        user = request.user if request.user.is_authenticated else None
+        context = {
+            'client': data,
+            'server': server_dict
+        }
+        Record.objects.create(
+            user=user,
+            question=self.question,
+            question_is_correct=is_correct,
+            question_data=json.dumps(context, indent=4, ensure_ascii=False,
+                                     cls=DjangoJSONEncoder)
+        )
         return Response(response_dict)
 
 
