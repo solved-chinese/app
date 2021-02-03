@@ -327,8 +327,8 @@ class CNDQuestion(BaseConcreteQuestion):
         })
         return client_dict, server_dict
 
-    def get_absolute_url(self):
-        return f"/content/question/{self.get_general_question().pk}"
+    # def get_absolute_url(self):
+    #    return f"/content/question/{self.get_general_question().pk}"
 
 
 def _handle_text_with_audio(obj):
