@@ -8,6 +8,33 @@ import submitAnswer from '@learning.services/submitAnswer';
 
 import '@learning.styles/ReviewQuestion.css';
 
+// buttons
+const AnswerButton = styled.button`
+    width: 50px;
+    height: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    border: none;
+    font-size: 1.5rem;
+    text-align: center;
+    color: black;
+`;
+
+const ChoiceButton = styled.button`
+    width: 50px;
+    height: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    background-color: white;
+    border-color: gray;
+    font-size: 1.5rem;
+    text-align: center;
+    color: gray;
+`;
+
+//Prompts
 const Description = styled.h1`
     font-size: 1.6em;
     margin-bottom: 40px;
@@ -19,24 +46,31 @@ const Question = styled.h2`
     font-size: 1.5em;
     margin-bottom: 30px;
     text-align: left;
-    font-weight: 400;
+    font-weight: 900;
     color: var(--primary-text);
 `;
 
+//Containers
 const ChoicesContainer = styled.div`
     display: flex;
     text-align: center;
     flex-direction: row;
-    margin-right: 50px;
+    margin-right: auto;
+    margin-left: auto;
     height: 20%;
+    width: 50%;
+    padding-bottom: 1.5em;
 `;
 
 const AnswerContainer = styled.div`
     display: flex;
     text-align:center;
-    background-color: gray;
+    background-color: white;
     flex-direction: row;
-    margin-right: 50px;
+    width: 20%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 1.5em;
     height: 20%;
 `;
 
@@ -62,16 +96,23 @@ const SubmitContainer = styled.div`
 export default function ClickAndDrop(props) {
     const [selected, setSelected] = useState(Array(props.content.answerLength).fill(null))
     const [choices, setChoices] = useState([...props.content.choices.slice()])
+    const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
 
     const onSubmit = () => {
         submitAnswer(props.qid, props.id, selected).then(response => {
-            setCorrectAnswer(response.answer);
-            setChoices(choices.slice().fill(' '))
-            alert("is_correct: " + response.isCorrect);
+            // setCorrectAnswer(response.answer);
+            // setChoices(choices.slice().fill(' '))
+            setIsAnswerCorrect(response.isCorrect);
+            // alert("is_correct: " + response.isCorrect);
         }).catch( msg => {
             console.log(msg);
         });
     };
+
+    var buttonClassName = '';
+    if (isAnswerCorrect != null) {
+        buttonClassName += isAnswerCorrect ? ' cndCorrect' : ' cndIncorrect';
+    }
 
     const setCorrectAnswer = (correctAnswer) => {
         setSelected(correctAnswer);
@@ -81,8 +122,6 @@ export default function ClickAndDrop(props) {
         if (choices[choiceIndex] === null)
             return; // meaningless click on blank
         const selectedIndex = selected.findIndex(value => value===null);
-        if (selectedIndex == -1)
-            return; // meaningless click when selected full
         // make copy
         const newSelected = selected.slice();
         const newChoices = choices.slice();
@@ -91,6 +130,9 @@ export default function ClickAndDrop(props) {
         newChoices[choiceIndex] = null
         setSelected(newSelected);
         setChoices(newChoices);
+        if (selectedIndex == props.content.answerLength-1){
+            onSubmit();
+        } // selected full -> submit
     }
 
     const handleSelectedClick = (selectedIndex) => {
@@ -109,21 +151,21 @@ export default function ClickAndDrop(props) {
 
     const showSelected = (() => {
         return selected.map((value, i) =>
-            <button
+            <AnswerButton
+                className={buttonClassName}
                 key={i}
-                style={{width: '50px', height: '50px'}}
                 onClick={() => {
                     handleSelectedClick(i)
                 }}
             >
                 {value === null? " " : value}
-            </button>
+            </AnswerButton>
         );
     })();
 
     const showChoices = (() => {
         return choices.map((value, i) =>
-            <button
+            <ChoiceButton
                 key={i}
                 style={{width: '50px', height: '50px'}}
                 onClick={() => {
@@ -131,9 +173,12 @@ export default function ClickAndDrop(props) {
                 }}
             >
                 {value === null? " " : value}
-            </button>
+            </ChoiceButton>
         );
     })();
+
+    var correctResponse = 'Correct!';
+    var incorrectResponse = 'Not quite....';
 
     return (
         <div className='question-content'>
@@ -153,21 +198,9 @@ export default function ClickAndDrop(props) {
                 <ChoicesContainer>
                     {showChoices}
                 </ChoicesContainer>
-                <SubmitContainer>
-                    <button
-                        className='choice-button'
-                    >
-                        Skip this term
-                    </button>
-                    <button
-                        className={`choice-button${
-                            selected.every(value => value != null) ? ' active' : ''
-                        }`}
-                        onClick={onSubmit}
-                    >
-                        Submit
-                    </button>
-                </SubmitContainer>
+                <p className={buttonClassName}>
+                    {isAnswerCorrect ? correctResponse : incorrectResponse}
+                </p>
             </div>
         </div>
     );
