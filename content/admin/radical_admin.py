@@ -12,9 +12,12 @@ class RadicalAdmin(GeneralContentAdmin):
     autocomplete_fields = ['audio']
     list_filter = [
         ('is_done', admin.BooleanFieldListFilter),
-        ('character__word__word_set__name', MultiSelectFieldListFilter)
+        ('character__word__word_set__name', MultiSelectFieldListFilter),
+        ('is_learnable', admin.BooleanFieldListFilter),
     ]
+    list_editable = ('is_learnable',)
     list_display = ['id', 'is_done', '__str__', 'pinyin', 'definition',
+                    'is_learnable',
                     'get_image_thumbnail', 'get_character_list_display']
     readonly_fields = ('get_character_list_display', 'get_image_preview')
 

@@ -40,6 +40,8 @@ class Radical(ReviewableMixin, GeneralContentModel):
     explanation = models.TextField(max_length=200,
                                    blank=True, default='TODO')
 
+    is_learnable = models.BooleanField(default=False)
+
     class Meta:
         ordering = ['id']
         unique_together = ['chinese', 'identifier']
