@@ -7,6 +7,8 @@ def update(apps, schema_editor):
     DefinitionInWord = apps.get_model('content', 'DefinitionInWord')
     DefinitionInWord.objects.filter(part_of_speech='').update(part_of_speech=' ')
 
+def backward(apps, schema_editor):
+    pass
 
 class Migration(migrations.Migration):
 
@@ -15,5 +17,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(update)
+        migrations.RunPython(update, backward)
     ]
