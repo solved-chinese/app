@@ -27,7 +27,7 @@ class QuestionView(APIView):
 
     def get(self, request):
         show_all_options = request.session.get('show_all_options', False)
-        client_dict, server_dict = self.question.render(
+        client_dict = self.question.render(
             show_all_options=show_all_options
         )
         question_id = uuid4().hex
@@ -36,38 +36,25 @@ class QuestionView(APIView):
             "form": self.question.question_form,
             "content": client_dict,
         }
-        server_dict.update({
-            "id": question_id,
-            "start_time": timezone.now(),
-            "question_pk": self.question.pk,
-        })
-        request.session['question'] = server_dict
         return Response(client_dict)
 
     def post(self, request):
-        server_dict = request.session.get('question', None)
         data = request.data.copy()
-        question_id = data.pop('id', None)
-        if server_dict is None \
-                or question_id != server_dict.get('id', None) \
-                or self.question.pk != server_dict.get('question_pk', None):
-            return Response(status=status.HTTP_409_CONFLICT)
-        response_dict, is_correct = self.question.check_answer(data,
-                                                               server_dict)
+        is_correct, correct_answer = self.question.check_answer(
+            data.get('answer', None))
         # create Record
         user = request.user if request.user.is_authenticated else None
-        context = {
-            'client': data,
-            'server': server_dict
-        }
         Record.objects.create(
+            action=Record.Action.CORRECT_ANSWER if is_correct
+                else Record.Action.WRONG_ANSWER,
             user=user,
+            reviewable=self.question.reviewable,
             question=self.question,
-            question_is_correct=is_correct,
-            question_data=json.dumps(context, indent=4, ensure_ascii=False,
-                                     cls=DjangoJSONEncoder)
         )
-        return Response(response_dict)
+        return Response({
+            'is_correct': is_correct,
+            'answer': correct_answer,
+        })
 
 
 class LinkedFieldAutocomplete(autocomplete.Select2QuerySetView):

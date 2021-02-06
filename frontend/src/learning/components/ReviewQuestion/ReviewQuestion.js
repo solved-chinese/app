@@ -10,7 +10,7 @@ import {ReviewQuestionDescriptor} from '@interfaces/ReviewQuestion';
 
 /** 
  * Render a review question view using a ReviewQuestionDescriptor.
- * Review questions have three types: multiple choice (MT), fill
+ * Review questions have three types: multiple choice (MC), fill
  * in the blank (FITB), and click and drop (CND). Each review
  * question has a submit button. A user cannot resubmit once a
  * question has been submitted. After submission, the user will

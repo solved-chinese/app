@@ -98,10 +98,7 @@ class BaseConcreteQuestion(models.Model):
             context = None
         if context:
             client_dict['context'] = _handle_text_with_audio(context)
-        server_dict = {
-            'give_context': bool(context),
-        }
-        return client_dict, server_dict
+        return client_dict
 
     @property
     def context(self):
@@ -127,27 +124,6 @@ class BaseConcreteQuestion(models.Model):
         app = self._meta.app_label
         model = self._meta.model_name
         return reverse(f'admin:{app}_{model}_change', args=(self.id,))
-
-    def check_answer(self, request_dict, server_dict):
-        """
-        returns response_dict, is_correct
-        However, be prepared to handle client error
-        """
-        if 'answer' not in request_dict:
-            raise serializers.ValidationError('"answer" not found in request')
-        client_answer = request_dict['answer']
-        server_answer = server_dict['answer']
-        if client_answer is None:
-            is_correct = False
-        else:
-            if isinstance(server_answer, int):
-                client_answer = int(client_answer)
-            is_correct = client_answer == server_dict['answer']
-        response_dict = {
-            'is_correct': is_correct,
-            'answer': server_answer,
-        }
-        return response_dict, is_correct
 
     def get_absolute_url(self):
         return reverse('question_display',
@@ -237,6 +213,12 @@ class MCQuestion(BaseConcreteQuestion):
     question_form = 'MC'
     num_choices = models.PositiveSmallIntegerField(default=4)
 
+    def check_answer(self, client_answer):
+        # TODO error handling
+        correct_answer = self.choices.filter(
+            weight=MCChoice.WeightType.CORRECT).get().value
+        return correct_answer == client_answer, correct_answer
+
     def render(self, show_all_options=False):
         weights = np.array(self.choices.values_list('weight', flat=True))
         total_cnt = len(weights)
@@ -266,15 +248,11 @@ class MCQuestion(BaseConcreteQuestion):
         choices = [choice_list[i].value for i in choice_indexes]
         choice_pks = [choice_list[i].pk for i in choice_indexes]
 
-        client_dict, server_dict = super().render()
+        client_dict = super().render()
         client_dict.update({
             'choices': [_handle_text_with_audio(choice) for choice in choices]
         })
-        server_dict.update({
-            'choice_pks': choice_pks,
-            'answer': answer,
-        })
-        return client_dict, server_dict
+        return client_dict
 
 
 class FITBQuestion(BaseConcreteQuestion):
@@ -291,14 +269,15 @@ class FITBQuestion(BaseConcreteQuestion):
         answer = self.answer_link.value
         if not answer or not title:
             raise ValidationError("answer or extra_information None")
-        client_dict, server_dict = super().render()
+        client_dict = super().render()
         client_dict.update({
             'title': _handle_text_with_audio(title),
         })
-        server_dict.update({
-            'answer': answer,
-        })
-        return client_dict, server_dict
+        return client_dict
+
+    def check_answer(self, client_answer):
+        correct_answer = self.answer_link.value
+        return correct_answer == client_answer, correct_answer
 
 
 class CNDQuestion(BaseConcreteQuestion):
@@ -323,20 +302,18 @@ class CNDQuestion(BaseConcreteQuestion):
             wrong_answers = self.wrong_answers[:wrong_answer_len]
         choices.extend(wrong_answers)
         np.random.shuffle(choices)
-        client_dict, server_dict = super().render()
+        client_dict = super().render()
         client_dict.update({
             'title': _handle_text_with_audio(title),
             'description': self.description,
             'answer_length': len(self.correct_answers),
             'choices': choices
         })
-        server_dict.update({
-            'answer': self.correct_answers,
-        })
-        return client_dict, server_dict
+        return client_dict
 
-    # def get_absolute_url(self):
-    #    return f"/content/question/{self.get_general_question().pk}"
+    def check_answer(self, client_answer):
+        correct_answer = self.correct_answers
+        return correct_answer == client_answer, correct_answer
 
 
 def _handle_text_with_audio(obj):

@@ -65,36 +65,44 @@ export default function MultipleChoice(props) {
         });
     };
 
-    const getChoiceClassName = index => {
+    const getChoiceClassName = value => {
         var name = 'choice-button use-serifs';
-        if (index == selectedAnswer) {
+        if (value == selectedAnswer) {
             if (correctAnswer != null) {
-                name += index == correctAnswer ? ' correct' : ' incorrect';
+                name += value == correctAnswer ? ' correct' : ' incorrect';
             } else {
                 name += ' active';
             }
-        } else if (index == correctAnswer) {
+        } else if (value == correctAnswer) {
             name += ' correct';
         }
         return name;
     };
 
     const choices = (() => {
-        return props.content.choices.map( (v, i) => 
-            <button 
-                key={v.text}
-                className={getChoiceClassName(i)}
+        return props.content.choices.map( (v, i) => {
+            // support value of either string or object
+            var text_value = 'error';
+            if (typeof v == 'string')
+                text_value = v;
+            else if (typeof v == 'object')
+                text_value = v.text;
+
+            return (<button
+                key={text_value}
+                className={getChoiceClassName(text_value)}
                 style={{minWidth: '170px'}}
                 onClick={!submitted ? (() => {
                     if (selectedAnswer != i) {
-                        setSelectedAnswer(i);
+                        setSelectedAnswer(text_value);
                     } else {
                         setSelectedAnswer(null);
                     }
                 }) : null}
             >
-                {v.text}
-            </button>
+                {text_value}
+            </button>)
+        }
         );
     })();
 
