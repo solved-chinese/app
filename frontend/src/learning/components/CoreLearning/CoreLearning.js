@@ -19,25 +19,55 @@ import { ItemDescriptor } from '@interfaces/CoreItem';
  * and display a progress bar on top that shows the user's mastery 
  * of the current set.
  * 
- * @param {Object} props 
+ * @param {Object} props
  * @param {Object} props.progressBar
  * @param {ReviewQuestionDescriptor | ItemDescriptor} props.content
  * @param {String} props.action
  */
 export default function CoreLearning(props) {
+    const qid = props.qid;
+    const url = `/learning/api/${qid}`;
 
-    const [action, setAction] = useState(props.action);
-    const [content, setContent] = useState(props.content);
-    const [progressBar, setProgressBar] = useState(props.progressBar);
+    const [action, setAction] = useState(null);
+    const [content, setContent] = useState(null);
+    const [progressBar, setProgressBar] = useState(null);
+    const [state, setState] = useState(null);
+
+    // FIXME onActionNext is called twice in review, unnecessary
+    // FIXME handle conflict
 
     const onActionNext = () => {
-        getLearningNext();
+        const data = {};
+        if (state != null)
+            data.state = state;
+        getLearningNext(url, data).then(
+            response => {
+                setAction(response.action);
+                setContent(response.content);
+                setProgressBar(response.progressBar);
+                setState(response.state);
+            }
+        )
     };
+
+    const submitAnswer = (answer) => {
+        const data = {
+            answer: answer
+        };
+        if (state != null)
+            data.state = state;
+        return getLearningNext(url, data)
+    };
+
+    useEffect(
+        () => {
+            onActionNext();
+    }, []);
 
     const renderItemDisplay = () => (
         <>
             <ProgressBar {...progressBar} />
-            <ItemDisplay 
+            <ItemDisplay
                 {...content}
                 onActionNext={onActionNext}
             />
@@ -47,9 +77,10 @@ export default function CoreLearning(props) {
     const renderReviewQuestion = () => (
         <>
             <ProgressBar {...progressBar} />
-            <ReviewQuestion 
-                {...content} 
+            <ReviewQuestion
+                question={content}
                 onActionNext={onActionNext}
+                submitAnswer={submitAnswer}
             />
         </>
     );
@@ -60,6 +91,6 @@ export default function CoreLearning(props) {
     case 'display':
         return renderItemDisplay();
     default:
-        break;
+        return "loading";
     }
 }

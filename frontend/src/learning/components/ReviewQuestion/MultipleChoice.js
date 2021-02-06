@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import { MCQuestionContent } from '@interfaces/ReviewQuestion';
-
-import submitAnswer from '@learning.services/submitAnswer';
 
 import '@learning.styles/ReviewQuestion.css';
 
@@ -41,23 +39,25 @@ const SubmitContainer = styled.div`
  * Render a multiple choice (MT) component.
  * @param {Object} props 
  * @param {MCQuestionContent} props.content
- * @param {Number} props.qid
- * @param {String} props.id
- * @param {Boolean} props.hasNext
+ * @param {Function} props.submitAnswer - (answer) => Promise(response)
  * @param {Function} props.onActionNext
- * 
+ *
  * @returns {React.Component} A multiple choice component
  */
 export default function MultipleChoice(props) {
 
     const [selectedAnswer, setSelectedAnswer] = useState(null);
-
     const [correctAnswer, setCorrectAnswer] = useState(null);
-
     const [submitted, setSubmitted] = useState(false);
 
+    useEffect( () => {
+        setSelectedAnswer(null);
+        setCorrectAnswer(null);
+        setSubmitted(false);
+    }, [props])
+
     const onSubmit = () => {
-        submitAnswer(props.qid, props.id, selectedAnswer).then(response => {
+        props.submitAnswer(selectedAnswer).then(response => {
             setCorrectAnswer(response.answer);
             setSubmitted(true);
         }).catch( msg => {
@@ -128,9 +128,9 @@ export default function MultipleChoice(props) {
                         className={`choice-button${
                             selectedAnswer != null || submitted ? ' active' : ''
                         }`}
-                        onClick={submitted && props.hasNext ? props.onActionNext : onSubmit }
+                        onClick={submitted ? props.onActionNext : onSubmit }
                     >
-                        {submitted && props.hasNext ? 'Next' : 'Submit' }
+                        {submitted ? 'Next' : 'Submit' }
                     </button>
                 </SubmitContainer>
             </div>
@@ -141,11 +141,7 @@ export default function MultipleChoice(props) {
 MultipleChoice.propTypes = {
     content: PropTypes.object.isRequired,
 
-    id: PropTypes.string.isRequired,
+    submitAnswer: PropTypes.func.isRequired,
 
-    qid: PropTypes.number.isRequired,
-
-    hasNext: PropTypes.bool,
-
-    onActionNext: PropTypes.func
+    onActionNext: PropTypes.func.isRequired,
 };

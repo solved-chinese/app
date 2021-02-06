@@ -27,11 +27,11 @@ const Row = styled.div`
 /** The main function that renders a character view. */
 export default function CharDisplay(props) {
 
-    const character = useLoadChar( 
+    const character = props.character == null?
+        useLoadChar(
         props.url == null ?
-            `/content/character/${props.qid}` :
-            props.url
-    );
+            `/content/character/${props.qid}` : props.url
+        ) : props.character;
 
     const renderCharacter = () => {
         const definitions = character.definitions.map( v => 
@@ -69,6 +69,11 @@ export default function CharDisplay(props) {
 }
 
 CharDisplay.propTypes = {
+    /** The character object to be rendered, if not provides,
+     *  url will be used to construct the object.
+     */
+    character: PropTypes.object,
+
     /** The URL of the character to be rendered, if it 
      * is not provided, then the qid is used to construct
      * the url. */

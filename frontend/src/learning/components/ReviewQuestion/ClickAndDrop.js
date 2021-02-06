@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -54,17 +54,25 @@ const SubmitContainer = styled.div`
  * Render a CND component.
  * @param {Object} props 
  * @param {CNDQuestionContent} props.content
- * @param {Number} props.qid
- * @param {String} props.id
- * 
+ * @param {Function} props.submitAnswer
+ * @param {Function} props.onActionNext
+ *
  * @returns {React.Component}
  */
 export default function ClickAndDrop(props) {
-    const [selected, setSelected] = useState(Array(props.content.answerLength).fill(null))
-    const [choices, setChoices] = useState([...props.content.choices.slice()])
+    const [selected, setSelected] = useState(null);
+    const [choices, setChoices] = useState();
+    const [submitted, setSubmitted] = useState(false);
+
+    useEffect(() => {
+        setSelected(Array(props.content.answerLength).fill(null));
+        setChoices([...props.content.choices]);
+        setSubmitted(false);
+    }, [props])
 
     const onSubmit = () => {
-        submitAnswer(props.qid, props.id, selected).then(response => {
+        props.submitAnswer(selected).then(response => {
+            setSubmitted(true);
             setCorrectAnswer(response.answer);
             setChoices(choices.slice().fill(' '))
             alert("is_correct: " + response.isCorrect);
@@ -163,9 +171,9 @@ export default function ClickAndDrop(props) {
                         className={`choice-button${
                             selected.every(value => value != null) ? ' active' : ''
                         }`}
-                        onClick={onSubmit}
+                        onClick={submitted? props.onActionNext : onSubmit}
                     >
-                        Submit
+                        {submitted? "Next" : "Submit"}
                     </button>
                 </SubmitContainer>
             </div>
@@ -175,8 +183,6 @@ export default function ClickAndDrop(props) {
 
 ClickAndDrop.propTypes = {
     content: PropTypes.object.isRequired,
-
-    id: PropTypes.string.isRequired,
-
-    qid: PropTypes.number.isRequired
+    onActionNext: PropTypes.func.isRequired,
+    submitAnswer: PropTypes.func.isRequired,
 };

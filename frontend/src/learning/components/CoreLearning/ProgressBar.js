@@ -67,9 +67,7 @@ export default class ProgressBar extends React.Component {
         bonus: PropTypes.number,
     }
 
-    constructor(props){
-        super(props);
-
+    render(){
         this.total = this.props.mastered + this.props.familiar + this.props.remaining + this.props.bonus;
 
         this.bar = {
@@ -96,7 +94,6 @@ export default class ProgressBar extends React.Component {
                 color: 'rgb(85, 162, 30)',
             },
             text2: {
-
                 width: `${this.props.familiar / this.total * 100}%`,
                 color: 'rgb(141, 207, 84)',
             },
@@ -109,9 +106,7 @@ export default class ProgressBar extends React.Component {
                 color: 'rgb(255, 195, 0)',
             }
         };
-    }
 
-    render(){
         return (
             <Body>
                 <BarContainer>

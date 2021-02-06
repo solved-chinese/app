@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -36,9 +36,7 @@ const SubmitContainer = styled.div`
  * Render a fill in the blank (FITB) question.
  * @param {Object} props 
  * @param {FITBQuestionContent} props.content
- * @param {Number} props.qid
- * @param {String} props.id
- * @param {Boolean} props.hasNext
+ * @param {Function} props.submitAnswer
  * @param {Function} props.onActionNext
  * 
  * @returns {React.Component} A FITBQuestion component
@@ -46,12 +44,22 @@ const SubmitContainer = styled.div`
 export default function FITBQuestion(props) {
 
     const [answer, setAnswer] = useState('');
-
+    const [correctAnswer, setCorrectAnswer] = useState(null);
+    const [submitted, setSubmitted] = useState(false);
     const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
 
+    useEffect(() => {
+        setAnswer('');
+        setCorrectAnswer(null);
+        setSubmitted(false);
+        setIsAnswerCorrect(null);
+    }, [props])
+
     const onSubmit = () => {
-        submitAnswer(props.qid, props.id, answer).then(response => {
+        props.submitAnswer(answer).then(response => {
+            setCorrectAnswer(response.answer);
             setIsAnswerCorrect(response.isCorrect);
+            setSubmitted(true);
         }).catch( msg => {
             console.log(msg);
         });
@@ -85,9 +93,9 @@ export default function FITBQuestion(props) {
                         className={`choice-button${
                             answer != '' ? ' active' : ''
                         }`}
-                        onClick={onSubmit}
+                        onClick={submitted? props.onActionNext : onSubmit}
                     >
-                        Submit
+                        {submitted? 'Next' : 'Submit'}
                     </button>
                 </SubmitContainer>
             </div>
@@ -97,8 +105,6 @@ export default function FITBQuestion(props) {
 
 FITBQuestion.propTypes = {
     content: PropTypes.object.isRequired,
-
-    qid: PropTypes.number.isRequired,
-
-    id: PropTypes.string.isRequired
+    onActionNext: PropTypes.func.isRequired,
+    submitAnswer: PropTypes.func.isRequired,
 };

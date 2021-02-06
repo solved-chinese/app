@@ -29,11 +29,24 @@ export default function ItemDisplay(props) {
         }
     };
 
+    const renderNext = () => {
+        if ("onActionNext" in props)
+            return (
+                <button onClick={props.onActionNext}>
+                    next
+                </button>
+            )
+        return;
+    }
+
     return (
-        <div className='content-card-container
-        box-shadow'>
-            { renderSwitch(props.type, props.qid) }
-        </div>
+        <>
+            { renderNext() }
+            <div className='content-card-container
+            box-shadow'>
+                { renderSwitch(props.type, props.qid) }
+            </div>
+        </>
     );
 }
 
