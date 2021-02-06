@@ -5,7 +5,8 @@ from .models import Record
 
 @admin.register(Record)
 class RecordAdmin(admin.ModelAdmin):
-    list_display = ['user', 'question_is_correct', 'question']
+    list_display = ('user', 'action', 'reviewable', 'question')
+    search_fields = ('user__username__exact',)
 
     def has_add_permission(self, request):
         return False
