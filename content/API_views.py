@@ -30,12 +30,6 @@ class QuestionView(APIView):
         client_dict = self.question.render(
             show_all_options=show_all_options
         )
-        question_id = uuid4().hex
-        client_dict = {
-            "id": question_id,
-            "form": self.question.question_form,
-            "content": client_dict,
-        }
         return Response(client_dict)
 
     def post(self, request):
