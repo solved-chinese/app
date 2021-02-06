@@ -60,8 +60,8 @@ const SubmitContainer = styled.div`
  * @returns {React.Component}
  */
 export default function ClickAndDrop(props) {
-    const [selected, setSelected] = useState(null);
-    const [choices, setChoices] = useState();
+    const [selected, setSelected] = useState(Array(props.content.answerLength).fill(null));
+    const [choices, setChoices] = useState([...props.content.choices]);
     const [submitted, setSubmitted] = useState(false);
 
     useEffect(() => {
