@@ -239,3 +239,9 @@ class LearningProcess(models.Model):
     def state(self, value):
         assert issubclass(value, AbstractLearningState)
         self.state_type = value.id
+
+    def __str__(self):
+        return repr(self)
+
+    def __repr__(self):
+        return f"<LP {self.pk}: {repr(self.user)}&{repr(self.wordset)}>"

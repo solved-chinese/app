@@ -39,3 +39,9 @@ class UserReviewable(models.Model):
             self.data['learning_process'].append(process.pk)
             return True
         return False
+
+    def __str__(self):
+        return repr(self)
+
+    def __repr__(self):
+        return f"<UR {self.pk}: {repr(self.user)}'s {repr(self.reviewable)}>"
