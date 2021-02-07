@@ -152,6 +152,9 @@ class ReviewState(AbstractLearningState):
             reviewable=question.reviewable,
             learning_process=process,
             question=question,
+            data={
+                'answer': data.get('answer', None)
+            }
         )
         if not is_correct:
             # move the question to the end of review object

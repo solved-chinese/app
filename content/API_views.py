@@ -44,6 +44,9 @@ class QuestionView(APIView):
             user=user,
             reviewable=self.question.reviewable,
             question=self.question,
+            data={
+                'answer': data.get('answer', None)
+            }
         )
         return Response({
             'is_correct': is_correct,
