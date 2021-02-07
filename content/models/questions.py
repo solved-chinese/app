@@ -61,7 +61,11 @@ class GeneralQuestion(models.Model):
 
     def __getattr__(self, item):
         """ redirects requests to concrete question """
-        return getattr(self.concrete_question, item)
+        allowed_delegations = ('render', 'check_answer', 'question_form',
+                               'question_type')
+        if item in allowed_delegations:
+            return getattr(self.concrete_question, item)
+        raise AttributeError(item)
 
 
 class BaseConcreteQuestion(models.Model):
