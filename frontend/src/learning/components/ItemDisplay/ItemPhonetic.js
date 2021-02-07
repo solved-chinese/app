@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
+// npm install hanzi-writer, Hanzi object created on line 56
+import HanziWriter from 'hanzi-writer';
 import '@learning.styles/ItemDisplay.css';
 
 const Container = styled.div`
@@ -48,9 +49,36 @@ export default class ItemPhonetic extends React.Component {
         this.audio = new Audio(props.audioURL);
         // Add slashes at the beginning and the end
         this.pinyin = `/${this.props.pinyin}/`;
+        this.item = `${this.props.item}`;
+
+        // Is it possible to contruct writer component in constructor?
+
+        // this.writer1 = HanziWriter.create('div-1', '我', {
+        //     width: 100,
+        //     height: 100,
+        //     padding: 5,
+        //     showOutline: true
+        // });
+
         
     }
-
+    
+    // Temporary half-solution
+    // Because ItemPhonetic is used by WordBreakdown and PopUp,
+    // componentDidMount will mount them at once (all stacks on one spot)? 
+    // Maybe mount and unmount every call?
+    //
+    componentDidMount (){
+        var writer = HanziWriter.create('div-writer', this.item, {
+            width: 100,
+            height: 100,
+            padding: 5,
+            showOutline: true
+        });
+        document.getElementById('div-writer').addEventListener('click', function() {
+            writer.animateCharacter();
+        });
+    }
 
     play() {
         this.audio.play();
@@ -67,7 +95,10 @@ export default class ItemPhonetic extends React.Component {
                     ></SpeakButton>
                 </Phonetic>
                 <WordContainer className='use-chinese'>
-                    { this.props.item }
+                    {/* { this.item } */}
+                    {/* Writer Div here */}
+                    <div id='div-writer' style={{cursor: 'grab'}}></div> 
+                    
                 </WordContainer>
             </Container>
         );
