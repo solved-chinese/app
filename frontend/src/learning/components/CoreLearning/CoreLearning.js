@@ -90,6 +90,8 @@ export default function CoreLearning(props) {
         return renderReviewQuestion();
     case 'display':
         return renderItemDisplay();
+    case 'done':
+        return "Done Learning";
     default:
         return "loading";
     }

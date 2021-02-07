@@ -55,7 +55,17 @@ export default function FITBQuestion(props) {
         setIsAnswerCorrect(null);
     }, [props])
 
+    const enterListener = event => {
+      if (event.code === "Enter" || event.code === "NumpadEnter") {
+        onSubmit();
+      }
+    }
+
     const onSubmit = () => {
+        if (submitted) {
+            props.onActionNext();
+            return;
+        }
         props.submitAnswer(answer).then(response => {
             setCorrectAnswer(response.answer);
             setIsAnswerCorrect(response.isCorrect);
@@ -65,7 +75,7 @@ export default function FITBQuestion(props) {
         });
     };
 
-    var inputClassName = 'question-text-field use-chinese';
+    let inputClassName = 'question-text-field use-chinese';
     if (isAnswerCorrect != null) {
         inputClassName += isAnswerCorrect ? ' correct' : ' incorrect';
     }
@@ -74,8 +84,10 @@ export default function FITBQuestion(props) {
         <div className='question-content'>
             <div style={{width: '100%'}}>
                 <Question>{props.content.question.text}</Question>
-                <input 
-                    className={ inputClassName } 
+                <input
+                    autoFocus
+                    onKeyDown={ enterListener }
+                    className={ inputClassName }
                     onChange={ e => setAnswer(e.target.value) }
                 ></input>
                 <Title 
@@ -85,15 +97,10 @@ export default function FITBQuestion(props) {
                 </Title>
                 <SubmitContainer>
                     <button
-                        className='choice-button'
-                    >
-                        Skip this Term
-                    </button>
-                    <button
                         className={`choice-button${
                             answer != '' ? ' active' : ''
                         }`}
-                        onClick={submitted? props.onActionNext : onSubmit}
+                        onClick={onSubmit}
                     >
                         {submitted? 'Next' : 'Submit'}
                     </button>
