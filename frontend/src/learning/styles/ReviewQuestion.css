@@ -101,21 +101,23 @@ button.choice-button:hover {
 
 /* CND */
 button.cndIncorrect {
-    background-color: #ff6300;
+    background-color: rgb(238,109,0);
     color: white;
+    transition: 0.2s;
 }
 
 button.cndCorrect {
-    background-color: #54A21E;
+    background-color: rgb(103,158,59);
     color:#ebebeb;
+    transition: 0.2s;
 }
 
 p.cndCorrect {
-    color:#54A21E;
+    color:rgb(103,158,59);
     text-align: center;
 }
 
 p.cndIncorrect {
-    color:#ff6300;
+    color:rgb(238,109,0);
     text-align: center;
 }

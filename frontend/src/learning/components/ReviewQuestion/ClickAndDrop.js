@@ -8,6 +8,7 @@ import submitAnswer from '@learning.services/submitAnswer';
 
 import '@learning.styles/ReviewQuestion.css';
 
+import {correctResponse, incorrectResponse} from './AnswerResponse';
 // buttons
 const AnswerButton = styled.button`
     width: 50px;
@@ -19,6 +20,8 @@ const AnswerButton = styled.button`
     font-size: 1.5rem;
     text-align: center;
     color: black;
+    outline: none;
+    box-shadow:none;
 `;
 
 const ChoiceButton = styled.button`
@@ -32,6 +35,8 @@ const ChoiceButton = styled.button`
     font-size: 1.5rem;
     text-align: center;
     color: gray;
+    outline: none;
+    box-shadow: none;
 `;
 
 //Prompts
@@ -80,17 +85,18 @@ const SubmitContainer = styled.div`
     flex-wrap: nowrap;
     justify-content: space-between;
     font-size: 14px;
-
     width: 100%;
 `;
 
+const ResponseContainer = styled.div`
+    text-align: center;
+`;
 /**
  * Render a CND component.
  * @param {Object} props 
  * @param {CNDQuestionContent} props.content
  * @param {Number} props.qid
  * @param {String} props.id
- * 
  * @returns {React.Component}
  */
 export default function ClickAndDrop(props) {
@@ -111,7 +117,7 @@ export default function ClickAndDrop(props) {
 
     var buttonClassName = '';
     if (isAnswerCorrect != null) {
-        buttonClassName += isAnswerCorrect ? ' cndCorrect' : ' cndIncorrect';
+        buttonClassName += isAnswerCorrect==true ? ' cndCorrect' : ' cndIncorrect';
     }
 
     const setCorrectAnswer = (correctAnswer) => {
@@ -119,9 +125,13 @@ export default function ClickAndDrop(props) {
     };
 
     const handleChoiceClick = (choiceIndex) => {
-        if (choices[choiceIndex] === null)
+        if (choices[choiceIndex] === null){
             return; // meaningless click on blank
+        }
         const selectedIndex = selected.findIndex(value => value===null);
+        if (selectedIndex == -1){
+            return; // select full
+        }
         // make copy
         const newSelected = selected.slice();
         const newChoices = choices.slice();
@@ -130,24 +140,25 @@ export default function ClickAndDrop(props) {
         newChoices[choiceIndex] = null
         setSelected(newSelected);
         setChoices(newChoices);
-        if (selectedIndex == props.content.answerLength-1){
-            onSubmit();
-        } // selected full -> submit
-    }
+    };
 
     const handleSelectedClick = (selectedIndex) => {
-        if (selected[selectedIndex] === null)
+        if (selected[selectedIndex] === null){
             return; // meaningless click on blank
+        }
+        if (selectedIndex == -1){
+            return; //select full
+        }
         // make copy
         const newSelected = selected.slice();
         const newChoices = choices.slice();
         // move selected choice to choices
         const choiceIndex = choices.findIndex(value => value===null);
         newChoices[choiceIndex] = newSelected[selectedIndex];
-        newSelected[selectedIndex] = null
+        newSelected[selectedIndex] = null;
         setSelected(newSelected);
         setChoices(newChoices);
-    }
+    };
 
     const showSelected = (() => {
         return selected.map((value, i) =>
@@ -155,7 +166,10 @@ export default function ClickAndDrop(props) {
                 className={buttonClassName}
                 key={i}
                 onClick={() => {
-                    handleSelectedClick(i)
+                    handleSelectedClick(i);
+                    // if(selected.every(value => value != null)){
+                    //     onSubmit();
+                    // }
                 }}
             >
                 {value === null? " " : value}
@@ -169,7 +183,10 @@ export default function ClickAndDrop(props) {
                 key={i}
                 style={{width: '50px', height: '50px'}}
                 onClick={() => {
-                    handleChoiceClick(i)
+                    handleChoiceClick(i);
+                    // if(selected.every(value => value != null)){
+                    //     onSubmit();
+                    // }
                 }}
             >
                 {value === null? " " : value}
@@ -177,8 +194,18 @@ export default function ClickAndDrop(props) {
         );
     })();
 
-    var correctResponse = 'Correct!';
-    var incorrectResponse = 'Not quite....';
+    const showResponses = (() => {
+        if(isAnswerCorrect==true){
+            return(<p className='correct'>
+                {correctResponse[Math.floor(Math.random() * correctResponse.length)]}
+            </p>);
+        }
+        else{
+            return( <p className='incorrect'>
+                {incorrectResponse[Math.floor(Math.random() * incorrectResponse.length)]}
+            </p>);
+        }
+    });
 
     return (
         <div className='question-content'>
@@ -198,9 +225,24 @@ export default function ClickAndDrop(props) {
                 <ChoicesContainer>
                     {showChoices}
                 </ChoicesContainer>
-                <p className={buttonClassName}>
-                    {isAnswerCorrect ? correctResponse : incorrectResponse}
-                </p>
+                <SubmitContainer>
+                    <button
+                        className='choice-button'
+                    >
+                        Skip this term
+                    </button>
+                    <button
+                        className={`choice-button${
+                            selected.every(value => value != null) ? ' active' : ''
+                        }`}
+                        onClick={onSubmit}
+                    >
+                        Submit
+                    </button>
+                </SubmitContainer>
+                <ResponseContainer>
+                {showResponses}
+                </ResponseContainer>
             </div>
         </div>
     );
