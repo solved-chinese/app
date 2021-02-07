@@ -48,7 +48,8 @@ class DecideState(AbstractLearningState):
         elif can_review and not can_learn:
             process.state = ReviewState
         else:
-            learn_prob = 1 - review_cnt / MAX_REVIEW_NUM
+            learn_prob = max(0.0, 1 - review_cnt / MAX_REVIEW_NUM)
+            learn_prob **= 2
             if random.random() < learn_prob:
                 process.state = LearnState
             else:
@@ -78,6 +79,11 @@ class LearnState(AbstractLearningState):
             if can_add_bonus:
                 assert ur.bind_to_process(process)
                 learn_queue.insert(0, ur.reviewable.pk)
+                # record bonus
+                process.data['progress_bar']['bonus'] += 1
+        if learned_object.word:
+            process.data['progress_bar']['remaining'] -= 1
+            process.data['progress_bar']['familiar'] += 1
         # add questions if applicable
         if learned_object.questions.exists():
             process.data['review_queue'].append(
@@ -157,6 +163,9 @@ class ReviewState(AbstractLearningState):
         # move the review object to the end if any question left
         if object_review_queue:
             review_queue.append(object_review_queue)
+        elif question.reviewable.word:  # graduate this word
+            process.data['progress_bar']['mastered'] += 1
+            process.data['progress_bar']['familiar'] -= 1
         return {
             'is_correct': is_correct,
             'answer': correct_answer
@@ -206,12 +215,7 @@ class LearningProcess(models.Model):
         self.state_id = uuid4()
         self.save()
         response['state'] = self.state_id.hex
-        response['progressBar'] = {
-            'mastered': 1,
-            'familiar': 2,
-            'remaining': 3,
-            'bonus': 4,
-        }
+        response['progressBar'] = self.data['progress_bar'].copy()
         return response
 
     @classmethod
@@ -219,6 +223,12 @@ class LearningProcess(models.Model):
         obj, created = cls.objects.get_or_create(user=user, wordset=wordset)
         if created:
             obj.data = {
+                'progress_bar': {
+                    'mastered': 0,
+                    'familiar': 0,
+                    'remaining': obj.wordset.words.count(),
+                    'bonus': 0,
+                },
                 # list of list of GeneralQuestion pks
                 'review_queue': list(),
                 # list of ReviewableObject pks
