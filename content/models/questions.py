@@ -282,6 +282,10 @@ class FITBQuestion(BaseConcreteQuestion):
 
     def check_answer(self, client_answer):
         correct_answer = self.answer_link.value
+        try:
+            client_answer = client_answer.strip()
+        except AttributeError:
+            logging.error(exc_info=True)
         return correct_answer == client_answer, correct_answer
 
 
