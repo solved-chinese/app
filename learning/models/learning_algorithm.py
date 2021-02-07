@@ -101,7 +101,14 @@ class LearnState(AbstractLearningState):
         pk2learn = process.data['learn_queue'][0]
         reviewable = get_object_or_404(ReviewableObject,
                                        pk=pk2learn)
-        return reviewable.render()
+        if reviewable.word:
+            LearnState.handle_request(process, {})
+            process.data['review_queue'].insert(
+                0, process.data['review_queue'].pop())
+            process.state = ReviewState
+            return ReviewState.generate_response(process)
+        else:
+            return reviewable.render()
 
 
 class RelearnState(AbstractLearningState):
