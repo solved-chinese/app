@@ -39,6 +39,7 @@ class UserReviewable(models.Model):
         if self.reviewable.word or not self.data['learning_process']:
             self.data['learning_process'].append(process.pk)
             self.save()
+            return True
         return False
 
     def __str__(self):
