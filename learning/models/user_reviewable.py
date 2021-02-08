@@ -8,6 +8,7 @@ class UserReviewableManager(models.Manager):
             obj.data = {
                 'learning_process': []
             }
+            obj.save()
         return obj, created
 
 
@@ -37,7 +38,7 @@ class UserReviewable(models.Model):
     def bind_to_process(self, process):
         if self.reviewable.word or not self.data['learning_process']:
             self.data['learning_process'].append(process.pk)
-            return True
+            self.save()
         return False
 
     def __str__(self):
