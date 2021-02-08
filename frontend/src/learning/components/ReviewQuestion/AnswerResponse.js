@@ -1,15 +1,39 @@
+import React from 'react';
+import '@learning.styles/ReviewQuestion.css';
+
 const { array } = require("prop-types");
 
-var correctResponse = new Array(
-    'Good job! \U+1F389',
-    'Correct! \U+1F3C6',
-    'Nice work! \U+1F973',
-    'Lets go \U+1F929'
+const correctResponse = new Array(
+    'Good job! \u{1F389}',
+    'Correct! \u{1F3C6}',
+    'Nice work! \u{1F973}',
+    'Lets go \u{1F929}'
 );
 
-var incorrectResponse = new Array(
-    'Uh oh, try again \U+1F389',
-    'Not quite... \U+1F914',
-    'Ah, almost there! \U+1F62B',
-    'Try again, you got this! \U+1F389'
+const incorrectResponse = new Array(
+    'Uh oh, try again \u{1F389}',
+    'Not quite... \u{1F914}',
+    'Ah, almost there! \u{1F62B}',
+    'Try again, you got this! \u{1F389}'
 );
+
+/**
+ *
+ * @param props
+ * @param {boolean} props.correct
+ * @returns {React.Component}
+ */
+export default function AnswerResponse(props) {
+    if(props.correct)
+        return (
+            <p className='answerCorrect'>
+                {correctResponse[Math.floor(Math.random() * correctResponse.length)]}
+            </p>
+        );
+    else
+        return (
+            <p className='answerIncorrect'>
+                {incorrectResponse[Math.floor(Math.random() * incorrectResponse.length)]}
+            </p>
+        );
+}

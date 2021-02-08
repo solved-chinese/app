@@ -4,10 +4,18 @@ from django.shortcuts import reverse
 
 from .general_content_model import AdminUrlMixin
 
+
 __all__ = ['ReviewableMixin', 'ReviewableObject']
 
 
 class ReviewableMixin:
+    def render(self):
+        return {
+            'action': 'display',
+            'content': {'type': self.__class__.__name__.lower(),
+                        'qid': self.pk}
+        }
+
     def get_absolute_url(self):
         return reverse(f'{self.__class__.__name__.lower()}_display',
                        args=(self.pk,))
@@ -27,6 +35,21 @@ class ReviewableObject(AdminUrlMixin, models.Model):
     word = models.OneToOneField('Word', blank=True, null=True,
                                 related_name='reviewable',
                                 on_delete=models.CASCADE)
+
+    def get_bonuses(self):
+        from .radical import Radical
+        if self.word:
+            bonuses = [
+                *self.word.characters.distinct(),
+                *Radical.objects.filter(is_learnable=True,
+                                        character__word=self.word).distinct(),
+            ]
+            return [bonus.get_reviewable_object() for bonus in bonuses]
+        elif self.character:
+            return [radical.get_reviewable_object()
+                    for radical in self.character.radicals.distinct()]
+        else:
+            return []
 
     def clean(self):
         i = iter([self.radical, self.character, self.word])
@@ -52,3 +75,8 @@ class ReviewableObject(AdminUrlMixin, models.Model):
 
     def __str__(self):
         return repr(self)
+
+    def __getattr__(self, item):
+        if item in ('render',):
+            return getattr(self.concrete_object, item)
+        raise AttributeError

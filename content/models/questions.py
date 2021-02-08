@@ -1,3 +1,4 @@
+from uuid import uuid4
 import logging
 import numpy as np
 
@@ -60,7 +61,12 @@ class GeneralQuestion(models.Model):
 
     def __getattr__(self, item):
         """ redirects requests to concrete question """
-        return getattr(self.concrete_question, item)
+        allowed_delegations = ('render', 'check_answer', 'question_form',
+                               'question_type', 'get_admin_url',
+                               'get_absolute_url')
+        if item in allowed_delegations:
+            return getattr(self.concrete_question, item)
+        raise AttributeError(item)
 
 
 class BaseConcreteQuestion(models.Model):
@@ -86,9 +92,10 @@ class BaseConcreteQuestion(models.Model):
     class Meta:
         abstract = True
 
-    def render(self):
+    def render(self, show_all_options=False):
         client_dict = {
             'question': _handle_text_with_audio(self.question),
+            **self._render(show_all_options=show_all_options)
         }
         context = self.context
         if self.context_option == self.ContextOption.MUST_SHOW:
@@ -98,10 +105,11 @@ class BaseConcreteQuestion(models.Model):
             context = None
         if context:
             client_dict['context'] = _handle_text_with_audio(context)
-        server_dict = {
-            'give_context': bool(context),
+        return {
+            'id': uuid4().hex,  # FIXME legacy in frontend, remove soon
+            'form': self.question_form,
+            'content': client_dict
         }
-        return client_dict, server_dict
 
     @property
     def context(self):
@@ -127,27 +135,6 @@ class BaseConcreteQuestion(models.Model):
         app = self._meta.app_label
         model = self._meta.model_name
         return reverse(f'admin:{app}_{model}_change', args=(self.id,))
-
-    def check_answer(self, request_dict, server_dict):
-        """
-        returns response_dict, is_correct
-        However, be prepared to handle client error
-        """
-        if 'answer' not in request_dict:
-            raise serializers.ValidationError('"answer" not found in request')
-        client_answer = request_dict['answer']
-        server_answer = server_dict['answer']
-        if client_answer is None:
-            is_correct = False
-        else:
-            if isinstance(server_answer, int):
-                client_answer = int(client_answer)
-            is_correct = client_answer == server_dict['answer']
-        response_dict = {
-            'is_correct': is_correct,
-            'answer': server_answer,
-        }
-        return response_dict, is_correct
 
     def get_absolute_url(self):
         return reverse('question_display',
@@ -237,7 +224,13 @@ class MCQuestion(BaseConcreteQuestion):
     question_form = 'MC'
     num_choices = models.PositiveSmallIntegerField(default=4)
 
-    def render(self, show_all_options=False):
+    def check_answer(self, client_answer):
+        # TODO error handling
+        correct_answer = self.choices.filter(
+            weight=MCChoice.WeightType.CORRECT).get().value
+        return correct_answer == client_answer, correct_answer
+
+    def _render(self, show_all_options=False):
         weights = np.array(self.choices.values_list('weight', flat=True))
         total_cnt = len(weights)
         if total_cnt < self.num_choices:
@@ -264,17 +257,9 @@ class MCQuestion(BaseConcreteQuestion):
 
         choice_list = list(self.choices.all())
         choices = [choice_list[i].value for i in choice_indexes]
-        choice_pks = [choice_list[i].pk for i in choice_indexes]
-
-        client_dict, server_dict = super().render()
-        client_dict.update({
-            'choices': [_handle_text_with_audio(choice) for choice in choices]
-        })
-        server_dict.update({
-            'choice_pks': choice_pks,
-            'answer': answer,
-        })
-        return client_dict, server_dict
+        return {
+            'choices': [choice for choice in choices]
+        }
 
 
 class FITBQuestion(BaseConcreteQuestion):
@@ -286,19 +271,22 @@ class FITBQuestion(BaseConcreteQuestion):
                                     on_delete=models.CASCADE,
                                     related_name='+')
 
-    def render(self, show_all_options=False):
+    def _render(self, show_all_options=False):
         title = self.title_link.value
         answer = self.answer_link.value
         if not answer or not title:
             raise ValidationError("answer or extra_information None")
-        client_dict, server_dict = super().render()
-        client_dict.update({
+        return {
             'title': _handle_text_with_audio(title),
-        })
-        server_dict.update({
-            'answer': answer,
-        })
-        return client_dict, server_dict
+        }
+
+    def check_answer(self, client_answer):
+        correct_answer = self.answer_link.value
+        try:
+            client_answer = client_answer.strip()
+        except AttributeError:
+            logging.error(exc_info=True)
+        return correct_answer == client_answer, correct_answer
 
 
 class CNDQuestion(BaseConcreteQuestion):
@@ -311,7 +299,7 @@ class CNDQuestion(BaseConcreteQuestion):
     wrong_answers = ArrayField(models.CharField(max_length=5))
     choice_num = models.PositiveSmallIntegerField(default=5)
 
-    def render(self, show_all_options=False):
+    def _render(self, show_all_options=False):
         title = self.title_link.value
         if not self.correct_answers:
             raise ValidationError("no correct_answers")
@@ -323,20 +311,16 @@ class CNDQuestion(BaseConcreteQuestion):
             wrong_answers = self.wrong_answers[:wrong_answer_len]
         choices.extend(wrong_answers)
         np.random.shuffle(choices)
-        client_dict, server_dict = super().render()
-        client_dict.update({
+        return {
             'title': _handle_text_with_audio(title),
             'description': self.description,
             'answer_length': len(self.correct_answers),
             'choices': choices
-        })
-        server_dict.update({
-            'answer': self.correct_answers,
-        })
-        return client_dict, server_dict
+        }
 
-    # def get_absolute_url(self):
-    #    return f"/content/question/{self.get_general_question().pk}"
+    def check_answer(self, client_answer):
+        correct_answer = self.correct_answers
+        return correct_answer == client_answer, correct_answer
 
 
 def _handle_text_with_audio(obj):

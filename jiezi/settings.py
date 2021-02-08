@@ -1,51 +1,30 @@
 """
-This contains the settings for this project, it is supposed to be kept in
-jiezi_secret and never committed to public git
+This contains the default settings for this project,
+for local / secret settings, please put under jiezi_secret.secret,
+which will overwrite this file (see file end)
 """
 
 import os
-from jiezi_secret import secret # this is jiezi secret file
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = secret.SECRET_KEY
+# use this function to generate a secret key
+# from django.core.management.utils import get_random_secret_key
+# and put it under your secret file
+SECRET_KEY = 'm$0#1ups4&_x0xti^mjs=2eqgcqex0nlbo01s02zo6b&o68+)2'
 
-try:
-    DEBUG = secret.DEBUG # this is set to true on production server
-except AttributeError:
-    DEBUG = True
-SESSION_COOKIE_SECURE = not DEBUG
-SECURE_SSL_REDIRECT = not DEBUG
-
-if not DEBUG:
-    try:
-        import sentry_sdk
-        from sentry_sdk.integrations.django import DjangoIntegration
-
-        sentry_sdk.init(
-            dsn="https://8f1f521c155c42b5be26ae38e24f330a@o479182.ingest.sentry.io/5523357",
-            integrations=[DjangoIntegration()],
-            traces_sample_rate=1.0,
-
-            # If you wish to associate users to errors (assuming you are using
-            # django.contrib.auth) you may enable sending PII data.
-            send_default_pii=True
-        )
-    except ModuleNotFoundError:
-        pass
-
-try:
-    MEDIA_REDIRECT = secret.MEDIA_REDIRECT
-except AttributeError:
-    MEDIA_REDIRECT = 'https://dev.solvedchinese.org/media/'
+DEBUG = True
+SESSION_COOKIE_SECURE = False
+SECURE_SSL_REDIRECT = False
 
 
-try:
-    ALLOWED_HOSTS = secret.ALLOWED_HOSTS
-except AttributeError:
-    ALLOWED_HOSTS = ['127.0.0.1']
+# by default, we redirect all media to dev, set to None if not needed
+MEDIA_REDIRECT = 'https://dev.solvedchinese.org/media/'
+
+
+ALLOWED_HOSTS = ['127.0.0.1']
+
 
 # Application definition
 INSTALLED_APPS = [
@@ -125,10 +104,6 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-try:
-    DATABASES.update(secret.DATABASES)
-except AttributeError:
-    pass
 
 CACHES = {
     'default': {
@@ -171,8 +146,8 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 
 
-LOGIN_REDIRECT_URL='/'
-AUTH_USER_MODEL='accounts.User'
+LOGIN_REDIRECT_URL = '/'
+AUTH_USER_MODEL = 'accounts.User'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -199,18 +174,12 @@ MANAGERS = [('chenyx', 'chenyx@solvedchinese.org')]
 
 # email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-try:
-    EMAIL_HOST = secret.EMAIL_HOST
-    EMAIL_PORT = secret.EMAIL_PORT
-    EMAIL_HOST_USER = secret.EMAIL_HOST_USER
-    EMAIL_HOST_PASSWORD = secret.EMAIL_HOST_PASSWORD
-except AttributeError:
-    pass
 EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = '解字 Solved Chinese<noreply@solvedchinese.org>'
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
-""" Here begins jiezi custom settings """
-# put the secert key in this path
-DATAFILE_SERVICE_ACCOUNT_FILE_PATH = os.path.join(BASE_DIR,
-    'jiezi_secret/datafile_service_account.json')
+# overwrite with local secret setting
+try:
+    from jiezi_secret.secret import *
+except (ModuleNotFoundError, ImportError, AttributeError):
+    pass

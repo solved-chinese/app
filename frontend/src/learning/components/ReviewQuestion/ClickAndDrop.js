@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -8,7 +8,8 @@ import submitAnswer from '@learning.services/submitAnswer';
 
 import '@learning.styles/ReviewQuestion.css';
 
-import {correctResponse, incorrectResponse} from './AnswerResponse';
+import AnswerResponse from './AnswerResponse';
+
 // buttons
 const AnswerButton = styled.button`
     width: 50px;
@@ -95,34 +96,47 @@ const ResponseContainer = styled.div`
  * Render a CND component.
  * @param {Object} props 
  * @param {CNDQuestionContent} props.content
- * @param {Number} props.qid
- * @param {String} props.id
+ * @param {Function} props.submitAnswer
+ * @param {Function} props.onActionNext
+ *
  * @returns {React.Component}
  */
 export default function ClickAndDrop(props) {
-    const [selected, setSelected] = useState(Array(props.content.answerLength).fill(null))
-    const [choices, setChoices] = useState([...props.content.choices.slice()])
+    const [selected, setSelected] = useState(Array(props.content.answerLength).fill(null));
+    const [choices, setChoices] = useState([...props.content.choices]);
+    const [submitted, setSubmitted] = useState(false);
     const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
 
+    useEffect(() => {
+        setSelected(Array(props.content.answerLength).fill(null));
+        setChoices([...props.content.choices]);
+        setSubmitted(false);
+        setIsAnswerCorrect(null);
+    }, [props])
+
+    useEffect(() => {
+        if (selected.every(value => value != null))
+            onSubmit();
+    }, [selected])
+
     const onSubmit = () => {
-        submitAnswer(props.qid, props.id, selected).then(response => {
-            // setCorrectAnswer(response.answer);
-            // setChoices(choices.slice().fill(' '))
+        if (submitted)
+            return;
+        props.submitAnswer(selected).then(response => {
+            setSubmitted(true);
+            setSelected(response.answer);
+            setChoices(props.content.choices.filter(
+                value => !response.answer.includes(value)));
             setIsAnswerCorrect(response.isCorrect);
-            // alert("is_correct: " + response.isCorrect);
         }).catch( msg => {
             console.log(msg);
         });
     };
 
-    var buttonClassName = '';
+    let buttonClassName = '';
     if (isAnswerCorrect != null) {
-        buttonClassName += isAnswerCorrect==true ? ' cndCorrect' : ' cndIncorrect';
+        buttonClassName += isAnswerCorrect ? ' cndCorrect' : ' cndIncorrect';
     }
-
-    const setCorrectAnswer = (correctAnswer) => {
-        setSelected(correctAnswer);
-    };
 
     const handleChoiceClick = (choiceIndex) => {
         if (choices[choiceIndex] === null){
@@ -167,9 +181,6 @@ export default function ClickAndDrop(props) {
                 key={i}
                 onClick={() => {
                     handleSelectedClick(i);
-                    // if(selected.every(value => value != null)){
-                    //     onSubmit();
-                    // }
                 }}
             >
                 {value === null? " " : value}
@@ -184,9 +195,6 @@ export default function ClickAndDrop(props) {
                 style={{width: '50px', height: '50px'}}
                 onClick={() => {
                     handleChoiceClick(i);
-                    // if(selected.every(value => value != null)){
-                    //     onSubmit();
-                    // }
                 }}
             >
                 {value === null? " " : value}
@@ -194,18 +202,6 @@ export default function ClickAndDrop(props) {
         );
     })();
 
-    const showResponses = (() => {
-        if(isAnswerCorrect==true){
-            return(<p className='correct'>
-                {correctResponse[Math.floor(Math.random() * correctResponse.length)]}
-            </p>);
-        }
-        else{
-            return( <p className='incorrect'>
-                {incorrectResponse[Math.floor(Math.random() * incorrectResponse.length)]}
-            </p>);
-        }
-    });
 
     return (
         <div className='question-content'>
@@ -227,21 +223,15 @@ export default function ClickAndDrop(props) {
                 </ChoicesContainer>
                 <SubmitContainer>
                     <button
-                        className='choice-button'
+                        className="choice-button"
+                        hidden={!submitted}
+                        onClick={props.onActionNext}
                     >
-                        Skip this term
-                    </button>
-                    <button
-                        className={`choice-button${
-                            selected.every(value => value != null) ? ' active' : ''
-                        }`}
-                        onClick={onSubmit}
-                    >
-                        Submit
+                        Next
                     </button>
                 </SubmitContainer>
                 <ResponseContainer>
-                {showResponses}
+                    {submitted? <AnswerResponse correct={isAnswerCorrect}/> : ""}
                 </ResponseContainer>
             </div>
         </div>
@@ -250,8 +240,6 @@ export default function ClickAndDrop(props) {
 
 ClickAndDrop.propTypes = {
     content: PropTypes.object.isRequired,
-
-    id: PropTypes.string.isRequired,
-
-    qid: PropTypes.number.isRequired
+    onActionNext: PropTypes.func.isRequired,
+    submitAnswer: PropTypes.func.isRequired,
 };

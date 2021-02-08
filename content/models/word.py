@@ -4,8 +4,7 @@ import re
 
 from content.models import GeneralContentModel, OrderableMixin, \
     ReviewableMixin, AudioFile
-from content.utils import validate_chinese_character_or_x, \
-    punctuate_Chinese, punctuate_English
+from content.utils import validate_chinese_character_or_x
 
 
 class DefinitionInWord(OrderableMixin):
@@ -80,25 +79,6 @@ class Sentence(OrderableMixin):
                               related_query_name='sentence',
                               null=True, blank=True,
                               on_delete=models.SET_NULL)
-
-    def add_highlight(self):
-        self.chinese = punctuate_Chinese(self.chinese)
-        self.chienese, self.chinese_highlight = \
-            self._add_highlight(self.chinese, self.word.chinese)
-        self.pinyin = punctuate_English(self.pinyin)
-        self.pinyin, self.pinyin_highlight = \
-            self._add_highlight(self.pinyin, self.word.pinyin)
-        self.translation = punctuate_English(self.translation)
-        definition = self.word.definitions.first()
-        if definition:
-            self.translation, self.translation_highlight = \
-                self._add_highlight(self.translation, definition.definition)
-
-    def _add_highlight(self, s, target):
-        # if already manually highlighted, do nothing
-        if re.search(r"<.*?>", s):
-            return re.sub(r"<(.*?)>", r"\1", s), s
-        return s, re.sub(f"({target})", r'<\1>', s, flags=re.IGNORECASE)
 
     def get_admin_url(self):
         return self.word.get_admin_url()

@@ -121,3 +121,15 @@ p.cndIncorrect {
     color:rgb(238,109,0);
     text-align: center;
 }
+
+/* AnswerResponse */
+
+p.answerCorrect {
+    color:rgb(103,158,59);
+    text-align: center;
+}
+
+p.answerIncorrect {
+    color:rgb(238,109,0);
+    text-align: center;
+}

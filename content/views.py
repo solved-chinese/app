@@ -27,12 +27,7 @@ class ReviewableObjectDisplayView(DetailView):
     template_name = 'learning/learning.html'
 
     def get_context_data(self, **kwargs):
-        context = {'react_data': {
-            'action': 'display',
-            'content': {'type': self.model.__name__.lower(),
-                        'qid': self.object.pk},
-        }}
-        return context
+        return {'react_data': self.object.render()}
 
 
 class WordDisplayView(ReviewableObjectDisplayView):

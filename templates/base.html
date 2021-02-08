@@ -1,10 +1,10 @@
 <!-- TODO: change this file to what it actually should be -->
 {% load static %}
-{% load django_bootstrap_breadcrumbs %}
+{#{% load django_bootstrap_breadcrumbs %}#}
 
-{% block breadcrumbs %}
-  {% clear_breadcrumbs %}
-{% endblock %}
+{#{% block breadcrumbs %}#}
+{#  {% clear_breadcrumbs %}#}
+{#{% endblock %}#}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -108,7 +108,7 @@
 
 <div class="main-content-container" id="page-container">
   <div class="page-overlay" onclick="closeMobileMenu()"></div>
-  {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap4.html" %}
+{#  {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap4.html" %}#}
   {% block content %}{% endblock content %}
 </div>
 
