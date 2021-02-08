@@ -1,8 +1,11 @@
+import re
+
 from django import forms
 from dal_select2.widgets import Select2WidgetMixin
 from dal.widgets import WidgetMixin
 
 from .models import WordSet, Word, Sentence, LinkedField, AudioFile
+from .utils import punctuate_English, punctuate_Chinese
 
 
 class WordSetQuickCreateFrom(forms.ModelForm):
@@ -63,8 +66,39 @@ class LinkedFieldForm(forms.ModelForm):
 class SentenceForm(forms.ModelForm):
     create_audio = forms.BooleanField(required=False)
 
+    def add_highlight(self):
+        instance = self.instance
+        if 'chinese' in self.changed_data:
+            instance.chinese = punctuate_Chinese(instance.chinese)
+            instance.chienese, instance.chinese_highlight = \
+                self._add_highlight(instance.chinese, instance.word.chinese)
+        if 'pinyin' in self.changed_data:
+            instance.pinyin = punctuate_English(instance.pinyin)
+            instance.pinyin, instance.pinyin_highlight = \
+                self._add_highlight(instance.pinyin, instance.word.pinyin)
+        if 'translation' in self.changed_data:
+            instance.translation = punctuate_English(instance.translation)
+            instance.translation, instance.translation_highlight = \
+                self._add_highlight(
+                    instance.translation,
+                    *list(instance.word.definitions.values_list('definition',
+                                                                flat=True))
+                )
+
+    def _add_highlight(self, s, *targets):
+        """ returns (text, highlight_text)"""
+        # if already manually highlighted, do nothing
+        if re.search(r"<.*?>", s):
+            return re.sub(r"<(.*?)>", r"\1", s), s
+        for target in targets:
+            highlight_s, num_sub = re.subn(f"({target})", r'<\1>', s,
+                                           flags=re.IGNORECASE)
+            if num_sub:
+                return s, highlight_s
+        return s, s
+
     def save(self, commit=True):
-        self.instance.add_highlight()
+        self.add_highlight()
         if self.cleaned_data.get('create_audio', False):
             self.instance.audio = AudioFile.get_by_chinese(
                 self.instance.chinese, speed=self.instance.audio_speed)

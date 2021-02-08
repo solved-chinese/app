@@ -39,6 +39,8 @@ class ReviewableAdminMixin(admin.ModelAdmin):
         return list(readonly_fields) + ['get_review_questions']
 
     def get_review_questions(self, obj):
+        if not obj.pk:
+            return "N/A as obj is being added"
         reviewable = obj.get_reviewable_object()
         existing_general_questions = reviewable.questions
         existing_question_types = set()

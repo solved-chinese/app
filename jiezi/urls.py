@@ -31,7 +31,7 @@ urlpatterns = [
 
     path('api_root/', views.api_root),
 
-    path('learning/', include('frontend.urls')),
+    path('learning/', include('learning.urls')),
 
     path('favicon.ico', RedirectView.as_view(url='/static/images/favicon.ico')),
 ]

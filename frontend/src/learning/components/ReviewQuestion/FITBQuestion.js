@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -36,9 +36,7 @@ const SubmitContainer = styled.div`
  * Render a fill in the blank (FITB) question.
  * @param {Object} props 
  * @param {FITBQuestionContent} props.content
- * @param {Number} props.qid
- * @param {String} props.id
- * @param {Boolean} props.hasNext
+ * @param {Function} props.submitAnswer
  * @param {Function} props.onActionNext
  * 
  * @returns {React.Component} A FITBQuestion component
@@ -46,18 +44,38 @@ const SubmitContainer = styled.div`
 export default function FITBQuestion(props) {
 
     const [answer, setAnswer] = useState('');
-
+    const [correctAnswer, setCorrectAnswer] = useState(null);
+    const [submitted, setSubmitted] = useState(false);
     const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
 
+    useEffect(() => {
+        setAnswer('');
+        setCorrectAnswer(null);
+        setSubmitted(false);
+        setIsAnswerCorrect(null);
+    }, [props])
+
+    const enterListener = event => {
+      if (event.code === "Enter" || event.code === "NumpadEnter") {
+        onSubmit();
+      }
+    }
+
     const onSubmit = () => {
-        submitAnswer(props.qid, props.id, answer).then(response => {
+        if (submitted) {
+            props.onActionNext();
+            return;
+        }
+        props.submitAnswer(answer).then(response => {
+            setCorrectAnswer(response.answer);
             setIsAnswerCorrect(response.isCorrect);
+            setSubmitted(true);
         }).catch( msg => {
             console.log(msg);
         });
     };
 
-    var inputClassName = 'question-text-field use-chinese';
+    let inputClassName = 'question-text-field use-chinese';
     if (isAnswerCorrect != null) {
         inputClassName += isAnswerCorrect ? ' correct' : ' incorrect';
     }
@@ -66,8 +84,10 @@ export default function FITBQuestion(props) {
         <div className='question-content'>
             <div style={{width: '100%'}}>
                 <Question>{props.content.question.text}</Question>
-                <input 
-                    className={ inputClassName } 
+                <input
+                    autoFocus
+                    onKeyDown={ enterListener }
+                    className={ inputClassName }
                     onChange={ e => setAnswer(e.target.value) }
                 ></input>
                 <Title 
@@ -77,17 +97,12 @@ export default function FITBQuestion(props) {
                 </Title>
                 <SubmitContainer>
                     <button
-                        className='choice-button'
-                    >
-                        Skip this Term
-                    </button>
-                    <button
                         className={`choice-button${
                             answer != '' ? ' active' : ''
                         }`}
                         onClick={onSubmit}
                     >
-                        Submit
+                        {submitted? 'Next' : 'Submit'}
                     </button>
                 </SubmitContainer>
             </div>
@@ -97,8 +112,6 @@ export default function FITBQuestion(props) {
 
 FITBQuestion.propTypes = {
     content: PropTypes.object.isRequired,
-
-    qid: PropTypes.number.isRequired,
-
-    id: PropTypes.string.isRequired
+    onActionNext: PropTypes.func.isRequired,
+    submitAnswer: PropTypes.func.isRequired,
 };

@@ -63,11 +63,10 @@ const Explanation = styled.div`
 /** The main function that renders a radical view. */
 export default function RadDisplay(props) {
 
-    const radical = useLoadRad(
-        props.url == null ?
-            `/content/radical/${props.qid}` :
-            props.url
-    );
+    const radical = props.radical == null?
+        useLoadRad(props.url == null ?
+            `/content/radical/${props.qid}` : props.url
+        ) : props.radical;
 
     const audio = radical != null ? 
         new Audio(radical.audioUrl) :
@@ -123,7 +122,12 @@ export default function RadDisplay(props) {
 }
 
 RadDisplay.propTypes = {
-    /** URL of the radical to be rendered, if it 
+    /** The radical object to be rendered, if not provides,
+     *  url will be used to construct the object.
+     */
+    radical: PropTypes.object,
+
+    /** URL of the radical to be rendered, if it
      * is not provided, then the qid is used to construct
      * the url. */
     url: PropTypes.string,

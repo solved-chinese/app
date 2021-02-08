@@ -28,6 +28,9 @@ def update(apps, schema_editor):
         sentence.save()
 
 
+def backward(apps, schema_editor):
+    pass
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -35,5 +38,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(update)
+        migrations.RunPython(update, backward)
     ]

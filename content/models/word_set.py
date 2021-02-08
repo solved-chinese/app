@@ -33,11 +33,7 @@ class WordSet(GeneralContentModel):
                     raise ValidationError(f"{w} not done")
 
     def render_all_words(self):
-        output = ''
-        for w in self.words.all():
-            output += w.chinese
-            output += ', '
-        return output[:-2]
+        return ', '.join(w.chinese for w in self.words.all())
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -49,9 +45,8 @@ class WordSet(GeneralContentModel):
         return reverse('set_display', args=(self.pk,))
 
     def __str__(self):
-        return f"{self.name}: {self.render_all_words()}"
+        return f"{self.name}"
 
     def __repr__(self):
         id = self.id or -1
-        return f'<WS{id}:{self.name} ' \
-               f'{[repr(c) for c in self.words.all()]}>'
+        return f'<WS{id}:{self.name}>'

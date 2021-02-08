@@ -98,3 +98,38 @@ button.choice-button.incorrect:hover {
 button.choice-button:hover {
     background-color: rgba(0, 0, 0, 0.06);
 }
+
+/* CND */
+button.cndIncorrect {
+    background-color: rgb(238,109,0);
+    color: white;
+    transition: 0.2s;
+}
+
+button.cndCorrect {
+    background-color: rgb(103,158,59);
+    color:#ebebeb;
+    transition: 0.2s;
+}
+
+p.cndCorrect {
+    color:rgb(103,158,59);
+    text-align: center;
+}
+
+p.cndIncorrect {
+    color:rgb(238,109,0);
+    text-align: center;
+}
+
+/* AnswerResponse */
+
+p.answerCorrect {
+    color:rgb(103,158,59);
+    text-align: center;
+}
+
+p.answerIncorrect {
+    color:rgb(238,109,0);
+    text-align: center;
+}
