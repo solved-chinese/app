@@ -1,8 +1,8 @@
 import random
 from uuid import uuid4
 
+from django.core.exceptions import ValidationError
 from django.db import models
-from rest_framework.generics import get_object_or_404
 
 from content.models import ReviewableObject, GeneralQuestion
 from learning.models import UserReviewable, Record
@@ -169,12 +169,12 @@ class ReviewState(AbstractLearningState):
         question_pk = question_list.pop(0)
         try:
             question = GeneralQuestion.objects.get(pk=question_pk)
-        except GeneralQuestion.DoesNotExist:
+            is_correct, correct_answer = question.check_answer(
+                data.get('answer', None))
+        except (GeneralQuestion.DoesNotExist, ValidationError):
             process.state = DecideState
             return {'conflict': True}
         else:
-            is_correct, correct_answer = question.check_answer(
-                data.get('answer', None))
             Record.objects.create(
                 action=Record.Action.CORRECT_ANSWER if is_correct
                        else Record.Action.WRONG_ANSWER,
@@ -217,7 +217,7 @@ class ReviewState(AbstractLearningState):
                 'action': 'review',
                 'content': question.render()
             }
-        except GeneralQuestion.DoesNotExist:
+        except (GeneralQuestion.DoesNotExist, ValidationError):
             # review correct objects
             question_list.pop(0)
             if not question_list:
