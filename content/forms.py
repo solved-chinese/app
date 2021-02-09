@@ -103,3 +103,8 @@ class SentenceForm(forms.ModelForm):
             self.instance.audio = AudioFile.get_by_chinese(
                 self.instance.chinese, speed=self.instance.audio_speed)
         return super().save(commit=commit)
+
+
+class ContentCreationForm(forms.ModelForm):
+    class Meta:
+        fields = ('chinese', 'identifier')
