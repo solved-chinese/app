@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import { MCQuestionContent } from '@interfaces/ReviewQuestion';
+import AnswerResponse from './AnswerResponse';
 
 import '@learning.styles/ReviewQuestion.css';
 
@@ -141,6 +142,7 @@ export default function MultipleChoice(props) {
                         Next
                     </button>
                 </SubmitContainer>
+                {submitted? <AnswerResponse correct={selectedAnswer==correctAnswer}/> : ""}
             </div>
         </div>
     );

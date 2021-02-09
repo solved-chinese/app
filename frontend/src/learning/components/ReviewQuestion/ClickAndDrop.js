@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 
 import { CNDQuestionContent } from '@interfaces/ReviewQuestion';
 
-import submitAnswer from '@learning.services/submitAnswer';
-
 import '@learning.styles/ReviewQuestion.css';
 
 import AnswerResponse from './AnswerResponse';
@@ -89,9 +87,6 @@ const SubmitContainer = styled.div`
     width: 100%;
 `;
 
-const ResponseContainer = styled.div`
-    text-align: center;
-`;
 /**
  * Render a CND component.
  * @param {Object} props 
@@ -106,12 +101,17 @@ export default function ClickAndDrop(props) {
     const [choices, setChoices] = useState([...props.content.choices]);
     const [submitted, setSubmitted] = useState(false);
     const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
+    const [actionNextTimeout, setActionNextTimeout] = useState(null);
 
     useEffect(() => {
         setSelected(Array(props.content.answerLength).fill(null));
         setChoices([...props.content.choices]);
         setSubmitted(false);
         setIsAnswerCorrect(null);
+        return () => {
+            if (actionNextTimeout)
+                clearTimeout(actionNextTimeout);
+        }
     }, [props])
 
     useEffect(() => {
@@ -123,6 +123,9 @@ export default function ClickAndDrop(props) {
         if (submitted)
             return;
         props.submitAnswer(selected).then(response => {
+            if (response.isCorrect)
+                setActionNextTimeout(setTimeout(
+                    () => {props.onActionNext();}, 500));
             setSubmitted(true);
             setSelected(response.answer);
             setChoices(props.content.choices.filter(
@@ -230,9 +233,7 @@ export default function ClickAndDrop(props) {
                         Next
                     </button>
                 </SubmitContainer>
-                <ResponseContainer>
-                    {submitted? <AnswerResponse correct={isAnswerCorrect}/> : ""}
-                </ResponseContainer>
+                {submitted? <AnswerResponse correct={isAnswerCorrect}/> : ""}
             </div>
         </div>
     );

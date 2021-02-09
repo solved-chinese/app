@@ -1,5 +1,8 @@
 import React from 'react';
+import styled from 'styled-components';
+
 import '@learning.styles/ReviewQuestion.css';
+
 
 const { array } = require("prop-types");
 
@@ -17,6 +20,10 @@ const incorrectResponse = new Array(
     'Try again, you got this! \u{1F389}'
 );
 
+const ResponseContainer = styled.div`
+    text-align: center;
+`;
+
 /**
  *
  * @param props
@@ -24,16 +31,25 @@ const incorrectResponse = new Array(
  * @returns {React.Component}
  */
 export default function AnswerResponse(props) {
-    if(props.correct)
-        return (
-            <p className='answerCorrect'>
-                {correctResponse[Math.floor(Math.random() * correctResponse.length)]}
-            </p>
-        );
-    else
-        return (
-            <p className='answerIncorrect'>
-                {incorrectResponse[Math.floor(Math.random() * incorrectResponse.length)]}
-            </p>
-        );
+    const response = (() => {
+        if(props.correct)
+            return (
+                <p className='answerCorrect'>
+                    {correctResponse[Math.floor(Math.random() * correctResponse.length)]}
+                </p>
+            );
+        else
+            return (
+                <p className='answerIncorrect'>
+                    {incorrectResponse[Math.floor(Math.random() * incorrectResponse.length)]}
+                </p>
+            );
+    })();
+
+    return (
+        <ResponseContainer>
+            {response}
+        </ResponseContainer>
+    )
+
 }
