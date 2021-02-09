@@ -22,7 +22,7 @@ class UserReviewable(models.Model):
     learned_related_reviewables = models.ManyToManyField(
         'content.ReviewableObject',
         related_name='+',
-    )
+    )  # only for bonuses
     data = models.JSONField(default=dict)
 
     objects = UserReviewableManager()
