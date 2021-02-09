@@ -22,13 +22,12 @@
     display: block;
     margin-bottom: 30px;
     border: none;
-    text-align: center;
-
+    text-align: left;
     font-size: 1.5em;
-
+    flex-direction: row;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-
+    vertical-align:bottom;
     border-bottom: 2px solid #bec0c4;
     background-color: #ebebeb;
 
@@ -45,6 +44,39 @@
 
 .question-text-field.incorrect {
     border-color: var(--color-accent-incorrect);
+}
+
+.question-text-field-input {
+    width: 80%;
+    height: 100%;
+    margin: auto;
+    border: none;
+    float: left;
+    text-align: center;
+    font-size: 1.5em;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background-color: #ebebeb;
+}
+
+.answer-response {
+    width:20%;
+    height:80%;
+    font-sise: 1.5em;
+    text-align: center;
+    vertical-align:bottom;
+    float: right;
+    border-top-right-radius: 5px;
+    background-color: #ebebeb;
+    transition: 0.2s;
+}
+
+.answer-response.correct {
+    color:rgb(103,158,59);
+}
+
+.answer-response.incorrect {
+    color: rgb(238,109,0);
 }
 
 button.choice-button  {
@@ -66,13 +98,14 @@ button.choice-button:focus {
 }
 
 button.choice-button.active {
-    background-color: var(--main-theme-color);
-    border: 1px solid transparent;
-    color: white;
+    background-color: white;
+    border-color: var(--main-theme-color);
+    color: var(--main-theme-color);
 }
 
 button.choice-button.active:hover {
     background-color: var(--main-theme-color);
+    color: white;
 }
 
 button.choice-button.correct {
