@@ -62,7 +62,7 @@ export default function FITBQuestion(props) {
 
     const enterListener = event => {
         if (event.code === "Enter" || event.code === "NumpadEnter") {
-        onSubmit();
+            onSubmit();
         }
     }
 
@@ -79,6 +79,7 @@ export default function FITBQuestion(props) {
             console.log(msg);
         });
     };
+
     let answerResponse = '';
     let inputClassName = 'question-text-field use-chinese';
     let responseClassName = 'answer-response';
@@ -86,7 +87,8 @@ export default function FITBQuestion(props) {
         inputClassName += isAnswerCorrect ? ' correct' : ' incorrect';
         responseClassName += isAnswerCorrect ? ' correct' : ' incorrect';
         answerResponse = isAnswerCorrect ? '\u{2713}' : '\u{2717}';
-    }  
+    }
+
     return (
         <div className='question-content'>
             <div style={{width: '100%'}}>
@@ -94,10 +96,11 @@ export default function FITBQuestion(props) {
                 <div className={ inputClassName }>
                     <input
                         autoFocus
+                        value={answer}
                         className={ 'question-text-field-input use-chinese' }
                         onKeyDown={ enterListener }
                         onChange={ e => setAnswer(e.target.value) }
-                    ></input>
+                    />
                     <p className={ responseClassName }>{answerResponse}</p>
                 </div>
                 <Title 

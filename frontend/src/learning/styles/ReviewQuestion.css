@@ -46,6 +46,10 @@
     border-color: var(--color-accent-incorrect);
 }
 
+.question-text-field-input:focus {
+    outline-width: 0;
+}
+
 .question-text-field-input {
     width: 80%;
     height: 100%;
