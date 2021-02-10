@@ -7,6 +7,7 @@ import { FITBQuestionContent } from '@interfaces/ReviewQuestion';
 import submitAnswer from '@learning.services/submitAnswer';
 
 import '@learning.styles/ReviewQuestion.css';
+import AnswerResponse from './AnswerResponse';
 
 const Question = styled.h1`
     font-size: 1.5em;
@@ -30,6 +31,10 @@ const SubmitContainer = styled.div`
     font-size: 14px;
 
     width: 100%;
+`;
+
+const ResponseContainer = styled.div`
+    text-align: center;
 `;
 
 /**
@@ -56,9 +61,9 @@ export default function FITBQuestion(props) {
     }, [props])
 
     const enterListener = event => {
-      if (event.code === "Enter" || event.code === "NumpadEnter") {
-        onSubmit();
-      }
+        if (event.code === "Enter" || event.code === "NumpadEnter") {
+            onSubmit();
+        }
     }
 
     const onSubmit = () => {
@@ -75,21 +80,29 @@ export default function FITBQuestion(props) {
         });
     };
 
+    let answerResponse = '';
     let inputClassName = 'question-text-field use-chinese';
+    let responseClassName = 'answer-response';
     if (isAnswerCorrect != null) {
         inputClassName += isAnswerCorrect ? ' correct' : ' incorrect';
+        responseClassName += isAnswerCorrect ? ' correct' : ' incorrect';
+        answerResponse = isAnswerCorrect ? '\u{2713}' : '\u{2717}';
     }
 
     return (
         <div className='question-content'>
             <div style={{width: '100%'}}>
                 <Question>{props.content.question.text}</Question>
-                <input
-                    autoFocus
-                    onKeyDown={ enterListener }
-                    className={ inputClassName }
-                    onChange={ e => setAnswer(e.target.value) }
-                ></input>
+                <div className={ inputClassName }>
+                    <input
+                        autoFocus
+                        value={answer}
+                        className={ 'question-text-field-input use-chinese' }
+                        onKeyDown={ enterListener }
+                        onChange={ e => setAnswer(e.target.value) }
+                    />
+                    <p className={ responseClassName }>{answerResponse}</p>
+                </div>
                 <Title 
                     className='use-serifs'
                 >
@@ -105,6 +118,10 @@ export default function FITBQuestion(props) {
                         {submitted? 'Next' : 'Submit'}
                     </button>
                 </SubmitContainer>
+                <ResponseContainer>
+                    <p className={ 'answerIncorrect '}>{ isAnswerCorrect !=null ? (isAnswerCorrect ? '' : 'Correct Answer: '+correctAnswer) : ''}</p>
+                    {submitted? <AnswerResponse correct={isAnswerCorrect}/> : ""}
+                </ResponseContainer>
             </div>
         </div>
     );
