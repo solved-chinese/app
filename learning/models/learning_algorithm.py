@@ -106,7 +106,7 @@ class LearnState(AbstractLearningState):
             reviewable = ReviewableObject.objects.get(pk=pk2learn)
         except ReviewableObject.DoesNotExist:
             process.data['learn_list'].pop(0)
-            return DecideState.generate_response()
+            return DecideState.generate_response(process)
         if reviewable.word:
             # if word, assume the student has already learned
             LearnState.handle_request(process, {})
@@ -117,7 +117,7 @@ class LearnState(AbstractLearningState):
                 process.state = ReviewState
                 return ReviewState.generate_response(process)
             else:
-                return DecideState.generate_response()
+                return DecideState.generate_response(process)
         else:
             return reviewable.render()
 
@@ -222,7 +222,7 @@ class ReviewState(AbstractLearningState):
             question_list.pop(0)
             if not question_list:
                 review_list.pop(0)
-            return DecideState.generate_response()
+            return DecideState.generate_response(process)
 
 
 LEARNING_STATES = {
