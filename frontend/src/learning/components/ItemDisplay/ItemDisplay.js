@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { any } from 'prop-types';
 
 import CharDisplay from './CharacterDisplay/CharDisplay';
 import WordDisplay from './WordDisplay/WordDisplay';
@@ -30,14 +30,14 @@ export default function ItemDisplay(props) {
     };
 
     const renderNext = () => {
-        if ("onActionNext" in props)
+        if ('onActionNext' in props)
             return (
                 <button onClick={props.onActionNext}>
                     next
                 </button>
-            )
+            );
         return;
-    }
+    };
 
     return (
         <>
@@ -53,4 +53,5 @@ export default function ItemDisplay(props) {
 ItemDisplay.propTypes = {
     type: PropTypes.string,
     qid: PropTypes.number,
+    onActionNext: any,
 };

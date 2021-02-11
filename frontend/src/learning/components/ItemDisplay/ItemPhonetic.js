@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-// npm install hanzi-writer, Hanzi object created on line 56
-import HanziWriter from 'hanzi-writer';
+// Stroke Gif is rendered from separate component
+import StrokeGif from './StrokeGif.js';
+
 import '@learning.styles/ItemDisplay.css';
 
 const Container = styled.div`
@@ -23,12 +24,13 @@ const SpeakButton = styled.i`
     font-weight: 200;
     cursor: pointer;
 `;
-
-const WordContainer = styled.h1`
-    font-size: 3.75em;
-    font-weight: 200;
-    text-align: center;
-`;
+// WordContainer moved to StrokeGif
+// const WordContainer = styled.h1`
+//     font-size: 3.75em;
+//     font-weight: 200;
+//     text-align: center;
+//     cursor: grab;
+// `;
 
 /**
  * Renders the Chinese, phonetic(pinyin), and an audio button.
@@ -48,41 +50,14 @@ export default class ItemPhonetic extends React.Component {
         super(props);
         this.audio = new Audio(props.audioURL);
         // Add slashes at the beginning and the end
-        this.pinyin = `/${this.props.pinyin}/`;
-        this.item = `${this.props.item}`;
-
-        // Is it possible to contruct writer component in constructor?
-
-        // this.writer1 = HanziWriter.create('div-1', '我', {
-        //     width: 100,
-        //     height: 100,
-        //     padding: 5,
-        //     showOutline: true
-        // });
-
-        
+        this.pinyin = `/${this.props.pinyin}/`; 
     }
+
     
-    // Temporary half-solution
-    // Because ItemPhonetic is used by WordBreakdown and PopUp,
-    // componentDidMount will mount them at once (all stacks on one spot)? 
-    // Maybe mount and unmount every call?
-    //
-    componentDidMount (){
-        var writer = HanziWriter.create('div-writer', this.item, {
-            width: 100,
-            height: 100,
-            padding: 5,
-            showOutline: true
-        });
-        document.getElementById('div-writer').addEventListener('click', function() {
-            writer.animateCharacter();
-        });
-    }
-
     play() {
         this.audio.play();
     }
+
 
     render() {
         return (
@@ -94,12 +69,8 @@ export default class ItemPhonetic extends React.Component {
                         onClick={() => this.play()} 
                     ></SpeakButton>
                 </Phonetic>
-                <WordContainer className='use-chinese'>
-                    {/* { this.item } */}
-                    {/* Writer Div here */}
-                    <div id='div-writer' style={{cursor: 'grab'}}></div> 
-                    
-                </WordContainer>
+                {/* replaced WordContainer */}
+                <StrokeGif item = {this.props.item}/>
             </Container>
         );
     }

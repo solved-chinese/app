@@ -11,7 +11,7 @@ import BreakdownView from '@learning.components/ItemDisplay/BreakdownView';
 import LoadingView from '@learning.components/ItemDisplay/LoadingView.js';
 
 import useLoadWord from '@learning.hooks/useLoadWord.js';
-
+import StrokeGif from '../StrokeGif.js'; // clear this
 //Top and Bottom Containters
 const ContainerTop = styled.div`
     display: flex;
@@ -70,6 +70,7 @@ export default function WordDisplay(props) {
                 <ExampleSentenceHeading>
                     Example Sentences
                 </ExampleSentenceHeading>
+                
                 <ContainerBottom>
                     {word.sentences.map((sen, i) => {
                         return (
