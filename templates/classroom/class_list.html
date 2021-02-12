@@ -2,7 +2,7 @@
 
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumbs %}
-  {{ block.super }}
+  {% clear_breadcrumbs %}
   {% breadcrumb "My Classes" "" %}
 {% endblock %}
 
@@ -26,12 +26,16 @@
         {% for class in object_list %}
           <tr>
             <th scope="row">{{ forloop.counter }}</th>
-            <td><a href="{% url 'class_detail' class.pk %}">{{ class.name }}</a></td>
+            <td><a href="{% url 'class_detail' class.pk %}">
+              {{ class.name }}
+            </a></td>
             <td>{{ class.student_count }}</td>
           </tr>
         {% endfor %}
       </tbody>
     </table>
   {% endif %}
-  <a class='button button-primary' href="{% url 'class_create' %}">Create a Class</a>
+  <a class='button button-primary' href="{% url 'class_create' %}">
+    Create a Class
+  </a>
 {% endblock content %}

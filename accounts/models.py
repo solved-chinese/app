@@ -24,6 +24,8 @@ class User(AbstractUser):
                       "You may change this later.")
     email = models.EmailField(help_text="Used for resetting your password and "
                                         "receiving notifications.", blank=True)
+    is_teacher = models.BooleanField(default=False)
+    is_student = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if not self.display_name:

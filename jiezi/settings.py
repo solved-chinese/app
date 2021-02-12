@@ -32,7 +32,6 @@ INSTALLED_APPS = [
     'dal_select2',
     'dal_queryset_sequence',
     'rest_framework',
-    'django_fsm',
     'django_bootstrap_breadcrumbs',
     'logentry_admin',
 
@@ -53,6 +52,7 @@ INSTALLED_APPS = [
     'content',
     'frontend',
     'learning',
+    'classroom',
 ]
 
 MIDDLEWARE = [

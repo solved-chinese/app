@@ -9,66 +9,35 @@
 
   <h1>Welcome back, {{ user.display_name }}!</h1>
 
-  {% if request.user.student.in_class %}
-    <div class="card-container" id="study-container">
-      <h2>You are now in {{ request.user.student.in_class }} by {{ request.user.student.in_class.teacher }}</h2>
-      <br>
-      <p>You can now only see character sets assigned by your teacher below.</p>
-    </div>
-  {% else %}
-    <a class="button button-primary" href="{% url "manage_library" %}">
-      Manage Vocab Sets
-    </a>
-  {% endif %}
+  <div class="card-container" id="study-container">
+    <h2>You are now in "{{ request.user.student.klass.name }}" by
+      "{{ request.user.student.klass.teacher.display_name }}"</h2>
+    <br>
+  </div>
 
   <div class="card-container" id="study-container">
-    <h2>Select Set(s) to Study</h2>
+    <h2>Select an Assignment to Study</h2>
     <br>
 
     <div id='available-tags-container'>
-      {% for tag in tags %}
-        <button type="button" class="button button-secondary tag-button text-left">
-          <div class='tag-name'>
-            {{ tag.name }}
-            <span class="checkmark" data-pk="{{ tag.pk }}">&#10003;</span>
-          </div>
-          {% for key, value in tag.states_count.items %}
-            {{ key }}: {{ value }} &nbsp;&nbsp;&nbsp;
-          {% endfor %}
-        </button>
+      {% for process in processes %}
+        <form>
+          <button formaction="{% url 'learn_set' process.wordset.pk %}"
+                  type="submit"
+                  class="button button-secondary tag-button text-left">
+            <div class='tag-name'>
+              {{ process.wordset.name }}
+            </div>
+            {% for key, value in process.data.progress_bar.items %}
+              {{ key }}: {{ value }} &nbsp;&nbsp;&nbsp;
+            {% endfor %}
+          </button>
+        </form>
       {% empty %}
-        You don't have any sets
+        You don't have any assignment
       {% endfor %}
     </div>
 
-    <br>
-    <form id='start-learning-form' action='{% url 'start_learning' %}' method='post'>
-      {% csrf_token %}
-      <input type='hidden' id='start-learning-form-filter' name='sc_tags_filter'>
-      <button class="button button-primary" id="study-button">Study Now</button>
-    </form>
   </div>
 
-  <div class="card-container" id="stats-container">
-    <h2>Stats</h2>
-    <div id="stats-content-container" class="row">
-
-      {% for start, num, ending in stats%}
-        <div class="col-12 col-md-6 col-lg-3 stat-text">
-          <h5>{{ start }}</h5>
-          <p class="big-stat">
-            {{ num }}
-          </p>
-          <p><strong>{{ ending }}</strong></p>
-          <hr class="d-block d-lg-none">
-        </div>
-      {% endfor %}
-
-    </div>
-  </div>
-
-{% endblock %}
-
-{% block js %}
-  <script src="{% static "scripts/dashboard.js" %}"></script>
 {% endblock %}
