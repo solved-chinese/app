@@ -25,7 +25,7 @@ class LearningView(LoginRequiredMixin, TemplateView):
 
 
 class AssignmentView(LoginRequiredMixin, TemplateView):
-    template_name = 'react/learning.html'
+    template_name = 'react/assignment.html'
 
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
