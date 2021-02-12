@@ -255,10 +255,10 @@ class LearningProcess(models.Model):
         if result:
             response.update(result)
         self.state_id = uuid4()
+        self.calculate_progress_bar()
         self.save()
         response['state'] = self.state_id.hex
-        self.calculate_progress_bar()
-        response['progressBar'] = self.data['progress_bar'].copy()
+        response['progressBar'] = self.data['progress_bar']
         assert 'action' in response, "response invalid without action"
         return response
 
