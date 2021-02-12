@@ -24,7 +24,7 @@ class ReviewQuestionFactoryView(View):
 
 
 class ReviewableObjectDisplayView(DetailView):
-    template_name = 'learning/learning.html'
+    template_name = 'react/learning.html'
 
     def get_context_data(self, **kwargs):
         return {'react_data': self.object.render()}
@@ -44,7 +44,7 @@ class RadicalDisplayView(ReviewableObjectDisplayView):
 
 class SetDisplayView(DetailView):
     model = WordSet
-    template_name = 'learning/learning.html'
+    template_name = 'react/learning.html'
 
     def get_context_data(self, **kwargs):
         word_pk = self.kwargs.get('word_pk', None)
@@ -77,7 +77,7 @@ class SetDisplayView(DetailView):
 
 
 class QuestionDisplayView(TemplateView):
-    template_name = 'learning/learning.html'
+    template_name = 'react/learning.html'
 
     def get_context_data(self, **kwargs):
         question_order = self.kwargs.get('question_order', None)
