@@ -8,16 +8,16 @@ import WordDefinition from './WordDefinition';
 import ExampleSentences from './ExampleSentences';
 
 import BreakdownView from '@learning.components/ItemDisplay/BreakdownView';
-import LoadingView from '@learning.components/ItemDisplay/LoadingView.js';
+import LoadingView from '@learning.components/ItemDisplay/LoadingView';
 
-import useLoadWord from '@learning.hooks/useLoadWord.js';
-import StrokeGif from '../StrokeGif.js'; // clear this
+import useLoadWord from '@learning.hooks/useLoadWord';
+
 //Top and Bottom Containters
 const ContainerTop = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    @media only screen and (max-width: 480) {
+    @media only screen and (max-width: 480px) {
         flex-direction: column;
     }
 `;
@@ -43,10 +43,11 @@ const ExampleSentenceHeading = styled.h2`
 export default function WordDisplay(props) {
 
     const word = props.word == null ?
-        useLoadWord(
-        props.url == null ?
+        useLoadWord(props.url == null ?
             `/content/word/${props.qid}` : props.url
         ) : props.word;
+
+
 
     const renderWord = (word) => {
         const chinese = word.chinese;
@@ -87,7 +88,7 @@ export default function WordDisplay(props) {
                 </ContainerBottom>
         
                 {/* Show Breakdown toggle. Borrowed from Michael*/}
-                <BreakdownView 
+                <BreakdownView
                     type='word'
                     componentURL={word.characters}
                     memoryAid={word.memoryAid}
