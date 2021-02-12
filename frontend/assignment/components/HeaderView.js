@@ -39,7 +39,7 @@ const CompleteButton = styled.button`
 export default function HeaderView(props) {
     return (
         <>
-            <Title className='use-serifs'>Integrated Chinese Lv1 Ls1</Title>
+            <Title className='use-serifs'>{props.name}</Title>
             <CompleteButton onClick={props.onActionComplete}>
                 Complete Assignment
             </CompleteButton>
