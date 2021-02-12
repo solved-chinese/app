@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     # custom apps
     'accounts',
     'content',
-    'frontend',
     'learning',
     'classroom',
 ]
