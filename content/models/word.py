@@ -1,9 +1,11 @@
-from django.db import models
-from django.core.exceptions import ValidationError
 import re
 
+from django.db import models
+from django.core.exceptions import ValidationError
+from django.contrib.contenttypes.fields import GenericRelation
+
 from content.models import GeneralContentModel, OrderableMixin, \
-    ReviewableMixin, AudioFile
+    ReviewableMixin, AudioFile, LinkedField
 from content.utils import validate_chinese_character_or_x
 
 
@@ -112,7 +114,6 @@ class Sentence(OrderableMixin):
 
 
 class Word(ReviewableMixin, GeneralContentModel):
-    # TODO if word chinese field change, also change characters
     chinese = models.CharField(max_length=10)
     identifier = models.CharField(max_length=10, blank=True)
 
@@ -130,6 +131,7 @@ class Word(ReviewableMixin, GeneralContentModel):
     memory_aid = models.TextField(max_length=300,
                                   blank=True, default='TODO',
                                   verbose_name='word memory aid')
+    linked_fields = GenericRelation(LinkedField)
 
     class Meta:
         ordering = ['id']

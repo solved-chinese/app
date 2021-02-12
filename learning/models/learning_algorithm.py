@@ -1,8 +1,8 @@
 import random
 from uuid import uuid4
 
+from django.core.exceptions import ValidationError
 from django.db import models
-from rest_framework.generics import get_object_or_404
 
 from content.models import ReviewableObject, GeneralQuestion
 from learning.models import UserReviewable, Record
@@ -38,9 +38,9 @@ class DecideState(AbstractLearningState):
 
     @staticmethod
     def generate_response(process):
-        can_review = bool(process.data['review_queue'])
-        can_learn = bool(process.data['learn_queue'])
-        review_cnt = len(process.data['review_queue'])
+        can_review = bool(process.data['review_list'])
+        can_learn = bool(process.data['learn_list'])
+        review_cnt = len(process.data['review_list'])
         if not can_learn and not can_review:
             process.state = DoneState
         elif can_learn and not can_review:
@@ -65,48 +65,59 @@ class LearnState(AbstractLearningState):
 
     @staticmethod
     def handle_request(process, data):
-        learn_queue = process.data['learn_queue']
-        learned_pk = learn_queue.pop(0)
-        learned_object = get_object_or_404(ReviewableObject, pk=learned_pk)
+        learn_list = process.data['learn_list']
+        reviewable_pk = learn_list.pop(0)
+        try:
+            reviewable = ReviewableObject.objects.get(pk=reviewable_pk)
+        except ReviewableObject.DoesNotExist:
+            return
         # insert bonuses if applicable
-        bonuses = learned_object.get_bonuses()
+        bonuses = reviewable.get_bonuses()
         for bonus in bonuses:
             ur, _ = UserReviewable.objects.get_or_create(
                 user=process.user,
                 reviewable=bonus
             )
-            can_add_bonus = ur.learn_related(learned_object)
+            can_add_bonus = ur.learn_related(reviewable)
             if can_add_bonus:
                 assert ur.bind_to_process(process)
-                learn_queue.insert(0, ur.reviewable.pk)
-                # record bonus
-                process.data['progress_bar']['bonus'] += 1
-        if learned_object.word:
-            process.data['progress_bar']['remaining'] -= 1
-            process.data['progress_bar']['familiar'] += 1
-        # add questions if applicable
-        if learned_object.questions.exists():
-            process.data['review_queue'].append(
-                list(learned_object.questions.values_list('pk', flat=True)))
+                learn_list.insert(0, ur.reviewable.pk)
+                process.data['bonus_list'].append(ur.reviewable.pk)
+        process.initialize_reviewable(reviewable_pk)
+        # add questions
+        question_pks = list(reviewable.questions.values_list('pk', flat=True))
+        process.reviewable_data(reviewable_pk)['questions'] = question_pks
+        if question_pks:
+            process.data['review_list'].append(reviewable_pk)
+        else:
+            process.data['mastered_list'].append(reviewable_pk)
         Record.objects.create(
             action=Record.Action.LEARN,
             user=process.user,
             learning_process=process,
-            reviewable=learned_object,
+            reviewable=reviewable,
         )
         process.state = DecideState
 
     @staticmethod
     def generate_response(process):
-        pk2learn = process.data['learn_queue'][0]
-        reviewable = get_object_or_404(ReviewableObject,
-                                       pk=pk2learn)
+        pk2learn = process.data['learn_list'][0]
+        try:
+            reviewable = ReviewableObject.objects.get(pk=pk2learn)
+        except ReviewableObject.DoesNotExist:
+            process.data['learn_list'].pop(0)
+            return DecideState.generate_response(process)
         if reviewable.word:
+            # if word, assume the student has already learned
             LearnState.handle_request(process, {})
-            process.data['review_queue'].insert(
-                0, process.data['review_queue'].pop())
-            process.state = ReviewState
-            return ReviewState.generate_response(process)
+            # make it the first to review if there are questions
+            if process.data['review_list'][-1] == reviewable.pk:
+                process.data['review_list'].pop()
+                process.data['review_list'].insert(0, reviewable.pk)
+                process.state = ReviewState
+                return ReviewState.generate_response(process)
+            else:
+                return DecideState.generate_response(process)
         else:
             return reviewable.render()
 
@@ -119,21 +130,28 @@ class RelearnState(AbstractLearningState):
 
     @staticmethod
     def handle_request(process, data):
-        learned_object = get_object_or_404(
-            ReviewableObject, pk=process.data.get('relearn_pk', -1))
-        Record.objects.create(
-            action=Record.Action.RELEARN,
-            user=process.user,
-            learning_process=process,
-            reviewable=learned_object,
-        )
-        process.state = DecideState
+        try:
+            reviewable = ReviewableObject.objects.get(
+                pk=process.data.get('relearn_pk', -1))
+        except ReviewableObject.DoesNotExist:
+            pass
+        else:
+            Record.objects.create(
+                action=Record.Action.RELEARN,
+                user=process.user,
+                learning_process=process,
+                reviewable=reviewable,
+            )
+        finally:
+            process.state = DecideState
 
     @staticmethod
     def generate_response(process):
-        pk2learn = process.data['relearn_pk']
-        reviewable = get_object_or_404(ReviewableObject,
-                                       pk=pk2learn)
+        pk2learn = process.data.get('relearn_pk', -1)
+        try:
+            reviewable = ReviewableObject.objects.get(pk=pk2learn)
+        except ReviewableObject.DoesNotExist:
+            return DecideState.generate_response(process)
         return reviewable.render()
 
 
@@ -145,52 +163,66 @@ class ReviewState(AbstractLearningState):
 
     @staticmethod
     def handle_request(process, data):
-        review_queue = process.data['review_queue']
-        object_review_queue = review_queue.pop(0)
-        question_pk = object_review_queue.pop(0)
-        question = get_object_or_404(GeneralQuestion,
-                                     pk=question_pk)
-        is_correct, correct_answer = question.check_answer(
-            data.get('answer', None))
-        Record.objects.create(
-            action=Record.Action.CORRECT_ANSWER if is_correct
-                   else Record.Action.WRONG_ANSWER,
-            user=process.user,
-            reviewable=question.reviewable,
-            learning_process=process,
-            question=question,
-            data={
-                'answer': data.get('answer', None)
-            }
-        )
-        if not is_correct:
-            # move the question to the end of review object
-            object_review_queue.append(question_pk)
-            process.state = RelearnState
-            process.data['relearn_pk'] = question.reviewable.pk
-        else:
+        review_list = process.data['review_list']
+        reviewable_pk = review_list.pop(0)
+        question_list = process.reviewable_data(reviewable_pk)['questions']
+        question_pk = question_list.pop(0)
+        try:
+            question = GeneralQuestion.objects.get(pk=question_pk)
+            is_correct, correct_answer = question.check_answer(
+                data.get('answer', None))
+        except (GeneralQuestion.DoesNotExist, ValidationError):
             process.state = DecideState
-        # move the review object to the end if any question left
-        if object_review_queue:
-            review_queue.append(object_review_queue)
-        elif question.reviewable.word:  # graduate this word
-            process.data['progress_bar']['mastered'] += 1
-            process.data['progress_bar']['familiar'] -= 1
-        return {
-            'is_correct': is_correct,
-            'answer': correct_answer
-        }
+            return {'conflict': True}
+        else:
+            Record.objects.create(
+                action=Record.Action.CORRECT_ANSWER if is_correct
+                       else Record.Action.WRONG_ANSWER,
+                user=process.user,
+                reviewable=question.reviewable,
+                learning_process=process,
+                question=question,
+                data={
+                    'answer': data.get('answer', None)
+                }
+            )
+            if is_correct:
+                process.state = DecideState
+            else:
+                # move the question to the end of review object
+                question_list.append(question_pk)
+                process.data['relearn_pk'] = question.reviewable.pk
+                process.state = RelearnState
+            return {
+                'is_correct': is_correct,
+                'answer': correct_answer
+            }
+        finally:
+            # move the review object to the end if any question left
+            if question_list:
+                review_list.append(reviewable_pk)
+            else:
+                process.data['mastered_list'].append(reviewable_pk)
 
     @staticmethod
     def generate_response(process):
-        random.shuffle(process.data['review_queue'][0])
-        question_pk = process.data['review_queue'][0][0]
-        question = get_object_or_404(GeneralQuestion,
-                                     pk=question_pk)
-        return {
-            'action': 'review',
-            'content': question.render()
-        }
+        review_list = process.data['review_list']
+        reviewable_pk = review_list[0]
+        question_list = process.reviewable_data(reviewable_pk)['questions']
+        random.shuffle(question_list)
+        question_pk = question_list[0]
+        try:
+            question = GeneralQuestion.objects.get(pk=question_pk)
+            return {
+                'action': 'review',
+                'content': question.render()
+            }
+        except (GeneralQuestion.DoesNotExist, ValidationError):
+            # review correct objects
+            question_list.pop(0)
+            if not question_list:
+                review_list.pop(0)
+            return DecideState.generate_response(process)
 
 
 LEARNING_STATES = {
@@ -225,8 +257,29 @@ class LearningProcess(models.Model):
         self.state_id = uuid4()
         self.save()
         response['state'] = self.state_id.hex
+        self.calculate_progress_bar()
         response['progressBar'] = self.data['progress_bar'].copy()
+        assert 'action' in response, "response invalid without action"
         return response
+
+    def calculate_progress_bar(self):
+        self.data['progress_bar'] = {
+            'mastered': len(self.data['mastered_list']),
+            'familiar': len(self.data['review_list']),
+            'remaining': len(self.data['learn_list']),
+            'bonus': len(self.data['bonus_list']),
+        }
+
+    def initialize_reviewable(self, reviewable):
+        if isinstance(reviewable, ReviewableObject):
+            reviewable = reviewable.pk
+        self.data['reviewables'].append({'id': reviewable, 'questions': []})
+
+    def reviewable_data(self, reviewable):
+        if isinstance(reviewable, ReviewableObject):
+            reviewable = reviewable.pk
+        return next(item for item in self.data['reviewables']
+                    if item['id'] == reviewable)
 
     @classmethod
     def of(cls, user, wordset):
@@ -239,13 +292,12 @@ class LearningProcess(models.Model):
                     'remaining': obj.wordset.words.count(),
                     'bonus': 0,
                 },
-                # list of list of GeneralQuestion pks
-                'review_queue': list(),
-                # list of ReviewableObject pks
-                'learn_queue': [
-                    wis.word.get_reviewable_object().pk
-                    for wis in obj.wordset.wordinset_set.all()
-                ],
+                'bonus_list': [],  # list of reviewable pks, 0 is first
+                'learn_list': [wis.word.get_reviewable_object().pk
+                               for wis in obj.wordset.wordinset_set.all()],
+                'review_list': [],
+                'mastered_list': [],
+                'reviewables': [],  # pk to reviewable stats
                 'relearn_pk': -1,  # used by RelearnState
             }
             obj.save()

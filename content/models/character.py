@@ -1,6 +1,7 @@
+import json
+
 from django.db import models
 from django.core.exceptions import ValidationError
-import json
 
 from content.models import GeneralContentModel, OrderableMixin, \
     ReviewableMixin, AudioFile

@@ -1,14 +1,10 @@
-from uuid import uuid4
-import json
-
 from dal import autocomplete
+from django.core.exceptions import ValidationError
 from django.contrib.contenttypes.models import ContentType
-from django.utils import timezone
-from rest_framework import status
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.core.serializers.json import DjangoJSONEncoder
+from rest_framework.exceptions import NotFound
 
 from content.models import GeneralQuestion, LinkedField, Word, Sentence
 from learning.models import Record
@@ -27,15 +23,21 @@ class QuestionView(APIView):
 
     def get(self, request):
         show_all_options = request.session.get('show_all_options', False)
-        client_dict = self.question.render(
-            show_all_options=show_all_options
-        )
+        try:
+            client_dict = self.question.render(
+                show_all_options=show_all_options
+            )
+        except ValidationError:
+            raise NotFound
         return Response(client_dict)
 
     def post(self, request):
         data = request.data.copy()
-        is_correct, correct_answer = self.question.check_answer(
-            data.get('answer', None))
+        try:
+            is_correct, correct_answer = self.question.check_answer(
+                data.get('answer', None))
+        except ValidationError:
+            raise NotFound
         # create Record
         user = request.user if request.user.is_authenticated else None
         Record.objects.create(

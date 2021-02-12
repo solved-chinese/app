@@ -93,9 +93,16 @@ class BaseConcreteQuestion(models.Model):
         abstract = True
 
     def render(self, show_all_options=False):
+        try:
+            concrete_content = self._render(show_all_options=show_all_options)
+        except ValidationError:
+            logger.critical(f"question {repr(self)} invalid, self delete",
+                            exc_info=True)
+            self.delete()
+            raise
         client_dict = {
             'question': _handle_text_with_audio(self.question),
-            **self._render(show_all_options=show_all_options)
+            **concrete_content
         }
         context = self.context
         if self.context_option == self.ContextOption.MUST_SHOW:
@@ -225,9 +232,13 @@ class MCQuestion(BaseConcreteQuestion):
     num_choices = models.PositiveSmallIntegerField(default=4)
 
     def check_answer(self, client_answer):
-        # TODO error handling
-        correct_answer = self.choices.filter(
-            weight=MCChoice.WeightType.CORRECT).get().value
+        try:
+            correct_answer = self.choices.filter(
+                weight=MCChoice.WeightType.CORRECT).get().value
+        except MCChoice.DoesNotExist:
+            logger.critical(f'{repr(self)} no correct answer, delete self')
+            self.delete()
+            raise ValidationError('no correct answer')
         return correct_answer == client_answer, correct_answer
 
     def _render(self, show_all_options=False):

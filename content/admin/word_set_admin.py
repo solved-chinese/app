@@ -1,7 +1,6 @@
 from django.contrib import admin
 
 from content.models import WordInSet, WordSet
-from content.forms import WordSetQuickCreateFrom
 from content.admin import GeneralContentAdmin
 
 
@@ -29,13 +28,3 @@ class WordSetAdmin(GeneralContentAdmin):
     search_fields = ['name__search']
     inlines = [WordInSetInline]
 
-    def get_form(self, request, obj=None, **kwargs):
-        """
-        User a special from for creation
-        reference django.contrib.auth.admin.UserAdmin.get_form
-        """
-        defaults = {}
-        if obj is None:
-            defaults['form'] = WordSetQuickCreateFrom
-        defaults.update(kwargs)
-        return super().get_form(request, obj, **defaults)

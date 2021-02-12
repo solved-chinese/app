@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import { MCQuestionContent } from '@interfaces/ReviewQuestion';
+import AnswerResponse from './AnswerResponse';
 
 import '@learning.styles/ReviewQuestion.css';
 
@@ -49,15 +50,29 @@ export default function MultipleChoice(props) {
     const [selectedAnswer, setSelectedAnswer] = useState(null);
     const [correctAnswer, setCorrectAnswer] = useState(null);
     const [submitted, setSubmitted] = useState(false);
+    const [actionNextTimeout, setActionNextTimeout] = useState(null);
 
     useEffect( () => {
         setSelectedAnswer(null);
         setCorrectAnswer(null);
         setSubmitted(false);
+        setActionNextTimeout(null);
+        return () => {
+            if (actionNextTimeout)
+                clearTimeout(actionNextTimeout);
+        }
     }, [props])
+
+    useEffect(() => {
+        if (selectedAnswer && !submitted)
+            onSubmit();
+    }, [selectedAnswer])
 
     const onSubmit = () => {
         props.submitAnswer(selectedAnswer).then(response => {
+            if (response.isCorrect)
+                setActionNextTimeout(setTimeout(
+                    () => {props.onActionNext();}, 500));
             setCorrectAnswer(response.answer);
             setSubmitted(true);
         }).catch( msg => {
@@ -120,19 +135,14 @@ export default function MultipleChoice(props) {
                 </ChoicesContainer>
                 <SubmitContainer>
                     <button
-                        className='choice-button'
+                        className="choice-button"
+                        hidden={!submitted}
+                        onClick={props.onActionNext}
                     >
-                        I know this
-                    </button>
-                    <button
-                        className={`choice-button${
-                            selectedAnswer != null || submitted ? ' active' : ''
-                        }`}
-                        onClick={submitted ? props.onActionNext : onSubmit }
-                    >
-                        {submitted ? 'Next' : 'Submit' }
+                        Next
                     </button>
                 </SubmitContainer>
+                {submitted? <AnswerResponse correct={selectedAnswer==correctAnswer}/> : ""}
             </div>
         </div>
     );

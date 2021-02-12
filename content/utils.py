@@ -31,3 +31,18 @@ validate_chinese_character_or_x = RegexValidator(
 def unaccent(s):
     return unicodedata.normalize('NFKD', s).encode('ascii','ignore'
                                                    ).decode('utf-8')
+
+
+def add_highlight(s, *targets, add_all=False):
+    """ returns (text, highlight_text)"""
+    # if already manually highlighted, do nothing
+    if re.search(r"<.*?>", s):
+        return re.sub(r"<(.*?)>", r"\1", s), s
+    highlight_s = s
+    for target in targets:
+        highlight_s, num_sub = re.subn(f"({target})", r'<\1>',
+                                       highlight_s,
+                                       flags=re.IGNORECASE)
+        if num_sub and not add_all:
+            return s, highlight_s
+    return s, highlight_s
