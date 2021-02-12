@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-// Stroke Gif is rendered from separate component
 import StrokeGif from './StrokeGif.js';
-
 import '@learning.styles/ItemDisplay.css';
 
 const Container = styled.div`
@@ -35,43 +33,32 @@ const SpeakButton = styled.i`
 /**
  * Renders the Chinese, phonetic(pinyin), and an audio button.
  */
-export default class ItemPhonetic extends React.Component {
+export default function ItemPhonetic(props) {
 
-    static propTypes = {
-        /** An array of possible pronunciation. */
-        pinyin: PropTypes.string,
-        /** The URL of the corresponding audio file. */
-        audioURL: PropTypes.string.isRequired,
-        /** The character to be displayed.  */
-        item: PropTypes.string.isRequired
-    }
+    const audio = new Audio(props.audioURL);
+    // Add slashes at the beginning and the end
+    const pinyin = `/${props.pinyin}/`;
 
-    constructor(props) {
-        super(props);
-        this.audio = new Audio(props.audioURL);
-        // Add slashes at the beginning and the end
-        this.pinyin = `/${this.props.pinyin}/`; 
-    }
-
-    
-    play() {
-        this.audio.play();
-    }
-
-
-    render() {
-        return (
-            <Container>
-                <Phonetic className='use-chinese'> 
-                    { this.pinyin }
-                    <SpeakButton 
-                        className='fas fa-volume'
-                        onClick={() => this.play()} 
-                    ></SpeakButton>
-                </Phonetic>
-                {/* replaced WordContainer */}
-                <StrokeGif item = {this.props.item}/>
-            </Container>
-        );
-    }
+    return (
+        <Container>
+            <Phonetic className='use-chinese'>
+                { pinyin }
+                <SpeakButton
+                    className='fas fa-volume'
+                    onClick={ audio.play }
+                />
+            </Phonetic>
+             replaced WordContainer
+            <StrokeGif item={props.item}/>
+        </Container>
+    );
 }
+
+ItemPhonetic.propTypes = {
+    /** An array of possible pronunciation. */
+    pinyin: PropTypes.string,
+    /** The URL of the corresponding audio file. */
+    audioURL: PropTypes.string.isRequired,
+    /** The character to be displayed.  */
+    item: PropTypes.string.isRequired
+};
