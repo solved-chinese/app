@@ -4,7 +4,7 @@ import HanziWriter from 'hanzi-writer';
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import '@learning.styles/ItemDisplay.css';
-import PropTypes, { any } from 'prop-types';
+import PropTypes from 'prop-types';
 
 const WordContainer = styled.h1`
     font-size: 3.75em;
@@ -35,16 +35,17 @@ export default function StrokeGif(props) {
             padding: 5,
             showOutline: true
         });
-        document.getElementById('div-writer1').addEventListener('click', function() {
+        document.getElementById('div-writer1').addEventListener('click', () => {
             writer.animateCharacter();
         });
         // How to hook the three actions -- animate, pasue, resume -- in series?
-        document.getElementById('div-writer1').addEventListener('click', function() {
-          writer.pauseAnimation();
+        document.getElementById('div-writer1').addEventListener('click', () => {
+            writer.pauseAnimation();
+        });
 
-        document.getElementById('div-writer1').addEventListener('click', function() {
+        document.getElementById('div-writer1').addEventListener('click', () => {
             writer.resumeAnimation();
-      });
+        });
     }, []);
 
     console.log(gif1);
