@@ -30,14 +30,13 @@ export default function ItemDisplay(props) {
     };
 
     const renderNext = () => {
-        if ("onActionNext" in props)
+        if (props.onActionNext != null)
             return (
                 <button onClick={props.onActionNext}>
                     next
                 </button>
-            )
-        return;
-    }
+            );
+    };
 
     return (
         <>
@@ -53,4 +52,5 @@ export default function ItemDisplay(props) {
 ItemDisplay.propTypes = {
     type: PropTypes.string,
     qid: PropTypes.number,
+    onActionNext: PropTypes.func
 };

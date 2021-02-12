@@ -8,8 +8,6 @@ import CharDisplay from
 
 import '@learning.styles/ItemDisplay.css';
 
-Modal.setAppElement('#learning-app');
-
 //Styles for Popup
 const ModalStyle = {
     overlay:{

@@ -12,7 +12,11 @@
                 "@learning.hooks": "./frontend/src/learning/hooks",
                 "@learning.styles": "./frontend/src/learning/styles",
                 "@learning.services": "./frontend/src/learning/services",
-                "@interfaces": "./frontend/src/interfaces"
+                "@interfaces": "./frontend/src/interfaces",
+                "@assignment.components": "./frontend/src/assignment/components",
+                "@assignment.hooks": "./frontend/src/assignment/hooks",
+                "@assignment.styles": "./frontend/src/assignment/styles",
+                "@assignment.services": "./frontend/src/assignment/services"
             }
         }]
     ]
