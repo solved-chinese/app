@@ -22,7 +22,7 @@
     <div id='available-tags-container'>
       {% for process in processes %}
         <form>
-          <button formaction="{% url 'learn_set' process.wordset.pk %}"
+          <button formaction="{% url 'assignment' process.wordset.pk %}"
                   type="submit"
                   class="button button-secondary tag-button text-left">
             <div class='tag-name'>

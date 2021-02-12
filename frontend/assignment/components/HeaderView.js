@@ -40,7 +40,14 @@ export default function HeaderView(props) {
     return (
         <>
             <Title className='use-serifs'>Integrated Chinese Lv1 Ls1</Title>
-            <CompleteButton>Complete Assignment</CompleteButton>
+            <CompleteButton onClick={props.onActionComplete}>
+                Complete Assignment
+            </CompleteButton>
         </>
     );
 }
+
+HeaderView.propTypes = {
+    name: PropTypes.string,
+    onActionComplete: PropTypes.func,
+};

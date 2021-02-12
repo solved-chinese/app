@@ -1,25 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import HeaderView from './HeaderView';
-import ItemDisplayBody from './ItemDisplayBody';
+import AssignmentDisplay from "@assignment.components/AssignmentDisplay";
 
-const ContentContainer = styled.div`
-    max-width: 900px;
-    margin: 20px auto;
-    
-    @media only screen and (max-width: 480px) {
-      margin: 20px 0;
-    }
-`;
 
 export default class App extends React.Component {
+    static propTypes = {
+        action: PropTypes.string.isRequired,
+
+        content: PropTypes.object.isRequired
+    }
+
     render() {
-        return (
-            <ContentContainer>
-                <HeaderView/>
-                <ItemDisplayBody/>
-            </ContentContainer>
-        );
+        switch (this.props.action) {
+            case 'assignment':
+                return <AssignmentDisplay {...this.props.content} />;
+            default:
+                return "something is wrong";
+        }
     }
 }
