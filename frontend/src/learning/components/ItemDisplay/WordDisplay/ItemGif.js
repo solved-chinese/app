@@ -1,12 +1,13 @@
-// This is the old ItemPhonetic 
-//      for BreakdownView, CharacterDisplay, etc.
-// New "ItemGif.js" is in ItemDisplay/WordDisplay
-//      for WordDisplay only
+// This is the new ItemGif
+//      a motified version of ItemPhonetic
+//      used only in wordDisplay
 
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import '@learning.styles/ItemDisplay.css';
+
+import StrokeGif from './StrokeGif.js';
 
 const Container = styled.div`
     display: inline-block;
@@ -27,12 +28,6 @@ const SpeakButton = styled.i`
     cursor: pointer;
 `;
 
-const WordContainer = styled.h1`
-    font-size: 3.75em;
-    font-weight: 200;
-    text-align: center;
-`;
-
 /**
  * Renders the Chinese, phonetic(pinyin), and an audio button.
  */
@@ -51,9 +46,10 @@ export default function ItemPhonetic(props) {
                     onClick={ audio.play }
                 />
             </Phonetic>
-            <WordContainer className='use-chinese'>
-                {props.item}
-            </WordContainer>
+            
+            {/* new StrokeGif */}
+            <StrokeGif item={props.item}/>
+
         </Container>
     );
 }
