@@ -25,6 +25,8 @@ class LearningView(LoginRequiredMixin, TemplateView):
 
 
 class AssignmentView(LoginRequiredMixin, TemplateView):
+    template_name = 'learning/learning.html'
+
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         set_pk = self.kwargs.pop('set_pk', None)
