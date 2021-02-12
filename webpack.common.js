@@ -3,7 +3,8 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        learning: './frontend/src/learning/index.js'
+        learning: './frontend/src/learning/index.js',
+        assignment: './frontend/src/assignment/index.js'
     },
     output: {
         filename: '[name].bundle.js',
