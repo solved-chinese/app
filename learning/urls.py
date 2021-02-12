@@ -7,4 +7,6 @@ urlpatterns = [
          name='learn_set'),
     path('api/<int:set_pk>',
          API_views.LearningAPIView.as_view()),
+    path('api/assignment/<int:set_pk>',
+         API_views.AssignmentAPIView.as_view()),
 ]
