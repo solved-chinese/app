@@ -3,8 +3,8 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        learning: './frontend/src/learning/index.js',
-        assignment: './frontend/src/assignment/index.js'
+        learning: './frontend/learning/index.js',
+        assignment: './frontend/assignment/index.js'
     },
     output: {
         filename: '[name].bundle.js',
@@ -31,7 +31,7 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: ['styles-loader', 'css-loader'],
+                use: ['style-loader', 'css-loader'],
                 exclude: /node_modules/
             }
         ]

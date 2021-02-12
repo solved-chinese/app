@@ -10,13 +10,14 @@ const Title = styled.h1`
     color: var(--primary-text);
 `;
 
-const DueLabel = styled.h3`
-    font-size: 1.3em;
-    font-weight: 600;
-    margin-bottom: 25px;
-    display: inline-block;
-    color: var(--secondary-text);
-`;
+// we are not doing due date this patch
+// const DueLabel = styled.h3`
+//     font-size: 1.3em;
+//     font-weight: 600;
+//     margin-bottom: 25px;
+//     display: inline-block;
+//     color: var(--secondary-text);
+// `;
 
 const CompleteButton = styled.button`
     display: block;
@@ -39,7 +40,6 @@ export default function HeaderView(props) {
     return (
         <>
             <Title className='use-serifs'>Integrated Chinese Lv1 Ls1</Title>
-            <DueLabel>Due Monday 1/4</DueLabel>
             <CompleteButton>Complete Assignment</CompleteButton>
         </>
     );
