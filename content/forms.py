@@ -91,6 +91,18 @@ class SentenceForm(forms.ModelForm):
         return super().save(commit=commit)
 
 
+class WordForm(forms.ModelForm):
+    def add_highlight(self):
+        instance = self.instance
+        if 'memory_aid' in self.changed_data:
+            instance.memory_aid, instance.memory_aid_highlight = \
+                add_highlight(instance.memory_aid, instance.word.chinese)
+
+    def save(self, commit=True):
+        self.add_highlight()
+        return super().save(commit=commit)
+
+
 class ContentCreationForm(forms.ModelForm):
     class Meta:
         fields = ('chinese', 'identifier')

@@ -116,7 +116,6 @@ class Sentence(OrderableMixin):
 class Word(ReviewableMixin, GeneralContentModel):
     chinese = models.CharField(max_length=10)
     identifier = models.CharField(max_length=10, blank=True)
-
     pinyin = models.CharField(max_length=36, default='TODO')
     audio = models.ForeignKey('AudioFile',
                               related_name='words',
@@ -131,6 +130,7 @@ class Word(ReviewableMixin, GeneralContentModel):
     memory_aid = models.TextField(max_length=300,
                                   blank=True, default='TODO',
                                   verbose_name='word memory aid')
+    memory_aid_highlight = models.TextField(max_length=300, blank=True)
     linked_fields = GenericRelation(LinkedField)
 
     class Meta:
