@@ -57,7 +57,7 @@ class Assignment(models.Model):
         # completion check
         sdf = sdf.fillna(0)
         sdf = sdf.sort_values('Completion', ascending=False)
-        percent_format = "{:.0%}"
+        percent_format = lambda x: f"{int(x * 20) * 5}%"
         sdf = sdf.style\
             .format({'Completion': percent_format, 'Accuracy': percent_format})\
             .set_table_attributes('class="table"').hide_index().render()
@@ -85,7 +85,8 @@ class Assignment(models.Model):
         wdf = wdf.sort_values('Accuracy', ascending=True)
         wdf = wdf.style.format(percent_format)\
             .set_table_attributes('class="table"')\
-            .set_caption('Only show words that have been learned at least 3 times')\
+            .set_caption('Only showing words that have been learned '
+                         'at least 3 times')\
             .render()
         return {'student_stats': sdf, 'word_stats': wdf}
 

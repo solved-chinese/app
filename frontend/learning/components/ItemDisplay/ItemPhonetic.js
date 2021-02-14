@@ -43,28 +43,18 @@ export default class ItemPhonetic extends React.Component {
         item: PropTypes.string.isRequired
     }
 
-    constructor(props) {
-        super(props);
-        this.audio = new Audio(props.audioURL);
+    render() {
+        this.audio = new Audio(this.props.audioURL);
         // Add slashes at the beginning and the end
         this.pinyin = `/${this.props.pinyin}/`;
-        
-    }
-
-
-    play() {
-        this.audio.play();
-    }
-
-    render() {
         return (
             <Container>
                 <Phonetic className='use-chinese'> 
                     { this.pinyin }
-                    <SpeakButton 
+                    <SpeakButton
                         className='fas fa-volume'
-                        onClick={() => this.play()} 
-                    ></SpeakButton>
+                        onClick={() => this.audio.play()}
+                    />
                 </Phonetic>
                 <WordContainer className='use-chinese'>
                     { this.props.item }

@@ -141,11 +141,11 @@ export default function ClickAndDrop(props) {
     }
 
     const handleChoiceClick = (choiceIndex) => {
-        if (choices[choiceIndex] === null){
+        if (choices[choiceIndex] === null || submitted){
             return; // meaningless click on blank
         }
         const selectedIndex = selected.findIndex(value => value===null);
-        if (selectedIndex == -1){
+        if (selectedIndex === -1){
             return; // select full
         }
         // make copy
@@ -159,10 +159,10 @@ export default function ClickAndDrop(props) {
     };
 
     const handleSelectedClick = (selectedIndex) => {
-        if (selected[selectedIndex] === null){
+        if (selected[selectedIndex] === null || submitted){
             return; // meaningless click on blank
         }
-        if (selectedIndex == -1){
+        if (selectedIndex === -1){
             return; //select full
         }
         // make copy

@@ -67,16 +67,22 @@ export default function FITBQuestion(props) {
         }
     }, [isAnswerCorrect])
 
-    const enterListener = event => {
+    const keyListener = event => {
         if (event.code === "Enter" || event.code === "NumpadEnter") {
-            if (submitted)
-                props.onActionNext();
-            else
-                onSubmit();
+            onSubmit();
         }
     }
+    useEffect(() => {
+        document.addEventListener('keydown', keyListener);
+        return () => {document.removeEventListener('keydown', keyListener);};
+    }, [submitted, answer])
 
     const onSubmit = () => {
+        if (submitted) {
+            props.onActionNext();
+            return;
+        }
+        console.log(answer);
         props.submitAnswer(answer).then(response => {
             setCorrectAnswer(response.answer);
             setIsAnswerCorrect(response.isCorrect);
@@ -103,8 +109,8 @@ export default function FITBQuestion(props) {
                     <input
                         autoFocus
                         value={answer}
+                        disabled={submitted}
                         className={ 'question-text-field-input use-chinese' }
-                        onKeyDown={ enterListener }
                         onChange={ e => setAnswer(e.target.value) }
                     />
                     <p className={ responseClassName }>{answerResponse}</p>
