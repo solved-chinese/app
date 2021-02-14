@@ -111,7 +111,8 @@ class LearnState(AbstractLearningState):
             # if word, assume the student has already learned
             LearnState.handle_request(process, {})
             # make it the first to review if there are questions
-            if process.data['review_list'][-1] == reviewable.pk:
+            if process.data['review_list'] and \
+                    process.data['review_list'][-1] == reviewable.pk:
                 process.data['review_list'].pop()
                 process.data['review_list'].insert(0, reviewable.pk)
                 process.state = ReviewState
