@@ -69,14 +69,15 @@ export default function FITBQuestion(props) {
 
     const enterListener = event => {
         if (event.code === "Enter" || event.code === "NumpadEnter") {
-            if (submitted)
-                props.onActionNext();
-            else
-                onSubmit();
+            onSubmit();
         }
     }
 
     const onSubmit = () => {
+        if (submitted) {
+            props.onActionNext();
+            return;
+        }
         props.submitAnswer(answer).then(response => {
             setCorrectAnswer(response.answer);
             setIsAnswerCorrect(response.isCorrect);
