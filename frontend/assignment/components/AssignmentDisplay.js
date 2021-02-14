@@ -7,21 +7,50 @@ import ItemDisplayBody from "@assignment.components/ItemDisplayBody";
 import useLoadAssignment from "@assignment.hooks/useLoadAssignment";
 import ProgressBar from "@learning.components/CoreLearning/ProgressBar";
 
+import '@assignment.styles/AssignmentDisplay.css';
 
+// Containers
 const ContentContainer = styled.div`
     max-width: 900px;
     margin: 20px auto;
     
     @media only screen and (max-width: 480px) {
-      margin: 20px 0;
+    margin: 20px 0;
     }
 `;
 
+const RelatedContainer = styled.div`
+    max-width: 900px;
+    display: flex;
+    justify-content: space-around;
+    height: 30px;
+    width: 100%;
+`;
+
+const RelatedContainerLeft = styled.div`
+    column-width: 20%;
+    margin-right: 10px;
+    font-weight: 600;
+    font-size: 1em;
+`;
+
+const RelatedContainerRight = styled.div`
+    column-width: auto;
+    overflow: hidden;
+    font-weight: 600;
+    font-size: 1em;
+`;
+
+const Headings = styled.h1`
+    font-size: 1.5em;
+    font-weight: 600;
+`;
 
 export default function AssignmentDisplay(props) {
     const assignment = useLoadAssignment(`/learning/api/assignment/${props.qid}`);
 
     const [specifiedObject, setSpecifiedObject] = useState(null);
+    const [expanded, setExpanded] = useState(null);
 
     const onActionComplete = () => {
         window.location = `/learning/${props.qid}`;
@@ -29,7 +58,7 @@ export default function AssignmentDisplay(props) {
 
     const renderChinese = (obj) => {
         if (obj.type == 'radical')
-            return <img src={obj.chinese} />; // TODO make this smaller
+            return <img src={obj.chinese}/>; // TODO make this smaller
         return obj.chinese;
     };
 
@@ -37,10 +66,11 @@ export default function AssignmentDisplay(props) {
         return objects.map((obj, index) => {
             // TODO make status that beautiful bar thing
             return (
-                <div key={index}
-                        onClick={()=>setSpecifiedObject(obj)}>
-                    {obj.status} {renderChinese(obj)} {obj.pinyin}
-                </div>
+                <RelatedContainer key={index}
+                    onClick={()=>setSpecifiedObject(obj)}>
+                    <RelatedContainerLeft className={'use-chinese'}>{renderChinese(obj)}</RelatedContainerLeft>
+                    <RelatedContainerRight className={'use-chinese'}>/{obj.pinyin}/</RelatedContainerRight>
+                </RelatedContainer>
             );
         });
     };
@@ -50,14 +80,21 @@ export default function AssignmentDisplay(props) {
             <ContentContainer>
                 <HeaderView name={assignment.name} onActionComplete={onActionComplete}/>
                 <ItemDisplayBody objectList={assignment.wordList}
-                                 specifiedObject={specifiedObject} />
+                    specifiedObject={specifiedObject} />
+                <Headings>Terms in this set</Headings>
                 <ProgressBar {...assignment.progressBar}/>
-                words:
-                {renderObjects(assignment.wordList)}
-                characters:
-                {renderObjects(assignment.characterList)}
-                radicals:
-                {renderObjects(assignment.radicalList)}
+                <div className={'collapsible use-chinese' + (expanded ? 'active': '')}>
+                    {renderObjects(assignment.wordList)}
+                    {renderObjects(assignment.characterList)}
+                    {renderObjects(assignment.radicalList)}
+                </div>    
+                <div onClick={() => setExpanded(true)} className={'toggle'}>
+                    <h4 style={{color: '#374C76'}}>expand</h4>
+                    <i className={
+                        'fas fa-chevron-down ' + 
+                        (expanded ? 'inversed' : '')} style={{color: '#374C76'}} >
+                    </i>
+                </div>          
             </ContentContainer>
         );
     };

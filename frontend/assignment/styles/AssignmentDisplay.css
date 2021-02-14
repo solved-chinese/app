@@ -1,0 +1,15 @@
+.collapsible {
+    max-height: 300px;
+    overflow: hidden;
+    transition: max-height .25s;
+}
+
+.active {
+    max-height: 100%;
+}
+
+.toggle {
+    text-align: center;
+    font-size: 0.6em;
+    color: #30354512;
+}
