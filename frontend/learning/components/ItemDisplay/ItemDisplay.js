@@ -61,8 +61,9 @@ export default function ItemDisplay(props) {
 
     return (
         <>
-            <div className='content-card-container
-            box-shadow'>
+            <div className='content-card-container box-shadow'
+                 ref={props.displayRef} tabIndex="0" style={{outline: 'none'}}
+            >
                 { renderSwitch(props.type, props.qid) }
             </div>
             { renderNext() }

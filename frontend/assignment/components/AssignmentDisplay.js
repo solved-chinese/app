@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -21,10 +21,11 @@ const ContentContainer = styled.div`
 
 const RelatedContainer = styled.div`
     max-width: 900px;
-    display: flex;
-    justify-content: space-around;
-    height: 30px;
+    height: 40px;
     width: 100%;
+    overflow: hidden;
+    font-weight: 600;
+    font-size: 1.2em;
 `;
 
 const RelatedContainerLeft = styled.div`
@@ -48,16 +49,17 @@ const Headings = styled.h1`
 
 export default function AssignmentDisplay(props) {
     const assignment = useLoadAssignment(`/learning/api/assignment/${props.qid}`);
+    const displayRef = useRef(null);
 
-    const [specifiedObject, setSpecifiedObject] = useState(null);
-    const [expanded, setExpanded] = useState(null);
+    const [curObject, setCurObject] = useState(null);
+    // const [expanded, setExpanded] = useState(false);
 
     const onActionComplete = () => {
         window.location = `/learning/${props.qid}`;
     };
 
     const renderChinese = (obj) => {
-        if (obj.type == 'radical')
+        if (obj.type === 'radical')
             return <img src={obj.chinese}/>; // TODO make this smaller
         return obj.chinese;
     };
@@ -66,10 +68,18 @@ export default function AssignmentDisplay(props) {
         return objects.map((obj, index) => {
             // TODO make status that beautiful bar thing
             return (
-                <RelatedContainer key={index}
-                    onClick={()=>setSpecifiedObject(obj)}>
-                    <RelatedContainerLeft className={'use-chinese'}>{renderChinese(obj)}</RelatedContainerLeft>
-                    <RelatedContainerRight className={'use-chinese'}>/{obj.pinyin}/</RelatedContainerRight>
+                <RelatedContainer key={index} align='left'
+                    onClick={()=>{
+                        setCurObject(obj);
+                        displayRef.current.focus();
+                    }}
+                    className={'use-chinese'}
+                    style={obj === curObject? {backgroundColor: 'gray'} : null}
+                >
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    {renderChinese(obj)} &nbsp;&nbsp;
+                    {obj.pinyin? '/' + obj.pinyin + '/' : null}&nbsp;&nbsp;
+                    {obj.definition}
                 </RelatedContainer>
             );
         });
@@ -80,21 +90,26 @@ export default function AssignmentDisplay(props) {
             <ContentContainer>
                 <HeaderView name={assignment.name} onActionComplete={onActionComplete}/>
                 <ItemDisplayBody objectList={assignment.wordList}
-                    specifiedObject={specifiedObject} />
-                <Headings>Terms in this set</Headings>
+                                 displayRef={displayRef}
+                                 curObject={curObject}
+                                 setCurObject={setCurObject}
+                />
                 <ProgressBar {...assignment.progressBar}/>
-                <div className={'collapsible use-chinese' + (expanded ? 'active': '')}>
+                <Headings>Terms in this set ({assignment.wordList.length})</Headings>
+                <div className={'use-chinese'}>
                     {renderObjects(assignment.wordList)}
+                    {assignment.characterList.length? <h4>Bonus characters</h4>:null}
                     {renderObjects(assignment.characterList)}
+                    {assignment.radicalList.length? <h4>Bonus radicals</h4>:null}
                     {renderObjects(assignment.radicalList)}
                 </div>    
-                <div onClick={() => setExpanded(true)} className={'toggle'}>
-                    <h4 style={{color: '#374C76'}}>expand</h4>
-                    <i className={
-                        'fas fa-chevron-down ' + 
-                        (expanded ? 'inversed' : '')} style={{color: '#374C76'}} >
-                    </i>
-                </div>          
+                {/*<div onClick={() => setExpanded(true)} className={'toggle'}>*/}
+                {/*    <h4 style={{color: '#374C76'}}>expand</h4>*/}
+                {/*    <i className={*/}
+                {/*        'fas fa-chevron-down ' + */}
+                {/*        (expanded ? 'inversed' : '')} style={{color: '#374C76'}} >*/}
+                {/*    </i>*/}
+                {/*</div>          */}
             </ContentContainer>
         );
     };

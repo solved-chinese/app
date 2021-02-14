@@ -6,30 +6,29 @@ import '@assignment.styles/ItemDisplayBody.css';
 
 
 export default function ItemDisplayBody(props) {
-    const [curObject, setCurObject] = useState(null);
     const [curPage, setCurPage] = useState(1);
 
     useEffect(() => {
-        if (props.specifiedObject === null)
-            return;
         const index = props.objectList.findIndex(obj =>
-            obj === props.specifiedObject);
+            obj === props.curObject);
         if (index === -1)
             setCurPage(null);
-        else
+        else if (index !== curPage)
             setCurPage(index + 1);
-        setCurObject(props.specifiedObject);
-    }, [props.specifiedObject])
+    }, [props.curObject])
 
     useEffect(() => {
         if (curPage === null)
             return;
-        setCurObject(props.objectList[curPage - 1]);
+        if (props.objectList[curPage -1] !== props.curObject)
+            props.setCurObject(props.objectList[curPage - 1]);
     }, [curPage])
 
     const displayItem = () => {
-        if (curObject !== null)
-            return <ItemDisplay qid={curObject.qid} type={curObject.type}
+        if (props.curObject)
+            return <ItemDisplay qid={props.curObject.qid}
+                                type={props.curObject.type}
+                                displayRef={props.displayRef}
                                 hasNext={false} onActionNext={null}/>;
     };
 
@@ -46,12 +45,9 @@ export default function ItemDisplayBody(props) {
 
 ItemDisplayBody.propTypes = {
     objectList: PropTypes.arrayOf(PropTypes.object),
-    specifiedObject: PropTypes.object,
+    curObject: PropTypes.object,
+    setCurObject: PropTypes.func,
 };
-
-ItemDisplayBody.defaultProps = {
-    specifiedObject: null,
-}
 
 const PageControlContainer = styled.div`
     display: flex;
@@ -77,9 +73,15 @@ function PageControl(props) {
     if (props.curPage !== null)
         return (
             <PageControlContainer>
-                <i className='fas fa-chevron-left page-control' onClick={handleClick(-1)}/>
+                <i className='fas fa-chevron-left page-control'
+                   onClick={handleClick(-1)}
+                   style={{cursor: 'pointer'}}
+                />
                 <p className='page-control label'>{pageControlLabelString}</p>
-                <i className='fas fa-chevron-right page-control' onClick={handleClick(1)}/>
+                <i className='fas fa-chevron-right page-control'
+                   onClick={handleClick(1)}
+                   style={{cursor: 'pointer'}}
+                />
             </PageControlContainer>
         );
     return null;
