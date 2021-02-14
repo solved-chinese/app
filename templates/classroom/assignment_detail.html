@@ -4,7 +4,7 @@
 {% block breadcrumbs %}
   {% clear_breadcrumbs %}
   {% breadcrumb "My Classes" "class_list" %}
-  {% breadcrumb object.in_class object.in_class %}
+  {% breadcrumb object.klass object.klass %}
   {% breadcrumb object "" %}
 {% endblock %}
 
@@ -15,14 +15,25 @@
 
   <br>
   <form>
-    <button formaction="{% url 'learn_set' object.wordset.pk %}"
+    <button formaction="{% url 'assignment' object.wordset.pk %}"
             type="submit"
             class="button button-secondary tag-button text-left">
       <div class='tag-name'>
-        Learn Like Student
+        Learn Like A Student
       </div>
     </button>
   </form>
+
+  <br>
+
+  <h3>Stats by student</h3>
+  {{ student_stats|safe }}
+
+  <br>
+
+  <h3>Stats by word</h3>
+  {{ word_stats|safe }}
+
   <br><br>
   <form action="{% url 'assignment_delete' %}" method="post">
     {% csrf_token %}
