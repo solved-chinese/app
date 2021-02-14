@@ -1,0 +1,53 @@
+﻿# Integrated Chinese, Level 1, Part 1, 3rd Edition  - Lesson 10
+# Published by Cheng & Tsui, 2008 - ISBN 9780887276385
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+寒假 [hánjià] /winter vacation/
+飞机 [fēijī] /airplane/
+飞 [fēi] /to fly/
+机 [jī] /machine/
+票 [piào] /ticket/
+(飞)机场 [(fēi)jīchǎng] /airport/
+坐 [zuò] /to travel by/
+公共汽车 [gōnggòng qìchē] /bus/
+公共 [gōnggòng] /public/
+汽车 [qìchē] /automobile/
+车 [chē] /vehicle, car/
+或者 [huòzhě] /or/
+地铁 [dìtiě] /subway/
+走 [zǒu] /to go by way of, to walk/
+先 [xiān] /first/
+站 [zhàn] /(measure word for stops of bus, train, etc.)/
+下车 [xià chē] /to get off (a bus, train, etc.)/
+然后 [ránhòu] /then/
+绿 [lǜ] /green/
+线 [xiàn] /line/
+最后 [zuìhòu] /final, last/
+蓝 [lán] /blue/
+麻烦 [máfan] /troublesome/
+打车 [dǎ chē] /to take a taxi/
+出租汽车 [chūzū qìchē] /taxi/
+出租 [chūzū] /to rent out, to let/
+租 [zū] /to rent/
+开车 [kāi chē] /to drive a car/
+开 [kāi] /to drive, to operate/
+送 [sòng] /to see off or out, to take (someone somwhere)/
+电子邮件 [diànzǐ yóujiàn] /email/
+电子 [diànzǐ] /electron/
+让 [ràng] /to allow or cause (somebody to do something)/
+花 [huā] /to spend/
+不好意思 [bù hǎoyìsi] /to feel embarassed/
+每 [měi] /every, each/
+城市 [chéngshì] /city/
+特别 [tèbié] /especially/
+高速公路 [gāosù gōnglù] /highway/
+高速 [gāosù] /high speed/
+送路 [gōnglù] /highway, public road/
+路 [lù] /road, path/
+紧张 [jǐnzhāng] /nervous, anxious/
+自己 [zìjǐ] /oneself/
+手机 [shǒujī] /cell phone/
+发短信 [fā duǎnxìn] /to send a text message/
+新年 [xīnnián] /new year/
+快乐 [kuàilè] /happy/
+# end

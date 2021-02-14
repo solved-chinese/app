@@ -2,57 +2,40 @@
 
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumbs %}
-  {{ block.super }}
+  {% clear_breadcrumbs %}
   {% breadcrumb "My Classes" "class_list" %}
-  {% breadcrumb object.in_class object.in_class %}
+  {% breadcrumb object.klass object.klass %}
   {% breadcrumb object "" %}
 {% endblock %}
 
 {% block content %}
 
   <h1>Assignment: {{ object.name }}</h1>
-  <h1>Class: {{ object.in_class.name }}</h1>
-
-  <h3>
-    {{ object.character_set.characters.count }} characters:
-    {{ object.character_set.render_all_character }}
-  </h3>
+  <h1>Class: {{ object.klass.name }}</h1>
 
   <br>
-
-  <h3>Review Questions</h3>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.non_field_errors }}
-    {% include 'utils/form_content.html' with form=form %}
-    <input type="submit" value="Update Review Question" class='button button-secondary'>
+  <form>
+    <button formaction="{% url 'assignment' object.wordset.pk %}"
+            type="submit"
+            class="button button-secondary tag-button text-left">
+      <div class='tag-name'>
+        Learn Like A Student
+      </div>
+    </button>
   </form>
 
   <br>
 
-  {% if stats_error %}
-    {{ stats_error }}
-  {% else %}
-    <h3>
-    {{ finished_student_cnt }} / {{ total_student_cnt }} students have finished
-    this assignment
-    </h3>
-
-    <br>
-
-    <h3>Stats by student</h3>
-    {{ student_frame|safe }}
-
-    <br>
-
-    <h3>Stats by character</h3>
-    {{ character_frame|safe }}
-
-  {% endif %}
+  <h3>Stats by student</h3>
+  {{ student_stats|safe }}
 
   <br>
 
-  <form action="{% url 'assignment_delete'%}" method="post">
+  <h3>Stats by word</h3>
+  {{ word_stats|safe }}
+
+  <br><br>
+  <form action="{% url 'assignment_delete' %}" method="post">
     {% csrf_token %}
     <input type='hidden' name='assignment_pk' value='{{ object.pk }}'>
     <input type="submit" value="delete this assignment" class='button button-tertiary'

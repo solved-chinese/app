@@ -1,0 +1,54 @@
+﻿# Integrated Chinese, Level 1, Part 1, 3rd Edition  - Lesson 07
+# Published by Cheng & Tsui, 2008 - ISBN 9780887276385
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+说话 [shuō huà] /to talk/
+话 [huà] /word, speech/
+上个 [shàng ge] /the previous one/
+得 [de] /(a structural particle)/
+复习 [fùxí] /to review/
+写 [xiě] /to write/
+字 [zì] /character/
+慢 [màn] /slow/
+枝 [zhī] /(measure word for long, thin, inflexible objects)/
+笔 [bǐ] /pen/
+张 [zhāng] /(measure word for flat objects, paper, pictures, etc.)/
+纸 [zhǐ] /paper/
+教 [jiāo] /to teach/
+怎么 [zěnme] /how, how come/
+懂 [dǒng] /to understand/
+真 [zhēn] /really/
+那里 [nǎli] /where/
+预习 [yùxí] /to preview/
+学 [xué] /to study, to learn/
+第 [dì] /(prefix for ordinal numbers)/
+语法 [yǔfǎ] /grammar/
+容易 [róngyì] /easy/
+生词 [shēncí] /new words, vocabulary/
+多 [duō] /many, much/
+汉子 [Hànzì] /Chinese characters/
+难 [nán] /difficult/
+平常 [píngcháng] /usually/
+早 [zǎo] /early/
+这么 [zhème] /so, this/
+晚 [wǎn] /late/
+早上 [zǎoshang] /morning/
+功课 [gōngkè] /homework, schoolwork/
+大家 [dàjiā] /everybody/
+上课 [shàng kè] /to go to a class, to start a class, to be in class/
+开始 [kāishǐ] /to begin, to start, beginning/
+念 [niàn] /to read aloud/
+课文 [kèwén] /text of a lesson/
+录音 [lùyīn] /sound recording, to record/
+学习 [xuéxí] /to study, to learn/
+帅 [shuài] /handsome/
+酷 [kù] /cool/
+铅笔 [qiānbǐ] /pencil/
+钢笔 [gāngbǐ] /fountain pen/
+毛笔 [máobǐ] /writing brush/
+圆珠笔 [yuánzhūbǐ] /ballpoint pen/
+本子 [běnzi] /notebook/
+练习本 [liànxíběn] /exercise book/
+课本 [kèběn] /textbook/
+字典 [zìdiǎn] /dictionary/
+# end

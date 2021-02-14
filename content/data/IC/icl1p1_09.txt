@@ -1,0 +1,74 @@
+﻿# Integrated Chinese, Level 1, Part 1, 3rd Edition  - Lesson 09
+# Published by Cheng & Tsui, 2008 - ISBN 9780887276385
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+商店 [shāngdiàn] /store, shop/
+买 [mǎi] /to buy/
+东西 [dōngxi] /things, objects/
+售货员 [shòuhuòyuán] /shop assistant, salesclerk/
+衣服 [yīfu] /clothes/
+件 [jiàn] /(measure word for shirts, dresses, jackets, coats, etc.)/
+衬衫 [chènshān] /shirt/
+颜色 [yánsè] /color/
+黄 [huáng] /yellow/
+红 [hóng] /red/
+穿 [chuān] /to wear, to put on/
+条 [tiáo] /(measure word for pants and long, thin objects)/
+裤子 [kúzi] /pants/
+号 [hào] /size/
+中 [zhōng] /medium, middle/
+便宜 [piányi] /cheap, inexpensive/
+如果…的话 [rúguǒ...de huà] /if/
+长短 [chángduǎn] /length/
+长 [cháng] /long/
+短 [duǎn] /short/
+合适 [héshì] /suitable/
+试 [shì] /to try/
+不用 [búyòng] /need not/
+一共 [yígòng] /altogether/
+多少 [duōshao] /how much, how many/
+钱 [qián] /money/
+块 [kuài] /(measure word for the basic Chinese monetary unit)/
+毛 [máo] /(measure word for 1/10 of a kuai, dime)/
+分 [fēn] /(measure word for 1/100 of a kuai, cent)/
+百 [bǎi] /hundred/
+找 (钱) [zhǎo (qián)] /to give change/
+双 [shuāng] /(measure word for a pair)/
+鞋 [xié] /shoes/
+换 [huàn] /to exchange, to change/
+一样 [yíyàng] /same, alike/
+虽然 [suīrán] /although/
+大小 [dàxiǎo] /size/
+咖啡色 [kāfēisè] /brown, coffee color/
+种 [zhǒng] /(measure word for kinds, sorts, types)/
+黑 [hēi] /black/
+样子 [yàngzi] /style/
+廷 [tǐng] /very, rather/
+它 [tā] /it/
+这儿 [zhèr] /here/
+刷卡 [shuā kǎ] /to pay with a credit card/
+刷 [shuā] /to brush, to swipe/
+卡 [kǎ] /card/
+收 [shōu] /to receive, to accept/
+信用卡 [xìnyòngkǎ] /credit card/
+不过 [búguò] /however, but/
+再 [zài] /again/
+付钱 [fù qián] /to pay money/
+付 [fù] /to pay/
+蓝色 [lánsè] /blue/
+绿色 [lǜsè] /green/
+紫色 [zǐsè] /purple/
+粉红色 [fěnhóngsè] /pink/
+橘红色 [júhóngsè] /orange/
+灰色 [huīsè] /gray/
+上衣 [shángyī] /upper garment/
+大衣 [dàyī] /overcoat/
+毛衣 [máoyī] /woolen sweater/
+裙子 [qúnzi] /skirt/
+夹克 [jiákè] /jacket/
+外套 [wàitào] /outer garment, coat, jacket/
+西装 [xīzhuāng] /(western-style) suit/
+T恤衫 [T-xùshān] /T-shirt/
+帽子 [màozi] /hat, cap/
+袜子 [wázi] /socks/
+# end

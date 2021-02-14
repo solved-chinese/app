@@ -1,0 +1,145 @@
+.content-card-container {
+    margin-top: 60px;
+    margin-bottom: 60px;
+    max-width: 800px;
+    width: 100%;
+    padding: 25px 50px;
+    border-radius: 5px;
+    transition: 150ms ease;
+    background-color: white;
+    margin: auto;
+}
+
+.breakdown-container {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.breakdown-toggle {
+    width: 100%;
+    min-width: 150px;
+    margin: auto;
+    margin-bottom: -10px; 
+    margin-top: 15px;
+}
+
+.breakdown-toggle.toggled {
+    /* margin-bottom: 0; */
+    /* margin-bottom: 10px; */
+}
+/* Made toggle extends when hover */
+.breakdown-toggle:hover {
+    transform: scale(1.05);
+    /* margin-bottom: 10px; */
+    transition: 200ms ease-in-out;
+}
+
+.breakdown-toggle i {
+    color: #374C76;
+    width: 100%;
+    text-align: center;
+    transition: transform 300ms ease;
+}
+
+.breakdown-toggle.toggled i {
+    transform: rotate(180deg);
+}
+
+.breakdown-toggle > h4 {
+    color: #374C76;
+    width: 100%;
+    text-align: center;
+    font-size: 0.9em;
+    font-weight: 600;
+    margin: 0;
+}
+
+.breakdown-content {
+    display: flex;
+    flex-wrap: wrap;
+    visibility: hidden;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    transition: max-height 400ms ease-in-out, opacity 300ms 250ms ease;
+}
+
+.breakdown-content.show {
+    max-height: 3000px; /* We need a numerical value here for the animation */
+    opacity: 1;
+    overflow: visible;
+    visibility: visible;
+}
+
+.breakdown-card {
+    width: calc(50% - 20px);
+    font-size: 15px;
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    padding: 10px 20px;
+    background-color: white;
+}
+
+@media only screen and (max-width: 768px) {
+    /* .content-card-container {
+        padding: 15px 10px;
+    } */
+    .breakdown-content {
+        flex-direction: column;
+    }
+
+    .breakdown-card {
+        width: 75%;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .breakdown-card {
+        width: calc(100% - 20px);
+    }
+
+    .content-card-container {
+        padding: 25px 20px;
+    }
+}
+
+/* WordDisplay - Example Sentences */
+.ExampleCard {
+    max-width: 300px;
+    width: 100%;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 5px 5px 15px 0px #30354512;
+    transition: 200ms ease;
+    padding: 15px 20px 20px;
+    text-align: left;
+    margin: 0px 5px 10px;
+  }
+
+  .ExampleCard:hover {
+    box-shadow: 2px 4px 10px 0px #30354512;
+    transition: 200ms ease;
+}
+
+  /* Popup Modal Animation + Disable Scrolling */
+.ReactModal__Overlay {
+    opacity: 0;
+    transition: all 500ms ease-in-out;
+}
+  
+.ReactModal__Overlay--after-open {
+    opacity: 1;
+}
+  
+.ReactModal__Overlay--before-close {
+    opacity: 0;
+}
+
+.ReactModal__Body--open {
+    overflow: hidden;
+}

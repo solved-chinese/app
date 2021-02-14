@@ -1,116 +1,167 @@
-from django.core.exceptions import ValidationError
+import json
+
 from django.db import models
+from django.core.exceptions import ValidationError
 
-from content.audio import get_audio
-from content.models import DFModelMixin, RadicalInCharacter
-from jiezi.utils.mixins import CleanBeforeSaveMixin
+from content.models import GeneralContentModel, OrderableMixin, \
+    ReviewableMixin, AudioFile
+from content.utils import validate_chinese_character_or_x
+from content.data.makemeahanzi_dictionary import get_makemeahanzi_data
 
 
-class Character(DFModelMixin, CleanBeforeSaveMixin, models.Model):
-    TEST_FIELDS = ['pinyin', 'definition_1']
+class DefinitionInCharacter(OrderableMixin):
+    character = models.ForeignKey('Character', on_delete=models.CASCADE,
+                             related_name='definitions',
+                             related_query_name='definition')
+    definition = models.CharField(max_length=70)
 
-    chinese = models.CharField(max_length=1)
-    pinyin = models.CharField(max_length=15)
-    part_of_speech_1 = models.CharField(max_length=50)
-    definition_1 = models.CharField(max_length=100)
-    part_of_speech_2 = models.CharField(max_length=50, null=True, blank=True)
-    definition_2 = models.CharField(max_length=100, null=True, blank=True)
-    part_of_speech_3 = models.CharField(max_length=50, null=True, blank=True)
-    definition_3 = models.CharField(max_length=100, null=True, blank=True)
-
-    radical_1 = models.ForeignKey('Radical', on_delete=models.CASCADE,
-                                  related_name='+')
-    radical_2 = models.ForeignKey('Radical', on_delete=models.CASCADE,
-                                  related_name='+', null=True, blank=True)
-    radical_3 = models.ForeignKey('Radical', on_delete=models.CASCADE,
-                                  related_name='+', null=True, blank=True)
-    radicals = models.ManyToManyField('Radical', through=RadicalInCharacter,
-                                      related_name='characters',
-                                      related_query_name='character')
-    mnemonic_explanation = models.CharField(max_length=800)
-
-    example_1_word = models.CharField(max_length=10)
-    example_1_pinyin = models.CharField(max_length=25)
-    example_1_character = models.CharField(max_length=100)
-    example_1_meaning = models.CharField(max_length=100)
-    example_2_word = models.CharField(max_length=10, null=True, blank=True)
-    example_2_pinyin = models.CharField(max_length=25, null=True, blank=True)
-    example_2_character = models.CharField(max_length=100, null=True, blank=True)
-    example_2_meaning = models.CharField(max_length=100, null=True, blank=True)
-
-    is_preview_definition = models.BooleanField()
-    is_preview_pinyin = models.BooleanField()
-    structure = models.IntegerField(null=True)
-
-    stroke_order_image = models.ImageField(default='default.jpg')
-
-    def get_example_sentence(self, index=1):
-        word = getattr(self, f'example_{index}_word')
-        pinyin = getattr(self, f'example_{index}_pinyin')
-        character = getattr(self, f'example_{index}_character')
-        meaning = getattr(self, f'example_{index}_meaning')
-        if not word and index == 2:
-            return None
-
-        if '+' in word:
-            words = word.split('+')
-        else:
-            words = word
-        word_len = len(words)
-
-        if '+' in pinyin:
-            pinyins = pinyin.split('+')
-        else:
-            pinyins = pinyin.split(' ')
-        pinyin_len = len(pinyins)
-
-        characters = character.split('+')
-        character_len = len(characters)
-
-        assert character_len == pinyin_len == word_len,\
-            f"character_len={character_len} word_len={word_len} " \
-            f"pinyin_len={pinyin_len} need to be equal"
-        assert character_len > 1, 'the length needs to be greater than 1'
-
-        example = "&nbsp;&nbsp;&nbsp;"
-        for i in range(character_len):
-            example += f"{words[i]} /{pinyins[i]}/ {characters[i]}"
-            if i != character_len - 1:
-                example += ' + '
-        example += f"<br> = {word.replace('+', '')} {meaning}"
-        return example
-
-    def get_example_2_sentence(self):
-        return self.get_example_sentence(index=2)
-
-    @property
-    def pinyin_audio(self):
-        return get_audio(pinyin=self.pinyin)
-
-    def clean(self):
-        if self.radical_2 is None and self.radical_3 is not None:
-            raise ValidationError('radical_2 is None but radical_3 exists')
-        try:
-            self.get_example_sentence()
-        except AssertionError as e:
-            raise ValidationError(f'example not valid: {str(e)}') from e
-
-    def save(self, *args, **kwargs):
-        self.full_clean()
-        self.radicals.clear()
-        for i in range(1, 4):
-            radical = getattr(self, f"radical_{i}")
-            if radical is None:
-                break
-            RadicalInCharacter.objects.create(character=self, radical=radical,
-                                              radical_loc=i)
-        super().save(*args, **kwargs)
+    class Meta:
+        ordering = ['order']
 
     def __str__(self):
-        return self.chinese
+        return self.definition
 
     def __repr__(self):
-        return '<C' + '%04d' % self.id + ':' + self.chinese +'>'
+        return f"<Def of {self.character}: {str(self)}>"
+
+
+class RadicalInCharacter(OrderableMixin):
+    class RadicalType(models.TextChoices):
+        __empty__ = 'TODO'
+        SEMANTIC = 'semantic', 'semantic'
+        PHONETIC = 'phonetic', 'phonetic'
+        BOTH = 'both', 'both'
+        NEITHER = 'neither', 'neither'
+
+    character = models.ForeignKey('Character', on_delete=models.CASCADE)
+    radical = models.ForeignKey('Radical', on_delete=models.CASCADE)
+    radical_type = models.CharField(choices=RadicalType.choices,
+                                    max_length=12, blank=True)
+
+    class Meta:
+        ordering = ['order']
+        unique_together = ['character', 'radical', 'order']
+
+
+class Character(ReviewableMixin, GeneralContentModel):
+    class CharacterType(models.TextChoices):
+        __empty__ = 'TODO'
+        PICTOGRAPHIC = 'Pictographic', 'Pictographic'
+        IDEOGRAPHIC = 'Ideographic', 'Ideographic'
+        COMPOUND_IDEOGRAPHIC = 'Compound Ideographic', \
+                               'Compound Ideographic'
+        PICTO_PHONETIC = 'Picto-phonetic', 'Picto-phonetic'
+        LOAN = 'Loan', 'Loan'
+
+    chinese = models.CharField(max_length=1,
+                               validators=[validate_chinese_character_or_x])
+    identifier = models.CharField(max_length=10, blank=True)
+
+    pinyin = models.CharField(max_length=40, default='TODO')
+    audio = models.ForeignKey('AudioFile',
+                              related_name='characters',
+                              related_query_name='character',
+                              null=True, blank=True,
+                              on_delete=models.SET_NULL)
+
+    character_type = models.CharField(max_length=30,
+                                      choices=CharacterType.choices,
+                                      blank=True)
+    radicals = models.ManyToManyField('Radical', related_name='characters',
+                                      related_query_name='character',
+                                      through='RadicalInCharacter')
+    memory_aid = models.TextField(max_length=300,
+                                  blank=True, default='TODO',
+                                  verbose_name='character memory aid')
 
     class Meta:
         ordering = ['id']
+        unique_together = ['chinese', 'identifier']
+
+    def clean(self):
+        super().clean()
+        if self.is_done:
+            if not self.radicals.exists():
+                raise ValidationError('cannot be done without any radical')
+            for r in self.radicals.all():
+                if not r.is_done:
+                    raise ValidationError(f"{repr(r)} not done")
+
+            if not self.definitions.exists():
+                raise ValidationError('cannot be done without any definition')
+            for definition in self.definitions.all():
+                if not definition.definition or 'TODO' in definition.definition:
+                    raise ValidationError('definitions not done')
+
+    def save(self, *args, **kwargs):
+        adding = self._state.adding
+        if not adding:
+            old_self = Character.objects.get(pk=self.pk)
+        # initial save is needed for foreign keys to be related to self
+        super().save(*args, **kwargs)
+        if adding:
+            self.fill_data()
+            # cannot also pass kwargs here or force_insert will produce an error
+            super().save(check_chinese=False)
+        if (adding or self.pinyin != old_self.pinyin) and \
+                (not self.audio or self.audio.type != AudioFile.Type.CUSTOM):
+            self.audio = AudioFile.get_by_pinyin(self.pinyin)
+            super().save(check_chinese=False)
+
+    def fill_data(self):
+        """ this fills necessary data from makemeahanzi into archive field,
+         remember to save """
+        if self.chinese == 'x':
+            return
+        characters_data = get_makemeahanzi_data()
+        try:
+            data = characters_data[self.chinese]
+        except KeyError:
+            raise ValidationError(f"{self.chinese} is not proper character")
+
+        if self.pinyin == 'TODO' or not self.pinyin:
+            self.pinyin = data['pinyin']
+
+        if not self.definitions.exists():
+            definitions = data['definition'].split(';')
+            for index, definition in enumerate(definitions):
+                definition = definition.strip()
+                DefinitionInCharacter.objects.create(
+                    character=self, definition=definition, order=index
+                )
+            self.add_warning(f"definitions auto-generated, please verify")
+        self.archive = json.dumps(data, indent=4, ensure_ascii=False)
+
+    def reset_order(self):
+        OrderableMixin.reset_order(self.radicalincharacter_set)
+        OrderableMixin.reset_order(self.definitions)
+
+    @property
+    def audio_url(self):
+        try:
+            return self.audio.file.url
+        except AttributeError:
+            return AudioFile.get_default().file.url
+
+    @property
+    def full_definition(self):
+        """ used in serializer """
+        return "; ".join(map(str, self.definitions.all()))
+
+    def __str__(self):
+        if self.identifier:
+            return f"{self.chinese}({self.identifier})"
+        else:
+            return self.chinese
+
+    def __repr__(self):
+        id = self.id or -1
+        return f"<C{id:04d}:{self.chinese}#{self.identifier}>"
+
+    @classmethod
+    def get_TODO_character(cls):
+        return cls.objects.get_or_create(
+            chinese='x',
+            defaults={'note': 'placeholder, do NOT edit this, '
+                              'choose an actual character'}
+        )[0]

@@ -1,0 +1,58 @@
+﻿# Integrated Chinese, Level 2, Part 2, 3rd Edition  - Lesson 18
+# Published by Cheng & Tsui, 2010 - ISBN 9780887276880
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+文明 [wénmíng] /civilization, civilized/
+文字 [wénzì] /characters, written form of a langage/
+记载 [jìzǎi] /to put down in writing, to record; record, account/
+参观 [cānguān] /to visit, to look around/
+其中 [qízhōng] /among which or whom, in which or whom, of which or whom/
+部分 [bùfen] /portion, part/
+朝代 [cháodài] /dynasty/
+伟大 [wěidà] /great, outstanding, magnificent/
+思想 [sīxiǎng] /thinking, ideology, thoughts/
+学院 [xuéyuàn] /college, academy, institute/
+建立 [jiànlì] /to build, to establish/
+展厅 [zhǎntīng] /exhibition hall, gallery/
+皇帝 [huángdì] /emperor/
+统一 [tǒngyī] /to unify, to unite; unified, centralized/
+贡献 [gòngxiàn] /to contribute, to devote; contribution/
+修 [xiū] /to build, to repair, to mend, to fix/
+杀 [shā] /to kill/
+烧 [shāo] /to burn, to set fire to, to cook/
+千千万万 [qiān qiān wàn wàn] /thousands upon thousands/
+宫殿 [gōngdiàn] /palace/
+坟墓 [fénmù] /grave, tomb/
+兵马俑 [bīngmǎyǒng] /terracotta warriors and horses/
+基础 [jīchǔ] /foundation, basis/
+发展 [fāzhǎn] /to develop/
+称呼 [chēnghu] /term of address, to address as/
+丝绸 [sīchóu] /silk, silk fabric/
+关系 [guānxì] /relation, relationship, connection/
+进行 [jìnxíng] /to carry on, to carry out, to conduct/
+贸易 [màoyì] /trade/
+试 [shī] /poetry, poem/
+诗人 [shīrén] /poet/
+发达 [fādá] /developed, flourishing; to develop/
+技术 [jìshù] /technology, technique/
+曾经 [céngjīng] /once, at some time in the past/
+先进 [xiānjìn] /advanced/
+发明 [fāmíng] /invention; to invent/
+造纸 [zào zhǐ] /to make paper/
+火药 [huǒyào] /gunpowder/
+指南针 [zhǐnánzhēn] /compass/
+活字 [huózì] /moveable-type printing, letterpress printing/
+印刷 [yìnshuā] /to lead, to exercise leadership; leadership, leader/
+领导 [lǐngdǎo] /revolution/
+孔子 [Kǒngzǐ] /Confucius/
+秦朝 [Qíncháo] /Qin Dynasty/
+秦始皇 [Qínshǐhuáng] /First Emporer of the Qin Dynasty/
+汉朝 [Hàncháo] /Han Dynasty/
+西方 [Xīfāng] /the West/
+唐朝 [Tángcháo] /Tang Dynasty/
+李白 [Lǐ Bái] /Li Bai, Li Po (701-752 CE)/
+宋朝 [Sòngcháo] /Song Dynasty/
+清朝 [Qīngcháo] /Qing Dynasty/
+孙中山 [Sūn Zhōngshān] /Sun Yat-sen/
+中华民国 [Zhōnghuá Mínguó] /Republic of China/
+# end

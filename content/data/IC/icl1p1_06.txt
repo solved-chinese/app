@@ -1,0 +1,88 @@
+﻿# Integrated Chinese, Level 1, Part 1, 3rd Edition  - Lesson 06
+# Published by Cheng & Tsui, 2008 - ISBN 9780887276385
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+给 [gěi] /to, for/
+打电话 [dǎ diànhuà] /to make a phone call/
+电话 [diànhuà] /telephone/
+喂 [wéi/wèi] /(on telephone) Hello!, Hey!/
+在 [zài] /to be present at, be at (a place)/
+就 [jiù] /precisely, exactly/
+您 [nín] /you (honorific for )/
+哪 [nǎ/něi] /which/
+位 [wèi] /(polite measure word for people)/
+下午 [xiàwǔ] /afternoon/
+时间 [shíjiān] /time/
+问题 [wèntí] /question, problem/
+要 [yào] /will, be going to, to want to, to have a desire to/
+开会 [kāi huì] /to have a meeting/
+开 [kāi] /to open, to hold (a meeting, party, etc.)/
+会 [huì] /meeting/
+上午 [shàngwǔ] /morning/
+节 [jié] /(measure word for class periods)/
+课 [kè] /class, course, lesson/
+年级 [niánjí] /grade in school/
+考试 [kǎo shì] /to give or take a test, test/
+考 [kǎo] /to give or take a test/
+试 [shì] /test, to try, to experiment/
+以后 [yǐhòu] /after, from now on, later on/
+空(儿) [kòng(r)] /free time/
+要是 [yàoshi] /if/
+方便 [fāngbiàn] /convenient/
+到 [dào] /to go to, to arrive/
+办公室 [bànggōngshì] /office/
+行 [xíng] /all right, OK/
+等 [děng] /to wait, to wait for/
+别 [bié] /don’t/
+客气 [kèqi] /polite/
+常老师 [Cháng lǎoshī] /Teacher Chang/
+下个 [xià ge] /next one/
+下 [xià] /below, next/
+中文 [Zhōngwén] /Chinese language/
+文 [wén] /language, script, written language/
+帮 [bāng] /to help/
+准备 [zhūnbèi] /to prepare/
+练习 [liànxí] /to practice/
+说 [shuō] /to say, to speak/
+啊 [a] /(a sentence-final particle of exclamation, interrogation, etc./
+但是 [dànshì] /but/
+得 [děi] /must, to have to/
+跟 [gěn] /with/
+见面 [jiàn miàn] /to meet up, to meet with/
+面 [miàn] /face/
+回来 [huí lai] /to come back/
+上上个月 [shàng shàng ge yuè] /the month before last/
+上个月 [shàng ge yuè] /last month/
+这个月 [zhè ge yuè] /this month/
+下个月 [xià ge yuè] /next month/
+下下个月 [xià xià ge yuè] /the month after next/
+上上(个)星期 [shàng shàng (ge) xīngqī] /the week before last/
+上(个)星期 [shàng (ge) xīngqī] /last week/
+这(个)星期 [zhè (ge) xīngqī] /this week/
+下(个)星期 [xià (ge) xīngqī] /next week/
+下下(个)星期 [xià xià (ge) xīngqī] /the week after next/
+大前天 [dàqiántiān] /three days ago/
+前天 [qiántiān] /the day before yesterday/
+昨天 [zuótiān] /yesterday/
+今天 [jīntiān] /today/
+明天 [míngtiān] /tomorrow/
+后天 [hòutiān] /the day after tomorrow/
+大后天 [dàhòutiān] /three days from now/
+大前天 [dàqiánnián] /three years ago/
+前年 [qiánnián] /the year before last/
+去年 [qùnián] /last year/
+今年 [jīnnián] /this year/
+明年 [míngnián] /next year/
+后年 [hòunián] /the year after next/
+大后年 [dàhòunián] /three years from now/
+法文 [Fǎwén] /the French language/
+日文 [Rìwén] /the Japanese language/
+德文 [Déwén] /the German language/
+韩文 [Hánwén] /the Korean language/
+俄文 [Éwén] /the Russian language/
+西班牙文 [Xībānyáwén] /the Spanish language/
+意大利文 [Yìdàlìwén] /the Italian language/
+葡萄牙文 [Pútáoyáwén] /the Portuguese language/
+希腊文 [Xīlàwén] /the Greek language/
+拉丁文 [Lādīngwén] /the Latin language/
+# end

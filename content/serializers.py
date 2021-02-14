@@ -1,60 +1,99 @@
 from rest_framework import serializers
+from rest_framework.reverse import reverse
 
-from content.models import Radical, Character, CharacterSet
+from content.models import Radical, Character, Word, WordSet, \
+    DefinitionInWord, Sentence, DefinitionInCharacter, AudioFile
 
 
-class SimpleRadicalSerializer(serializers.ModelSerializer):
-    url = serializers.HyperlinkedIdentityField(
-        view_name='radical_detail')
+RELATED_MAX_NUM = 3
+
+
+class RadicalSerializer(serializers.HyperlinkedModelSerializer):
+    audio_url = serializers.ReadOnlyField()
+
     class Meta:
         model = Radical
-        fields = ['chinese', 'pinyin', 'url', 'id']
+        exclude = ['audio']
 
 
-class RadicalSerializer(serializers.ModelSerializer):
+class DefinitionInCharacterSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Radical
-        fields = '__all__'
+        model = DefinitionInCharacter
+        fields = ['definition']
 
 
 class SimpleCharacterSerializer(serializers.ModelSerializer):
-    url = serializers.HyperlinkedIdentityField(
-        view_name='character_detail')
-    class Meta:
-        model = Character
-        fields = ['chinese', 'pinyin', 'url', 'id']
-
-
-class CharacterSerializer(serializers.ModelSerializer):
-    radical_1 = RadicalSerializer(read_only=True)
-    radical_2 = RadicalSerializer(read_only=True)
-    radical_3 = RadicalSerializer(read_only=True)
-    msg = serializers.SerializerMethodField()
-    radical_1_id = serializers.SerializerMethodField()
-    radical_2_id = serializers.SerializerMethodField()
-    radical_3_id = serializers.SerializerMethodField()
+    full_definition = serializers.ReadOnlyField()
 
     class Meta:
         model = Character
-        fields = '__all__'
-
-    # these methods are depreciated
-    def get_radical_1_id(self, obj):
-        return obj.radical_1.pk
-
-    def get_radical_2_id(self, obj):
-        return obj.radical_2.pk if obj.radical_2 else 0
-
-    def get_radical_3_id(self, obj):
-        return obj.radical_3.pk if obj.radical_3 else 0
-
-    def get_msg(self, obj):
-        return "WARNING: 'radical_1_id', 'radical_2_id', 'radical_3_id' " \
-               "are depreciated and will be removed in future version, " \
-               "use 'radical_1', 'radical_2', and 'radical_3' instead"
+        fields = ['chinese', 'pinyin', 'full_definition']
 
 
-class CharacterSetSerializer(serializers.ModelSerializer):
+class CharacterSerializer(serializers.HyperlinkedModelSerializer):
+    definitions = DefinitionInCharacterSerializer(many=True, read_only=True)
+    radicals = serializers.SerializerMethodField()
+    audio_url = serializers.ReadOnlyField()
+
+    def get_radicals(self, character):
+        radicals = character.radicals.order_by('radicalincharacter')
+        l = [reverse('radical-detail',
+                     kwargs={'pk': radical.pk},
+                     request=self.context['request'])
+             for radical in radicals]
+        return l
+
     class Meta:
-        model = CharacterSet
+        model = Character
+        exclude = ['note', 'archive', 'audio']
+
+
+class SentenceSerializer(serializers.HyperlinkedModelSerializer):
+    audio_url = serializers.ReadOnlyField()
+
+    class Meta:
+        model = Sentence
+        fields = ['pinyin_highlight', 'chinese_highlight',
+                  'translation_highlight', 'audio_url']
+
+
+class SimpleWordSerializer(serializers.ModelSerializer):
+    full_definition = serializers.ReadOnlyField()
+
+    class Meta:
+        model = Word
+        fields = ['chinese', 'pinyin', 'full_definition']
+
+
+class DefinitionInWordSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = DefinitionInWord
+        fields = ['part_of_speech', 'definition']
+
+
+class WordSerializer(serializers.HyperlinkedModelSerializer):
+    definitions = DefinitionInWordSerializer(
+        many=True, read_only=True)
+    sentences = SentenceSerializer(
+        many=True, read_only=True)
+    characters = serializers.SerializerMethodField()
+    audio_url = serializers.ReadOnlyField()
+
+    def get_characters(self, word):
+        characters = word.characters.order_by('characterinword')
+        l = [reverse('character-detail',
+                     kwargs={'pk': character.pk},
+                     request=self.context['request'])
+             for character in characters]
+        return l
+
+    class Meta:
+        model = Word
+        exclude = ['note', 'archive', 'audio']
+
+
+class WordSetSerializer(serializers.HyperlinkedModelSerializer):
+    # TODO overwrite characters order when needed
+    class Meta:
+        model = WordSet
         fields = '__all__'

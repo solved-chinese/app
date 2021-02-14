@@ -1,0 +1,29 @@
+﻿# Integrated Chinese, Level 1, Part 2, 3rd Edition  - Lesson 20
+# Published by Cheng & Tsui, 2010 - ISBN 9780887276880
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+行李 [xíngli] /luggage/
+托运 [tuōyùn] /to check (luggage)/
+包 [bāo] /bag, sack, bundle, package/
+箱子 [xiāngzi] /suitcase, box/
+超重 [chāozhòng] /to be overweight (of luggage, freight, etc.)/
+超 [chāo] /to exceed, to surpass/
+登机牌 [dēngjīpái] /boarding pass/
+牌 [pái] /plate, tablet, card/
+登机口 [děngjīkǒu] /boarding gate/
+口 [kǒu] /opening, entrance, mouth/
+哭 [kū] /to cry, to weep/
+地 [de] /(particle to link adverbial and verb)/
+照顾 [zhàogu] /to look after, to care of, to attend to/
+起飞 [qǐfēi] /(of airplanes) to take off/
+小心 [xiǎoxīn] /to be careful/
+一路平安 [yí lù píng’ān] /have a good trip, bon voyage/
+叔叔 [shūshu] /uncle/
+阿姨 [āyí] /aunt/
+欢迎 [huānyíng] /to welcome/
+瘦 [shòu] /thin, slim (usually of a person or animal), lean/
+爷爷 [yéye] /paternal grandfather/
+奶奶 [nǎinai] /paternal grandmother/
+烤鸭 [kǎoyā] /roast duck/
+首都机场 [Shǒudū Jīchǎng] /the Capital Airport (in Beijing)/
+# end

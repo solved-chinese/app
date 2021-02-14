@@ -1,170 +1,127 @@
-import io
-import os
-import os.path
+import html
 
-import pandas as pd
-from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q
-from django.http import JsonResponse
-from django.views import View
-from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import View
+from django.http import HttpResponseRedirect, Http404
+from django.views.generic import DetailView, TemplateView
+from django.shortcuts import render, get_object_or_404, reverse
 from django.contrib.auth.decorators import user_passes_test
-from rest_framework import status
-from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
-from rest_framework.views import APIView
 
-from content.models import Radical, Character, CharacterSet
-from content.media_update_task import media_update_task
-from content.gdrive_download import get_service, download
-from content.serializers import CharacterSerializer
-from jiezi.celery import app
-from jiezi.settings import MEDIA_ROOT
-from .audio import get_audio
-from .reviews import ReviewQuestion, AVAILABLE_REVIEW_TYPES
-
-RADICAL_MNEMONIC_FOLDER_ID = '1boxohVl7GYOxqM1PyXKfnAMy-VP-tfvf'
-ANIMATED_STROKE_ORDER_FOLDER_ID = '1D5nH3Z0rdWV3SrfY5CG8ahzXSDO0uTH-'
-ENTRY_FILE_ID = '18baQLqJooho2sgfy70dybynQeXN3BiuD5_lT03EGkas'
+from content.models import GeneralQuestion, Word, \
+    ReviewableObject, Radical, Character, WordSet
+from .question_factories import QuestionFactoryRegistry, CannotAutoGenerate
 
 
-@user_passes_test(lambda u: u.is_staff)
-def update_entry(request):
-    """ pulls entry spreadsheet from GDrive and use it to update database
-    NOTE: Under current logic, it is MANDATORY that radicals are updated
-    before characters """
-    download_request = get_service().files().export_media(fileId=ENTRY_FILE_ID,
-        mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    file = io.BytesIO()
-    download(file, download_request)
-    with open(os.path.join(MEDIA_ROOT, 'backup.xlsx'), 'wb') as backup:
-        backup.write(file.getbuffer())
-    radical_df = pd.read_excel(file, 'Radicals')
-    character_df = pd.read_excel(file, 'Characters')
-    cset_df = pd.read_excel(file, 'CharacterSets', index_col=0, header=None).T
-    response = {}
-    response['radicals'] = Radical.update_from_df(radical_df)
-    response['characters'] = Character.update_from_df(character_df)
-    response['character_sets'] = CharacterSet.update_from_df(cset_df)
-    return render(request, 'content/update_entry.html', response)
+class ReviewQuestionFactoryView(View):
+    def get(self, request, question_type, ro_id):
+        ro = get_object_or_404(ReviewableObject, pk=ro_id)
+        factory = QuestionFactoryRegistry.get_factory_by_type(question_type)()
+        try:
+            general_question = factory.generate(ro)
+        except CannotAutoGenerate as e:
+            return render(request, 'utils/simple_response.html',
+                          {'content': repr(e)})
+        return HttpResponseRedirect(general_question.get_admin_url())
 
 
-def update_radical_mnemonic_image(request):
-    return media_update(request, RADICAL_MNEMONIC_FOLDER_ID, 'Radical',
-                        'mnemonic_image')
+class ReviewableObjectDisplayView(DetailView):
+    template_name = 'react/learning.html'
+
+    def get_context_data(self, **kwargs):
+        return {'react_data': self.object.render()}
 
 
-def update_character_animated_stroke_order_image(request):
-   return media_update(request, ANIMATED_STROKE_ORDER_FOLDER_ID, 'Character',
-                       'stroke_order_image')
+class WordDisplayView(ReviewableObjectDisplayView):
+    model = Word
 
 
-@user_passes_test(lambda u: u.is_staff)
-def media_update(request, folder_id, model_name, field_name):
-    current_task_list = list(app.control.inspect().active().values())[0]
-    if current_task_list:
-        task_id = current_task_list[0]['id']
-    else:
-        task = media_update_task.delay(folder_id, model_name, field_name)
-        task_id = task.id
-    return redirect('task_info', task_id=task_id)
+class CharacterDisplayView(ReviewableObjectDisplayView):
+    model = Character
 
 
-@user_passes_test(lambda u: u.is_staff)
-def task_info(request, task_id):
-    return render(request, 'content/task_info.html', {'task_id': task_id})
+class RadicalDisplayView(ReviewableObjectDisplayView):
+    model = Radical
 
 
-@user_passes_test(lambda u: u.is_staff)
-def kill_task(request):
-    while True:
-        current_task_list = list(app.control.inspect().active().values())[0]
-        if current_task_list:
-            task_id = current_task_list[0]['id']
-            app.control.revoke(task_id, terminate=True)
+class SetDisplayView(DetailView):
+    model = WordSet
+    template_name = 'react/learning.html'
+
+    def get_context_data(self, **kwargs):
+        word_pk = self.kwargs.get('word_pk', None)
+        wordset = self.object
+        all_display = f'You can now preview set "{wordset.name}"<br>'
+        words = wordset.words.filter(is_done=True).order_by('wordinset')
+        if words.exists():
+            if word_pk is None:
+                word_pk = words.first().pk
+            all_display += ', '.join([
+                '<a href="{}" {}>{}</a>'.format(
+                    f'/content/display/wordset/{wordset.pk}/{word.pk}',
+                    'style="color:red;"' if word_pk == word.pk else "",
+                    word.chinese
+                )
+                for word in words
+            ])
         else:
-            return redirect('index')
-
-
-def display_character(request, character_pk, **context_kwargs):
-    """ Display character with pk=character_pk, if it is not found,
-    display the next one.
-    context_kwargs are passed into render directly """
-    try:
-        character = Character.objects.get(pk=character_pk)
-    except ObjectDoesNotExist:
-        character = Character.objects.filter(pk__gt=character_pk).first()
-        return redirect('display_character', character_pk=character.pk)
-    radicals = [character.radical_1, character.radical_2, character.radical_3]
-    return render(
-        request,
-        'content/display_character.html',
-        {'character': character, 'radicals': radicals, **context_kwargs}
-    )
-
-
-class Search(APIView):
-    """
-    This view searches all existing characters against the given `keyword`.
-
-    Listing priority is as followed:
-
-    1. characters with their `chinese` or unaccented `pinyin` being `keyword`
-    exactly
-    2. characters with their three definitions containing `keyword`
-
-    Returns: a list of character objects with length at most 8
-    """
-    MAX_NUM = 8
-    permission_classes = [AllowAny]
-
-    def post(self, request):
-        keyword = request.data.get('keyword', '')
-        if not keyword:
-            return Response([])
-        characters_1 = Character.objects.filter(
-            Q(pinyin__unaccent__iexact=keyword) | Q(chinese__exact=keyword)
-        )
-        remaining_num = max(0, self.MAX_NUM - characters_1.count())
-        characters_2 = Character.objects.filter(
-            Q(definition_1__icontains=keyword) |
-            Q(definition_2__icontains=keyword) |
-            Q(definition_3__icontains=keyword)
-        ).difference(characters_1)[:]
-        data = []
-        for c in list(characters_1) + list(characters_2):
-            data.append(CharacterSerializer(c).data)
-        return Response(data)
-
-    POST_action = {
-        'keyword' : {
-            'type' : 'string',
-            'example' : 'hao',
+            all_display += "we are not prepared yet, come back later"
+            word_pk = Word.objects.filter(is_done=True).first().pk
+        context = {
+            'pre_react': all_display,
+            'react_data': {
+                'action': 'display',
+                'content': {'type': 'word',
+                            'qid': word_pk},
+            }
         }
-    }
+        return context
 
 
-class ReviewView(View):
-    ReviewQuestion = None
-    characters = None
-    character = None
-    answer_update = None
+class QuestionDisplayView(TemplateView):
+    template_name = 'react/learning.html'
 
-    def get(self, request, *args, **kwargs):
-        if self.ReviewQuestion is None:
-            review_type = kwargs['review_type']
-            self.ReviewQuestion = AVAILABLE_REVIEW_TYPES[review_type]
-        if self.character is None:
-            character_pk = kwargs['character_pk']
-            self.character = get_object_or_404(Character, pk=character_pk)
-        correct_answer, context = self.ReviewQuestion.generate_question(
-            self.character, self.characters)
-        request.session['correct_answer'] = str(correct_answer)
-        return render(request, self.ReviewQuestion.template, context)
+    def get_context_data(self, **kwargs):
+        question_order = self.kwargs.get('question_order', None)
+        set_pk = self.kwargs.get('set_pk', None)
+        question_pk = self.kwargs.get('question_pk', None)
+        if question_pk is not None:
+            question_obj = get_object_or_404(GeneralQuestion, pk=question_pk)
+        all_display = ""
+        if question_order is not None:
+            wordset = get_object_or_404(WordSet, pk=set_pk)
+            questions = GeneralQuestion.objects.all()
+            if question_order != -1:
+                questions = questions.filter(order=question_order)
+            questions = questions.filter(reviewable__word__word_set=wordset)
+            if question_pk is None:
+                question_obj = questions.first()
+            if question_obj is None:
+                raise Http404
+            all_display += "You are now viewing questions with order {} in {}<br>"\
+                .format(question_order, wordset.name)
+            all_display += ", ".join('<a href="{}" {}>{}</a>'.format(
+                reverse('question_display',
+                        args=(question_order, set_pk, question.pk)),
+                'style="color:red;"' if question == question_obj else "",
+                html.escape(repr(question.reviewable.word)),
+            ) for question in questions.all())
+            all_display += '<br><a href="{}">click here to edit this question</a>'\
+                .format(question_obj.get_admin_url())
+            all_display += '<br><a href="{}">click here to toggle show all options</a>' \
+                .format(reverse('show_all_options_toggle'))
+        context = {
+            'pre_react': all_display,
+            'react_data': {
+                'action': 'review',
+                'content': {'qid': question_obj.pk},
+            }
+        }
+        return context
 
-    def post(self, request, *args, **kwargs):
-        if self.answer_update is not None:
-            self.answer_update(request.POST['user_answer'] ==
-                               request.session['correct_answer'])
-        return JsonResponse({'correct_answer':
-                             request.session['correct_answer']})
+
+@user_passes_test(lambda user: user.is_staff)
+def show_all_options_toggle(request):
+    show_all_options = request.session.get('show_all_options', False)
+    show_all_options = not show_all_options
+    request.session['show_all_options'] = show_all_options
+    return render(request, 'utils/simple_response.html',
+                  {'content': f"show all options: {show_all_options}"})

@@ -1,0 +1,53 @@
+﻿# Integrated Chinese, Level 1, Part 1, 3rd Edition  - Lesson 08
+# Published by Cheng & Tsui, 2008 - ISBN 9780887276385
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+篇 [piān] /(measure word for essays, articles, etc.)/
+日记 [rìjì] /diary/
+累 [lèi] /tired/
+起床 [qǐ chuáng /to get up/
+床 [chuáng] /bed/
+洗澡 [xǐ zǎo] /to take a bath or shower/
+早饭 [zǎofàn] /breakfast/
+一边 [yìbiān] /simultaneously, at the same time/
+教室 [jiàoshì] /classroom/
+发音 [fāyīn] /pronunication/
+新 [xīn] /new/
+电脑 [diànnǎo] /computer/
+脑 [nǎo] /brain/
+中午 [zhōngwǔ] /noon/
+餐厅 [cāntīng] /dining room, cafeteria/
+午饭 [wǔfàn] /lunch, midday meal/
+上网 [shàng wǎng] /to go online, to surf the internet/
+宿舍 [sùshè] /dormitory/
+那儿 [nàr] /there/
+正在 [zhèngzài] /in the middle of (doing sth)/
+以前 [yǐqián] /before/
+告诉 [gàosu] /to tell/
+已经 [yǐjīng] /already/
+知道 [zhīdao] /to know/
+封 [fēng] /(measure word for letters)/
+信 [xìn] /letter (correspondence)/
+最近 [zuìjìn] /recently/
+最 [zuì] /(of superlative degree, most, -est)/
+近 [jìn] /close, near/
+学期 [xuéqī] /school term, semester, quarter/
+除了…以外 [chúle...yǐwài] /in addition to, besides/
+专业 [zhuānyè] /major (in college), specialty/
+会 [huì] /can, know how to/
+后来 [hòulái] /later/
+音乐会 [yīnyuèhuì] /concept/
+希望 [xīwàng] /to hope, hope/
+能 [néng] /can, to be able to/
+用 [yòng] /to use/
+笑 [xiào] /to laugh at, to laugh, to smile/
+祝 [zhù] /to wish (well)/
+历史 [lìshǐ] /history/
+经济 [jīngjì] /economics/
+化学 [huàxué] /chemistry/
+数学 [shùxué] /mathematics/
+物理 [wùlǐ] /physics/
+语言学 [yǔyánxué] /linguistics/
+工商管理 [gōngshāng guǎnlǐ] /business management/
+亚洲研究 [Yàzhōu yánjiū] /Asian studies/
+# end

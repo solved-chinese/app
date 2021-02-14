@@ -1,0 +1,27 @@
+﻿# Integrated Chinese, Level 2, Part 1, 3rd Edition  - Lesson 01
+# Published by Cheng & Tsui, 2008 - ISBN 9780887276798
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+开学 [kāi xué] /to begin a new semester/
+新生 [xīnshēng] /new student/
+辆 [liàng] /(measure word for vehicles)/
+研究生 [yánjiūshēng] /graduate student/
+出生 [chūshēng] /to be born/
+弓 [gōng] /bow/
+长 [cháng] /long/
+校外 [xiào wài] /off campus/
+校内 [xiào nèi] /on campus/
+安全 [ānquán] /safe/
+比较 [bǐjiào] /relatively, comparatively, rather; to compare/
+省钱 [shěng qián] /to save money, to economize/
+自由 [zìyóu] /free, unconstrained/
+不见得 [bú jiàn de] /not necessarily/
+好处 [hǎochu] /advantage, benefit/
+适应 [shìyìng] /to adapt, to become accustomed to/
+生活 [shēnghuó] /life, livlihood; to live/
+搬家 [bān jiā] /to move (one's residence)/
+帮忙 [bāng máng] /to help/
+拉 [là] /to leave (sth) behind (colloquial)/
+张天明 [Zhāng Tiānmíng] /Zhang Tianming (a personal name)/
+柯林 [Kē Lín] /Ke Lin (a personal name)/
+# end

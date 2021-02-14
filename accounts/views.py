@@ -1,17 +1,37 @@
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
-from django.core.exceptions import PermissionDenied
-from django.shortcuts import render, redirect, reverse
-from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 import django.contrib.auth.views as auth_views
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import render, redirect
 
-from .forms import UserSignupForm, UserUpdateForm
-from .models import Message
 from classroom.forms import StudentForm, TeacherForm
-from jiezi.utils.mixins import RegisteredStudentOnlyMixin, RegisteredOnlyMixin
+from .forms import UserSignupForm, UserUpdateForm
+
+
+@login_required
+def profile(request):
+    if request.user.is_student:
+        role_form_class = StudentForm
+        role = request.user.student
+    elif request.user.is_teacher:
+        role_form_class = TeacherForm
+        role = request.user.teacher
+    else:
+        raise Exception("User must be either student or teacher")
+
+    success = False
+    if request.method == 'POST':
+        user_form = UserUpdateForm(instance=request.user, data=request.POST)
+        role_form = role_form_class(instance=role, data=request.POST)
+        if user_form.is_valid() and role_form.is_valid():
+            user_form.save()
+            role_form.save()
+            success = True
+    else:
+        user_form = UserUpdateForm(instance=request.user)
+        role_form = role_form_class(instance=role)
+
+    context = {'forms': [user_form, role_form], 'success': success}
+    return render(request, 'accounts/profile.html', context)
 
 
 def role_signup(request, role_form_class, role):
@@ -49,35 +69,6 @@ def teacher_signup(request):
     return role_signup(request, TeacherForm, 'teacher')
 
 
-@login_required
-def profile(request):
-    if request.user.is_guest:
-        raise PermissionDenied("Only registered user can access this page")
-    elif request.user.is_student:
-        role_form_class = StudentForm
-        role = request.user.student
-    elif request.user.is_teacher:
-        role_form_class = TeacherForm
-        role = request.user.teacher
-    else:
-        raise Exception("User must be either student or teacher")
-
-    success = False
-    if request.method == 'POST':
-        user_form = UserUpdateForm(instance=request.user, data=request.POST)
-        role_form = role_form_class(instance=role, data=request.POST)
-        if user_form.is_valid() and role_form.is_valid():
-            user_form.save()
-            role_form.save()
-            success = True
-    else:
-        user_form = UserUpdateForm(instance=request.user)
-        role_form = role_form_class(instance=role)
-
-    context = {'forms': [user_form, role_form], 'success': success}
-    return render(request, 'accounts/profile.html', context)
-
-
 class Login(auth_views.LoginView):
     template_name = 'accounts/login.html'
 
@@ -86,7 +77,7 @@ class Logout(auth_views.LogoutView):
     next_page = 'index'
 
 
-class ChangePassword(RegisteredOnlyMixin, auth_views.PasswordChangeView):
+class ChangePassword(auth_views.PasswordChangeView):
     template_name = 'accounts/change_password.html'
 
 
@@ -109,34 +100,3 @@ class PasswordResetConfirm(auth_views.PasswordResetConfirmView):
 
 class PasswordResetComplete(auth_views.PasswordResetCompleteView):
     template_name = 'accounts/done_change_password.html'
-
-
-@login_required
-def staff_panel(request):
-    if not request.user.is_staff:
-        return HttpResponseRedirect(reverse('profile'))
-
-    return render(request, 'accounts/staff_panel.html')
-
-
-class MessageList(LoginRequiredMixin, ListView):
-    model = Message
-    template_name = 'accounts/message_list.html'
-
-    def get_queryset(self):
-        return Message.of(self.request.user).all()
-
-
-class MessageDetail(LoginRequiredMixin, UserPassesTestMixin, DetailView):
-    model = Message
-    template_name = 'accounts/message_detail.html'
-
-    def test_func(self):
-        if self.get_object().receiver != self.request.user:
-            raise PermissionError('You are not the receiver of this message.')
-        return True
-
-    def get_context_data(self, **kwargs):
-        content = super().get_context_data()
-        self.get_object().read()
-        return content

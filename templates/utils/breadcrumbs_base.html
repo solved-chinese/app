@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+  {% clear_breadcrumbs %}
+{% endblock %}
+
+{% block breadcrumbs_display %}
+  {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap4.html" %}
+{% endblock %}

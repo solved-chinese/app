@@ -6,44 +6,30 @@ from accounts.models import User
 from jiezi.utils.mixins import StrDefaultReprMixin
 
 
-class Student(StrDefaultReprMixin, models.Model):
+class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,
                                 primary_key=True, related_name='student')
-    in_class = models.ForeignKey('classroom.Class', on_delete=models.SET_NULL,
-                                 related_name='students',
-                                 related_query_name='student',
-                                 null=True, blank=True)
-    total_study_duration = models.DurationField(default=timedelta(0))
-
-    def update_duration(self, delta_time):
-        self.total_study_duration += delta_time
-        self.save()
+    klass = models.ForeignKey('classroom.Class', on_delete=models.SET_NULL,
+                              related_name='students',
+                              related_query_name='student',
+                              null=True, blank=True)
 
     def join_class(self, class_object):
-        assert self.in_class is None, \
-            f"You can't join a class while already in a class ({self.in_class})"
-        self.in_class = class_object
+        assert self.klass is None, \
+            f"You can't join a class while already in a class ({self.klass})"
+        self.klass = class_object
         self.save()
 
     def quit_class(self):
-        self.in_class = None
+        self.klass = None
         self.save()
-
-    @staticmethod
-    def remove_testers(queryset):
-        filter_kwargs = {f"user__{key}": value
-            for key, value in User.REMOVE_TESTER_FILTER_KWARGS.items()}
-        exclude_kwargs = {f"user__{key}": value
-            for key, value in User.REMOVE_TESTER_EXCLUDE_KWARGS.items()}
-        return queryset.filter(**filter_kwargs).exclude(**exclude_kwargs)
 
     @property
     def display_name(self):
         return self.user.display_name
 
-    @property
-    def total_study_duration_seconds(self):
-        return self.total_study_duration.total_seconds()
+    def __str__(self):
+        return repr(self)
 
     def __repr__(self):
         return f"<student of {self.user}>"

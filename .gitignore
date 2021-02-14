@@ -11,6 +11,7 @@ deploy.sh
 # Media folder except the default files
 media/*
 !media/default.jpg
+!media/default.mp3
 
 # uWSGI directory
 uwsgi
@@ -25,11 +26,11 @@ uwsgi
 .fuse_hidden*
 .vscode
 
-# media folder except the default files
-media/*
-!media/default.jpg
-
 # uwsgi stuff should be kept locally
 uwsgi
 
 celerybeat-schedule.*
+node_modules
+*.bundle.js
+*.bundle.js.map
+*.bundle.js.LICENSE.txt

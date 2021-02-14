@@ -1,0 +1,56 @@
+﻿# Integrated Chinese, Level 2, Part 2, 3rd Edition  - Lesson 15
+# Published by Cheng & Tsui, 2010 - ISBN 9780887276880
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+平等 [píngděng] /equal; equality/
+重男轻女 [zhòng nán qīng nǚ] /to regard males as better than females/
+妇女 [fùnǚ] /women/
+地位 [dìwèi] /position, status/
+以来 [yǐlái] /since/
+情况 [qíngkuàng] /situation, condition, circumstances/
+逐渐 [zhújiàn] /gradually, little by little/
+机会 [jīhuì] /opportunity/
+改革开放 [gǎigé kāifàng] /to reform and open up/
+某 [mǒu] /certain, some, and indefinite person or thing/
+企业 [qǐyè] /enterprise, business, company, firm/
+单位 [dānwèi] /unit/
+出现 [chūxiàn] /to appear, to arise, to emerge/
+现象 [xiànxiàng] /phenomenon, appearance/
+困难 [kùnnan] /difficulty, difficult/
+工厂 [gōngchǎng] /factory/
+同工同酬 [tóng gōng tóng chóu] /equal pay for equal work/
+女性 [nǚxìng] /female gender, woman/
+超过 [chāoguò] /to surpass, to exceed/
+毕竟 [bìjìng] /after all, all in all, in the final analysis, when all is said and done/
+互相 [húxiāng] /mutually, each other, reciprocally/
+体贴 [tǐtiē] /to care for, to be considerate of (sb)/
+表现 [biǎoxiàn] /to display, to manifest; performance, manifestation/
+大男子主义 [dà nánzǐ zhǔyì] /male chauvinism/
+家务 [jiāwù] /household chores, household duties/
+模范 [mófàn] /exemplary, model; fine example/
+丈夫 [zhàngfu] /husband/
+气管炎 [qìguǎnyán] /tracheitis/
+妻管严 [qī guǎn yán] /wife controls (her husband) strictly/
+妻子 [qīzi] /wife/
+得病 [dé bìng] /to fall ill, to contract a disease/
+男子 [nánzǐ] /man, male/
+讨厌 [tǎoyàn] /to dislike, to loathe, disgusting, disagreeable/
+队员 [duìyuán] /team member/
+骄傲 [jiāo’ào] /proud, arrogant, full of oneself, pride/
+不得了 [bù déliǎo] /extremely, exceedingly, couldn't be more/
+输 [shū] /to lose, to be defeated/
+成绩 [chéngjì] /performance, achievement, result, score, grade/
+公平 [gōngpíng] /fair, just, impartial, equitable/
+由 [yóu] /by/
+市场 [shìchǎng] /market/
+职业 [zhíyè] /occupation, profession, vocation/
+薪水 [xīnshuǐ] /salary, pay, wages/
+消息 [xiāoxi] /news, message, information/
+赢 [yíng] /to win/
+冠军 [guànjūn] /champion, first place in a competition/
+相信 [xiāngxìn] /to believe, to trust/
+比分 [bǐfēn] /score/
+乒乓球 [pīngpāngqiú] /Ping-Pong, table tennis/
+巴西 [Bāxī] /Brazil/
+意大利 [Yìdàlì] /Italy/
+# end

@@ -11,7 +11,77 @@
          url('/static/fonts/STKaiti/STKaiti.svg') format('svg'); /* iOS 4.1- */
 }
 
+@font-face {font-family: 'Lato';
+    src: url('/static/fonts/Lato/Lato.ttf') format('truetype'),
+        url('/static/fonts/Lato/Lato.woff') format('woff'),
+        url('/static/fonts/Lato/Lato.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
 
+@font-face {font-family: 'Lato';
+    src: url('/static/fonts/Lato/Lato-Bold.ttf') format('truetype'),
+        url('/static/fonts/Lato/Lato-Bold.woff') format('woff'),
+        url('/static/fonts/Lato/Lato-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {font-family: 'Lato';
+    src: url('/static/fonts/Lato/Lato-Light.ttf') format('truetype'),
+        url('/static/fonts/Lato/Lato-Light.woff') format('woff'),
+        url('/static/fonts/Lato/Lato-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {font-family: 'Lato';
+    src: url('/static/fonts/Lato/Lato-Thin.ttf') format('truetype'),
+        url('/static/fonts/Lato/Lato-Thin.woff') format('woff'),
+        url('/static/fonts/Lato/Lato-Thin.woff2') format('woff2');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {font-family: 'Lato';
+    src: url('/static/fonts/Lato/Lato-Black.ttf') format('truetype'),
+        url('/static/fonts/Lato/Lato-Black.woff') format('woff'),
+        url('/static/fonts/Lato/Lato-Black.woff2') format('woff2');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face { font-family: 'CrimsonText';
+    src: url('/static/fonts/CrimsonText/CrimsonText.ttf') format('truetype'),
+        url('/static/fonts/CrimsonText/CrimsonText.woff') format('woff'),
+        url('/static/fonts/CrimsonText/CrimsonText.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face { font-family: 'CrimsonText';
+    src: url('/static/fonts/CrimsonText/CrimsonText-Bold.ttf') format('truetype'),
+        url('/static/fonts/CrimsonText/CrimsonText-Bold.woff') format('woff'),
+        url('/static/fonts/CrimsonText/CrimsonText-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face { font-family: 'CrimsonText';
+    src: url('/static/fonts/CrimsonText/CrimsonText-SemiBold.ttf') format('truetype'),
+        url('/static/fonts/CrimsonText/CrimsonText-SemiBold.woff') format('woff'),
+        url('/static/fonts/CrimsonText/CrimsonText-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+}
+
+.use-serifs {
+    font-family: 'CrimsonText', 'STKaiti' !important;
+}
+
+.use-chinese {
+    font-family: 'STKaiti' !important;
+}
 
 /***********************************
   Variable Declarations
@@ -19,6 +89,10 @@
 
 :root {
     --main-theme-color: #be132d;
+    --primary-text: #303545;
+    --secondary-text: #5d6165;
+    --teritary-text: #82878f;
+    --content-background: #fefeff;
     --secondary-color: #888;
     --tertiary-color: #ccc;
     --navbar-color: #fffefc;
@@ -32,12 +106,12 @@
 
 * {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    color: #040302;
+    font-family: 'Lato', 'CrimsonText', 'STKaiti', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: var(--primary-text);
 }
 
 html {
-    background: #fffefc;
+    background: var(--content-background);
 }
 
 /* The `!important` tags below are just for overriding
@@ -47,7 +121,7 @@ body {
     position: relative;
     min-height: 100vh;
     overflow-x: hidden;
-    background: #fffefc !important;
+    background: var(--content-background);
 }
 
 h1 {
@@ -110,7 +184,7 @@ img {
     padding-left: 30px;
     padding-right: 30px;
     padding-top: calc(80px + 30px);
-    padding-bottom: 80px;
+    padding-bottom: calc(80px + 30px);
 }
 
 .page-overlay {
@@ -128,6 +202,14 @@ img {
 #page-container.inactive > .page-overlay {
     background-color: #5e6d7e48;
     pointer-events: all;
+}
+
+.box-shadow {
+    box-shadow: 2px 2px 6px 2px #30354514;
+}
+
+.box-shadow:hover {
+    box-shadow: 2px 2px 6px 1px #30354516;
 }
 
 
@@ -684,6 +766,15 @@ ul{
 
     .search-input-wrapper {
         width: 100%;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    #page-container {
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-top: calc(80px + 15px);
+        padding-bottom: calc(80px + 15px);
     }
 }
 

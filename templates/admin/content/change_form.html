@@ -1,0 +1,21 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_urls %}
+{% load static %}
+
+{% block admin_change_form_document_ready %}
+  {{ block.super }}
+  {% if object_id and opts.model_name in 'word,character,radical' %}
+    <div>
+      <script id="react-data" type="application/json">
+        {"action": "display", "content": {"type": "{{ opts.model_name }}", "qid": {{ object_id }}}}
+      </script>
+
+      <link rel="stylesheet" href="{% static "styles/main.css" %}?v=0.1.0">
+      <link async rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-Bx4pytHkyTDy3aJKjGkGoHPt3tvv6zlwwjc3iqN7ktaiEMLDPqLSZYts2OjKcBx1"
+        crossorigin="anonymous">
+      <div id="learning-app"></div>
+      <script src="{% static "scripts/learning.bundle.js" %}"></script>
+    </div>
+  {% endif %}
+{% endblock %}

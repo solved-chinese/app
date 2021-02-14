@@ -1,0 +1,59 @@
+﻿# Integrated Chinese, Level 2, Part 2, 3rd Edition  - Lesson 11
+# Published by Cheng & Tsui, 2010 - ISBN 9780887276880
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+节日 [jiérì] /holiday, festival/
+结束 [jiéshù] /to end, to finish/
+继续 [jìxù] /to continue, to go on with/
+舅舅 [jiùjiu] /mother's brother, maternal uncle/
+舅妈 [jiùmā] /wife of mother's brother/
+小区 [xiǎoqū] /residential development, residential complex/
+环境 [huánjìng] /environment, surroundings/
+除夕 [chúxī] /Chinese New Year's Eve/
+年夜饭 [niányèfàn] /Chinese New Year's Eve dinner/
+感情 [gǎnqíng] /feeling, emotion, effection/
+墙 [qiáng] /wall/
+贴 [tiē] /to paste, to glue/
+幸福 [xìngfú] /happy, happiness/
+福 [fú] /blessing, good fortune/
+倒 [dào] /to turn upside down, to go backwards/
+奇怪 [qíguài] /strange, odd/
+意思 [yìsi] /meaning/
+餐 [cān] /meal/
+本来 [běnlái] /original; originally, at first/
+家 [jiā] /(measure word for families and commerical established)/
+气氛 [qìfēn] /mood, ambience/
+以 [yǐ] /with/
+代 [dài] /to replace, to substitute/
+酒 [jiǔ] /alcohol, liquor/
+举 [jǔ] /to lift, to raise/
+顺利 [shùnlì] /smooth, successful, without a hitch/
+进步 [jìnbù] /to make progress; progressive/
+干杯 [gān bēi] /to drink a toast; cheers!, bottoms up!/
+成功 [chénggōng] /to succeed; successful/
+挽回 [wǎnhuì] /evening gathering, soiree/
+剩(下) [shèng (xia)] /to leave a surplus, to be left (over)/
+浪费 [làngfèi] /to waste, to squander; wasteful/
+余 [yú] /to surplus, to spare/
+传统 [chuántǒng] /tradition; traditional/
+农历 [nónglì] /traditional Chinese lunar calendar/
+初 [chū] /first/
+粽子 [zòngzi] /pyramid-shaped dumpling/
+月饼 [yuèbǐng] /moon cake/
+团圆 [tuányuán] /to reunite (as a family)/
+正月 [zhēngyuè] /first month of the lunar year, first moon/
+元宵 [yuánxiāo] /night of the 15th of the first lunar month; sweet dumpling/
+嘛 [ma] /(particle used to emphasize the obvious)/
+计时 [jì shí] /to count time/
+拜年 [bài nián] /to wish sb Happy Chinese New Year; to pay a Chinese New Year's call/
+恭喜 [gōngxǐ] /to congratulate/
+发财 [fā cái] /to get rich, to make a fortune/
+红包 [hóngbāo] /red envelope containing money to be given as a gift/
+热闹 [rènao] /(of a place or scene) lively, buzzing with excitement, bustling with activity/
+鞭炮 [biānpào] /firecracker/
+春节 [Chūnjié] /Spring Festival, Chinese New Year/
+端午节 [Duānwǔjié] /Dragon Boat Festival/
+中秋节 [Zhōngqiūjié] /Mid-Autumn Festival; Moon Festival/
+感恩节 [Gǎn’ēnjié] /Thanksgiving/
+元宵节 [Yuánxiāojié] /Lantern Festival/
+# end

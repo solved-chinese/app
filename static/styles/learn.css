@@ -8,7 +8,7 @@
     margin-top: 40px;
 }
 
-/* !important is to override the override to the Bootstrap style... */
+/* !important is to override the override to the Bootstrap styles... */
 
 #character-text {
     margin: 0 !important;

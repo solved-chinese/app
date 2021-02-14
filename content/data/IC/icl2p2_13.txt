@@ -1,0 +1,56 @@
+﻿# Integrated Chinese, Level 2, Part 2, 3rd Edition  - Lesson 13
+# Published by Cheng & Tsui, 2010 - ISBN 9780887276880
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+分别 [fēnbié] /sepaately, respectively; to part from each other/
+出发 [chūfā] /to set out, to depart/
+美丽 [měilì] /beautiful/
+留(下) [liú (xia)] /to leave behind, to stay behind/
+深 [shēn] /profound, deep, dark (color), intimate (of relations or feelings)/
+分享 [fēnxiǎng] /to share (joy, happiness, benefit, etc.)/
+之 [zhī] /(literary counterpart of 的)/
+报名 [bào míng] /to sign up, to register/
+参加 [cānjiā] /to participate, to take part, to attend/
+团 [tuán] /group, organization/
+包括 [bāokuò] /to include, to consist of/
+交通 [jiāotōng] /transportation, traffic/
+门票 [ménpiào] /admission ticket, admission fee/
+旅客 [lǚkè] /passenger, voyager, traveler/
+硬 [yìng] /hard/
+卧铺 [wòpù] /sleep berth or bunk on a train/
+车厢 [chēxiāng] /railway carriage/
+枕头 [zhěntou] /pillow/
+软 [ruǎn] /soft/
+关 [guān] /to close, to turn off/
+打呼噜 [dǎ hūlu] /to snore/
+顿 [dùn] /(measure word for meals)/
+盒饭 [héfàn] /box lunch/
+面 [miàn] /noodles/
+拥抱 [yōngbào] /to embrace, to hug/
+幽默 [yōumò] /humorous/
+逗 [dòu] /to tease, to play with, amusing/
+省会 [shěnghuì] /provincial capital/
+美 [měi] /beautiful, good/
+亲眼 [qīnyǎn] /(to see) with one's own eyes/
+饮食 [yǐnshí] /diet, food and drink/
+风俗 [fēngsú] /custom/
+习惯 [xíguàn] /habit, to be accustomed to/
+游览 [yóulǎn] /to go sightseeing, to tour; excursion/
+石头 [shítou] /stone, rock, pebble/
+树林 [shùlín] /woods, forest/
+讲 [jiǎng] /to speak, to tell/
+故事 [gùshi] /story, tale/
+塔 [tǎ] /tower, pagoda-shaped structure/
+古老 [gǔlǎo] /ancient, old/
+纪念品 [jìniànpǐn] /souvenir, keepsake, memento/
+千万 [qiānwàn] /by all means, absolutely must/
+河 [hé] /river/
+茶馆 [cháguǎn] /teahouse/
+灯笼 [dēnglong] /lantern/
+来往 [lái wǎng] /to come and go, to have dealings with/
+房东 [fángdōng] /landlord or landlady/
+昆明 [Kūnmíng] /Kunming (capital of Yunnan Province)/
+石林 [Shílín] /The Stone Forest/
+大理 [Dàlǐ] /Dali/
+丽江 [Lìjiāng] /Lijiang/
+# end

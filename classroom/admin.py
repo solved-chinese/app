@@ -1,35 +1,18 @@
 from django.contrib import admin
-from .models import Student, Teacher, Class, Assignment
 from django.utils.html import format_html
-from accounts.admin import RemoveTestersFilter, \
-    RemoveTestersRelatedOnlyFieldListFilter
+
+from .models import Class, Assignment
 
 
-class StudentAdmin(admin.ModelAdmin):
-    list_display = ['user', 'in_class', 'total_study_duration']
-    list_filter = (RemoveTestersFilter,)
-
-
-admin.site.register(Student, StudentAdmin)
-
-
-class TeacherAdmin(admin.ModelAdmin):
-    list_display = ('user', 'school')
-    list_filter = (RemoveTestersFilter,)
-
-
-admin.site.register(Teacher, TeacherAdmin)
-
-
+@admin.register(Assignment)
 class AssignmentAdmin(admin.ModelAdmin):
     list_display = ('detail', 'class_name', 'teacher_name')
     list_display_links = None
-    list_filter = (RemoveTestersFilter,)
 
     def class_name(self, obj):
         return format_html('<a href={}>{}</a>',
-                           obj.in_class.get_absolute_url(),
-                           obj.in_class.name)
+                           obj.klass.get_absolute_url(),
+                           obj.klass.name)
     class_name.short_description = 'class'
 
     def teacher_name(self, obj):
@@ -43,16 +26,10 @@ class AssignmentAdmin(admin.ModelAdmin):
     detail.short_description = 'name'
 
 
-admin.site.register(Assignment, AssignmentAdmin)
-
-
+@admin.register(Class)
 class ClassAdmin(admin.ModelAdmin):
-
     list_display = ('detail', 'teacher_display_name', 'student_count')
     list_display_links = None
-    list_filter = (
-        ('teacher', RemoveTestersRelatedOnlyFieldListFilter),
-    )
 
     def teacher_display_name(self, obj):
         return obj.teacher.display_name
@@ -63,6 +40,3 @@ class ClassAdmin(admin.ModelAdmin):
                            obj.get_absolute_url(),
                            obj.name)
     detail.short_description = 'name'
-
-
-admin.site.register(Class, ClassAdmin)

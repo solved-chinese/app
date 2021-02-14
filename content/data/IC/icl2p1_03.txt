@@ -1,0 +1,36 @@
+﻿# Integrated Chinese, Level 2, Part 1, 3rd Edition  - Lesson 03
+# Published by Cheng & Tsui, 2008 - ISBN 9780887276798
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+正好 [zhènghǎo] /coincidentally/
+门口 [ménkǒu] /doorway, entrance/
+留学生 [liúxuéshēng] /student studying abroad/
+菜单 [càidān] /menu/
+鸡 [jī] /chicken/
+清蒸 [qīngzhēng] /to steam (food without heavy sauce)/
+味道 [wèidao] /taste, flavor/
+芥兰 [jièlán] /Chinese broccoli/
+嫩 [nèn] /tender/
+香 [xiāng] /fragrant, pleasant-smelling/
+菠菜 [bōcài] /spinach/
+叫(菜) [jiào (cài)] /to order (food)/
+新鲜 [xīnxian] /fresh/
+清淡 [qīngdàn] /light in flavor/
+咸 [xián] /salty/
+油 [yóu] /oil, oily/
+餐巾 [cānjīn] /napkin/
+不如 [bùrú] /not equal to, inferior to, to not measure up to/
+各 [gè] /each, every/
+口味 [kǒuwèi] /taste, dietary preference/
+比如 [bǐrú] /for example/
+辣 [là] /spicy/
+口水 [kǒushuǐ] /saliva/
+流 [liú] /to flow/
+考虑 [kǎolǜ] /to consider/
+主意 [zhúyi] /idea/
+丽莎 [Lìshā] /Lisa (a personal name)/
+林雪梅 [Lín Xuěméi] /Lin Xuemei (a personal name)/
+四川 [Sìchuān] /Sichuan (a Chinese province)/
+湖南 [Húnán] /Hunan (a Chinese province)/
+广东 [Guǎngdōng] /Guangdong (a Chinese province)/
+# end

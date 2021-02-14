@@ -1,0 +1,55 @@
+﻿# Integrated Chinese, Level 2, Part 1, 3rd Edition  - Lesson 10
+# Published by Cheng & Tsui, 2008 - ISBN 9780887276798
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+地里 [dìlǐ] /geography/
+家乡 [jiāxiāng] /hometown/
+路线 [lùxiàn] /route, itinerary/
+研究 [yánjiū] /to study, to look into, research/
+了解 [liǎojiě] /to understand, to know about, to be informed/
+冰灯 [bīngdēng] /ice lantern/
+火车 [huǒchē] /train/
+船 [chuán] /boat, ship/
+风景 [fēngjǐng] /scenic landscape, scenery/
+河流 [héliú] /river/
+大多 [dàduō] /mostly, for the most part/
+高原 [gāoyuán] /plateau/
+山 [shān] /mountain, hill/
+而 [ér] /(conjunction to connect two clauses)/
+平原 [píngyuán] /plain/
+海 [hǎi] /sea, ocean/
+人口 [rénkǒu] /population/
+主要 [zhǔyào] /main, principle/
+集中 [jízhōng] /to concentrate, to be concentrated/
+沿海 [yánhǎi] /along the coast/
+一带 [yídài] /the area around a particular place, the neighboring area/
+沙漠 [shāmò] /desert/
+自然 [zìrán] /nature, natural/
+条件 [tiáojiàn] /condition, requirement/
+地形 [dìxíng] /terrain, topography/
+纬度 [wěidù] /latitude/
+接近 [jiējìn] /to be close to/
+面积 [miànjī] /area/
+倍 [bèi] /(measure word for times by which sth is multiplied)/
+过节 [guò jié] /to celebrate a holiday/
+旅游 [lǚyóu] /to travel; travel/
+景点 [jǐngdiǎn] /scenic spot, tourist spot/
+到处 [dàochù] /all around, all over/
+人山人海 [rén shān rén hǎi] /huge crowds of people/
+挤 [jǐ] /crowded, to push against, to squeeze/
+短 [duǎn] /short/
+省 [shěng] /province/
+部 [bù] /part, section/
+四季如春 [sìjì rú chūn] /spring-like all year around/
+少数 [shǎoshù] /small number, few; minority/
+民族 [mínzú] /ethnic group, people, nationality/
+南京 [Nánjīng] /Nanjing/
+哈尔滨 [Hā’ěrbīn] /Harbin/
+新疆 [Xīnjiāng] /Xinjiang/
+长江 [Cháng Jiāng] /the Yangtze River/
+黄河 [Huáng Hé] /the Yellow River/
+天津 [Tiānjīn] /Tianjin/
+广州 [Guǎngzhǒu] /Guangzhou/
+深圳 [Shēnzhèn] /Shenzhen/
+云南 [Yúnnán] /Yunnan/
+# end

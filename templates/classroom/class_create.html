@@ -2,7 +2,7 @@
 
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumbs %}
-  {{ block.super }}
+  {% clear_breadcrumbs %}
   {% breadcrumb "My Classes" "class_list" %}
   {% breadcrumb "Create Class" "" %}
 {% endblock %}

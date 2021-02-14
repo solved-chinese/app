@@ -1,48 +1,54 @@
-from content import views, CRUD_views
-from django.urls import path, register_converter
+import content.API_views
+from content import CRUD_views, views
+from django.urls import path
 
-
-class FourDigitConverter:
-    regex = '[0-9]{4}'
-
-    def to_python(self, value):
-        return int(value)
-
-    def to_url(self, value):
-        return '%04d' % value
-
-
-register_converter(FourDigitConverter, 'dddd')
 
 urlpatterns = [
-    path('search/', views.Search.as_view(), name='search'),
-
-    path('update_entry', views.update_entry, name='update_entry'),
-    path('update_character_animated_stroke_order_image',
-         views.update_character_animated_stroke_order_image,
-         name='update_character_animated_stroke_order_image'),
-    path('update_radical_mnemonic_image',
-         views.update_radical_mnemonic_image,
-         name='update_radical_mnemonic_image'),
-    path('task/<slug:task_id>/', views.task_info, name='task_info'),
-    path('kill_task/', views.kill_task, name='kill_task'),
-
-    path('C<dddd:character_pk>/', views.display_character,
-         name='display_character'),
-    path('C<dddd:character_pk>/review/<int:review_type>/',
-         views.ReviewView.as_view(),
-         name='review_character'),
-
-    path('radical/', CRUD_views.RadicalList.as_view(),
-         name='radical_list'),
     path('radical/<int:pk>', CRUD_views.RadicalDetail.as_view(),
-         name='radical_detail'),
-    path('character/', CRUD_views.CharacterList.as_view(),
-         name='character_list'),
+         name='radical-detail'),
     path('character/<int:pk>', CRUD_views.CharacterDetail.as_view(),
-         name='character_detail'),
-    path('character_set/', CRUD_views.CharacterSetList.as_view(),
-         name='character_set_list'),
-    path('character_set/<int:pk>', CRUD_views.CharacterSetDetail.as_view(),
-         name='character_set_detail'),
+         name='character-detail'),
+    path('word/<int:pk>', CRUD_views.WordDetail.as_view(),
+         name='word-detail'),
+    path('word_set/<int:pk>', CRUD_views.WordSetDetail.as_view(),
+         name='wordset-detail'),
+    path('word_set', CRUD_views.WordSetList.as_view(),
+         name='wordset-list'),
+
+    path('display/word/<int:pk>', views.WordDisplayView.as_view(),
+         name='word_display'),
+    path('display/character/<int:pk>', views.CharacterDisplayView.as_view(),
+         name='character_display'),
+    path('display/radical/<int:pk>', views.RadicalDisplayView.as_view(),
+         name='radical_display'),
+
+    path('display/question/<int:question_order>/<int:set_pk>/<int:question_pk>',
+         views.QuestionDisplayView.as_view(),
+         name='question_display'),
+    path('display/question/<int:question_order>/<int:set_pk>',
+         views.QuestionDisplayView.as_view(),
+         name='question_display'),
+    path('display/question/<int:question_pk>',
+         views.QuestionDisplayView.as_view(),
+         name='question_display'),
+
+    path('display/wordset/<int:pk>/<int:word_pk>',
+         views.SetDisplayView.as_view(),
+         name='set_display'),
+    path('display/wordset/<int:pk>',
+         views.SetDisplayView.as_view(),
+         name='set_display'),
+
+    path('question/<int:pk>', content.API_views.QuestionView.as_view()),
+
+    path('linked_field_autocomplete',
+         content.API_views.LinkedFieldAutocomplete.as_view(),
+         name='linked_field_autocomplete'),
+    path('review_question_factory/<slug:question_type>/<int:ro_id>',
+         views.ReviewQuestionFactoryView.as_view(),
+         name='review_question_factory_view'),
+
+    path('show_all_options_toggle',
+         views.show_all_options_toggle,
+         name='show_all_options_toggle')
 ]

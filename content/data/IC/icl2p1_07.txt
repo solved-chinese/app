@@ -1,0 +1,44 @@
+﻿# Integrated Chinese, Level 2, Part 1, 3rd Edition  - Lesson 07
+# Published by Cheng & Tsui, 2008 - ISBN 9780887276798
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+网络 [wǎngluò] /network, internet/
+新闻 [xīnwén] /news/
+资料 [zīliào] /material/
+游戏 [yóuxì] /game/
+网站 [wǎngzhàn] /website/
+博客 [bókè] /blog/
+甚至 [shènzhì] /even/
+卡拉ＯＫ [kǎlā-ōukēi] /karaoke/
+急忙 [jímáng] /hastily, in a hurry/
+下载 [xiàzài] /to download/
+软件 [ruǎnjiàn] /software/
+结果 [jiéguǒ] /as a result; result/
+正式 [zhèngshì] /formal/
+出版 [chūbǎn] /to publish/
+杂志 [zázhì] /magazine/
+垃圾 [lājī] /garbage, trash/
+落伍 [luòwǔ] /to lag behind, to be outdated/
+可靠 [kěkào] /dependable/
+有用 [yǒuyòng] /useful/
+外卖 [wàimài] /takeout/
+总之 [zǒngzhī] /in short, in brief/
+衣食住行 [yī shí zhù xíng] /food, clothing, shelter and transportation; basic necessities of life/
+迟到 [chídào] /to arrive late/
+老是 [lǎoshì] /always/
+害 [hài] /to cause trouble, to do harm to/
+敢 [gǎn] /to dare/
+几乎 [jīhū] /almost/
+待 [dāi] /to stay/
+屋子 [wūzi] /room/
+上瘾 [shàng yǐn] /to become addicted/
+严重 [yánzhòng] /serious, grave/
+时代 [shídài] /era, age/
+重要 [zhòngyào] /important/
+帮助 [bāngzhù] /to help/
+翻译 [fānyi] /to translate; interpreter, translation/
+价格 [jiàgé] /price/
+免费 [miǎnfèi] /to be free of charge/
+感觉 [gǎnjué] /feeling, sense perception; to feel, to perceive/
+开玩笑 [kāi wánxiào] /to crack a joke, to joke around/
+# end

@@ -1,21 +1,86 @@
+import os
+from uuid import uuid4
+import json
+
 from django.db import models
 
-from jiezi.utils.mixins import StrDefaultReprMixin, CleanBeforeSaveMixin
-from content.models import DFModelMixin
+from content.models import GeneralContentModel, \
+    ReviewableMixin, AudioFile
+from content.utils import validate_chinese_character_or_x
+from content.data.makemeahanzi_dictionary import get_makemeahanzi_data
 
 
-class Radical(DFModelMixin, StrDefaultReprMixin, CleanBeforeSaveMixin,
-              models.Model):
-    chinese = models.CharField(max_length=6)
-    pinyin = models.CharField(max_length=15)
-    definition = models.CharField(max_length=100)
-    mnemonic_explanation = models.CharField(max_length=300, null=True, blank=True)
-    mnemonic_image = models.ImageField(default='default.jpg')
-    is_phonetic = models.BooleanField()
-    is_semantic = models.BooleanField()
+def path_and_rename(instance, filename):
+    ext = filename.split('.')[-1]
+    # get filename
+    if instance.chinese:
+        filename = f"{instance.chinese}#{instance.identifier}.{ext}"
+    else:
+        # set filename as random string
+        filename = f'{uuid4().hex}.{ext}'
+    return os.path.join('radical_images', filename)
+
+
+class Radical(ReviewableMixin, GeneralContentModel):
+    chinese = models.CharField(max_length=1,
+                               validators=[validate_chinese_character_or_x])
+    identifier = models.CharField(max_length=20, blank=True)
+
+    image = models.ImageField(default='default.jpg',
+                              upload_to=path_and_rename)
+    pinyin = models.CharField(max_length=20, blank=True, default='TODO')
+    audio = models.ForeignKey('AudioFile',
+                              related_name='radicals',
+                              related_query_name='radical',
+                              null=True, blank=True,
+                              on_delete=models.SET_NULL)
+
+    definition = models.CharField(max_length=100,
+                                  blank=True, default='TODO')
+    explanation = models.TextField(max_length=200,
+                                   blank=True, default='TODO')
+
+    is_learnable = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['id']
+        unique_together = ['chinese', 'identifier']
+
+    def save(self, *args, **kwargs):
+        if self._state.adding:
+            self.fill_data()
+            if self.pinyin and not self.audio:
+                self.audio = AudioFile.get_by_pinyin(self.pinyin)
+        super().save(*args, **kwargs)
+
+    def fill_data(self):
+        """ this fills necessary data from makemeahanzi,
+        remember to save """
+        if self.chinese == 'x':
+            return
+        characters_data = get_makemeahanzi_data()
+        try:
+            data = characters_data[self.chinese]
+        except KeyError:
+            self.add_warning("chinese field not in dictionary. Reference "
+                             "the archived decomposition field to see if "
+                             "there is a better alternative")
+        else:
+            self.archive = json.dumps(data, indent=4, ensure_ascii=False)
+
+    @property
+    def audio_url(self):
+        try:
+            return self.audio.file.url
+        except AttributeError:
+            return AudioFile.get_default().file.url
+
+    def __str__(self):
+        if self.identifier:
+            return f"{self.chinese}({self.identifier})"
+        else:
+            return self.chinese
 
     def __repr__(self):
-        return '<R' + '%04d' % self.id + ':' + self.chinese +'>'
+        id = self.id or -1
+        return f"<R{id:04d}:{self.chinese}#{self.identifier}>"

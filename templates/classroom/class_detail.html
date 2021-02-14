@@ -31,7 +31,6 @@
         <tr>
           <th scope="col">Student ID</th>
           <th scope="col">Name</th>
-          <th scope="col">Total Study Time</th>
           <th scope="col">Email</th>
           <th scope="col">actions</th>
         </tr>
@@ -40,15 +39,15 @@
         {% for student in object.students.all %}
           <tr>
             <th scope="row">{{ forloop.counter }}</th>
-            <td>{{ student.display_name }}</td>
-            <td>{{ student.total_study_duration|pretty_duration }}</td>
+            <td>{{ student.user.display_name }}</td>
             <td>{{ student.user.email }}</td>
             <td>
               <form action="{% url 'remove_student'%}" method="post">
                 {% csrf_token %}
                 <input type='hidden' name='student_pk' value='{{ student.pk }}'>
                 <input type="submit" value="remove"
-                       onclick="return confirm('Are you sure you want to remove this student from your class?');">
+                       onclick="return confirm('Are you sure you want to remove ' +
+                        'this student from your class?');">
               </form>
             </td>
           </tr>
@@ -72,7 +71,7 @@
         {% for assignment in object.assignments.all %}
           <tr>
             <th scope="row">{{ forloop.counter }}</th>
-            <td><a href='{% url "assignment_detail" assignment.pk%}'>
+            <td><a href='{% url "assignment_detail" assignment.pk %}'>
               {{ assignment.name }}
             </a></td>
           </tr>
@@ -80,7 +79,8 @@
       </tbody>
     </table>
   {% else %}
-    <p>You haven’t created any assignments for this class yet. Add one with the button below.</p>
+    <p>You haven’t created any assignments for this class yet.
+      Add one with the button below.</p>
   {% endif %}
 
   <br>

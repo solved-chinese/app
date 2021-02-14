@@ -1,0 +1,40 @@
+﻿# Integrated Chinese, Level 2, Part 1, 3rd Edition  - Lesson 04
+# Published by Cheng & Tsui, 2008 - ISBN 9780887276798
+# Version 1.0  
+# Paul Denisowski (paul@denisowski.org)
+像 [xiàng] /such as/
+Ｔ恤衫 [tīxùshān] /T-shirt/
+毛衣 [máoyī] /woolen sweater/
+牛仔裤 [niúzǎikù] /jeans/
+无论 [wúlùn] /regardless of ..., whether it be .../
+需要 [xūyào] /to need; needs/
+卫生纸 [wèishēngzhǐ] /toilet paper/
+牙膏 [yágāo] /toothpaste/
+毛巾 [máojīn] /towel/
+洗衣粉 [xǐyīfěn] /laundry powder/
+于是 [yúshì] /so, therefore, thereupon/
+购物 [gòuwù] /to shop/
+牌子 [páizi] /brand/
+价钱 [jiàqian] /price/
+纯棉 [chúnmián] /pure cotton, 100 percent cotton/
+名牌(儿) [míngpái(r)] /famous brand, name brand/
+时髦 [shímáo] /fashionable, stylish/
+哎呀 [āiyā] /(an exchamation to express surprise) gosh, ah/
+质量 [zhìliàng] /quality/
+只好 [zhǐhǎo] /to be forced to, to have no choice but/
+道理 [dàoli] /reason, sense/
+不必 [búbì] /need not, not have to/
+非…不可 [fēi...bù kě] /have to, nothing but ... would do/
+标准 [biāozhǔn] /criterion, standard/
+物美价廉 [wù měi jià lián] /attractive good at inexpensive prices/
+在乎 [zàihu] /to mind, to care/
+同意 [tóngyì] /to agree/
+难道 [nándào] /Do you mean to say .../
+好看 [hǎokàn] /nice-looking, attractive/
+贫 [pín] /gabby, glib/
+咱们 [zánmen] /we, us/
+一会儿 [yíhuìr] /in a moment, a little while/
+现金 [xiànjīn] /cash/
+加 [jiā] /to add/
+税 [shuì] /tax/
+# end
