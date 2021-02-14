@@ -4,21 +4,19 @@ import styled from 'styled-components';
 import '@learning.styles/ReviewQuestion.css';
 
 
-const { array } = require("prop-types");
-
-const correctResponse = new Array(
+const correctResponse = [
     'Good job! \u{1F389}',
     'Correct! \u{1F3C6}',
     'Nice work! \u{1F973}',
-    'Lets go \u{1F929}'
-);
+    'Let\'s go \u{1F929}',
+];
 
-const incorrectResponse = new Array(
-    'Uh oh, try again \u{1F389}',
+const incorrectResponse = [
+    'Uh oh, review this one \u{1F389}',
     'Not quite... \u{1F914}',
-    'Ah, almost there! \u{1F62B}',
-    'Try again, you got this! \u{1F389}'
-);
+    'Almost there! \u{1F62B}',
+    'You\'ll get it next time! \u{1F389}',
+];
 
 const ResponseContainer = styled.div`
     text-align: center;
