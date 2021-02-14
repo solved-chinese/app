@@ -78,13 +78,14 @@ class Assignment(models.Model):
         wrong_cnt = wdf[~correct_index].groupby('word').size()
         wdf = pd.concat([correct_cnt, wrong_cnt], axis=1, sort=True).fillna(0)
         wdf.columns = ['correct_cnt', 'wrong_cnt']
-        wdf['Accuracy'] = wdf['correct_cnt'] / \
-                          (wdf['correct_cnt'] + wdf['wrong_cnt'])
-        wdf = wdf.drop(columns=['correct_cnt', 'wrong_cnt'])
+        wdf['total_cnt'] = wdf['correct_cnt'] + wdf['wrong_cnt']
+        wdf = wdf[wdf['total_cnt'] >= 3]
+        wdf['Accuracy'] = wdf['correct_cnt'] / wdf['total_cnt']
+        wdf = wdf.drop(columns=['correct_cnt', 'wrong_cnt', 'total_cnt'])
         wdf = wdf.sort_values('Accuracy', ascending=True)
         wdf = wdf.style.format(percent_format)\
             .set_table_attributes('class="table"')\
-            .set_caption('Only words that have been learned are shown')\
+            .set_caption('Only show words that have been learned at least 3 times')\
             .render()
         return {'student_stats': sdf, 'word_stats': wdf}
 
