@@ -101,17 +101,12 @@ export default function ClickAndDrop(props) {
     const [choices, setChoices] = useState([...props.content.choices]);
     const [submitted, setSubmitted] = useState(false);
     const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
-    const [actionNextTimeout, setActionNextTimeout] = useState(null);
 
     useEffect(() => {
         setSelected(Array(props.content.answerLength).fill(null));
         setChoices([...props.content.choices]);
         setSubmitted(false);
         setIsAnswerCorrect(null);
-        return () => {
-            if (actionNextTimeout)
-                clearTimeout(actionNextTimeout);
-        }
     }, [props])
 
     useEffect(() => {
@@ -119,13 +114,17 @@ export default function ClickAndDrop(props) {
             onSubmit();
     }, [selected])
 
+    useEffect(() => {
+        if (isAnswerCorrect) {
+             const timer = setTimeout(() => {props.onActionNext();}, 500);
+             return () => clearTimeout(timer);
+        }
+    }, [isAnswerCorrect])
+
     const onSubmit = () => {
         if (submitted)
             return;
         props.submitAnswer(selected).then(response => {
-            if (response.isCorrect)
-                setActionNextTimeout(setTimeout(
-                    () => {props.onActionNext();}, 500));
             setSubmitted(true);
             setSelected(response.answer);
             setChoices(props.content.choices.filter(
@@ -227,7 +226,7 @@ export default function ClickAndDrop(props) {
                 <SubmitContainer>
                     <button
                         className="choice-button"
-                        hidden={!submitted}
+                        hidden={!submitted || (submitted && isAnswerCorrect)}
                         onClick={props.onActionNext}
                     >
                         Next

@@ -60,17 +60,23 @@ export default function FITBQuestion(props) {
         setIsAnswerCorrect(null);
     }, [props])
 
+    useEffect(() => {
+        if (isAnswerCorrect) {
+            const timer = setTimeout(() => {props.onActionNext();}, 500);
+            return () => clearTimeout(timer);
+        }
+    }, [isAnswerCorrect])
+
     const enterListener = event => {
         if (event.code === "Enter" || event.code === "NumpadEnter") {
-            onSubmit();
+            if (submitted)
+                props.onActionNext();
+            else
+                onSubmit();
         }
     }
 
     const onSubmit = () => {
-        if (submitted) {
-            props.onActionNext();
-            return;
-        }
         props.submitAnswer(answer).then(response => {
             setCorrectAnswer(response.answer);
             setIsAnswerCorrect(response.isCorrect);
@@ -113,6 +119,7 @@ export default function FITBQuestion(props) {
                         className={`choice-button${
                             answer != '' ? ' active' : ''
                         }`}
+                        hidden={submitted && isAnswerCorrect}
                         onClick={onSubmit}
                     >
                         {submitted? 'Next' : 'Submit'}

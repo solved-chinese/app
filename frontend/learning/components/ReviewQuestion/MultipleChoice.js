@@ -50,17 +50,13 @@ export default function MultipleChoice(props) {
     const [selectedAnswer, setSelectedAnswer] = useState(null);
     const [correctAnswer, setCorrectAnswer] = useState(null);
     const [submitted, setSubmitted] = useState(false);
-    const [actionNextTimeout, setActionNextTimeout] = useState(null);
+    const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
 
     useEffect( () => {
         setSelectedAnswer(null);
         setCorrectAnswer(null);
         setSubmitted(false);
-        setActionNextTimeout(null);
-        return () => {
-            if (actionNextTimeout)
-                clearTimeout(actionNextTimeout);
-        }
+        setIsAnswerCorrect(null);
     }, [props])
 
     useEffect(() => {
@@ -68,13 +64,18 @@ export default function MultipleChoice(props) {
             onSubmit();
     }, [selectedAnswer])
 
+    useEffect(() => {
+        if (isAnswerCorrect) {
+            const timer = setTimeout(() => {props.onActionNext();}, 500);
+            return () => clearTimeout(timer);
+        }
+    }, [isAnswerCorrect])
+
     const onSubmit = () => {
         props.submitAnswer(selectedAnswer).then(response => {
-            if (response.isCorrect)
-                setActionNextTimeout(setTimeout(
-                    () => {props.onActionNext();}, 500));
             setCorrectAnswer(response.answer);
             setSubmitted(true);
+            setIsAnswerCorrect(response.isCorrect);
         }).catch( msg => {
             console.log(msg);
         });
@@ -136,7 +137,7 @@ export default function MultipleChoice(props) {
                 <SubmitContainer>
                     <button
                         className="choice-button"
-                        hidden={!submitted}
+                        hidden={!submitted || (submitted && isAnswerCorrect)}
                         onClick={props.onActionNext}
                     >
                         Next
