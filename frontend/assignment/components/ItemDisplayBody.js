@@ -34,11 +34,11 @@ export default function ItemDisplayBody(props) {
 
     return (
         <>
-            {displayItem()}
             <PageControl maxPage={props.objectList.length}
                          isTransitioning={false}
                          curPage={curPage} setCurPage={setCurPage}
             />
+            {displayItem()}
         </>
     );
 }
