@@ -87,5 +87,5 @@ CharDisplay.propTypes = {
     alwaysDisplay: PropTypes.bool,
 };
 CharDisplay.defaultProps = {
-    alwaysDisplay: false,
+    alwaysDisplay: true,
 };
