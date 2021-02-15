@@ -11,6 +11,7 @@ import BreakdownView from '@learning.components/ItemDisplay/BreakdownView';
 import LoadingView from '@learning.components/ItemDisplay/LoadingView.js';
 
 import useLoadWord from '@learning.hooks/useLoadWord.js';
+import CharDisplay from "@learning.components/ItemDisplay/CharacterDisplay/CharDisplay";
 
 //Top and Bottom Containters
 const ContainerTop = styled.div`
@@ -88,6 +89,7 @@ export default function WordDisplay(props) {
                     />
                 </ContainerTop>
 
+                {renderBreakdown()}
                 <ExampleSentenceHeading>
                     Example Sentences
                 </ExampleSentenceHeading>
@@ -105,8 +107,6 @@ export default function WordDisplay(props) {
                         );
                     })}
                 </ContainerBottom>
-
-                {renderBreakdown()}
             </>
         );
     };
@@ -132,4 +132,10 @@ WordDisplay.propTypes = {
     /** The query id of the word to be rendered, will
      * be omitted if url is present and not null. */
     qid: PropTypes.number,
+
+    alwaysDisplay: PropTypes.bool,
+};
+
+WordDisplay.defaultProps = {
+    alwaysDisplay: true,
 };

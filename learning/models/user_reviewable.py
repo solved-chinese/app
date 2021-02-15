@@ -13,7 +13,7 @@ class UserReviewableManager(models.Manager):
 
 
 class UserReviewable(models.Model):
-    BONUS_THRESHOLD = 3
+    BONUS_THRESHOLD = 2
 
     user = models.ForeignKey('accounts.User',
                              on_delete=models.CASCADE)
