@@ -2,7 +2,7 @@ from django.views import View
 from django.shortcuts import get_object_or_404, render, redirect
 
 from jiezi.utils.mixins import StudentOnlyMixin
-from .models import Class
+from .models import Class, Student
 from learning.models import LearningProcess
 
 
@@ -27,12 +27,13 @@ class JoinClassView(StudentOnlyMixin, View):
 
 class StudentDashboardView(StudentOnlyMixin, View):
     def get(self, request):
-        if request.user.student.klass is None:
+        student = Student.of(request.user)
+        if student.klass is None:
             return render(
                 request, 'utils/simple_response.html',
                 {'content': "Join a class with the link from your teacher."}
             )
-        assignments = request.user.student.klass.assignments.all()
+        assignments = student.klass.assignments.all()
         processes = [LearningProcess.of(request.user, assignment.wordset)
                      for assignment in assignments]
         return render(

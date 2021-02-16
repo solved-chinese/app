@@ -6,7 +6,7 @@ from django.views.generic.list import ListView
 
 from jiezi.utils.mixins import TeacherOnlyMixin
 from .forms import AssignmentCreateForm
-from .models import Class, Student, Assignment
+from .models import Class, Student, Assignment, Teacher
 
 
 class ClassDetailView(TeacherOnlyMixin, DetailView):
