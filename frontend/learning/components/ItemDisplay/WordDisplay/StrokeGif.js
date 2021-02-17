@@ -1,6 +1,4 @@
 
-// npm install hanzi-writer
-// StrokeGif now moved to "/ItemDisplay/WordDisplay"
 import HanziWriter from 'hanzi-writer';
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
@@ -29,76 +27,92 @@ export default function StrokeGif(props) {
     /* Create target ID for each of the characters. */
     const itemsTargetIDs = items.map((value, index) => `writer-target-${index}`);
 
-    let writers = null;
+    // an array of 'writers'
+    let writers = null; 
 
-    // Might need write two states?
-    //     gifState1 and gifState2
-    const [gifState, setGifState] = useState(-2);
+    const [gifState1, setGifState1] = useState(0);
+    const [gifState2, setGifState2] = useState(0);
+    /* 1 - Minor Problem: How to create an array of states?
+    const [state, setState] = itemsTargetIDs.map((value, index) => {
+        [state[index], setState[index]] = useState(0);
+    }); 
+    */
+    
+    /* 2 - Main Problem: after initial useEffect, 'writers' object falls back to 'null';
+            When tired to pauseAnimation (didUpdate), 'writers' cannot be referred to.
+            Tried passing in a second parameter to induce didUpdate, but triggered re-rendering.
+            Thought of cleanup within useEffect, but could not get it working.
+    */
 
-    // new useEffect that switches between three aminations:
-    //     gifState === -2  -> create writer
-    //     gifState === -1  -> animateCharacter()
-    //     gifState % 2 === 0  -> pauseAnimation()
-    //     gifState % 2 === 1  -> resumeAnimation()
     useEffect(() => {
-        // initial state is -2
-        if(gifState === -2){
-            writers = itemsTargetIDs.map((value, index) =>
-                HanziWriter.create(value, items[index], {
-                    width: 60,
-                    height: 65,
-                    padding: 2,
-                    showOutline: true,
-                    showCharacter: true,
-                })
-            );            
+
+        writers = itemsTargetIDs.map((value, index) => 
+            HanziWriter.create(value, items[index], {
+                width: 60,
+                height: 65,
+                padding: 2,
+                showOutline: true,
+                showCharacter: true,
+            })
+        );
+
+        function handleChange(){
         }
-        // first click start -> state = -1
-        if(gifState === -1){
-            // writers.animateCharacter();
+        return function cleanup(){
+        };
+    },[]); 
 
-            //document.getElementById('writer-target-1').addEventListener('click', () => {
-            //  writers.animateCharacter();});
-            console.log('clicked createAnimation');
-        }
-        // second click pause -> state = 0
-        if(gifState >= 0 && gifState % 2 === 0){
-            //writers.animateCharacter();
-
-            //document.getElementById('writer-target-1').addEventListener('click', () => {
-            //  writers.pauseCharacter();});
-            console.log('clicked pauseAnimation');
-        }
-        // third click resume -> state = 1
-        if(gifState >= 0 && gifState % 2 === 1){
-            // writers.resumeCharacter();
-
-            //document.getElementById('writer-target-1').addEventListener('click', () => {
-            //  writers.resumeCharacter();});
-            console.log('clicked resumeAnimation');
-        }
-
-    }, [gifState]);
-
-    // added 'onClick' to <div>
     const renderWriterTarget = () => itemsTargetIDs.map(
         (id, index) => (
-            <div id={id} key={index} style={{cursor: 'grab'}} onClick={() => writerOnclick(index)}/>
+            <div id={id} key={index} style={{cursor: 'grab'}} onClick={() => writerCallback(index)}/>
         )
     );
     
-    // gifState adds one when clicked
-    const writerOnclick = (index) => {
-        setGifState(gifState +1); // How to write into ' gifState${index} ' ?
-        console.log('gifState is ' + gifState);
-        console.log('index is ' + index);
+    // 3 - Minor Problem: writerCallback seems to animate two characters together?
+    // const writerCallback = () => itemsTargetIDs.map(
+    //     (_, index) => {
+    //         if (gifState1 === 0)
+    //             writers[index].animateCharacter();
+    //         if (gifState1 % 2 === 1)
+    //             writers[index].pauseAnimation();
+    //         if (gifState1 % 2 === 0)
+    //             writers[index].resumeAnimation();
+    //         setGifState1(gifState1 + 1);
+    //     }
+    // ); 
+    
+    // Half-fix  Passes in the index and determines which state to change 
+    const writerCallback = (index) => {
+        // if clicked on gifState 1
+        if (index === 0){ 
+            if (gifState1 === 0)
+                writers[index].animateCharacter();
+            if (gifState1 % 2 === 1)
+                writers[index].pauseAnimation();
+            else
+                writers[index].resumeAnimation();
+
+            setGifState1(gifState1 + 1);
+        }
+        // if clicked on gifState 2
+        if (index === 1){
+            if (gifState2 === 0)
+                writers[index].animateCharacter();
+            if (gifState2 % 2 === 1)
+                writers[index].pauseAnimation();
+            else
+                writers[index].resumeAnimation();
+
+            setGifState1(gifState2 + 1);
+        }
     };
+    
 
 
     return (
         <div>
             <WordContainer className='use-chinese'>
-                {/* Writer Target */}
+                {/* How render div only once? */}
                 {renderWriterTarget()}
             </WordContainer>
 

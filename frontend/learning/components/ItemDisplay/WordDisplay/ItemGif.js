@@ -1,4 +1,4 @@
-// This is the new ItemGif
+// This is the new ItemGif 
 //      a motified version of ItemPhonetic
 //      used only in wordDisplay
 
@@ -62,3 +62,5 @@ ItemPhonetic.propTypes = {
     /** The character to be displayed.  */
     item: PropTypes.string.isRequired
 };
+
+// http://127.0.0.1:8000/content/display/word/1
