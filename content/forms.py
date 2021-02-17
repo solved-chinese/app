@@ -95,3 +95,24 @@ class SentenceForm(forms.ModelForm):
 class ContentCreationForm(forms.ModelForm):
     class Meta:
         fields = ('chinese', 'identifier')
+
+
+class WordSetSplitForm(forms.ModelForm):
+    def __init__(self, *args, old_wordset=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.old_wordset = old_wordset
+        self.fields['words'] = forms.ModelMultipleChoiceField(
+            queryset=old_wordset.words.all(),
+            widget=forms.CheckboxSelectMultiple
+        )
+
+    def save(self, commit=True):
+        assert commit
+        self.instance.parent = self.old_wordset
+        super().save(commit=True)
+        self.old_wordset.words.remove(*self.instance.words.all())
+        return self.instance
+
+    class Meta:
+        model = WordSet
+        fields = ('name', 'jiezi_id', 'words')

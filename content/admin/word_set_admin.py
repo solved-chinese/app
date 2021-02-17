@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.shortcuts import redirect, reverse
 from mptt.admin import DraggableMPTTAdmin
 
 from content.models import WordInSet, WordSet
@@ -30,6 +31,7 @@ class WordSetAdmin(DraggableMPTTAdmin, GeneralContentAdmin):
     list_display_links = ('indented_title',)
     list_filter = ['is_done']
     search_fields = ['name__search']
+    actions = ['split_wordset']
     inlines = [WordInSetInline]
     mptt_level_indent = 30
 
@@ -43,3 +45,11 @@ class WordSetAdmin(DraggableMPTTAdmin, GeneralContentAdmin):
             defaults['form'] = WordSetCreationForm
         defaults.update(kwargs)
         return super().get_form(request, obj, **defaults)
+
+    def split_wordset(self, request, queryset):
+        qs_cnt = queryset.count()
+        if qs_cnt != 1:
+            self.message_user(request,
+                              f"error: can select only 1 but {qs_cnt} received")
+            return
+        return redirect(reverse('split_wordset', args=(queryset.get().pk,)))

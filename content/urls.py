@@ -50,5 +50,8 @@ urlpatterns = [
 
     path('show_all_options_toggle',
          views.show_all_options_toggle,
-         name='show_all_options_toggle')
+         name='show_all_options_toggle'),
+    path('split_wordset/<int:wordset_pk>',
+         views.split_set_view,
+         name='split_wordset'),
 ]
