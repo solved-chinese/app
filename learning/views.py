@@ -6,7 +6,7 @@ from content.models import WordSet
 
 
 class LearningView(LoginRequiredMixin, TemplateView):
-    template_name = 'learning/learning.html'
+    template_name = 'react/learning.html'
 
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
@@ -25,6 +25,8 @@ class LearningView(LoginRequiredMixin, TemplateView):
 
 
 class AssignmentView(LoginRequiredMixin, TemplateView):
+    template_name = 'react/assignment.html'
+
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         set_pk = self.kwargs.pop('set_pk', None)

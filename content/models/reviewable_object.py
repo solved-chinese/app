@@ -76,7 +76,13 @@ class ReviewableObject(AdminUrlMixin, models.Model):
     def __str__(self):
         return repr(self)
 
+    @property
+    def definition(self):
+        if self.radical:
+            return self.radical.definition
+        return self.concrete_object.full_definition
+
     def __getattr__(self, item):
         if item in ('render',):
             return getattr(self.concrete_object, item)
-        raise AttributeError
+        return super().__getattribute__(item)

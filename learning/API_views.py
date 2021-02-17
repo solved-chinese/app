@@ -4,7 +4,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
 
-from content.models import WordSet, ReviewableObject, Radical, Character
+from content.models import WordSet, ReviewableObject
 from learning.models.learning_algorithm import LearningProcess
 
 
@@ -38,32 +38,20 @@ class AssignmentAPIView(APIView):
             'pinyin': obj.concrete_object.pinyin,
             'chinese': obj.radical.image.url if obj.radical
                 else obj.concrete_object.chinese,
+            'definition': obj.definition,
             'status': 'mastered' if obj.pk in self.process.data['mastered_list']
                 else 'familiar' if obj.pk in self.process.data['review_list']
                 else 'remaining',
         }
         word_reviewables = map(
             lambda wis: wis.word.get_reviewable_object(),
-            self.wordset.wordinset_set.all()
+            self.wordset.wordinset_set.all().prefetch_related(
+                'word__definitions')
         )
 
-        def handle_reviewable_pk(pk):
-            try:
-                return ReviewableObject.objects.get(pk=pk)
-            except ReviewableObject.DoesNotExist:
-                return None
-
-        bonus_reviewables = list(map(
-            handle_reviewable_pk,
-            self.process.data['bonus_list'],
-        ))
-        if not bonus_reviewables:
-            bonus_reviewables = [
-                Radical.objects.filter(is_done=True).first().
-                    get_reviewable_object(),
-                Character.objects.filter(is_done=True).first().
-                    get_reviewable_object(),
-            ]
+        bonus_reviewables = ReviewableObject.objects.filter(
+            pk__in=self.process.data['bonus_list']).prefetch_related(
+            'character__definitions').select_related('radical')
         character_list = filter(lambda obj: obj and obj.character,
                                 bonus_reviewables)
         radical_list = filter(lambda obj: obj and obj.radical,

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    {{ pre_react|safe }}
+    <div id="assignment-app"></div>
+{% endblock content %}
+
+{% block js %}
+    {{ react_data|json_script:'react-data' }}
+    <script src="{% static "scripts/assignment.bundle.js" %}"></script>
+{% endblock js %}

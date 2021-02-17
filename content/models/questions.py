@@ -66,7 +66,7 @@ class GeneralQuestion(models.Model):
                                'get_absolute_url')
         if item in allowed_delegations:
             return getattr(self.concrete_question, item)
-        raise AttributeError(item)
+        return super().__getattribute__(item)
 
 
 class BaseConcreteQuestion(models.Model):

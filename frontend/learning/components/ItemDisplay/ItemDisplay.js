@@ -8,6 +8,25 @@ import RadDisplay from './RadicalDisplay/RadDisplay';
 import '@learning.styles/ItemDisplay.css';
 
 import { ItemDescriptor } from '@interfaces/CoreItem';
+import styled from "styled-components";
+
+const NextButton = styled.button`
+    display: block;
+    border: 1px solid var(--main-theme-color);
+    color: var(--main-theme-color);
+    background-color: white;
+    padding: 0.4em 2em;
+    margin-bottom: 25px;
+    text-align: right;
+    transition: all 150ms ease-in-out;
+    border-radius: 3px;
+    font-size: 0.9em;
+  
+    &:hover {
+        background-color: var(--main-theme-color);
+        color: white;
+    }
+`;
 
 /**
  * Statically display an item (word, character, or radical) 
@@ -30,22 +49,24 @@ export default function ItemDisplay(props) {
     };
 
     const renderNext = () => {
-        if ('onActionNext' in props)
+        if (props.onActionNext != null)
             return (
-                <button onClick={props.onActionNext}>
-                    next
-                </button>
+                <div align='right'>
+                    <NextButton onClick={props.onActionNext}>
+                        Next
+                    </NextButton>
+                </div>
             );
-        return;
     };
 
     return (
         <>
-            { renderNext() }
-            <div className='content-card-container
-            box-shadow'>
+            <div className='content-card-container box-shadow'
+                 ref={props.displayRef} tabIndex="0" style={{outline: 'none'}}
+            >
                 { renderSwitch(props.type, props.qid) }
             </div>
+            { renderNext() }
         </>
     );
 }
@@ -53,5 +74,5 @@ export default function ItemDisplay(props) {
 ItemDisplay.propTypes = {
     type: PropTypes.string,
     qid: PropTypes.number,
-    onActionNext: any,
+    onActionNext: PropTypes.func
 };

@@ -1,10 +1,10 @@
-{% extends "base.html" %}
+{% extends "utils/breadcrumbs_base.html" %}
 
 {% load django_bootstrap_breadcrumbs %}
 {% block breadcrumbs %}
   {{ block.super }}
   {% breadcrumb "My Classes" "class_list" %}
-  {% breadcrumb form.in_class form.in_class %}
+  {% breadcrumb form.klass form.klass %}
   {% breadcrumb "Create Assignment" "" %}
 {% endblock %}
 

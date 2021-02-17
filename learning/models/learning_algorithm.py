@@ -111,7 +111,8 @@ class LearnState(AbstractLearningState):
             # if word, assume the student has already learned
             LearnState.handle_request(process, {})
             # make it the first to review if there are questions
-            if process.data['review_list'][-1] == reviewable.pk:
+            if process.data['review_list'] and \
+                    process.data['review_list'][-1] == reviewable.pk:
                 process.data['review_list'].pop()
                 process.data['review_list'].insert(0, reviewable.pk)
                 process.state = ReviewState
@@ -175,6 +176,8 @@ class ReviewState(AbstractLearningState):
             process.state = DecideState
             return {'conflict': True}
         else:
+            process.data['stats']['correct_answer' if is_correct
+                else 'wrong_answer'] += 1
             Record.objects.create(
                 action=Record.Action.CORRECT_ANSWER if is_correct
                        else Record.Action.WRONG_ANSWER,
@@ -255,10 +258,10 @@ class LearningProcess(models.Model):
         if result:
             response.update(result)
         self.state_id = uuid4()
+        self.calculate_progress_bar()
         self.save()
         response['state'] = self.state_id.hex
-        self.calculate_progress_bar()
-        response['progressBar'] = self.data['progress_bar'].copy()
+        response['progressBar'] = self.data['progress_bar']
         assert 'action' in response, "response invalid without action"
         return response
 
@@ -291,6 +294,10 @@ class LearningProcess(models.Model):
                     'familiar': 0,
                     'remaining': obj.wordset.words.count(),
                     'bonus': 0,
+                },
+                'stats': {
+                    'correct_answer': 0,
+                    'wrong_answer': 0,
                 },
                 'bonus_list': [],  # list of reviewable pks, 0 is first
                 'learn_list': [wis.word.get_reviewable_object().pk
