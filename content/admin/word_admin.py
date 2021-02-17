@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.utils.html import format_html
 
 from content.models import CharacterInWord, DefinitionInWord, Sentence, Word
-from content.admin import GeneralContentAdmin, ReviewableAdminMixin, \
+from content.admin import SpecificContentAdmin, ReviewableAdminMixin, \
     MultiSelectFieldListFilter
 from content.forms import SentenceForm
 
@@ -49,7 +49,7 @@ class SentenceInline(admin.StackedInline):
 
 
 @admin.register(Word)
-class WordAdmin(ReviewableAdminMixin, GeneralContentAdmin):
+class WordAdmin(ReviewableAdminMixin, SpecificContentAdmin):
     search_fields = ['chinese', 'pinyin', 'identifier']
     list_display = ['id', 'is_done', '__str__', 'pinyin',
                     'get_definitions', 'get_set_list_display']

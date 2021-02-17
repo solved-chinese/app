@@ -3,11 +3,11 @@ from django.urls import reverse
 from django.utils.html import format_html
 
 from content.models import Radical
-from content.admin import GeneralContentAdmin, MultiSelectFieldListFilter
+from content.admin import SpecificContentAdmin, MultiSelectFieldListFilter
 
 
 @admin.register(Radical)
-class RadicalAdmin(GeneralContentAdmin):
+class RadicalAdmin(SpecificContentAdmin):
     search_fields = ['chinese', 'identifier']
     autocomplete_fields = ['audio']
     list_filter = [

@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.utils.html import format_html
 
 from content.models import RadicalInCharacter, DefinitionInCharacter, Character
-from content.admin import GeneralContentAdmin, MultiSelectFieldListFilter
+from content.admin import SpecificContentAdmin, MultiSelectFieldListFilter
 
 
 class RadicalInCharacterInline(admin.TabularInline):
@@ -28,7 +28,7 @@ class DefinitionInCharacterInline(admin.TabularInline):
 
 
 @admin.register(Character)
-class CharacterAdmin(GeneralContentAdmin):
+class CharacterAdmin(SpecificContentAdmin):
     search_fields = ['chinese', 'pinyin', 'identifier']
     list_display = ['id', 'is_done', '__str__', 'pinyin',
                     'get_definitions', 'get_word_list_display']
