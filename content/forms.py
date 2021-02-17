@@ -9,6 +9,7 @@ from .utils import punctuate_English, punctuate_Chinese, add_highlight
 class WordSetCreationForm(forms.ModelForm):
     words = forms.CharField(
         widget=forms.Textarea,
+        required=False,
         help_text="input each word in a new line"
     )
 
