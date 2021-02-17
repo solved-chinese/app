@@ -5,7 +5,7 @@ from django.utils.html import escape
 
 from .utils import NextAdminMixin, DisabledFieldMixin
 from content.models import OrderableMixin, AudioFile, WordSet
-from content.forms import WordSetQuickCreateFrom, ContentCreationForm
+from content.forms import ContentCreationForm
 from content.question_factories import QuestionFactoryRegistry
 
 
