@@ -53,3 +53,6 @@ class WordSetAdmin(DraggableMPTTAdmin, GeneralContentAdmin):
                               f"error: can select only 1 but {qs_cnt} received")
             return
         return redirect(reverse('split_wordset', args=(queryset.get().pk,)))
+
+    def rebuild(self, request, queryset):
+        WordSet.objects.rebuild()
