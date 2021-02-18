@@ -7,7 +7,7 @@ from django.db import models
 from content.models import ReviewableObject, GeneralQuestion
 from learning.models import UserReviewable, Record
 
-MAX_REVIEW_NUM = 8
+MAX_REVIEW_NUM = 20
 
 
 class AbstractLearningState:
@@ -48,9 +48,7 @@ class DecideState(AbstractLearningState):
         elif can_review and not can_learn:
             process.state = ReviewState
         else:
-            learn_prob = max(0.0, 1 - review_cnt / MAX_REVIEW_NUM)
-            learn_prob **= 2
-            if random.random() < learn_prob:
+            if review_cnt < MAX_REVIEW_NUM:
                 process.state = LearnState
             else:
                 process.state = ReviewState
