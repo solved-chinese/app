@@ -31,7 +31,8 @@ class WordSetAdmin(DraggableMPTTAdmin, GeneralContentAdmin):
     list_display_links = ('indented_title',)
     list_filter = ['is_done']
     search_fields = ['name__search']
-    actions = ['split_wordset']
+    readonly_fields = ['lft', 'rght', 'tree_id']
+    actions = ['split_wordset', 'rebuild']
     inlines = [WordInSetInline]
     mptt_level_indent = 30
 
