@@ -21,8 +21,8 @@ class AssignmentCreateForm(forms.ModelForm):
         self.klass = kwargs.pop('klass')
         super().__init__(*args, **kwargs)
         self.fields['wordset'] = forms.ModelChoiceField(
-            queryset=WordSet.objects.filter(is_done=True).exclude(
-                assignment__klass=self.klass),
+            queryset=WordSet.objects.filter(is_done=True, words__isnull=False)
+                .exclude(assignment__klass=self.klass),
             widget=forms.RadioSelect()
         )
 

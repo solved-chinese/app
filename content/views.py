@@ -3,12 +3,13 @@ import html
 from django.views.generic import View
 from django.http import HttpResponseRedirect, Http404
 from django.views.generic import DetailView, TemplateView
-from django.shortcuts import render, get_object_or_404, reverse
+from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.contrib.auth.decorators import user_passes_test
 
 from content.models import GeneralQuestion, Word, \
     ReviewableObject, Radical, Character, WordSet
 from .question_factories import QuestionFactoryRegistry, CannotAutoGenerate
+from .forms import WordSetSplitForm
 
 
 class ReviewQuestionFactoryView(View):
@@ -125,3 +126,16 @@ def show_all_options_toggle(request):
     request.session['show_all_options'] = show_all_options
     return render(request, 'utils/simple_response.html',
                   {'content': f"show all options: {show_all_options}"})
+
+
+@user_passes_test(lambda user: user.is_superuser)
+def split_set_view(request, wordset_pk=None):
+    old_wordset = get_object_or_404(WordSet, pk=wordset_pk)
+    if request.method == 'POST':
+        form = WordSetSplitForm(old_wordset=old_wordset, data=request.POST)
+        if form.is_valid():
+            wordset = form.save()
+            return HttpResponseRedirect(wordset.get_admin_url())
+    else:
+        form = WordSetSplitForm(old_wordset=old_wordset)
+    return render(request, 'utils/form_display.html', {'form': form})
