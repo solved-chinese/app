@@ -79,7 +79,7 @@ export default function CoreLearning(props) {
     const renderReviewQuestion = () => (
         <>
             <div className={'progressBarContainer'}>
-                <button className={'exitButton'} href={`/learning/assignment/${qid}`}> {'\u{2717}'} </button>
+                <button className={'exitButton'} onClick={(e) => { e.preventDefault(); window.location.href = `/learning/assignment/${qid}`;}}> {'\u{2717}'} </button>
                 <div className={'progressBar'}>
                     <ProgressBar {...progressBar} />
                 </div>
