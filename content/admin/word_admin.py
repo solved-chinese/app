@@ -5,7 +5,7 @@ from django.utils.html import format_html
 from content.models import CharacterInWord, DefinitionInWord, Sentence, Word
 from content.admin import SpecificContentAdmin, ReviewableAdminMixin, \
     MultiSelectFieldListFilter
-from content.forms import SentenceForm
+from content.forms import SentenceForm, WordForm
 
 
 class CharacterInWordInline(admin.TabularInline):
@@ -55,7 +55,7 @@ class WordAdmin(ReviewableAdminMixin, SpecificContentAdmin):
                     'get_definitions', 'get_set_list_display']
     list_filter = [('is_done', admin.BooleanFieldListFilter),
                    ('word_set__name', MultiSelectFieldListFilter)]
-    readonly_fields = ('get_set_list_display',)
+    readonly_fields = ('get_set_list_display', 'memory_aid_highlight')
     autocomplete_fields = ('audio',)
     inlines = [DefinitionInWordInline, SentenceInline, CharacterInWordInline]
 
