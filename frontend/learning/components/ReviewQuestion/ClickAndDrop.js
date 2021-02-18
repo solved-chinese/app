@@ -101,11 +101,13 @@ export default function ClickAndDrop(props) {
     const [choices, setChoices] = useState([...props.content.choices]);
     const [submitted, setSubmitted] = useState(false);
     const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
+    const [correctAnswer, setCorrectAnswer] = useState('');
 
     useEffect(() => {
         setSelected(Array(props.content.answerLength).fill(null));
         setChoices([...props.content.choices]);
         setSubmitted(false);
+        setCorrectAnswer('');
         setIsAnswerCorrect(null);
     }, [props])
 
@@ -126,9 +128,7 @@ export default function ClickAndDrop(props) {
             return;
         props.submitAnswer(selected).then(response => {
             setSubmitted(true);
-            setSelected(response.answer);
-            setChoices(props.content.choices.filter(
-                value => !response.answer.includes(value)));
+            setCorrectAnswer(response.answer.join(''));
             setIsAnswerCorrect(response.isCorrect);
         }).catch( msg => {
             console.log(msg);
@@ -232,7 +232,8 @@ export default function ClickAndDrop(props) {
                         Next
                     </button>
                 </SubmitContainer>
-                {submitted? <AnswerResponse correct={isAnswerCorrect}/> : ""}
+                {submitted? <AnswerResponse correct={isAnswerCorrect}
+                                            correctAnswer={correctAnswer}/> : ""}
             </div>
         </div>
     );

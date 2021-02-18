@@ -132,8 +132,8 @@ export default function FITBQuestion(props) {
                     </button>
                 </SubmitContainer>
                 <ResponseContainer>
-                    <p className={ 'answerIncorrect '}>{ isAnswerCorrect !=null ? (isAnswerCorrect ? '' : 'Correct Answer: '+correctAnswer) : ''}</p>
-                    {submitted? <AnswerResponse correct={isAnswerCorrect}/> : ""}
+                    {submitted? <AnswerResponse correct={isAnswerCorrect}
+                                                correctAnswer={correctAnswer}/> : ""}
                 </ResponseContainer>
             </div>
         </div>
