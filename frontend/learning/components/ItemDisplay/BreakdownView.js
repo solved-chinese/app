@@ -199,11 +199,11 @@ function BreakdownChar(props) {
                     {renderDefinitions(definitions)}
                 </Row>
                 {/* Added items (related_words) as a props */}
-                {/*<RelatedItems */}
-                {/*    items={character.relatedWords}*/}
-                {/*    item={character.chinese}*/}
-                {/*    itemType='word' */}
-                {/*/>*/}
+                <RelatedItems 
+                    items={character.relatedWords}
+                    item={character.chinese}
+                    itemType='word' 
+                />
             </>
         );
     };
