@@ -1,0 +1,26 @@
+.progressBarContainer {
+    width: 100%;
+    display: flex;
+}
+
+button.exitButton {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--secondary-text);
+    border-color: var(--main-theme-color);
+    border-radius: 5px;
+    color: var(--main-theme-color);
+    text-align: center;
+    background-color:transparent;
+    font-size: 1.5em;
+
+    transition: all 250ms ease-in-out;
+}
+
+button.exitButton:focus {
+    outline: none;
+}
+
+.progressBar {
+    width: 100%;
+}

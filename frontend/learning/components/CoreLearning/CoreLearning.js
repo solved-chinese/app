@@ -1,6 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import PropTypes from 'prop-types';
-
 import ProgressBar from './ProgressBar';
 import ItemDisplay from 
     '@learning.components/ItemDisplay/ItemDisplay';
@@ -9,9 +7,9 @@ import ReviewQuestion from
 
 import getLearningNext from '@learning.services/getLearningNext';
 
-import { ReviewQuestionDescriptor } from '@interfaces/ReviewQuestion';
 import { ItemDescriptor } from '@interfaces/CoreItem';
 
+import '@learning.styles/CoreLearning.css';
 /**
  * The main component for users' learning experience. The component
  * will present a set of dynamically determined series of learning 
@@ -47,7 +45,7 @@ export default function CoreLearning(props) {
                 setProgressBar(response.progressBar);
                 setState(response.state);
             }
-        )
+        );
     };
 
     const submitAnswer = (answer) => {
@@ -56,13 +54,13 @@ export default function CoreLearning(props) {
         };
         if (state != null)
             data.state = state;
-        return getLearningNext(url, data)
+        return getLearningNext(url, data);
     };
 
     useEffect(
         () => {
             onActionNext();
-    }, []);
+        }, []);
 
     const renderItemDisplay = () => (
         <>
@@ -74,9 +72,18 @@ export default function CoreLearning(props) {
         </>
     );
 
+    const showAssignmentPage = () => {
+        props.history.push(`/learning/assignment/${qid}`);
+    };
+
     const renderReviewQuestion = () => (
         <>
-            <ProgressBar {...progressBar} />
+            <div className={'progressBarContainer'}>
+                <button className={'exitButton'} onClick={(e) => { e.preventDefault(); window.location.href = `/learning/assignment/${qid}`;}}> {'\u{2717}'} </button>
+                <div className={'progressBar'}>
+                    <ProgressBar {...progressBar} />
+                </div>
+            </div>
             <ReviewQuestion
                 question={content}
                 onActionNext={onActionNext}
@@ -91,8 +98,8 @@ export default function CoreLearning(props) {
     case 'display':
         return renderItemDisplay();
     case 'done':
-        return "Done Learning";
+        return 'Done Learning';
     default:
-        return "loading";
+        return 'loading';
     }
 }
