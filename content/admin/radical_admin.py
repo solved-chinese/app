@@ -14,6 +14,8 @@ class RadicalAdmin(SpecificContentAdmin):
         ('is_done', admin.BooleanFieldListFilter),
         ('character__word__word_set__name', MultiSelectFieldListFilter),
         ('is_learnable', admin.BooleanFieldListFilter),
+        ('pinyin', admin.EmptyFieldListFilter),
+        ('definition', admin.EmptyFieldListFilter),
     ]
     list_editable = ('is_learnable',)
     list_display = ['id', 'is_done', '__str__', 'pinyin', 'definition',
