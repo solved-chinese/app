@@ -49,6 +49,28 @@ export default function WordDisplay(props) {
             `/content/word/${props.qid}` : props.url
         ) : props.word;
 
+    const renderBreakdown = () => {
+        // if it is single-character word, the characters field will be a list of
+        // a single serialized character, render that character's breakdown view
+        if (word.characters.length == 1 && word.characters[0].radicals != null)
+            return(
+                <BreakdownView
+                    type='radical'
+                    alwaysDisplay={props.alwaysDisplay}
+                    componentURL={word.characters[0].radicals}
+                    memoryAid={word.characters[0].memoryAid}
+                />
+            );
+        else
+            return(
+                <BreakdownView
+                    type='word'
+                    alwaysDisplay={props.alwaysDisplay}
+                    componentURL={word.characters}
+                    memoryAid={word.memoryAid}
+                />
+            );
+    };
     const renderWord = (word) => {
         const chinese = word.chinese;
         const pinyin = word.pinyin;
@@ -67,15 +89,7 @@ export default function WordDisplay(props) {
                     />
                 </ContainerTop>
 
-                {/* Bottom: Example Sentences */}
-
-                {/* Show Breakdown toggle. Borrowed from Michael*/}
-                <BreakdownView 
-                    type='word'
-                    alwaysDisplay={props.alwaysDisplay}
-                    componentURL={word.characters}
-                    memoryAid={word.memoryAid}
-                />
+                {renderBreakdown()}
                 <ExampleSentenceHeading>
                     Example Sentences
                 </ExampleSentenceHeading>

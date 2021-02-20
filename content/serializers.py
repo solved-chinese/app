@@ -81,10 +81,14 @@ class WordSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_characters(self, word):
         characters = word.characters.order_by('characterinword')
-        l = [reverse('character-detail',
-                     kwargs={'pk': character.pk},
-                     request=self.context['request'])
-             for character in characters]
+        if len(word.chinese) == 1:
+            l = [CharacterSerializer(characters.get(),
+                                     context=self.context).data]
+        else:
+            l = [reverse('character-detail',
+                         kwargs={'pk': character.pk},
+                         request=self.context['request'])
+                 for character in characters]
         return l
 
     class Meta:
