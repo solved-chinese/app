@@ -17,3 +17,12 @@ class DisabledFieldMixin:
             except KeyError:
                 pass
         return form
+
+    def get_formset(self, request, obj=None, **kwargs):
+        formset = super().get_formset(request, obj=obj, **kwargs)
+        for field_name in self.get_disabled_fields(request, obj=obj):
+            try:
+                formset.form.base_fields[field_name].disabled = True
+            except KeyError:
+                pass
+        return formset

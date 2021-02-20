@@ -4,7 +4,8 @@ from django.utils.html import format_html
 from mptt.admin import TreeRelatedFieldListFilter
 
 from content.models import CharacterInWord, DefinitionInWord, Sentence, Word
-from content.admin import SpecificContentAdmin, ReviewableAdminMixin
+from content.admin import SpecificContentAdmin, ReviewableAdminMixin, \
+    DisabledFieldMixin
 from content.forms import SentenceForm
 
 
@@ -30,7 +31,7 @@ class DefinitionInWordInline(admin.TabularInline):
     extra = 0
 
 
-class SentenceInline(admin.StackedInline):
+class SentenceInline(DisabledFieldMixin, admin.StackedInline):
     model = Sentence
     extra = 0
     form = SentenceForm
@@ -46,6 +47,8 @@ class SentenceInline(admin.StackedInline):
     }),)
     readonly_fields = ['chinese_highlight', 'pinyin_highlight',
                        'translation_highlight']
+    autocomplete_fields = ['audio']
+    disabled_fields = ['audio']
 
 
 @admin.register(Word)
@@ -57,7 +60,12 @@ class WordAdmin(ReviewableAdminMixin, SpecificContentAdmin):
                    ('word_set', TreeRelatedFieldListFilter)]
     readonly_fields = ('get_set_list_display',)
     autocomplete_fields = ('audio',)
+    disabled_fields = ('audio',)
     inlines = [DefinitionInWordInline, SentenceInline, CharacterInWordInline]
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related(
+            'definitions', 'word_sets')
 
     def get_definitions(self, word):
         s = ""

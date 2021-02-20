@@ -24,6 +24,9 @@ class RadicalAdmin(SpecificContentAdmin):
                     'get_image_thumbnail', 'get_character_list_display']
     readonly_fields = ('get_character_list_display', 'get_image_preview')
 
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related('characters')
+
     def get_exclude(self, request, obj=None):
         """
         not show image when creating objects

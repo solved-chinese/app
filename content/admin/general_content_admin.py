@@ -125,5 +125,5 @@ class SpecificContentAdmin(GeneralContentAdmin):
          """
         disabled_fields = super().get_disabled_fields(request, obj=obj)
         if obj is not None and hasattr(obj, 'chinese'):
-            return disabled_fields + ['chinese']
+            return list(disabled_fields) + ['chinese']
         return disabled_fields
