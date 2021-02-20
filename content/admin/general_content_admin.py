@@ -5,11 +5,12 @@ from django.utils.html import escape
 
 from .utils import NextAdminMixin, DisabledFieldMixin
 from content.models import OrderableMixin, AudioFile, WordSet
-from content.forms import WordSetQuickCreateFrom, ContentCreationForm
+from content.forms import ContentCreationForm
 from content.question_factories import QuestionFactoryRegistry
 
 
-__all__ = ['ReviewableAdminMixin', 'GeneralContentAdmin']
+__all__ = ['ReviewableAdminMixin', 'GeneralContentAdmin',
+           'SpecificContentAdmin']
 
 
 @admin.register(AudioFile)
@@ -83,18 +84,6 @@ class GeneralContentAdmin(NextAdminMixin, DisabledFieldMixin, admin.ModelAdmin):
             return []
         return super().get_inlines(request, obj)
 
-    def get_form(self, request, obj=None, **kwargs):
-        """
-        User a special from for creation
-        reference django.contrib.auth.admin.UserAdmin.get_form
-        """
-        defaults = {}
-        if obj is None:
-            defaults['form'] = WordSetQuickCreateFrom if self.model == WordSet \
-                else ContentCreationForm
-        defaults.update(kwargs)
-        return super().get_form(request, obj, **defaults)
-
     def get_fields(self, request, obj=None):
         """ overriden to move archive to the end """
         fields = super().get_fields(request, obj=obj).copy()
@@ -104,15 +93,6 @@ class GeneralContentAdmin(NextAdminMixin, DisabledFieldMixin, admin.ModelAdmin):
             return fields
         fields.pop(index)
         return [*fields, 'archive']
-
-    def get_disabled_fields(self, request, obj=None):
-        """ Get the list of fields to disable in form
-            disable chinese editing in change form
-         """
-        disabled_fields = super().get_disabled_fields(request, obj=obj)
-        if obj is not None and hasattr(obj, 'chinese'):
-            return disabled_fields + ['chinese']
-        return disabled_fields
 
     def save_formset(self, request, form, formset, change):
         """ make sure the order is correct when editor doesn't specify """
@@ -125,3 +105,25 @@ class GeneralContentAdmin(NextAdminMixin, DisabledFieldMixin, admin.ModelAdmin):
         """ reset the order to be 0,1,2... """
         super().save_related(request, form, formsets, change)
         form.instance.reset_order()
+
+
+class SpecificContentAdmin(GeneralContentAdmin):
+    def get_form(self, request, obj=None, **kwargs):
+        """
+        User a special from for creation
+        reference django.contrib.auth.admin.UserAdmin.get_form
+        """
+        defaults = {}
+        if obj is None:
+            defaults['form'] = ContentCreationForm
+        defaults.update(kwargs)
+        return super().get_form(request, obj, **defaults)
+
+    def get_disabled_fields(self, request, obj=None):
+        """ Get the list of fields to disable in form
+            disable chinese editing in change form
+         """
+        disabled_fields = super().get_disabled_fields(request, obj=obj)
+        if obj is not None and hasattr(obj, 'chinese'):
+            return disabled_fields + ['chinese']
+        return disabled_fields

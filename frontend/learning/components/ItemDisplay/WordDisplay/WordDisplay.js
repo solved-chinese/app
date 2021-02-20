@@ -10,7 +10,8 @@ import ExampleSentences from './ExampleSentences';
 import BreakdownView from '@learning.components/ItemDisplay/BreakdownView';
 import LoadingView from '@learning.components/ItemDisplay/LoadingView';
 
-import useLoadWord from '@learning.hooks/useLoadWord';
+import useLoadWord from '@learning.hooks/useLoadWord.js';
+import CharDisplay from "@learning.components/ItemDisplay/CharacterDisplay/CharDisplay";
 
 //Top and Bottom Containters
 const ContainerTop = styled.div`
@@ -47,7 +48,28 @@ export default function WordDisplay(props) {
             `/content/word/${props.qid}` : props.url
         ) : props.word;
 
-
+    const renderBreakdown = () => {
+        // if it is single-character word, the characters field will be a list of
+        // a single serialized character, render that character's breakdown view
+        if (word.characters.length == 1 && word.characters[0].radicals != null)
+            return(
+                <BreakdownView
+                    type='radical'
+                    alwaysDisplay={props.alwaysDisplay}
+                    componentURL={word.characters[0].radicals}
+                    memoryAid={word.characters[0].memoryAid}
+                />
+            );
+        else
+            return(
+                <BreakdownView
+                    type='word'
+                    alwaysDisplay={props.alwaysDisplay}
+                    componentURL={word.characters}
+                    memoryAid={word.memoryAid}
+                />
+            );
+    };
 
     const renderWord = (word) => {
         const chinese = word.chinese;
@@ -67,7 +89,7 @@ export default function WordDisplay(props) {
                     />
                 </ContainerTop>
 
-                {/* Bottom: Example Sentences */}
+                {renderBreakdown()}
                 <ExampleSentenceHeading>
                     Example Sentences
                 </ExampleSentenceHeading>
@@ -86,13 +108,6 @@ export default function WordDisplay(props) {
                         );
                     })}
                 </ContainerBottom>
-        
-                {/* Show Breakdown toggle. Borrowed from Michael*/}
-                <BreakdownView
-                    type='word'
-                    componentURL={word.characters}
-                    memoryAid={word.memoryAid}
-                />
             </>
         );
     };
@@ -118,4 +133,10 @@ WordDisplay.propTypes = {
     /** The query id of the word to be rendered, will
      * be omitted if url is present and not null. */
     qid: PropTypes.number,
+
+    alwaysDisplay: PropTypes.bool,
+};
+
+WordDisplay.defaultProps = {
+    alwaysDisplay: true,
 };

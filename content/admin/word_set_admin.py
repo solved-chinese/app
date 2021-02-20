@@ -1,7 +1,10 @@
 from django.contrib import admin
+from django.shortcuts import redirect, reverse
+from mptt.admin import DraggableMPTTAdmin
 
 from content.models import WordInSet, WordSet
 from content.admin import GeneralContentAdmin
+from content.forms import WordSetCreationForm
 
 
 class WordInSetInline(admin.TabularInline):
@@ -22,9 +25,35 @@ class WordInSetInline(admin.TabularInline):
 
 
 @admin.register(WordSet)
-class WordSetAdmin(GeneralContentAdmin):
-    list_display = ['id', '__str__', 'render_all_words', 'is_done']
+class WordSetAdmin(DraggableMPTTAdmin, GeneralContentAdmin):
+    list_display = ['tree_actions', 'indented_title', 'jiezi_id', 'is_done']
+    list_editable = ['jiezi_id', 'is_done']
+    list_display_links = ('indented_title',)
     list_filter = ['is_done']
     search_fields = ['name__search']
+    readonly_fields = ['lft', 'rght', 'tree_id']
+    actions = ['split_wordset', 'rebuild']
     inlines = [WordInSetInline]
+    mptt_level_indent = 30
 
+    def get_form(self, request, obj=None, **kwargs):
+        """
+        User a special from for creation
+        reference django.contrib.auth.admin.UserAdmin.get_form
+        """
+        defaults = {}
+        if obj is None:
+            defaults['form'] = WordSetCreationForm
+        defaults.update(kwargs)
+        return super().get_form(request, obj, **defaults)
+
+    def split_wordset(self, request, queryset):
+        qs_cnt = queryset.count()
+        if qs_cnt != 1:
+            self.message_user(request,
+                              f"error: can select only 1 but {qs_cnt} received")
+            return
+        return redirect(reverse('split_wordset', args=(queryset.get().pk,)))
+
+    def rebuild(self, request, queryset):
+        WordSet.objects.rebuild()

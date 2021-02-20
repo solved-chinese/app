@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_bootstrap_breadcrumbs',
     'logentry_admin',
+    'mptt',
 
     'django.contrib.admin',
     'django.contrib.auth',

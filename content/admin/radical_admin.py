@@ -1,19 +1,22 @@
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
+from mptt.admin import TreeRelatedFieldListFilter
 
 from content.models import Radical
-from content.admin import GeneralContentAdmin, MultiSelectFieldListFilter
+from content.admin import SpecificContentAdmin
 
 
 @admin.register(Radical)
-class RadicalAdmin(GeneralContentAdmin):
+class RadicalAdmin(SpecificContentAdmin):
     search_fields = ['chinese', 'identifier']
     autocomplete_fields = ['audio']
     list_filter = [
         ('is_done', admin.BooleanFieldListFilter),
-        ('character__word__word_set__name', MultiSelectFieldListFilter),
+        ('character__word__word_set', TreeRelatedFieldListFilter),
         ('is_learnable', admin.BooleanFieldListFilter),
+        ('pinyin', admin.EmptyFieldListFilter),
+        ('definition', admin.EmptyFieldListFilter),
     ]
     list_editable = ('is_learnable',)
     list_display = ['id', 'is_done', '__str__', 'pinyin', 'definition',

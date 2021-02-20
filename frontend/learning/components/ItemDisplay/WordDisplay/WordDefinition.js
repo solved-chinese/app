@@ -9,6 +9,7 @@ import ItemGif from './ItemGif';
 const TableContainer = styled.table`
     margin-left: 70px;
     font-size: 1.3em;
+    max-width: 500px;
 
     @media only screen and (max-width: 480px) {
         padding: 0;
