@@ -194,12 +194,16 @@ LOGGING = {
             '()': 'django.utils.log.ServerFormatter',
             'format': '[{server_time}] {message}',
             'style': '{',
-        }
+        },
+        'verbose': {
+            'format': '[%(levelname)s] %(asctime)s %(name)s.%(funcName)s:%(lineno)s- %(message)s',
+        },
     },
     'handlers': {
         'console': {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
         },
         'django.server': {
             'level': 'INFO',
