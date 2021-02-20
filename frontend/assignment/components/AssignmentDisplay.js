@@ -89,13 +89,12 @@ export default function AssignmentDisplay(props) {
         return (
             <ContentContainer>
                 <HeaderView name={assignment.name} onActionComplete={onActionComplete}/>
-                <ProgressBar {...assignment.progressBar}/>
                 <ItemDisplayBody objectList={assignment.wordList}
                                  displayRef={displayRef}
                                  curObject={curObject}
                                  setCurObject={setCurObject}
                 />
-                <br/><br/>
+                <ProgressBar {...assignment.progressBar}/>
                 <Headings>Terms in this set ({assignment.wordList.length})</Headings>
                 <div className={'use-chinese'}>
                     {renderObjects(assignment.wordList)}
