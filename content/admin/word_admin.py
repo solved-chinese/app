@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
+from mptt.admin import TreeRelatedFieldListFilter
 
 from content.models import CharacterInWord, DefinitionInWord, Sentence, Word
-from content.admin import SpecificContentAdmin, ReviewableAdminMixin, \
-    MultiSelectFieldListFilter
+from content.admin import SpecificContentAdmin, ReviewableAdminMixin
 from content.forms import SentenceForm
 
 
@@ -54,7 +54,7 @@ class WordAdmin(ReviewableAdminMixin, SpecificContentAdmin):
     list_display = ['id', 'is_done', '__str__', 'pinyin',
                     'get_definitions', 'get_set_list_display']
     list_filter = [('is_done', admin.BooleanFieldListFilter),
-                   ('word_set__name', MultiSelectFieldListFilter)]
+                   ('word_set', TreeRelatedFieldListFilter)]
     readonly_fields = ('get_set_list_display',)
     autocomplete_fields = ('audio',)
     inlines = [DefinitionInWordInline, SentenceInline, CharacterInWordInline]
