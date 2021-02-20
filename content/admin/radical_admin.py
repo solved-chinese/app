@@ -1,9 +1,10 @@
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
+from mptt.admin import TreeRelatedFieldListFilter
 
 from content.models import Radical
-from content.admin import SpecificContentAdmin, MultiSelectFieldListFilter
+from content.admin import SpecificContentAdmin
 
 
 @admin.register(Radical)
@@ -12,7 +13,7 @@ class RadicalAdmin(SpecificContentAdmin):
     autocomplete_fields = ['audio']
     list_filter = [
         ('is_done', admin.BooleanFieldListFilter),
-        ('character__word__word_set__name', MultiSelectFieldListFilter),
+        ('character__word__word_set', TreeRelatedFieldListFilter),
         ('is_learnable', admin.BooleanFieldListFilter),
         ('pinyin', admin.EmptyFieldListFilter),
         ('definition', admin.EmptyFieldListFilter),
