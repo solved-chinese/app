@@ -1,5 +1,6 @@
 import re
 import unicodedata
+
 from django.core.validators import RegexValidator
 
 E_pun = u',.!?()'
@@ -40,9 +41,13 @@ def add_highlight(s, *targets, add_all=False):
         return re.sub(r"<(.*?)>", r"\1", s), s
     highlight_s = s
     for target in targets:
-        highlight_s, num_sub = re.subn(f"({target})", r'<\1>',
-                                       highlight_s,
-                                       flags=re.IGNORECASE)
-        if num_sub and not add_all:
+        if not isinstance(target, (list, tuple)):
+            target = [target]
+        tot_sub = 0
+        for t in target:
+            highlight_s, num_sub = re.subn(f"({re.escape(t.strip())})", r'<\1>',
+                                           highlight_s, flags=re.IGNORECASE)
+            tot_sub += num_sub
+        if tot_sub and not add_all:
             return s, highlight_s
     return s, highlight_s

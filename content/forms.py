@@ -80,8 +80,10 @@ class SentenceForm(forms.ModelForm):
             instance.translation, instance.translation_highlight = \
                 add_highlight(
                     instance.translation,
-                    *list(instance.word.definitions.values_list('definition',
-                                                                flat=True))
+                    *list(map(
+                        lambda s: s.split(','),
+                        instance.word.definitions.values_list(
+                            'definition', flat=True)))
                 )
 
     def save(self, commit=True):
