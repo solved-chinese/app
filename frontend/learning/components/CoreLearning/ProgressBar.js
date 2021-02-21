@@ -70,39 +70,41 @@ export default class ProgressBar extends React.Component {
     render(){
         this.total = this.props.mastered + this.props.familiar + this.props.remaining + this.props.bonus;
 
+        const margin = 5;
+        const modifier = 100 - 4 * margin;
         this.bar = {
             bar1: {
-                width: `${this.props.mastered / this.total * 100}%`,
+                width: `${this.props.mastered / this.total * modifier + margin}%`,
                 background: 'rgb(85, 162, 30)',
             },
             bar2: {
-                width: `${this.props.familiar / this.total * 100}%`,
+                width: `${this.props.familiar / this.total * modifier + margin}%`,
                 background: 'rgb(141, 207, 84)',
             },
             bar3: {
-                width: `${this.props.remaining / this.total * 100}%`,
+                width: `${this.props.remaining / this.total * modifier + margin}%`,
                 background: 'rgb(212, 210, 210)',
             },
             bar4: {
-                width: `${this.props.bonus / this.total * 100}%`,
+                width: `${this.props.bonus / this.total * modifier + margin}%`,
                 background: 'rgb(255, 195, 0)',
             }};
 
         this.text = {
             text1: {
-                width: `${this.props.mastered / this.total * 100}%`,
+                width: `${this.props.mastered / this.total * modifier + margin}%`,
                 color: 'rgb(85, 162, 30)',
             },
             text2: {
-                width: `${this.props.familiar / this.total * 100}%`,
+                width: `${this.props.familiar / this.total * modifier + margin}%`,
                 color: 'rgb(141, 207, 84)',
             },
             text3: {
-                width: `${this.props.remaining / this.total * 100}%`,
+                width: `${this.props.remaining / this.total * modifier + margin}%`,
                 color: 'rgb(212, 210, 210)',
             },
             text4: {
-                width: `${this.props.bonus / this.total * 100}%`,
+                width: `${this.props.bonus / this.total * modifier + margin}%`,
                 color: 'rgb(255, 195, 0)',
             }
         };
