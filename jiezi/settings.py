@@ -148,6 +148,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 
 LOGIN_REDIRECT_URL = '/'
 AUTH_USER_MODEL = 'accounts.User'
+AUTHENTICATION_BACKENDS = ['accounts.auth_backend.EmailUsernameBackend']
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
