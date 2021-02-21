@@ -125,7 +125,7 @@ class FITBFactoryMixin:
 
 
 class CNDFactoryMixin:
-    question_form = FITBQuestion
+    question_form = CNDQuestion
 
     def _generate(self, ro, correct_answer, wrong_answer):
         """
