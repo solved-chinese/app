@@ -82,7 +82,8 @@ export default function FITBQuestion(props) {
             props.onActionNext();
             return;
         }
-        console.log(answer);
+        if (!answer || answer.length === 0)
+            return;
         props.submitAnswer(answer).then(response => {
             setCorrectAnswer(response.answer);
             setIsAnswerCorrect(response.isCorrect);
@@ -126,6 +127,7 @@ export default function FITBQuestion(props) {
                             answer != '' ? ' active' : ''
                         }`}
                         hidden={submitted && isAnswerCorrect}
+                        disabled={!answer || answer.length === 0}
                         onClick={onSubmit}
                     >
                         {submitted? 'Next' : 'Submit'}
