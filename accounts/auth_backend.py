@@ -5,9 +5,9 @@ class EmailUsernameBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
         try:
             if '@' in username:
-                user = UserModel.objects.get(email__iexact=username)
+                user = UserModel.objects.get(email=username)
             else:
-                user = UserModel.objects.get(username__iexact=username)
+                user = UserModel.objects.get(username=username)
         except UserModel.DoesNotExist:
             return None
         else:
