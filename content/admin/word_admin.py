@@ -60,7 +60,6 @@ class WordAdmin(ReviewableAdminMixin, SpecificContentAdmin):
                    ('word_set', TreeRelatedFieldListFilter)]
     readonly_fields = ('get_set_list_display',)
     autocomplete_fields = ('audio',)
-    disabled_fields = ('audio',)
     inlines = [DefinitionInWordInline, SentenceInline, CharacterInWordInline]
 
     def get_queryset(self, request):
