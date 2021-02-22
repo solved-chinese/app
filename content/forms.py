@@ -70,20 +70,20 @@ class SentenceForm(forms.ModelForm):
         if 'chinese' in self.changed_data:
             instance.chinese = punctuate_Chinese(instance.chinese)
             instance.chienese, instance.chinese_highlight = \
-                add_highlight(instance.chinese, instance.word.chinese)
+                add_highlight(instance.chinese, instance.word.chinese,
+                              ignore_short=False)
         if 'pinyin' in self.changed_data:
             instance.pinyin = punctuate_English(instance.pinyin)
             instance.pinyin, instance.pinyin_highlight = \
-                add_highlight(instance.pinyin, instance.word.pinyin)
+                add_highlight(instance.pinyin, instance.word.pinyin,
+                              ignore_short=False)
         if 'translation' in self.changed_data:
             instance.translation = punctuate_English(instance.translation)
             instance.translation, instance.translation_highlight = \
                 add_highlight(
                     instance.translation,
-                    *list(map(
-                        lambda s: s.split(','),
-                        instance.word.definitions.values_list(
-                            'definition', flat=True)))
+                    *list(instance.word.definitions.values_list(
+                            'definition', flat=True))
                 )
 
     def save(self, commit=True):

@@ -34,19 +34,30 @@ def unaccent(s):
                                                    ).decode('utf-8')
 
 
-def add_highlight(s, *targets, add_all=False):
+def add_highlight(s, *targets, add_all=False, ignore_short=True):
     """ returns (text, highlight_text)"""
     # if already manually highlighted, do nothing
     if re.search(r"<.*?>", s):
         return re.sub(r"<(.*?)>", r"\1", s), s
     highlight_s = s
     for target in targets:
-        if not isinstance(target, (list, tuple)):
-            target = [target]
+        # remove parenthesis
+        target = re.sub(r'\((.*?)\)', '\1', target)
+        # split target by either comma or semicolon
+        target = re.split(r',|;', target)
         tot_sub = 0
         for t in target:
-            highlight_s, num_sub = re.subn(f"({re.escape(t.strip())})", r'<\1>',
-                                           highlight_s, flags=re.IGNORECASE)
+            t = t.strip()
+            # remove "to" from "to do something"
+            if t.startswith('to '):
+                t = t[3:]
+            # not care about short words
+            if ignore_short and len(t) <= 2:
+                continue
+            # replace
+            highlight_s, num_sub = re.subn(
+                r"\b({}(?:s|es|d|ed|ing)?)('s|')?\b".format(re.escape(t)),
+                r'<\1>\2', highlight_s, flags=re.IGNORECASE)
             tot_sub += num_sub
         if tot_sub and not add_all:
             return s, highlight_s

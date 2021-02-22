@@ -15,12 +15,23 @@ def add_highlight(s, *targets, add_all=False):
         return re.sub(r"<(.*?)>", r"\1", s), s
     highlight_s = s
     for target in targets:
-        if not isinstance(target, Iterable):
-            target = [target]
+        # remove parenthesis
+        target = re.sub(r'\((.*?)\)', '\1', target)
+        # split target by either comma or semicolon
+        target = re.split(r',|;', target)
         tot_sub = 0
         for t in target:
-            highlight_s, num_sub = re.subn(f"({re.escape(t.strip())})", r'<\1>',
-                                           highlight_s, flags=re.IGNORECASE)
+            t = t.strip()
+            # remove "to" from "to do something"
+            if t.startswith('to '):
+                t = t[3:]
+            # not care about short words
+            if len(t) <= 2:
+                continue
+            # replace
+            highlight_s, num_sub = re.subn(
+                r"\b({}(?:s|es|d|ed|ing)?)('s|')?\b".format(re.escape(t)),
+                r'<\1>\2', highlight_s, flags=re.IGNORECASE)
             tot_sub += num_sub
         if tot_sub and not add_all:
             return s, highlight_s
@@ -30,21 +41,31 @@ def add_highlight(s, *targets, add_all=False):
 def forward(apps, schema_editor):
     Sentence = apps.get_model('content', 'Sentence')
     sentences = Sentence.objects.exclude(translation_highlight__contains='<')
+    logger.info(f"total {sentences.count()} to check")
+    cnt = 0
     for instance in sentences:
         translation, instance.translation_highlight = \
             add_highlight(
                 instance.translation,
-                *list(map(
-                    lambda s: s.split(','),
-                    instance.word.definitions.values_list(
-                        'definition', flat=True)))
+                *list(instance.word.definitions.values_list(
+                    'definition', flat=True))
             )
         if translation != instance.translation_highlight:
+            instance.save()
+            cnt += 1
             logger.info(
                 f"{instance.word.chinese} "
                 f"'{'; '.join(map(lambda d: d.definition, instance.word.definitions.all()))}'"
                 f" change from "
                 f"'{translation}' to '{instance.translation_highlight}'")
+        else:
+            logger.warning(
+                f"{instance.word.chinese} "
+                f"'{'; '.join(map(lambda d: d.definition, instance.word.definitions.all()))}'"
+                f" no change from "
+                f"'{translation}'")
+
+    logger.info(f"total {cnt} subs")
 
 
 def backward(apps, schema_editor):
