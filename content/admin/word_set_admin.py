@@ -1,10 +1,15 @@
+import html
+
+from django.utils.html import format_html
 from django.contrib import admin
-from django.shortcuts import redirect, reverse
+from django.shortcuts import redirect, reverse, render
 from mptt.admin import DraggableMPTTAdmin
 
-from content.models import WordInSet, WordSet
+from content.models import WordInSet, WordSet, Word
 from content.admin import GeneralContentAdmin
 from content.forms import WordSetCreationForm
+from content.question_factories.question_factory_registry \
+    import QuestionFactoryRegistry
 
 
 class WordInSetInline(admin.TabularInline):
@@ -32,7 +37,7 @@ class WordSetAdmin(DraggableMPTTAdmin, GeneralContentAdmin):
     list_filter = ['is_done']
     search_fields = ['name__search']
     readonly_fields = ['lft', 'rght', 'tree_id']
-    actions = ['split_wordset', 'rebuild']
+    actions = ['split_wordset', 'rebuild', 'generate_question']
     inlines = [WordInSetInline]
     mptt_level_indent = 30
 
@@ -57,3 +62,28 @@ class WordSetAdmin(DraggableMPTTAdmin, GeneralContentAdmin):
 
     def rebuild(self, request, queryset):
         WordSet.objects.rebuild()
+
+    def generate_question(self, request, queryset):
+        if queryset.count() != 1:
+            self.message_user(request, "can only generate question for "
+                                       "one wordset", 'ERROR')
+            return
+
+        wordset = queryset.get()
+        Factories = QuestionFactoryRegistry.get_factories_by_model(Word)
+        factories = [Factory() for Factory in Factories]
+        result = ""
+
+        for word in wordset.words.all():
+            for factory in factories:
+                info_string = f"creating {factory.question_type} on {repr(word)}"
+                info_string = html.escape(info_string)
+                try:
+                    factory.generate(word.get_reviewable_object())
+                except Exception as e:
+                    result += f'<div style="color: red">fail {info_string} ' \
+                              f'{html.escape(repr(e))}</div>'
+                else:
+                    result += f'<div style="color: green">good {info_string}</div>'
+        return render(request, 'utils/simple_response.html',
+                      {'content': format_html(result)})

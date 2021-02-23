@@ -104,6 +104,9 @@ class GeneralContentAdmin(NextAdminMixin, DisabledFieldMixin, admin.ModelAdmin):
     def save_related(self, request, form, formsets, change):
         """ reset the order to be 0,1,2... """
         super().save_related(request, form, formsets, change)
+        # reload from db to fix the difference between form.instance and
+        # the change of instances in formsets
+        form.instance.refresh_from_db()
         form.instance.reset_order()
 
 
@@ -125,5 +128,5 @@ class SpecificContentAdmin(GeneralContentAdmin):
          """
         disabled_fields = super().get_disabled_fields(request, obj=obj)
         if obj is not None and hasattr(obj, 'chinese'):
-            return disabled_fields + ['chinese']
+            return list(disabled_fields) + ['chinese']
         return disabled_fields

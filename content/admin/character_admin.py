@@ -39,6 +39,10 @@ class CharacterAdmin(SpecificContentAdmin):
     readonly_fields = ('get_word_list_display',)
     inlines = [DefinitionInCharacterInline, RadicalInCharacterInline]
 
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related(
+            'definitions', 'words')
+
     def get_definitions(self, character):
         s = ""
         for definition in character.definitions.all():
