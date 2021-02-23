@@ -12,7 +12,7 @@ const correctResponse = [
 ];
 
 const incorrectResponse = [
-    'Uh oh, review this one \u{1F389}',
+    'Uh oh, review this one \u{1F623}',
     'Not quite... \u{1F914}',
     'Almost there! \u{1F62B}',
     'You\'ll get it next time! \u{1F389}',
