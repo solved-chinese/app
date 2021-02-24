@@ -43,7 +43,8 @@ class Assignment(models.Model):
             index_col='user__id',
         )
         sdf.columns = ['mastered', 'familiar', 'remaining', 'correct', 'wrong']
-        sdf.insert(1, 'Accuracy', sdf['correct'] / sdf['correct'] + sdf['wrong'])
+        sdf.insert(1, 'Accuracy', sdf['correct'] /
+                   (sdf['correct'] + sdf['wrong']))
         sdf.insert(1, 'Completion', sdf['mastered'] /
                    (sdf['mastered'] + sdf['familiar'] + sdf['remaining']))
         sdf = sdf.drop(columns=['mastered', 'familiar', 'remaining',
