@@ -58,7 +58,7 @@ export default function WordDisplay(props) {
                     type='radical'
                     alwaysDisplay={props.alwaysDisplay}
                     componentURL={word.characters[0].radicals}
-                    memoryAid={word.characters[0].memoryAid}
+                    memoryAid={word.memoryAid}
                 />
             );
         else

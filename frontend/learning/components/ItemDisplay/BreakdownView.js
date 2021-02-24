@@ -246,7 +246,7 @@ function MemoryAidView(props) {
     let content = props.content;
 
     if (!content || content === 'TODO')
-        return;
+        return null;
 
     content = content.replace(
         new RegExp('<(.*?)>', 'g'),
