@@ -40,7 +40,9 @@ class WordSet(MPTTModel, GeneralContentModel):
                     raise ValidationError('leaf cannot be done without any word')
                 for w in self.words.all():
                     if not w.is_done:
-                        raise ValidationError(f"{w} not done")
+                        raise ValidationError(f"{repr(w)} not done")
+                    elif not w.get_reviewable_object().questions.exists():
+                        raise ValidationError(f"{repr(w)} has no questions")
             else:
                 if self.words.exists():
                     raise ValidationError('non-leaf cannot be done with words')
