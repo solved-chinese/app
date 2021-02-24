@@ -19,3 +19,4 @@ class UserAdmin(auth_admin.UserAdmin):
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups',
                    'is_student', 'is_teacher')
     search_fields = ('username', 'display_name', 'email')
+    ordering = None  # use default (-last_login)
