@@ -78,7 +78,7 @@ class WordAdmin(ReviewableAdminMixin, SpecificContentAdmin):
         if request.user.is_superuser:
             return self.disabled_fields
         else:
-            return super().get_disabled_fields()
+            return super().get_disabled_fields(request, obj=obj)
 
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related(
