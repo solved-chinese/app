@@ -6,7 +6,6 @@ from django.contrib.contenttypes.fields import GenericRelation
 
 from content.models import GeneralContentModel, OrderableMixin, \
     ReviewableMixin, AudioFile, LinkedField
-from content.utils import validate_chinese_character_or_x
 
 
 class DefinitionInWord(OrderableMixin):
@@ -160,41 +159,6 @@ class Word(ReviewableMixin, GeneralContentModel):
             if not self.sentences.exists():
                 raise ValidationError('cannot be done without any sentence')
 
-    def save(self, *args, **kwargs):
-        # if adding, connect the necessary characters
-        if self._state.adding and self.chinese != 'x':
-            # connect audio
-            if len(self.chinese) == 1:
-                self.audio = AudioFile.get_by_pinyin(self.pinyin)
-            else:
-                self.audio = AudioFile.get_by_chinese(self.audio_chinese)
-            # connect related characters
-            from content.models import Character
-            character_objects = []
-            for index, chinese in enumerate(self.chinese):
-                try:
-                    validate_chinese_character_or_x(chinese)
-                except ValidationError:
-                    self.add_warning(f"non-chinese characters '{chinese}' at "
-                                     f"index {index}, please verify")
-                    continue
-                characters = Character.objects.filter(chinese=chinese)
-                cnt = characters.count()
-                if cnt == 1:
-                    character = characters.get()
-                elif cnt > 1:
-                    self.add_warning(f"{chinese} at index {index} have more than"
-                        f" one characters, please select manually")
-                    character = Character.get_TODO_character()
-                else:
-                    character = Character.objects.create(chinese=chinese)
-                character_objects.append(character)
-            super().save(*args, **kwargs)
-            for index, character in enumerate(character_objects):
-                CharacterInWord.objects.create(character=character,
-                                               word=self, order=index)
-        else:
-            super().save(*args, **kwargs)
 
     def reset_order(self):
         OrderableMixin.reset_order(self.characterinword_set)

@@ -6,7 +6,7 @@ from mptt.admin import TreeRelatedFieldListFilter
 from content.models import CharacterInWord, DefinitionInWord, Sentence, Word
 from content.admin import SpecificContentAdmin, ReviewableAdminMixin, \
     DisabledFieldMixin
-from content.forms import SentenceForm
+from content.forms import SentenceForm, WordForm, WordCreationForm
 
 
 class CharacterInWordInline(admin.TabularInline):
@@ -61,6 +61,24 @@ class WordAdmin(ReviewableAdminMixin, SpecificContentAdmin):
     readonly_fields = ('get_set_list_display',)
     autocomplete_fields = ('audio',)
     inlines = [DefinitionInWordInline, SentenceInline, CharacterInWordInline]
+    form = WordForm
+
+    def get_form(self, request, obj=None, **kwargs):
+        """
+        User a special from for creation
+        reference django.contrib.auth.admin.UserAdmin.get_form
+        """
+        defaults = {}
+        if obj is None:
+            defaults['form'] = WordCreationForm
+        defaults.update(kwargs)
+        return super().get_form(request, obj, **defaults)
+
+    def get_disabled_fields(self, request, obj=None):
+        if request.user.is_superuser:
+            return self.disabled_fields
+        else:
+            return super().get_disabled_fields()
 
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related(

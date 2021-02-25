@@ -1,9 +1,12 @@
 from django import forms
 from dal_select2.widgets import Select2WidgetMixin
 from dal.widgets import WidgetMixin
+from django.core.exceptions import ValidationError
 
-from .models import WordSet, Word, LinkedField, AudioFile
+from .models import WordSet, Word, Character, LinkedField, AudioFile, \
+    CharacterInWord
 from .utils import punctuate_English, punctuate_Chinese, add_highlight
+from content.utils import validate_chinese_character_or_x
 
 
 class WordSetCreationForm(forms.ModelForm):
@@ -118,3 +121,52 @@ class WordSetSplitForm(forms.ModelForm):
     class Meta:
         model = WordSet
         fields = ('name', 'jiezi_id', 'words')
+
+
+class WordForm(forms.ModelForm):
+    def save(self, commit=True):
+        # assert commit, 'no commit not supported'
+        instance = self.instance
+        if 'chinese' in self.changed_data:
+            # connect audio
+            if len(instance.chinese) == 1:
+                instance.audio = AudioFile.get_by_pinyin(instance.pinyin)
+            else:
+                instance.audio = AudioFile.get_by_chinese(instance.audio_chinese)
+            # connect related characters, only when creating
+            if instance.pk is not None:
+                instance.add_warning('Modifying chinese after creation, please '
+                                     'manually change characters')
+            else:
+                character_objects = []
+                for index, chinese in enumerate(instance.chinese):
+                    try:
+                        validate_chinese_character_or_x(chinese)
+                    except ValidationError:
+                        instance.add_warning(f"non-chinese characters '{chinese}' at "
+                                             f"index {index}, please verify")
+                        continue
+                    characters = Character.objects.filter(chinese=chinese)
+                    cnt = characters.count()
+                    if cnt == 1:
+                        character = characters.get()
+                    elif cnt > 1:
+                        instance.add_warning(
+                            f"{chinese} at index {index} have more than one "
+                            f"characters, please select manually")
+                        character = Character.get_TODO_character()
+                    else:
+                        character = Character.objects.create(chinese=chinese)
+                    character_objects.append(character)
+
+                def _save_m2m():
+                    for index, character in enumerate(character_objects):
+                        CharacterInWord.objects.create(
+                            character=character, word=instance, order=index)
+                self._save_m2m = _save_m2m
+
+        return super().save(commit=commit)
+
+
+class WordCreationForm(ContentCreationForm, WordForm):
+    pass
