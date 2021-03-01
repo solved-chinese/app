@@ -57,7 +57,8 @@ class WordAdmin(ReviewableAdminMixin, SpecificContentAdmin):
     list_display = ['id', 'is_done', '__str__', 'pinyin',
                     'get_definitions', 'get_set_list_display']
     list_filter = [('is_done', admin.BooleanFieldListFilter),
-                   ('word_set', TreeRelatedFieldListFilter)]
+                   ('word_set', TreeRelatedFieldListFilter),
+                   ('IC_level', admin.EmptyFieldListFilter),]
     readonly_fields = ('get_set_list_display',)
     autocomplete_fields = ('audio',)
     inlines = [DefinitionInWordInline, SentenceInline, CharacterInWordInline]
