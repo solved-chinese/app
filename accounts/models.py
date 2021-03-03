@@ -28,6 +28,9 @@ class User(AbstractUser):
     is_teacher = models.BooleanField(default=False)
     is_student = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ('-last_login',)
+
     def clean(self):
         if self.email == '':
             self.email = None

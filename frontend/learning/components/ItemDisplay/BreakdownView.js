@@ -243,21 +243,28 @@ const MemoryAidContent = styled.div`
  */
 function MemoryAidView(props) {
 
-    const content =  props.content;
+    let content = props.content;
 
-    if (content != null && content != '' 
-            && content != 'TODO' ) {
-        return (
-            <>
-                <MemoryAidHeading>
-                    Memory Aid
-                </MemoryAidHeading>
-                <MemoryAidContent className='box-shadow' style={{whiteSpace: 'pre-line'}}>
-                    {props.content}
-                </MemoryAidContent>
-            </>
-        );
-    } else { return null; }
+    if (!content || content === 'TODO')
+        return null;
+
+    content = content.replace(
+        new RegExp('<(.*?)>', 'g'),
+        `<span class='use-serifs' style='color:darkcyan'>$1</span>`
+    );
+
+    return (
+        <>
+            <MemoryAidHeading>
+                Memory Aid
+            </MemoryAidHeading>
+            <MemoryAidContent
+                className='box-shadow'
+                style={{whiteSpace: 'pre-line'}}
+                dangerouslySetInnerHTML={{__html: content}}
+            />
+        </>
+    );
 }
 
 MemoryAidView.propTypes = {

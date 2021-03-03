@@ -9,7 +9,35 @@ import getLearningNext from '@learning.services/getLearningNext';
 
 import { ItemDescriptor } from '@interfaces/CoreItem';
 
+const Title = styled.h1`
+    font-size: 2em;
+    text-align: center;
+    display: block;
+    margin-bottom: 25px;
+    margin-right: 20px;
+    color: var(--primary-text);
+`;
+
+const ExitButton = styled.button`
+    display: block;
+    border: 1px solid var(--main-theme-color);
+    color: var(--main-theme-color);
+    background-color: white;
+    padding: 0.4em 2em;
+    margin-bottom: 25px;
+    transition: all 150ms ease-in-out;
+    border-radius: 3px;
+    font-size: 0.9em;
+  
+    &:hover {
+        background-color: var(--main-theme-color);
+        color: white;
+    }
+`;
+
+
 import '@learning.styles/CoreLearning.css';
+import styled from "styled-components";
 /**
  * The main component for users' learning experience. The component
  * will present a set of dynamically determined series of learning 
@@ -62,9 +90,18 @@ export default function CoreLearning(props) {
             onActionNext();
         }, []);
 
+    const renderProgressBar = () => (
+        <div className={'progressBarContainer'}>
+            <button className={'exitButton'} onClick={(e) => { e.preventDefault(); window.location.href = `/learning/assignment/${qid}`;}}> {'\u{2717}'} </button>
+            <div className={'progressBar'}>
+                <ProgressBar {...progressBar} />
+            </div>
+        </div>
+    );
+
     const renderItemDisplay = () => (
         <>
-            <ProgressBar {...progressBar} />
+            {renderProgressBar()}
             <ItemDisplay
                 {...content}
                 onActionNext={onActionNext}
@@ -78,17 +115,28 @@ export default function CoreLearning(props) {
 
     const renderReviewQuestion = () => (
         <>
-            <div className={'progressBarContainer'}>
-                <button className={'exitButton'} onClick={(e) => { e.preventDefault(); window.location.href = `/learning/assignment/${qid}`;}}> {'\u{2717}'} </button>
-                <div className={'progressBar'}>
-                    <ProgressBar {...progressBar} />
-                </div>
-            </div>
+            {renderProgressBar()}
             <ReviewQuestion
                 question={content}
                 onActionNext={onActionNext}
                 submitAnswer={submitAnswer}
             />
+        </>
+    );
+
+    const renderDoneView = () => (
+        <>
+            {renderProgressBar()}
+            <Title>
+                Woohoo! {"\u{1f389}"}
+            </Title>
+            <Title>
+                You've completed the assignment :)
+            </Title>
+            <ExitButton onClick={(e) => {
+                e.preventDefault(); window.location.href = `/`;}}>
+                Return to Dashboard
+            </ExitButton>
         </>
     );
 
@@ -98,7 +146,7 @@ export default function CoreLearning(props) {
     case 'display':
         return renderItemDisplay();
     case 'done':
-        return 'Done Learning';
+        return renderDoneView();
     default:
         return 'loading';
     }

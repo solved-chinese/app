@@ -82,7 +82,7 @@ class WordSerializer(serializers.HyperlinkedModelSerializer):
     def get_characters(self, word):
         characters = word.characters.order_by('characterinword')
         if len(word.chinese) == 1:
-            l = [CharacterSerializer(characters.get(),
+            l = [CharacterSerializer(characters.first(),
                                      context=self.context).data]
         else:
             l = [reverse('character-detail',

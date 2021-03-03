@@ -16,7 +16,7 @@ class AssignmentAdmin(admin.ModelAdmin):
     class_name.short_description = 'class'
 
     def teacher_name(self, obj):
-        return obj.in_class.teacher.display_name
+        return obj.klass.teacher.display_name
     teacher_name.short_description = 'teacher'
 
     def detail(self, obj):
