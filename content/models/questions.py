@@ -1,8 +1,8 @@
 from uuid import uuid4
 import logging
 import numpy as np
+import re
 
-from rest_framework import serializers
 from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.db import models
@@ -297,7 +297,12 @@ class FITBQuestion(BaseConcreteQuestion):
             client_answer = client_answer.strip()
         except AttributeError:
             logging.error(exc_info=True)
-        return correct_answer == client_answer, correct_answer
+        correct_answers = [
+            correct_answer,
+            re.sub(r'\((.*?)\)', r'\1', correct_answer),
+            re.sub(r'\((.*?)\)', r'', correct_answer)
+        ]
+        return client_answer in correct_answers, correct_answer
 
 
 class CNDQuestion(BaseConcreteQuestion):

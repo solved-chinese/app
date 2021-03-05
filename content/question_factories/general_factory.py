@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError
 
 from content.models import Word, LinkedField, CNDQuestion, Character, \
     MCQuestion, MCChoice, FITBQuestion
-from content.utils import validate_chinese_character_or_x
+from content.utils import validate_chinese_character_or_brackets
 from .constants import *
 
 
@@ -108,7 +108,7 @@ class FITBFactoryMixin:
         # TODO remove hardcode
         title_link = LinkedField.of(ro.word, 'primary_definition')
         try:
-            validate_chinese_character_or_x(ro.word.chinese)
+            validate_chinese_character_or_brackets(ro.word.chinese)
         except ValidationError:
             raise CannotAutoGenerate("non-chinese characters in chinese field")
         answer_link = LinkedField.of(ro.word, 'chinese')

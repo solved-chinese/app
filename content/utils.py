@@ -22,11 +22,15 @@ def punctuate_Chinese(s):
     return re.sub(r'(?<=[，。！？]) +', r'', s)
 
 
-CHINESE_CHAR_REGEX = "[\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-" \
-                     "\u9FCC\uF900-\uFAAD\U00020000-\U0002A6D6]"
+CHINESE_CHAR_REGEX = "\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-" \
+                     "\u9FCC\uF900-\uFAAD\U00020000-\U0002A6D6"
 validate_chinese_character_or_x = RegexValidator(
-    f'^(({CHINESE_CHAR_REGEX}+)|x)\Z',
+    f'^(([{CHINESE_CHAR_REGEX}]+)|x)\Z',
     'this need to be either in Chinese or "x"'
+)
+validate_chinese_character_or_brackets = RegexValidator(
+    f'^(([{CHINESE_CHAR_REGEX}()]+))\Z',
+    'this need to be either in Chinese or brackets'
 )
 
 def unaccent(s):
