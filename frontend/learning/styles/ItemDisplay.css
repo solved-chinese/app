@@ -35,7 +35,7 @@
 }
 
 .breakdown-toggle i {
-    color: #374C76;
+    color: rgba(207, 9, 9, 0.596);
     width: 100%;
     text-align: center;
     transition: transform 300ms ease;
@@ -46,7 +46,7 @@
 }
 
 .breakdown-toggle > h4 {
-    color: #374C76;
+    color: #83878E;
     width: 100%;
     text-align: center;
     font-size: 0.9em;
@@ -81,7 +81,7 @@
     margin-left: 10px;
     margin-right: 10px;
     border-radius: 5px;
-    padding: 10px 20px;
+    padding: 5px 20px;
     background-color: white;
 }
 
@@ -142,4 +142,27 @@
 
 .ReactModal__Body--open {
     overflow: hidden;
+}
+
+/* CharDefiniton Alternative */
+.point-list {
+    padding-left: 10px;
+    font-size: 1.3em;
+    
+
+    @media only screen and (max-width: 480px) {
+        padding: 0;
+    }
+}
+.point-list div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.point-list p {
+    display: flex;
+    font-size: 40px;
+}
+.point-list li{
+    line-height: 1.75em;
 }

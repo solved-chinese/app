@@ -34,14 +34,14 @@ const ModalStyle = {
 };
 
 //New 'plus' button
-const PlusButton = styled.i`
+const PlusButton = styled.img`
     position: relative;
-    top: 0;
-    left: 95%;
-    margin: 5px;
+    bottom: 100%;
+    left: 90%;
     cursor: pointer;
+    transform: scale(0.6);
     &:hover{
-        transform: scale(1.2);
+        transform: scale(0.7);
         transition: 200ms ease-in-out;
     }
 `;
@@ -68,7 +68,7 @@ export default function PopUp(props) {
 
     return (
         <>
-            <PlusButton className = 'fas fa-plus' onClick={() => setModalState(true)}/>
+            <PlusButton src="/static/images/small-icons/read-more-red.svg" alt="read more" onClick={() => setModalState(true)}/>
             
             <div>
                 {/* Modal now displays CharDisplay */}

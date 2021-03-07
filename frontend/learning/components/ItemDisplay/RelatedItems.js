@@ -46,7 +46,7 @@ export default class RelatedItems extends React.Component {
                     <RelatedItemsList>
                         {items.map((v, i) => {
                             return (<RelatedItemEntry
-                                style={i % 2 ? {background: '#F9F9F9'} : {}}
+                                style={i % 2 ? {} : {}} // changed to single color
                                 key={v.chinese}
                                 item={v}
                             />);

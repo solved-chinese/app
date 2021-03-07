@@ -16,11 +16,13 @@ const Phonetic = styled.span`
     white-space: nowrap;
 `;
 
-const SpeakButton = styled.i`
+const SpeakButton = styled.img`
     position: relative;
-    margin-left: 5px;
-    font-weight: 200;
+    margin-left: 3px;
+    font-weight: 200; //changed from 200
     cursor: pointer;
+    transform: scale(0.6);
+    
 `;
 
 const WordContainer = styled.h1`
@@ -52,9 +54,11 @@ export default class ItemPhonetic extends React.Component {
                 <Phonetic className='use-chinese'> 
                     { this.pinyin }
                     <SpeakButton
-                        className='fas fa-volume'
+                        src="/static/images/small-icons/pronounce.svg"
+                        // className='fas fa-volume' // changed to svg
                         onClick={() => this.audio.play()}
                     />
+
                 </Phonetic>
                 <WordContainer className='use-chinese'>
                     { this.props.item }
