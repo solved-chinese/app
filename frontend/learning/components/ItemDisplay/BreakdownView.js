@@ -170,11 +170,22 @@ function BreakdownChar(props) {
                             key={i}
                             className='use-serifs'
                         >
-                            {elem}
+                            · {elem}
                         </CharDefListItem>
                     );
                 })}
             </CharDefList>
+            // if need to make bullet point larger
+            // <ul className="point-list">
+            //     {definitions.map( (elem, i) => {
+            //         return(
+            //             <div key={i} className='use-serifs' >
+            //                 <p>·</p>
+            //                 {elem}
+            //             </div>
+            //         );
+            //     })}
+            // </ul>
         );
     };
 
@@ -222,9 +233,10 @@ BreakdownChar.propTypes = {
 const MemoryAidHeading = styled.h2`
     display: inline-block;
     width: 100%;
-    color: var(--teritary-text);
+    color: #BEC0C4;
+    letter-spacing: 0.6px;
     font-size: 0.9em;
-    font-weight: 400;
+    font-weight: 500;
     text-align: center;
     margin: 20px auto 10px;
 `;
@@ -249,7 +261,11 @@ function MemoryAidView(props) {
         return null;
 
     content = content.replace(
-        new RegExp('<(.*?)>', 'g'),
+        new RegExp('<([\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]+)>',
+            'g'), // matches all brackets enclosing only Chinese chars
+        `<span class='use-serifs' style='color:darkcyan; font-size: 1.2em'>$1</span>`
+    ).replace(
+        new RegExp('<(?!span|/)(.*?)>', 'g'), // match inside brackets other than span tags
         `<span class='use-serifs' style='color:darkcyan'>$1</span>`
     );
 
