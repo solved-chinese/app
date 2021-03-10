@@ -16,13 +16,12 @@ const Phonetic = styled.span`
     white-space: nowrap;
 `;
 
-const SpeakButton = styled.img`
+export const SpeakButton = styled.img`
     position: relative;
     margin-left: 3px;
     font-weight: 200; //changed from 200
     cursor: pointer;
-    transform: scale(0.6);
-    
+    transform: scale(0.6);    
 `;
 
 const WordContainer = styled.h1`

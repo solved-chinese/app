@@ -101,7 +101,7 @@ class BaseConcreteQuestion(models.Model):
             self.delete()
             raise
         client_dict = {
-            'question': _handle_text_with_audio(self.question),
+            'question': self.question,
             **concrete_content
         }
         context = self.context
@@ -111,7 +111,7 @@ class BaseConcreteQuestion(models.Model):
         elif self.context_option == self.ContextOption.NOT_SHOW:
             context = None
         if context:
-            client_dict['context'] = _handle_text_with_audio(context)
+            client_dict['context'] = context
         return {
             'id': uuid4().hex,  # FIXME legacy in frontend, remove soon
             'form': self.question_form,
@@ -268,9 +268,15 @@ class MCQuestion(BaseConcreteQuestion):
 
         choice_list = list(self.choices.all())
         choices = [choice_list[i].value for i in choice_indexes]
-        return {
+        d = {
             'choices': [choice for choice in choices]
         }
+        if self.question_type == 'Pinyin2DefMC':
+            d['question'] = {
+                'text': self.question,
+                'audio': self.reviewable.word.audio_url,
+            }
+        return d
 
 
 class FITBQuestion(BaseConcreteQuestion):
@@ -288,7 +294,7 @@ class FITBQuestion(BaseConcreteQuestion):
         if not answer or not title:
             raise ValidationError("answer or extra_information None")
         return {
-            'title': _handle_text_with_audio(title),
+            'title': title,
         }
 
     def check_answer(self, client_answer):
@@ -328,7 +334,7 @@ class CNDQuestion(BaseConcreteQuestion):
         choices.extend(wrong_answers)
         np.random.shuffle(choices)
         return {
-            'title': _handle_text_with_audio(title),
+            'title': title,
             'description': self.description,
             'answer_length': len(self.correct_answers),
             'choices': choices
@@ -337,9 +343,3 @@ class CNDQuestion(BaseConcreteQuestion):
     def check_answer(self, client_answer):
         correct_answer = self.correct_answers
         return correct_answer == client_answer, correct_answer
-
-
-def _handle_text_with_audio(obj):
-    assert isinstance(obj, str)
-    return {"text": obj,
-            "audio": "https://solvedchinese.org/media/audio/%E6%8B%BC[=h%C7%8Eo].mp3"}

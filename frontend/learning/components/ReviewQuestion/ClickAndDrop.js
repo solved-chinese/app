@@ -209,13 +209,13 @@ export default function ClickAndDrop(props) {
         <div className='question-content'>
             <div style={{width: '100%'}}>
                 <Question className='use-chinese'>
-                    {props.content.question.text}
+                    {props.content.question}
                 </Question>
                 <Description>
-                    {props.content.description.text}
+                    {props.content.description}
                 </Description>
                 <Description>
-                    {props.content.title.text}
+                    {props.content.title}
                 </Description>
                 <AnswerContainer>
                     {showSelected}
