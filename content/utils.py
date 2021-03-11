@@ -38,8 +38,12 @@ def unaccent(s):
                                                    ).decode('utf-8')
 
 
-def add_highlight(s, *targets, add_all=False, ignore_short=True):
-    """ returns (text, highlight_text)"""
+def add_highlight(s, *targets, add_all=False, mode='English'):
+    """
+    returns (text, highlight_text)
+    mode='Chinese'/'English'
+    in english mode ignore short & have grammar rules, split by comma, semicolon
+    """
     # if already manually highlighted, do nothing
     if re.search(r"<.*?>", s):
         return re.sub(r"<(.*?)>", r"\1", s), s
@@ -56,12 +60,17 @@ def add_highlight(s, *targets, add_all=False, ignore_short=True):
             if t.startswith('to '):
                 t = t[3:]
             # not care about short words
-            if ignore_short and len(t) <= 2:
+            if mode == 'English' and len(t) <= 2:
                 continue
             # replace
-            highlight_s, num_sub = re.subn(
-                r"\b({}(?:s|es|d|ed|ing)?)('s|')?\b".format(re.escape(t)),
-                r'<\1>\2', highlight_s, flags=re.IGNORECASE)
+            if mode == 'English':
+                highlight_s, num_sub = re.subn(
+                    r"\b({}(?:s|es|d|ed|ing)?)('s|')?\b".format(re.escape(t)),
+                    r'<\1>\2', highlight_s, flags=re.IGNORECASE)
+            else:
+                highlight_s, num_sub = re.subn(
+                    r"({})".format(re.escape(t)), r'<\1>', highlight_s,
+                    flags=re.IGNORECASE)
             tot_sub += num_sub
         if tot_sub and not add_all:
             return s, highlight_s
