@@ -47,7 +47,7 @@ class GeneralFactory:
     def generate_context_link(self, ro):
         return None
 
-    def extract_from_qs(self, querysets, obj, min_num, max_num):
+    def extract_from_qs(self, querysets, correct_obj, min_num, max_num):
         """
         performs extraction of objects from querysets with
         returns:
@@ -55,8 +55,8 @@ class GeneralFactory:
         """
         results = set()
         for queryset in querysets:
-            if isinstance(obj, queryset.model):
-                queryset = queryset.exclude(id=obj.id)
+            if isinstance(correct_obj, queryset.model):
+                queryset = queryset.exclude(id=correct_obj.id)
             queryset = queryset.exclude(IC_level__isnull=True).distinct()
             before_qs = queryset.filter(IC_level__lte=obj.IC_level)[:max_num]
             after_qs = queryset.filter(IC_level__gt=obj.IC_level)[:max_num]
