@@ -115,6 +115,7 @@ class AssignmentDetailView(TeacherOnlyMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context.update(self.object.get_stats())
+        self.request.session['last_assignment'] = self.object
         return context
 
 

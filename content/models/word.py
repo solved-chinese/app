@@ -196,7 +196,11 @@ class Word(ReviewableMixin, GeneralContentModel):
     @property
     def primary_sentence_pinyin(self):
         if self.sentences.exists():
-            return self.sentences.first().pinyin
+            sentence = self.sentences.first()
+            return {
+                'text': sentence.pinyin,
+                'audio': sentence.audio_url,
+            }
         return None
 
     @property

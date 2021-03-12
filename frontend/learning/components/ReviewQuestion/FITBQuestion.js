@@ -105,7 +105,7 @@ export default function FITBQuestion(props) {
     return (
         <div className='question-content'>
             <div style={{width: '100%'}}>
-                <Question>{props.content.question.text}</Question>
+                <Question>{props.content.question}</Question>
                 <div className={ inputClassName }>
                     <input
                         autoFocus
@@ -119,7 +119,7 @@ export default function FITBQuestion(props) {
                 <Title 
                     className='use-serifs'
                 >
-                    {props.content.title.text}
+                    {props.content.title}
                 </Title>
                 <SubmitContainer>
                     <button
@@ -134,8 +134,8 @@ export default function FITBQuestion(props) {
                     </button>
                 </SubmitContainer>
                 <ResponseContainer>
-                    <p className={ 'answerIncorrect '}>{ isAnswerCorrect !=null ? (isAnswerCorrect ? '' : 'Correct Answer: '+correctAnswer) : ''}</p>
-                    {submitted? <AnswerResponse correct={isAnswerCorrect}/> : ""}
+                    {submitted? <AnswerResponse correct={isAnswerCorrect}
+                                                correctAnswer={correctAnswer}/> : ""}
                 </ResponseContainer>
             </div>
         </div>

@@ -24,10 +24,12 @@ class WordDefCNDFactory(WordFactoryMixin,
         answer = list(chinese)
         left_index = chinese.find('(')
         if left_index != -1:
-            assert chinese[left_index + 2] == ')', \
+            assert answer[left_index + 2] == ')', \
                 'left right bracket not match'
-            chinese.replace('(', '')
-            chinese.replace(')', '')
+            assert chinese.count('(') == 1, 'can be only one bracket pair'
+            assert chinese.count(')') == 1, 'can be only one bracket pair'
+            del answer[left_index]
+            del answer[left_index + 1]
             answer[left_index] = f"({answer[left_index]})"
         return answer
 

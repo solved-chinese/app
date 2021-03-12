@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 
 import { MCQuestionContent } from '@interfaces/ReviewQuestion';
 import AnswerResponse from './AnswerResponse';
+import { getTextAudio } from './utils';
+import { SpeakButton} from "@learning.components/ItemDisplay/ItemPhonetic";
+
 
 import '@learning.styles/ReviewQuestion.css';
 
@@ -97,27 +100,27 @@ export default function MultipleChoice(props) {
 
     const choices = (() => {
         return props.content.choices.map( (v, i) => {
-            // support value of either string or object
-            var text_value = 'error';
-            if (typeof v == 'string')
-                text_value = v;
-            else if (typeof v == 'object')
-                text_value = v.text;
-
-            return (<button
-                key={text_value}
-                className={getChoiceClassName(text_value)}
-                style={{minWidth: '170px'}}
-                onClick={!submitted ? (() => {
-                    if (selectedAnswer != i) {
-                        setSelectedAnswer(text_value);
-                    } else {
-                        setSelectedAnswer(null);
-                    }
-                }) : null}
-            >
-                {text_value}
-            </button>)
+            let [text, audio] = getTextAudio(v);
+            return (
+                <>
+                    <button
+                    key={text}
+                    className={getChoiceClassName(text)}
+                    style={{minWidth: '170px'}}
+                    onClick={!submitted ? (() => {
+                        if (selectedAnswer != i) {
+                            setSelectedAnswer(text);
+                        } else {
+                            setSelectedAnswer(null);
+                        }}) : null}
+                    >
+                        {text}
+                    </button>
+                    {audio? <SpeakButton
+                        src="/static/images/small-icons/pronounce.svg"
+                        onClick={() => new Audio(audio).play()}/> : null}
+                </>
+            )
         }
         );
     })();
@@ -126,10 +129,26 @@ export default function MultipleChoice(props) {
         <div className='question-content'>
             <div style={{width: '100%'}}>
                 <Context className='use-chinese'>
-                    {props.content.context.text}
+                    {(() => {
+                        let [text, audio] = getTextAudio(props.content.context);
+                        return (<>
+                            {text}
+                            {audio? <SpeakButton
+                                src="/static/images/small-icons/pronounce.svg"
+                                onClick={() => new Audio(audio).play()}/> : null}
+                        </>)
+                    })()}
                 </Context>
                 <Question>
-                    {props.content.question.text}
+                    {(() => {
+                        let [text, audio] = getTextAudio(props.content.question);
+                        return (<>
+                            {text}
+                            {audio? <SpeakButton
+                                src="/static/images/small-icons/pronounce.svg"
+                                onClick={() => new Audio(audio).play()}/> : null}
+                        </>)
+                    })()}
                 </Question>
                 <ChoicesContainer>
                     {choices}

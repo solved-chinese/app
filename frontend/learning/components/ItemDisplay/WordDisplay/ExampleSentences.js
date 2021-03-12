@@ -16,15 +16,15 @@ function ExampleSentences(props) {
     //Add color to the keyword in sentences
     const pinyin = props.pinyin.replace(
         new RegExp('<(.*?)>', 'g'),
-        `<span class='use-serifs' style='color:darkcyan'>$1</span>`
+        `<span class='use-serifs' style='color: #40798C'>$1</span>`
     );
     const chinese = props.chinese.replace(
         new RegExp('<(.*?)>', 'g'),
-        `<span class='use-serifs' style='color:darkcyan'>$1</span>`
+        `<span class='use-serifs' style='color: #40798C'>$1</span>`
     );
     const translation = props.translation.replace(
         new RegExp('<(.*?)>', 'g'),
-        `<span class='use-serifs' style='color:darkcyan'>$1</span>`
+        `<span class='use-serifs' style='color: #40798C'>$1</span>`
     );
 
     //Output the sentences with HTML <span>

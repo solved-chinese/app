@@ -22,6 +22,14 @@ const ResponseContainer = styled.div`
     text-align: center;
 `;
 
+const AnswerIncorrect = styled.span`
+    color:rgb(238,109,0);
+`;
+
+const CorrectAnswer = styled.span`
+    color:rgb(103,158,59);
+`;
+
 /**
  *
  * @param props
@@ -29,6 +37,17 @@ const ResponseContainer = styled.div`
  * @returns {React.Component}
  */
 export default function AnswerResponse(props) {
+    const correctAnswer = (() => {
+        if (!props.correct && props.correctAnswer) {
+            return (
+                <>
+                    <AnswerIncorrect>Correct Answer: </AnswerIncorrect>
+                    <CorrectAnswer>{props.correctAnswer}</CorrectAnswer>
+                </>
+                );
+        }
+    })();
+
     const response = (() => {
         if(props.correct)
             return (
@@ -46,6 +65,7 @@ export default function AnswerResponse(props) {
 
     return (
         <ResponseContainer>
+            {correctAnswer}
             {response}
         </ResponseContainer>
     )

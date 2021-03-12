@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError
 
 from content.models import Word, LinkedField, CNDQuestion, Character, \
     MCQuestion, MCChoice, FITBQuestion
-from content.utils import validate_chinese_character_or_x
+from content.utils import validate_chinese_character_or_brackets
 from .constants import *
 
 
@@ -47,7 +47,7 @@ class GeneralFactory:
     def generate_context_link(self, ro):
         return None
 
-    def extract_from_qs(self, querysets, obj, min_num, max_num):
+    def extract_from_qs(self, querysets, correct_obj, min_num, max_num):
         """
         performs extraction of objects from querysets with
         returns:
@@ -55,8 +55,8 @@ class GeneralFactory:
         """
         results = set()
         for queryset in querysets:
-            if isinstance(obj, queryset.model):
-                queryset = queryset.exclude(id=obj.id)
+            if isinstance(correct_obj, queryset.model):
+                queryset = queryset.exclude(id=correct_obj.id)
             queryset = queryset.exclude(IC_level__isnull=True).distinct()
             before_qs = queryset.filter(IC_level__lte=obj.IC_level)[:max_num]
             after_qs = queryset.filter(IC_level__gt=obj.IC_level)[:max_num]
@@ -108,7 +108,7 @@ class FITBFactoryMixin:
         # TODO remove hardcode
         title_link = LinkedField.of(ro.word, 'primary_definition')
         try:
-            validate_chinese_character_or_x(ro.word.chinese)
+            validate_chinese_character_or_brackets(ro.word.chinese)
         except ValidationError:
             raise CannotAutoGenerate("non-chinese characters in chinese field")
         answer_link = LinkedField.of(ro.word, 'chinese')
