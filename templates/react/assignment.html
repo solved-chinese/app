@@ -1,6 +1,19 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+  {% clear_breadcrumbs %}
+  {% if request.user.is_teacher and request.session.last_assignment %}
+    {% with assignment=request.session.last_assignment %}
+        {% breadcrumb "My Classes" "class_list" %}
+        {% breadcrumb assignment.klass assignment.klass %}
+        {% breadcrumb assignment assignment %}
+        {% breadcrumb "Learn Like a Student" "" %}
+    {% endwith %}
+  {% endif %}
+{% endblock %}
+
 {% block content %}
     {{ pre_react|safe }}
     <div id="assignment-app"></div>
