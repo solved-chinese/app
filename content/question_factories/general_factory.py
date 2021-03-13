@@ -58,8 +58,8 @@ class GeneralFactory:
             if isinstance(correct_obj, queryset.model):
                 queryset = queryset.exclude(id=correct_obj.id)
             queryset = queryset.exclude(IC_level__isnull=True).distinct()
-            before_qs = queryset.filter(IC_level__lte=obj.IC_level)[:max_num]
-            after_qs = queryset.filter(IC_level__gt=obj.IC_level)[:max_num]
+            before_qs = queryset.filter(IC_level__lte=correct_obj.IC_level)[:max_num]
+            after_qs = queryset.filter(IC_level__gt=correct_obj.IC_level)[:max_num]
             for obj in [*before_qs, *after_qs]:
                 results.add(obj)
                 if len(results) == max_num:
