@@ -1,5 +1,6 @@
 import json
 
+from django.utils.html import format_html
 from django.contrib import admin
 
 from .models import Record
@@ -9,13 +10,23 @@ from .models import Record
 class RecordAdmin(admin.ModelAdmin):
     list_display = ('user', 'time', 'action', 'reviewable',
                     'get_question', 'get_set_name', 'get_answer')
-    list_filter = ('action', 'learning_process__wordset__name')
+    list_filter = (
+        'action',
+        ('user__student__klass', admin.RelatedOnlyFieldListFilter),
+        ('learning_process__wordset', admin.RelatedOnlyFieldListFilter),
+    )
     search_fields = ('user__username__exact',)
     exclude = ('data', 'question')
     readonly_fields = ('get_data', 'get_question')
 
     def get_question(self, record):
-        return record.question.question_form if record.question else None
+        if record.question:
+            return format_html(
+                "<a href={}>{}</a>",
+                record.question.get_admin_url(),
+                record.question.question_form)
+        else:
+            return None
 
     def get_answer(self, record):
         return record.data.get('answer', None)
