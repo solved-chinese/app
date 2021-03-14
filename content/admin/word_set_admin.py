@@ -4,6 +4,7 @@ from django.utils.html import format_html
 from django.contrib import admin
 from django.shortcuts import redirect, reverse, render
 from mptt.admin import DraggableMPTTAdmin
+from django.db import transaction
 
 from content.models import WordInSet, WordSet, Word
 from content.admin import GeneralContentAdmin
@@ -37,9 +38,10 @@ class WordSetAdmin(DraggableMPTTAdmin, GeneralContentAdmin):
     list_filter = ['is_done']
     search_fields = ['name__search']
     readonly_fields = ['lft', 'rght', 'tree_id']
-    actions = ['split_wordset', 'rebuild', 'generate_question']
+    actions = ['split_wordset', 'rebuild', 'generate_question', 'duplicate']
     inlines = [WordInSetInline]
     mptt_level_indent = 30
+    save_as = True
 
     def get_form(self, request, obj=None, **kwargs):
         """
@@ -87,3 +89,20 @@ class WordSetAdmin(DraggableMPTTAdmin, GeneralContentAdmin):
                     result += f'<div style="color: green">good {info_string}</div>'
         return render(request, 'utils/simple_response.html',
                       {'content': format_html(result)})
+
+    @transaction.atomic
+    def duplicate(self, request, queryset):
+        try:
+            obj = queryset.get()
+        except (WordSet.MultipleObjectsReturned, WordSet.DoesNotExist):
+            self.message_user(request, "can only be done on one set", 'ERROR')
+            return
+        old_pk = obj.pk
+        obj.pk = None
+        obj.jiezi_id += '-copy'
+        obj.name += '-copy'
+        obj.save()
+        for wis in WordInSet.objects.filter(word_set=old_pk):
+            wis.pk = None
+            wis.word_set = obj
+            wis.save()
