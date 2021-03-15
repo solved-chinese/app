@@ -74,7 +74,7 @@ export default function AssignmentDisplay(props) {
                         displayRef.current.focus();
                     }}
                     className={'use-chinese'}
-                    style={obj === curObject? {backgroundColor: 'gray'} : null}
+                    style={obj === curObject? {backgroundColor: '#EBEBEB'} : null}
                 >
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     {renderChinese(obj)} &nbsp;&nbsp;
