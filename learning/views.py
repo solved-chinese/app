@@ -39,6 +39,8 @@ class LearningView(LoginRequiredMixin, TemplateView):
                     mail_managers(f'Students started on {repr(assignment)}',
                                   'one student has started learning',
                                   fail_silently=True)
+                    assignment.data['managers_notified'] = True
+                    assignment.save()
 
         return {
             'react_data': {
