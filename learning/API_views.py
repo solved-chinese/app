@@ -19,6 +19,7 @@ class LearningAPIView(APIView):
 
     def post(self, request):
         data = request.data.copy()
+        self.process.request = request
         return Response(self.process.get_response(data))
 
 

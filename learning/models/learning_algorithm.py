@@ -214,9 +214,14 @@ class ReviewState(AbstractLearningState):
         question_pk = question_list[0]
         try:
             question = GeneralQuestion.objects.get(pk=question_pk)
+            render_kwargs = {}
+            request = getattr(process, 'request', None)
+            if request:
+                render_kwargs['show_all_options'] = process.request.session.get(
+                    'show_all_options', False)
             return {
                 'action': 'review',
-                'content': question.render()
+                'content': question.render(**render_kwargs)
             }
         except (GeneralQuestion.DoesNotExist, ValidationError):
             # review correct objects
