@@ -7,11 +7,8 @@ import logging
 def forward(apps, schema_editor):
     models = ('Word', 'Character', 'Radical')
     replacements = (
-        ('indicate', 'show'),
-        ('suggest', 'show'),
-        ('depicts', 'looks like'),
-        ('refers to', 'means'),
-        ('pronunciation', 'pinyin'),
+        ('shows the pinyin', 'suggests the pinyin'),
+        ('shows at', 'suggests at'),
     )
     for model_name in models:
         Model = apps.get_model('content', model_name)
@@ -35,7 +32,7 @@ def backward(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('content', '0062_CND_brackets_fix'),
+        ('content', '0063_dumbify_memaid'),
     ]
 
     operations = [
