@@ -13,8 +13,8 @@ from jiezi import views, settings
 
 urlpatterns = [
     # celery progress app
-    path('celery-progress/', include('celery_progress.urls')),
     path("select2/", include("django_select2.urls")),
+    path('advanced_filters/', include('advanced_filters.urls')),
 
     # app urls
     path('admin/', admin.site.urls),

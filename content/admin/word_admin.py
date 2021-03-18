@@ -1,7 +1,9 @@
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
+
 from mptt.admin import TreeRelatedFieldListFilter
+from advanced_filters.admin import AdminAdvancedFiltersMixin
 
 from content.models import CharacterInWord, DefinitionInWord, Sentence, Word
 from content.admin import SpecificContentAdmin, ReviewableAdminMixin, \
@@ -52,7 +54,8 @@ class SentenceInline(DisabledFieldMixin, admin.StackedInline):
 
 
 @admin.register(Word)
-class WordAdmin(ReviewableAdminMixin, SpecificContentAdmin):
+class WordAdmin(AdminAdvancedFiltersMixin, ReviewableAdminMixin,
+                SpecificContentAdmin):
     search_fields = ['chinese', 'pinyin', 'identifier']
     list_display = ['id', 'is_done', '__str__', 'pinyin',
                     'get_definitions', 'get_set_list_display']
@@ -63,6 +66,10 @@ class WordAdmin(ReviewableAdminMixin, SpecificContentAdmin):
     autocomplete_fields = ('audio',)
     inlines = [DefinitionInWordInline, SentenceInline, CharacterInWordInline]
     form = WordForm
+    advanced_filter_fields = ('chinese', 'pinyin', 'memory_aid', 'is_done',
+                              ('sentence__chinese', 'sentence Chinese'),
+                              ('sentence__translation', 'sentence English'),
+                              'definition__definition')
 
     def get_form(self, request, obj=None, **kwargs):
         """

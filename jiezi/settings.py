@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django_bootstrap_breadcrumbs',
     'logentry_admin',
     'mptt',
+    'advanced_filters',
 
     'django.contrib.admin',
     'django.contrib.auth',
