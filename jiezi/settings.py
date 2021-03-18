@@ -98,7 +98,7 @@ DATABASES = {
     # accordingly
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
+        'NAME': 'fara_db',
         'USER': 'postgres',
         'PASSWORD': 'jiezi',
         'HOST': 'localhost',
