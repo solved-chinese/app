@@ -173,7 +173,7 @@ REST_FRAMEWORK = {
 }
 
 ADMINS = [('chenyx', 'chenyx@solvedchinese.org')]
-MANAGERS = [('chenyx', 'chenyx@solvedchinese.org')]
+MANAGERS = [('solved info', 'info@solvedchinese.org')]
 
 # email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

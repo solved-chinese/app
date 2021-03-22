@@ -16,6 +16,7 @@ class Assignment(models.Model):
                                 related_query_name='assignment')
     published_time = models.DateTimeField(auto_now_add=True)
     last_modified_time = models.DateTimeField(auto_now=True)
+    data = models.JSONField(default=dict)
 
     class Meta:
         ordering = ['-last_modified_time']

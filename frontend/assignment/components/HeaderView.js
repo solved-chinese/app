@@ -36,9 +36,20 @@ const CompleteButton = styled.button`
     }
 `;
 
+const BackButton = styled.button`
+    display: flex;
+    align-items: center;
+    width: 100%;
+    color: gray;
+    padding: 10px 0;
+    border: none;
+    background: none;
+`
+
 export default function HeaderView(props) {
     return (
         <>
+            <BackButton onClick={() => {window.location='/';}}> &lt; Back to Dashboard </BackButton>
             <Title className='use-serifs'>{props.name}</Title>
             <CompleteButton onClick={props.onActionComplete}>
                 Complete Assignment
