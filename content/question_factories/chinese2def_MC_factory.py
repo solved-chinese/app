@@ -19,7 +19,7 @@ class Chinese2DefMCFactory(WordFactoryMixin,
     logger = logging.getLogger(__name__)
 
     def generate_question_title(self, ro):
-        return f"What does {ro.word.chinese} mean?"
+        return f'What does "{ro.word.chinese}" mean?'
 
     def generate_correct_answer(self, ro):
         return LinkedField.of(ro.word, 'primary_definition')

@@ -190,7 +190,7 @@ class Word(ReviewableMixin, GeneralContentModel):
     @property
     def primary_sentence_chinese(self):
         if self.sentences.exists():
-            return self.sentences.first().chinese
+            return self.sentences.first().chinese_highlight
         return None
 
     @property
@@ -198,7 +198,7 @@ class Word(ReviewableMixin, GeneralContentModel):
         if self.sentences.exists():
             sentence = self.sentences.first()
             return {
-                'text': sentence.pinyin,
+                'text': sentence.pinyin_highlight,
                 'audio': sentence.audio_url,
             }
         return None

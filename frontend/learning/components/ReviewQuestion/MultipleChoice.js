@@ -163,8 +163,13 @@ export default function MultipleChoice(props) {
                 <Context className='use-chinese'>
                     {(() => {
                         let [text, audio] = getTextAudio(props.content.context);
+                        // add highlight of sentences similar to that in word display
+                        text = text.replace(
+                            new RegExp('<(.*?)>', 'g'),
+                            `<span style='color: #00838F'>$1</span>`
+                        );
                         return (<>
-                            “{text}”
+                            “<span dangerouslySetInnerHTML={{ __html: text }}/>”
                             {audio? <SpeakButton1
                                 src="/static/images/small-icons/example-sentence.svg"
                                 onClick={() => new Audio(audio).play()}/> : null}
