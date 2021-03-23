@@ -29,8 +29,8 @@ export default function CharDisplay(props) {
 
     const character = props.character == null?
         useLoadChar(
-        props.url == null ?
-            `/content/character/${props.qid}` : props.url
+            props.url == null ?
+                `/content/character/${props.qid}` : props.url
         ) : props.character;
 
     const renderCharacter = () => {

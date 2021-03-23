@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { any } from 'prop-types';
 
 import CharDisplay from './CharacterDisplay/CharDisplay';
 import WordDisplay from './WordDisplay/WordDisplay';
@@ -8,7 +8,7 @@ import RadDisplay from './RadicalDisplay/RadDisplay';
 import '@learning.styles/ItemDisplay.css';
 
 import { ItemDescriptor } from '@interfaces/CoreItem';
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const NextButton = styled.button`
     display: block;
@@ -62,7 +62,7 @@ export default function ItemDisplay(props) {
     return (
         <>
             <div className='content-card-container box-shadow'
-                 ref={props.displayRef} tabIndex="0" style={{outline: 'none'}}
+                ref={props.displayRef} tabIndex="0" style={{outline: 'none'}}
             >
                 { renderSwitch(props.type, props.qid) }
             </div>
@@ -74,5 +74,6 @@ export default function ItemDisplay(props) {
 ItemDisplay.propTypes = {
     type: PropTypes.string,
     qid: PropTypes.number,
-    onActionNext: PropTypes.func
+    onActionNext: PropTypes.func,
+    displayRef: PropTypes.any, // not sure which type 
 };

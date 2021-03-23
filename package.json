@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "core-js": "^3.8.1",
+    "hanzi-writer": "^3.0.2",
     "jquery": "^3.5.1",
     "prop-types": "^15.7.2",
     "react-content-loader": "^5.1.4",

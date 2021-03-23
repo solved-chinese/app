@@ -1,7 +1,11 @@
+// This is the old ItemPhonetic 
+//      for BreakdownView, CharacterDisplay, etc.
+// New "ItemGif.js" is in ItemDisplay/WordDisplay
+//      for WordDisplay only
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
 import '@learning.styles/ItemDisplay.css';
 
 const Container = styled.div`

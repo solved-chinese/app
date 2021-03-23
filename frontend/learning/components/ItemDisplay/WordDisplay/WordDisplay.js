@@ -8,7 +8,7 @@ import WordDefinition from './WordDefinition';
 import ExampleSentences from './ExampleSentences';
 
 import BreakdownView from '@learning.components/ItemDisplay/BreakdownView';
-import LoadingView from '@learning.components/ItemDisplay/LoadingView.js';
+import LoadingView from '@learning.components/ItemDisplay/LoadingView';
 
 import useLoadWord from '@learning.hooks/useLoadWord.js';
 import CharDisplay from "@learning.components/ItemDisplay/CharacterDisplay/CharDisplay";
@@ -18,7 +18,7 @@ const ContainerTop = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    @media only screen and (max-width: 480) {
+    @media only screen and (max-width: 480px) {
         flex-direction: column;
     }
 `;
@@ -44,8 +44,7 @@ const ExampleSentenceHeading = styled.h2`
 export default function WordDisplay(props) {
 
     const word = props.word == null ?
-        useLoadWord(
-        props.url == null ?
+        useLoadWord(props.url == null ?
             `/content/word/${props.qid}` : props.url
         ) : props.word;
 
@@ -71,6 +70,7 @@ export default function WordDisplay(props) {
                 />
             );
     };
+
     const renderWord = (word) => {
         const chinese = word.chinese;
         const pinyin = word.pinyin;
@@ -93,6 +93,7 @@ export default function WordDisplay(props) {
                 <ExampleSentenceHeading>
                     Example Sentences
                 </ExampleSentenceHeading>
+                
                 <ContainerBottom>
                     {word.sentences.map((sen, i) => {
                         return (
