@@ -40,9 +40,12 @@ export default function CharDisplay(props) {
         return (
             <>
                 <Row>
-                    <ItemPhonetic pinyin={character.pinyin}
+                    <ItemPhonetic
+                        pinyin={character.pinyin}
                         audioURL={character.audioUrl}
-                        item={character.chinese}/>
+                        item={character.chinese}
+                        useStroke={true}
+                    />
                     <CharDefinition 
                         definitions={ definitions }
                     />

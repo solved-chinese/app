@@ -1,12 +1,8 @@
-// This is the old ItemPhonetic 
-//      for BreakdownView, CharacterDisplay, etc.
-// New "ItemGif.js" is in ItemDisplay/WordDisplay
-//      for WordDisplay only
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import '@learning.styles/ItemDisplay.css';
+import StrokeGif from '@learning.components/ItemDisplay/StrokeGif';
 
 const Container = styled.div`
     display: inline-block;
@@ -39,6 +35,7 @@ const WordContainer = styled.h1`
  * @param {String} props.pinyin
  * @param {String} props.audioURL
  * @param {String} props.item
+ * @param {Boolean} props.useStroke
  * @return {JSX.Element}
  */
 export default function ItemPhonetic(props) {
@@ -46,6 +43,12 @@ export default function ItemPhonetic(props) {
     const audio = new Audio(props.audioURL);
     // Add slashes at the beginning and the end
     const pinyin = `/${props.pinyin}/`;
+
+    const renderWord = () => props.useStroke ?
+        <StrokeGif item={props.item}/> :
+        <WordContainer className='use-chinese'>
+            { props.item }
+        </WordContainer>;
 
     return (
         <Container>
@@ -57,18 +60,22 @@ export default function ItemPhonetic(props) {
                     onClick={() => audio.play()}
                 />
             </Phonetic>
-            <WordContainer className='use-chinese'>
-                { props.item }
-            </WordContainer>
+            { renderWord() }
         </Container>
     );
 }
+
+ItemPhonetic.defaultProps = {
+    useStroke: false
+};
 
 ItemPhonetic.propTypes = {
     /** An array of possible pronunciation. */
     pinyin: PropTypes.string,
     /** The URL of the corresponding audio file. */
     audioURL: PropTypes.string.isRequired,
-    /** The character to be displayed.  */
-    item: PropTypes.string.isRequired
+    /** The character to be displayed. */
+    item: PropTypes.string.isRequired,
+    /** Whether to enable stroke order. */
+    useStroke: PropTypes.bool
 };

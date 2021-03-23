@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import '@learning.styles/ItemDisplay.css';
-// ItemGif, which renders StrokeGif, replaces ItemPhonetic
-import ItemPhonetic from '../ItemPhonetic';
-import ItemGif from './ItemGif';
+import ItemPhonetic from '@learning.components/ItemDisplay/ItemPhonetic';
 
 const TableContainer = styled.table`
     margin-left: 70px;
@@ -65,16 +63,12 @@ export default function WordDefinition(props) {
     console.log(props.audioURL);
     return (
         <>
-            <ItemGif
+            <ItemPhonetic
                 item={props.chinese}
                 pinyin={props.pinyin}
                 audioURL={props.audioURL}
+                useStroke={true}
             />
-            {/* <ItemPhonetic
-                item={props.chinese}
-                pinyin={props.pinyin}
-                audioURL={props.audioURL}
-            /> */}
             <Definitions
                 definitions={props.definitions}
             />
