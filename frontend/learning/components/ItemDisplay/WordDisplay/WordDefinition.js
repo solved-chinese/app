@@ -60,7 +60,6 @@ Definitions.propTypes = {
 
 export default function WordDefinition(props) {
 
-    console.log(props.audioURL);
     return (
         <>
             <ItemPhonetic

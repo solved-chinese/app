@@ -20,10 +20,9 @@ export default function useLoadWord(url) {
     const [word, setWord] = useState(null);
 
     const loadData = async () => {
-        console.log('fra');
         const response = await fetch(url);
         if (!response.ok) {
-            if (response.status == 404) { return; }
+            if (response.status === 404) { return; }
             setTimeout(loadData, 5000);
         }
 

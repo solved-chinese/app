@@ -21,7 +21,7 @@ export default function useLoadRad(url) {
     const loadData = async () => {
         const response = await fetch(url);
         if (!response.ok) {
-            if (response.status == 404) { return; }
+            if (response.status === 404) { return; }
             setTimeout(loadData, 5000);
         }
 
