@@ -33,7 +33,7 @@ export default function StrokeGif(props) {
     /* 1 - Minor Problem: How to create an array of states?
     const [state, setState] = itemsTargetIDs.map((value, index) => {
         [state[index], setState[index]] = useState(0);
-    }); 
+    });
     */
 
     const GifState = {
@@ -43,7 +43,7 @@ export default function StrokeGif(props) {
     };
 
     const gifStatesBundle = itemsTargetIDs.map(() => useState(GifState.STANDBY));
-    
+
     /* 2 - Main Problem: after initial useEffect, 'writers' object falls back to 'null';
             When tired to pauseAnimation (didUpdate), 'writers' cannot be referred to.
             Tried passing in a second parameter to induce didUpdate, but triggered re-rendering.
@@ -53,7 +53,7 @@ export default function StrokeGif(props) {
     useEffect(() => {
 
         itemsTargetIDs.forEach((value, index) => {
-            const [writer, setWriter] = writers[index];
+            const [, setWriter] = writers[index];
             setWriter(HanziWriter.create(value, items[index], {
                 width: 60,
                 height: 65,
@@ -62,11 +62,6 @@ export default function StrokeGif(props) {
                 showCharacter: true,
             }));
         });
-
-        function handleChange(){
-        }
-        return function cleanup(){
-        };
     },[]); 
 
     const renderWriterTarget = () => itemsTargetIDs.map(
@@ -81,7 +76,7 @@ export default function StrokeGif(props) {
     const writerCallback = (index) => {
         // writers[index].animateCharacter();
         const [gifState, setGifState] = gifStatesBundle[index];
-        const [writer, setWriter] = writers[index];
+        const [writer, ] = writers[index];
         switch (gifState) {
         case GifState.STANDBY:
             writer.animateCharacter({
