@@ -30,12 +30,6 @@ export default function StrokeGif(props) {
     // an array of 'writers'
     const writers = itemsTargetIDs.map(() => useState(null));
 
-    /* 1 - Minor Problem: How to create an array of states?
-    const [state, setState] = itemsTargetIDs.map((value, index) => {
-        [state[index], setState[index]] = useState(0);
-    });
-    */
-
     const GifState = {
         STANDBY: 'standby',
         PLAYING: 'playing',
@@ -43,12 +37,6 @@ export default function StrokeGif(props) {
     };
 
     const gifStatesBundle = itemsTargetIDs.map(() => useState(GifState.STANDBY));
-
-    /* 2 - Main Problem: after initial useEffect, 'writers' object falls back to 'null';
-            When tired to pauseAnimation (didUpdate), 'writers' cannot be referred to.
-            Tried passing in a second parameter to induce didUpdate, but triggered re-rendering.
-            Thought of cleanup within useEffect, but could not get it working.
-    */
 
     useEffect(() => {
 
@@ -74,7 +62,6 @@ export default function StrokeGif(props) {
     );
 
     const writerCallback = (index) => {
-        // writers[index].animateCharacter();
         const [gifState, setGifState] = gifStatesBundle[index];
         const [writer, ] = writers[index];
         switch (gifState) {
@@ -96,47 +83,6 @@ export default function StrokeGif(props) {
             break;
         }
     };
-    
-    // 3 - Minor Problem: writerCallback seems to animate two characters together?
-    // const writerCallback = () => itemsTargetIDs.map(
-    //     (_, index) => {
-    //         if (gifState1 === 0)
-    //             writers[index].animateCharacter();
-    //         if (gifState1 % 2 === 1)
-    //             writers[index].pauseAnimation();
-    //         if (gifState1 % 2 === 0)
-    //             writers[index].resumeAnimation();
-    //         setGifState1(gifState1 + 1);
-    //     }
-    // ); 
-    
-    // Half-fix  Passes in the index and determines which state to change 
-    // const writerCallback = (index) => {
-    //     // if clicked on gifState 1
-    //     if (index === 0){
-    //         if (gifState1 === 0)
-    //             writers[index].animateCharacter();
-    //         if (gifState1 % 2 === 1)
-    //             writers[index].pauseAnimation();
-    //         else
-    //             writers[index].resumeAnimation();
-    //
-    //         setGifState1(gifState1 + 1);
-    //     }
-    //     // if clicked on gifState 2
-    //     if (index === 1){
-    //         if (gifState2 === 0)
-    //             writers[index].animateCharacter();
-    //         if (gifState2 % 2 === 1)
-    //             writers[index].pauseAnimation();
-    //         else
-    //             writers[index].resumeAnimation();
-    //
-    //         setGifState1(gifState2 + 1);
-    //     }
-    // };
-    
-
 
     return (
         <div>
@@ -149,7 +95,6 @@ export default function StrokeGif(props) {
         
     );
 }
-
 
 StrokeGif.propTypes = {
     item: PropTypes.string,
