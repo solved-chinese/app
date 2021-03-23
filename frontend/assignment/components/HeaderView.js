@@ -44,7 +44,7 @@ const BackButton = styled.button`
     padding: 10px 0;
     border: none;
     background: none;
-`
+`;
 
 export default function HeaderView(props) {
     return (
