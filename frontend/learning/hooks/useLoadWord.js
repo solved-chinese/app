@@ -14,7 +14,7 @@ import Constant from '@utils/constant';
  * Reattempt in 5 seconds if loading fails.
  * @param {String} url 
  * 
- * @returns {Word}
+ * @returns {Word | null}
  */
 export default function useLoadWord(url) {
 

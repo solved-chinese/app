@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import CharDisplay from 
+import CharDisplay from
     '@learning.components/ItemDisplay/CharacterDisplay/CharDisplay';
 
 import '@learning.styles/ItemDisplay.css';
@@ -60,9 +60,10 @@ const CloseButton = styled.i`
 /**
  * Renders a popup modal that displays a character in
  * a word breakdown.
- * @param {{contentURL: String}} props 
+ * @param {String} props.contentURL
+ * @return {JSX.Element}
  */
-export default function PopUp(props) {
+export default function ItemDisplayPopup(props) {
 
     const [ModalState, setModalState] = useState(false);
 
@@ -92,7 +93,7 @@ export default function PopUp(props) {
     );
 }
 
-PopUp.propTypes = {
+ItemDisplayPopup.propTypes = {
     /** URL of the character presented in the popup modal. */
     contentURL: PropTypes.string.isRequired
 };

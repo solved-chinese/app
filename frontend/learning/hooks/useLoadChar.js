@@ -13,7 +13,7 @@ import Constant from '@utils/constant';
  * Reattempt in 5 seconds if loading fails.
  * @param {String} url 
  * 
- * @return {Character}
+ * @return {Character | null}
  */
 export default function useLoadChar(url) {
 

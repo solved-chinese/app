@@ -11,7 +11,7 @@ import ItemPhonetic from './ItemPhonetic';
 import useLoadRad from '@learning.hooks/useLoadRad';
 import useLoadChar from '@learning.hooks/useLoadChar';
 
-import PopUp from './WordDisplay/PopUp';
+import ItemDisplayPopup from './ItemDisplayPopup';
 
 import '@learning.styles/ItemDisplay.css';
 
@@ -96,13 +96,13 @@ function BreakdownRad(props) {
                 <Row>
                     <MnemonicImage src={imageUrl}/>
                     <DefPhoneticContainer>
-                        { radical.pinyin != '' && (
+                        { radical.pinyin !== '' && (
                             <Phonetic className='use-chinese'>
                                 { radical.pinyin }
                                 <SpeakButton
                                     className='fas fa-volume'
                                     onClick={() => audio.play()}
-                                ></SpeakButton>
+                                />
                             </Phonetic>
                         )}
                         <RadDefinition className='use-serifs'>
@@ -111,7 +111,7 @@ function BreakdownRad(props) {
                     </DefPhoneticContainer>
                 </Row>
                 {
-                    explanation != '' && (
+                    explanation !== '' && (
                         <Row>
                             <Explanation>
                                 {explanation}
@@ -198,7 +198,7 @@ function BreakdownChar(props) {
 
                 {/* This should be optimized (character is
                     loaded twice) */}
-                <PopUp
+                <ItemDisplayPopup
                     contentURL = {props.url}
                 />
 
@@ -263,10 +263,10 @@ function MemoryAidView(props) {
     content = content.replace(
         new RegExp('<([\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]+)>',
             'g'), // matches all brackets enclosing only Chinese chars
-        `<span class='use-serifs' style='color:darkcyan; font-size: 1.2em'>$1</span>`
+        '<span class=\'use-serifs\' style=\'color:darkcyan; font-size: 1.2em\'>$1</span>'
     ).replace(
         new RegExp('<(?!span|/)(.*?)>', 'g'), // match inside brackets other than span tags
-        `<span class='use-serifs' style='color:darkcyan'>$1</span>`
+        '<span class=\'use-serifs\' style=\'color:darkcyan\'>$1</span>'
     );
 
     return (

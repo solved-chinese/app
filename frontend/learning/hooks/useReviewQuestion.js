@@ -10,7 +10,7 @@ import Constant from '@utils/constant';
 /**
  * Return a hook to the review question provided by the URL.
  * @param {String} url 
- * @returns {ReviewQuestion} Review question object
+ * @returns {ReviewQuestion | null} Review question object
  */
 export default function useReviewQuestion(url) {
 
