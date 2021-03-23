@@ -16,7 +16,8 @@
                 "@assignment.components": "./frontend/assignment/components",
                 "@assignment.hooks": "./frontend/assignment/hooks",
                 "@assignment.styles": "./frontend/assignment/styles",
-                "@assignment.services": "./frontend/assignment/services"
+                "@assignment.services": "./frontend/assignment/services",
+                "@utils": "./frontend/utils"
             }
         }]
     ]
