@@ -14,6 +14,8 @@ const WordContainer = styled.div`
 `;
 
 /**
+ * Render characters with HanziWriter, allowing clicking for
+ * stroke order animations.
  * @param {String} props.item
  * @param {Object} props
  * @returns {JSX.Element}
@@ -30,6 +32,7 @@ export default function StrokeGif(props) {
     // an array of 'writers'
     const writers = itemsTargetIDs.map(() => useState(null));
 
+    // Enumeration for states
     const GifState = {
         STANDBY: 'standby',
         PLAYING: 'playing',
@@ -39,7 +42,7 @@ export default function StrokeGif(props) {
     const gifStatesBundle = itemsTargetIDs.map(() => useState(GifState.STANDBY));
 
     useEffect(() => {
-
+        // Initialize the writers into state
         itemsTargetIDs.forEach((value, index) => {
             const [, setWriter] = writers[index];
             setWriter(HanziWriter.create(value, items[index], {
@@ -61,6 +64,7 @@ export default function StrokeGif(props) {
         )
     );
 
+    // Handle the character click
     const writerCallback = (index) => {
         const [gifState, setGifState] = gifStatesBundle[index];
         const [writer, ] = writers[index];
@@ -90,9 +94,7 @@ export default function StrokeGif(props) {
                 {/* How render div only once? */}
                 {renderWriterTarget()}
             </WordContainer>
-
         </div>
-        
     );
 }
 
