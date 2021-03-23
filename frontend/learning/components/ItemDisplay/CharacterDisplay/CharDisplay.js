@@ -59,7 +59,6 @@ export default function CharDisplay(props) {
                     memoryAid={character.memoryAid}
                     alwaysDisplay={props.alwaysDisplay}
                 />
-                    
             </>
         );
     };

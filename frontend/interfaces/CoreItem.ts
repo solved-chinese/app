@@ -2,7 +2,7 @@ interface CoreItem {
     url: String,
     definitions: [Definition],
     pinyin: String,
-    audio: String,
+    audioUrl: String,
     chinese: String,
     identifier: String,
     isDone: String
@@ -15,7 +15,7 @@ interface Definition {
 
 export interface Character extends CoreItem {
     relatedWords: [WordShort],
-    radical: [String],
+    radicals: [String],
     characterType: String,
     memoryAid: String
 }
