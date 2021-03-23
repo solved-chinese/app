@@ -36,6 +36,10 @@ const WordContainer = styled.h1`
 
 /**
  * Renders the Chinese, phonetic(pinyin), and an audio button.
+ * @param {String} props.pinyin
+ * @param {String} props.audioURL
+ * @param {String} props.item
+ * @return {JSX.Element}
  */
 export default function ItemPhonetic(props) {
 

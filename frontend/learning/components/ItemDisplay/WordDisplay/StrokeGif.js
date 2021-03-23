@@ -19,7 +19,6 @@ const WordContainer = styled.div`
  * @param {String} props.item
  * @param {Object} props
  * @returns {JSX.Element}
- * @constructor
  */
 export default function StrokeGif(props) {
 
