@@ -4,6 +4,7 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import '@learning.styles/ItemDisplay.css';
 import PropTypes from 'prop-types';
+import {makeid} from '../../../utils/utils';
 
 const WordContainer = styled.div`
     font-size: 3.75em;
@@ -26,7 +27,8 @@ export default function StrokeGif(props) {
     const items = props.item.split('');
 
     /* Create target ID for each of the characters. */
-    const itemsTargetIDs = items.map((value, index) => `writer-target-${index}`);
+    const itemsTargetIDs = items.map((value, index) =>
+        `writer-target-${index}-${makeid(5)}`);
 
     // an array of 'writers'
     const writers = itemsTargetIDs.map(() => useState(null));
