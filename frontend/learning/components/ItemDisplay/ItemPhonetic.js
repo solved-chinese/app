@@ -37,36 +37,34 @@ const WordContainer = styled.h1`
 /**
  * Renders the Chinese, phonetic(pinyin), and an audio button.
  */
-export default class ItemPhonetic extends React.Component {
+export default function ItemPhonetic(props) {
 
-    static propTypes = {
-        /** An array of possible pronunciation. */
-        pinyin: PropTypes.string,
-        /** The URL of the corresponding audio file. */
-        audioURL: PropTypes.string.isRequired,
-        /** The character to be displayed.  */
-        item: PropTypes.string.isRequired
-    }
+    const audio = new Audio(props.audioURL);
+    // Add slashes at the beginning and the end
+    const pinyin = `/${props.pinyin}/`;
 
-    render() {
-        this.audio = new Audio(this.props.audioURL);
-        // Add slashes at the beginning and the end
-        this.pinyin = `/${this.props.pinyin}/`;
-        return (
-            <Container>
-                <Phonetic className='use-chinese'> 
-                    { this.pinyin }
-                    <SpeakButton
-                        src="/static/images/small-icons/pronounce.svg"
-                        // className='fas fa-volume' // changed to svg
-                        onClick={() => this.audio.play()}
-                    />
-
-                </Phonetic>
-                <WordContainer className='use-chinese'>
-                    { this.props.item }
-                </WordContainer>
-            </Container>
-        );
-    }
+    return (
+        <Container>
+            <Phonetic className='use-chinese'>
+                { pinyin }
+                <SpeakButton
+                    src="/static/images/small-icons/pronounce.svg"
+                    // className='fas fa-volume' // changed to svg
+                    onClick={() => audio.play()}
+                />
+            </Phonetic>
+            <WordContainer className='use-chinese'>
+                { props.item }
+            </WordContainer>
+        </Container>
+    );
 }
+
+ItemPhonetic.propTypes = {
+    /** An array of possible pronunciation. */
+    pinyin: PropTypes.string,
+    /** The URL of the corresponding audio file. */
+    audioURL: PropTypes.string.isRequired,
+    /** The character to be displayed.  */
+    item: PropTypes.string.isRequired
+};
