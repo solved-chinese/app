@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 
 import RelatedItems from '@learning.components/ItemDisplay/RelatedItems';
 import LoadingView from '@learning.components/ItemDisplay/LoadingView';
-
 import useLoadRad from '@learning.hooks/useLoadRad';
+
+import { Radical } from '@interfaces/CoreItem';
 
 import '@learning.styles/ItemDisplay.css';
 
@@ -60,7 +61,16 @@ const Explanation = styled.div`
     text-align: center;
 `;
 
-/** The main function that renders a radical view. */
+/**
+ * The main function that renders a radical view.
+ * @param {?Radical} props.radical The radical object to be rendered,
+ * if not provided, the url param will be used to fetch the object.
+ * @param {?string} props.url URL of the radical to be rendered, if
+ * not provided, the qid is used to construct the url.
+ * @param {?number} props.qid The query id of the radical to be
+ * rendered, will be omitted if either url or radical is not null.
+ * @returns {JSX.Element}
+ */
 export default function RadDisplay(props) {
 
     const radical = props.radical == null?
@@ -83,13 +93,13 @@ export default function RadDisplay(props) {
                 <Row>
                     <MnemonicImage src={imageUrl}/>
                     <DefPhoneticContainer>
-                        { radical.pinyin != '' && (
+                        { radical.pinyin !== '' && (
                             <Phonetic className='use-chinese'>
                                 { radical.pinyin }
                                 <SpeakButton 
                                     className='fas fa-volume'
                                     onClick={() => audio.play()}
-                                ></SpeakButton>
+                                />
                             </Phonetic>
                         )}
                         <RadDefinition className='use-serifs'>
@@ -98,7 +108,7 @@ export default function RadDisplay(props) {
                     </DefPhoneticContainer>
                 </Row>
                 {
-                    explanation != '' && (
+                    explanation !== '' && (
                         <Row>
                             <Explanation>
                                 {explanation}
@@ -122,18 +132,23 @@ export default function RadDisplay(props) {
 }
 
 RadDisplay.propTypes = {
-    /** The radical object to be rendered, if not provides,
-     *  url will be used to construct the object.
+    /**
+     * The radical object to be rendered, if not provided,
+     * the url param will be used to fetch the object.
      */
     radical: PropTypes.object,
 
-    /** URL of the radical to be rendered, if it
+    /**
+     * URL of the radical to be rendered, if it
      * is not provided, then the qid is used to construct
-     * the url. */
+     * the url.
+     */
     url: PropTypes.string,
 
-    /** The query id of the radical to be rendered, will
-     * be omitted if url is present and not null. */
+    /**
+     * The query id of the radical to be rendered, will
+     * be omitted if url is present and not null.
+     */
     qid: PropTypes.number,
 };
 
@@ -143,7 +158,8 @@ export class RadImage extends React.Component {
         /** Url of the radical image */
         url: PropTypes.string,
 
-        /** The text radical to be displayed, in case
+        /**
+         * The text radical to be displayed, in case
          * of an error.
          */
         radical: PropTypes.string
@@ -156,7 +172,8 @@ export class RadImage extends React.Component {
         };
     }
 
-    /** Callback function when there's an error loading
+    /**
+     * Callback function when there's an error loading
      * the img tag.
      */
     onError = () => {
@@ -166,7 +183,7 @@ export class RadImage extends React.Component {
     render() {
         const {radical, url} = this.props;
         return this.state.errored ? radical : (
-            <img src={url} onError={this.onError} />
+            <img src={url} alt={radical} onError={this.onError} />
         );
     }
 }
