@@ -9,9 +9,10 @@ import ExampleSentences from './ExampleSentences';
 
 import BreakdownView from '@learning.components/ItemDisplay/BreakdownView';
 import LoadingView from '@learning.components/ItemDisplay/LoadingView';
-
 import useLoadWord from '@learning.hooks/useLoadWord.js';
 import CharDisplay from '@learning.components/ItemDisplay/CharacterDisplay/CharDisplay';
+
+import { Word } from '@interfaces/CoreItem';
 
 //Top and Bottom Containters
 const ContainerTop = styled.div`
@@ -40,7 +41,18 @@ const ExampleSentenceHeading = styled.h2`
     text-align: center;
 `;
 
-/** The main function that renders a word view. */
+/**
+ * The main function that renders a word view.
+ * @param { Word } props.word The word object to be rendered, if not provided,
+ * the url param will be used to fetch the object.
+ * @param { string } props.url The URL of the word to be rendered, if
+ * not provided, the qid is used to construct the url.
+ * @param { number } props.qid The query id of the word to be rendered, will
+ * be omitted if either url or word is not null.
+ * @param { boolean } props.autoExpandBreakdown Determine whether the breakdown
+ * view is always expanded.
+ * @returns { JSX.Element }
+ */
 export default function WordDisplay(props) {
 
     const word = props.word == null ?
@@ -120,20 +132,26 @@ export default function WordDisplay(props) {
 }
 
 WordDisplay.propTypes = {
-    /** The word object to be rendered, if not provides,
-     *  url will be used to construct the object.
+    /**
+     * The word object to be rendered, if not provided,
+     * url will be used to construct the object.
      */
     word: PropTypes.object,
 
-    /** The URL of the word to be rendered, if it
+    /**
+     * The URL of the word to be rendered, if it
      * is not provided, then the qid is used to construct
-     * the url. */
+     * the url.
+     */
     url: PropTypes.string,
 
-    /** The query id of the word to be rendered, will
-     * be omitted if url is present and not null. */
+    /**
+     * The query id of the word to be rendered, will
+     * be omitted if url is present and not null.
+     */
     qid: PropTypes.number,
 
+    /* Whether the breakdown view is always expanded. */
     autoExpandBreakdown: PropTypes.bool,
 };
 

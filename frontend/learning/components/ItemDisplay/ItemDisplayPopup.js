@@ -8,6 +8,7 @@ import CharDisplay from
 
 import '@learning.styles/ItemDisplay.css';
 import Constant from '@utils/constant';
+import WordDisplay from '@learning.components/ItemDisplay/WordDisplay/WordDisplay';
 
 //Styles for Popup
 const ModalStyle = {
@@ -76,7 +77,11 @@ export default function ItemDisplayPopup(props) {
     Modal.setAppElement(`#${Constant.ROOT_ELEMENT_ID}`);
 
     const renderItem = () => {
+        switch (props.type) {
+        case 'word':
+            <WordDisplay url/>;
 
+        }
     };
 
     return (
