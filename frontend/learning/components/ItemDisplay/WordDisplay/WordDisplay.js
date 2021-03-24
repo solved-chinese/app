@@ -101,7 +101,6 @@ export default function WordDisplay(props) {
                     />
                 </ContainerTop>
 
-                {renderBreakdown()}
                 <ExampleSentenceHeading>
                     Example Sentences
                 </ExampleSentenceHeading>
@@ -120,6 +119,8 @@ export default function WordDisplay(props) {
                         );
                     })}
                 </ContainerBottom>
+
+                { renderBreakdown() }
             </>
         );
     };
