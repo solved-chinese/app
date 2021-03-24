@@ -195,11 +195,11 @@ function BreakdownChar(props) {
         );
         return (
             <>
-
                 {/* This should be optimized (character is
                     loaded twice) */}
                 <ItemDisplayPopup
                     contentURL = {props.url}
+                    type = 'character'
                 />
 
                 <Row>

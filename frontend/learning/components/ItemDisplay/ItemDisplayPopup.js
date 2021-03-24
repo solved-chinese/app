@@ -9,6 +9,7 @@ import CharDisplay from
 import '@learning.styles/ItemDisplay.css';
 import Constant from '@utils/constant';
 import WordDisplay from '@learning.components/ItemDisplay/WordDisplay/WordDisplay';
+import RadDisplay from '@learning.components/ItemDisplay/RadicalDisplay/RadDisplay';
 
 //Styles for Popup
 const ModalStyle = {
@@ -79,8 +80,17 @@ export default function ItemDisplayPopup(props) {
     const renderItem = () => {
         switch (props.type) {
         case 'word':
-            <WordDisplay url/>;
-
+            return <WordDisplay
+                url={props.contentURL}
+                autoExpandBreakdown={true}
+            />;
+        case 'character':
+            return <CharDisplay
+                url={props.contentURL}
+                autoExpandBreakdown={true}
+            />;
+        case 'radical':
+            return <RadDisplay url={props.contentURL} />;
         }
     };
 
@@ -103,10 +113,7 @@ export default function ItemDisplayPopup(props) {
                         className='fas fa-times' 
                         onClick={() => setModalState(false)} 
                     />
-                    <CharDisplay
-                        url={props.contentURL}
-                        autoExpandBreakdown={true}
-                    />
+                    { renderItem() }
                 </Modal>
             </div>
         </>
