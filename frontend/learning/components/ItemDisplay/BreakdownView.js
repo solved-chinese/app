@@ -301,7 +301,7 @@ export default class BreakdownView extends React.Component {
         /** The associated memory aid sentence. */
         memoryAid: PropTypes.string,
 
-        // new alwaysDisplay prop
+        /** Whether the breakdown view is always expanded. */
         alwaysDisplay: PropTypes.bool
     }
 
@@ -321,7 +321,7 @@ export default class BreakdownView extends React.Component {
     renderBreakdownRad(urls) {
         // It is possible to have two breakdown items with the
         // same content (and url), and therefore we cannot use
-        // url as the key.
+        // urls as the keys.
         return urls.map( (url, i) => 
             (
                 <div key={i}
@@ -331,7 +331,7 @@ export default class BreakdownView extends React.Component {
             )
         );
     }
-    //
+
     /**
      * Render the word breakdown for each character 
      * specified in the urls.
@@ -359,7 +359,6 @@ export default class BreakdownView extends React.Component {
         const type = this.props.type;
         const toggleTitle = type + ' breakdown';
         const urls = this.props.componentURL;
-        
 
         return (
             <div className='breakdown-container'>
@@ -383,7 +382,7 @@ export default class BreakdownView extends React.Component {
                         this.state.show ? 'show' : ''
                     )} >
 
-                    { type == 'radical' ?
+                    { type === 'radical' ?
                         this.renderBreakdownRad(urls) :
                         this.renderBreakdownChar(urls)
                     } 

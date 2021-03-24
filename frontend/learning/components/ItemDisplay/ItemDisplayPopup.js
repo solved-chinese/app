@@ -65,8 +65,8 @@ const CloseButton = styled.i`
  * Renders a component that will bring up a popup modal
  * that displays an item.
  * a word breakdown.
- * @param {String} props.item
- * @param {String} props.type
+ * @param {String} props.contentURL URL of the item to be presented in the popup modal.
+ * @param {String} props.type The kind of item in contentURL.
  * @return {JSX.Element}
  */
 export default function ItemDisplayPopup(props) {
@@ -74,6 +74,10 @@ export default function ItemDisplayPopup(props) {
     const [ModalState, setModalState] = useState(false);
 
     Modal.setAppElement(`#${Constant.ROOT_ELEMENT_ID}`);
+
+    const renderItem = () => {
+
+    };
 
     return (
         <>
@@ -84,8 +88,7 @@ export default function ItemDisplayPopup(props) {
             />
 
             <div>
-                {/* Modal now displays CharDisplay */}
-                <Modal 
+                <Modal
                     closeTimeoutMS={500} 
                     style={ModalStyle} 
                     isOpen={ModalState} 
@@ -106,6 +109,9 @@ export default function ItemDisplayPopup(props) {
 }
 
 ItemDisplayPopup.propTypes = {
-    /** URL of the character presented in the popup modal. */
-    contentURL: PropTypes.string.isRequired
+    /** URL of the item presented in the popup modal. */
+    contentURL: PropTypes.string.isRequired,
+
+    /** The kind of item in contentURL. */
+    type: PropTypes.oneOf(['word', 'character', 'radical'])
 };

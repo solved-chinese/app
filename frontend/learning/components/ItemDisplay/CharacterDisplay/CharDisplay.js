@@ -4,14 +4,15 @@ import 'regenerator-runtime/runtime';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import CharDefinition from './CharDefinition.js';
+import CharDefinition from './CharDefinition';
 
 import RelatedItems from '@learning.components/ItemDisplay/RelatedItems';
 import ItemPhonetic from '@learning.components/ItemDisplay/ItemPhonetic';
 import BreakdownView from '@learning.components/ItemDisplay/BreakdownView';
 import LoadingView from '@learning.components/ItemDisplay/LoadingView';
-
 import useLoadChar from '@learning.hooks/useLoadChar';
+
+import {Character} from '@interfaces/CoreItem';
 
 import '@learning.styles/ItemDisplay.css';
 
@@ -24,7 +25,18 @@ const Row = styled.div`
     }
 `;
 
-/** The main function that renders a character view. */
+/**
+ * The main function that renders a character view.
+ * @param {?Character} props.character The character object to be rendered,
+ * if not provided, the url param will be used to fetch the object.
+ * @param {?string} props.url The URL of the character to be rendered, if
+ * not provided, the qid is used to construct the url.
+ * @param {?number} props.qid The query id of the character to be rendered,
+ * will be omitted if either character or url is not null.
+ * @param {?boolean} props.alwaysDisplay Whether the breakdown view is
+ * always expanded.
+ * @returns {JSX.Element}
+ */
 export default function CharDisplay(props) {
 
     const character = props.character == null?
@@ -71,23 +83,31 @@ export default function CharDisplay(props) {
 }
 
 CharDisplay.propTypes = {
-    /** The character object to be rendered, if not provides,
-     *  url will be used to construct the object.
+    /**
+     *  The character object to be rendered, if not provided,
+     *  url will be used to fetch the object.
      */
     character: PropTypes.object,
 
-    /** The URL of the character to be rendered, if it 
+    /**
+     * The URL of the character to be rendered, if it
      * is not provided, then the qid is used to construct
-     * the url. */
+     * the url.
+     */
     url: PropTypes.string,
 
-    /** The query id of the character to be rendered, will
-     * be omitted if url is present and not null. */
+    /**
+     * The query id of the character to be rendered, will
+     * be omitted if url is present and not null.
+     */
     qid: PropTypes.number,
 
-    // new alwaysDisplay prop.
+    /**
+     * Whether the breakdown view is always expanded.
+     */
     alwaysDisplay: PropTypes.bool,
 };
+
 CharDisplay.defaultProps = {
     alwaysDisplay: true,
 };
