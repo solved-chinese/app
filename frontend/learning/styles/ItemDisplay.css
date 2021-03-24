@@ -102,6 +102,10 @@
     .content-card-container {
         padding: 25px 20px;
     }
+
+    .point-list {
+        padding: 0;
+    }
 }
 
 /* WordDisplay - Example Sentences */
@@ -140,16 +144,12 @@
     overflow: hidden;
 }
 
-/* CharDefiniton Alternative */
+/* CharDefinition Alternative */
 .point-list {
     padding-left: 10px;
     font-size: 1.3em;
-    
-
-    @media only screen and (max-width: 480px) {
-        padding: 0;
-    }
 }
+
 .point-list div{
     display: flex;
     flex-direction: row;
