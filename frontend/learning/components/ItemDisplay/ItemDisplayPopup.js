@@ -7,26 +7,30 @@ import CharDisplay from
     '@learning.components/ItemDisplay/CharacterDisplay/CharDisplay';
 
 import '@learning.styles/ItemDisplay.css';
+import Constant from '@utils/constant';
 
 //Styles for Popup
 const ModalStyle = {
-    overlay:{
+    overlay: {
         backgroundColor: 'rgba(116, 116, 116, 0.3)'
     },
-    content:{
-        maxWidth: '800px',
-        marginTop: '60px',
-        marginBottom: '60px',
-        margin: 'auto',
-        backgroundColor: 'white',
-        width: '100%',
-        padding: '25px 50px',
-
-        // Make not cover full screen
-        top: '15%',
-        bottom: 'auto',
+    content: {
+        position: 'absolute',
+        top: '100px',
+        left: '0px',
+        right: '0px',
         height: 'auto',
         maxHeight: '70vh',
+        bottom: 'auto',
+
+        display: 'inline-block',
+        maxWidth: '700px',
+        widths: '100%',
+        margin: '0 auto',
+
+        backgroundColor: 'white',
+        width: '90%',
+        padding: '25px 50px',
 
         boxShadow: '2px 2px 6px 2px #30354514',
         borderRadius: '5px',
@@ -58,19 +62,27 @@ const CloseButton = styled.i`
 `;
 
 /**
- * Renders a popup modal that displays a character in
+ * Renders a component that will bring up a popup modal
+ * that displays an item.
  * a word breakdown.
- * @param {String} props.contentURL
+ * @param {String} props.item
+ * @param {String} props.type
  * @return {JSX.Element}
  */
 export default function ItemDisplayPopup(props) {
 
     const [ModalState, setModalState] = useState(false);
 
+    Modal.setAppElement(`#${Constant.ROOT_ELEMENT_ID}`);
+
     return (
         <>
-            <PlusButton src="/static/images/small-icons/read-more-red.svg" alt="read more" onClick={() => setModalState(true)}/>
-            
+            <PlusButton
+                src="/static/images/small-icons/read-more-red.svg"
+                alt="read more"
+                onClick={() => setModalState(true)}
+            />
+
             <div>
                 {/* Modal now displays CharDisplay */}
                 <Modal 
