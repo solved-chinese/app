@@ -38,9 +38,10 @@ export interface Word extends CoreItem {
 }
 
 interface Sentence {
-    pinyin: String,
-    chinese: String,
-    translation: String
+    pinyinHighlight: String,
+    chineseHighlight: String,
+    translationHighlight: String,
+    audioUrl: String
 }
 
 export interface WordShort {
