@@ -33,7 +33,7 @@ const Row = styled.div`
  * not provided, the qid is used to construct the url.
  * @param {?number} props.qid The query id of the character to be rendered,
  * will be omitted if either character or url is not null.
- * @param {?boolean} props.alwaysDisplay Whether the breakdown view is
+ * @param {?boolean} props.autoExpandBreakdown Whether the breakdown view is
  * always expanded.
  * @returns {JSX.Element}
  */
@@ -69,7 +69,7 @@ export default function CharDisplay(props) {
                 <BreakdownView type='radical'
                     componentURL={character.radicals}
                     memoryAid={character.memoryAid}
-                    alwaysDisplay={props.alwaysDisplay}
+                    alwaysDisplay={props.autoExpandBreakdown}
                 />
             </>
         );
@@ -105,9 +105,9 @@ CharDisplay.propTypes = {
     /**
      * Whether the breakdown view is always expanded.
      */
-    alwaysDisplay: PropTypes.bool,
+    autoExpandBreakdown: PropTypes.bool,
 };
 
 CharDisplay.defaultProps = {
-    alwaysDisplay: true,
+    autoExpandBreakdown: false,
 };

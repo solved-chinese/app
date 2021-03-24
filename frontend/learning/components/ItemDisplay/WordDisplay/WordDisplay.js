@@ -11,7 +11,7 @@ import BreakdownView from '@learning.components/ItemDisplay/BreakdownView';
 import LoadingView from '@learning.components/ItemDisplay/LoadingView';
 
 import useLoadWord from '@learning.hooks/useLoadWord.js';
-import CharDisplay from "@learning.components/ItemDisplay/CharacterDisplay/CharDisplay";
+import CharDisplay from '@learning.components/ItemDisplay/CharacterDisplay/CharDisplay';
 
 //Top and Bottom Containters
 const ContainerTop = styled.div`
@@ -51,11 +51,11 @@ export default function WordDisplay(props) {
     const renderBreakdown = () => {
         // if it is single-character word, the characters field will be a list of
         // a single serialized character, render that character's breakdown view
-        if (word.characters.length == 1 && word.characters[0].radicals != null)
+        if (word.characters.length === 1 && word.characters[0].radicals != null)
             return(
                 <BreakdownView
                     type='radical'
-                    alwaysDisplay={props.alwaysDisplay}
+                    alwaysDisplay={props.autoExpandBreakdown}
                     componentURL={word.characters[0].radicals}
                     memoryAid={word.memoryAid}
                 />
@@ -64,7 +64,7 @@ export default function WordDisplay(props) {
             return(
                 <BreakdownView
                     type='word'
-                    alwaysDisplay={props.alwaysDisplay}
+                    alwaysDisplay={props.autoExpandBreakdown}
                     componentURL={word.characters}
                     memoryAid={word.memoryAid}
                 />
@@ -134,9 +134,9 @@ WordDisplay.propTypes = {
      * be omitted if url is present and not null. */
     qid: PropTypes.number,
 
-    alwaysDisplay: PropTypes.bool,
+    autoExpandBreakdown: PropTypes.bool,
 };
 
 WordDisplay.defaultProps = {
-    alwaysDisplay: true,
+    autoExpandBreakdown: false,
 };

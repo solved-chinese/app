@@ -100,7 +100,7 @@ export default function ItemDisplayPopup(props) {
                     />
                     <CharDisplay
                         url={props.contentURL}
-                        alwaysDisplay={true}
+                        autoExpandBreakdown={true}
                     />
                 </Modal>
             </div>
