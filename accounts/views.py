@@ -26,6 +26,11 @@ def profile(request):
             user_form.save()
             role_form.save()
             success = True
+        else:
+            # there seems to be a problem with request.user being Lazy that
+            # causes request.user to be out of date in template rendering
+            # when form is not valid
+            request.user.refresh_from_db()
     else:
         user_form = UserUpdateForm(instance=request.user)
         role_form = role_form_class(instance=role)

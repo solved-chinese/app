@@ -8,23 +8,26 @@ from django.utils.translation import gettext_lazy as _
 
 @deconstructible
 class DisplayNameValidator(validators.RegexValidator):
-    regex = r'^[\w]+[ \w.-]+[\w]+\Z'
+    regex = r"^[\w\d\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]+" \
+            r"[\ \-\w\d\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]*?" \
+            r"[\w\d\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]+$"
     message = _(
         'Enter a valid display name. This value may contain only letters, '
-        'numbers, and /./- characters. Space may appear only in the middle'
+        'Chinese characters, numbers, and space/-. Space/- may appear'
+        ' only in the middle. Minimum length is 2. '
     )
-    flags = 0
 
 
 class User(AbstractUser):
     display_name = models.CharField(max_length=30, blank=True,
-            validators=[MinLengthValidator(4), DisplayNameValidator],
+            validators=[DisplayNameValidator()],
             help_text="This is the name displayed to others. We recommend using"
                       " your real name. Leave blank to use your username. "
                       "You may change this later.")
-    email = models.EmailField(help_text="Used for resetting your password and "
-                                        "receiving notifications.",
-                              null=True, blank=True, unique=True)
+    email = models.EmailField(
+        help_text="Used for resetting your password and receiving notifications. "
+                  "This could also be used for login.",
+        null=True, blank=True, unique=True)
     is_teacher = models.BooleanField(default=False)
     is_student = models.BooleanField(default=False)
 
@@ -34,6 +37,7 @@ class User(AbstractUser):
     def clean(self):
         if self.email == '':
             self.email = None
+        super().clean()
 
     def save(self, *args, **kwargs):
         if not self.display_name:
