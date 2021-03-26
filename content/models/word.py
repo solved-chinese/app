@@ -117,6 +117,7 @@ class Word(ReviewableMixin, GeneralContentModel):
     identifier = models.CharField(max_length=10, blank=True)
 
     pinyin = models.CharField(max_length=36, default='TODO')
+    searchable_pinyin = models.CharField(max_length=36, blank=True)
     audio = models.ForeignKey('AudioFile',
                               related_name='words',
                               related_query_name='word',

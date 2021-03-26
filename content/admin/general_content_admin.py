@@ -126,7 +126,8 @@ class SpecificContentAdmin(GeneralContentAdmin):
         """ Get the list of fields to disable in form
             disable chinese editing in change form
          """
-        disabled_fields = super().get_disabled_fields(request, obj=obj)
-        if obj is not None and hasattr(obj, 'chinese'):
-            return list(disabled_fields) + ['chinese']
+        disabled_fields = list(super().get_disabled_fields(request, obj=obj))
+        for field in ('chinese', 'searchable_pinyin'):
+            if obj is not None and hasattr(obj, field):
+                disabled_fields.append(field)
         return disabled_fields

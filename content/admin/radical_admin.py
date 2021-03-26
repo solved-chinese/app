@@ -5,10 +5,12 @@ from mptt.admin import TreeRelatedFieldListFilter
 
 from content.models import Radical
 from content.admin import SpecificContentAdmin
+from content.forms import RadicalForm
 
 
 @admin.register(Radical)
 class RadicalAdmin(SpecificContentAdmin):
+    form = RadicalForm
     search_fields = ['chinese', 'identifier']
     autocomplete_fields = ['audio']
     list_filter = [

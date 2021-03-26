@@ -1,3 +1,4 @@
+import re
 from django import forms
 from dal_select2.widgets import Select2WidgetMixin
 from dal.widgets import WidgetMixin
@@ -5,7 +6,7 @@ from django.core.exceptions import ValidationError
 
 from .models import WordSet, Word, Character, LinkedField, AudioFile, \
     CharacterInWord
-from .utils import punctuate_English, punctuate_Chinese, add_highlight
+from .utils import punctuate_English, punctuate_Chinese, add_highlight, unaccent
 from content.utils import validate_chinese_character_or_x
 
 
@@ -124,7 +125,25 @@ class WordSetSplitForm(forms.ModelForm):
         fields = ('name', 'jiezi_id', 'words')
 
 
-class WordForm(forms.ModelForm):
+class SearchablePinyinFormMixin:
+    def save(self, commit=True):
+        if ('pinyin' in self.changed_data
+                and self.instance.pinyin
+                and 'TODO' not in self.instance.pinyin):
+            self.instance.searchable_pinyin = re.sub(
+                r'[\ \(\)\-\,\'\.\/]', r'', unaccent(self.instance.pinyin).lower())
+        return super().save(commit=commit)
+
+    class Meta:
+        help_texts = {
+            'searchable_pinyin': 'To search this object, users need to enter '
+                                 'exactly this string (case insensitive). This '
+                                 'is auto-generated from pinyin. If there is a'
+                                 ' need for change, contact chenyx.'
+        }
+
+
+class WordForm(SearchablePinyinFormMixin, forms.ModelForm):
     def save(self, commit=True):
         # assert commit, 'no commit not supported'
         instance = self.instance
@@ -167,6 +186,14 @@ class WordForm(forms.ModelForm):
                 self._save_m2m = _save_m2m
 
         return super().save(commit=commit)
+
+
+class CharacterForm(SearchablePinyinFormMixin, forms.ModelForm):
+    pass
+
+
+class RadicalForm(SearchablePinyinFormMixin, forms.ModelForm):
+    pass
 
 
 class WordCreationForm(ContentCreationForm, WordForm):
