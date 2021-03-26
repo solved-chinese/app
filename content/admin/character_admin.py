@@ -5,6 +5,7 @@ from mptt.admin import TreeRelatedFieldListFilter
 
 from content.models import RadicalInCharacter, DefinitionInCharacter, Character
 from content.admin import SpecificContentAdmin
+from content.forms import CharacterForm
 
 
 class RadicalInCharacterInline(admin.TabularInline):
@@ -30,6 +31,7 @@ class DefinitionInCharacterInline(admin.TabularInline):
 
 @admin.register(Character)
 class CharacterAdmin(SpecificContentAdmin):
+    form = CharacterForm
     search_fields = ['chinese', 'pinyin', 'identifier']
     list_display = ['id', 'is_done', '__str__', 'pinyin',
                     'get_definitions', 'get_word_list_display']

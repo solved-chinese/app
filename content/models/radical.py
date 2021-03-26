@@ -29,6 +29,7 @@ class Radical(ReviewableMixin, GeneralContentModel):
     image = models.ImageField(default='default.jpg',
                               upload_to=path_and_rename)
     pinyin = models.CharField(max_length=20, blank=True, default='TODO')
+    searchable_pinyin = models.CharField(max_length=20, blank=True)
     audio = models.ForeignKey('AudioFile',
                               related_name='radicals',
                               related_query_name='radical',

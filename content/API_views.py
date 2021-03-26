@@ -1,13 +1,16 @@
+import re
+
 from dal import autocomplete
 from django.core.exceptions import ValidationError
 from django.contrib.contenttypes.models import ContentType
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.exceptions import NotFound
+from rest_framework.exceptions import NotFound, ParseError
 
 from content.models import GeneralQuestion, LinkedField, Word, Sentence
 from learning.models import Record
+from content.utils import unaccent
 
 
 class QuestionView(APIView):
@@ -85,3 +88,80 @@ class LinkedFieldAutocomplete(autocomplete.Select2QuerySetView):
         qs = model_class.objects.all()
         qs = self.get_search_results(qs, self.q)
         return qs
+
+
+class SearchAPIView(APIView):
+    """
+    __POST__: searches keyword in content database
+
+    keyword (str, required): the query keyword to be searched
+
+    query_type (str, default=auto): should be among 'chinese', 'pinyin',
+        'definition', 'auto'. This indicates what to search against in database.
+        Use 'auto' to let the backend determine automatically.
+
+    __returns__:
+
+    results ([objects]): a list of serialized words / characters / radicals
+    object (for now only supporting word results).
+
+    query_type (str): 'chinese', 'pinyin', or 'definition', indicating what the
+    backend uses for the search
+    """
+    def post(self, request):
+        try:
+            keyword = request.data['keyword']
+        except KeyError:
+            raise ParseError("keyword not found")
+        query_type = request.data.get('query_type', 'auto').lower()
+        if query_type not in ('auto', 'chinese', 'pinyin', 'definition'):
+            raise ParseError(f"query type must be either 'auto', 'chinese',"
+                             f" 'pinyin', or 'definition'. not {query_type}")
+
+        keyword = keyword.strip()
+        if not keyword:
+            return Response({'results': [], 'query_type': 'definition'})
+
+        if query_type in ('auto', 'chinese'):
+            # searches for chinese words with keyword as substring
+            chinese_regex = r'.*?'.join([''] + list(keyword) + [''])
+            queryset = Word.objects.filter(chinese__regex=chinese_regex)
+            if query_type == 'auto' and queryset.exists():
+                query_type = 'chinese'
+        if query_type in ('auto', 'pinyin'):
+            # if problem with 儿化音, will use regex with many searchable
+            # pinyin options
+            pinyin_keyword = re.sub(r'[^a-zA-Z]', r'', unaccent(keyword))
+            queryset = Word.objects.filter(
+                searchable_pinyin__iexact=pinyin_keyword)
+            if query_type == 'auto' and queryset.exists():
+                query_type = 'pinyin'
+        if query_type in ('auto', 'definition'):
+            queryset = Word.objects.filter(
+                definition__definition__search=keyword)
+            query_type = 'definition'
+        queryset = queryset.prefetch_related('definitions')
+        results = [{
+                'type': obj.__class__.__name__.lower(),
+                'qid': obj.id,
+                'chiense': obj.chinese,
+                'pinyin': obj.pinyin,
+                'definition': obj.full_definition,
+            }
+            for obj in queryset.all()
+        ]
+        return Response({
+            'results': results,
+            'query_type': query_type
+        })
+
+    POST_action = {
+        'keyword': {
+            'type': 'string',
+            'example': 'hello',
+        },
+        'query_type': {
+            'type': 'string',
+            'example': 'auto',
+        },
+    }

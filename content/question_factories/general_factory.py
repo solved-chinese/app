@@ -138,7 +138,7 @@ class CNDFactoryMixin:
             reviewable=ro,
             question_type=self.question_type,
             question="How do you spell the word below",
-            description="Drag the correct characters into the right order",
+            description="Click the correct characters into the right order",
             title_link=LinkedField.of(ro.word, 'primary_definition'),
             correct_answers=correct_answer,
             wrong_answers=wrong_answer,

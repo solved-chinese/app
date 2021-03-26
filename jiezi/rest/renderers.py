@@ -31,6 +31,8 @@ class CustomActionsBrowsableAPIRenderer(BrowsableAPIRenderer):
     default.
     Also it is possible to override the context of the BrowsableAPI page
     directly through the optional `api_context` attribute.
+    reference search in
+    https://github.com/solved-chinese/app/blob/v0.1/content/views.py
     """
     def get_context(self, data, accepted_media_type, renderer_context):
         context = super().get_context(data, accepted_media_type,
