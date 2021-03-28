@@ -45,8 +45,6 @@ export default class StrokeGif extends React.Component {
         this.writerStates = this.getInitialWriterStates(this.items.length);
     }
 
-    should
-
     getWriters(targetIDs, items) {
         return targetIDs.map((value, index) =>
             HanziWriter.create(value, items[index], {
