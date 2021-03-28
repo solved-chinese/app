@@ -19,16 +19,16 @@ import {default as oldSubmitAnswer} from '@learning.services/submitAnswer';
  * the submit button will display 'next' if props.hasNext == true.
  * 
  * @param { ReviewQuestionDescriptor } props
- * @returns {?React.Component} Review Question 
+ * @returns {?JSX.Element} Review Question
  */
 export default function ReviewQuestion(props) {
     const question = 'question' in props?
         props.question : useReviewQuestion(`/content/question/${props.qid}`);
 
     const submitAnswer = 'submitAnswer' in props?
-        props.submitAnswer : answer => oldSubmitAnswer(props.qid, "", answer);
+        props.submitAnswer : answer => oldSubmitAnswer(props.qid, '', answer);
     const onActionNext = 'onActionNext' in props?
-        props.onActionNext : () => {window.location.reload();}
+        props.onActionNext : () => {window.location.reload();};
     
     if (question != null) {
         switch (question.form) {
