@@ -1,10 +1,10 @@
 
 import HanziWriter from 'hanzi-writer';
-import React, {useEffect, useState} from 'react';
+import React, {} from 'react';
 import styled from 'styled-components';
 import '@learning.styles/ItemDisplay.css';
 import PropTypes from 'prop-types';
-import {makeid} from '../../../utils/utils';
+import {makeid} from '@utils/utils';
 
 const WordContainer = styled.div`
     font-size: 3.75em;
@@ -14,91 +14,108 @@ const WordContainer = styled.div`
     flex-direction: row;
 `;
 
+// Enumeration for states
+const WriterState = {
+    STANDBY: 'standby',
+    PLAYING: 'playing',
+    PAUSED: 'paused'
+};
+
 /**
  * Render characters with HanziWriter, allowing clicking for
  * stroke order animations.
- * @param {String} props.item
- * @param {Object} props
- * @returns {JSX.Element}
  */
-export default function StrokeGif(props) {
+export default class StrokeGif extends React.Component {
 
-    /* Split input into array of characters. */
-    const items = props.item.split('');
-
-    /* Create target ID for each of the characters. */
-    const itemsTargetIDs = items.map((value, index) =>
-        `writer-target-${index}-${makeid(5)}`);
-
-    // an array of 'writers'
-    const writers = itemsTargetIDs.map(() => useState(null));
-
-    // Enumeration for states
-    const GifState = {
-        STANDBY: 'standby',
-        PLAYING: 'playing',
-        PAUSED: 'paused'
+    static propTypes = {
+        item: PropTypes.string.isRequired
     };
 
-    const gifStatesBundle = itemsTargetIDs.map(() => useState(GifState.STANDBY));
+    constructor(props) {
+        super(props);
+    }
 
-    useEffect(() => {
-        // Initialize the writers into state
-        itemsTargetIDs.forEach((value, index) => {
-            const [, setWriter] = writers[index];
-            setWriter(HanziWriter.create(value, items[index], {
+    componentDidMount() {
+        this.writers = this.getWriters(this.itemsTargetIDs, this.items);
+        this.writerStates = this.getInitialWriterStates(this.items.length);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        this.writers = this.getWriters(this.itemsTargetIDs, this.items);
+        this.writerStates = this.getInitialWriterStates(this.items.length);
+    }
+
+    should
+
+    getWriters(targetIDs, items) {
+        return targetIDs.map((value, index) =>
+            HanziWriter.create(value, items[index], {
                 width: 60,
                 height: 65,
                 padding: 2,
                 showOutline: true,
                 showCharacter: true,
-            }));
-        });
-    },[]); 
+            })
+        );
+    }
 
-    const renderWriterTarget = () => itemsTargetIDs.map(
-        (id, index) => (
-            <div
-                id={id} key={index} style={{cursor: 'grab'}}
-                onClick={() => writerCallback(index)}
-            />
-        )
-    );
+    getInitialWriterStates(n) {
+        let arr = [];
+        for (let i = 0; i < n; i++) {
+            arr.push(WriterState.STANDBY);
+        }
+        return arr;
+    }
 
-    // Handle the character click
-    const writerCallback = (index) => {
-        const [gifState, setGifState] = gifStatesBundle[index];
-        const [writer, ] = writers[index];
-        switch (gifState) {
-        case GifState.STANDBY:
+    renderWriterTarget() {
+        return this.itemsTargetIDs.map(
+            (id, index) =>
+                <div
+                    id={id} key={this.itemsTargetIDs[index]} style={{cursor: 'grab'}}
+                    onClick={() => this.writerCallback(index)}
+                />
+        );
+    }
+
+    nextWriterStates(prevStates, index, newState) {
+        let arr = prevStates.writerStates.map((v) => v);
+        arr[index] = newState;
+        return arr;
+    }
+
+    writerCallback(index) {
+        let writer = this.writers[index];
+        switch (this.writerStates[index]) {
+        case WriterState.STANDBY:
             writer.animateCharacter({
                 onComplete: () => {
-                    setGifState(GifState.STANDBY);
+                    this.writerStates[index] = WriterState.STANDBY;
                 }
             });
-            setGifState(GifState.PLAYING);
+            this.writerStates[index] = WriterState.PLAYING;
             break;
-        case GifState.PLAYING:
+        case WriterState.PLAYING:
             writer.pauseAnimation();
-            setGifState(GifState.PAUSED);
+            this.writerStates[index] = WriterState.PAUSED;
             break;
-        case GifState.PAUSED:
+        case WriterState.PAUSED:
             writer.resumeAnimation();
-            setGifState(GifState.PLAYING);
+            this.writerStates[index] = WriterState.PLAYING;
             break;
         }
-    };
+    }
 
-    return (
-        <div>
-            <WordContainer className='use-chinese'>
-                {/* How render div only once? */}
-                {renderWriterTarget()}
-            </WordContainer>
-        </div>
-    );
+    render() {
+        this.items = this.props.item.split('');
+        this.itemsTargetIDs = this.items.map((value, index) =>
+            `writer-target-${index}-${makeid(5)}`);
+
+        return (
+            <div>
+                <WordContainer className='use-chinese'>
+                    { this.renderWriterTarget() }
+                </WordContainer>
+            </div>
+        );
+    }
 }
-
-StrokeGif.propTypes = {
-    item: PropTypes.string,
-};
