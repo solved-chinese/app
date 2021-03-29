@@ -7,11 +7,15 @@ import PropTypes from 'prop-types';
 import {makeid} from '@utils/utils';
 
 const WordContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+`;
+
+const CharSVGContainer = styled.div`
     font-size: 3.75em;
     font-weight: 200;
     text-align: center;
-    display: flex;
-    flex-direction: row;
+    color: var(--primary-text);
 `;
 
 // Enumeration for states
@@ -53,6 +57,10 @@ export default class StrokeGif extends React.Component {
                 padding: 2,
                 showOutline: true,
                 showCharacter: true,
+                strokeColor: '#303545',
+                onLoadCharDataError: () => {
+                    this.itemsTargetRef[index].current.innerText = items[index];
+                }
             })
         );
     }
@@ -68,9 +76,11 @@ export default class StrokeGif extends React.Component {
     renderWriterTarget() {
         return this.itemsTargetIDs.map(
             (id, index) =>
-                <div
+                <CharSVGContainer
                     id={id} key={this.itemsTargetIDs[index]} style={{cursor: 'grab'}}
                     onClick={() => this.writerCallback(index)}
+                    className='use-chinese'
+                    ref={this.itemsTargetRef[index]}
                 />
         );
     }
@@ -107,13 +117,12 @@ export default class StrokeGif extends React.Component {
         this.items = this.props.item.split('');
         this.itemsTargetIDs = this.items.map((value, index) =>
             `writer-target-${index}-${makeid(5)}`);
+        this.itemsTargetRef = this.itemsTargetIDs.map(() => React.createRef() );
 
         return (
-            <div>
-                <WordContainer className='use-chinese'>
-                    { this.renderWriterTarget() }
-                </WordContainer>
-            </div>
+            <WordContainer>
+                { this.renderWriterTarget() }
+            </WordContainer>
         );
     }
 }
