@@ -170,10 +170,13 @@ class LinkedField(models.Model):
         try:
             value = getattr(self.content_object, self.field_name)
         except AttributeError:
-            logger.error(f"{repr(self)} link broken, AttributeError")
+            logger.error("%r link broken with AttributeError, self delete", self)
+            self.delete()
             return None
         if not value:
-            logger.error(f"{repr(self)} has falsy value")
+            logger.error("CONTENT_ERROR: %r has falsy value, self delete", self)
+            self.delete()
+            return None
         return value
 
     def clean(self):
@@ -269,7 +272,8 @@ class MCQuestion(BaseConcreteQuestion):
         choice_list = list(self.choices.all())
         choices = [choice_list[i].value for i in choice_indexes]
         d = {
-            'choices': [choice for choice in choices]
+            'choices': [choice for choice in choices
+                        if choice is not None]
         }
         if self.question_type == 'Pinyin2DefMC':
             d['question'] = {
