@@ -183,7 +183,7 @@ SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': True,
+    'disable_existing_loggers': False,
     'filters': {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse',
@@ -241,3 +241,8 @@ try:
     from jiezi_secret.secret import *
 except (ModuleNotFoundError, ImportError, AttributeError):
     pass
+
+# manually setup logging config
+LOGGING_CONFIG = None
+import logging.config
+logging.config.dictConfig(LOGGING)

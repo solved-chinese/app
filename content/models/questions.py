@@ -96,8 +96,8 @@ class BaseConcreteQuestion(models.Model):
         try:
             concrete_content = self._render(show_all_options=show_all_options)
         except ValidationError:
-            logger.critical(f"question {repr(self)} invalid, self delete",
-                            exc_info=True)
+            logger.critical(f"CONTENT_ERROR: question %r invalid, self delete",
+                            self, exc_info=True)
             self.delete()
             raise
         client_dict = {
