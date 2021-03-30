@@ -1,9 +1,10 @@
-import content.API_views
-from content import CRUD_views, views
+from content import CRUD_views, views, API_views
 from django.urls import path
 
 
 urlpatterns = [
+    path('search_api/', API_views.SearchAPIView.as_view(), name='search_api'),
+
     path('radical/<int:pk>', CRUD_views.RadicalDetail.as_view(),
          name='radical-detail'),
     path('character/<int:pk>', CRUD_views.CharacterDetail.as_view(),
@@ -39,10 +40,10 @@ urlpatterns = [
          views.SetDisplayView.as_view(),
          name='set_display'),
 
-    path('question/<int:pk>', content.API_views.QuestionView.as_view()),
+    path('question/<int:pk>', API_views.QuestionView.as_view()),
 
     path('linked_field_autocomplete',
-         content.API_views.LinkedFieldAutocomplete.as_view(),
+         API_views.LinkedFieldAutocomplete.as_view(),
          name='linked_field_autocomplete'),
     path('review_question_factory/<slug:question_type>/<int:ro_id>',
          views.ReviewQuestionFactoryView.as_view(),

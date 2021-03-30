@@ -117,6 +117,7 @@ class Word(ReviewableMixin, GeneralContentModel):
     identifier = models.CharField(max_length=10, blank=True)
 
     pinyin = models.CharField(max_length=36, default='TODO')
+    searchable_pinyin = models.CharField(max_length=36, blank=True)
     audio = models.ForeignKey('AudioFile',
                               related_name='words',
                               related_query_name='word',
@@ -190,7 +191,7 @@ class Word(ReviewableMixin, GeneralContentModel):
     @property
     def primary_sentence_chinese(self):
         if self.sentences.exists():
-            return self.sentences.first().chinese
+            return self.sentences.first().chinese_highlight
         return None
 
     @property
@@ -198,7 +199,7 @@ class Word(ReviewableMixin, GeneralContentModel):
         if self.sentences.exists():
             sentence = self.sentences.first()
             return {
-                'text': sentence.pinyin,
+                'text': sentence.pinyin_highlight,
                 'audio': sentence.audio_url,
             }
         return None

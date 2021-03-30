@@ -83,10 +83,12 @@ class WordAdmin(AdminAdvancedFiltersMixin, ReviewableAdminMixin,
         return super().get_form(request, obj, **defaults)
 
     def get_disabled_fields(self, request, obj=None):
+        """ enable superuser to edit Chinese """
+        disabled_fields = list(super().get_disabled_fields(request, obj=obj))
         if request.user.is_superuser:
-            return self.disabled_fields
-        else:
-            return super().get_disabled_fields(request, obj=obj)
+            disabled_fields = [field for field in disabled_fields
+                               if field != 'chinese']
+        return disabled_fields
 
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related(

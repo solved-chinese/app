@@ -5,6 +5,7 @@ import camelcaseKeys from 'camelcase-keys';
 import { async } from 'regenerator-runtime/runtime';
 
 import { Word } from '@interfaces/CoreItem';
+import Constant from '@utils/constant';
 
 /**
  * Load the word from URL, returns null when it is still
@@ -13,17 +14,18 @@ import { Word } from '@interfaces/CoreItem';
  * Reattempt in 5 seconds if loading fails.
  * @param {String} url 
  * 
- * @returns {Word}
+ * @returns {Word | null}
  */
 export default function useLoadWord(url) {
 
     const [word, setWord] = useState(null);
 
     const loadData = async () => {
+        setWord(null);
         const response = await fetch(url);
         if (!response.ok) {
-            if (response.status == 404) { return; }
-            setTimeout(loadData, 5000);
+            if (response.status === 404) { return; }
+            setTimeout(loadData, Constant.REQUEST_TIMEOUT);
         }
 
         // parse the response object into json

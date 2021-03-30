@@ -4,6 +4,7 @@ import 'regenerator-runtime/runtime';
 import camelcaseKeys from 'camelcase-keys';
 
 import { Radical } from '@interfaces/CoreItem';
+import Constant from '@utils/constant';
 
 /**
  * Load the radical from URL, returns null when it is still
@@ -12,17 +13,18 @@ import { Radical } from '@interfaces/CoreItem';
  * Reattempt in 5 seconds if loading fails.
  * @param {String} url 
  * 
- * @returns {Radical} The state of the loaded radical
+ * @returns {Radical | null} The state of the loaded radical
  */
 export default function useLoadRad(url) {
 
     const [radical, setRadical] = useState(null);
     
     const loadData = async () => {
+        setRadical(null);
         const response = await fetch(url);
         if (!response.ok) {
-            if (response.status == 404) { return; }
-            setTimeout(loadData, 5000);
+            if (response.status === 404) { return; }
+            setTimeout(loadData, Constant.REQUEST_TIMEOUT);
         }
 
         const data = await response.json();

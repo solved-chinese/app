@@ -58,6 +58,7 @@ class Character(ReviewableMixin, GeneralContentModel):
     identifier = models.CharField(max_length=10, blank=True)
 
     pinyin = models.CharField(max_length=40, default='TODO')
+    searchable_pinyin = models.CharField(max_length=40, blank=True)
     audio = models.ForeignKey('AudioFile',
                               related_name='characters',
                               related_query_name='character',

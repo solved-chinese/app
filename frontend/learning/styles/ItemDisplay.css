@@ -1,13 +1,11 @@
 .content-card-container {
-    margin-top: 60px;
-    margin-bottom: 60px;
     max-width: 800px;
     width: 100%;
     padding: 25px 50px;
     border-radius: 5px;
     transition: 150ms ease;
     background-color: white;
-    margin: auto;
+    margin: 50px auto;
 }
 
 .breakdown-container {
@@ -18,9 +16,7 @@
 .breakdown-toggle {
     width: 100%;
     min-width: 150px;
-    margin: auto;
-    margin-bottom: -10px; 
-    margin-top: 15px;
+    margin: 15px auto -10px;
 }
 
 .breakdown-toggle.toggled {
@@ -35,7 +31,7 @@
 }
 
 .breakdown-toggle i {
-    color: rgba(207, 9, 9, 0.596);
+    color: var(--main-theme-color);
     width: 100%;
     text-align: center;
     transition: transform 300ms ease;
@@ -46,7 +42,7 @@
 }
 
 .breakdown-toggle > h4 {
-    color: #83878E;
+    color: var(--secondary-text);
     width: 100%;
     text-align: center;
     font-size: 0.9em;
@@ -106,6 +102,10 @@
     .content-card-container {
         padding: 25px 20px;
     }
+
+    .point-list {
+        padding: 0;
+    }
 }
 
 /* WordDisplay - Example Sentences */
@@ -144,16 +144,12 @@
     overflow: hidden;
 }
 
-/* CharDefiniton Alternative */
+/* CharDefinition Alternative */
 .point-list {
     padding-left: 10px;
     font-size: 1.3em;
-    
-
-    @media only screen and (max-width: 480px) {
-        padding: 0;
-    }
 }
+
 .point-list div{
     display: flex;
     flex-direction: row;

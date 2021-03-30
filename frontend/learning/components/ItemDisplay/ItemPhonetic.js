@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
 import '@learning.styles/ItemDisplay.css';
+import StrokeGif from '@learning.components/ItemDisplay/StrokeGif';
 
 const Container = styled.div`
     display: inline-block;
@@ -32,37 +32,50 @@ const WordContainer = styled.h1`
 
 /**
  * Renders the Chinese, phonetic(pinyin), and an audio button.
+ * @param {String} props.pinyin
+ * @param {String} props.audioURL
+ * @param {String} props.item
+ * @param {Boolean} props.useStroke
+ * @return {JSX.Element}
  */
-export default class ItemPhonetic extends React.Component {
+export default function ItemPhonetic(props) {
 
-    static propTypes = {
-        /** An array of possible pronunciation. */
-        pinyin: PropTypes.string,
-        /** The URL of the corresponding audio file. */
-        audioURL: PropTypes.string.isRequired,
-        /** The character to be displayed.  */
-        item: PropTypes.string.isRequired
-    }
+    const audio = new Audio(props.audioURL);
+    // Add slashes at the beginning and the end
+    const pinyin = `/${props.pinyin}/`;
 
-    render() {
-        this.audio = new Audio(this.props.audioURL);
-        // Add slashes at the beginning and the end
-        this.pinyin = `/${this.props.pinyin}/`;
-        return (
-            <Container>
-                <Phonetic className='use-chinese'> 
-                    { this.pinyin }
-                    <SpeakButton
-                        src="/static/images/small-icons/pronounce.svg"
-                        // className='fas fa-volume' // changed to svg
-                        onClick={() => this.audio.play()}
-                    />
+    const renderWord = () => props.useStroke ?
+        <StrokeGif item={props.item}/> :
+        <WordContainer className='use-chinese'>
+            { props.item }
+        </WordContainer>;
 
-                </Phonetic>
-                <WordContainer className='use-chinese'>
-                    { this.props.item }
-                </WordContainer>
-            </Container>
-        );
-    }
+    return (
+        <Container>
+            <Phonetic className='use-chinese'>
+                { pinyin }
+                <SpeakButton
+                    src="/static/images/small-icons/pronounce.svg"
+                    // className='fas fa-volume' // changed to svg
+                    onClick={() => audio.play()}
+                />
+            </Phonetic>
+            { renderWord() }
+        </Container>
+    );
 }
+
+ItemPhonetic.defaultProps = {
+    useStroke: false
+};
+
+ItemPhonetic.propTypes = {
+    /** An array of possible pronunciation. */
+    pinyin: PropTypes.string,
+    /** The URL of the corresponding audio file. */
+    audioURL: PropTypes.string.isRequired,
+    /** The character to be displayed. */
+    item: PropTypes.string.isRequired,
+    /** Whether to enable stroke order. */
+    useStroke: PropTypes.bool
+};

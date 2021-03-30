@@ -3,16 +3,17 @@
     --color-accent-incorrect: #ff6300;
 }
 
+/* change */
 .question-content {
     display: flex;
-    align-items: center;
+    /* align-items: center; */
     justify-content: center;
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
     height: 65vh;
     overflow: hidden;
     margin: auto;
-    padding-top: 50px;
+    padding-top: 20px;
 }
 
 .question-text-field {
@@ -27,7 +28,7 @@
     flex-direction: row;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    vertical-align:bottom;
+    vertical-align: bottom;
     border-bottom: 2px solid #bec0c4;
     background-color: #ebebeb;
 
@@ -63,12 +64,13 @@
     background-color: #ebebeb;
 }
 
+/* Answers */
 .answer-response {
     width:20%;
     height:80%;
-    font-sise: 1.5em;
+    font-size: 1.5em;
     text-align: center;
-    vertical-align:bottom;
+    vertical-align: bottom;
     float: right;
     border-top-right-radius: 5px;
     background-color: #ebebeb;
@@ -89,8 +91,13 @@ button.choice-button  {
 
     color: var(--secondary-text);
     background-color: transparent;
+    
+    /* change crimson to lato */
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
     font-size: 1em;
-
+    letter-spacing: 0.03em;
+ 
     margin: 5px auto;
     padding: 7px 35px;
 
@@ -100,17 +107,21 @@ button.choice-button  {
 button.choice-button:focus {
     outline: none;
 }
-
+/* stops button from flashing red */
+/* 
 button.choice-button.active {
+
     background-color: white;
-    border-color: var(--main-theme-color);
+    border-color: var(--main-theme-color); 
     color: var(--main-theme-color);
+    
 }
 
 button.choice-button.active:hover {
+    
     background-color: var(--main-theme-color);
     color: white;
-}
+} */
 
 button.choice-button.correct {
     background-color: var(--color-accent-correct);
@@ -132,8 +143,10 @@ button.choice-button.incorrect:hover {
     background-color: var(--color-accent-incorrect);
 }
 
-button.choice-button:hover {
-    background-color: rgba(0, 0, 0, 0.06);
+button.choice-button:hover {    
+    /* change: background-color: rgba(0, 0, 0, .06); */
+    background-color: var(--secondary-text);
+    color: white;
 }
 
 /* CND */

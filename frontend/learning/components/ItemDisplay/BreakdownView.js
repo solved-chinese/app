@@ -11,7 +11,7 @@ import ItemPhonetic from './ItemPhonetic';
 import useLoadRad from '@learning.hooks/useLoadRad';
 import useLoadChar from '@learning.hooks/useLoadChar';
 
-import PopUp from './WordDisplay/PopUp';
+import ItemDisplayPopup from './ItemDisplayPopup';
 
 import '@learning.styles/ItemDisplay.css';
 
@@ -96,13 +96,13 @@ function BreakdownRad(props) {
                 <Row>
                     <MnemonicImage src={imageUrl}/>
                     <DefPhoneticContainer>
-                        { radical.pinyin != '' && (
+                        { radical.pinyin !== '' && (
                             <Phonetic className='use-chinese'>
                                 { radical.pinyin }
                                 <SpeakButton
                                     className='fas fa-volume'
                                     onClick={() => audio.play()}
-                                ></SpeakButton>
+                                />
                             </Phonetic>
                         )}
                         <RadDefinition className='use-serifs'>
@@ -111,7 +111,7 @@ function BreakdownRad(props) {
                     </DefPhoneticContainer>
                 </Row>
                 {
-                    explanation != '' && (
+                    explanation !== '' && (
                         <Row>
                             <Explanation>
                                 {explanation}
@@ -195,11 +195,11 @@ function BreakdownChar(props) {
         );
         return (
             <>
-
                 {/* This should be optimized (character is
                     loaded twice) */}
-                <PopUp
+                <ItemDisplayPopup
                     contentURL = {props.url}
+                    type = 'character'
                 />
 
                 <Row>
@@ -263,10 +263,10 @@ function MemoryAidView(props) {
     content = content.replace(
         new RegExp('<([\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]+)>',
             'g'), // matches all brackets enclosing only Chinese chars
-        `<span class='use-serifs' style='color:darkcyan; font-size: 1.2em'>$1</span>`
+        '<span class=\'use-serifs\' style=\'color:darkcyan; font-size: 1.2em\'>$1</span>'
     ).replace(
         new RegExp('<(?!span|/)(.*?)>', 'g'), // match inside brackets other than span tags
-        `<span class='use-serifs' style='color:darkcyan'>$1</span>`
+        '<span class=\'use-serifs\' style=\'color:darkcyan\'>$1</span>'
     );
 
     return (
@@ -301,7 +301,7 @@ export default class BreakdownView extends React.Component {
         /** The associated memory aid sentence. */
         memoryAid: PropTypes.string,
 
-        // new alwaysDisplay prop
+        /** Whether the breakdown view is always expanded. */
         alwaysDisplay: PropTypes.bool
     }
 
@@ -321,7 +321,7 @@ export default class BreakdownView extends React.Component {
     renderBreakdownRad(urls) {
         // It is possible to have two breakdown items with the
         // same content (and url), and therefore we cannot use
-        // url as the key.
+        // urls as the keys.
         return urls.map( (url, i) => 
             (
                 <div key={i}
@@ -331,7 +331,7 @@ export default class BreakdownView extends React.Component {
             )
         );
     }
-    //
+
     /**
      * Render the word breakdown for each character 
      * specified in the urls.
@@ -359,7 +359,6 @@ export default class BreakdownView extends React.Component {
         const type = this.props.type;
         const toggleTitle = type + ' breakdown';
         const urls = this.props.componentURL;
-        
 
         return (
             <div className='breakdown-container'>
@@ -383,7 +382,7 @@ export default class BreakdownView extends React.Component {
                         this.state.show ? 'show' : ''
                     )} >
 
-                    { type == 'radical' ?
+                    { type === 'radical' ?
                         this.renderBreakdownRad(urls) :
                         this.renderBreakdownChar(urls)
                     } 

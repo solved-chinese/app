@@ -4,6 +4,7 @@ import 'regenerator-runtime/runtime';
 import camelcaseKeys from 'camelcase-keys';
 
 import { Character } from '@interfaces/CoreItem';
+import Constant from '@utils/constant';
 
 /**
  * Load a character from URL, returns null when it is still
@@ -12,17 +13,18 @@ import { Character } from '@interfaces/CoreItem';
  * Reattempt in 5 seconds if loading fails.
  * @param {String} url 
  * 
- * @return {Character}
+ * @return {Character | null}
  */
 export default function useLoadChar(url) {
 
     const [character, setCharacter] = useState(null);
 
     const loadData = async () => {
+        setCharacter(null);
         const response = await fetch(url);
         if (!response.ok) {
-            if (response.status == 404) { return; }
-            setTimeout(loadData, 5000);
+            if (response.status === 404) { return; }
+            setTimeout(loadData, Constant.REQUEST_TIMEOUT);
         } else {
             // parse the response object into json
             const data = await response.json();

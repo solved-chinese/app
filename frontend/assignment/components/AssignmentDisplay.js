@@ -2,10 +2,10 @@ import React, {useState, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import HeaderView from "@assignment.components/HeaderView";
-import ItemDisplayBody from "@assignment.components/ItemDisplayBody";
-import useLoadAssignment from "@assignment.hooks/useLoadAssignment";
-import ProgressBar from "@learning.components/CoreLearning/ProgressBar";
+import HeaderView from '@assignment.components/HeaderView';
+import ItemDisplayBody from '@assignment.components/ItemDisplayBody';
+import useLoadAssignment from '@assignment.hooks/useLoadAssignment';
+import ProgressBar from '@learning.components/CoreLearning/ProgressBar';
 
 import '@assignment.styles/AssignmentDisplay.css';
 
@@ -91,9 +91,9 @@ export default function AssignmentDisplay(props) {
                 <HeaderView name={assignment.name} onActionComplete={onActionComplete}/>
                 <ProgressBar {...assignment.progressBar}/>
                 <ItemDisplayBody objectList={assignment.wordList}
-                                 displayRef={displayRef}
-                                 curObject={curObject}
-                                 setCurObject={setCurObject}
+                    displayRef={displayRef}
+                    curObject={curObject}
+                    setCurObject={setCurObject}
                 />
                 <br/><br/>
                 <Headings>Terms in this set ({assignment.wordList.length})</Headings>
@@ -116,11 +116,11 @@ export default function AssignmentDisplay(props) {
     };
 
     if (assignment === null)
-        return "loading assignment";
+        return 'loading assignment';
     else
         return renderAssignment();
 }
 
 AssignmentDisplay.propTypes = {
     qid: PropTypes.number,
-}
+};
