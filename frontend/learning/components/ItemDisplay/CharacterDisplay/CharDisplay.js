@@ -109,5 +109,5 @@ CharDisplay.propTypes = {
 };
 
 CharDisplay.defaultProps = {
-    autoExpandBreakdown: false,
+    autoExpandBreakdown: true,
 };
