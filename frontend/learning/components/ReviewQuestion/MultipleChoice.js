@@ -56,9 +56,8 @@ const newButton = {
     padding: '5px 15px 5px',
     margin: '10px 10px 0 0',
     minHeight: '75px',
-    width: '180px',
+    width: '207px',
     wordWrap: 'break-word',
-
 };
 
 const SubmitContainer = styled.div`
@@ -157,25 +156,30 @@ export default function MultipleChoice(props) {
         );
     })();
 
+    const context = (() => {
+        if ('context' in props.content) {
+            let [text, audio] = getTextAudio(props.content.context);
+            // add highlight of sentences similar to that in word display
+            text = text.replace(
+                new RegExp('<(.*?)>', 'g'),
+                `<span style='color: #00838F'>$1</span>`
+            );
+            return (
+                <Context className='use-chinese'>
+                    <span dangerouslySetInnerHTML={{__html: text}}/>
+                    {audio ? <SpeakButton1
+                        src="/static/images/small-icons/example-sentence.svg"
+                        onClick={() => new Audio(audio).play()}/> : null}
+                </Context>
+            );
+        }
+        return null;
+    })();
+
     return (
         <div className='question-content'>
             <div style={{width: '100%'}}>
-                <Context className='use-chinese'>
-                    {(() => {
-                        let [text, audio] = getTextAudio(props.content.context);
-                        // add highlight of sentences similar to that in word display
-                        text = text.replace(
-                            new RegExp('<(.*?)>', 'g'),
-                            `<span style='color: #00838F'>$1</span>`
-                        );
-                        return (<>
-                            “<span dangerouslySetInnerHTML={{ __html: text }}/>”
-                            {audio? <SpeakButton1
-                                src="/static/images/small-icons/example-sentence.svg"
-                                onClick={() => new Audio(audio).play()}/> : null}
-                        </>);
-                    })()}
-                </Context>
+                {context}
                 <Question>
                     {(() => {
                         let [text, audio] = getTextAudio(props.content.question);
