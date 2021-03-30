@@ -21,6 +21,7 @@ export default function useLoadWord(url) {
     const [word, setWord] = useState(null);
 
     const loadData = async () => {
+        setWord(null);
         const response = await fetch(url);
         if (!response.ok) {
             if (response.status === 404) { return; }

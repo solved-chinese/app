@@ -17,6 +17,7 @@ export default function useReviewQuestion(url) {
     const [question, setQuestion] = useState(null);
 
     const loadData = async () => {
+        setQuestion(null);
         let response = await fetch(url);
         if (!response.ok) {
             if (response.status == 404) { return; }

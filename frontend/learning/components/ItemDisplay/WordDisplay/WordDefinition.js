@@ -29,9 +29,9 @@ const ListTitle = styled.th`
 
 function Definitions(props) {
 
-    const definitions = props.definitions.map(d => {
+    const definitions = props.definitions.map((d, index) => {
         return (
-            <tr key={d.definition}>
+            <tr key={index}>
                 <PofSpeech className='use-serifs'>
                     {d.partOfSpeech}
                 </PofSpeech>

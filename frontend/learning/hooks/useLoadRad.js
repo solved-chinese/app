@@ -20,6 +20,7 @@ export default function useLoadRad(url) {
     const [radical, setRadical] = useState(null);
     
     const loadData = async () => {
+        setRadical(null);
         const response = await fetch(url);
         if (!response.ok) {
             if (response.status === 404) { return; }

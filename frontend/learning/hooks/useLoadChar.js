@@ -20,6 +20,7 @@ export default function useLoadChar(url) {
     const [character, setCharacter] = useState(null);
 
     const loadData = async () => {
+        setCharacter(null);
         const response = await fetch(url);
         if (!response.ok) {
             if (response.status === 404) { return; }
