@@ -1,5 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
-import PropTypes from 'prop-types';
+import React, {useState, useRef} from 'react';
 import styled from 'styled-components';
 
 import HeaderView from '@assignment.components/HeaderView';
@@ -8,6 +7,7 @@ import useLoadAssignment from '@assignment.hooks/useLoadAssignment';
 import ProgressBar from '@learning.components/CoreLearning/ProgressBar';
 
 import '@assignment.styles/AssignmentDisplay.css';
+import {SimpleContentObject} from '@interfaces/Assignment';
 
 // Containers
 const ContentContainer = styled.div`
@@ -33,34 +33,38 @@ const Headings = styled.h1`
     font-weight: 600;
 `;
 
-export default function AssignmentDisplay(props) {
-    const assignment = useLoadAssignment(`/learning/api/assignment/${props.qid}`);
-    const displayRef = useRef(null);
+type Props = {
+    qid: number
+}
 
-    const [curObject, setCurObject] = useState(null);
+const AssignmentDisplay = (props: Props): JSX.Element => {
+    const assignment = useLoadAssignment(`/learning/api/assignment/${props.qid}`);
+    const displayRef = useRef<HTMLElement>(null);
+
+    const [curObject, setCurObject] = useState<SimpleContentObject | null>(null);
     // const [expanded, setExpanded] = useState(false);
 
     const onActionComplete = () => {
         window.location.href = `/learning/${props.qid}`;
     };
 
-    const renderChinese = (obj) => {
+    const renderChinese = (obj: SimpleContentObject) => {
         if (obj.type === 'radical')
             return <img src={obj.chinese} alt={obj.chinese}/>; // TODO make this smaller
         return obj.chinese;
     };
 
-    const renderObjects = (objects) => {
+    const renderObjects = (objects: SimpleContentObject[]) => {
         return objects.map((obj, index) => {
             // TODO make status that beautiful bar thing
             return (
                 <RelatedContainer key={index}
                     onClick={()=>{
                         setCurObject(obj);
-                        displayRef.current.focus();
+                        displayRef?.current?.focus();
                     }}
                     className={'use-chinese'}
-                    style={obj === curObject? {backgroundColor: '#EBEBEB'} : null}
+                    style={obj === curObject? {backgroundColor: '#EBEBEB'} : {}}
                 >
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     {renderChinese(obj)} &nbsp;&nbsp;
@@ -102,11 +106,9 @@ export default function AssignmentDisplay(props) {
     };
 
     if (assignment === null)
-        return 'loading assignment';
+        return (<>loading assignment</>);
     else
         return renderAssignment();
-}
-
-AssignmentDisplay.propTypes = {
-    qid: PropTypes.number,
 };
+
+export default AssignmentDisplay;
