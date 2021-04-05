@@ -125,7 +125,7 @@ const BreakdownRad = (props: BreakdownRadProps): JSX.Element => {
     };
 
     if (radical === null) {
-        return React.createElement('Loading character data');
+        return (<>Loading character data</>);
     } else {
         return renderRadical(radical);
     }
@@ -206,7 +206,7 @@ const BreakdownChar = (props: BreakdownCharProps): JSX.Element => {
     };
 
     if (character === null) {
-        return React.createElement('Loading character data');
+        return (<>Loading character data</>);
     } else {
         return renderCharacter(character);
     }
@@ -302,7 +302,7 @@ export default class BreakdownView extends React.Component<BreakdownViewProps, B
      * Render the character breakdown for each radical 
      * specified in the urls.
      */
-    renderBreakdownRad(urls: string[]) {
+    renderBreakdownRad(urls: string[]): JSX.Element[] {
         // It is possible to have two breakdown items with the
         // same content (and url), and therefore we cannot use
         // urls as the keys.
@@ -320,7 +320,7 @@ export default class BreakdownView extends React.Component<BreakdownViewProps, B
      * Render the word breakdown for each character 
      * specified in the urls.
      */
-    renderBreakdownChar(urls: string[]) {
+    renderBreakdownChar(urls: string[]): JSX.Element[] {
         // It is possible to have two breakdown items with the
         // same content (and url), and therefore we cannot use
         // url as the key.
@@ -338,7 +338,7 @@ export default class BreakdownView extends React.Component<BreakdownViewProps, B
         this.setState( prev => ({show: !prev.show}));
     }
 
-    render() {
+    render(): JSX.Element {
         const type = this.props.type;
         const toggleTitle = type + ' breakdown';
         const urls = this.props.componentURL;
