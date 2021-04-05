@@ -133,3 +133,12 @@ interface HighlightedSentence {
     /** The audio url for the sentence. */
     audioUrl: string
 }
+
+export type ItemType = 'word' | 'character' | 'radical'
+
+export type ItemDescriptor = {
+    type: ItemType,
+    qid: number,
+    onActionNext?: ()=>void,
+    displayRef?: any
+}
