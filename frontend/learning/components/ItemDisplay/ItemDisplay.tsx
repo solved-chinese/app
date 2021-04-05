@@ -7,7 +7,7 @@ import RadDisplay from './RadicalDisplay/RadDisplay';
 
 import '@learning.styles/ItemDisplay.css';
 
-import { ItemDescriptor } from '@interfaces/CoreItem';
+import {ItemDescriptor, ItemType} from '@interfaces/CoreItem';
 import styled from 'styled-components';
 
 const NextButton = styled.button`
@@ -32,9 +32,9 @@ const NextButton = styled.button`
  * Statically display an item (word, character, or radical) 
  * using an ItemDescriptor.
  */
-export default function ItemDisplay(props: ItemDescriptor) {
+const ItemDisplay = (props: ItemDescriptor): JSX.Element => {
     
-    const renderSwitch = (type, qid) => {
+    const renderSwitch = (type: ItemType, qid: number) => {
         switch (type) {
         case 'character':
             return (<CharDisplay qid={qid} />);
@@ -48,14 +48,16 @@ export default function ItemDisplay(props: ItemDescriptor) {
     };
 
     const renderNext = () => {
-        if (props.onActionNext != null)
+        if (props.onActionNext !== undefined) {
+            const onActionNext = props.onActionNext;
             return (
                 <div>
-                    <NextButton onClick={() => props.onActionNext()}>
+                    <NextButton onClick={() => onActionNext() }>
                         Next
                     </NextButton>
                 </div>
             );
+        }
     };
 
     return (
@@ -68,11 +70,6 @@ export default function ItemDisplay(props: ItemDescriptor) {
             { renderNext() }
         </>
     );
-}
-
-ItemDisplay.propTypes = {
-    type: PropTypes.string,
-    qid: PropTypes.number,
-    onActionNext: PropTypes.func,
-    displayRef: PropTypes.any, // not sure which type 
 };
+
+export default ItemDisplay;
