@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import CharDisplay from
     '@learning.components/ItemDisplay/CharacterDisplay/CharDisplay';
 
@@ -10,9 +9,10 @@ import '@learning.styles/ItemDisplay.css';
 import Constant from '@utils/constant';
 import WordDisplay from '@learning.components/ItemDisplay/WordDisplay/WordDisplay';
 import RadDisplay from '@learning.components/ItemDisplay/RadicalDisplay/RadDisplay';
+import {ItemType} from '@interfaces/CoreItem';
 
 //Styles for Popup
-const ModalStyle = {
+const ModalStyle: Modal.Styles = {
     overlay: {
         backgroundColor: 'rgba(116, 116, 116, 0.3)'
     },
@@ -27,11 +27,10 @@ const ModalStyle = {
 
         display: 'inline-block',
         maxWidth: '700px',
-        widths: '100%',
+        width: '100%',
         margin: '0 auto',
 
         backgroundColor: 'white',
-        width: '90%',
         padding: '25px 50px',
 
         boxShadow: '2px 2px 6px 2px #30354514',
@@ -63,15 +62,19 @@ const CloseButton = styled.i`
     }
 `;
 
+type Props = {
+    /** URL of the item to be presented in the popup modal. */
+    contentURL: string,
+
+    /** The kind of item in contentURL. */
+    type: ItemType,
+}
+
 /**
  * Renders a component that will bring up a popup modal
  * that displays an item.
- * a word breakdown.
- * @param {String} props.contentURL URL of the item to be presented in the popup modal.
- * @param {String} props.type The kind of item in contentURL.
- * @return {JSX.Element}
  */
-export default function ItemDisplayPopup(props) {
+const ItemDisplayPopup = (props: Props): JSX.Element => {
 
     const [ModalState, setModalState] = useState(false);
 
@@ -118,12 +121,6 @@ export default function ItemDisplayPopup(props) {
             </div>
         </>
     );
-}
-
-ItemDisplayPopup.propTypes = {
-    /** URL of the item presented in the popup modal. */
-    contentURL: PropTypes.string.isRequired,
-
-    /** The kind of item in contentURL. */
-    type: PropTypes.oneOf(['word', 'character', 'radical'])
 };
+
+export default ItemDisplayPopup;

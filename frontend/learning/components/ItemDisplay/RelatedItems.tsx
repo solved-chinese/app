@@ -1,8 +1,7 @@
-import React from 'react';
+import React, {CSSProperties} from 'react';
 import styled from 'styled-components';
-import PropTypes, { object } from 'prop-types';
-
 import '@learning.styles/ItemDisplay.css';
+import {CharacterShort, ItemType, WordShort} from '@interfaces/CoreItem';
 
 const Heading = styled.h2`
     color: var(--teritary-text);
@@ -15,25 +14,30 @@ const RelatedItemsList = styled.ul`
     line-height: 1.5em;
 `;
 
+type RelatedItemsProps = {
+    /**
+     * The character used to look up related items
+     * a user has viewed so far. Not
+     * @deprecated
+     */
+    item: string,
+
+    /**
+     * A list of items to be displayed in the related
+     * items view.
+     */
+    items: CharacterShort[] | WordShort[],
+
+    /**
+     * The type of the related items to be displayed
+     * (word or character)
+     */
+    itemType: Extract<ItemType, 'word' | 'character'>
+}
+
 /** Display related words that a user has seen. */
-export default class RelatedItems extends React.Component {
-
-    static propTypes = {
-        /** The character used to look up related items
-         * a user has viewed so far. */
-        item: PropTypes.string.isRequired,
-
-        // 'items' is an array of objects 
-        items: PropTypes.arrayOf(object),
-
-        /** The type of the related items to be displayed
-         * (word or character) */
-        itemType: PropTypes.oneOf(['word', 'character']).isRequired
-    }
-
-
-
-    render() {
+export default class RelatedItems extends React.Component<RelatedItemsProps> {
+    render(): JSX.Element {
         const items = this.props.items;
         if (items.length == 0) {
             return <></>;
@@ -87,15 +91,23 @@ const ItemCompDef = styled(ItemComp)`
     margin-left: auto;
     text-overflow: ellipsis;
     overflow: hidden;
-`;//
-class RelatedItemEntry extends React.Component {
+`;
 
-    static propTypes = {
-        item: PropTypes.object,
-        style: PropTypes.object
-    }
+type RelatedItemEntryProps = {
+    /**
+     * The css style object to be used for this entry.
+     */
+    style: CSSProperties,
 
-    render() {
+    /**
+     * The word or character short-form descriptor.
+     */
+    item: CharacterShort | WordShort
+};
+
+class RelatedItemEntry extends React.Component<RelatedItemEntryProps> {
+
+    render(): JSX.Element {
         const {chinese, pinyin, fullDefinition} = this.props.item;
 
         // TODO: The curly font for part of speech

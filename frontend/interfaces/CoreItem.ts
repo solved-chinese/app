@@ -55,7 +55,7 @@ export interface Radical extends CoreItem {
  * Represent a single definition of the object, including the
  * definition string and the corresponding part of speech (optional).
  */
-interface ItemDefinition {
+export interface ItemDefinition {
     definition: string,
     partOfSpeech?: string
 }
@@ -76,7 +76,7 @@ export interface Character extends CoreItem {
     relatedWords: WordShort[]
 }
 
-interface CharacterShort {
+export interface CharacterShort {
     /** The chinese character(s). */
     chinese: string,
 
@@ -110,9 +110,9 @@ export interface Word extends CoreItem {
     memoryAid: string
 }
 
-type WordShort = CharacterShort
+export type WordShort = CharacterShort
 
-interface HighlightedSentence {
+export interface HighlightedSentence {
 
     /**
      * The sentence's pinyin, with inline-highlighting encoded.

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import '@learning.styles/ItemDisplay.css';
 import StrokeGif from '@learning.components/ItemDisplay/StrokeGif';
@@ -30,21 +29,33 @@ const WordContainer = styled.h1`
     text-align: center;
 `;
 
+type Props = {
+    /** Display friendly pinyin. */
+    pinyin: string,
+
+    /** The URL of the corresponding audio file. */
+    audioURL: string,
+
+    /** The Chinese character to be displayed. */
+    item: string,
+
+    /**
+     * Indicate whether to enable stroke order.
+     * The default is false.
+     */
+    useStroke: boolean | null
+}
+
 /**
  * Renders the Chinese, phonetic(pinyin), and an audio button.
- * @param {String} props.pinyin
- * @param {String} props.audioURL
- * @param {String} props.item
- * @param {Boolean} props.useStroke
- * @return {JSX.Element}
  */
-export default function ItemPhonetic(props) {
+const ItemPhonetic = (props: Props): JSX.Element => {
 
     const audio = new Audio(props.audioURL);
     // Add slashes at the beginning and the end
     const pinyin = `/${props.pinyin}/`;
-
-    const renderWord = () => props.useStroke ?
+    const useStroke = props.useStroke ?? false;
+    const renderWord = () => useStroke ?
         <StrokeGif item={props.item}/> :
         <WordContainer className='use-chinese'>
             { props.item }
@@ -63,19 +74,6 @@ export default function ItemPhonetic(props) {
             { renderWord() }
         </Container>
     );
-}
-
-ItemPhonetic.defaultProps = {
-    useStroke: false
 };
 
-ItemPhonetic.propTypes = {
-    /** An array of possible pronunciation. */
-    pinyin: PropTypes.string,
-    /** The URL of the corresponding audio file. */
-    audioURL: PropTypes.string.isRequired,
-    /** The character to be displayed. */
-    item: PropTypes.string.isRequired,
-    /** Whether to enable stroke order. */
-    useStroke: PropTypes.bool
-};
+export default ItemPhonetic;
