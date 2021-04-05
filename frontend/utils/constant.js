@@ -7,7 +7,12 @@ const Constant = {
     /**
      * Root element id.
      */
-    ROOT_ELEMENT_ID: 'react-app'
+    ROOT_ELEMENT_ID: 'react-app',
+
+    /**
+     * Root element id.
+     */
+    HEADER_ELEMENT_ID: 'navbar-bg',
 };
 
 export default Constant;

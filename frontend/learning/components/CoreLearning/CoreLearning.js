@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import ProgressBar from './ProgressBar';
-import ItemDisplay from 
+import Constant from '@utils/constant';
+import ItemDisplay from
     '@learning.components/ItemDisplay/ItemDisplay';
 import ReviewQuestion from 
     '@learning.components/ReviewQuestion/ReviewQuestion';
@@ -73,6 +74,12 @@ export default function CoreLearning(props) {
 
     // FIXME onActionNext is called twice in review, unnecessary
     // FIXME handle conflict
+
+    useEffect(() => {
+        // make progress bar occupy header position
+        document.getElementById(Constant.HEADER_ELEMENT_ID).style.display = 'none';
+        document.getElementById(Constant.ROOT_ELEMENT_ID).style.marginTop = '-70px';
+    }, []);
 
     const onActionNext = () => {
         const data = {};
