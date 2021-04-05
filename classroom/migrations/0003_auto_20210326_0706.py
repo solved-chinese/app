@@ -4,17 +4,6 @@ from django.db import migrations, models
 from django.utils.crypto import get_random_string
 
 
-def forward(apps, schema_editor):
-    Class = apps.get_model('classroom', 'Class')
-    for klass in Class.objects.all():
-        klass.code = get_random_string(
-            4, allowed_chars='ABCDEFGHJKLMNPQRSTVWXYZ23456789')
-        klass.save()
-
-def backward(apps, schema_editor):
-    pass
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -30,8 +19,5 @@ class Migration(migrations.Migration):
             model_name='class',
             name='code',
             field=models.SlugField(blank=True),
-        ),
-        migrations.RunPython(
-            forward, backward
         ),
     ]
