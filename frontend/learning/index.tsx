@@ -1,11 +1,11 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import App from './components/App.js';
+import App from '@learning.components/App';
 import Constant from '@utils/constant';
 
 const container = document.getElementById(Constant.ROOT_ELEMENT_ID);
-const reactData = JSON.parse(document.getElementById('react-data').textContent);
+const reactData = JSON.parse(document.getElementById('react-data')?.textContent as string);
 render(
     <App {...reactData}/>, container
 );
