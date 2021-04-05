@@ -35,6 +35,18 @@ const ExitButton = styled.button`
     }
 `;
 
+const BonusText = styled.h2`
+    margin-top: 25px;
+    margin-bottom: -30px;
+`;
+
+// so that next button and bonus texts align with content card
+const LearningContentContainer = styled.div`
+    max-width: 800px;
+    width: 100%;
+    margin: auto;
+`;
+
 
 import '@learning.styles/CoreLearning.css';
 import styled from "styled-components";
@@ -99,13 +111,26 @@ export default function CoreLearning(props) {
         </div>
     );
 
+    const renderBonus = () => {
+        if (!content || !'type' in content)
+            return null;
+        if (content.type == 'radical')
+            return <BonusText>Bonus Radical! {"\u{1F609}"}</BonusText>;
+        else if (content.type == 'character')
+            return <BonusText>Bonus Character! {"\u{1F60F}"}</BonusText>;
+        return null;
+    };
+
     const renderItemDisplay = () => (
         <>
             {renderProgressBar()}
-            <ItemDisplay
-                {...content}
-                onActionNext={onActionNext}
-            />
+            <LearningContentContainer>
+                {renderBonus()}
+                <ItemDisplay
+                    {...content}
+                    onActionNext={onActionNext}
+                />
+            </LearningContentContainer>
         </>
     );
 
