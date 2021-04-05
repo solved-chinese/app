@@ -11,9 +11,11 @@ module.exports = {
     },
     'extends': [
         'eslint:recommended',
-        'plugin:react/recommended'
+        'plugin:react/recommended',
+        'plugin:@typescript-eslint/eslint-recommended',
+        'plugin:@typescript-eslint/recommended'
     ],
-    'parser': 'babel-eslint',
+    'parser': '@typescript-eslint/parser',
     'parserOptions': {
         'ecmaFeatures': {
             'jsx': true
@@ -24,12 +26,17 @@ module.exports = {
     'settings': {
         'import/resolver': { 
             'babel-module': {}
+        },
+        'react': {
+            'pragma': 'React',
+            'version': 'detect',
         }
     },
     'plugins': [
         'react',
         'babel',
-        'import'
+        'import',
+        '@typescript-eslint'
     ],
     'rules': {
         'indent': [
