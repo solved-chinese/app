@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import CharDisplay from './CharacterDisplay/CharDisplay';
 import WordDisplay from './WordDisplay/WordDisplay';
@@ -65,7 +64,7 @@ const ItemDisplay = (props: ItemDescriptor): JSX.Element => {
             <div className='content-card-container box-shadow'
                 ref={props.displayRef} tabIndex={0} style={{outline: 'none'}}
             >
-                { renderSwitch(props.type, props.qid) }
+                { renderSwitch(props.type!, props.qid) }
             </div>
             { renderNext() }
         </>
