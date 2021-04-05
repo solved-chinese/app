@@ -58,5 +58,6 @@ module.exports = {
         'no-unused-vars': [
             'warn'
         ],
+        '@typescript-eslint/no-non-null-assertion': 0
     }
 };
