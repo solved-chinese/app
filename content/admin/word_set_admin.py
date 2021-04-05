@@ -1,12 +1,14 @@
 import html
+import pandas as pd
 
 from django.utils.html import format_html
 from django.contrib import admin
 from django.shortcuts import redirect, reverse, render
+from django.core.exceptions import ValidationError
 from mptt.admin import DraggableMPTTAdmin
 from django.db import transaction
 
-from content.models import WordInSet, WordSet, Word
+from content.models import WordInSet, WordSet, Word, Character, Radical
 from content.admin import GeneralContentAdmin
 from content.forms import WordSetCreationForm
 from content.question_factories.question_factory_registry \
@@ -38,7 +40,8 @@ class WordSetAdmin(DraggableMPTTAdmin, GeneralContentAdmin):
     list_filter = ['is_done']
     search_fields = ['name__search']
     readonly_fields = ['lft', 'rght', 'tree_id']
-    actions = ['split_wordset', 'rebuild', 'generate_question', 'duplicate']
+    actions = ['split_wordset', 'rebuild', 'generate_question', 'duplicate',
+               'deploy_check']
     inlines = [WordInSetInline]
     mptt_level_indent = 30
     save_as = True
@@ -106,3 +109,57 @@ class WordSetAdmin(DraggableMPTTAdmin, GeneralContentAdmin):
             wis.pk = None
             wis.word_set = obj
             wis.save()
+
+    def deploy_check(self, request, queryset):
+        try:
+            wordset = queryset.get()
+        except (WordSet.MultipleObjectsReturned, WordSet.DoesNotExist):
+            self.message_user(request, "can only be done on one set", 'ERROR')
+            return
+        radicals = Radical.objects.filter(
+            character__word__word_set=wordset).distinct()
+        characters = Character.objects.filter(
+            word__word_set=wordset).distinct()
+        words = wordset.words.all()
+        results = {}
+        for obj in [*radicals, *characters, *words]:
+            result = {'obj': html.escape(repr(obj))}
+            try:
+                obj.clean()
+            except ValueError as e:
+                result['status'] = f'bad {e!r}'
+            else:
+                result['status'] = 'good'
+            questions = {question for question in
+                         obj.get_reviewable_object().questions.all()}
+            for factory in QuestionFactoryRegistry \
+                    .get_factories_by_model(obj.__class__):
+                try:
+                    question = next(q for q in questions
+                                    if q.question_type == factory.question_type)
+                    question.render()
+                    question_result = 'good'
+                except StopIteration:
+                    question_result = 'bad: not exist'
+                except ValidationError as e:
+                    question_result = f"bad: {e!r}"
+                result[factory.question_type] = html.escape(question_result)
+            results.setdefault(obj.__class__.__name__, []).append(result)
+        def apply_color(x):
+            if x.startswith('good'):
+                return 'color: green;'
+            elif x.startswith('bad'):
+                return 'color: red;'
+            return ''
+        results = {
+            k: pd.DataFrame(v)
+                .set_index('obj')
+                .style
+                .applymap(apply_color)
+                .set_table_attributes('class="table"')
+                .render()
+            for k, v in results.items()
+        }
+        return render(request,
+                      'content/deploy_check.html',
+                      {'results': results})
