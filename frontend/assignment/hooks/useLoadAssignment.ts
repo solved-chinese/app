@@ -9,18 +9,15 @@ import { Assignment } from '@interfaces/Assignment';
  * Load a Assignment from URL, returns null when it is still
  * loading. The function will automatically reload the
  * returned assignment if the URL that's passed in changes.
- * @param {String} url
- * 
- * @return {Assignment}
  */
-export default function useLoadAssignment(url) {
+export default function useLoadAssignment(url: string): Assignment {
 
     const [assignment, setAssignment] = useState(null);
 
     const loadData = async () => {
         const response = await fetch(url);
         if (!response.ok) {
-            if (response.status == 404) { return; }
+            if (response.status === 404) { return; }
         } else {
             // parse the response object into json
             const data = await response.json();

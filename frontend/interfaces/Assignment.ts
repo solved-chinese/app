@@ -1,6 +1,6 @@
-import ProgressBar from "./ProgressBar";
+import ProgressBar from './ProgressBar';
 
-interface Assignment {
+export interface Assignment {
     name: String,
     progressBar: ProgressBar,
     wordList: [SimpleContentObject],
@@ -15,6 +15,3 @@ interface SimpleContentObject {
     chinese: String,
     pinyin: String,
 }
-
-
-export default Assignment;
