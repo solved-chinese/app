@@ -98,16 +98,19 @@ export default class StrokeGif extends React.Component<StrokeGifProps> {
                 onComplete: () => {
                     this.writerStates[index] = WriterState.STANDBY;
                 }
+            }).then(() => {
+                this.writerStates[index] = WriterState.PLAYING;
             });
-            this.writerStates[index] = WriterState.PLAYING;
             break;
         case WriterState.PLAYING:
-            writer.pauseAnimation();
-            this.writerStates[index] = WriterState.PAUSED;
+            writer.pauseAnimation().then(() => {
+                this.writerStates[index] = WriterState.PAUSED;
+            });
             break;
         case WriterState.PAUSED:
-            writer.resumeAnimation();
-            this.writerStates[index] = WriterState.PLAYING;
+            writer.resumeAnimation().then(() => {
+                this.writerStates[index] = WriterState.PLAYING;
+            });
             break;
         }
     }
