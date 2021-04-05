@@ -93,14 +93,7 @@ const AssignmentDisplay = (props: Props): JSX.Element => {
                     {renderObjects(assignment.characterList)}
                     {assignment.radicalList.length? <h4>Bonus radicals</h4>:null}
                     {renderObjects(assignment.radicalList)}
-                </div>    
-                {/*<div onClick={() => setExpanded(true)} className={'toggle'}>*/}
-                {/*    <h4 style={{color: '#374C76'}}>expand</h4>*/}
-                {/*    <i className={*/}
-                {/*        'fas fa-chevron-down ' + */}
-                {/*        (expanded ? 'inversed' : '')} style={{color: '#374C76'}} >*/}
-                {/*    </i>*/}
-                {/*</div>          */}
+                </div>
             </ContentContainer>
         );
     };
