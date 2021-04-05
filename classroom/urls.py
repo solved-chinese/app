@@ -6,7 +6,7 @@ urlpatterns = [
     path('student/dashboard',
          student_views.StudentDashboardView.as_view(),
          name='student_dashboard'),
-    path('student/join_class/<slug:uuid>',
+    path('student/join_class/',
          student_views.JoinClassView.as_view(),
          name='join_class'),
 

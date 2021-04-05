@@ -1,5 +1,6 @@
 from django.views import View
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import render, redirect
+from django.contrib import messages
 
 from jiezi.utils.mixins import StudentOnlyMixin
 from .models import Class, Student
@@ -7,21 +8,40 @@ from learning.models import LearningProcess
 
 
 class JoinClassView(StudentOnlyMixin, View):
+    def setup(self, request, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
+        self.student = Student.of(request.user)
+
     def get(self, request, *args, **kwargs):
-        student = self.request.user.student
-        class_object = get_object_or_404(Class, uuid=kwargs['uuid'])
-        context = {}
-        if student.klass:
-            context['msg'] = f"You are already in {student.klass}, " \
-                             f"so you can't join another class"
-        else:
-            context['class'] = str(class_object)
-        return render(request, 'classroom/join_class.html', context)
+        if self.student.klass:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                f'You are already in "{self.student.klass.name}" '
+                f'by "{self.student.klass.teacher.display_name}" and cannot '
+                f'join a new class'
+            )
+            return redirect('index')
+        return render(request, 'classroom/join_class.html')
 
     def post(self, request, *args, **kwargs):
-        student = self.request.user.student
-        klass = get_object_or_404(Class, uuid=kwargs['uuid'])
-        student.join_class(klass)
+        code = request.POST.get('code', '').strip().upper()
+        try:
+            klass = Class.objects.get(code__iexact=code)
+        except Class.DoesNotExist:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                f'Class not found with code {code}'
+            )
+            return render(request, 'classroom/join_class.html')
+        messages.add_message(
+            request,
+            messages.SUCCESS,
+            f'You are already in "{self.student.klass.name} '
+            f'by "{self.student.klass.teacher.display_name}'
+        )
+        self.student.join_class(klass)
         return redirect('index')
 
 
@@ -29,10 +49,7 @@ class StudentDashboardView(StudentOnlyMixin, View):
     def get(self, request):
         student = Student.of(request.user)
         if student.klass is None:
-            return render(
-                request, 'utils/simple_response.html',
-                {'content': "Join a class with the link from your teacher."}
-            )
+            return redirect('join_class')
         assignments = student.klass.assignments.all()
         processes = [LearningProcess.of(request.user, assignment.wordset)
                      for assignment in assignments]

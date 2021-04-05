@@ -2,13 +2,15 @@
 
 {% block content %}
 
-  {% if msg %}
-    {{ msg }}
-  {% else %}
-    <p>Join {{ class }}?</p>
-    <form method="post">{% csrf_token %}
+  <form method="post">
+    {% csrf_token %}
+    <div style="text-align: center; margin-top: calc(50vh - 320px);">
+      <label for="code-input">To join a class, please enter the
+        class code given by your teacher. (case insensitive)</label><br>
+      <input id="code-input" type="text" name="code" style="text-transform: uppercase;" autocomplete="off">
+      <br><br>
       <input class="button button-primary" type="submit" value="Join">
-    </form>
-  {% endif %}
+    </div>
+  </form>
 
 {% endblock content %}
