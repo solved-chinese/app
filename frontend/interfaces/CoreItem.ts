@@ -46,7 +46,7 @@ export interface Radical extends CoreItem {
     isLearnable: boolean,
 
     /** A list of characters related to the radical. */
-    relatedCharacters: [CharacterShort]
+    relatedCharacters: CharacterShort[]
 }
 
 /**
@@ -60,10 +60,10 @@ interface ItemDefinition {
 
 export interface Character extends CoreItem {
     /** A list of definitions of the character. */
-    definitions: [ItemDefinition],
+    definitions: ItemDefinition[],
 
     /** A list of composing radicals in their URL. */
-    radicals: [string],
+    radicals: string[],
 
     characterType: string,
 
@@ -71,7 +71,7 @@ export interface Character extends CoreItem {
     memoryAid: string,
 
     /** A list of words related to the character. */
-    relatedWords: [WordShort]
+    relatedWords: WordShort[]
 }
 
 interface CharacterShort {
@@ -96,13 +96,13 @@ interface CharacterShort {
 export interface Word extends CoreItem {
 
     /** A list of definitions of the word. */
-    definitions: [ItemDefinition],
+    definitions: ItemDefinition[],
 
     /** A list of sentence objects */
-    sentences: [HighlightedSentence],
+    sentences: HighlightedSentence[],
 
     /** A list of characters within the word, represented with their URL. */
-    characters: [string],
+    characters: string[],
 
     /** A single sentence that helps with memorizing the word. */
     memoryAid: string
