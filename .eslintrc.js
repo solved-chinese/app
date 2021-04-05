@@ -5,6 +5,7 @@ module.exports = {
         'amd': true
     },
     'globals': {
+        'JSX': true,
         'window': true,
         'module': true
     },

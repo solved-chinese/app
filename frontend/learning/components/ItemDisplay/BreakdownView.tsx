@@ -11,6 +11,7 @@ import useLoadChar from '@learning.hooks/useLoadChar';
 import ItemDisplayPopup from './ItemDisplayPopup';
 
 import '@learning.styles/ItemDisplay.css';
+import {Character, Radical} from '@interfaces/CoreItem';
 
 const Row = styled.div`
     display: inline-flex;
@@ -68,25 +69,25 @@ const Explanation = styled.div`
     text-align: center;
 `;
 
-//
+type BreakdownRadProps = {
+    url: string
+}
+
 /** 
  * Render a single character breakdown display using the
  * radical in props.url. Re-render automatically when props.url
  * updates to a new value.
  */
-function BreakdownRad(props) {
+const BreakdownRad = (props: BreakdownRadProps): JSX.Element => {
 
     const radical = useLoadRad(props.url);
 
-    const renderRadical = () => {
+    const renderRadical = (radical: Radical) => {
         const chinese = radical.chinese;
         const def = radical.definition;
         const imageUrl = radical.image;
         const explanation = radical.explanation;
-
-        const audio = radical != null ?
-            new Audio(radical.audioUrl) :
-            null;
+        const audio = new Audio(radical.audioUrl);
 
         return (
             <>
@@ -125,14 +126,10 @@ function BreakdownRad(props) {
     };
 
     if (radical === null) {
-        return 'Loading character data';
+        return React.createElement('Loading character data');
     } else {
         return renderRadical(radical);
     }
-}
-
-BreakdownRad.propTypes = {
-    url: PropTypes.string.isRequired
 };
 
 const CharDefList = styled.ul`
@@ -149,16 +146,20 @@ const CharDefListItem = styled.li`
     line-height: 1.75em;
 `;
 
+type BreakdownCharProps = {
+    url: string
+}
+
 /** 
  * Render a single word breakdown display using the
  * character in props.url. Re-render automatically 
  * when props.url updates to a new value.
  */
-function BreakdownChar(props) {
+const BreakdownChar = (props: BreakdownCharProps): JSX.Element => {
 
     const character = useLoadChar(props.url);
 
-    const renderDefinitions = (definitions) => {
+    const renderDefinitions = (definitions: string[]) => {
         return (
             <CharDefList>
                 { definitions.map( (elem, i) => {
@@ -172,21 +173,10 @@ function BreakdownChar(props) {
                     );
                 })}
             </CharDefList>
-            // if need to make bullet point larger
-            // <ul className="point-list">
-            //     {definitions.map( (elem, i) => {
-            //         return(
-            //             <div key={i} className='use-serifs' >
-            //                 <p>·</p>
-            //                 {elem}
-            //             </div>
-            //         );
-            //     })}
-            // </ul>
         );
     };
 
-    const renderCharacter = () => {
+    const renderCharacter = (character: Character) => {
         const definitions = character.definitions.map( v => 
             v.definition
         );
@@ -217,14 +207,10 @@ function BreakdownChar(props) {
     };
 
     if (character === null) {
-        return 'Loading character data';
+        return React.createElement('Loading character data');
     } else {
         return renderCharacter(character);
     }
-}
-
-BreakdownChar.propTypes = {
-    url: PropTypes.string.isRequired
 };
 
 const MemoryAidHeading = styled.h2`
@@ -247,15 +233,19 @@ const MemoryAidContent = styled.div`
     font-weight: 400;
 `;
 
+type MemoryAidViewProps = {
+    /** The associated memory aid sentence. */
+    content: string
+}
+
 /**
  * Renders a <MemoryAidView /> component.
  */
-function MemoryAidView(props) {
+const MemoryAidView = (props: MemoryAidViewProps): JSX.Element | null => {
 
     let content = props.content;
 
-    if (!content || content === 'TODO')
-        return null;
+    if (!content || content === 'TODO') return null;
 
     content = content.replace(
         new RegExp('<([\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]+)>',
@@ -278,31 +268,30 @@ function MemoryAidView(props) {
             />
         </>
     );
-}
-
-MemoryAidView.propTypes = {
-    /** The associated memory aid sentence. */
-    content: PropTypes.string
 };
 
+type BreakdownViewProps = {
+    /** The type of breakdown components. */
+    type: 'radical' | 'word',
+
+    /** URLs of the breakdown components. */
+    componentURL: string[],
+
+    /** The associated memory aid sentence. */
+    memoryAid: string,
+
+    /** Whether the breakdown view is always expanded. */
+    alwaysDisplay: boolean
+}
+
+type BreakdownViewState = {
+    show: boolean
+}
+
 /** Renders a breakdown view for a word or character */
-export default class BreakdownView extends React.Component {
+export default class BreakdownView extends React.Component<BreakdownViewProps, BreakdownViewState> {
 
-    static propTypes = {
-        /** The type of breakdown components. */
-        type: PropTypes.oneOf(['radical', 'word']),
-
-        /** URLs of the breakdown components. */
-        componentURL: PropTypes.arrayOf(PropTypes.string),
-
-        /** The associated memory aid sentence. */
-        memoryAid: PropTypes.string,
-
-        /** Whether the breakdown view is always expanded. */
-        alwaysDisplay: PropTypes.bool
-    }
-
-    constructor(props) {
+    constructor(props: BreakdownViewProps) {
         super(props);
         this.state = {
             show: this.props.alwaysDisplay
@@ -313,9 +302,8 @@ export default class BreakdownView extends React.Component {
     /**
      * Render the character breakdown for each radical 
      * specified in the urls.
-     * @param {[String]} urls 
      */
-    renderBreakdownRad(urls) {
+    renderBreakdownRad(urls: string[]) {
         // It is possible to have two breakdown items with the
         // same content (and url), and therefore we cannot use
         // urls as the keys.
@@ -332,9 +320,8 @@ export default class BreakdownView extends React.Component {
     /**
      * Render the word breakdown for each character 
      * specified in the urls.
-     * @param {[String]} urls 
      */
-    renderBreakdownChar(urls) {
+    renderBreakdownChar(urls: string[]) {
         // It is possible to have two breakdown items with the
         // same content (and url), and therefore we cannot use
         // url as the key.
