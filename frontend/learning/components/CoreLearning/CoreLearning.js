@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import ProgressBar from './ProgressBar';
-import ItemDisplay from 
+import ItemDisplay from
     '@learning.components/ItemDisplay/ItemDisplay';
 import ReviewQuestion from 
     '@learning.components/ReviewQuestion/ReviewQuestion';
@@ -37,7 +37,7 @@ const ExitButton = styled.button`
 
 
 import '@learning.styles/CoreLearning.css';
-import styled from "styled-components";
+import styled from 'styled-components';
 /**
  * The main component for users' learning experience. The component
  * will present a set of dynamically determined series of learning 
@@ -128,13 +128,13 @@ export default function CoreLearning(props) {
         <>
             {renderProgressBar()}
             <Title>
-                Woohoo! {"\u{1f389}"}
+                Woohoo! {'\u{1f389}'}
             </Title>
             <Title>
                 You've completed the assignment :)
             </Title>
             <ExitButton onClick={(e) => {
-                e.preventDefault(); window.location.href = `/`;}}>
+                e.preventDefault(); window.location.href = '/';}}>
                 Return to Dashboard
             </ExitButton>
         </>

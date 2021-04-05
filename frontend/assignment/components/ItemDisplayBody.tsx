@@ -50,6 +50,7 @@ ItemDisplayBody.propTypes = {
     objectList: PropTypes.arrayOf(PropTypes.object),
     curObject: PropTypes.object,
     setCurObject: PropTypes.func,
+    displayRef: PropTypes.any
 };
 
 const PageControlContainer = styled.div`

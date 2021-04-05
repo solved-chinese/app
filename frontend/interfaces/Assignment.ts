@@ -1,7 +1,7 @@
 import ProgressBar from './ProgressBar';
 
 export interface Assignment {
-    name: String,
+    name: string,
     progressBar: ProgressBar,
     wordList: [SimpleContentObject],
     characterList: [SimpleContentObject],
@@ -9,9 +9,9 @@ export interface Assignment {
 }
 
 interface SimpleContentObject {
-    type: String,
-    qid: String,
+    type: string,
+    qid: string,
     status: 'mastered'|'familiar'|'remaining',
-    chinese: String,
-    pinyin: String,
+    chinese: string,
+    pinyin: string,
 }

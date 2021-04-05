@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes, { any } from 'prop-types';
+import PropTypes from 'prop-types';
 
 import CharDisplay from './CharacterDisplay/CharDisplay';
 import WordDisplay from './WordDisplay/WordDisplay';
@@ -31,9 +31,8 @@ const NextButton = styled.button`
 /**
  * Statically display an item (word, character, or radical) 
  * using an ItemDescriptor.
- * @param { ItemDescriptor } props 
  */
-export default function ItemDisplay(props) {
+export default function ItemDisplay(props: ItemDescriptor) {
     
     const renderSwitch = (type, qid) => {
         switch (type) {
@@ -51,8 +50,8 @@ export default function ItemDisplay(props) {
     const renderNext = () => {
         if (props.onActionNext != null)
             return (
-                <div align='right'>
-                    <NextButton onClick={props.onActionNext}>
+                <div>
+                    <NextButton onClick={() => props.onActionNext()}>
                         Next
                     </NextButton>
                 </div>
@@ -62,7 +61,7 @@ export default function ItemDisplay(props) {
     return (
         <>
             <div className='content-card-container box-shadow'
-                ref={props.displayRef} tabIndex="0" style={{outline: 'none'}}
+                ref={props.displayRef} tabIndex={0} style={{outline: 'none'}}
             >
                 { renderSwitch(props.type, props.qid) }
             </div>

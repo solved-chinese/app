@@ -54,5 +54,6 @@ export interface ItemDescriptor {
     qid: Number,
     type: String,
     hasNext: Boolean,
-    onActionNext: Function
+    onActionNext: Function,
+    displayRef: any
 }

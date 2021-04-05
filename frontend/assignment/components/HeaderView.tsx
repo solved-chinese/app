@@ -49,7 +49,7 @@ const BackButton = styled.button`
 export default function HeaderView(props) {
     return (
         <>
-            <BackButton onClick={() => {window.location='/';}}> &lt; Back to Dashboard </BackButton>
+            <BackButton onClick={() => {window.location.href='/';}}> &lt; Back to Dashboard </BackButton>
             <Title className='use-serifs'>{props.name}</Title>
             <CompleteButton onClick={props.onActionComplete}>
                 Complete Assignment

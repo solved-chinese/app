@@ -28,20 +28,6 @@ const RelatedContainer = styled.div`
     font-size: 1.2em;
 `;
 
-const RelatedContainerLeft = styled.div`
-    column-width: 20%;
-    margin-right: 10px;
-    font-weight: 600;
-    font-size: 1em;
-`;
-
-const RelatedContainerRight = styled.div`
-    column-width: auto;
-    overflow: hidden;
-    font-weight: 600;
-    font-size: 1em;
-`;
-
 const Headings = styled.h1`
     font-size: 1.5em;
     font-weight: 600;
@@ -55,12 +41,12 @@ export default function AssignmentDisplay(props) {
     // const [expanded, setExpanded] = useState(false);
 
     const onActionComplete = () => {
-        window.location = `/learning/${props.qid}`;
+        window.location.href = `/learning/${props.qid}`;
     };
 
     const renderChinese = (obj) => {
         if (obj.type === 'radical')
-            return <img src={obj.chinese}/>; // TODO make this smaller
+            return <img src={obj.chinese} alt={obj.chinese}/>; // TODO make this smaller
         return obj.chinese;
     };
 
@@ -68,7 +54,7 @@ export default function AssignmentDisplay(props) {
         return objects.map((obj, index) => {
             // TODO make status that beautiful bar thing
             return (
-                <RelatedContainer key={index} align='left'
+                <RelatedContainer key={index}
                     onClick={()=>{
                         setCurObject(obj);
                         displayRef.current.focus();
