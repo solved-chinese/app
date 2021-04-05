@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
 import camelcaseKeys from 'camelcase-keys';
 
 import { Assignment } from '@interfaces/Assignment';

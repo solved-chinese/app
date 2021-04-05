@@ -4,14 +4,13 @@
   "description": "*Solve Chinese characters like riddles.*",
   "main": "index.js",
   "dependencies": {
-    "core-js": "^3.8.1",
+    "@babel/plugin-transform-runtime": "^7.13.10",
     "hanzi-writer": "^3.0.2",
     "jquery": "^3.5.1",
     "prop-types": "^15.7.2",
     "react-content-loader": "^5.1.4",
     "react-modal": "^3.12.1",
     "react-router-dom": "^5.2.0",
-    "regenerator-runtime": "^0.13.7",
     "styled-components": "^5.2.1"
   },
   "devDependencies": {

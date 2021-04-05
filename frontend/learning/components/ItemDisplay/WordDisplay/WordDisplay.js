@@ -1,6 +1,4 @@
 import React from 'react';
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -9,12 +7,11 @@ import ExampleSentences from './ExampleSentences';
 
 import BreakdownView from '@learning.components/ItemDisplay/BreakdownView';
 import LoadingView from '@learning.components/ItemDisplay/LoadingView';
-import useLoadWord from '@learning.hooks/useLoadWord.js';
-import CharDisplay from '@learning.components/ItemDisplay/CharacterDisplay/CharDisplay';
+import useLoadWord from '@learning.hooks/useLoadWord.ts';
 
 import { Word } from '@interfaces/CoreItem';
 
-//Top and Bottom Containters
+//Top and Bottom Containers
 const ContainerTop = styled.div`
     display: flex;
     justify-content: center;

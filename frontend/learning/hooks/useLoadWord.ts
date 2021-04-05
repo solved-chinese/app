@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react';
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
 import camelcaseKeys from 'camelcase-keys';
-import { async } from 'regenerator-runtime/runtime';
 
 import { Word } from '@interfaces/CoreItem';
 import Constant from '@utils/constant';
@@ -12,11 +9,8 @@ import Constant from '@utils/constant';
  * loading. The function will automatically reload the
  * returned word if the URL that's passed in changes. 
  * Reattempt in 5 seconds if loading fails.
- * @param {String} url 
- * 
- * @returns {Word | null}
  */
-export default function useLoadWord(url) {
+export default function useLoadWord(url: string): Word | null {
 
     const [word, setWord] = useState(null);
 

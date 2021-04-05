@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
 import camelcaseKeys from 'camelcase-keys';
 
 import { Character } from '@interfaces/CoreItem';
@@ -11,11 +9,8 @@ import Constant from '@utils/constant';
  * loading. The function will automatically reload the
  * returned character if the URL that's passed in changes. 
  * Reattempt in 5 seconds if loading fails.
- * @param {String} url 
- * 
- * @return {Character | null}
  */
-export default function useLoadChar(url) {
+export default function useLoadChar(url: string): Character {
 
     const [character, setCharacter] = useState(null);
 

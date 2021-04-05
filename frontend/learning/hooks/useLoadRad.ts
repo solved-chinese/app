@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
 import camelcaseKeys from 'camelcase-keys';
 
 import { Radical } from '@interfaces/CoreItem';
@@ -11,11 +9,8 @@ import Constant from '@utils/constant';
  * loading. The function will automatically reload the
  * returned radical if the URL that's passed in changes. 
  * Reattempt in 5 seconds if loading fails.
- * @param {String} url 
- * 
- * @returns {Radical | null} The state of the loaded radical
  */
-export default function useLoadRad(url) {
+export default function useLoadRad(url: string): Radical {
 
     const [radical, setRadical] = useState(null);
     

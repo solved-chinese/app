@@ -1,18 +1,16 @@
 import { useState, useEffect } from 'react';
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
 import 'camelcase-keys';
 import ReviewQuestion from '@interfaces/ReviewQuestion';
-import { async } from 'regenerator-runtime/runtime';
 import camelcaseKeys from 'camelcase-keys';
 import Constant from '@utils/constant';
 
 /**
- * Return a hook to the review question provided by the URL.
- * @param {String} url 
- * @returns {ReviewQuestion | null} Review question object
+ * Load the review question from URL, returns null
+ * when it is still loading. The function will automatically update the
+ * word if the URL that's passed in changes.
+ * The function will reattempt in 5 seconds if loading fails.
  */
-export default function useReviewQuestion(url) {
+export default function useReviewQuestion(url: string): ReviewQuestion | null {
 
     const [question, setQuestion] = useState(null);
 
