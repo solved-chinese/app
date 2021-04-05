@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface CoreItem {
     /** Resource url. */
     url: string,
@@ -137,8 +139,9 @@ interface HighlightedSentence {
 export type ItemType = 'word' | 'character' | 'radical'
 
 export type ItemDescriptor = {
-    type: ItemType,
+    type?: ItemType,
     qid: number,
+    hasNext?: boolean,
     onActionNext?: ()=>void,
-    displayRef?: any
+    displayRef: React.RefObject<HTMLDivElement>
 }
