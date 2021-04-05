@@ -55,9 +55,8 @@ module.exports = {
             'error',
             'always'
         ],
-        'no-unused-vars': [
-            'warn'
-        ],
+        // Disable `no-unused-vars, use @typescript-eslint/no-unused-vars instead`
+        'no-unused-vars': 0,
         '@typescript-eslint/no-non-null-assertion': 0
     }
 };
