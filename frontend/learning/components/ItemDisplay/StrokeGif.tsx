@@ -3,7 +3,6 @@ import HanziWriter from 'hanzi-writer';
 import React, {} from 'react';
 import styled from 'styled-components';
 import '@learning.styles/ItemDisplay.css';
-import PropTypes from 'prop-types';
 import {makeID} from '@utils/utils';
 
 const WordContainer = styled.div`
@@ -19,37 +18,43 @@ const CharSVGContainer = styled.div`
 `;
 
 // Enumeration for states
-const WriterState = {
-    STANDBY: 'standby',
-    PLAYING: 'playing',
-    PAUSED: 'paused'
-};
+enum WriterState {
+    STANDBY = 'standby',
+    PLAYING = 'playing',
+    PAUSED = 'paused'
+}
+
+type StrokeGifProps = {
+    item: string
+}
 
 /**
  * Render characters with HanziWriter, allowing clicking for
  * stroke order animations.
  */
-export default class StrokeGif extends React.Component {
+export default class StrokeGif extends React.Component<StrokeGifProps> {
 
-    static propTypes = {
-        item: PropTypes.string.isRequired
-    };
+    private writers: HanziWriter[] = [];
+    private writerStates: WriterState[] = [];
+    private itemsTargetIDs: string[] = [];
+    private items: string[] = [];
+    private itemsTargetRef: React.RefObject<HTMLDivElement>[] = [];
 
-    constructor(props) {
+    constructor(props: StrokeGifProps) {
         super(props);
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.writers = this.getWriters(this.itemsTargetIDs, this.items);
         this.writerStates = this.getInitialWriterStates(this.items.length);
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(): void {
         this.writers = this.getWriters(this.itemsTargetIDs, this.items);
         this.writerStates = this.getInitialWriterStates(this.items.length);
     }
 
-    getWriters(targetIDs, items) {
+    getWriters(targetIDs: string[], items: string[]): HanziWriter[] {
         return targetIDs.map((value, index) =>
             HanziWriter.create(value, items[index], {
                 width: 60,
@@ -59,21 +64,21 @@ export default class StrokeGif extends React.Component {
                 showCharacter: true,
                 strokeColor: '#303545',
                 onLoadCharDataError: () => {
-                    this.itemsTargetRef[index].current.innerText = items[index];
+                    this.itemsTargetRef[index].current!.innerText = items[index];
                 }
             })
         );
     }
 
-    getInitialWriterStates(n) {
-        let arr = [];
+    getInitialWriterStates(n: number): WriterState[] {
+        const arr = [];
         for (let i = 0; i < n; i++) {
             arr.push(WriterState.STANDBY);
         }
         return arr;
     }
 
-    renderWriterTarget() {
+    renderWriterTarget(): JSX.Element[] {
         return this.itemsTargetIDs.map(
             (id, index) =>
                 <CharSVGContainer
@@ -85,14 +90,8 @@ export default class StrokeGif extends React.Component {
         );
     }
 
-    nextWriterStates(prevStates, index, newState) {
-        let arr = prevStates.writerStates.map((v) => v);
-        arr[index] = newState;
-        return arr;
-    }
-
-    writerCallback(index) {
-        let writer = this.writers[index];
+    writerCallback(index: number): void {
+        const writer = this.writers[index];
         switch (this.writerStates[index]) {
         case WriterState.STANDBY:
             writer.animateCharacter({
@@ -113,7 +112,7 @@ export default class StrokeGif extends React.Component {
         }
     }
 
-    render() {
+    render(): JSX.Element {
         this.items = this.props.item.split('');
         this.itemsTargetIDs = this.items.map((value, index) =>
             `writer-target-${index}-${makeID(5)}`);
