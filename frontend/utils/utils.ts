@@ -3,7 +3,7 @@
  * @param length
  * @return {string}
  */
-export function makeid(length) {
+export function makeID(length: number): string {
     let result = '';
     let characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
     let charactersLength = characters.length;

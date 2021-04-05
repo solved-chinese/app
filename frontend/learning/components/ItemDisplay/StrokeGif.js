@@ -4,7 +4,7 @@ import React, {} from 'react';
 import styled from 'styled-components';
 import '@learning.styles/ItemDisplay.css';
 import PropTypes from 'prop-types';
-import {makeid} from '@utils/utils';
+import {makeID} from '@utils/utils';
 
 const WordContainer = styled.div`
     display: flex;
@@ -116,7 +116,7 @@ export default class StrokeGif extends React.Component {
     render() {
         this.items = this.props.item.split('');
         this.itemsTargetIDs = this.items.map((value, index) =>
-            `writer-target-${index}-${makeid(5)}`);
+            `writer-target-${index}-${makeID(5)}`);
         this.itemsTargetRef = this.itemsTargetIDs.map(() => React.createRef() );
 
         return (
