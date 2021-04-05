@@ -35,13 +35,13 @@ class JoinClassView(StudentOnlyMixin, View):
                 f'Class not found with code {code}'
             )
             return render(request, 'classroom/join_class.html')
+        self.student.join_class(klass)
         messages.add_message(
             request,
             messages.SUCCESS,
-            f'You are already in "{self.student.klass.name} '
+            f'You have now joined "{self.student.klass.name} '
             f'by "{self.student.klass.teacher.display_name}'
         )
-        self.student.join_class(klass)
         return redirect('index')
 
 
