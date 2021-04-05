@@ -28,6 +28,6 @@ export default function useLoadWord(url: string): Word | null {
         setWord(camelcaseKeys(data, {deep: true}));
     };
 
-    useEffect(loadData, [url]);
+    useEffect(() => { loadData(); }, [url]);
     return word;
 }

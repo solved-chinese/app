@@ -26,7 +26,7 @@ export default function useReviewQuestion(url: string): ReviewQuestion | null {
         }
     };
 
-    useEffect(loadData, [url]);
+    useEffect( () => { loadData(); }, [url]);
 
     return question;
 }

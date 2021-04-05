@@ -10,7 +10,7 @@ import Constant from '@utils/constant';
  * returned radical if the URL that's passed in changes. 
  * Reattempt in 5 seconds if loading fails.
  */
-export default function useLoadRad(url: string): Radical {
+export default function useLoadRad(url: string): Radical | null {
 
     const [radical, setRadical] = useState(null);
     
@@ -27,6 +27,6 @@ export default function useLoadRad(url: string): Radical {
     };
 
     // If the url changes, reload data
-    useEffect(loadData, [url]);
+    useEffect(() => { loadData(); }, [url]);
     return radical;
 }
