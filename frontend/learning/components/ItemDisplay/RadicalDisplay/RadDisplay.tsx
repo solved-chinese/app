@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 import RelatedItems from '@learning.components/ItemDisplay/RelatedItems';
 import LoadingView from '@learning.components/ItemDisplay/LoadingView';
@@ -61,17 +60,31 @@ const Explanation = styled.div`
     text-align: center;
 `;
 
+type Props = {
+    /**
+     * The radical object to be rendered, if not provided,
+     * the url param will be used to fetch the object.
+     */
+    radical?: Radical,
+
+    /**
+     * URL of the radical to be rendered, if it
+     * is not provided, then the qid is used to construct
+     * the url.
+     */
+    url?: string,
+
+    /**
+     * The query id of the radical to be rendered, will
+     * be omitted if url is present and not null.
+     */
+    qid?: number,
+}
+
 /**
  * The main function that renders a radical view.
- * @param {?Radical} props.radical The radical object to be rendered,
- * if not provided, the url param will be used to fetch the object.
- * @param {?string} props.url URL of the radical to be rendered, if
- * not provided, the qid is used to construct the url.
- * @param {?number} props.qid The query id of the radical to be
- * rendered, will be omitted if either url or radical is not null.
- * @returns {JSX.Element}
  */
-export default function RadDisplay(props) {
+const RadDisplay = (props: Props): JSX.Element => {
 
     const radical = props.radical == null?
         useLoadRad(props.url == null ?
@@ -82,7 +95,7 @@ export default function RadDisplay(props) {
         new Audio(radical.audioUrl) :
         null;
 
-    const renderRadical = () => {
+    const renderRadical = (radical: Radical) => {
         const chinese = radical.chinese;
         const def = radical.definition;
         const explanation = radical.explanation;
@@ -98,7 +111,7 @@ export default function RadDisplay(props) {
                                 { radical.pinyin }
                                 <SpeakButton 
                                     className='fas fa-volume'
-                                    onClick={() => audio.play()}
+                                    onClick={() => audio?.play()}
                                 />
                             </Phonetic>
                         )}
@@ -127,45 +140,30 @@ export default function RadDisplay(props) {
     if (radical === null) {
         return <LoadingView />;
     } else {
-        return renderRadical();
+        return renderRadical(radical);
     }
-}
-
-RadDisplay.propTypes = {
-    /**
-     * The radical object to be rendered, if not provided,
-     * the url param will be used to fetch the object.
-     */
-    radical: PropTypes.object,
-
-    /**
-     * URL of the radical to be rendered, if it
-     * is not provided, then the qid is used to construct
-     * the url.
-     */
-    url: PropTypes.string,
-
-    /**
-     * The query id of the radical to be rendered, will
-     * be omitted if url is present and not null.
-     */
-    qid: PropTypes.number,
 };
 
-export class RadImage extends React.Component {
+export default RadDisplay;
 
-    static propTypes = {
-        /** Url of the radical image */
-        url: PropTypes.string,
+type RadImageProps = {
+    /** Url of the radical image */
+    url: string,
 
-        /**
-         * The text radical to be displayed, in case
-         * of an error.
-         */
-        radical: PropTypes.string
-    }
+    /**
+     * The text radical to be displayed, in case
+     * of an error.
+     */
+    radical: string
+}
 
-    constructor(props) {
+type RadImageState = {
+    errored: boolean
+}
+
+export class RadImage extends React.Component<RadImageProps, RadImageState> {
+
+    constructor(props: RadImageProps) {
         super(props);
         this.state = {
             errored: false
@@ -176,13 +174,13 @@ export class RadImage extends React.Component {
      * Callback function when there's an error loading
      * the img tag.
      */
-    onError = () => {
+    onError = (): void => {
         this.setState({ errored: true });
     }
 
-    render() {
+    render(): JSX.Element {
         const {radical, url} = this.props;
-        return this.state.errored ? radical : (
+        return this.state.errored ? <>radical</> : (
             <img src={url} alt={radical} onError={this.onError} />
         );
     }
