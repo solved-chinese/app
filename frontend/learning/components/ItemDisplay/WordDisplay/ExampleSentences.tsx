@@ -1,30 +1,37 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
 import '@learning.styles/ItemDisplay.css';
-import styled from "styled-components";
+import styled from 'styled-components';
+import {Word} from '@interfaces/CoreItem';
 
 const SpeakButton = styled.i`
-    float: right;.
+    float: right;
     font-weight: 200;
     cursor: pointer;
 `;
 
-function ExampleSentences(props) {
+type Props = {
+    pinyin: string,
+    chinese: string,
+    translation: string,
+    audioURL: string,
+    word: Word
+}
+
+const ExampleSentences = (props: Props): JSX.Element => {
     const audio = new Audio(props.audioURL);
 
     //Add color to the keyword in sentences
     const pinyin = props.pinyin.replace(
         new RegExp('<(.*?)>', 'g'),
-        `<span class='use-serifs' style='color: #00838F'>$1</span>`
+        '<span class=\'use-serifs\' style=\'color: #00838F\'>$1</span>'
     );
     const chinese = props.chinese.replace(
         new RegExp('<(.*?)>', 'g'),
-        `<span class='use-serifs' style='color: #00838F'>$1</span>`
+        '<span class=\'use-serifs\' style=\'color: #00838F\'>$1</span>'
     );
     const translation = props.translation.replace(
         new RegExp('<(.*?)>', 'g'),
-        `<span class='use-serifs' style='color: #00838F'>$1</span>`
+        '<span class=\'use-serifs\' style=\'color: #00838F\'>$1</span>'
     );
 
     //Output the sentences with HTML <span>
@@ -33,7 +40,7 @@ function ExampleSentences(props) {
             <SpeakButton
                 className='fas fa-volume'
                 onClick={() => audio.play()}
-            ></SpeakButton>
+            />
             <div 
                 className='sentence-pinyin use-chinese' 
                 dangerouslySetInnerHTML={{__html: pinyin}}
@@ -47,17 +54,7 @@ function ExampleSentences(props) {
                 dangerouslySetInnerHTML={{__html: translation}}
             />
         </div>
-    
     );
-}
-
-ExampleSentences.propTypes = {
-    pinyin: PropTypes.string,
-    chinese: PropTypes.string,
-    translation: PropTypes.string,
-    audioURL: PropTypes.string,
-
-    word: PropTypes.object
 };
 
 export default ExampleSentences;

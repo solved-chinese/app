@@ -103,7 +103,11 @@ export interface Word extends CoreItem {
     /** A list of sentence objects */
     sentences: HighlightedSentence[],
 
-    /** A list of characters within the word, represented with their URL. */
+    /**
+     * A list of characters within the word, represented with their URL.
+     * If the word only has a single character, the only item becomes the
+     * radical urls joined together with a semicolon.
+     */
     characters: string[],
 
     /** A single sentence that helps with memorizing the word. */
