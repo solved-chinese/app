@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import CharDefinition from './CharDefinition';
@@ -23,19 +22,36 @@ const Row = styled.div`
     }
 `;
 
+type Props = {
+    /**
+     *  The character object to be rendered, if not provided,
+     *  url will be used to fetch the object.
+     */
+    character?: Character,
+
+    /**
+     * The URL of the character to be rendered, if it
+     * is not provided, then the qid is used to construct
+     * the url.
+     */
+    url?: string,
+
+    /**
+     * The query id of the character to be rendered, will
+     * be omitted if url is present and not null.
+     */
+    qid?: number,
+
+    /**
+     * Whether the breakdown view is always expanded.
+     */
+    autoExpandBreakdown?: boolean,
+}
+
 /**
  * The main function that renders a character view.
- * @param {?Character} props.character The character object to be rendered,
- * if not provided, the url param will be used to fetch the object.
- * @param {?string} props.url The URL of the character to be rendered, if
- * not provided, the qid is used to construct the url.
- * @param {?number} props.qid The query id of the character to be rendered,
- * will be omitted if either character or url is not null.
- * @param {?boolean} props.autoExpandBreakdown Whether the breakdown view is
- * always expanded.
- * @returns {JSX.Element}
  */
-export default function CharDisplay(props) {
+const CharDisplay = (props: Props): JSX.Element => {
 
     const character = props.character == null?
         useLoadChar(
@@ -43,10 +59,11 @@ export default function CharDisplay(props) {
                 `/content/character/${props.qid}` : props.url
         ) : props.character;
 
-    const renderCharacter = () => {
+    const renderCharacter = (character: Character) => {
         const definitions = character.definitions.map( v => 
             v.definition
         );
+        const autoExpandBreakdown = props.autoExpandBreakdown ?? true;
         return (
             <>
                 <Row>
@@ -67,7 +84,7 @@ export default function CharDisplay(props) {
                 <BreakdownView type='radical'
                     componentURL={character.radicals}
                     memoryAid={character.memoryAid}
-                    alwaysDisplay={props.autoExpandBreakdown}
+                    alwaysDisplay={autoExpandBreakdown}
                 />
             </>
         );
@@ -78,34 +95,6 @@ export default function CharDisplay(props) {
     } else {
         return renderCharacter(character);
     }
-}
-
-CharDisplay.propTypes = {
-    /**
-     *  The character object to be rendered, if not provided,
-     *  url will be used to fetch the object.
-     */
-    character: PropTypes.object,
-
-    /**
-     * The URL of the character to be rendered, if it
-     * is not provided, then the qid is used to construct
-     * the url.
-     */
-    url: PropTypes.string,
-
-    /**
-     * The query id of the character to be rendered, will
-     * be omitted if url is present and not null.
-     */
-    qid: PropTypes.number,
-
-    /**
-     * Whether the breakdown view is always expanded.
-     */
-    autoExpandBreakdown: PropTypes.bool,
 };
 
-CharDisplay.defaultProps = {
-    autoExpandBreakdown: true,
-};
+export default CharDisplay;

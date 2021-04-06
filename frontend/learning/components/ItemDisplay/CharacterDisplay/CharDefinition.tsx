@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import '@learning.styles/ItemDisplay.css';
@@ -25,7 +24,12 @@ const ListItem = styled.li`
     line-height: 1.75em;
 `;
 
-export default function CharDefinition(props) {
+type Props = {
+    /** The definitions to be displayed */
+    definitions: string[]
+}
+
+const CharDefinition = (props: Props): JSX.Element => {
     return (
         <DefinitionList>
             <ListTitle>Definitions:</ListTitle>
@@ -38,11 +42,6 @@ export default function CharDefinition(props) {
             })}
         </DefinitionList>
     );
-}
-
-CharDefinition.propTypes = {
-    /** The definitions to be displayed */
-    definitions: PropTypes.arrayOf(
-        PropTypes.string
-    ) 
 };
+
+export default CharDefinition;
