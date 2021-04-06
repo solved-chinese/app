@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import '@learning.styles/ItemDisplay.css';
 import ItemPhonetic from '@learning.components/ItemDisplay/ItemPhonetic';
+import {ItemDefinition} from '@interfaces/CoreItem';
 
 const TableContainer = styled.table`
     margin-left: 70px;
@@ -27,7 +27,11 @@ const ListTitle = styled.th`
     line-height: 1em;
 `;
 
-function Definitions(props) {
+type DefinitionsProps = {
+    definitions: ItemDefinition[]
+}
+
+const Definitions = (props: DefinitionsProps): JSX.Element => {
 
     const definitions = props.definitions.map((d, index) => {
         return (
@@ -52,13 +56,26 @@ function Definitions(props) {
             </tbody>
         </TableContainer>
     );
-}
-
-Definitions.propTypes = {
-    definitions: PropTypes.any
 };
 
-export default function WordDefinition(props) {
+type WordDefinitionProps = {
+    /** The word in chinese */
+    chinese: string,
+
+    /** Resource URL of the audio pronunciation */
+    audioURL: string,
+
+    /** Pronunciation in pinyin */
+    pinyin: string,
+
+    /**
+     * A list of definitions associated with the word.
+     * A definition object contains two entries: the
+     * definition string and its part of speech.
+     */
+    definitions: ItemDefinition[]
+}
+const WordDefinition = (props: WordDefinitionProps): JSX.Element => {
 
     return (
         <>
@@ -73,26 +90,6 @@ export default function WordDefinition(props) {
             />
         </>
     );
-}
-
-WordDefinition.propTypes = {
-    /** The word in chinese */
-    chinese: PropTypes.string.isRequired,
-
-    /** Resource URL of the audio pronunciation */
-    audioURL: PropTypes.string.isRequired,
-
-    /** Pronunciation in pinyin */
-    pinyin: PropTypes.string.isRequired,
-
-    /** A list of definitions associated with the word.
-     * A definition object contains two entries: the
-     * definition string and its part of speech.
-     */
-    definitions: PropTypes.arrayOf(
-        PropTypes.shape({
-            part_of_speech: PropTypes.string,
-            definition: PropTypes.string
-        })
-    ),
 };
+
+export default WordDefinition;
