@@ -81,9 +81,15 @@ class WordSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_characters(self, word):
         characters = word.characters.order_by('characterinword')
-        if len(word.chinese) == 1:
-            l = [CharacterSerializer(characters.first(),
-                                     context=self.context).data]
+        # for single char word, give a list of a length 1, containing radical
+        # urls separated by semicolon.
+        if characters.count() == 1:
+            l = [';'.join(
+                 reverse('radical-detail',
+                         kwargs={'pk': radical.pk},
+                         request=self.context['request'])
+                 for radical in characters.first()
+                     .radicals.order_by('radicalincharacter'))]
         else:
             l = [reverse('character-detail',
                          kwargs={'pk': character.pk},
