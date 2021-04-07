@@ -1,8 +1,12 @@
 import React from 'react';
 import AssignmentDisplay from '@assignment.components/AssignmentDisplay';
-import {LearningObjectDescriptor} from '@interfaces/CoreLearning';
 
-export default class App extends React.Component<LearningObjectDescriptor> {
+type Props = {
+    action: string,
+    content: {qid: number}
+}
+
+export default class App extends React.Component<Props> {
 
     render(): JSX.Element {
         switch (this.props.action) {
