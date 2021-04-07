@@ -1,5 +1,5 @@
-import {ProgressBarData} from '@interfaces/CoreLearning';
-import {ItemType} from '@interfaces/CoreItem';
+import { ProgressBarData } from '@interfaces/CoreLearning';
+import { ItemType } from '@interfaces/CoreItem';
 
 export interface Assignment {
     name: string,
