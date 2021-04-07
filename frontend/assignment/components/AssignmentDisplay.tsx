@@ -7,7 +7,7 @@ import useLoadAssignment from '@assignment.hooks/useLoadAssignment';
 import ProgressBar from '@learning.components/CoreLearning/ProgressBar';
 
 import '@assignment.styles/AssignmentDisplay.css';
-import {SimpleContentObject} from '@interfaces/Assignment';
+import {Assignment, SimpleContentObject} from '@interfaces/Assignment';
 
 // Containers
 const ContentContainer = styled.div`
@@ -38,11 +38,11 @@ type Props = {
 }
 
 const AssignmentDisplay = (props: Props): JSX.Element => {
-    const assignment = useLoadAssignment(`/learning/api/assignment/${props.qid}`);
-    const displayRef = useRef<HTMLElement>(null);
-
     const [curObject, setCurObject] = useState<SimpleContentObject | null>(null);
-    // const [expanded, setExpanded] = useState(false);
+    const assignment = useLoadAssignment(`/learning/api/assignment/${props.qid}`, (assignment => {
+        setCurObject(assignment.wordList[0]);
+    }));
+    const displayRef = useRef<HTMLDivElement>(null);
 
     const onActionComplete = () => {
         window.location.href = `/learning/${props.qid}`;
@@ -75,15 +75,19 @@ const AssignmentDisplay = (props: Props): JSX.Element => {
         });
     };
 
-    const renderAssignment = () => {
+    const renderAssignment = (assignment: Assignment) => {
         return (
             <ContentContainer>
-                <HeaderView name={assignment.name} onActionComplete={onActionComplete}/>
+                <HeaderView
+                    name={assignment.name}
+                    onActionComplete={onActionComplete}
+                />
                 <ProgressBar {...assignment.progressBar}/>
-                <ItemDisplayBody objectList={assignment.wordList}
+                <ItemDisplayBody
+                    objectList={assignment.wordList}
                     displayRef={displayRef}
-                    curObject={curObject}
-                    setCurObject={setCurObject}
+                    curObject={curObject!}
+                    setCurObject={object => setCurObject(object)}
                 />
                 <br/><br/>
                 <Headings>Terms in this set ({assignment.wordList.length})</Headings>
@@ -101,7 +105,7 @@ const AssignmentDisplay = (props: Props): JSX.Element => {
     if (assignment === null)
         return (<>loading assignment</>);
     else
-        return renderAssignment();
+        return renderAssignment(assignment);
 };
 
 export default AssignmentDisplay;

@@ -1,16 +1,17 @@
-import ProgressBar from './ProgressBar';
+import {ProgressBarData} from '@interfaces/CoreLearning';
+import {ItemType} from '@interfaces/CoreItem';
 
 export interface Assignment {
     name: string,
-    progressBar: ProgressBar,
+    progressBar: ProgressBarData,
     wordList: SimpleContentObject[],
     characterList: SimpleContentObject[],
     radicalList: SimpleContentObject[],
 }
 
 export interface SimpleContentObject {
-    type: string,
-    qid: string,
+    type: ItemType,
+    qid: number,
     status: 'mastered' | 'familiar' | 'remaining',
     chinese: string,
     pinyin: string,

@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ItemDisplay from '@learning.components/ItemDisplay/ItemDisplay';
 import '@assignment.styles/ItemDisplayBody.css';
+import {SimpleContentObject} from '@interfaces/Assignment';
 
+type ItemDisplayBodyProps = {
+    objectList: SimpleContentObject[],
+    curObject: SimpleContentObject,
+    setCurObject: (object: SimpleContentObject)=>void,
+    displayRef: React.RefObject<HTMLDivElement>
+}
 
-export default function ItemDisplayBody(props) {
-    const [curPage, setCurPage] = useState(1);
-
+const ItemDisplayBody = (props: ItemDisplayBodyProps): JSX.Element => {
+    const [curPage, setCurPage] = useState<number>(1);
     useEffect(() => {
         const index = props.objectList.findIndex(obj =>
             obj === props.curObject);
         if (index === -1)
-            setCurPage(null);
+            console.error('Unable to find index for the current object');
+            // TODO: Error Handling
         else if (index !== curPage)
             setCurPage(index + 1);
     }, [props.curObject]);
@@ -30,7 +36,8 @@ export default function ItemDisplayBody(props) {
                 qid={props.curObject.qid}
                 type={props.curObject.type}
                 displayRef={props.displayRef}
-                hasNext={false} onActionNext={null}/>;
+                hasNext={false}
+            />;
     };
 
     return (
@@ -44,14 +51,10 @@ export default function ItemDisplayBody(props) {
             {displayItem()}
         </>
     );
-}
-
-ItemDisplayBody.propTypes = {
-    objectList: PropTypes.arrayOf(PropTypes.object),
-    curObject: PropTypes.object,
-    setCurObject: PropTypes.func,
-    displayRef: PropTypes.any
 };
+
+export default ItemDisplayBody;
+
 
 const PageControlContainer = styled.div`
     display: flex;
@@ -63,10 +66,17 @@ const PageControlContainer = styled.div`
     width: 100px;
 `;
 
-function PageControl(props) {
+type PageControlProps = {
+    curPage: number,
+    setCurPage: (arg0: number)=>void,
+    maxPage: number,
+    isTransitioning: boolean
+}
+
+export const PageControl = (props: PageControlProps): JSX.Element | null => {
     const pageControlLabelString = `${props.curPage}/${props.maxPage}`;
 
-    const handleClick = (dir) => {
+    const handleClick = (dir: number) => {
         return () => {
             const newPage = props.curPage + dir;
             if (1 <= newPage && newPage <= props.maxPage)
@@ -91,11 +101,4 @@ function PageControl(props) {
             </PageControlContainer>
         );
     return null;
-}
-
-PageControl.propTypes = {
-    curPage: PropTypes.number,
-    setCurPage: PropTypes.func.isRequired,
-    maxPage: PropTypes.number.isRequired,
-    isTransitioning: PropTypes.bool.isRequired
 };

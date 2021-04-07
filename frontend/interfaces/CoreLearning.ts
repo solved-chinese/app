@@ -7,7 +7,7 @@ export interface ProgressBarData {
     bonus: number,
 }
 
-export type LearningAction = 'review' | 'display' | 'done'
+export type LearningAction = 'review' | 'display' | 'assignment' | 'done'
 
 export interface LearningObjectContent {
     qid: number,
