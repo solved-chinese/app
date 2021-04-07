@@ -15,7 +15,7 @@ const NextButton = styled.button`
     color: var(--main-theme-color);
     background-color: white;
     padding: 0.4em 2em;
-    margin-bottom: 25px;
+    margin-top: -35px;
     text-align: right;
     transition: all 150ms ease-in-out;
     border-radius: 3px;

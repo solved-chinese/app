@@ -60,6 +60,8 @@ export default class StrokeGif extends React.Component<StrokeGifProps> {
                 width: 60,
                 height: 65,
                 padding: 2,
+                strokeAnimationSpeed: 1, // times the normal speed
+                delayBetweenStrokes: 5, // ms between strokes
                 showOutline: true,
                 showCharacter: true,
                 strokeColor: '#303545',

@@ -5,6 +5,7 @@ which will overwrite this file (see file end)
 """
 
 import os
+from django.contrib.messages import constants as message_constants
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -104,6 +105,7 @@ DATABASES = {
         'PASSWORD': 'jiezi',
         'HOST': 'localhost',
         'PORT': '5432',
+        'ATOMIC_REQUESTS': True,
     }
 }
 
@@ -234,6 +236,14 @@ LOGGING = {
             'propagate': False,
         },
     }
+}
+
+MESSAGE_TAGS = {
+    message_constants.DEBUG: 'debug',
+    message_constants.INFO: 'alert alert-primary',
+    message_constants.SUCCESS: 'alert alert-success',
+    message_constants.WARNING: 'alert alert-warning',
+    message_constants.ERROR: 'alert alert-danger',
 }
 
 # overwrite with local secret setting

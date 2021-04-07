@@ -4,7 +4,7 @@ from django.utils.html import format_html
 from mptt.admin import TreeRelatedFieldListFilter
 
 from content.models import RadicalInCharacter, DefinitionInCharacter, Character
-from content.admin import SpecificContentAdmin
+from content.admin import SpecificContentAdmin, ReviewableAdminMixin
 from content.forms import CharacterForm
 
 
@@ -30,7 +30,7 @@ class DefinitionInCharacterInline(admin.TabularInline):
 
 
 @admin.register(Character)
-class CharacterAdmin(SpecificContentAdmin):
+class CharacterAdmin(ReviewableAdminMixin, SpecificContentAdmin):
     form = CharacterForm
     search_fields = ['chinese', 'pinyin', 'identifier']
     list_display = ['id', 'is_done', '__str__', 'pinyin',

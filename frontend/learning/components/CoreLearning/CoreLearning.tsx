@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import ProgressBar from './ProgressBar';
+import Constant from '@utils/constant';
 import ItemDisplay from
     '@learning.components/ItemDisplay/ItemDisplay';
 import ReviewQuestion from
@@ -48,6 +49,19 @@ type Props = {
     qid: number,
 }
 
+// const BonusText = styled.h2`
+//     margin-top: 25px;
+//     margin-bottom: -30px;
+// `;
+
+// // so that next button and bonus texts align with content card
+// const LearningContentContainer = styled.div`
+//     max-width: 800px;
+//     width: 100%;
+//     margin: auto;
+// `;
+
+
 /**
  * The main component for users' learning experience. The component
  * will present a set of dynamically determined series of learning 
@@ -67,7 +81,13 @@ const CoreLearning = (props: Props): JSX.Element => {
     // FIXME onActionNext is called twice in review, unnecessary
     // FIXME handle conflict
 
-    const onActionNext = (): void => {
+    useEffect(() => {
+        // make progress bar occupy header position
+        document.getElementById(Constant.HEADER_ELEMENT_ID)!.style.display = 'none';
+        document.getElementById(Constant.ROOT_ELEMENT_ID)!.style.marginTop = '-70px';
+    }, []);
+
+    const onActionNext = () => {
         const data = state ? {state} : {};
         getLearningNext(url, data).then(
             response => {
@@ -103,6 +123,17 @@ const CoreLearning = (props: Props): JSX.Element => {
             </div>
         </div>
     );
+
+
+    // const renderBonus = () => {
+    //     if (!content || !'type' in content)
+    //         return null;
+    //     if (content.type == 'radical')
+    //         return <BonusText>Bonus Radical! {"\u{1F609}"}</BonusText>;
+    //     else if (content.type == 'character')
+    //         return <BonusText>Bonus Character! {"\u{1F60F}"}</BonusText>;
+    //     return null;
+    // };
 
     const renderItemDisplay = (progressBar: ProgressBarData, content: LearningObjectContent) => (
         <>

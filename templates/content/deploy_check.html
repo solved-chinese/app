@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% for k, v in results.items %}
+    {{ k }}
+    <br>
+    {{ v|safe }}
+  {% endfor %}
+{% endblock content %}

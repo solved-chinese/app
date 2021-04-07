@@ -47,7 +47,8 @@ class GeneralFactory:
     def generate_context_link(self, ro):
         return None
 
-    def extract_from_qs(self, querysets, correct_obj, min_num, max_num):
+    def extract_from_qs(self, querysets, correct_obj, min_num, max_num,
+                        validate=None):
         """
         performs extraction of objects from querysets with
         returns:
@@ -58,9 +59,13 @@ class GeneralFactory:
             if isinstance(correct_obj, queryset.model):
                 queryset = queryset.exclude(id=correct_obj.id)
             queryset = queryset.exclude(IC_level__isnull=True).distinct()
-            before_qs = queryset.filter(IC_level__lte=correct_obj.IC_level)[:max_num]
+            before_qs = queryset.filter(
+                IC_level__lte=correct_obj.IC_level
+            ).order_by('-IC_level')[:max_num]
             after_qs = queryset.filter(IC_level__gt=correct_obj.IC_level)[:max_num]
             for obj in [*before_qs, *after_qs]:
+                if validate is not None and not validate(obj):
+                    continue
                 results.add(obj)
                 if len(results) == max_num:
                     return list(results)
@@ -152,15 +157,25 @@ class WordFactoryMixin:
 
     def generate_related_words(self, word):
         word_len = len(word.chinese)
+        # words that share a character with itself
         words = Word.objects.filter(
             characters__in=word.characters.all(),
         )
-        if 2 <= word_len <= 3:
+        # for single-char words, generate other single-char words that share
+        # a character with itself
+        if word_len == 1:
+            words = words.filter(chinese__regex=r'^.{2,3}$')
+            chars = Character.objects.filter(word__in=words)
+            words = Word.objects.filter(
+                chinese__regex=r'^.$', characters__in=chars
+            ).exclude(chinese=word.chinese)
+        elif word_len <= 3:
             words = words.filter(chinese__regex=r'^.{2}$')
         return words
 
     def generate_same_level_words(self, word):
-        return Word.objects.filter(IC_level=word.IC_level)
+        return Word.objects.filter(is_done=True,
+                                   IC_level=word.IC_level)
 
     def generate_context_link(self, ro):
         if self.context_field:
