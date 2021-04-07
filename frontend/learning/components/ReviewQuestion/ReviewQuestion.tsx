@@ -6,8 +6,22 @@ import FITBQuestion from './FITBQuestion';
 import ClickAndDrop from './ClickAndDrop';
 import LoadingView from './LoadingView';
 
-import {ReviewQuestionDescriptor} from '@interfaces/ReviewQuestion';
+import {
+    ReviewQuestionData,
+    CNDQuestionContent,
+    FITBQuestionContent,
+    MCQuestionContent,
+    ReviewQuestionAnswer,
+    AnswerVerificationResponse
+} from '@interfaces/ReviewQuestion';
 import {default as oldSubmitAnswer} from '@learning.services/submitAnswer';
+
+type Props = {
+    qid?: number,
+    question?: ReviewQuestionData,
+    submitAnswer?: (answer: ReviewQuestionAnswer) => Promise<AnswerVerificationResponse>,
+    onActionNext?: () => void
+}
 
 /** 
  * Render a review question view using a ReviewQuestionDescriptor.
@@ -17,36 +31,33 @@ import {default as oldSubmitAnswer} from '@learning.services/submitAnswer';
  * question has been submitted. After submission, the user will
  * be shown the correct answer regardless of their choice, and
  * the submit button will display 'next' if props.hasNext == true.
- * 
- * @param { ReviewQuestionDescriptor } props
- * @returns {?JSX.Element} Review Question
  */
-export default function ReviewQuestion(props) {
-    const question = 'question' in props?
-        props.question : useReviewQuestion(`/content/question/${props.qid}`);
+const ReviewQuestion = (props: Props): JSX.Element => {
 
-    const submitAnswer = 'submitAnswer' in props?
-        props.submitAnswer : answer => oldSubmitAnswer(props.qid, '', answer);
-    const onActionNext = 'onActionNext' in props?
-        props.onActionNext : () => {window.location.reload();};
+    const question = props.question ?? useReviewQuestion(`/content/question/${props.qid!}`);
+
+    const submitAnswer = props.submitAnswer ?? ((answer: ReviewQuestionAnswer) =>
+        oldSubmitAnswer(props.qid!, '', answer));
+
+    const onActionNext = props.onActionNext ?? (() => window.location.reload());
     
     if (question != null) {
         switch (question.form) {
         case 'MC':
             return <MultipleChoice 
-                content={question.content}
+                content={question.content as MCQuestionContent}
                 submitAnswer={submitAnswer}
                 onActionNext={onActionNext}
             />;
         case 'FITB':
             return <FITBQuestion 
-                content={question.content}
+                content={question.content as FITBQuestionContent}
                 submitAnswer={submitAnswer}
                 onActionNext={onActionNext}
             />;
         case 'CND':
             return <ClickAndDrop
-                content={question.content}
+                content={question.content as CNDQuestionContent}
                 submitAnswer={submitAnswer}
                 onActionNext={onActionNext}
             />;
@@ -56,4 +67,6 @@ export default function ReviewQuestion(props) {
     } else {
         return <LoadingView />;
     }
-}
+};
+
+export default ReviewQuestion;

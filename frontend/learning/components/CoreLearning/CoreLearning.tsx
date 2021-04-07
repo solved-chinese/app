@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import ProgressBar from './ProgressBar';
 import ItemDisplay from
     '@learning.components/ItemDisplay/ItemDisplay';
-import ReviewQuestion from 
+import ReviewQuestion from
     '@learning.components/ReviewQuestion/ReviewQuestion';
 
 import getLearningNext from '@learning.services/getLearningNext';
@@ -10,10 +10,12 @@ import getLearningNext from '@learning.services/getLearningNext';
 import '@learning.styles/CoreLearning.css';
 import styled from 'styled-components';
 import {
+    DisplayObjectContent,
     LearningAction,
     LearningObjectContent,
     ProgressBarData
 } from '@interfaces/CoreLearning';
+import { ReviewQuestionData } from '@interfaces/ReviewQuestion';
 
 const Title = styled.h1`
     font-size: 2em;
@@ -105,7 +107,7 @@ const CoreLearning = (props: Props): JSX.Element => {
         <>
             {renderProgressBar(progressBar)}
             <ItemDisplay
-                {...content}
+                {...content as DisplayObjectContent}
                 onActionNext={onActionNext}
             />
         </>
@@ -115,7 +117,7 @@ const CoreLearning = (props: Props): JSX.Element => {
         <>
             { renderProgressBar(progressBar) }
             <ReviewQuestion
-                question={content}
+                question={content as ReviewQuestionData}
                 onActionNext={onActionNext}
                 submitAnswer={submitAnswer}
             />

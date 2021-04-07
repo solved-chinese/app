@@ -1,4 +1,6 @@
-export function getTextAudio(obj) {
+import {AudioTextProvider} from '@interfaces/ReviewQuestion';
+
+export const getTextAudio = (obj: AudioTextProvider | string): [string, string | null] => {
     let text = 'error';
     let audio = null;
     if (typeof obj == 'string')
@@ -8,4 +10,4 @@ export function getTextAudio(obj) {
         audio = obj.audio;
     }
     return [text, audio];
-}
+};

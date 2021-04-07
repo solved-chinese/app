@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
-
-import { FITBQuestionContent } from '@interfaces/ReviewQuestion';
-
-import submitAnswer from '@learning.services/submitAnswer';
+import {
+    AnswerVerificationResponse,
+    FITBAnswer,
+    FITBQuestionContent,
+    ReviewQuestionAnswer
+} from '@interfaces/ReviewQuestion';
 
 import '@learning.styles/ReviewQuestion.css';
 import AnswerResponse from './AnswerResponse';
@@ -37,6 +38,12 @@ const ResponseContainer = styled.div`
     text-align: center;
 `;
 
+type Props = {
+    content: FITBQuestionContent,
+    onActionNext: ()=>void,
+    submitAnswer: (answer: ReviewQuestionAnswer) => Promise<AnswerVerificationResponse>,
+}
+
 /**
  * Render a fill in the blank (FITB) question.
  * @param {Object} props 
@@ -46,36 +53,37 @@ const ResponseContainer = styled.div`
  * 
  * @returns {React.Component} A FITBQuestion component
  */
-export default function FITBQuestion(props) {
+const FITBQuestion = (props: Props): JSX.Element => {
 
-    const [answer, setAnswer] = useState('');
-    const [correctAnswer, setCorrectAnswer] = useState(null);
-    const [submitted, setSubmitted] = useState(false);
-    const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
+    const [answer, setAnswer] = useState<FITBAnswer>('');
+    const [correctAnswer, setCorrectAnswer] = useState<FITBAnswer | null>(null);
+    const [submitted, setSubmitted] = useState<boolean>(false);
+    const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | undefined>(undefined);
 
     useEffect(() => {
         setAnswer('');
         setCorrectAnswer(null);
         setSubmitted(false);
-        setIsAnswerCorrect(null);
-    }, [props])
+        setIsAnswerCorrect(undefined);
+    }, [props]);
 
     useEffect(() => {
         if (isAnswerCorrect) {
             const timer = setTimeout(() => {props.onActionNext();}, 500);
             return () => clearTimeout(timer);
         }
-    }, [isAnswerCorrect])
+    }, [isAnswerCorrect]);
 
-    const keyListener = event => {
-        if (event.code === "Enter" || event.code === "NumpadEnter") {
+    const keyListener = (event: KeyboardEvent) => {
+        if (event.code === 'Enter' || event.code === 'NumpadEnter') {
             onSubmit();
         }
-    }
+    };
+
     useEffect(() => {
         document.addEventListener('keydown', keyListener);
         return () => {document.removeEventListener('keydown', keyListener);};
-    }, [submitted, answer])
+    }, [submitted, answer]);
 
     const onSubmit = () => {
         if (submitted) {
@@ -85,7 +93,7 @@ export default function FITBQuestion(props) {
         if (!answer || answer.length === 0)
             return;
         props.submitAnswer(answer).then(response => {
-            setCorrectAnswer(response.answer);
+            setCorrectAnswer(response.answer as FITBAnswer);
             setIsAnswerCorrect(response.isCorrect);
             setSubmitted(true);
         }).catch( msg => {
@@ -134,16 +142,13 @@ export default function FITBQuestion(props) {
                     </button>
                 </SubmitContainer>
                 <ResponseContainer>
-                    {submitted? <AnswerResponse correct={isAnswerCorrect}
-                                                correctAnswer={correctAnswer}/> : ""}
+                    {submitted && <AnswerResponse
+                        isCorrect={isAnswerCorrect!}
+                        correctAnswer={correctAnswer!}/>}
                 </ResponseContainer>
             </div>
         </div>
     );
-}
-
-FITBQuestion.propTypes = {
-    content: PropTypes.object.isRequired,
-    onActionNext: PropTypes.func.isRequired,
-    submitAnswer: PropTypes.func.isRequired,
 };
+
+export default FITBQuestion;

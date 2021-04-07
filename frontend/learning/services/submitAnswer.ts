@@ -1,17 +1,16 @@
-import 'camelcase-keys';
 import $ from 'jquery';
-import AnswerVerificationResponse from '@interfaces/AnswerVerificationResponse';
 import camelcaseKeys from 'camelcase-keys';
+import {ReviewQuestionAnswer, AnswerVerificationResponse} from '@interfaces/ReviewQuestion';
 
 /** 
  * Check the correctness of an answer for the review question designated by
  * the question id. Return a promise of the question verification server 
  * response object. Reject the promise if the server didn't respond ok.
  */
-export default function submitAnswer(qid: number, id: string, answer: string|number|[number]):
-    Promise<AnswerVerificationResponse> {
+const submitAnswer = (qid: number, id: string, answer: ReviewQuestionAnswer):
+    Promise<AnswerVerificationResponse> => {
 
-    let CSRFToken = $('[name=csrfmiddlewaretoken]').val();
+    const CSRFToken = `${$('[name=csrfmiddlewaretoken]').val()}`;
     return new Promise((resolve, reject) => {
         fetch(`/content/question/${qid}`, {
             method: 'POST',
@@ -34,4 +33,6 @@ export default function submitAnswer(qid: number, id: string, answer: string|num
             resolve(camelcaseKeys(json, {deep: true}));
         });
     });
-}
+};
+
+export default submitAnswer;

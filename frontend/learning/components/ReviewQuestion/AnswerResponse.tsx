@@ -30,26 +30,25 @@ const CorrectAnswer = styled.span`
     color:rgb(103,158,59);
 `;
 
-/**
- *
- * @param props
- * @param {boolean} props.correct
- * @returns {React.Component}
- */
-export default function AnswerResponse(props) {
+type Props = {
+    isCorrect: boolean,
+    correctAnswer: string
+}
+
+const AnswerResponse = (props: Props): JSX.Element => {
     const correctAnswer = (() => {
-        if (!props.correct && props.correctAnswer) {
+        if (!props.isCorrect && props.correctAnswer) {
             return (
                 <>
                     <AnswerIncorrect>Correct Answer: </AnswerIncorrect>
                     <CorrectAnswer>{props.correctAnswer}</CorrectAnswer>
                 </>
-                );
+            );
         }
     })();
 
     const response = (() => {
-        if(props.correct)
+        if(props.isCorrect)
             return (
                 <p className='answerCorrect'>
                     {correctResponse[Math.floor(Math.random() * correctResponse.length)]}
@@ -68,6 +67,8 @@ export default function AnswerResponse(props) {
             {correctAnswer}
             {response}
         </ResponseContainer>
-    )
+    );
 
-}
+};
+
+export default AnswerResponse;

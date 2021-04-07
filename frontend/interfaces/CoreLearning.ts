@@ -1,4 +1,5 @@
-import {ItemType} from '@interfaces/CoreItem';
+import { ItemType } from '@interfaces/CoreItem';
+import { ReviewQuestionData } from '@interfaces/ReviewQuestion';
 
 export interface ProgressBarData {
     mastered: number,
@@ -9,10 +10,12 @@ export interface ProgressBarData {
 
 export type LearningAction = 'review' | 'display' | 'assignment' | 'done'
 
-export interface LearningObjectContent {
+export interface DisplayObjectContent {
     qid: number,
-    type?: ItemType
+    type: ItemType
 }
+
+export type LearningObjectContent = DisplayObjectContent | ReviewQuestionData
 
 export interface LearningObjectDescriptor {
     action: LearningAction,

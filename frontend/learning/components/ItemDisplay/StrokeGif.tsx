@@ -64,7 +64,9 @@ export default class StrokeGif extends React.Component<StrokeGifProps> {
                 showCharacter: true,
                 strokeColor: '#303545',
                 onLoadCharDataError: () => {
-                    this.itemsTargetRef[index].current!.innerText = items[index];
+                    if (this.itemsTargetRef[index].current) {
+                        this.itemsTargetRef[index].current!.innerText = items[index];
+                    }
                 }
             })
         );

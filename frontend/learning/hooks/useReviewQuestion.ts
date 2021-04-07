@@ -1,32 +1,34 @@
 import { useState, useEffect } from 'react';
-import 'camelcase-keys';
-import ReviewQuestion from '@interfaces/ReviewQuestion';
+import { ReviewQuestionData } from '@interfaces/ReviewQuestion';
 import camelcaseKeys from 'camelcase-keys';
-import Constant from '@utils/constant';
 
 /**
  * Load the review question from URL, returns null
  * when it is still loading. The function will automatically update the
  * word if the URL that's passed in changes.
- * The function will reattempt in 5 seconds if loading fails.
  */
-export default function useReviewQuestion(url: string): ReviewQuestion | null {
+const useReviewQuestion = (url: string, completion?: (question: ReviewQuestionData)=>void): ReviewQuestionData | null => {
 
-    const [question, setQuestion] = useState(null);
+    const [question, setQuestion] = useState<ReviewQuestionData | null>(null);
 
-    const loadData = async () => {
-        setQuestion(null);
-        let response = await fetch(url);
+    const loadData = async (): Promise<ReviewQuestionData> => {
+        const response = await fetch(url);
         if (!response.ok) {
-            if (response.status == 404) { return; }
-            setTimeout(loadData, Constant.REQUEST_TIMEOUT);
+            throw new Error(`${response.status}`);
         } else {
-            let data = await response.json();
-            setQuestion(camelcaseKeys(data, {deep: true}));
+            const data = await response.json();
+            return camelcaseKeys(data, {deep: true});
         }
     };
 
-    useEffect( () => { loadData(); }, [url]);
+    useEffect( () => { loadData().then( question => {
+        completion && completion(question);
+        setQuestion(question);
+    }).catch( (status) => {
+        console.error(`Error fetching review question, server responded with status ${status}`);
+    }); }, [url]);
 
     return question;
-}
+};
+
+export default useReviewQuestion;

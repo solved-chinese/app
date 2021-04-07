@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, CSSProperties} from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import { MCQuestionContent } from '@interfaces/ReviewQuestion';
+import {
+    AnswerVerificationResponse,
+    MCAnswer,
+    MCQuestionContent,
+    ReviewQuestionAnswer
+} from '@interfaces/ReviewQuestion';
 import AnswerResponse from './AnswerResponse';
 import { getTextAudio } from './utils';
 
@@ -43,14 +48,13 @@ const ChoicesContainer = styled.div`
     display: flex;
     flex-direction: row;
     padding: 0 0 30px 20px;
-    margin: auto;
-    margin-top: 120px;
+    margin: 120px auto;
     flex-wrap: wrap;
 
 `;
 
 // overriding the buttons within ChoicesContainer
-const newButton = {
+const newButton: CSSProperties = {
     flexDirection: 'column',
     textAlign: 'left',
     padding: '5px 15px 5px',
@@ -69,32 +73,32 @@ const SubmitContainer = styled.div`
     width: 100%;
 `;
 
-/**
- * Render a multiple choice (MT) component.
- * @param {Object} props 
- * @param {MCQuestionContent} props.content
- * @param {Function} props.submitAnswer - (answer) => Promise(response)
- * @param {Function} props.onActionNext
- *
- * @returns {React.Component} A multiple choice component
- */
-export default function MultipleChoice(props) {
+type Props = {
+    content: MCQuestionContent,
+    submitAnswer: (answer: ReviewQuestionAnswer) => Promise<AnswerVerificationResponse>,
+    onActionNext: () => void,
+}
 
-    const [selectedAnswer, setSelectedAnswer] = useState(null);
-    const [correctAnswer, setCorrectAnswer] = useState(null);
-    const [submitted, setSubmitted] = useState(false);
-    const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
+/**
+ * Render a multiple choice (MC) component.
+ */
+const MultipleChoice = (props: Props): JSX.Element => {
+
+    const [selectedAnswer, setSelectedAnswer] = useState<MCAnswer | undefined>(undefined);
+    const [correctAnswer, setCorrectAnswer] = useState<MCAnswer | undefined>(undefined);
+    const [submitted, setSubmitted] = useState<boolean>(false);
+    const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | undefined>(undefined);
 
     useEffect( () => {
-        setSelectedAnswer(null);
-        setCorrectAnswer(null);
+        setSelectedAnswer(undefined);
+        setCorrectAnswer(undefined);
         setSubmitted(false);
-        setIsAnswerCorrect(null);
+        setIsAnswerCorrect(undefined);
     }, [props]);
 
     useEffect(() => {
         if (selectedAnswer && !submitted)
-            onSubmit();
+            onSubmit(selectedAnswer);
     }, [selectedAnswer]);
 
     useEffect(() => {
@@ -104,9 +108,9 @@ export default function MultipleChoice(props) {
         }
     }, [isAnswerCorrect]);
 
-    const onSubmit = () => {
-        props.submitAnswer(selectedAnswer).then(response => {
-            setCorrectAnswer(response.answer);
+    const onSubmit = (answer: MCAnswer) => {
+        props.submitAnswer(answer).then(response => {
+            setCorrectAnswer(response.answer as MCAnswer);
             setSubmitted(true);
             setIsAnswerCorrect(response.isCorrect);
         }).catch( msg => {
@@ -114,8 +118,8 @@ export default function MultipleChoice(props) {
         });
     };
     // change: remove use-serif   
-    const getChoiceClassName = value => {
-        var name = 'choice-button';
+    const getChoiceClassName = (value: string) => {
+        let name = 'choice-button';
         if (value == selectedAnswer) {
             if (correctAnswer != null) {
                 name += value == correctAnswer ? ' correct' : ' incorrect';
@@ -128,22 +132,26 @@ export default function MultipleChoice(props) {
         return name;
     };
 
+    const choiceOnClickCallback = (text: string) => {
+        if (!submitted) {
+            if (selectedAnswer !== text) {
+                setSelectedAnswer(text);
+            } else {
+                setSelectedAnswer(undefined);
+            }
+        }
+    };
 
     const choices = (() => {
         return props.content.choices.map( (v, i) => {
-            let [text, audio] = getTextAudio(v);
+            const [text, audio] = getTextAudio(v);
             return (
                 <>
                     <button
                         key={i} // change text to i
                         className={getChoiceClassName(text)}
                         style={newButton}
-                        onClick={!submitted ? (() => {
-                            if (selectedAnswer != i) {
-                                setSelectedAnswer(text);
-                            } else {
-                                setSelectedAnswer(null);
-                            }}) : null}
+                        onClick={() => choiceOnClickCallback(text)}
                     >
                         {text}
                     </button>
@@ -158,11 +166,13 @@ export default function MultipleChoice(props) {
 
     const context = (() => {
         if ('context' in props.content) {
-            let [text, audio] = getTextAudio(props.content.context);
+            const result = getTextAudio(props.content.context);
+            let text = result[0];
+            const audio = result[1];
             // add highlight of sentences similar to that in word display
             text = text.replace(
                 new RegExp('<(.*?)>', 'g'),
-                `<span style='color: #00838F'>$1</span>`
+                '<span style=\'color: #00838F\'>$1</span>'
             );
             return (
                 <Context className='use-chinese'>
@@ -182,7 +192,7 @@ export default function MultipleChoice(props) {
                 {context}
                 <Question>
                     {(() => {
-                        let [text, audio] = getTextAudio(props.content.question);
+                        const [text, audio] = getTextAudio(props.content.question);
                         return (<>
                             {text}
                             {audio? <SpeakButton2
@@ -203,16 +213,13 @@ export default function MultipleChoice(props) {
                         Next
                     </button>
                 </SubmitContainer>
-                {submitted? <AnswerResponse correct={selectedAnswer==correctAnswer}/> : ''}
+                {submitted? <AnswerResponse
+                    isCorrect={isAnswerCorrect!}
+                    correctAnswer={correctAnswer!}
+                /> : ''}
             </div>
         </div>
     );
-}
-
-MultipleChoice.propTypes = {
-    content: PropTypes.object.isRequired,
-
-    submitAnswer: PropTypes.func.isRequired,
-
-    onActionNext: PropTypes.func.isRequired,
 };
+
+export default MultipleChoice;

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
-import { CNDQuestionContent } from '@interfaces/ReviewQuestion';
+import {CNDQuestionContent, AnswerVerificationResponse, ReviewQuestionAnswer} from '@interfaces/ReviewQuestion';
 
 import '@learning.styles/ReviewQuestion.css';
 
@@ -87,48 +86,50 @@ const SubmitContainer = styled.div`
     width: 100%;
 `;
 
+type Props = {
+    content: CNDQuestionContent,
+    onActionNext: () => void,
+    submitAnswer: (answer: ReviewQuestionAnswer) => Promise<AnswerVerificationResponse>,
+}
+
 /**
  * Render a CND component.
- * @param {Object} props 
- * @param {CNDQuestionContent} props.content
- * @param {Function} props.submitAnswer
- * @param {Function} props.onActionNext
- *
- * @returns {React.Component}
  */
-export default function ClickAndDrop(props) {
-    const [selected, setSelected] = useState(Array(props.content.answerLength).fill(null));
-    const [choices, setChoices] = useState([...props.content.choices]);
-    const [submitted, setSubmitted] = useState(false);
-    const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
-    const [correctAnswer, setCorrectAnswer] = useState('');
+const ClickAndDrop = (props: Props): JSX.Element => {
+    const [selected, setSelected] = useState<(string|null)[]>(
+        Array<string|null>(props.content.answerLength).fill(null)
+    );
+    const [choices, setChoices] = useState<(string|null)[]>([...props.content.choices]);
+    const [submitted, setSubmitted] = useState<boolean>(false);
+    const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean|undefined>(undefined);
+    const [correctAnswer, setCorrectAnswer] = useState<string>('');
 
     useEffect(() => {
         setSelected(Array(props.content.answerLength).fill(null));
         setChoices([...props.content.choices]);
         setSubmitted(false);
         setCorrectAnswer('');
-        setIsAnswerCorrect(null);
-    }, [props])
+        setIsAnswerCorrect(undefined);
+    }, [props]);
 
     useEffect(() => {
         if (selected.every(value => value != null))
             onSubmit();
-    }, [selected])
+    }, [selected]);
 
     useEffect(() => {
         if (isAnswerCorrect) {
-             const timer = setTimeout(() => {props.onActionNext();}, 500);
-             return () => clearTimeout(timer);
+            const timer = setTimeout(() => {props.onActionNext();}, 500);
+            return () => clearTimeout(timer);
         }
-    }, [isAnswerCorrect])
+    }, [isAnswerCorrect]);
 
     const onSubmit = () => {
         if (submitted)
             return;
-        props.submitAnswer(selected).then(response => {
+        props.submitAnswer(selected as string[]).then(response => {
             setSubmitted(true);
-            setCorrectAnswer(response.answer.join(''));
+            setCorrectAnswer((response.answer as string[]).join(''));
             setIsAnswerCorrect(response.isCorrect);
         }).catch( msg => {
             console.log(msg);
@@ -140,7 +141,7 @@ export default function ClickAndDrop(props) {
         buttonClassName += isAnswerCorrect ? ' cndCorrect' : ' cndIncorrect';
     }
 
-    const handleChoiceClick = (choiceIndex) => {
+    const handleChoiceClick = (choiceIndex: number) => {
         if (choices[choiceIndex] === null || submitted){
             return; // meaningless click on blank
         }
@@ -151,14 +152,14 @@ export default function ClickAndDrop(props) {
         // make copy
         const newSelected = selected.slice();
         const newChoices = choices.slice();
-        // move clicked choice to seleceted
+        // move clicked choice to selected
         newSelected[selectedIndex] = newChoices[choiceIndex];
-        newChoices[choiceIndex] = null
+        newChoices[choiceIndex] = null;
         setSelected(newSelected);
         setChoices(newChoices);
     };
 
-    const handleSelectedClick = (selectedIndex) => {
+    const handleSelectedClick = (selectedIndex: number) => {
         if (selected[selectedIndex] === null || submitted){
             return; // meaningless click on blank
         }
@@ -185,7 +186,7 @@ export default function ClickAndDrop(props) {
                     handleSelectedClick(i);
                 }}
             >
-                {value === null? " " : value}
+                {value === null? ' ' : value}
             </AnswerButton>
         );
     })();
@@ -199,7 +200,7 @@ export default function ClickAndDrop(props) {
                     handleChoiceClick(i);
                 }}
             >
-                {value === null? " " : value}
+                {value === null? ' ' : value}
             </ChoiceButton>
         );
     })();
@@ -232,15 +233,12 @@ export default function ClickAndDrop(props) {
                         Next
                     </button>
                 </SubmitContainer>
-                {submitted? <AnswerResponse correct={isAnswerCorrect}
-                                            correctAnswer={correctAnswer}/> : ""}
+                {submitted ?
+                    <AnswerResponse isCorrect={isAnswerCorrect!} correctAnswer={correctAnswer}/> : ''}
             </div>
         </div>
     );
-}
-
-ClickAndDrop.propTypes = {
-    content: PropTypes.object.isRequired,
-    onActionNext: PropTypes.func.isRequired,
-    submitAnswer: PropTypes.func.isRequired,
 };
+
+export default ClickAndDrop;
+

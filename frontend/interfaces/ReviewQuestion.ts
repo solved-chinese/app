@@ -1,31 +1,44 @@
-interface ReviewQuestion {
+export interface ReviewQuestionData {
     id: string,
     form: string,
     content: ReviewQuestionContent
 }
 
-interface ReviewQuestionContent {
-    question: TextProvider,
-}
+export type ReviewQuestionContent = MCQuestionContent | CNDQuestionContent | FITBQuestionContent
 
-export interface MCQuestionContent extends ReviewQuestionContent {
-    context: TextProvider,
-    choices: [TextProvider]
-}
-
-export interface CNDQuestionContent extends ReviewQuestionContent {
-    title: TextProvider,
-    answer_length: TextProvider,
-    choices: [TextProvider]
-}
-
-export interface FITBQuestionContent extends ReviewQuestionContent {
-    title: TextProvider
-}
-
-interface TextProvider {
+export interface AudioTextProvider {
     text: string,
     audio: string
 }
 
-export default ReviewQuestion;
+export interface MCQuestionContent {
+    question: AudioTextProvider
+    context: string,
+    choices: [AudioTextProvider]
+}
+
+export interface CNDQuestionContent {
+    question: string,
+    title: string,
+    description: string,
+    answerLength: number,
+    choices: [string]
+}
+
+export interface FITBQuestionContent {
+    question: string,
+    title: string
+}
+
+export type MCAnswer = string
+
+export type CNDAnswer = string[]
+
+export type FITBAnswer = string
+
+export type ReviewQuestionAnswer = MCAnswer | CNDAnswer | FITBAnswer
+
+export interface AnswerVerificationResponse {
+    isCorrect: boolean,
+    answer: ReviewQuestionAnswer
+}
