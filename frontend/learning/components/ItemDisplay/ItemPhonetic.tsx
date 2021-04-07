@@ -43,7 +43,7 @@ type Props = {
      * Indicate whether to enable stroke order.
      * The default is false.
      */
-    useStroke: boolean | null
+    useStroke?: boolean
 }
 
 /**

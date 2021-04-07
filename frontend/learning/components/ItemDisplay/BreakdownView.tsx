@@ -189,7 +189,8 @@ const BreakdownChar = (props: BreakdownCharProps): JSX.Element => {
                 />
 
                 <Row>
-                    <ItemPhonetic pinyin={character.pinyin}
+                    <ItemPhonetic
+                        pinyin={character.pinyin}
                         audioURL={character.audioUrl}
                         item={character.chinese}
                     />
@@ -334,7 +335,7 @@ export default class BreakdownView extends React.Component<BreakdownViewProps, B
         );
     }
 
-    toggle = () => {
+    toggle = (): void => {
         this.setState( prev => ({show: !prev.show}));
     }
 
