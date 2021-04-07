@@ -8,6 +8,7 @@ from content.models import ReviewableObject, GeneralQuestion
 from learning.models import UserReviewable, Record
 
 MAX_REVIEW_NUM = 20
+MAX_BONUS_NUM = 5
 
 
 class AbstractLearningState:
@@ -78,6 +79,10 @@ class LearnState(AbstractLearningState):
             )
             can_add_bonus = ur.learn_related(reviewable)
             if can_add_bonus:
+                bonus_num = process.data.setdefault('bonus_num', 0)
+                if bonus_num >= MAX_BONUS_NUM:
+                    continue
+                process.data['bonus_num'] = bonus_num + 1
                 assert ur.bind_to_process(process)
                 learn_list.insert(0, ur.reviewable.pk)
                 process.data['bonus_list'].append(ur.reviewable.pk)
