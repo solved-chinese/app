@@ -1,5 +1,5 @@
 import { ItemType } from '@interfaces/CoreItem';
-import { ReviewQuestionData } from '@interfaces/ReviewQuestion';
+import {ReviewQuestionAnswer, ReviewQuestionData} from '@interfaces/ReviewQuestion';
 
 export interface ProgressBarData {
     mastered: number,
@@ -24,10 +24,10 @@ export interface LearningObjectDescriptor {
 
 export interface LearningNextResponse extends LearningObjectDescriptor {
     progressBar: ProgressBarData,
-    state: string
+    state: string,
 }
 
 export interface AnswerSubmitResponse extends LearningNextResponse {
     isCorrect: boolean,
-    answer: number
+    answer: ReviewQuestionAnswer
 }

@@ -10,12 +10,13 @@ import getLearningNext from '@learning.services/getLearningNext';
 import '@learning.styles/CoreLearning.css';
 import styled from 'styled-components';
 import {
+    AnswerSubmitResponse,
     DisplayObjectContent,
     LearningAction,
     LearningObjectContent,
     ProgressBarData
 } from '@interfaces/CoreLearning';
-import { ReviewQuestionData } from '@interfaces/ReviewQuestion';
+import {ReviewQuestionAnswer, ReviewQuestionData} from '@interfaces/ReviewQuestion';
 
 const Title = styled.h1`
     font-size: 2em;
@@ -78,9 +79,9 @@ const CoreLearning = (props: Props): JSX.Element => {
         );
     };
 
-    const submitAnswer = (answer: string) => {
+    const submitAnswer = (answer: ReviewQuestionAnswer): Promise<AnswerSubmitResponse> => {
         const data = { answer, state };
-        return getLearningNext(url, data);
+        return getLearningNext(url, data) as Promise<AnswerSubmitResponse>;
     };
 
     useEffect(
