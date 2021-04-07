@@ -46,7 +46,12 @@ const BackButton = styled.button`
     background: none;
 `;
 
-export default function HeaderView(props) {
+type Props = {
+    name: string,
+    onActionComplete: ()=>void
+}
+
+const HeaderView = (props: Props): JSX.Element => {
     return (
         <>
             <BackButton onClick={() => {window.location.href='/';}}> &lt; Back to Dashboard </BackButton>
@@ -56,9 +61,6 @@ export default function HeaderView(props) {
             </CompleteButton>
         </>
     );
-}
-
-HeaderView.propTypes = {
-    name: PropTypes.string,
-    onActionComplete: PropTypes.func,
 };
+
+export default HeaderView;

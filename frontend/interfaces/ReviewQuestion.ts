@@ -1,6 +1,6 @@
 interface ReviewQuestion {
-    id: String,
-    form: String,
+    id: string,
+    form: string,
     content: ReviewQuestionContent
 }
 
@@ -23,15 +23,9 @@ export interface FITBQuestionContent extends ReviewQuestionContent {
     title: TextProvider
 }
 
-export interface ReviewQuestionDescriptor {
-    qid: Number,
-    hasNext: Boolean,
-    onActionNext: Function
-}
-
 interface TextProvider {
-    text: String,
-    audio: String
+    text: string,
+    audio: string
 }
 
 export default ReviewQuestion;

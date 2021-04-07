@@ -141,11 +141,3 @@ export interface HighlightedSentence {
 }
 
 export type ItemType = 'word' | 'character' | 'radical'
-
-export type ItemDescriptor = {
-    type?: ItemType,
-    qid: number,
-    hasNext?: boolean,
-    onActionNext?: ()=>void,
-    displayRef: React.RefObject<HTMLDivElement>
-}

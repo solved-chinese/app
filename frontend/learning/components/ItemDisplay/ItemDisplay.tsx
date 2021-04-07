@@ -6,7 +6,7 @@ import RadDisplay from './RadicalDisplay/RadDisplay';
 
 import '@learning.styles/ItemDisplay.css';
 
-import {ItemDescriptor, ItemType} from '@interfaces/CoreItem';
+import {ItemType} from '@interfaces/CoreItem';
 import styled from 'styled-components';
 
 const NextButton = styled.button`
@@ -27,13 +27,21 @@ const NextButton = styled.button`
     }
 `;
 
+type Props = {
+    type?: ItemType,
+    qid: number,
+    hasNext?: boolean,
+    onActionNext?: ()=>void,
+    displayRef?: React.RefObject<HTMLDivElement>
+}
+
 /**
  * Statically display an item (word, character, or radical) 
  * using an ItemDescriptor.
  */
-const ItemDisplay = (props: ItemDescriptor): JSX.Element => {
+const ItemDisplay = (props: Props): JSX.Element => {
     
-    const renderSwitch = (type: ItemType, qid: number) => {
+    const renderSwitch = (type: ItemType | undefined, qid: number) => {
         switch (type) {
         case 'character':
             return (<CharDisplay qid={qid} />);
@@ -42,7 +50,7 @@ const ItemDisplay = (props: ItemDescriptor): JSX.Element => {
         case 'word':
             return <WordDisplay qid={qid} />;
         default:
-            return ;
+            return ; // TODO: Error handling
         }
     };
 

@@ -1,12 +1,21 @@
 import $ from 'jquery';
 import camelcaseKeys from 'camelcase-keys';
+import {LearningNextResponse} from '@interfaces/CoreLearning';
+
+type LearningData = {
+    state?: string,
+    answer?: string,
+    stats?: {
+        duration?: number
+    }
+}
 
 /**
  * Get the next learning action from server. The server will
  * respond with either a review question or an item to display.
  */
-export default function getLearningNext(url: string, data: any) {
-    let CSRFToken = $('[name=csrfmiddlewaretoken]').val();
+const getLearningNext = (url: string, data: LearningData): Promise<LearningNextResponse> => {
+    const CSRFToken = $('[name=csrfmiddlewaretoken]').val() as string;
     return new Promise((resolve, reject) => {
         fetch(url, {
             method: 'POST',
@@ -26,4 +35,6 @@ export default function getLearningNext(url: string, data: any) {
             resolve(camelcaseKeys(json, {deep: true}));
         });
     });
-}
+};
+
+export default getLearningNext;
