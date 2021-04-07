@@ -306,7 +306,7 @@ class FITBQuestion(BaseConcreteQuestion):
         try:
             client_answer = client_answer.strip()
         except AttributeError:
-            logging.error(exc_info=True)
+            logging.error('client answer not string', exc_info=True)
         correct_answers = [
             correct_answer,
             re.sub(r'\((.*?)\)', r'\1', correct_answer),
