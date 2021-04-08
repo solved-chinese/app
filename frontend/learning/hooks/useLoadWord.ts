@@ -10,7 +10,7 @@ import Constant from '@utils/constant';
  * returned word if the URL that's passed in changes. 
  * Reattempt in 5 seconds if loading fails.
  */
-export default function useLoadWord(url: string): Word | null {
+const useLoadWord = (url: string): Word | null => {
 
     const [word, setWord] = useState(null);
 
@@ -30,4 +30,6 @@ export default function useLoadWord(url: string): Word | null {
 
     useEffect(() => { loadData(); }, [url]);
     return word;
-}
+};
+
+export default useLoadWord;

@@ -10,7 +10,7 @@ import Constant from '@utils/constant';
  * returned character if the URL that's passed in changes. 
  * Reattempt in 5 seconds if loading fails.
  */
-export default function useLoadChar(url: string): Character | null {
+const useLoadChar = (url: string): Character | null => {
 
     const [character, setCharacter] = useState(null);
 
@@ -31,4 +31,6 @@ export default function useLoadChar(url: string): Character | null {
     // If the url changes, reload data
     useEffect( () => { loadData(); }, [url]);
     return character;
-}
+};
+
+export default useLoadChar;
