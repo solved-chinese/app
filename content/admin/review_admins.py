@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.db import models
 from django.shortcuts import HttpResponseRedirect
+from django_better_admin_arrayfield.admin.mixins import DynamicArrayMixin
 
 from content.models import GeneralQuestion, ReviewableObject, MCChoice, \
     LinkedField, MCQuestion, FITBQuestion, CNDQuestion
@@ -26,7 +27,7 @@ class GeneralReviewQuestionAdmin(DisabledFieldMixin, admin.ModelAdmin):
 
 
 @admin.register(FITBQuestion, CNDQuestion)
-class FITBAdmin(GeneralReviewQuestionAdmin):
+class FITBAdmin(DynamicArrayMixin, GeneralReviewQuestionAdmin):
     pass
 
 

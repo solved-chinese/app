@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'logentry_admin',
     'mptt',
     'advanced_filters',
+    'django_better_admin_arrayfield',
 
     'django.contrib.admin',
     'django.contrib.auth',
