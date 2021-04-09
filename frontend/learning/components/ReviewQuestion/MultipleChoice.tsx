@@ -8,7 +8,7 @@ import {
     ReviewQuestionAnswer
 } from '@interfaces/ReviewQuestion';
 import AnswerResponse from './AnswerResponse';
-import { getTextAudio } from './utils';
+import { getTextAudio } from '@utils/utils';
 
 
 import '@learning.styles/ReviewQuestion.css';
