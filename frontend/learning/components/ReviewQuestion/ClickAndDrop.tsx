@@ -86,10 +86,11 @@ const SubmitContainer = styled.div`
     width: 100%;
 `;
 
+type NextActionCallback = () => void;
+
 type Props = {
     content: CNDQuestionContent,
-    onActionNext: () => void,
-    submitAnswer: (answer: ReviewQuestionAnswer) => Promise<AnswerVerificationResponse>,
+    submitAnswer: (answer: ReviewQuestionAnswer) => Promise<[AnswerVerificationResponse, NextActionCallback]>,
 }
 
 /**
@@ -103,6 +104,9 @@ const ClickAndDrop = (props: Props): JSX.Element => {
     const [submitted, setSubmitted] = useState<boolean>(false);
     const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean|undefined>(undefined);
     const [correctAnswer, setCorrectAnswer] = useState<string>('');
+    const [nextActionCallback, setNextActionCallback] = useState<{ fn: NextActionCallback }>({fn: () => {
+        // Do nothing
+    }});
 
     useEffect(() => {
         setSelected(Array(props.content.answerLength).fill(null));
@@ -119,7 +123,7 @@ const ClickAndDrop = (props: Props): JSX.Element => {
 
     useEffect(() => {
         if (isAnswerCorrect) {
-            const timer = setTimeout(() => {props.onActionNext();}, 500);
+            const timer = setTimeout(nextActionCallback.fn, 500);
             return () => clearTimeout(timer);
         }
     }, [isAnswerCorrect]);
@@ -127,9 +131,10 @@ const ClickAndDrop = (props: Props): JSX.Element => {
     const onSubmit = () => {
         if (submitted)
             return;
-        props.submitAnswer(selected as string[]).then(response => {
+        props.submitAnswer(selected as string[]).then(([response, callbackFn]) => {
             setSubmitted(true);
             setCorrectAnswer((response.answer as string[]).join(''));
+            setNextActionCallback({fn: callbackFn});
             setIsAnswerCorrect(response.isCorrect);
         }).catch( msg => {
             console.log(msg);
@@ -228,7 +233,7 @@ const ClickAndDrop = (props: Props): JSX.Element => {
                     <button
                         className="choice-button"
                         hidden={!submitted || (submitted && isAnswerCorrect)}
-                        onClick={props.onActionNext}
+                        onClick={nextActionCallback.fn}
                     >
                         Next
                     </button>
@@ -241,4 +246,3 @@ const ClickAndDrop = (props: Props): JSX.Element => {
 };
 
 export default ClickAndDrop;
-

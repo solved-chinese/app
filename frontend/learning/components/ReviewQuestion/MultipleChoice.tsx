@@ -72,10 +72,11 @@ const SubmitContainer = styled.div`
     width: 100%;
 `;
 
+type NextActionCallback = () => void;
+
 type Props = {
     content: MCQuestionContent,
-    submitAnswer: (answer: ReviewQuestionAnswer) => Promise<AnswerVerificationResponse>,
-    onActionNext: () => void,
+    submitAnswer: (answer: ReviewQuestionAnswer) => Promise<[AnswerVerificationResponse, NextActionCallback]>,
 }
 
 /**
@@ -87,6 +88,9 @@ const MultipleChoice = (props: Props): JSX.Element => {
     const [correctAnswer, setCorrectAnswer] = useState<MCAnswer | undefined>(undefined);
     const [submitted, setSubmitted] = useState<boolean>(false);
     const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | undefined>(undefined);
+    const [nextActionCallback, setNextActionCallback] = useState<{ fn: NextActionCallback }>({fn: () => {
+        // Do nothing
+    }});
 
     useEffect( () => {
         setSelectedAnswer(undefined);
@@ -102,15 +106,16 @@ const MultipleChoice = (props: Props): JSX.Element => {
 
     useEffect(() => {
         if (isAnswerCorrect) {
-            const timer = setTimeout(() => {props.onActionNext();}, 500);
+            const timer = setTimeout(nextActionCallback.fn, 500);
             return () => clearTimeout(timer);
         }
     }, [isAnswerCorrect]);
 
     const onSubmit = (answer: MCAnswer) => {
-        props.submitAnswer(answer).then(response => {
+        props.submitAnswer(answer).then(([response, callback]) => {
             setCorrectAnswer(response.answer as MCAnswer);
             setSubmitted(true);
+            setNextActionCallback({fn: callback});
             setIsAnswerCorrect(response.isCorrect);
         }).catch( msg => {
             console.log(msg);
@@ -207,7 +212,7 @@ const MultipleChoice = (props: Props): JSX.Element => {
                     <button
                         className="choice-button"
                         hidden={!submitted || (submitted && isAnswerCorrect)}
-                        onClick={props.onActionNext}
+                        onClick={nextActionCallback.fn}
                     >
                         Next
                     </button>

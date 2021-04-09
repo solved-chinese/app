@@ -7,11 +7,11 @@ import {ReviewQuestionAnswer, AnswerVerificationResponse} from '@interfaces/Revi
  * the question id. Return a promise of the question verification server 
  * response object. Reject the promise if the server didn't respond ok.
  */
-const submitAnswer = (qid: number, id: string, answer: ReviewQuestionAnswer):
-    Promise<AnswerVerificationResponse> => {
+const submitAnswer = (qid: number, id: string, answer: ReviewQuestionAnswer, completion: ()=>void):
+    Promise<[AnswerVerificationResponse, ()=>void]> => {
 
     const CSRFToken = `${$('[name=csrfmiddlewaretoken]').val()}`;
-    return new Promise((resolve, reject) => {
+    return new Promise<[AnswerVerificationResponse, ()=>void]>((resolve, reject) => {
         fetch(`/content/question/${qid}`, {
             method: 'POST',
             headers: {
@@ -30,7 +30,7 @@ const submitAnswer = (qid: number, id: string, answer: ReviewQuestionAnswer):
                 reject(`Couldn't verify the answer, response: ${response.status}`);
             }
         }).then( json => {
-            resolve(camelcaseKeys(json, {deep: true}));
+            resolve([camelcaseKeys(json, {deep: true}), completion]);
         });
     });
 };

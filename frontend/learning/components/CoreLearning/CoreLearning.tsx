@@ -99,9 +99,20 @@ const CoreLearning = (props: Props): JSX.Element => {
         );
     };
 
-    const submitAnswer = (answer: ReviewQuestionAnswer): Promise<AnswerSubmitResponse> => {
+    type ActionNextCallback = () => void
+
+    const submitAnswer = (answer: ReviewQuestionAnswer): Promise<[AnswerSubmitResponse, ActionNextCallback]> => {
         const data = { answer, state };
-        return getLearningNext(url, data) as Promise<AnswerSubmitResponse>;
+        return (getLearningNext(url, data) as Promise<AnswerSubmitResponse>)
+            .then(response => {
+                const callback: ActionNextCallback = () => {
+                    setAction(response.action);
+                    setContent(response.content);
+                    setProgressBar(response.progressBar);
+                    setState(response.state);
+                };
+                return [response, callback];
+            });
     };
 
     useEffect(
@@ -150,7 +161,6 @@ const CoreLearning = (props: Props): JSX.Element => {
             { renderProgressBar(progressBar) }
             <ReviewQuestion
                 question={content as ReviewQuestionData}
-                onActionNext={onActionNext}
                 submitAnswer={submitAnswer}
             />
         </>

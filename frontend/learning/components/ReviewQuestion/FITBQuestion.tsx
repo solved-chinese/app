@@ -38,10 +38,11 @@ const ResponseContainer = styled.div`
     text-align: center;
 `;
 
+type NextActionCallback = () => void;
+
 type Props = {
     content: FITBQuestionContent,
-    onActionNext: ()=>void,
-    submitAnswer: (answer: ReviewQuestionAnswer) => Promise<AnswerVerificationResponse>,
+    submitAnswer: (answer: ReviewQuestionAnswer) => Promise<[AnswerVerificationResponse, NextActionCallback]>,
 }
 
 /**
@@ -59,6 +60,9 @@ const FITBQuestion = (props: Props): JSX.Element => {
     const [correctAnswer, setCorrectAnswer] = useState<FITBAnswer | null>(null);
     const [submitted, setSubmitted] = useState<boolean>(false);
     const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | undefined>(undefined);
+    const [nextActionCallback, setNextActionCallback] = useState<{ fn: NextActionCallback }>({fn: () => {
+        // Do nothing
+    }});
 
     useEffect(() => {
         setAnswer('');
@@ -69,7 +73,7 @@ const FITBQuestion = (props: Props): JSX.Element => {
 
     useEffect(() => {
         if (isAnswerCorrect) {
-            const timer = setTimeout(() => {props.onActionNext();}, 500);
+            const timer = setTimeout(nextActionCallback.fn, 500);
             return () => clearTimeout(timer);
         }
     }, [isAnswerCorrect]);
@@ -87,15 +91,16 @@ const FITBQuestion = (props: Props): JSX.Element => {
 
     const onSubmit = () => {
         if (submitted) {
-            props.onActionNext();
+            nextActionCallback.fn();
             return;
         }
         if (!answer || answer.length === 0)
             return;
-        props.submitAnswer(answer).then(response => {
+        props.submitAnswer(answer).then(([response, callback]) => {
             setCorrectAnswer(response.answer as FITBAnswer);
-            setIsAnswerCorrect(response.isCorrect);
             setSubmitted(true);
+            setNextActionCallback({fn: callback});
+            setIsAnswerCorrect(response.isCorrect);
         }).catch( msg => {
             console.log(msg);
         });
