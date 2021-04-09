@@ -14,7 +14,7 @@ export interface AudioTextProvider {
 export interface MCQuestionContent {
     question: AudioTextProvider
     context: string,
-    choices: [AudioTextProvider]
+    choices: AudioTextProvider[]
 }
 
 export interface CNDQuestionContent {
@@ -22,7 +22,7 @@ export interface CNDQuestionContent {
     title: string,
     description: string,
     answerLength: number,
-    choices: [string]
+    choices: string[]
 }
 
 export interface FITBQuestionContent {
