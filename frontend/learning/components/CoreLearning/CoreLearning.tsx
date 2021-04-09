@@ -48,17 +48,17 @@ type Props = {
     qid: number,
 }
 
-// const BonusText = styled.h2`
-//     margin-top: 25px;
-//     margin-bottom: -30px;
-// `;
+const BonusText = styled.h2`
+    margin-top: 25px;
+    margin-bottom: -30px;
+`;
 
-// // so that next button and bonus texts align with content card
-// const LearningContentContainer = styled.div`
-//     max-width: 800px;
-//     width: 100%;
-//     margin: auto;
-// `;
+// so that next button and bonus texts align with content card
+const LearningContentContainer = styled.div`
+    max-width: 800px;
+    width: 100%;
+    margin: auto;
+`;
 
 
 /**
@@ -127,23 +127,28 @@ const CoreLearning = (props: Props): JSX.Element => {
     );
 
 
-    // const renderBonus = () => {
-    //     if (!content || !'type' in content)
-    //         return null;
-    //     if (content.type == 'radical')
-    //         return <BonusText>Bonus Radical! {"\u{1F609}"}</BonusText>;
-    //     else if (content.type == 'character')
-    //         return <BonusText>Bonus Character! {"\u{1F60F}"}</BonusText>;
-    //     return null;
-    // };
+    const renderBonus = (learningState: LearningState) => {
+        if ((learningState.content as DisplayObjectContent).type !== undefined) {
+            const type = (learningState.content as DisplayObjectContent).type;
+            if (type == 'radical')
+                return <BonusText>Bonus Radical! {'\u{1F609}'}</BonusText>;
+            else if (type == 'character')
+                return <BonusText>Bonus Character! {'\u{1F60F}'}</BonusText>;
+            return null;
+        }
+    };
 
     const renderItemDisplay = (learningState: LearningState) => (
         <>
             {renderProgressBar(learningState.progressBar)}
-            <ItemDisplay
-                {...learningState.content as DisplayObjectContent}
-                onActionNext={onActionNext}
-            />
+            <LearningContentContainer>
+                {renderBonus(learningState)}
+                <ItemDisplay
+                    {...learningState.content as DisplayObjectContent}
+                    onActionNext={onActionNext}
+                />
+            </LearningContentContainer>
+
         </>
     );
 
