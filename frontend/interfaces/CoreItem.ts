@@ -139,3 +139,8 @@ export interface HighlightedSentence {
 }
 
 export type ItemType = 'word' | 'character' | 'radical'
+
+export interface DisplayObjectContent {
+    qid: number,
+    type: ItemType
+}

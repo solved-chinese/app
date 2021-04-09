@@ -12,11 +12,11 @@ import '@learning.styles/CoreLearning.css';
 import styled from 'styled-components';
 import {
     AnswerSubmitResponse,
-    DisplayObjectContent,
     LearningNextResponse,
     ProgressBarData
 } from '@interfaces/CoreLearning';
 import {ReviewQuestionAnswer, ReviewQuestionData} from '@interfaces/ReviewQuestion';
+import {DisplayObjectContent} from '@interfaces/CoreItem';
 
 const Title = styled.h1`
     font-size: 2em;
