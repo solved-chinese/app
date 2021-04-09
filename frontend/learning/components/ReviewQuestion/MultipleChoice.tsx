@@ -150,7 +150,7 @@ const MultipleChoice = (props: Props): JSX.Element => {
         return props.content.choices.map( (v, i) => {
             const [text, audio] = getTextAudio(v);
             return (
-                <>
+                <div key={i}>
                     <button
                         key={i} // change text to i
                         className={getChoiceClassName(text)}
@@ -162,7 +162,7 @@ const MultipleChoice = (props: Props): JSX.Element => {
                     {audio? <SpeakButton1
                         src="/static/images/small-icons/pronounce.svg"
                         onClick={() => new Audio(audio).play()}/> : null}
-                </>
+                </div>
             );
         }
         );
