@@ -12,7 +12,7 @@ const Constant = {
     /**
      * Root element id.
      */
-    HEADER_ELEMENT_ID: 'navbar-bg',
+    HEADER_ELEMENT_ID: 'navbar-bg'
 };
 
 export default Constant;
