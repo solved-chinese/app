@@ -13,8 +13,7 @@ import styled from 'styled-components';
 import {
     AnswerSubmitResponse,
     DisplayObjectContent,
-    LearningAction,
-    LearningObjectContent,
+    LearningNextResponse,
     ProgressBarData
 } from '@interfaces/CoreLearning';
 import {ReviewQuestionAnswer, ReviewQuestionData} from '@interfaces/ReviewQuestion';
@@ -73,10 +72,8 @@ const CoreLearning = (props: Props): JSX.Element => {
     const qid = props.qid;
     const url = `/learning/api/${qid}`;
 
-    const [action, setAction] = useState<LearningAction | null>(null);
-    const [content, setContent] = useState<LearningObjectContent | null>(null);
-    const [progressBar, setProgressBar] = useState<ProgressBarData | null>(null);
-    const [state, setState] = useState<string | undefined>(undefined);
+    type LearningState = LearningNextResponse
+    const [learningState, setLearningState] = useState<LearningState>();
 
     // FIXME onActionNext is called twice in review, unnecessary
     // FIXME handle conflict
@@ -88,13 +85,10 @@ const CoreLearning = (props: Props): JSX.Element => {
     }, []);
 
     const onActionNext = () => {
-        const data = state ? {state} : {};
+        const data = learningState?.state ? {state: learningState.state} : {};
         getLearningNext(url, data).then(
             response => {
-                setAction(response.action);
-                setContent(response.content);
-                setProgressBar(response.progressBar);
-                setState(response.state);
+                setLearningState(response);
             }
         );
     };
@@ -102,14 +96,11 @@ const CoreLearning = (props: Props): JSX.Element => {
     type ActionNextCallback = () => void
 
     const submitAnswer = (answer: ReviewQuestionAnswer): Promise<[AnswerSubmitResponse, ActionNextCallback]> => {
-        const data = { answer, state };
+        const data = { answer, state: learningState!.state };
         return (getLearningNext(url, data) as Promise<AnswerSubmitResponse>)
             .then(response => {
                 const callback: ActionNextCallback = () => {
-                    setAction(response.action);
-                    setContent(response.content);
-                    setProgressBar(response.progressBar);
-                    setState(response.state);
+                    setLearningState(response);
                 };
                 return [response, callback];
             });
@@ -146,21 +137,21 @@ const CoreLearning = (props: Props): JSX.Element => {
     //     return null;
     // };
 
-    const renderItemDisplay = (progressBar: ProgressBarData, content: LearningObjectContent) => (
+    const renderItemDisplay = (learningState: LearningState) => (
         <>
-            {renderProgressBar(progressBar)}
+            {renderProgressBar(learningState.progressBar)}
             <ItemDisplay
-                {...content as DisplayObjectContent}
+                {...learningState.content as DisplayObjectContent}
                 onActionNext={onActionNext}
             />
         </>
     );
 
-    const renderReviewQuestion = (progressBar: ProgressBarData) => (
+    const renderReviewQuestion = (learningState: LearningState) => (
         <>
-            { renderProgressBar(progressBar) }
+            { renderProgressBar(learningState.progressBar) }
             <ReviewQuestion
-                question={content as ReviewQuestionData}
+                question={learningState.content as ReviewQuestionData}
                 submitAnswer={submitAnswer}
             />
         </>
@@ -182,13 +173,13 @@ const CoreLearning = (props: Props): JSX.Element => {
         </>
     );
 
-    switch (action) {
+    switch (learningState?.action) {
     case 'review':
-        return renderReviewQuestion(progressBar!);
+        return renderReviewQuestion(learningState);
     case 'display':
-        return renderItemDisplay(progressBar!, content!);
+        return renderItemDisplay(learningState);
     case 'done':
-        return renderDoneView(progressBar!);
+        return renderDoneView(learningState.progressBar);
     default:
         return <>loading</>;
     }
