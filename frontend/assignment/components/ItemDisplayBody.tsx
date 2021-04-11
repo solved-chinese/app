@@ -18,7 +18,6 @@ const ItemDisplayBody = (props: ItemDisplayBodyProps): JSX.Element => {
             obj === props.curObject);
         if (index === -1)
             console.error('Unable to find index for the current object');
-            // TODO: Error Handling
         else if (index !== curPage)
             setCurPage(index + 1);
     }, [props.curObject]);
