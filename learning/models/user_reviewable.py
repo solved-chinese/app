@@ -27,6 +27,9 @@ class UserReviewable(models.Model):
 
     objects = UserReviewableManager()
 
+    class Meta:
+        unique_together = ('user', 'reviewable')
+
     def learn_related(self, reviewable):
         """ returns: whether this reviewable could be add as bonus """
         self.learned_related_reviewables.add(reviewable)
