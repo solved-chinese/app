@@ -3,9 +3,10 @@ from uuid import uuid4
 import json
 
 from django.db import models
+from django.contrib.contenttypes.fields import GenericRelation
 
 from content.models import GeneralContentModel, \
-    ReviewableMixin, AudioFile
+    ReviewableMixin, AudioFile, LinkedField
 from content.utils import validate_chinese_character_or_x
 from content.data.makemeahanzi_dictionary import get_makemeahanzi_data
 
@@ -42,6 +43,7 @@ class Radical(ReviewableMixin, GeneralContentModel):
                                    blank=True, default='TODO')
 
     is_learnable = models.BooleanField(default=False)
+    linked_fields = GenericRelation(LinkedField)
 
     class Meta:
         ordering = ['id']

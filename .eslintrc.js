@@ -5,14 +5,17 @@ module.exports = {
         'amd': true
     },
     'globals': {
+        'JSX': true,
         'window': true,
         'module': true
     },
     'extends': [
         'eslint:recommended',
-        'plugin:react/recommended'
+        'plugin:react/recommended',
+        'plugin:@typescript-eslint/eslint-recommended',
+        'plugin:@typescript-eslint/recommended'
     ],
-    'parser': 'babel-eslint',
+    'parser': '@typescript-eslint/parser',
     'parserOptions': {
         'ecmaFeatures': {
             'jsx': true
@@ -23,12 +26,17 @@ module.exports = {
     'settings': {
         'import/resolver': { 
             'babel-module': {}
+        },
+        'react': {
+            'pragma': 'React',
+            'version': 'detect',
         }
     },
     'plugins': [
         'react',
         'babel',
-        'import'
+        'import',
+        '@typescript-eslint'
     ],
     'rules': {
         'indent': [
@@ -47,8 +55,8 @@ module.exports = {
             'error',
             'always'
         ],
-        'no-unused-vars': [
-            'warn'
-        ],
+        // Disable `no-unused-vars, use @typescript-eslint/no-unused-vars instead`
+        'no-unused-vars': 0,
+        '@typescript-eslint/no-non-null-assertion': 0
     }
 };

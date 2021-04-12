@@ -75,16 +75,17 @@ class WordSetAdmin(DraggableMPTTAdmin, GeneralContentAdmin):
             return
 
         wordset = queryset.get()
-        Factories = QuestionFactoryRegistry.get_factories_by_model(Word)
-        factories = [Factory() for Factory in Factories]
         result = ""
 
-        for word in wordset.words.all():
+        objs = [*wordset.words.all(), *Character.objects.filter(word__word_set=wordset)]
+        for obj in objs:
+            Factories = QuestionFactoryRegistry.get_factories_by_model(obj.__class__)
+            factories = [Factory() for Factory in Factories]
             for factory in factories:
-                info_string = f"creating {factory.question_type} on {repr(word)}"
+                info_string = f"creating {factory.question_type} on {repr(obj)}"
                 info_string = html.escape(info_string)
                 try:
-                    factory.generate(word.get_reviewable_object())
+                    factory.generate(obj.get_reviewable_object())
                 except Exception as e:
                     result += f'<div style="color: red">fail {info_string} ' \
                               f'{html.escape(repr(e))}</div>'

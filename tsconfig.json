@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "jsx": "react",
+    "baseUrl": ".",
+    "paths": {
+      "@learning.components/*": ["./frontend/learning/components/*"],
+      "@learning.hooks/*": ["./frontend/learning/hooks/*"],
+      "@learning.styles/*": ["./frontend/learning/styles/*"],
+      "@learning.services/*": ["./frontend/learning/services/*"],
+      "@interfaces/*": ["./frontend/interfaces/*"],
+      "@assignment.components/*": ["./frontend/assignment/components/*"],
+      "@assignment.hooks/*": ["./frontend/assignment/hooks/*"],
+      "@assignment.styles/*": ["./frontend/assignment/styles/*"],
+      "@assignment.services/*": ["./frontend/assignment/services/*"],
+      "@utils/*": ["./frontend/utils/*"]
+    }
+  },
+  "include": [
+    "frontend"
+  ]
+}

@@ -2,9 +2,10 @@ import json
 
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.contrib.contenttypes.fields import GenericRelation
 
 from content.models import GeneralContentModel, OrderableMixin, \
-    ReviewableMixin, AudioFile
+    ReviewableMixin, AudioFile, LinkedField
 from content.utils import validate_chinese_character_or_x
 from content.data.makemeahanzi_dictionary import get_makemeahanzi_data
 
@@ -74,6 +75,7 @@ class Character(ReviewableMixin, GeneralContentModel):
     memory_aid = models.TextField(max_length=300,
                                   blank=True, default='TODO',
                                   verbose_name='character memory aid')
+    linked_fields = GenericRelation(LinkedField)
 
     class Meta:
         ordering = ['id']

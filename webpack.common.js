@@ -3,8 +3,8 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        learning: './frontend/learning/index.js',
-        assignment: './frontend/assignment/index.js'
+        learning: './frontend/learning/index.tsx',
+        assignment: './frontend/assignment/index.tsx'
     },
     output: {
         filename: '[name].bundle.js',
@@ -16,7 +16,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(js|ts)$/,
+                test: /\.(js|ts|tsx)$/,
                 exclude: /node_modules/,
                 loader: 'babel-loader',
                 options: {

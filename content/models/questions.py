@@ -3,12 +3,12 @@ import logging
 import numpy as np
 import re
 
-from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.shortcuts import reverse
+from django_better_admin_arrayfield.models.fields import ArrayField
 
 
 logger = logging.getLogger(__name__)
@@ -291,6 +291,10 @@ class FITBQuestion(BaseConcreteQuestion):
     answer_link = models.ForeignKey(LinkedField,
                                     on_delete=models.CASCADE,
                                     related_name='+')
+    alternative_answers = ArrayField(
+        models.CharField(max_length=8), default=list, blank=True,
+        help_text="punctuations and spaces will be ignored, case insensitive"
+    )
 
     def _render(self, show_all_options=False):
         title = self.title_link.value
@@ -301,16 +305,33 @@ class FITBQuestion(BaseConcreteQuestion):
             'title': title,
         }
 
+    def clean(self):
+        super().clean()
+        self.alternative_answers = [self._normalize_answer(answer)
+                                    for answer in self.alternative_answers]
+
+    @staticmethod
+    def _normalize_answer(x):
+        # remove all punctuations and spaces
+        return re.sub(
+            r'[^a-zA-Z0-9\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF'
+                r'\u4E00-\u9FCC\uF900-\uFAAD\U00020000-\U0002A6D6]',
+            r'',
+            x
+        ).lower()
+
     def check_answer(self, client_answer):
         correct_answer = self.answer_link.value
         try:
             client_answer = client_answer.strip()
         except AttributeError:
-            logging.error(exc_info=True)
+            logging.error('client answer not string', exc_info=True)
+        client_answer = self._normalize_answer(client_answer)
         correct_answers = [
-            correct_answer,
-            re.sub(r'\((.*?)\)', r'\1', correct_answer),
-            re.sub(r'\((.*?)\)', r'', correct_answer)
+            self._normalize_answer(correct_answer),
+            # for words like (飞)机场, allow both 飞机场 and 机场
+            self._normalize_answer(re.sub(r'\((.*?)\)', r'', correct_answer)),
+            *self.alternative_answers
         ]
         return client_answer in correct_answers, correct_answer
 

@@ -1,20 +1,19 @@
-import ProgressBar from "./ProgressBar";
+import { ProgressBarData } from '@interfaces/CoreLearning';
+import { ItemType } from '@interfaces/CoreItem';
 
-interface Assignment {
-    name: String,
-    progressBar: ProgressBar,
-    wordList: [SimpleContentObject],
-    characterList: [SimpleContentObject],
-    radicalList: [SimpleContentObject],
+export interface Assignment {
+    name: string,
+    progressBar: ProgressBarData,
+    wordList: SimpleContentObject[],
+    characterList: SimpleContentObject[],
+    radicalList: SimpleContentObject[],
 }
 
-interface SimpleContentObject {
-    type: String,
-    qid: String,
-    status: 'mastered'|'familiar'|'remaining',
-    chinese: String,
-    pinyin: String,
+export interface SimpleContentObject {
+    type: ItemType,
+    qid: number,
+    status: 'mastered' | 'familiar' | 'remaining',
+    chinese: string,
+    pinyin: string,
+    definition: string
 }
-
-
-export default Assignment;

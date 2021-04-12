@@ -37,6 +37,7 @@ class ReviewableObject(AdminUrlMixin, models.Model):
                                 on_delete=models.CASCADE)
 
     def get_bonuses(self):
+        # for now allowing only 1 bonus per word, none otherwise
         from .radical import Radical
         if self.word:
             bonuses = [
@@ -44,10 +45,12 @@ class ReviewableObject(AdminUrlMixin, models.Model):
                 *Radical.objects.filter(is_learnable=True,
                                         character__word=self.word).distinct(),
             ]
+            bonuses = bonuses[:1]
             return [bonus.get_reviewable_object() for bonus in bonuses]
         elif self.character:
-            return [radical.get_reviewable_object()
-                    for radical in self.character.radicals.distinct()]
+            return []
+            # return [radical.get_reviewable_object()
+            #         for radical in self.character.radicals.distinct()]
         else:
             return []
 
