@@ -1,10 +1,9 @@
-import html
-
 from django.views.generic import View
 from django.http import HttpResponseRedirect, Http404
 from django.views.generic import DetailView, TemplateView
 from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.contrib.auth.decorators import user_passes_test
+from django.db.models import Q
 
 from content.models import GeneralQuestion, Word, \
     ReviewableObject, Radical, Character, WordSet
@@ -81,42 +80,47 @@ class QuestionDisplayView(TemplateView):
     template_name = 'react/learning.html'
 
     def get_context_data(self, **kwargs):
-        question_order = self.kwargs.get('question_order', None)
-        set_pk = self.kwargs.get('set_pk', None)
-        question_pk = self.kwargs.get('question_pk', None)
-        if question_pk is not None:
-            question_obj = get_object_or_404(GeneralQuestion, pk=question_pk)
-        all_display = ""
-        if question_order is not None:
-            wordset = get_object_or_404(WordSet, pk=set_pk)
-            questions = GeneralQuestion.objects.all()
-            if question_order != -1:
-                questions = questions.filter(order=question_order)
-            questions = questions.filter(reviewable__word__word_set=wordset)
-            if question_pk is None:
-                question_obj = questions.first()
-            if question_obj is None:
-                raise Http404
-            all_display += "You are now viewing questions with order {} in {}<br>"\
-                .format(question_order, wordset.name)
-            all_display += ", ".join('<a href="{}" {}>{}</a>'.format(
-                reverse('question_display',
-                        args=(question_order, set_pk, question.pk)),
-                'style="color:red;"' if question == question_obj else "",
-                html.escape(repr(question.reviewable.word)),
-            ) for question in questions.all())
-            all_display += '<br><a href="{}">click here to edit this question</a>'\
-                .format(question_obj.get_admin_url())
-            all_display += '<br><a href="{}">click here to toggle show all options</a>' \
-                .format(reverse('show_all_options_toggle'))
         context = {
-            'pre_react': all_display,
             'react_data': {
                 'action': 'review',
-                'content': {'qid': question_obj.pk},
+                'content': {'qid': kwargs.get('question_pk', 0)},
             }
         }
         return context
+
+
+@user_passes_test(lambda user: user.is_staff)
+def admin_display_question(request, set_pk, question_pk=None):
+    if request.method == 'POST':
+        question = get_object_or_404(GeneralQuestion,
+                                     pk=request.POST.get('question_pk', None))
+        question.concrete_question.is_done ^= True
+        question.concrete_question.save()
+
+    if set_pk.isnumeric():
+        wordset = get_object_or_404(WordSet, pk=set_pk)
+    else:
+        wordset = get_object_or_404(WordSet, jiezi_id__iexact=set_pk)
+    questions = GeneralQuestion.objects.all()
+    questions = questions.filter(
+        Q(reviewable__word__word_set=wordset)
+        | Q(reviewable__character__word__word_set=wordset)
+        | Q(reviewable__radical__character__word__word_set=wordset)
+    ).distinct()
+    questions = questions.select_related('MC', 'FITB', 'CND')
+    questions_by_type = {}
+    for question in questions:
+        questions_by_type.setdefault(question.question_type, []).append(question)
+    if question_pk is None:
+        current_question = questions.first()
+    else:
+        current_question = get_object_or_404(GeneralQuestion, pk=question_pk)
+    context = {
+        'set_pk': set_pk,
+        'questions_by_type': questions_by_type,
+        'current_question': current_question,
+    }
+    return render(request, 'react/question_list.html', context)
 
 
 @user_passes_test(lambda user: user.is_staff)

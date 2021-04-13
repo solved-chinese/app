@@ -41,7 +41,7 @@ class WordSetAdmin(DraggableMPTTAdmin, GeneralContentAdmin):
     search_fields = ['name__search']
     readonly_fields = ['lft', 'rght', 'tree_id']
     actions = ['split_wordset', 'rebuild', 'generate_question', 'duplicate',
-               'deploy_check']
+               'deploy_check', 'display_questions']
     inlines = [WordInSetInline]
     mptt_level_indent = 30
     save_as = True
@@ -139,7 +139,10 @@ class WordSetAdmin(DraggableMPTTAdmin, GeneralContentAdmin):
                     question = next(q for q in questions
                                     if q.question_type == factory.question_type)
                     question.render()
-                    question_result = 'good'
+                    if not question.is_done:
+                        question_result = 'bad: not done'
+                    else:
+                        question_result = 'good'
                 except StopIteration:
                     question_result = 'bad: not exist'
                 except ValidationError as e:
@@ -164,3 +167,12 @@ class WordSetAdmin(DraggableMPTTAdmin, GeneralContentAdmin):
         return render(request,
                       'content/deploy_check.html',
                       {'results': results})
+
+    def display_questions(self, request, queryset):
+        try:
+            wordset = queryset.get()
+        except (WordSet.MultipleObjectsReturned, WordSet.DoesNotExist):
+            self.message_user(request, "can only be done on one set", 'ERROR')
+            return
+        return redirect(reverse('admin_question_display',
+                                args=(wordset.jiezi_id,)))

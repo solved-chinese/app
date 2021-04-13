@@ -41,7 +41,8 @@ class WordSet(MPTTModel, GeneralContentModel):
                 for w in self.words.all():
                     if not w.is_done:
                         raise ValidationError(f"{repr(w)} not done")
-                    elif not w.get_reviewable_object().questions.exists():
+                    elif not w.get_reviewable_object().questions.filter(
+                            is_done=True).exists():
                         raise ValidationError(f"{repr(w)} has no questions")
             else:
                 if self.words.exists():

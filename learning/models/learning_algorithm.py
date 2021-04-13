@@ -219,6 +219,8 @@ class ReviewState(AbstractLearningState):
         question_pk = question_list[0]
         try:
             question = GeneralQuestion.objects.get(pk=question_pk)
+            if not question.is_done:
+                raise ValidationError('not done, pick another question')
             render_kwargs = {}
             request = getattr(process, 'request', None)
             if request:
