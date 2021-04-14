@@ -39,8 +39,8 @@ class JoinClassView(StudentOnlyMixin, View):
         messages.add_message(
             request,
             messages.SUCCESS,
-            f'You have now joined "{self.student.klass.name} '
-            f'by "{self.student.klass.teacher.display_name}'
+            f'You have now joined "{self.student.klass.name}" '
+            f'by {self.student.klass.teacher.display_name}'
         )
         return redirect('index')
 

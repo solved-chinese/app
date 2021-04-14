@@ -22,16 +22,16 @@ urlpatterns = [
          name='character_display'),
     path('display/radical/<int:pk>', views.RadicalDisplayView.as_view(),
          name='radical_display'),
-
-    path('display/question/<int:question_order>/<int:set_pk>/<int:question_pk>',
-         views.QuestionDisplayView.as_view(),
-         name='question_display'),
-    path('display/question/<int:question_order>/<int:set_pk>',
-         views.QuestionDisplayView.as_view(),
-         name='question_display'),
     path('display/question/<int:question_pk>',
          views.QuestionDisplayView.as_view(),
          name='question_display'),
+
+    path('display/questions_by_set/<slug:set_pk>/<int:question_pk>',
+         views.admin_display_question,
+         name='admin_question_display'),
+    path('display/questions_by_set/<slug:set_pk>',
+         views.admin_display_question,
+         name='admin_question_display'),
 
     path('display/wordset/<int:pk>/<int:word_pk>',
          views.SetDisplayView.as_view(),
