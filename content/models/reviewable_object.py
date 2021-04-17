@@ -2,8 +2,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.shortcuts import reverse
 
-from .general_content_model import AdminUrlMixin
-
+from jiezi.utils.models import AdminUrlMixin
 
 __all__ = ['ReviewableMixin', 'ReviewableObject']
 

@@ -1,9 +1,10 @@
 from django.db import models
-from django.shortcuts import reverse
 from django.core.exceptions import ValidationError, NON_FIELD_ERRORS
 
 
-__all__ = ['GeneralContentModel', 'OrderableMixin', 'AdminUrlMixin']
+__all__ = ['GeneralContentModel', 'OrderableMixin']
+
+from jiezi.utils.models import AdminUrlMixin
 
 
 class OrderableMixin(models.Model):
@@ -19,12 +20,6 @@ class OrderableMixin(models.Model):
 
     class Meta:
         abstract = True
-
-
-class AdminUrlMixin:
-    def get_admin_url(self):
-        return reverse('admin:{}_{}_change'.format(
-            self._meta.app_label, self._meta.model_name), args=[self.pk])
 
 
 class GeneralContentModel(AdminUrlMixin, models.Model):

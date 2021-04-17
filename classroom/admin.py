@@ -1,42 +1,78 @@
 from django.contrib import admin
-from django.utils.html import format_html
+from django.utils.html import mark_safe, format_html
 
-from .models import Class, Assignment
+from jiezi.utils.admins import ViewOnlyAdminMixin, get_admin_url
+from .models import Class, Assignment, Student, Teacher
+from accounts.admin import user_linked_display
+
+
+def class_linked_display(klass):
+    user = klass.teacher.user
+    return format_html("<a href={}>T:{}</a>'s <a href={}>C:{}</a>",
+                       get_admin_url(user),
+                       str(user),
+                       get_admin_url(klass),
+                       klass.name
+                       )
+
+
+def assignment_linked_display(assignment):
+    klass = assignment.klass
+    user = klass.teacher.user
+    return format_html("<a href={}>T:{}</a>'s "
+                       "<a href={}>C:{}</a>'s "
+                       "<a href={}>A:{}</a>",
+                       get_admin_url(user),
+                       str(user),
+                       get_admin_url(klass),
+                       klass.name,
+                       get_admin_url(assignment),
+                       assignment.name,
+                       )
+
+class AssignmentGeneralAdmin(ViewOnlyAdminMixin):
+    exclude = ('data',)
+
+
+class AssignmentInlinAdmin(AssignmentGeneralAdmin, admin.StackedInline):
+    show_change_link = True
+    model = Assignment
 
 
 @admin.register(Assignment)
-class AssignmentAdmin(admin.ModelAdmin):
-    list_display = ('detail', 'class_name', 'teacher_name')
+class AssignmentAdmin(AssignmentGeneralAdmin, admin.ModelAdmin):
+    list_display = (assignment_linked_display,)
     list_display_links = None
+    fields = ('detail', 'wordset', 'display_stats')
+    readonly_fields = ('display_stats',)
 
-    def class_name(self, obj):
-        return format_html('<a href={}>{}</a>',
-                           obj.klass.get_absolute_url(),
-                           obj.klass.name)
-    class_name.short_description = 'class'
+    def detail(self, assignment):
+        return assignment_linked_display(assignment)
 
-    def teacher_name(self, obj):
-        return obj.klass.teacher.display_name
-    teacher_name.short_description = 'teacher'
+    def display_stats(self, assignment):
+        stats = assignment.get_stats()
+        return mark_safe(','.join(stats.values()))
 
-    def detail(self, obj):
-        return format_html('<a href={}>{}</a>',
-                           obj.get_absolute_url(),
-                           obj.name)
-    detail.short_description = 'name'
+
+class StudentInlineAdmin(admin.StackedInline):
+    model = Student
+    fields = ('display_student',)
+    readonly_fields = ('display_student',)
+
+    def display_student(self, student):
+        return user_linked_display(student.user)
 
 
 @admin.register(Class)
-class ClassAdmin(admin.ModelAdmin):
-    list_display = ('detail', 'teacher_display_name', 'student_count')
+class ClassAdmin(ViewOnlyAdminMixin, admin.ModelAdmin):
+    list_display = (class_linked_display, 'student_count')
     list_display_links = None
+    inlines = (AssignmentInlinAdmin, StudentInlineAdmin)
+    list_filter = (
+        ('teacher__user__alias', admin.EmptyFieldListFilter),
+    )
 
-    def teacher_display_name(self, obj):
-        return obj.teacher.display_name
-    teacher_display_name.short_description = 'teacher'
+    def lookup_allowed(self, lookup, value):
+        return (lookup == 'teacher__user__alias__isempty'
+                or super().lookup_allowed(lookup, value))
 
-    def detail(self, obj):
-        return format_html('<a href={}>{}</a>',
-                           obj.get_absolute_url(),
-                           obj.name)
-    detail.short_description = 'name'

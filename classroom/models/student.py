@@ -1,9 +1,6 @@
-from datetime import timedelta
-
 from django.db import models
 
 from accounts.models import User
-from jiezi.utils.mixins import StrDefaultReprMixin
 
 
 class Student(models.Model):

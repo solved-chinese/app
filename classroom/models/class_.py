@@ -1,5 +1,3 @@
-import uuid
-
 from django.db import models
 from django.utils.crypto import get_random_string
 
@@ -29,7 +27,7 @@ class Class(models.Model):
         return reverse('class_detail', args=[self.pk])
 
     def __str__(self):
-        return f'Class: {self.name}'
+        return f'<class {self.name} by {str(self.teacher.user)}>'
 
     def __repr__(self):
         return f'<class {self.name} by {repr(self.teacher)}>'

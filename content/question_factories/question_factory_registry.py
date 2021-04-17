@@ -17,3 +17,7 @@ class QuestionFactoryRegistry:
     @classmethod
     def get_factories_by_model(cls, model):
         return cls._model2factories.get(model, [])
+
+    @classmethod
+    def type_list(cls):
+        return list(cls._type2factories.keys())
