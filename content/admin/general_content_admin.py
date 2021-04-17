@@ -70,7 +70,7 @@ class ReviewableAdminMixin(admin.ModelAdmin):
 
 class GeneralContentAdmin(NextAdminMixin, DisabledFieldMixin, admin.ModelAdmin):
     disabled_fields = ['archive']
-    list_per_page = 50
+    list_per_page = 70
 
     def get_readonly_fields(self, request, obj=None):
         """ not show readonly fields at creation """

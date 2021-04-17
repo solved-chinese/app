@@ -59,10 +59,11 @@ class GeneralFactory:
             if isinstance(correct_obj, queryset.model):
                 queryset = queryset.exclude(id=correct_obj.id)
             queryset = queryset.exclude(IC_level__isnull=True).distinct()
+            correct_IC_level = correct_obj.IC_level or 0
             before_qs = queryset.filter(
-                IC_level__lte=correct_obj.IC_level
+                IC_level__lte=correct_IC_level
             ).order_by('-IC_level')[:max_num]
-            after_qs = queryset.filter(IC_level__gt=correct_obj.IC_level)[:max_num]
+            after_qs = queryset.filter(IC_level__gt=correct_IC_level)[:max_num]
             for obj in [*before_qs, *after_qs]:
                 if validate is not None and not validate(obj):
                     continue
