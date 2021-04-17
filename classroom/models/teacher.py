@@ -6,6 +6,7 @@ from accounts.models import User
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,
                                 primary_key=True, related_name='teacher')
+    school = models.CharField(max_length=100)
 
     @property
     def display_name(self):
