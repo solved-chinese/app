@@ -36,6 +36,7 @@ class CharacterAdmin(ReviewableAdminMixin, SpecificContentAdmin):
     list_display = ['id', 'is_done', '__str__', 'pinyin',
                     'get_definitions', 'get_word_list_display']
     list_filter = [('is_done', admin.BooleanFieldListFilter),
+                   ('IC_level', admin.EmptyFieldListFilter),
                    ('word__word_set', TreeRelatedFieldListFilter)]
     autocomplete_fields = ["radicals", 'audio']
     readonly_fields = ('get_word_list_display',)

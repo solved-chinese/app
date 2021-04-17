@@ -15,10 +15,11 @@ class RadicalAdmin(SpecificContentAdmin):
     autocomplete_fields = ['audio']
     list_filter = [
         ('is_done', admin.BooleanFieldListFilter),
-        ('character__word__word_set', TreeRelatedFieldListFilter),
         ('is_learnable', admin.BooleanFieldListFilter),
         ('pinyin', admin.EmptyFieldListFilter),
+        ('IC_level', admin.EmptyFieldListFilter),
         ('definition', admin.EmptyFieldListFilter),
+        ('character__word__word_set', TreeRelatedFieldListFilter)
     ]
     list_editable = ('is_learnable',)
     list_display = ['id', 'is_done', '__str__', 'pinyin', 'definition',
