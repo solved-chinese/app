@@ -24,13 +24,16 @@ const submitAnswer = (qid: number, id: string, answer: ReviewQuestionAnswer, com
                 'answer': answer
             })
         }).then( response => {
-            if (response.ok) {
+            if (response.ok && response.status == 200) {
                 return response.json();
             } else {
-                reject(`Couldn't verify the answer, response: ${response.status}`);
+                reject(`Answer verification: server communication error, 
+                unexpected response: ${response.status}`);
             }
         }).then( json => {
             resolve([camelcaseKeys(json, {deep: true}), completion]);
+        }).catch( error => {
+            reject(error);
         });
     });
 };

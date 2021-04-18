@@ -75,9 +75,6 @@ const CoreLearning = (props: Props): JSX.Element => {
     type LearningState = LearningNextResponse
     const [learningState, setLearningState] = useState<LearningState>();
 
-    // FIXME onActionNext is called twice in review, unnecessary
-    // FIXME handle conflict
-
     useEffect(() => {
         // make progress bar occupy header position
         document.getElementById(Constant.HEADER_ELEMENT_ID)!.style.display = 'none';

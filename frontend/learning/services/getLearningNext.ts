@@ -27,13 +27,16 @@ const getLearningNext = (url: string, data: LearningData): Promise<LearningNextR
             },
             body: JSON.stringify({...data})
         }).then( response => {
-            if (response.ok) {
+            if (response.ok && response.status == 200) {
                 return response.json();
             } else {
-                reject(`error: ${response.status}`);
+                reject(`Get learning next: server communication error, 
+                unexpected response: ${response.status}`);
             }
         }).then( json => {
             resolve(camelcaseKeys(json, {deep: true}));
+        }).catch( error => {
+            reject(error);
         });
     });
 };
