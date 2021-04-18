@@ -12,7 +12,9 @@ const Constant = {
     /**
      * Root element id.
      */
-    HEADER_ELEMENT_ID: 'navbar-bg'
+    HEADER_ELEMENT_ID: 'navbar-bg',
+    ENV: (window.location.hostname == 'solvedchinese.org'? 'master' :
+        window.location.hostname == 'dev.solvedchinese.org'? 'development' : null)
 };
 
 export default Constant;

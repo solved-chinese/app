@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  {% for type, questions in questions_by_type.items %}
+    {{ type }}:<br>
+    {% for question in questions %}
+      <a href="{% url 'admin_question_display' set_pk question.pk %}"
+         style="color: {% if question.is_done %}green{% else %}red{% endif %};
+                {% if question.id == current_question.id %}
+                  font-weight: bold; text-decoration: underline !important;
+                {% endif %}">
+        {{ question.reviewable.concrete_object|stringformat:'r' }},
+      </a>
+    {% endfor %}
+    <br>
+  {% endfor %}
+  <br>
+  <div style="text-align: center;">
+    question
+    {% if current_question.is_done %}
+      <span style="color: green;"> DONE</span>
+    {% else %}
+      <span style="color: red;"> NOT DONE</span>
+    {% endif %}
+    , click
+    <form method="post" style="display: inline;">
+      {% csrf_token %}
+      <input type="hidden" name="question_pk" value="{{ current_question.pk }}">
+      <input type="submit" value="here">
+    </form> to toggle
+    <br>
+    <div>
+      click <a href="{% url 'show_all_options_toggle' %}">here</a> to toggle show all options
+    </div>
+    <div>
+      click <a href="{{ current_question.get_admin_url }}">here</a> to edit this question
+    </div>
+  </div>
+  <div id="react-app"></div>
+{% endblock content %}
+
+{% block js %}
+  <script id="react-data" type="application/json">
+    {"action": "review", "content": {"qid": {{ current_question.pk }}}}
+  </script>
+  <script src="{% static "scripts/learning.bundle.js" %}"></script>
+  <script>
+  if ( window.history.replaceState ) {
+    window.history.replaceState( null, null, window.location.href );
+  }
+  </script>
+{% endblock js %}

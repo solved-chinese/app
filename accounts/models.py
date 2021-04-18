@@ -1,5 +1,5 @@
-from django.core.validators import MinLengthValidator
 from django.db import models
+from django.db.models import F
 from django.contrib.auth.models import AbstractUser
 from django.core import validators
 from django.utils.deconstruct import deconstructible
@@ -28,16 +28,18 @@ class User(AbstractUser):
         help_text="Used for resetting your password and receiving notifications. "
                   "This could also be used for login.",
         null=True, blank=True, unique=True)
+    alias = models.CharField(
+        max_length=30, blank=True,
+        help_text='can be seen by jiezi staff only'
+    )
     is_teacher = models.BooleanField(default=False)
     is_student = models.BooleanField(default=False)
 
-    class Meta:
-        ordering = ('-last_login',)
-
     def clean(self):
-        if self.email == '':
-            self.email = None
         super().clean()
+        # make email not required, should be after super().clean()
+        if not self.email:
+            self.email = None
 
     def save(self, *args, **kwargs):
         if not self.display_name:
@@ -45,7 +47,10 @@ class User(AbstractUser):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.display_name} ({self.username})"
+        name = f"{self.display_name}#{self.username}"
+        if self.alias:
+            name += f"({self.alias})"
+        return name
 
     def __repr__(self):
-        return f"<user {self.pk}: {self.display_name} ({self.username})>"
+        return f"<user {self.pk}: {str(self)}>"

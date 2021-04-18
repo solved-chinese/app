@@ -63,7 +63,7 @@ class GeneralQuestion(models.Model):
         """ redirects requests to concrete question """
         allowed_delegations = ('render', 'check_answer', 'question_form',
                                'question_type', 'get_admin_url',
-                               'get_absolute_url')
+                               'get_absolute_url', 'is_done')
         if item in allowed_delegations:
             return getattr(self.concrete_question, item)
         return super().__getattribute__(item)
@@ -88,6 +88,7 @@ class BaseConcreteQuestion(models.Model):
                                       choices=ContextOption.choices,
                                       default=ContextOption.AUTO)
     question = models.CharField(max_length=200)
+    is_done = models.BooleanField(default=False)
 
     class Meta:
         abstract = True
