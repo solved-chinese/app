@@ -1,4 +1,5 @@
 import React, {useState, useEffect, CSSProperties} from 'react';
+import * as Sentry from '@sentry/react';
 import styled from 'styled-components';
 
 import {
@@ -105,7 +106,7 @@ const MultipleChoice = (props: Props): JSX.Element => {
     }, [selectedAnswer]);
 
     useEffect(() => {
-        if (isAnswerCorrect) {
+        if (submitted && isAnswerCorrect) {
             const timer = setTimeout(nextActionCallback.fn, 500);
             return () => clearTimeout(timer);
         }
@@ -117,8 +118,8 @@ const MultipleChoice = (props: Props): JSX.Element => {
             setSubmitted(true);
             setNextActionCallback({fn: callback});
             setIsAnswerCorrect(response.isCorrect);
-        }).catch( msg => {
-            console.log(msg);
+        }).catch( error => {
+            Sentry.captureException(error);
         });
     };
     // change: remove use-serif   
