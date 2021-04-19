@@ -33,6 +33,7 @@ class LearningView(LoginRequiredMixin, TemplateView):
             else:
                 from jiezi.settings import DEBUG
                 if (not DEBUG
+                        and not self.request.user.is_staff
                         and not assignment.data.get('managers_notified', False)
                         and assignment.klass.students.count() > 2):
                     logger.info("send info")

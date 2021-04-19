@@ -2,7 +2,9 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 import django.contrib.auth.views as auth_views
 from django.shortcuts import render, redirect
+from django.core.mail import mail_managers
 
+from jiezi.settings import DEBUG
 from classroom.forms import StudentForm, TeacherForm
 from .forms import UserSignupForm, UserUpdateForm
 
@@ -52,6 +54,13 @@ def role_signup(request, role_form_class, role):
             role.user = user
             role.save()
 
+            if not DEBUG and role == 'teacher':
+                mail_managers(
+                    f'New teacher registration',
+                    f'user: {repr(user)} \n email: {user.email}\n '
+                    f'school {role.school}',
+                    fail_silently=True
+                )
             login(request, user)
             return redirect('index')
     else:

@@ -7,7 +7,7 @@ from content.models import WordSet
 class TeacherForm(forms.ModelForm):
     class Meta:
         model = Teacher
-        fields = []
+        fields = ['school']
 
 
 class StudentForm(forms.ModelForm):
