@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'mptt',
     'advanced_filters',
     'django_better_admin_arrayfield',
+    'reversion',
 
     'django.contrib.admin',
     'django.contrib.auth',

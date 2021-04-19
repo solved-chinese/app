@@ -4,9 +4,10 @@ from django.shortcuts import reverse
 from django.utils.html import escape
 
 from .utils import NextAdminMixin, DisabledFieldMixin
-from content.models import OrderableMixin, AudioFile, WordSet
+from content.models import OrderableMixin, AudioFile
 from content.forms import ContentCreationForm
 from content.question_factories import QuestionFactoryRegistry
+from reversion.admin import VersionAdmin
 
 
 __all__ = ['ReviewableAdminMixin', 'GeneralContentAdmin',
@@ -68,7 +69,7 @@ class ReviewableAdminMixin(admin.ModelAdmin):
     get_review_questions.short_description = "Review Questions"
 
 
-class GeneralContentAdmin(NextAdminMixin, DisabledFieldMixin, admin.ModelAdmin):
+class GeneralContentAdmin(NextAdminMixin, DisabledFieldMixin, VersionAdmin):
     disabled_fields = ['archive']
     list_per_page = 50
 
