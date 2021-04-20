@@ -30,21 +30,11 @@ def assignment_linked_display(assignment):
                        assignment.name,
                        )
 
+
 class AssignmentGeneralAdmin(ViewOnlyAdminMixin):
     exclude = ('data',)
-
-
-class AssignmentInlinAdmin(AssignmentGeneralAdmin, admin.StackedInline):
-    show_change_link = True
-    model = Assignment
-
-
-@admin.register(Assignment)
-class AssignmentAdmin(AssignmentGeneralAdmin, admin.ModelAdmin):
-    list_display = (assignment_linked_display,)
-    list_display_links = None
-    fields = ('detail', 'wordset', 'display_stats')
-    readonly_fields = ('display_stats',)
+    fields = ('detail', 'wordset', 'display_stats', 'published_time')
+    readonly_fields = ('detail', 'display_stats', 'published_time')
 
     def detail(self, assignment):
         return assignment_linked_display(assignment)
@@ -52,6 +42,19 @@ class AssignmentAdmin(AssignmentGeneralAdmin, admin.ModelAdmin):
     def display_stats(self, assignment):
         stats = assignment.get_stats()
         return mark_safe(','.join(stats.values()))
+
+
+class AssignmentInlinAdmin(AssignmentGeneralAdmin, admin.StackedInline):
+    show_change_link = True
+    model = Assignment
+    fields = ('detail', 'wordset', 'published_time')
+    readonly_fields = ('detail', 'published_time')
+
+
+@admin.register(Assignment)
+class AssignmentAdmin(AssignmentGeneralAdmin, admin.ModelAdmin):
+    list_display = (assignment_linked_display,)
+    list_display_links = None
 
 
 class StudentInlineAdmin(admin.StackedInline):

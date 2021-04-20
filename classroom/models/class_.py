@@ -27,7 +27,7 @@ class Class(models.Model):
         return reverse('class_detail', args=[self.pk])
 
     def __str__(self):
-        return f'<class {self.name} by {str(self.teacher.user)}>'
+        return f'Class {self.name}'
 
     def __repr__(self):
         return f'<class {self.name} by {repr(self.teacher)}>'
