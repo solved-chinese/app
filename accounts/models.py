@@ -47,10 +47,10 @@ class User(AbstractUser):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        name = f"{self.display_name}#{self.username}"
         if self.alias:
-            name += f"({self.alias})"
-        return name
+            return f"{self.alias}"
+        else:
+            return f"{self.display_name}#{self.username}"
 
     def __repr__(self):
         return f"<user {self.pk}: {str(self)}>"
