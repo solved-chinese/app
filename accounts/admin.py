@@ -48,7 +48,7 @@ class UserAdmin(auth_admin.UserAdmin):
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )
     readonly_fields = ('role_display',)
-    list_display = (user_linked_display, 'email', 'alias', 'last_login')
+    list_display = ('role_display', 'email', 'alias', 'last_login')
     list_display_links = None
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups',
                    'is_student', 'is_teacher',
@@ -63,10 +63,12 @@ class UserAdmin(auth_admin.UserAdmin):
             teacher = Teacher.of(user)
             classes = format_html_join(
                 ', ',
-                '<a href={}>{}</a>',
-                [(get_admin_url(klass), klass.name)
+                '<a href={}>C:{}({})</a>',
+                [(get_admin_url(klass), klass.name, klass.student_count)
                  for klass in teacher.classes.all()]
             )
-            return format_html('{}<br>Classes: {}',
+            if not classes:
+                classes = 'no classes'
+            return format_html('{} has {}',
                                user_linked_display(user), classes)
         return user_linked_display(user)

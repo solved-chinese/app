@@ -41,20 +41,20 @@ def profile(request):
     return render(request, 'accounts/profile.html', context)
 
 
-def role_signup(request, role_form_class, role):
+def role_signup(request, role_form_class, role_name):
     if request.method == 'POST':
         user_form = UserSignupForm(data=request.POST)
         role_form = role_form_class(data=request.POST)
         if user_form.is_valid() and role_form.is_valid():
             user = user_form.save()
-            setattr(user, f'is_{role}', True)
+            setattr(user, f'is_{role_name}', True)
             user.save()
 
             role = role_form.save(commit=False)
             role.user = user
             role.save()
 
-            if not DEBUG and role == 'teacher':
+            if role_name == 'teacher':
                 mail_managers(
                     f'New teacher registration',
                     f'user: {repr(user)} \n email: {user.email}\n '
@@ -67,7 +67,7 @@ def role_signup(request, role_form_class, role):
         user_form = UserSignupForm()
         role_form = role_form_class()
 
-    context = {'forms': [user_form, role_form], 'role': role}
+    context = {'forms': [user_form, role_form], 'role': role_name}
     return render(request, 'accounts/role_signup.html', context)
 
 
