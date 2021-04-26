@@ -53,4 +53,7 @@ class User(AbstractUser):
             return f"{self.display_name}#{self.username}"
 
     def __repr__(self):
-        return f"<user {self.pk}: {str(self)}>"
+        name = {self.display_name}#{self.username}
+        if self.alias:
+            name += f"({self.alias})"
+        return f"<user {self.pk}: {name}>"
