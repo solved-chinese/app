@@ -461,7 +461,7 @@ ul{
 ***********************************/
 
 .button {
-    padding: 0.6em 1.2em;
+    padding: 0.7em 1.2em; /* changed from 0.6em 1.2em */
     border: 1px solid #040302;
     border-radius: 0.25em;
     color: #040302;
@@ -480,19 +480,34 @@ ul{
     background: var(--main-theme-color);
 }
 
+.button.button-secondary {
+    color: #5f6267;
+    border-color: #5f6267;
+}
+
 .button.button-secondary:hover {
     color: white !important; /* Temporary Bootstrap Override */
-    background: #040302;
+    background: #5f6267; /* changed from #040302 */
 }
 
 .button.button-tertiary {
-    color: var(--secondary-color) !important; /* Temporary Bootstrap Override */
-    border-color: var(--secondary-color);
+    color: #83878e !important; /* Temporary Bootstrap Override */
+    border-color: #83878e; /* changed from var(--secondary color */
 }
 
 .button.button-tertiary:hover {
     color: white !important; /* Temporary Bootstrap Override */
-    background: var(--secondary-color);
+    background: #83878e;
+}
+
+.button.button-disabled {
+    color: #bec0c4; /* new disabled button class */
+    border-color: #bec0c4;
+}
+
+.button.button-disabled:hover {
+    color: white;
+    background: #bec0c4;
 }
 
 .button.button-text-only {
