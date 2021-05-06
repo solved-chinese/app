@@ -46,8 +46,9 @@ class Assignment(models.Model):
         sdf.columns = ['mastered', 'familiar', 'remaining', 'correct', 'wrong']
         sdf.insert(1, 'Accuracy', sdf['correct'] /
                    (sdf['correct'] + sdf['wrong']))
-        sdf.insert(1, 'Completion', sdf['mastered'] /
-                   (sdf['mastered'] + sdf['familiar'] + sdf['remaining']))
+        sdf.insert(1, 'Completion',
+                   (sdf['mastered'] + sdf['familiar'] / 3)
+                   / (sdf['mastered'] + sdf['familiar'] + sdf['remaining']))
         sdf = sdf.drop(columns=['mastered', 'familiar', 'remaining',
                                 'correct', 'wrong'])
         # add students who have not started yet
