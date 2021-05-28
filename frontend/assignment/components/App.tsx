@@ -13,8 +13,6 @@ export default class App extends React.Component<Props> {
         switch (this.props.action) {
         case 'assignment':
             return <AssignmentDisplay {...this.props.content} />;
-        case 'search':
-            return <SearchPage {...this.props.content} />;
         default:
             return <>something is wrong</>;
         }

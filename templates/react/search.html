@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <div id="react-app"></div>
+{% endblock content %}
+
+{% block js %}
+  {{ react_data|json_script:'react-data' }}
+  <script src="{% static "scripts/learning.bundle.js" %}"></script>
+{% endblock js %}

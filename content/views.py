@@ -123,6 +123,16 @@ def admin_display_question(request, set_pk, question_pk=None):
     return render(request, 'react/question_list.html', context)
 
 
+def search_view(request):
+    context = {
+        'react_data': {
+            'action': 'search',
+            'content': {},
+        }
+    }
+    return render(request, 'react/search.html', context=context)
+
+
 @user_passes_test(lambda user: user.is_staff)
 def show_all_options_toggle(request):
     show_all_options = request.session.get('show_all_options', False)

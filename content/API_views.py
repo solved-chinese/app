@@ -113,7 +113,7 @@ class SearchAPIView(APIView):
             keyword = request.data['keyword']
         except KeyError:
             raise ParseError("keyword not found")
-        query_type = request.data.get('query_type', 'auto').lower()
+        query_type = request.data.get('queryType', 'auto').lower()
         if query_type not in ('auto', 'chinese', 'pinyin', 'definition'):
             raise ParseError(f"query type must be either 'auto', 'chinese',"
                              f" 'pinyin', or 'definition'. not {query_type}")
@@ -144,7 +144,7 @@ class SearchAPIView(APIView):
         results = [{
                 'type': obj.__class__.__name__.lower(),
                 'qid': obj.id,
-                'chiense': obj.chinese,
+                'chinese': obj.chinese,
                 'pinyin': obj.pinyin,
                 'definition': obj.full_definition,
             }

@@ -55,4 +55,5 @@ urlpatterns = [
     path('split_wordset/<int:wordset_pk>',
          views.split_set_view,
          name='split_wordset'),
+    path('search', views.search_view, name='search'),
 ]
