@@ -48,10 +48,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
 
-    # celery apps
-    'celery',
-    'celery_progress',
-
     # custom apps
     'accounts',
     'content',
