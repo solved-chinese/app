@@ -166,10 +166,15 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_METADATA_CLASS': 'jiezi.rest.metadata.CustomActionsMetadata',
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-        'jiezi.rest.renderers.CustomActionsBrowsableAPIRenderer',
-    ],
+    'DEFAULT_RENDERER_CLASSES': (
+        'djangorestframework_camel_case.render.CamelCaseJSONRenderer',
+        'jiezi.rest.cases.CamelCaseCustomActionBrowsableAPIRenderer',
+    ),
+    'DEFAULT_PARSER_CLASSES': (
+        'djangorestframework_camel_case.parser.CamelCaseFormParser',
+        'djangorestframework_camel_case.parser.CamelCaseMultiPartParser',
+        'djangorestframework_camel_case.parser.CamelCaseJSONParser',
+     ),
 }
 
 ADMINS = [('chenyx', 'chenyx@solvedchinese.org')]
