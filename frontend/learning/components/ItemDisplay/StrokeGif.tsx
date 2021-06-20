@@ -7,12 +7,19 @@ import { makeID } from "@utils/utils";
 const WordContainer = styled.div`
   display: flex;
   flex-direction: row;
+  text-align: center;
+  width: 100%;
+  justify-content:center;
+  align-items:center;
 `;
 
 const CharSVGContainer = styled.div`
   font-size: 2.75em;
+  width: 100%;
   font-weight: 200;
   text-align: center;
+  justify-content:center;
+  aligh-items:center;
   color: var(--primary-text);
 `;
 
@@ -21,6 +28,7 @@ enum WriterState {
   STANDBY = "standby",
   PLAYING = "playing",
   PAUSED = "paused",
+  LOOPING = "looping"
 }
 
 type StrokeGifProps = {
@@ -55,14 +63,15 @@ export default class StrokeGif extends React.Component<StrokeGifProps> {
   getWriters(targetIDs: string[], items: string[]): HanziWriter[] {
     return targetIDs.map((value, index) =>
       HanziWriter.create(value, items[index], {
-        width: 60,
-        height: 65,
+        width: 200,
+        height: 200,
         padding: 2,
         strokeAnimationSpeed: 1, // times the normal speed
         delayBetweenStrokes: 5, // ms between strokes
         showOutline: true,
         showCharacter: true,
         strokeColor: "#303545",
+        delayBetweenLoops: 500,
         onLoadCharDataError: () => {
           if (this.itemsTargetRef[index].current) {
             this.itemsTargetRef[index].current!.innerText = items[index];
@@ -75,7 +84,7 @@ export default class StrokeGif extends React.Component<StrokeGifProps> {
   getInitialWriterStates(n: number): WriterState[] {
     const arr = [];
     for (let i = 0; i < n; i++) {
-      arr.push(WriterState.STANDBY);
+      arr.push(WriterState.LOOPING);
     }
     return arr;
   }
@@ -117,6 +126,10 @@ export default class StrokeGif extends React.Component<StrokeGifProps> {
           this.writerStates[index] = WriterState.PLAYING;
         });
         break;
+      case WriterState.LOOPING:
+        writer.loopCharacterAnimation();
+        break;
+            
     }
   }
 

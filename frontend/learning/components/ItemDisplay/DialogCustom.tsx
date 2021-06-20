@@ -16,7 +16,7 @@ const ModalStyle: Modal.Styles = {
   },
   content: {
     position: "absolute",
-    top: "50%",
+    top: "10%",
     left: "0px",
     right: "0px",
     height: "500px",
