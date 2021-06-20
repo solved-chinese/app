@@ -95,7 +95,7 @@ export default class StrokeGif extends React.Component<StrokeGifProps> {
         id={id}
         key={this.itemsTargetIDs[index]}
         style={{ cursor: "grab" }}
-        onClick={() => this.writerCallback(index)}
+        onLoadCapture={() => this.writerCallback(index)}
         className="use-chinese"
         ref={this.itemsTargetRef[index]}
       />
