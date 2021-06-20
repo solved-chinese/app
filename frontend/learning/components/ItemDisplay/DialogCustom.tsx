@@ -16,16 +16,16 @@ const ModalStyle: Modal.Styles = {
   },
   content: {
     position: "absolute",
-    top: "10%",
+    top: "20%",
     left: "0px",
     right: "0px",
-    height: "500px",
+    height: "400px",
     maxHeight: "100%",
     bottom: "auto",
 
     display: "inline-block",
     maxWidth: "100%",
-    width: "500px",
+    width: "400px",
     margin: "0 auto",
 
     backgroundColor: "white",
@@ -67,6 +67,15 @@ const WordContainer = styled.a`
   cursor: pointer;
 `;
 
+const BottomContainer = styled.div`
+  position relative;
+  width:100%;
+  text-align: center;
+  cursor: pointer;
+  padding: 20px;
+`;
+
+
 type Props = {
   item: string;
 
@@ -106,7 +115,16 @@ const Dialog = (props: Props): JSX.Element => {
               onClick={() => setModalState(false)}
             />
             {renderItem()}
+            <BottomContainer>
+              <WordContainer
+                className="use-chinese"
+              >
+                {props.item}
+              </WordContainer>
+            </BottomContainer>
+
           </Modal>
+          
         </div>
       </>
     );
