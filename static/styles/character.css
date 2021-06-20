@@ -3,161 +3,154 @@
 ***********************************/
 
 .character-card-container {
-    display: flex;
+  display: flex;
 }
 
 .character-info-container {
-    width: 36.2%;
-    margin-right: 30px;
-    padding-right: 30px;
-    border-right: 1px solid var(--tertiary-color);
+  width: 36.2%;
+  margin-right: 30px;
+  padding-right: 30px;
+  border-right: 1px solid var(--tertiary-color);
 }
 
 .character-radicals-container {
-    width: 61.8%;
+  width: 61.8%;
 }
-
-
 
 /***********************************
   Character Preview
 ***********************************/
 
 .character-preview {
-    position: relative;
-    width: 150px;
-    height: 150px;
-    margin: 20px auto;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    -webkit-user-select: none;
-    user-select: none;
-    cursor: default;
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 20px auto;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: default;
 }
 
 .character-preview-small {
-    width: 50px;
-    height: 50px;
-    margin: 0;
+  width: 50px;
+  height: 50px;
+  margin: 0;
 }
 
 .character {
-    position: relative;
-    margin: 0;
-    top: -0.28em;
+  position: relative;
+  margin: 0;
+  top: -0.28em;
 }
 
 .character-kai {
-    font-family: STKaiTi, 'Palatino Linotype', 'Book Antiqua', Palatino, KaiTi, '楷体', '华文楷体', SimKai, DFKai-SB, NSimSun, serif;
+  font-family: STKaiTi, "Palatino Linotype", "Book Antiqua", Palatino, KaiTi,
+    "楷体", "华文楷体", SimKai, DFKai-SB, NSimSun, serif;
 }
 
 .character-large {
-    width: 150px;
-    height: 150px;
-    font-size: 150px;
+  width: 150px;
+  height: 150px;
+  font-size: 150px;
 }
 
 .character-small {
-    width: 50px;
-    height: 50px;
-    font-size: 50px;
+  width: 50px;
+  height: 50px;
+  font-size: 50px;
 }
 
 .character-preview .character-stroke-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 150px;
-    height: 150px;
-    background-size: cover;
-    display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 150px;
+  height: 150px;
+  background-size: cover;
+  display: none;
 }
 
 .character-preview:hover .character-stroke-image {
-    display: block;
-    mix-blend-mode: multiply;
+  display: block;
+  mix-blend-mode: multiply;
 }
 
 .character-preview:hover .character.character-large {
-    display: none;
+  display: none;
 }
-
-
 
 /***********************************
   Definitions
 ***********************************/
 
 .definitions-container {
-    margin: 40px 0;
+  margin: 40px 0;
 }
 
 .character-definitions-list {
-    padding-left: 18px;
+  padding-left: 18px;
 }
 
 .character-definition {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
-
-
 
 /***********************************
   Examples
 ***********************************/
 
 .example-row > td {
-    display: inline-block;
-    max-width: 140px;
-    padding: 2px 8px;
+  display: inline-block;
+  max-width: 140px;
+  padding: 2px 8px;
 }
 
 .example-row > td:first-child {
-    margin-left: -2px; /* To offset the strange extra space */
-    padding-left: 0px;
-    font-weight: 500;
+  margin-left: -2px; /* To offset the strange extra space */
+  padding-left: 0px;
+  font-weight: 500;
 }
 
 .example-row > td:last-child {
-    padding-right: 0;
+  padding-right: 0;
 }
-
-
 
 /***********************************
   Radicals Breakdown
 ***********************************/
 
 .radicals-breakdown-container {
-    display: flex;
-    justify-content: space-evenly;
-    margin-bottom: 30px;
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 30px;
 }
 
 .radical-container {
-    width: 250px;
-    text-align: center;
+  width: 250px;
+  text-align: center;
 }
 
 .radical-container > .radical-pinyin {
-    margin: 0;
+  margin: 0;
 }
 
 .radical-container > .radical-title {
-    margin-bottom: 6px;
-    font-size: 32px;
+  margin-bottom: 6px;
+  font-size: 32px;
 }
 
 .radical-container > .radical-pictograph {
-    width: 200px;
-    height: 200px;
-    margin: 20px auto 10px auto;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+  width: 200px;
+  height: 200px;
+  margin: 20px auto 10px auto;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .breakdown-caption {
-    text-align: center;
+  text-align: center;
 }

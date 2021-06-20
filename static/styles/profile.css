@@ -1,26 +1,26 @@
 a {
-    color: #000000;
-    text-align: center;
+  color: #000000;
+  text-align: center;
 }
 
 a:hover {
-    text-decoration: none;
-    color: #222222
+  text-decoration: none;
+  color: #222222;
 }
 
 .image-box-wrapper img {
-    transition: 300ms ease;
+  transition: 300ms ease;
 }
 
 .image-box-wrapper img {
-    width: 40%;
+  width: 40%;
 }
 
 .image-box-wrapper img:hover {
-    width: 35%;
+  width: 35%;
 }
 
 .image-box-wrapper h5 {
-    font-weight: 600;
-    margin-top: 20px;
+  font-weight: 600;
+  margin-top: 20px;
 }

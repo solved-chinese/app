@@ -1,15 +1,14 @@
-{% extends "base.html" %}
-
-{% block content %}
-  <h1>{% block error_header %}{% endblock error_header %}</h1>
-  <br>
-  <h2>{% block error_message %}{% endblock error_message %}</h2>
-  <br>
-  <h3>{% block error_description %}{% endblock error_description %} </h3>
-  <br>
-  <p>
-    <a href="https://solvedchinese.org">solvedchinese.org</a> is still being actively developed,
-    so we will be infinitely grateful for your patience as we fix bugs. If you think this is a bug,
-    please report it to <a href = "mailto: info@solvedchinese.org">info@solvedchinese.org</a>. Thanks!
-  </p>
+{% extends "base.html" %} {% block content %}
+<h1>{% block error_header %}{% endblock error_header %}</h1>
+<br />
+<h2>{% block error_message %}{% endblock error_message %}</h2>
+<br />
+<h3>{% block error_description %}{% endblock error_description %}</h3>
+<br />
+<p>
+  <a href="https://solvedchinese.org">solvedchinese.org</a> is still being
+  actively developed, so we will be infinitely grateful for your patience as we
+  fix bugs. If you think this is a bug, please report it to
+  <a href="mailto: info@solvedchinese.org">info@solvedchinese.org</a>. Thanks!
+</p>
 {% endblock content %}

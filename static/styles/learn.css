@@ -1,64 +1,64 @@
 #learn-header-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
 #learn-body-container {
-    margin-top: 40px;
+  margin-top: 40px;
 }
 
 /* !important is to override the override to the Bootstrap styles... */
 
 #character-text {
-    margin: 0 !important;
+  margin: 0 !important;
 }
 
 #character-pinyin {
-    margin-left: 20px;
-    margin-right: 40px;
-    font-size: 1.5em;
-    font-weight: 500;
+  margin-left: 20px;
+  margin-right: 40px;
+  font-size: 1.5em;
+  font-weight: 500;
 }
 
 #speak-button {
-    position: relative;
+  position: relative;
 
-    margin-left: 10px;
-    color: #040302;
-    cursor: pointer;
-    transition: 150ms ease;
+  margin-left: 10px;
+  color: #040302;
+  cursor: pointer;
+  transition: 150ms ease;
 }
 
 #speak-button:hover {
-    color: var(--secondary-color);
+  color: var(--secondary-color);
 }
 
 #speak-button.disabled {
-    color: var(--secondary-color);
-    cursor: default;
+  color: var(--secondary-color);
+  cursor: default;
 }
 
 #character-details {
-    border: none;
+  border: none;
 }
 
 #next-button {
-    margin-right: 15px; /* Temporary solution */
+  margin-right: 15px; /* Temporary solution */
 }
 
 #end-session-button {
-    margin-left: auto;
+  margin-left: auto;
 }
 
 #audio-error-msg {
-    position: absolute;
+  position: absolute;
 
-    top: 50px;
-    left: -120px;
-    width: 350px;
+  top: 50px;
+  left: -120px;
+  width: 350px;
 
-    text-align: center;
-    font-size: 18px;
-    font-weight: 500;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
 }

@@ -1,64 +1,56 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block content %}
+<h1>Inbox</h1>
 
-{% block content %}
-  <h1>Inbox</h1>
-
-  {% if not object_list %}
-    You inbox is empty！
-  {% else %}
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">from</th>
-          <th scope="col">received time</th>
-          <th scope="col">subject</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for msg in object_list %}
-          <tr>
-            <th scope="row">
-              {{ forloop.counter }}
-              {% if not msg.is_read %}
-                (unread)
-              {% endif %}
-            </th>
-            <td>{{ msg.sender }}</td>
-            <td>
-              <script>
-                var date = new Date("{{ msg.time|date:"c" }}");
-                function timeSince(date) {
-                  var seconds = Math.floor((new Date() - date) / 1000);
-                  var interval = seconds / 31536000;
-                  if (interval > 1) {
-                    return Math.floor(interval) + " years";
-                  }
-                  interval = seconds / 2592000;
-                  if (interval > 1) {
-                    return Math.floor(interval) + " months";
-                  }
-                  interval = seconds / 86400;
-                  if (interval > 1) {
-                    return Math.floor(interval) + " days";
-                  }
-                  interval = seconds / 3600;
-                  if (interval > 1) {
-                    return Math.floor(interval) + " hours";
-                  }
-                  interval = seconds / 60;
-                  if (interval > 1) {
-                    return Math.floor(interval) + " minutes";
-                  }
-                  return Math.floor(seconds) + " seconds";
-                }
-                document.write(timeSince(date) + " ago");
-              </script>
-            </td>
-            <td><a href="{% url 'message_detail' msg.pk %}">{{ msg.subject }}</a></td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% endif %}
-{% endblock content %}
+{% if not object_list %} You inbox is empty！ {% else %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">from</th>
+      <th scope="col">received time</th>
+      <th scope="col">subject</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for msg in object_list %}
+    <tr>
+      <th scope="row">
+        {{ forloop.counter }} {% if not msg.is_read %} (unread) {% endif %}
+      </th>
+      <td>{{ msg.sender }}</td>
+      <td>
+        <script>
+          var date = new Date("{{ msg.time|date:"c" }}");
+          function timeSince(date) {
+            var seconds = Math.floor((new Date() - date) / 1000);
+            var interval = seconds / 31536000;
+            if (interval > 1) {
+              return Math.floor(interval) + " years";
+            }
+            interval = seconds / 2592000;
+            if (interval > 1) {
+              return Math.floor(interval) + " months";
+            }
+            interval = seconds / 86400;
+            if (interval > 1) {
+              return Math.floor(interval) + " days";
+            }
+            interval = seconds / 3600;
+            if (interval > 1) {
+              return Math.floor(interval) + " hours";
+            }
+            interval = seconds / 60;
+            if (interval > 1) {
+              return Math.floor(interval) + " minutes";
+            }
+            return Math.floor(seconds) + " seconds";
+          }
+          document.write(timeSince(date) + " ago");
+        </script>
+      </td>
+      <td><a href="{% url 'message_detail' msg.pk %}">{{ msg.subject }}</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %} {% endblock content %}

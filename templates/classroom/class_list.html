@@ -1,41 +1,33 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% load django_bootstrap_breadcrumbs %} {% block
+breadcrumbs %} {% clear_breadcrumbs %} {% breadcrumb "My Classes" "" %} {%
+endblock %} {% block content %}
 
-{% load django_bootstrap_breadcrumbs %}
-{% block breadcrumbs %}
-  {% clear_breadcrumbs %}
-  {% breadcrumb "My Classes" "" %}
-{% endblock %}
+<h1>My Classes</h1>
 
-
-{% block content %}
-
-  <h1>My Classes</h1>
-
-  {% if not object_list %}
-    You don't have any class yet. Create one with the button below.
-  {% else %}
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Class ID</th>
-          <th scope="col">Class name</th>
-          <th scope="col">Number of students in the class</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for class in object_list %}
-          <tr>
-            <th scope="row">{{ forloop.counter }}</th>
-            <td><a href="{% url 'class_detail' class.pk %}">
-              {{ class.name }}
-            </a></td>
-            <td>{{ class.student_count }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% endif %}
-  <a class='button button-primary' href="{% url 'class_create' %}">
-    Create a Class
-  </a>
+{% if not object_list %} You don't have any class yet. Create one with the
+button below. {% else %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Class ID</th>
+      <th scope="col">Class name</th>
+      <th scope="col">Number of students in the class</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for class in object_list %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>
+        <a href="{% url 'class_detail' class.pk %}"> {{ class.name }} </a>
+      </td>
+      <td>{{ class.student_count }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+<a class="button button-primary" href="{% url 'class_create' %}">
+  Create a Class
+</a>
 {% endblock content %}

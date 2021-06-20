@@ -1,78 +1,78 @@
-.description-container{
-    color:gray;
-    display: inline-block;
-    font-size: 0.7em;
-    margin:0;
+.description-container {
+  color: gray;
+  display: inline-block;
+  font-size: 0.7em;
+  margin: 0;
 }
 
-.homepage-container{
-    width:100%;
-    margin: 0 auto;
-    max-width: 800px;
+.homepage-container {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 800px;
 
-    font-size: 28px;
+  font-size: 28px;
 }
 
 .homepage-container h1 {
-    font-size: 1em;
+  font-size: 1em;
 }
 
 .homepage-row {
-    display: flex;
+  display: flex;
 
-    align-items: center;
-	justify-content: center;
-    flex-direction: row;
-    
-    flex-wrap: wrap;
-    width: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
 
-    margin: 0 0 25px;
+  flex-wrap: wrap;
+  width: 100%;
+
+  margin: 0 0 25px;
 }
 
 .homepage-row.reversed {
-    flex-direction: row-reverse;
+  flex-direction: row-reverse;
 }
 
 .homepage-section {
-    width: 50%;
-    padding: 0 10px;
+  width: 50%;
+  padding: 0 10px;
 }
 
 .homepage-section img {
-    object-fit: contain;
-    width: 100%;
-    height: auto;
+  object-fit: contain;
+  width: 100%;
+  height: auto;
 }
 
 .homepage-section.full-width {
-    width: 100%;
-    text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
 #chevron-down {
-    height: 40px;
-    width: auto;
+  height: 40px;
+  width: auto;
 }
 
-@media (max-width: 768px){
-    .homepage-section {
-        width: 100%;
-        padding: 0 10px;
-        text-align: center;
-    }
+@media (max-width: 768px) {
+  .homepage-section {
+    width: 100%;
+    padding: 0 10px;
+    text-align: center;
+  }
 
-    .homepage-container img {
-        height: auto;
-        max-width: 80%;
-        max-height: 400px;
-    }
+  .homepage-container img {
+    height: auto;
+    max-width: 80%;
+    max-height: 400px;
+  }
 
-    .homepage-container {
-        font-size: 25px;
-    }
+  .homepage-container {
+    font-size: 25px;
+  }
 
-    .description-container {
-        margin: 0 15px;
-    }
+  .description-container {
+    margin: 0 15px;
+  }
 }

@@ -1,11 +1,11 @@
 a {
-    color: #000000;
-    text-align: center;
+  color: #000000;
+  text-align: center;
 }
 
 a:hover {
-    text-decoration: none;
-    color: #222222
+  text-decoration: none;
+  color: #222222;
 }
 
 /***********************************
@@ -13,182 +13,178 @@ a:hover {
 ***********************************/
 
 #study-container {
-    padding-bottom: 45px;
+  padding-bottom: 45px;
 }
 
 #stats-content-container {
-    display: flex;
-    margin: 20px 0 10px 0;
-    justify-content: space-between;
+  display: flex;
+  margin: 20px 0 10px 0;
+  justify-content: space-between;
 }
 
 .image-box-wrapper img {
-    transition: 300ms ease;
+  transition: 300ms ease;
 }
 
 .image-box-wrapper img {
-    width: 40%;
+  width: 40%;
 }
 
 .image-box-wrapper img:hover {
-    width: 35%;
+  width: 35%;
 }
 
 .image-box-wrapper h5 {
-    font-weight: 600;
-    margin-top: 20px;
+  font-weight: 600;
+  margin-top: 20px;
 }
-
 
 /***********************************
   Slider
 ***********************************/
 
 #slider-bar {
-    position: relative;
-    width: calc(100% - 100px);
-    height: 8px;
-    margin: 60px auto 40px auto;
-    border-radius: 4px;
-    background: var(--tertiary-color);
-    cursor: pointer;
+  position: relative;
+  width: calc(100% - 100px);
+  height: 8px;
+  margin: 60px auto 40px auto;
+  border-radius: 4px;
+  background: var(--tertiary-color);
+  cursor: pointer;
 }
 
 #slider-activated {
-    position: absolute;
-    height: 8px;
-    background: var(--main-theme-color);
-    transition: 150ms ease;
+  position: absolute;
+  height: 8px;
+  background: var(--main-theme-color);
+  transition: 150ms ease;
 }
 
 #slider-value-text {
-    position: absolute;
-    margin-top: -30px;
-    color: var(--main-theme-color);
-    font-weight: 500;
+  position: absolute;
+  margin-top: -30px;
+  color: var(--main-theme-color);
+  font-weight: 500;
 }
 
 .slider-value {
-    display: inline-block;
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    margin-top: -6px;
-    border-radius: 10px;
-    background: var(--tertiary-color);
-    transition: 150ms ease;
+  display: inline-block;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  margin-top: -6px;
+  border-radius: 10px;
+  background: var(--tertiary-color);
+  transition: 150ms ease;
 }
 
 .slider-value.value-activated {
-    background: var(--main-theme-color);
+  background: var(--main-theme-color);
 }
-
 
 /***********************************
   Streak Calender
 ***********************************/
 
 #streak-calender {
-    display: inline-flex;
-    margin: -2px; /* To offset the margin of inner divs */
-    width: calc(15 * (10px + 2 * 2px));
-    min-width: calc(15 * (10px + 2 * 2px));
-    height: calc(7 * (10px + 2 * 2px));
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    vertical-align: top; /* To align the calender with the text */
+  display: inline-flex;
+  margin: -2px; /* To offset the margin of inner divs */
+  width: calc(15 * (10px + 2 * 2px));
+  min-width: calc(15 * (10px + 2 * 2px));
+  height: calc(7 * (10px + 2 * 2px));
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  vertical-align: top; /* To align the calender with the text */
 }
 
 .streak-day {
-    display: inline-block;
-    margin: 2px;
-    width: 10px;
-    height: 10px;
+  display: inline-block;
+  margin: 2px;
+  width: 10px;
+  height: 10px;
 }
 
 .streak-day.yes-streak {
-    background: var(--main-theme-color);
+  background: var(--main-theme-color);
 }
 
 .streak-day.no-streak {
-    background: #ddd;
+  background: #ddd;
 }
 
 #streak-text {
-    display: inline-block;
-    padding: 0;
-    margin: 0;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
 }
 
-#streak-text p{
-    display: inline-block;
-    padding: 0;
-    margin: 0;
+#streak-text p {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
 }
-
-
 
 /***********************************
   Big Statistics
 ***********************************/
 
 .big-stat {
-    margin-bottom: -5px;
-    color: var(--main-theme-color);
-    font-size: 36px;
-    font-weight: 300;
+  margin-bottom: -5px;
+  color: var(--main-theme-color);
+  font-size: 36px;
+  font-weight: 300;
 }
 
 .stat-text p {
-    display: inline;
-    height: 100px;
+  display: inline;
+  height: 100px;
 }
 
 .stat-text h5 {
-    font-size: 18px;
-    font-weight: 600;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .stat-text p strong {
-    font-size: 0.9em;
-    font-weight: 600;
+  font-size: 0.9em;
+  font-weight: 600;
 }
 
 .stat-text hr {
-    margin-top: 25px;
+  margin-top: 25px;
 }
 
 /***********************************
   Tag Selection
 ***********************************/
 
-#available-tags-container{
-    text-align:center;
+#available-tags-container {
+  text-align: center;
 }
 
 .tag-name {
-    font-size: 20px;
-    font-weight: bold;
-    color: var(--main-theme-color);
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--main-theme-color);
 }
 
 .checkmark {
-    float:right;
-    display: none;
-    font-size: 30px;
-    color: var(--main-theme-color);
+  float: right;
+  display: none;
+  font-size: 30px;
+  color: var(--main-theme-color);
 }
 
 .tag-button {
-    font-size: 12px;
-    margin: 10px;
-    width: 350px;
+  font-size: 12px;
+  margin: 10px;
+  width: 350px;
 }
 
 #study-button {
-    display: none;
-    margin-left: calc(50% - 72.485px); /* Very stupid implementation! */
+  display: none;
+  margin-left: calc(50% - 72.485px); /* Very stupid implementation! */
 }
 
 /***********************************
@@ -196,5 +192,4 @@ a:hover {
 ***********************************/
 
 @media screen and (max-device-width: 992px) {
-
 }

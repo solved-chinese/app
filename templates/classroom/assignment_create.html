@@ -1,19 +1,11 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% load django_bootstrap_breadcrumbs %} {% block
+breadcrumbs %} {{ block.super }} {% breadcrumb "My Classes" "class_list" %} {%
+breadcrumb form.klass form.klass %} {% breadcrumb "Create Assignment" "" %} {%
+endblock %} {% block content %}
+<form method="post">
+  {% csrf_token %} {{ form.non_field_errors }} {% include
+  'utils/form_content.html' with form=form %}
 
-{% load django_bootstrap_breadcrumbs %}
-{% block breadcrumbs %}
-  {{ block.super }}
-  {% breadcrumb "My Classes" "class_list" %}
-  {% breadcrumb form.klass form.klass %}
-  {% breadcrumb "Create Assignment" "" %}
-{% endblock %}
-
-{% block content %}
-    <form method="post">{% csrf_token %}
-      {{ form.non_field_errors }}
-
-      {% include 'utils/form_content.html' with form=form %}
-
-      <input class="button button-primary" type="submit" value="Create">
-    </form>
+  <input class="button button-primary" type="submit" value="Create" />
+</form>
 {% endblock content %}

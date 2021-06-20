@@ -1,11 +1,6 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block content %} {{ header }}
 
-{% block content %}
+<br /><br />
 
-  {{ header }}
-
-  <br><br>
-
-  {% include 'utils/bootstrap_table.html' with labels=labels objects=objects %}
-
-{% endblock content %}
+{% include 'utils/bootstrap_table.html' with labels=labels objects=objects %} {%
+endblock content %}
