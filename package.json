@@ -56,7 +56,7 @@
     "build": "webpack --config webpack.prod.js",
     "migrate": "python3 manage.py migrate",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prettier": "prettier -w ."
+    "prettier": "prettier -w frontend"
   },
   "repository": {
     "type": "git",

@@ -9,8 +9,8 @@ const WordContainer = styled.div`
   flex-direction: row;
   text-align: center;
   width: 100%;
-  justify-content:center;
-  align-items:center;
+  justify-content: center;
+  align-items: center;
 `;
 
 const CharSVGContainer = styled.div`
@@ -18,8 +18,8 @@ const CharSVGContainer = styled.div`
   width: 100%;
   font-weight: 200;
   text-align: center;
-  justify-content:center;
-  aligh-items:center;
+  justify-content: center;
+  aligh-items: center;
   color: var(--primary-text);
 `;
 
@@ -28,7 +28,7 @@ enum WriterState {
   STANDBY = "standby",
   PLAYING = "playing",
   PAUSED = "paused",
-  LOOPING = "looping"
+  LOOPING = "looping",
 }
 
 type StrokeGifProps = {
@@ -96,6 +96,7 @@ export default class StrokeGif extends React.Component<StrokeGifProps> {
         key={this.itemsTargetIDs[index]}
         style={{ cursor: "grab" }}
         onLoadCapture={() => this.writerCallback(index)}
+        onClick={() => this.writerCallback(index)}
         className="use-chinese"
         ref={this.itemsTargetRef[index]}
       />
@@ -129,7 +130,6 @@ export default class StrokeGif extends React.Component<StrokeGifProps> {
       case WriterState.LOOPING:
         writer.loopCharacterAnimation();
         break;
-            
     }
   }
 

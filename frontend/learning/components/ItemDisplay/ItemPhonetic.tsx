@@ -77,14 +77,6 @@ const ItemPhonetic = (props: Props): JSX.Element => {
     <Container>
       <Phonetic className="use-chinese">
         <Dialog item={props.item} type="character" />
-        {/* <Modal isOpen={modalIsOpen} shouldCloseOnOverlayClick={false} onRequestClose={()=> setModalIsOpen(false)}>
-                    <h2>Modal Test</h2>
-                    <div>
-                        <button  onClick={() => setModalIsOpen(false)}>
-                            Close
-                        </button>
-                    </div>
-                </Modal> */}
         {pinyin}
         <SpeakButton
           src="/static/images/small-icons/pronounce.svg"

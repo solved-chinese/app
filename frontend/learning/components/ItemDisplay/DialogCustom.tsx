@@ -60,6 +60,7 @@ const CloseButton = styled.i`
   }
 `;
 
+// don't use div to contain word and pinyin in the same line
 const WordContainer = styled.a`
   font-size: 1.75em;
   font-weight: 200;
@@ -74,7 +75,6 @@ const BottomContainer = styled.div`
   cursor: pointer;
   padding: 20px;
 `;
-
 
 type Props = {
   item: string;
@@ -103,29 +103,21 @@ const Dialog = (props: Props): JSX.Element => {
   const renderModal = (): JSX.Element | any => {
     return (
       <>
-        <div>
-          <Modal
-            closeTimeoutMS={500}
-            style={ModalStyle}
-            isOpen={modalState}
-            onRequestClose={() => setModalState(false)}
-          >
-            <CloseButton
-              className="fas fa-times"
-              onClick={() => setModalState(false)}
-            />
-            {renderItem()}
-            <BottomContainer>
-              <WordContainer
-                className="use-chinese"
-              >
-                {props.item}
-              </WordContainer>
-            </BottomContainer>
-
-          </Modal>
-          
-        </div>
+        <Modal
+          closeTimeoutMS={500}
+          style={ModalStyle}
+          isOpen={modalState}
+          onRequestClose={() => setModalState(false)}
+        >
+          <CloseButton
+            className="fas fa-times"
+            onClick={() => setModalState(false)}
+          />
+          {renderItem()}
+          <BottomContainer>
+            <WordContainer className="use-chinese">{props.item}</WordContainer>
+          </BottomContainer>
+        </Modal>
       </>
     );
   };
