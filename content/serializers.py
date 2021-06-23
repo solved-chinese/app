@@ -27,7 +27,7 @@ class SimpleCharacterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Character
-        fields = ['chinese', 'pinyin', 'full_definition']
+        fields = ['chinese', 'pinyin', 'full_definition', 'url']
 
 
 class CharacterSerializer(serializers.HyperlinkedModelSerializer):
@@ -62,7 +62,7 @@ class SimpleWordSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Word
-        fields = ['chinese', 'pinyin', 'full_definition']
+        fields = ['chinese', 'pinyin', 'full_definition', 'url']
 
 
 class DefinitionInWordSerializer(serializers.HyperlinkedModelSerializer):
