@@ -5,7 +5,7 @@ from content.models import Radical, Character, Word, WordSet, \
     DefinitionInWord, Sentence, DefinitionInCharacter, AudioFile
 
 
-RELATED_MAX_NUM = 3
+RELATED_MAX_NUM = 10
 
 
 class RadicalSerializer(serializers.HyperlinkedModelSerializer):
