@@ -1,45 +1,44 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% load django_bootstrap_breadcrumbs %} {% block
+breadcrumbs %} {% clear_breadcrumbs %} {% breadcrumb "My Classes" "class_list"
+%} {% breadcrumb object.klass object.klass %} {% breadcrumb object "" %} {%
+endblock %} {% block content %}
 
-{% load django_bootstrap_breadcrumbs %}
-{% block breadcrumbs %}
-  {% clear_breadcrumbs %}
-  {% breadcrumb "My Classes" "class_list" %}
-  {% breadcrumb object.klass object.klass %}
-  {% breadcrumb object "" %}
-{% endblock %}
+<h1>Assignment: {{ object.name }}</h1>
+<h1>Class: {{ object.klass.name }}</h1>
 
-{% block content %}
+<br />
+<form>
+  <button
+    formaction="{% url 'assignment' object.wordset.pk %}"
+    type="submit"
+    class="button button-secondary tag-button text-left"
+  >
+    Learn Like A Student
+  </button>
+</form>
 
-  <h1>Assignment: {{ object.name }}</h1>
-  <h1>Class: {{ object.klass.name }}</h1>
+<br />
 
-  <br>
-  <form>
-    <button formaction="{% url 'assignment' object.wordset.pk %}"
-            type="submit"
-            class="button button-secondary tag-button text-left">
-            Learn Like A Student
-    </button>
-  </form>
+<h3>Stats by student</h3>
+{{ student_stats|safe }}
 
-  <br>
+<br />
 
-  <h3>Stats by student</h3>
-  {{ student_stats|safe }}
+<h3>Stats by word</h3>
+{{ word_stats|safe }}
 
-  <br>
-
-  <h3>Stats by word</h3>
-  {{ word_stats|safe }}
-
-  <br><br>
-  <form action="{% url 'assignment_delete' %}" method="post">
-    {% csrf_token %}
-    <input type='hidden' name='assignment_pk' value='{{ object.pk }}'>
-    <input type="submit" value="delete this assignment" class='button button-tertiary'
-           onclick="return confirm('Are you sure you want to permanently delete this Assignment? ' +
-            'The progress of your students will be preserved, however.');">
-  </form>
-  <br>
+<br /><br />
+<form action="{% url 'assignment_delete' %}" method="post">
+  {% csrf_token %}
+  <input type="hidden" name="assignment_pk" value="{{ object.pk }}" />
+  <input
+    type="submit"
+    value="delete this assignment"
+    class="button button-tertiary"
+    onclick="return confirm('Are you sure you want to permanently delete this Assignment? ' +
+            'The progress of your students will be preserved, however.');"
+  />
+</form>
+<br />
 
 {% endblock content %}

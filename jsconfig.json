@@ -1,19 +1,19 @@
 {
-    "compilerOptions": {
-        "jsx": "react",
-        "baseUrl": ".",
-        "paths": {
-            "@learning.components/*": ["./frontend/learning/components/*"],
-            "@learning.hooks/*": ["./frontend/learning/hooks/*"],
-            "@learning.styles/*": ["./frontend/learning/styles/*"],
-            "@learning.services/*": ["./frontend/learning/services/*"],
-            "@interfaces/*": ["./frontend/interfaces/*"],
-            "@assignment.components/*": ["./frontend/assignment/components/*"],
-            "@assignment.hooks/*": ["./frontend/assignment/hooks/*"],
-            "@assignment.styles/*": ["./frontend/assignment/styles/*"],
-            "@assignment.services/*": ["./frontend/assignment/services/*"],
-            "@utils/*": ["./frontend/utils/*"]
-        }
-    },
-    "exclude": ["node_modules"]
+  "compilerOptions": {
+    "jsx": "react",
+    "baseUrl": ".",
+    "paths": {
+      "@learning.components/*": ["./frontend/learning/components/*"],
+      "@learning.hooks/*": ["./frontend/learning/hooks/*"],
+      "@learning.styles/*": ["./frontend/learning/styles/*"],
+      "@learning.services/*": ["./frontend/learning/services/*"],
+      "@interfaces/*": ["./frontend/interfaces/*"],
+      "@assignment.components/*": ["./frontend/assignment/components/*"],
+      "@assignment.hooks/*": ["./frontend/assignment/hooks/*"],
+      "@assignment.styles/*": ["./frontend/assignment/styles/*"],
+      "@assignment.services/*": ["./frontend/assignment/services/*"],
+      "@utils/*": ["./frontend/utils/*"]
+    }
+  },
+  "exclude": ["node_modules"]
 }

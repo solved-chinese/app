@@ -1,15 +1,8 @@
-{% extends "base.html" %}
-
-{% load django_bootstrap_breadcrumbs %}
-{% block breadcrumbs %}
-  {% clear_breadcrumbs %}
-  {% breadcrumb "My Classes" "class_list" %}
-  {% breadcrumb "Create Class" "" %}
-{% endblock %}
-
-{% block content %}
-    <form method="post">{% csrf_token %}
-        {{ form.as_p }}
-        <input class="button button-primary" type="submit" value="Save">
-    </form>
+{% extends "base.html" %} {% load django_bootstrap_breadcrumbs %} {% block
+breadcrumbs %} {% clear_breadcrumbs %} {% breadcrumb "My Classes" "class_list"
+%} {% breadcrumb "Create Class" "" %} {% endblock %} {% block content %}
+<form method="post">
+  {% csrf_token %} {{ form.as_p }}
+  <input class="button button-primary" type="submit" value="Save" />
+</form>
 {% endblock content %}

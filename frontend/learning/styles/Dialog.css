@@ -1,0 +1,78 @@
+编写css文件： button {
+  background: none;
+  border: none;
+  outline: none;
+  width: 100px;
+  height: 30px;
+  border: 1px solid orange;
+  border-radius: 4px;
+  font-size: 16px;
+  display: block;
+  margin: 20px auto;
+}
+
+.loading {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  margin-right: 10px;
+  border-bottom: transparent;
+  border-top: transparent;
+  animation-name: loading;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.dialog-backdrop {
+  background: rgba(0, 0, 0, 0.2);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.dialog-container {
+  width: 300px;
+  background: #ffffff;
+  border-radius: 4px;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+}
+
+.dialog-header {
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+}
+
+.dialog-body {
+  line-height: 1.6;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.dialog-footer {
+  margin-top: 20px;
+}
+.dialog-footer button {
+  margin: 0 auto;
+  border: none;
+  background: orange;
+  color: #fff;
+}
+
+@keyframes loading {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

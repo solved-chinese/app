@@ -1,60 +1,61 @@
-{% extends "base.html" %}
-{% load static %}
-
-{% block css %}
-  <link rel="stylesheet" type="text/css" href="{% static "styles/student_index.css" %}">
-  <link rel="stylesheet" type="text/css" href="{% static "styles/homepage.css" %}">
-{% endblock %}
-
-{% block content %}
-    <div class="homepage-container">
-      <div class="homepage-row">
-        <div class="homepage-section">
-          <h1>Solve Chinese Characters Like Riddles</h1>
-            <div class="description-container">
-              Learning Chinese characters can be more intuitive, fun, and culturally meaningful.
-            </div>
-        </div>
-        <div class="homepage-section">
-          <img src="{% static "images/homepage/slice1.png" %}">
-        </div>
-      </div>
-      <div class="homepage-row center">
-        <img src="{% static "images/homepage/slice6.png" %}" id="chevron-down">
-      </div>
-      <div class="homepage-row reversed">
-        <div class="homepage-section">
-          <h1>Radical Breakdown</h1>
-            <div class="description-container">
-              Chinese characters can look intimidating. That's why we break them down into their basic building blocks (radicals) so you can stop memorizing and start understanding.
-            </div>
-        </div>
-        <div class="homepage-section">
-          <img src="{% static "images/homepage/slice3.png" %}" style="width:100%;">
-        </div>
-      </div>
-      <div class="homepage-row">
-        <div class="homepage-section">
-          <h1>Intelligent Review</h1>
-            <div class="description-container">
-              Stop forgetting, and cut the useless repetitions too -- our intelligent Spaced Repetition algorithm creates a personalized review plan based on your past performances, so that it works just right for you.
-            </div>
-        </div>
-        <div class="homepage-section">
-          <img src="{% static "images/homepage/slice4.png" %}">
-        </div>
-      </div>
-      <div class="homepage-row reversed">
-        <div class="homepage-section">
-          <h1>Visual chunking</h1>
-            <div class="description-container">
-              The color chunks make it easier for you to recall the composition of each character.
-            </div>
-        </div>
-        <div class="homepage-section">
-          <img src="{% static "images/homepage/slice5.png" %}" style="width:100%;">
-        </div>
+{% extends "base.html" %} {% load static %} {% block css %} <link
+rel="stylesheet" type="text/css" href="{% static "styles/student_index.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "styles/homepage.css"
+%}"> {% endblock %} {% block content %}
+<div class="homepage-container">
+  <div class="homepage-row">
+    <div class="homepage-section">
+      <h1>Solve Chinese Characters Like Riddles</h1>
+      <div class="description-container">
+        Learning Chinese characters can be more intuitive, fun, and culturally
+        meaningful.
       </div>
     </div>
+    <div class="homepage-section">
+      <img src="{% static "images/homepage/slice1.png" %}">
+    </div>
+  </div>
+  <div class="homepage-row center">
+    <img src="{% static "images/homepage/slice6.png" %}" id="chevron-down">
+  </div>
+  <div class="homepage-row reversed">
+    <div class="homepage-section">
+      <h1>Radical Breakdown</h1>
+      <div class="description-container">
+        Chinese characters can look intimidating. That's why we break them down
+        into their basic building blocks (radicals) so you can stop memorizing
+        and start understanding.
+      </div>
+    </div>
+    <div class="homepage-section">
+      <img src="{% static "images/homepage/slice3.png" %}" style="width:100%;">
+    </div>
+  </div>
+  <div class="homepage-row">
+    <div class="homepage-section">
+      <h1>Intelligent Review</h1>
+      <div class="description-container">
+        Stop forgetting, and cut the useless repetitions too -- our intelligent
+        Spaced Repetition algorithm creates a personalized review plan based on
+        your past performances, so that it works just right for you.
+      </div>
+    </div>
+    <div class="homepage-section">
+      <img src="{% static "images/homepage/slice4.png" %}">
+    </div>
+  </div>
+  <div class="homepage-row reversed">
+    <div class="homepage-section">
+      <h1>Visual chunking</h1>
+      <div class="description-container">
+        The color chunks make it easier for you to recall the composition of
+        each character.
+      </div>
+    </div>
+    <div class="homepage-section">
+      <img src="{% static "images/homepage/slice5.png" %}" style="width:100%;">
+    </div>
+  </div>
+</div>
 
 {% endblock content %}

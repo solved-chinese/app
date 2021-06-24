@@ -1,10 +1,10 @@
-.signup-button{
-    text-align: center;
-    margin-top: calc(60vh - 320px);
-    transform: scale(1.2);
+.signup-button {
+  text-align: center;
+  margin-top: calc(60vh - 320px);
+  transform: scale(1.2);
 }
 
-.signup-container{
-    text-align: center;
-    margin: 100px;
+.signup-container {
+  text-align: center;
+  margin: 100px;
 }

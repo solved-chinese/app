@@ -5,10 +5,12 @@
   "main": "index.js",
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.13.10",
-    "@sentry/react": "^6.2.5",
-    "@sentry/tracing": "^6.2.5",
+    "@sentry/react": "^6.6.0",
+    "@sentry/tracing": "^6.6.0",
+    "antd": "^4.16.3",
     "hanzi-writer": "^3.0.2",
     "jquery": "^3.5.1",
+    "prettier": "^2.3.1",
     "react-content-loader": "^5.1.4",
     "react-modal": "^3.12.1",
     "styled-components": "^5.2.1"
@@ -22,8 +24,8 @@
     "@babel/preset-typescript": "^7.12.7",
     "@types/jquery": "^3.5.5",
     "@types/prop-types": "^15.7.3",
-    "@types/react": "^17.0.3",
-    "@types/react-dom": "^17.0.3",
+    "@types/react": "^17.0.11",
+    "@types/react-dom": "^17.0.7",
     "@types/react-modal": "^3.12.0",
     "@types/styled-components": "^5.1.9",
     "@typescript-eslint/eslint-plugin": "^4.20.0",
@@ -38,8 +40,8 @@
     "eslint-plugin-babel": "^5.3.1",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-react": "^7.21.5",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "source-map-loader": "^2.0.0",
     "style-loader": "^2.0.0",
     "terser-webpack-plugin": "^5.0.3",
@@ -53,7 +55,8 @@
     "dev:server": "python3 manage.py runserver",
     "build": "webpack --config webpack.prod.js",
     "migrate": "python3 manage.py migrate",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettier": "prettier -w frontend"
   },
   "repository": {
     "type": "git",

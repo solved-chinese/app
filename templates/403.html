@@ -1,15 +1,5 @@
-{% extends "utils/error_template.html" %}
-
-
-{% block error_header %}
-  403 Access Forbidden
-{% endblock error_header %}
-
-{% block error_message %}
-  {{ exception }}
-{% endblock error_message %}
-
-{% block error_description %}
-  You are not authorized to access this page.
-  Maybe you tried to access a student page using a teacher account or vice versa?
-{% endblock error_description %}
+{% extends "utils/error_template.html" %} {% block error_header %} 403 Access
+Forbidden {% endblock error_header %} {% block error_message %} {{ exception }}
+{% endblock error_message %} {% block error_description %} You are not
+authorized to access this page. Maybe you tried to access a student page using a
+teacher account or vice versa? {% endblock error_description %}

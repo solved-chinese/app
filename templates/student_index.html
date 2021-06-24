@@ -1,43 +1,36 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends "base.html" %} {% load static %} {% block css %} <link
+rel="stylesheet" type="text/css" href="{% static "styles/student_index.css" %}">
+{% endblock %} {% block content %}
 
-{% block css %}
-  <link rel="stylesheet" type="text/css" href="{% static "styles/student_index.css" %}">
-{% endblock %}
+<h1>Welcome back, {{ user.display_name }}!</h1>
 
-{% block content %}
+<div class="card-container" id="study-container">
+  <h2>
+    You are now in "{{ request.user.student.klass.name }}" by "{{
+    request.user.student.klass.teacher.display_name }}"
+  </h2>
+  <br />
+</div>
 
-  <h1>Welcome back, {{ user.display_name }}!</h1>
+<div class="card-container" id="study-container">
+  <h2>Select an Assignment to Study</h2>
+  <br />
 
-  <div class="card-container" id="study-container">
-    <h2>You are now in "{{ request.user.student.klass.name }}" by
-      "{{ request.user.student.klass.teacher.display_name }}"</h2>
-    <br>
+  <div id="available-tags-container">
+    {% for process in processes %}
+    <form>
+      <button
+        formaction="{% url 'assignment' process.wordset.pk %}"
+        type="submit"
+        class="button button-secondary tag-button text-left"
+      >
+        <div class="tag-name">{{ process.wordset.name }}</div>
+        {% for key, value in process.data.progress_bar.items %} {{ key }}: {{
+        value }} &nbsp;&nbsp;&nbsp; {% endfor %}
+      </button>
+    </form>
+    {% empty %} You don't have any assignment {% endfor %}
   </div>
-
-  <div class="card-container" id="study-container">
-    <h2>Select an Assignment to Study</h2>
-    <br>
-
-    <div id='available-tags-container'>
-      {% for process in processes %}
-        <form>
-          <button formaction="{% url 'assignment' process.wordset.pk %}"
-                  type="submit"
-                  class="button button-secondary tag-button text-left">
-            <div class='tag-name'>
-              {{ process.wordset.name }}
-            </div>
-            {% for key, value in process.data.progress_bar.items %}
-              {{ key }}: {{ value }} &nbsp;&nbsp;&nbsp;
-            {% endfor %}
-          </button>
-        </form>
-      {% empty %}
-        You don't have any assignment
-      {% endfor %}
-    </div>
-
-  </div>
+</div>
 
 {% endblock %}

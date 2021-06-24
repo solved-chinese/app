@@ -1,96 +1,101 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% load django_bootstrap_breadcrumbs %} {% block
+breadcrumbs %} {{ block.super }} {% breadcrumb "My Classes" "class_list" %} {%
+breadcrumb object "" %} {% endblock %} {% load my_tags %} {% block content %}
 
-{% load django_bootstrap_breadcrumbs %}
-{% block breadcrumbs %}
-  {{ block.super }}
-  {% breadcrumb "My Classes" "class_list" %}
-  {% breadcrumb object "" %}
-{% endblock %}
+<h1>Class: {{ object.name }}</h1>
 
-{% load my_tags %}
+<p>
+  Please share the class code with your students to let them join your class
+  (case insensitive):
+  <b>{{ object.code }}</b>
+</p>
 
-{% block content %}
+<br />
+<h2>Students:</h2>
 
-  <h1>Class: {{ object.name }}</h1>
+{% if not object.students.exists %}
+<p>You haven’t added any students to this class yet.</p>
+{% else %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Student ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for student in object.students.all %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{ student.user.display_name }}</td>
+      <td>{{ student.user.email }}</td>
+      <td>
+        <form action="{% url 'remove_student'%}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="student_pk" value="{{ student.pk }}" />
+          <input
+            type="submit"
+            value="remove"
+            onclick="return confirm('Are you sure you want to remove ' +
+                        'this student from your class?');"
+          />
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
 
-  <p>
-    Please share the class code with your students to let them join your class (case insensitive):
-    <b>{{ object.code }}</b>
-  </p>
+<br /><br />
 
-  <br>
-  <h2>Students:</h2>
+<h2>Assignments:</h2>
+{% if object.assignments.all %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for assignment in object.assignments.all %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>
+        <a href='{% url "assignment_detail" assignment.pk %}'>
+          {{ assignment.name }}
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>
+  You haven’t created any assignments for this class yet. Add one with the
+  button below.
+</p>
+{% endif %}
 
-  {% if not object.students.exists %}
-    <p>You haven’t added any students to this class yet.</p>
-  {% else %}
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Student ID</th>
-          <th scope="col">Name</th>
-          <th scope="col">Email</th>
-          <th scope="col">actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for student in object.students.all %}
-          <tr>
-            <th scope="row">{{ forloop.counter }}</th>
-            <td>{{ student.user.display_name }}</td>
-            <td>{{ student.user.email }}</td>
-            <td>
-              <form action="{% url 'remove_student'%}" method="post">
-                {% csrf_token %}
-                <input type='hidden' name='student_pk' value='{{ student.pk }}'>
-                <input type="submit" value="remove"
-                       onclick="return confirm('Are you sure you want to remove ' +
-                        'this student from your class?');">
-              </form>
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% endif %}
+<br />
+<a class="button button-primary" href='{% url "assignment_create" object.pk %}'
+  >Create Assignment</a
+>
 
-  <br><br>
-
-  <h2>Assignments:</h2>
-  {% if object.assignments.all %}
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Name</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for assignment in object.assignments.all %}
-          <tr>
-            <th scope="row">{{ forloop.counter }}</th>
-            <td><a href='{% url "assignment_detail" assignment.pk %}'>
-              {{ assignment.name }}
-            </a></td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p>You haven’t created any assignments for this class yet.
-      Add one with the button below.</p>
-  {% endif %}
-
-  <br>
-  <a class='button button-primary'
-     href='{% url "assignment_create" object.pk %}'>Create Assignment</a>
-
-  <br>
-  <form action="{% url 'class_delete'%}" method="post">
-    {% csrf_token %}
-    <input type='hidden' name='class_pk' value='{{ object.pk }}'>
-    <input type="submit" value="delete this class" class='button button-tertiary' style="float: right;"
-           onclick="return confirm('Are you sure you want to permanently delete this class?');">
-  </form>
+<br />
+<form action="{% url 'class_delete'%}" method="post">
+  {% csrf_token %}
+  <input type="hidden" name="class_pk" value="{{ object.pk }}" />
+  <input
+    type="submit"
+    value="delete this class"
+    class="button button-tertiary"
+    style="float: right"
+    onclick="return confirm('Are you sure you want to permanently delete this class?');"
+  />
+</form>
 
 {% endblock content %}

@@ -1,17 +1,36 @@
-{# add show_save_and_next #}
-
-{% load i18n admin_urls %}
+{# add show_save_and_next #} {% load i18n admin_urls %}
 <div class="submit-row">
-{% block submit-row %}
-{% if show_save_and_next %}<input type="submit" value="{% if can_change %}{% translate 'Save and next' %}{% else %}{% translate 'Save and view' %}{% endif %}" name="_save_next">{% endif %}
-{% if show_save %}<input type="submit" class="default" value="{% translate 'Save and return' %}" name="_save">{% endif %}
-{% if show_save_and_continue %}<input type="submit" value="{% if can_change %}{% translate 'Save and stay' %}{% else %}{% translate 'Save and view' %}{% endif %}" name="_continue">{% endif %}
-{% if show_delete_link and original %}
-    {% url opts|admin_urlname:'delete' original.pk|admin_urlquote as delete_url %}
-    <p class="deletelink-box"><a href="{% add_preserved_filters delete_url %}" class="deletelink">{% translate "Delete" %}</a></p>
-{% endif %}
-{% if show_save_as_new %}<input type="submit" value="{% translate 'Save as new' %}" name="_saveasnew">{% endif %}
-{% if show_save_and_add_another %}<input type="submit" value="{% translate 'Save and add another' %}" name="_addanother">{% endif %}
-{% if show_close %}<a href="{% url opts|admin_urlname:'changelist' %}" class="closelink">{% translate 'Close' %}</a>{% endif %}
-{% endblock %}
+  {% block submit-row %} {% if show_save_and_next %}<input
+    type="submit"
+    value="{% if can_change %}{% translate 'Save and next' %}{% else %}{% translate 'Save and view' %}{% endif %}"
+    name="_save_next"
+  />{% endif %} {% if show_save %}<input
+    type="submit"
+    class="default"
+    value="{% translate 'Save and return' %}"
+    name="_save"
+  />{% endif %} {% if show_save_and_continue %}<input
+    type="submit"
+    value="{% if can_change %}{% translate 'Save and stay' %}{% else %}{% translate 'Save and view' %}{% endif %}"
+    name="_continue"
+  />{% endif %} {% if show_delete_link and original %} {% url
+  opts|admin_urlname:'delete' original.pk|admin_urlquote as delete_url %}
+  <p class="deletelink-box">
+    <a href="{% add_preserved_filters delete_url %}" class="deletelink"
+      >{% translate "Delete" %}</a
+    >
+  </p>
+  {% endif %} {% if show_save_as_new %}<input
+    type="submit"
+    value="{% translate 'Save as new' %}"
+    name="_saveasnew"
+  />{% endif %} {% if show_save_and_add_another %}<input
+    type="submit"
+    value="{% translate 'Save and add another' %}"
+    name="_addanother"
+  />{% endif %} {% if show_close %}<a
+    href="{% url opts|admin_urlname:'changelist' %}"
+    class="closelink"
+    >{% translate 'Close' %}</a
+  >{% endif %} {% endblock %}
 </div>

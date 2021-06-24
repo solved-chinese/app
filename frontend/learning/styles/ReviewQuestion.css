@@ -1,111 +1,111 @@
 :root {
-    --color-accent-correct: #54A21E;
-    --color-accent-incorrect: #ff6300;
+  --color-accent-correct: #54a21e;
+  --color-accent-incorrect: #ff6300;
 }
 
 /* change */
 .question-content {
-    display: flex;
-    /* align-items: center; */
-    justify-content: center;
-    width: 100%;
-    max-width: 900px;
-    height: 65vh;
-    overflow: hidden;
-    margin: auto;
-    padding-top: 20px;
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  width: 100%;
+  max-width: 900px;
+  height: 65vh;
+  overflow: hidden;
+  margin: auto;
+  padding-top: 20px;
 }
 
 .question-text-field {
-    width: 200px;
-    height: 2em;
-    margin: auto;
-    display: block;
-    margin-bottom: 30px;
-    border: none;
-    text-align: left;
-    font-size: 1.5em;
-    flex-direction: row;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    vertical-align: bottom;
-    border-bottom: 2px solid #bec0c4;
-    background-color: #ebebeb;
+  width: 200px;
+  height: 2em;
+  margin: auto;
+  display: block;
+  margin-bottom: 30px;
+  border: none;
+  text-align: left;
+  font-size: 1.5em;
+  flex-direction: row;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  vertical-align: bottom;
+  border-bottom: 2px solid #bec0c4;
+  background-color: #ebebeb;
 
-    transition: all ease-in-out 200ms;
+  transition: all ease-in-out 200ms;
 }
 
 .question-text-field:focus {
-    outline: none;
+  outline: none;
 }
 
 .question-text-field.correct {
-    border-color: var(--color-accent-correct);
+  border-color: var(--color-accent-correct);
 }
 
 .question-text-field.incorrect {
-    border-color: var(--color-accent-incorrect);
+  border-color: var(--color-accent-incorrect);
 }
 
 .question-text-field-input:focus {
-    outline-width: 0;
+  outline-width: 0;
 }
 
 .question-text-field-input {
-    width: 80%;
-    height: 100%;
-    margin: auto;
-    border: none;
-    float: left;
-    text-align: center;
-    font-size: 1.5em;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    background-color: #ebebeb;
+  width: 80%;
+  height: 100%;
+  margin: auto;
+  border: none;
+  float: left;
+  text-align: center;
+  font-size: 1.5em;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  background-color: #ebebeb;
 }
 
 /* Answers */
 .answer-response {
-    width:20%;
-    height:80%;
-    font-size: 1.5em;
-    text-align: center;
-    vertical-align: bottom;
-    float: right;
-    border-top-right-radius: 5px;
-    background-color: #ebebeb;
-    transition: 0.2s;
+  width: 20%;
+  height: 80%;
+  font-size: 1.5em;
+  text-align: center;
+  vertical-align: bottom;
+  float: right;
+  border-top-right-radius: 5px;
+  background-color: #ebebeb;
+  transition: 0.2s;
 }
 
 .answer-response.correct {
-    color:rgb(103,158,59);
+  color: rgb(103, 158, 59);
 }
 
 .answer-response.incorrect {
-    color: rgb(238,109,0);
+  color: rgb(238, 109, 0);
 }
 
-button.choice-button  {
-    border: 1px solid var(--secondary-text);
-    border-radius: 5px;
+button.choice-button {
+  border: 1px solid var(--secondary-text);
+  border-radius: 5px;
 
-    color: var(--secondary-text);
-    background-color: transparent;
-    
-    /* change crimson to lato */
-    font-family: 'Lato', sans-serif;
-    font-weight: 400;
-    font-size: 1em;
-    letter-spacing: 0.03em;
- 
-    margin: 5px auto;
-    padding: 7px 35px;
+  color: var(--secondary-text);
+  background-color: transparent;
 
-    transition: all 250ms ease-in-out;
+  /* change crimson to lato */
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 1em;
+  letter-spacing: 0.03em;
+
+  margin: 5px auto;
+  padding: 7px 35px;
+
+  transition: all 250ms ease-in-out;
 }
 
 button.choice-button:focus {
-    outline: none;
+  outline: none;
 }
 /* stops button from flashing red */
 /* 
@@ -124,62 +124,62 @@ button.choice-button.active:hover {
 } */
 
 button.choice-button.correct {
-    background-color: var(--color-accent-correct);
-    border: 1px solid transparent;
-    color: white;
+  background-color: var(--color-accent-correct);
+  border: 1px solid transparent;
+  color: white;
 }
 
 button.choice-button.correct:hover {
-    background-color: var(--color-accent-correct);
+  background-color: var(--color-accent-correct);
 }
 
 button.choice-button.incorrect {
-    background-color: var(--color-accent-incorrect);
-    border: 1px solid transparent;
-    color: white;
+  background-color: var(--color-accent-incorrect);
+  border: 1px solid transparent;
+  color: white;
 }
 
 button.choice-button.incorrect:hover {
-    background-color: var(--color-accent-incorrect);
+  background-color: var(--color-accent-incorrect);
 }
 
-button.choice-button:hover {    
-    /* change: background-color: rgba(0, 0, 0, .06); */
-    background-color: var(--secondary-text);
-    color: white;
+button.choice-button:hover {
+  /* change: background-color: rgba(0, 0, 0, .06); */
+  background-color: var(--secondary-text);
+  color: white;
 }
 
 /* CND */
 button.cndIncorrect {
-    background-color: rgb(238,109,0);
-    color: white;
-    transition: 0.2s;
+  background-color: rgb(238, 109, 0);
+  color: white;
+  transition: 0.2s;
 }
 
 button.cndCorrect {
-    background-color: rgb(103,158,59);
-    color:#ebebeb;
-    transition: 0.2s;
+  background-color: rgb(103, 158, 59);
+  color: #ebebeb;
+  transition: 0.2s;
 }
 
 p.cndCorrect {
-    color:rgb(103,158,59);
-    text-align: center;
+  color: rgb(103, 158, 59);
+  text-align: center;
 }
 
 p.cndIncorrect {
-    color:rgb(238,109,0);
-    text-align: center;
+  color: rgb(238, 109, 0);
+  text-align: center;
 }
 
 /* AnswerResponse */
 
 p.answerCorrect {
-    color:rgb(103,158,59);
-    text-align: center;
+  color: rgb(103, 158, 59);
+  text-align: center;
 }
 
 p.answerIncorrect {
-    color:rgb(238,109,0);
-    text-align: center;
+  color: rgb(238, 109, 0);
+  text-align: center;
 }

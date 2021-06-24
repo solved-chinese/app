@@ -46,26 +46,26 @@
 
 var selected_tags = [];
 
-$(document).on("click", ".tag-button" , function() {
-    let checkmark = $(this).find('.checkmark');
-    if(checkmark.is(":hidden")) {
-        // select
-        $('.checkmark').hide();
-        checkmark.show();
-        selected_tags = [checkmark.data("pk")];
-        $("#study-button").show();
-    } else {
-        // deselect
-        checkmark.hide();
-        selected_tags = [];
-        $("#study-button").hide();
-    }
+$(document).on("click", ".tag-button", function () {
+  let checkmark = $(this).find(".checkmark");
+  if (checkmark.is(":hidden")) {
+    // select
+    $(".checkmark").hide();
+    checkmark.show();
+    selected_tags = [checkmark.data("pk")];
+    $("#study-button").show();
+  } else {
+    // deselect
+    checkmark.hide();
+    selected_tags = [];
+    $("#study-button").hide();
+  }
 });
 
-$('#study-button').click(function() {
-    // let activated = $('.slider-value.value-activated');
-    // let minutes = parseInt($(activated[activated.length - 1]).attr('data-value'));
-    // $('start-learning-form-minutes').val(minutes)
-    $('#start-learning-form-filter').val(JSON.stringify(selected_tags));
-    $('#start-learning-form').submit();
-})
+$("#study-button").click(function () {
+  // let activated = $('.slider-value.value-activated');
+  // let minutes = parseInt($(activated[activated.length - 1]).attr('data-value'));
+  // $('start-learning-form-minutes').val(minutes)
+  $("#start-learning-form-filter").val(JSON.stringify(selected_tags));
+  $("#start-learning-form").submit();
+});

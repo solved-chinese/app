@@ -1,13 +1,13 @@
 .page-control {
-    font-size: 1em;
-    color: var(--secondary-text);
+  font-size: 1em;
+  color: var(--secondary-text);
 }
 
 .page-control.label {
-    display: inline-block;
-    margin: 0;
+  display: inline-block;
+  margin: 0;
 }
 
 .page-control.disabled {
-    color: var(--teritary-text);
+  color: var(--teritary-text);
 }

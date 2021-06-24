@@ -1,14 +1,14 @@
-{% extends "base.html" %}
-
-{% block content %}
-  subject: <h2>{{ object.subject}} </h2>
-  from: <h2>{{ object.sender }}</h2>
-  received time: <h2>
+{% extends "base.html" %} {% block content %} subject:
+<h2>{{ object.subject}}</h2>
+from:
+<h2>{{ object.sender }}</h2>
+received time:
+<h2>
   <script>
-      var date = new Date("{{ object.time|date:"c" }}");
-      document.write(date.toString());
-  </script></h2>
-  {% if object.content %}
-    content: <p>{{ object.content }}</p>
-  {% endif %}
-{% endblock content %}
+    var date = new Date("{{ object.time|date:"c" }}");
+    document.write(date.toString());
+  </script>
+</h2>
+{% if object.content %} content:
+<p>{{ object.content }}</p>
+{% endif %} {% endblock content %}
