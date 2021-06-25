@@ -43,24 +43,24 @@ const ExampleSentences = (props: Props): JSX.Element => {
   //Output the sentences with HTML <span>
   return (
     <>
-    <div className="ExampleCard">
-      <SpeakButton className="fas fa-volume" onClick={() => audio.play()} />
-      {/* <div>
+      <div className="ExampleCard">
+        <SpeakButton className="fas fa-volume" onClick={() => audio.play()} />
+        {/* <div>
                 {originalpinyin}
             </div> */}
-      <div
-        className="sentence-pinyin use-chinese"
-        dangerouslySetInnerHTML={{ __html: pinyin }}
-      />
-      <div
-        className="sentence-chinese use-chinese"
-        dangerouslySetInnerHTML={{ __html: chinese }}
-      />
-      <div
-        className="sentence-translation use-serifs"
-        dangerouslySetInnerHTML={{ __html: translation }}
-      />
-    </div>
+        <div
+          className="sentence-pinyin use-chinese"
+          dangerouslySetInnerHTML={{ __html: pinyin }}
+        />
+        <div
+          className="sentence-chinese use-chinese"
+          dangerouslySetInnerHTML={{ __html: chinese }}
+        />
+        <div
+          className="sentence-translation use-serifs"
+          dangerouslySetInnerHTML={{ __html: translation }}
+        />
+      </div>
     </>
   );
 };

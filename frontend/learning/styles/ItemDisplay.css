@@ -119,6 +119,7 @@
 
 .right {
   flex: 1;
+  width: 30%;
 }
 
 .rigTop,
@@ -215,6 +216,7 @@
   border-left: 2px solid rgb(224, 214, 214);
   height: 30px;
   position: relative;
+  display: block;
   left: auto;
   margin-left: 20px;
   margin-right: 0px;
@@ -230,4 +232,17 @@
   border-radius: 5px;
   padding: 5px 20px;
   background-color: white;
+}
+
+/* dots */
+.dots {
+  width: 4px;
+  height: 4px;
+  background: black;
+  border-radius: 50%;
+  margin: 0 auto;
+  position: relative;
+  /* display: inline-block; */
+  justify-content: left;
+  align-content: center;
 }

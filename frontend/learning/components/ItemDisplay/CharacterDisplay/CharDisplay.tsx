@@ -16,10 +16,10 @@ import ItemDisplayPopup from "../ItemDisplayPopup";
 
 const Row = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
-  @media only screen and (max-width: 480px) {
-    flex-direction: column;
+  @media only screen and {
+    flex-direction: row;
   }
 `;
 
@@ -88,7 +88,7 @@ const CharDisplay = (props: Props): JSX.Element => {
         <RelatedItems
           items={character.relatedCharacters}
           item={character.chinese}
-          itemType="word"
+          itemType="character"
         />
       </>
     );

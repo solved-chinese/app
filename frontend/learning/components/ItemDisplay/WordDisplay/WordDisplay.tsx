@@ -22,13 +22,8 @@ const ContainerTop = styled.div`
   // }
 `;
 
-const ContainerDefinition = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  @media only screen and (max-width: 480px) {
-    flex-direction: column;
-  }
+const ContainerRight = styled.div`
+  display: block;
 `;
 
 const ContainerRightTop = styled.div`
@@ -214,7 +209,7 @@ const WordDisplay = (props: Props): JSX.Element => {
             {renderBreakdown(word)}
             <br />
           </div>
-          <div className="right">
+          <ContainerRight className="right">
             <ContainerRightTop>
               {word.sentences.map((sen) => {
                 return (
@@ -228,13 +223,13 @@ const WordDisplay = (props: Props): JSX.Element => {
                   />
                 );
               })}
-              <RelatedItems
-                  items={word.relatedWords}
-                  item={word.chinese}
-                  itemType="word"
-                />
             </ContainerRightTop>
-          </div>
+            <RelatedItems
+              items={word.relatedWords}
+              item={word.chinese}
+              itemType="word"
+            />
+          </ContainerRight>
         </div>
       </>
     );

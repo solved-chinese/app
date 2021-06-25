@@ -44,7 +44,6 @@ export interface Radical extends CoreItem {
   explanation: string;
 
   isLearnable: boolean;
-
 }
 
 /**
@@ -100,7 +99,7 @@ export interface CharacterShort {
   /**
    * For futural usage
    */
-  url : string;
+  url: string;
 }
 
 export interface Word extends CoreItem {

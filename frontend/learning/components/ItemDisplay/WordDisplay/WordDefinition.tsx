@@ -27,6 +27,7 @@ const TableContainer = styled.table`
 const PofSpeech = styled.td`
   font-style: italic;
   text-align: left;
+  padding-right: 10px;
 `;
 
 const ListTitle = styled.th`
@@ -54,9 +55,9 @@ const Definitions = (props: DefinitionsProps): JSX.Element => {
   return (
     <TableContainer>
       <tbody>
-        <tr>
+        {/* <tr>
           <ListTitle>Definitions</ListTitle>
-        </tr>
+        </tr> */}
         {definitions}
       </tbody>
     </TableContainer>

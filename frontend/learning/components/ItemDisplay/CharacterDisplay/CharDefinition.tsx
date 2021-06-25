@@ -4,24 +4,33 @@ import styled from "styled-components";
 import "@learning.styles/ItemDisplay.css";
 import ItemPhonetic from "../ItemPhonetic";
 
+const ContainerDefinition = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  max-width: 1000px;
+  // @media only screen and (max-width: 800px) {
+  //     flex-direction: column;
+  // }
+`;
+
 const DefinitionList = styled.ul`
-  padding-left: 70px;
+  display: inline-block;
+  padding-left: 30px;
   font-size: 1.3em;
-
-  @media only screen and (max-width: 480px) {
-    padding: 0;
-  }
+  overflow: hidden;
 `;
 
-const ListTitle = styled.i`
-  font-size: 0.6em;
-  font-style: normal;
-  color: var(--teritary-text);
-  line-height: 1em;
-`;
+// const ListTitle = styled.i`
+//   font-size: 0.6em;
+//   font-style: normal;
+//   color: var(--teritary-text);
+//   line-height: 1em;
+// `;
 
 const ListItem = styled.li`
   line-height: 1.75em;
+  text-overflow: ellipsis;
 `;
 
 type Props = {
@@ -40,7 +49,7 @@ type Props = {
 
 const CharDefinition = (props: Props): JSX.Element => {
   return (
-    <>
+    <ContainerDefinition>
       <ItemPhonetic
         item={props.chinese}
         pinyin={props.pinyin}
@@ -48,10 +57,8 @@ const CharDefinition = (props: Props): JSX.Element => {
         useStroke={true}
       />
 
-      <div className="vl"></div>
-
-      <DefinitionList>
-        <ListTitle>Definitions:</ListTitle>
+      <DefinitionList className="vl">
+        {/* <ListTitle>Definitions:</ListTitle> */}
         {props.definitions.map((elem, i) => {
           return (
             <ListItem key={i} className="use-serifs">
@@ -60,7 +67,7 @@ const CharDefinition = (props: Props): JSX.Element => {
           );
         })}
       </DefinitionList>
-    </>
+    </ContainerDefinition>
   );
 };
 
