@@ -123,11 +123,11 @@ const RadDisplay = (props: Props): JSX.Element => {
             <FlavorForm explanation={explanation} />
           </DefPhoneticContainer>
         </Row>
-        <RelatedItems
+        {/* <RelatedItems
           item={chinese}
           items={radical.relatedCharacters}
           itemType="character"
-        />
+        /> */}
       </>
     );
   };

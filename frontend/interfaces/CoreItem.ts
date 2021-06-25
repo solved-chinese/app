@@ -45,8 +45,6 @@ export interface Radical extends CoreItem {
 
   isLearnable: boolean;
 
-  /** A list of characters related to the radical. */
-  relatedCharacters: CharacterShort[];
 }
 
 /**
@@ -77,8 +75,8 @@ export interface Character extends CoreItem {
   /** A single sentence that helps with memorizing the character. */
   memoryAid: string;
 
-  /** A list of words related to the character. */
-  relatedWords: WordShort[];
+  /** A list of characters related to this character. */
+  relatedCharacters: CharacterShort[];
 }
 
 export interface CharacterShort {
@@ -98,6 +96,11 @@ export interface CharacterShort {
    * @example mv. definition; conj. 2nd definition; pn. 3rd definition
    */
   fullDefinition: string;
+
+  /**
+   * For futural usage
+   */
+  url : string;
 }
 
 export interface Word extends CoreItem {
@@ -128,6 +131,9 @@ export interface Word extends CoreItem {
    * A signal of showing or hiding break down words
    */
   isHiding: true;
+
+  /** A list of words related to this word */
+  relatedWords: WordShort[];
 }
 
 export type WordShort = CharacterShort;

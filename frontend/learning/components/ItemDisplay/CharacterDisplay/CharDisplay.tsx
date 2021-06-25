@@ -86,7 +86,7 @@ const CharDisplay = (props: Props): JSX.Element => {
           alwaysDisplay={autoExpandBreakdown}
         />
         <RelatedItems
-          items={character.relatedWords}
+          items={character.relatedCharacters}
           item={character.chinese}
           itemType="word"
         />

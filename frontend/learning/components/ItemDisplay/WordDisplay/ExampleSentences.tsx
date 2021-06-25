@@ -2,6 +2,7 @@ import React from "react";
 import "@learning.styles/ItemDisplay.css";
 import styled from "styled-components";
 import { Word } from "@interfaces/CoreItem";
+import RelatedItems from "../RelatedItems";
 
 const SpeakButton = styled.i`
   // display: flex;
@@ -41,6 +42,7 @@ const ExampleSentences = (props: Props): JSX.Element => {
 
   //Output the sentences with HTML <span>
   return (
+    <>
     <div className="ExampleCard">
       <SpeakButton className="fas fa-volume" onClick={() => audio.play()} />
       {/* <div>
@@ -59,6 +61,7 @@ const ExampleSentences = (props: Props): JSX.Element => {
         dangerouslySetInnerHTML={{ __html: translation }}
       />
     </div>
+    </>
   );
 };
 

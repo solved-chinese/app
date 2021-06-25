@@ -9,6 +9,7 @@ import LoadingView from "@learning.components/ItemDisplay/LoadingView";
 import useLoadWord from "@learning.hooks/useLoadWord";
 
 import { Word } from "@interfaces/CoreItem";
+import RelatedItems from "../RelatedItems";
 
 //Top and Bottom Containers
 const ContainerTop = styled.div`
@@ -227,6 +228,11 @@ const WordDisplay = (props: Props): JSX.Element => {
                   />
                 );
               })}
+              <RelatedItems
+                  items={word.relatedWords}
+                  item={word.chinese}
+                  itemType="word"
+                />
             </ContainerRightTop>
           </div>
         </div>
