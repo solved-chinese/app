@@ -8,20 +8,16 @@ const ContainerDefinition = styled.div`
   display: flex;
   justify-content: start;
   align-items: center;
-  // max-width: 800px
-  // @media only screen and (max-width: 800px) {
-  //     flex-direction: column;
-  // }
+  max-width: 800px @media only screen and (max-width: 800px) {
+    flex-direction: column;
+  }
 `;
 
-const TableContainer = styled.table`
-  margin-left: 70px;
-  font-size: 1.3em;
-  max-width: 500px;
-
-  @media only screen and (max-width: 480px) {
-    padding: 0;
-  }
+const TableContainer = styled.div`
+  margin-left: 20px;
+  font-size: 1.5em;
+  width: auto;
+  max-width: 200px;
 `;
 
 const PofSpeech = styled.td`
@@ -53,13 +49,13 @@ const Definitions = (props: DefinitionsProps): JSX.Element => {
   });
 
   return (
-    <TableContainer>
-      <tbody>
-        {/* <tr>
+    <TableContainer className="divider">
+      {/* <tbody> */}
+      {/* <tr>
           <ListTitle>Definitions</ListTitle>
         </tr> */}
-        {definitions}
-      </tbody>
+      {definitions}
+      {/* </tbody> */}
     </TableContainer>
   );
 };
@@ -116,7 +112,7 @@ const WordDefinition = (props: WordDefinitionProps): JSX.Element => {
           audioURL={props.audioURL}
           useStroke={true}
         />
-        <div className="vl"></div>
+        {/* <div className="vl"></div> */}
         <Definitions definitions={props.definitions} />
       </ContainerDefinition>
     </>

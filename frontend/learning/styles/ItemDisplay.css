@@ -64,18 +64,18 @@
 }
 
 .breakdown-content.show {
-  max-height: 3000px; /* We need a numerical value here for the animation */
+  max-height: 4000px; /* We need a numerical value here for the animation */
   opacity: 1;
   overflow: visible;
   visibility: visible;
 }
 
 .breakdown-card {
-  width: calc(50% - 20px);
+  width: calc(45% - 10px);
   font-size: 15px;
   margin-top: 20px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
   border-radius: 5px;
   padding: 5px 20px;
   background-color: white;
@@ -212,14 +212,12 @@
   border-color: #54565e12;
 }
 
-.vl {
+.divider {
   border-left: 2px solid rgb(224, 214, 214);
   height: 30px;
   position: relative;
   display: block;
-  left: auto;
-  margin-left: 20px;
-  margin-right: 0px;
+  padding-left: 3vmin;
 }
 
 /* new breakdown format */

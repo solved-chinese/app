@@ -9,14 +9,21 @@ const ContainerDefinition = styled.div`
   justify-content: start;
   align-items: center;
   max-width: 1000px;
-  // @media only screen and (max-width: 800px) {
-  //     flex-direction: column;
-  // }
+  @media only screen and (max-width: 800px) {
+    flex-direction: column;
+  }
+`;
+
+const TableContainer = styled.div`
+  margin-left: 15px;
+  width: auto;
+  height: auto
+  max-width: 200px;
 `;
 
 const DefinitionList = styled.ul`
   display: inline-block;
-  padding-left: 30px;
+  padding-left: 0px;
   font-size: 1.3em;
   overflow: hidden;
 `;
@@ -29,7 +36,7 @@ const DefinitionList = styled.ul`
 // `;
 
 const ListItem = styled.li`
-  line-height: 1.75em;
+  line-height: 1.3em;
   text-overflow: ellipsis;
 `;
 
@@ -56,17 +63,18 @@ const CharDefinition = (props: Props): JSX.Element => {
         audioURL={props.audioURL}
         useStroke={true}
       />
-
-      <DefinitionList className="vl">
-        {/* <ListTitle>Definitions:</ListTitle> */}
-        {props.definitions.map((elem, i) => {
-          return (
-            <ListItem key={i} className="use-serifs">
-              {elem}
-            </ListItem>
-          );
-        })}
-      </DefinitionList>
+      <TableContainer className="divider">
+        <DefinitionList>
+          {/* <ListTitle>Definitions:</ListTitle> */}
+          {props.definitions.map((elem, i) => {
+            return (
+              <ListItem key={i} className="use-serifs">
+                {elem}
+              </ListItem>
+            );
+          })}
+        </DefinitionList>
+      </TableContainer>
     </ContainerDefinition>
   );
 };
