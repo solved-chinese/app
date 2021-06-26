@@ -17,9 +17,9 @@ const ContainerTop = styled.div`
   // width: 100%;
   justify-content: start;
   align-items: center;
-  // @media only screen and (max-width: 480px) {
-  //     flex-direction: row;
-  // }
+  @media only screen and (max-width: 680px) {
+      flex-direction: row;
+  }
 `;
 
 const ContainerRight = styled.div`
@@ -69,7 +69,7 @@ const MemoryAidContent = styled.div`
   border-radius: 5px;
   padding: 15px 20px;
   font-weight: 400;
-  background-color: lightgrey;
+  background-color: #fafafa;
 `;
 
 type MemoryAidViewProps = {

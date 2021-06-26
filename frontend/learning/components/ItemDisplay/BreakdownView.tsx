@@ -13,7 +13,7 @@ import "@learning.styles/ItemDisplay.css";
 import { Character, Radical } from "@interfaces/CoreItem";
 
 import CharDisplay from "./CharacterDisplay/CharDisplay";
-import RadDisplay from "./RadicalDisplay/RadDisplay";
+import RadDisplay, {RadDisplayWithSignal} from "./RadicalDisplay/RadDisplay";
 
 const Row = styled.div`
   display: inline-flex;
@@ -130,7 +130,7 @@ const BreakdownRad = (props: BreakdownRadProps): JSX.Element => {
                     item={chinese}
                     items={radical.relatedCharacters}
                     itemType='character' /> */}
-        <RadDisplay radical={radical} />
+        <RadDisplayWithSignal radical={radical} />
       </>
     );
   };

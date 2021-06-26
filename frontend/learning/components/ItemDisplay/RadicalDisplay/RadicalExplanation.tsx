@@ -5,15 +5,13 @@ import "@learning.styles/Menus.css";
 
 const ExplanationSignal = styled.img`
   position: relative;
-  margin-top: 27px; // according to the position of text of definition
+  margin-top: 30px; // according to the position of text of definition
   margin-left: 3px;
-  font-weight: 100;
   // width = 100%;
   cursor: pointer;
-  transform: scale(0.6);
   filter: invert(12%) sepia(69%) saturate(6868%) hue-rotate(7deg) brightness(92%) contrast(109%); 
   &:hover {
-    transform: scale (0.8);
+    transform: scale (1.2);
     transition : 200ms ease-in-out
   }
 `;
@@ -33,7 +31,7 @@ const Explanation = styled.div`
   text-align: left;
 `;
 
-export default class FlavorForm extends React.Component<Props, IState> {
+export default class RadicalExplanation extends React.Component<Props, IState> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -74,7 +72,7 @@ export default class FlavorForm extends React.Component<Props, IState> {
       <div className="body">
         <ExplanationSignal
           src="/static/images/small-icons/info_outline_black_24dp.svg"
-          width="20px"
+          width="14px"
           onMouseOver={this.handleMouseOver}
           onMouseLeave={this.handleMouseOut}
         />

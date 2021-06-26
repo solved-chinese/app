@@ -14,9 +14,9 @@ const ContainerDefinition = styled.div`
 `;
 
 const TableContainer = styled.div`
-  margin-left: 20px;
+  margin-left: 30px;
   font-size: 1.5em;
-  width: auto;
+  width: 100%;
   max-width: 200px;
 `;
 
@@ -42,7 +42,7 @@ const Definitions = (props: DefinitionsProps): JSX.Element => {
   const definitions = props.definitions.map((d, index) => {
     return (
       <tr key={index}>
-        <PofSpeech className="use-serifs">{d.partOfSpeech}</PofSpeech>
+        <PofSpeech className="use-serifs">{d.partOfSpeech}.</PofSpeech>
         <td className="use-serifs">{d.definition}</td>
       </tr>
     );

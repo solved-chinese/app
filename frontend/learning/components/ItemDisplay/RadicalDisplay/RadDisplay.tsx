@@ -8,7 +8,31 @@ import useLoadRad from "@learning.hooks/useLoadRad";
 import { Radical } from "@interfaces/CoreItem";
 
 import "@learning.styles/ItemDisplay.css";
-import FlavorForm from "./FlavorForm";
+import RadicalExplanation from "./RadicalExplanation";
+
+const Row = styled.div`
+  display: flex;
+  min-width: 100%;
+  flex-wrap: wrap;
+  flex-direction: row;
+  background-color: #FAFAFA; // off-white
+`;
+
+interface WidthControl {
+  withoutExp : boolean
+}
+
+const DefContainer = styled.div<WidthControl>`
+display: flex;
+min-width:60%;
+justify-content: center;
+align-items: center;
+flex-wrap: wrap;
+margin-bottom: 20px;
+flex-direction: column;
+width: ${props => props.withoutExp ? 'auto' : '100%'}
+
+`;
 
 const Column = styled.div`
   display: flex;
@@ -40,7 +64,7 @@ const RadDefinition = styled.i`
 
 const Phonetic = styled.div`
   text-align: center;
-  font-size: 1.4em;
+  font-size: 1.3em;
   font-weight: 200;
   white-space: wrap;
 `;
@@ -61,8 +85,17 @@ const DefPhoneticContainer = styled.div`
 
 const DefPinyinContainer = styled.div`
   display: flex;
+  height: 20px;
   flex-direction: column;
   justify-content: center;
+`;
+
+const ExpContainer = styled.a<WidthControl>`
+  position: relative;
+  display: ${props => props.withoutExp ? 'flex' : 'none'};
+  width: 40%;
+  justify-items: center;
+  align-items:center;
 `;
 
 type Props = {
@@ -86,6 +119,93 @@ type Props = {
   qid?: number;
 };
 
+export const RadStandardDisplay = (props: Props): JSX.Element => {
+  const radical =
+    props.radical == null
+      ? useLoadRad(
+          props.url == null ? `/content/radical/${props.qid}` : props.url
+        )
+      : props.radical;
+
+  const audio = radical != null ? new Audio(radical.audioUrl) : null;
+
+  const renderRadical = (radical: Radical) => {
+    const chinese = radical.chinese;
+    const def = radical.definition;
+    const explanation = radical.explanation;
+    const imageUrl = radical.image;
+
+    return (
+      <>
+          <DefPinyinContainer>
+            {radical.pinyin !== "" && (
+              <Phonetic className="use-chinese">
+                {radical.pinyin}
+                <SpeakButton
+                  className="fas fa-volume"
+                  onClick={() => audio?.play()}
+                />
+              </Phonetic>
+            )}
+          </DefPinyinContainer>
+          <MnemonicImage src={imageUrl} />
+      </>
+    );
+  };
+
+  if (radical === null) {
+    return <LoadingView />;
+  } else {
+    return renderRadical(radical);
+  }
+};
+
+/**
+ * The main function that renders a radical view.
+ */
+export const RadDisplayWithSignal = (props: Props): JSX.Element => {
+  const radical =
+    props.radical == null
+      ? useLoadRad(
+          props.url == null ? `/content/radical/${props.qid}` : props.url
+        )
+      : props.radical;
+
+  const audio = radical != null ? new Audio(radical.audioUrl) : null;
+
+  const renderRadical = (radical: Radical) => {
+    const chinese = radical.chinese;
+    const def = radical.definition;
+    const explanation = radical.explanation;
+    const imageUrl = radical.image;
+
+    return (
+      <>
+        <Column>
+          <RadStandardDisplay radical={props.radical} qid={props.qid} url={props.url}/>
+
+          <DefPhoneticContainer>
+            <RadDefinition className="use-serifs">{def}</RadDefinition>
+            <RadicalExplanation explanation={explanation} />
+          </DefPhoneticContainer>
+        </Column>
+        {/* <RelatedItems
+          item={chinese}
+          items={radical.relatedCharacters}
+          itemType="character"
+        /> */}
+      </>
+    );
+  };
+
+  if (radical === null) {
+    return <LoadingView />;
+  } else {
+    return renderRadical(radical);
+  }
+};
+
+
 /**
  * The main function that renders a radical view.
  */
@@ -106,33 +226,13 @@ const RadDisplay = (props: Props): JSX.Element => {
     const imageUrl = radical.image;
 
     return (
-      <>
-        <Column>
-          <DefPinyinContainer>
-            {radical.pinyin !== "" && (
-              <Phonetic className="use-chinese">
-                <li>{radical.pinyin}</li>
-                <SpeakButton
-                  className="fas fa-volume"
-                  onClick={() => audio?.play()}
-                />
-              </Phonetic>
-            )}
-          </DefPinyinContainer>
-
-          <MnemonicImage src={imageUrl} />
-
-          <DefPhoneticContainer>
-            <RadDefinition className="use-serifs">{def}</RadDefinition>
-            <FlavorForm explanation={explanation} />
-          </DefPhoneticContainer>
-        </Column>
-        {/* <RelatedItems
-          item={chinese}
-          items={radical.relatedCharacters}
-          itemType="character"
-        /> */}
-      </>
+      <Row>
+        <DefContainer withoutExp={explanation !==  ""}>
+        <RadStandardDisplay radical={props.radical} qid={props.qid} url={props.url} />
+        <RadDefinition className="use-serifs">{def}</RadDefinition>
+        </DefContainer>
+        <ExpContainer withoutExp={explanation !==  ""}>{explanation}</ExpContainer>
+      </Row>
     );
   };
 
@@ -155,6 +255,9 @@ type RadImageProps = {
    */
   radical: string;
 };
+
+
+
 
 type RadImageState = {
   errored: boolean;
