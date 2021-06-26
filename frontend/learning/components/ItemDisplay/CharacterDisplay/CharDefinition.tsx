@@ -15,16 +15,18 @@ const ContainerDefinition = styled.div`
 `;
 
 const TableContainer = styled.div`
-  margin-left: 15px;
+  // margin-left: 15px;
   width: auto;
   height: auto
   max-width: 200px;
+  max-height: 4.5em;
 `;
 
 const DefinitionList = styled.ul`
   display: inline-block;
   padding-left: 0px;
   font-size: 1.3em;
+  max-height: 80px;
   overflow: hidden;
 `;
 

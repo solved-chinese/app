@@ -87,8 +87,8 @@ const ItemCompPhonetic = styled(ItemComp)`
 
 const ItemCompDef = styled(ItemComp)`
   flex-grow: 3;
-  max-width: 75%;
-  margin-left: auto;
+  max-width: 90%;  // aligning approach, 60% is good for breakdown view, 90% is good for character display
+  margin-left: auto; // aligning approach
   text-overflow: ellipsis;
   overflow: hidden;
 `;
@@ -116,7 +116,7 @@ class RelatedItemEntry extends React.Component<RelatedItemEntryProps> {
         <ItemCompPhonetic className="use-chinese">
           {`/${pinyin}/`}
         </ItemCompPhonetic>
-        <ItemCompDef className="use-serifs">{fullDefinition}</ItemCompDef>
+        <ItemCompDef className="use-serifs divider">{fullDefinition}</ItemCompDef>
       </RelatedWordItemDisplay>
     );
   }

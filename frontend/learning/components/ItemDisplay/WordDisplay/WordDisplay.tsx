@@ -14,7 +14,7 @@ import RelatedItems from "../RelatedItems";
 //Top and Bottom Containers
 const ContainerTop = styled.div`
   display: inline-block;
-  width: 100%;
+  // width: 100%;
   justify-content: start;
   align-items: center;
   // @media only screen and (max-width: 480px) {

@@ -8,7 +8,7 @@ const ContainerDefinition = styled.div`
   display: flex;
   justify-content: start;
   align-items: center;
-  max-width: 800px @media only screen and (max-width: 800px) {
+  @media only screen and (max-width: 800px) {
     flex-direction: column;
   }
 `;

@@ -74,10 +74,10 @@
   width: calc(45% - 10px);
   font-size: 15px;
   margin-top: 20px;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 3px;
+  margin-right: 3px;
   border-radius: 5px;
-  padding: 5px 20px;
+  padding: 1% 2%;
   background-color: white;
 }
 
@@ -149,7 +149,7 @@
 .ExampleCard {
   max-width: 300px;
   width: 100%;
-  background-color: lightgrey;
+  background-color: #fafafa;
   border-radius: 5px;
   /* box-shadow: 5px 5px 15px 0px #30354512; */
   transition: 200ms ease;
@@ -213,7 +213,7 @@
 }
 
 .divider {
-  border-left: 2px solid rgb(224, 214, 214);
+  border-left: 2px solid #ebebeb;
   height: 30px;
   position: relative;
   display: block;

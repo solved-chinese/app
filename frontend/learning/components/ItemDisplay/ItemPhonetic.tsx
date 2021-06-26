@@ -8,7 +8,7 @@ import Dialog from "./DialogCustom";
 
 const Container = styled.div`
   display: inline-block;
-  width: auto;
+  width: -webkit-fill-available;
 `;
 
 const Phonetic = styled.span`
@@ -77,6 +77,7 @@ const ItemPhonetic = (props: Props): JSX.Element => {
     <Container>
       <Phonetic className="use-chinese">
         <Dialog item={props.item} type="character" />
+        {/* <Pinyin>{pinyin}</Pinyin> */}
         {pinyin}
         <SpeakButton
           src="/static/images/small-icons/pronounce.svg"

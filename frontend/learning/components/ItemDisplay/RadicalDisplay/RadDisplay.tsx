@@ -10,17 +10,19 @@ import { Radical } from "@interfaces/CoreItem";
 import "@learning.styles/ItemDisplay.css";
 import FlavorForm from "./FlavorForm";
 
-const Row = styled.div`
+const Column = styled.div`
   display: flex;
   min-width: 100%;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
   margin-bottom: 20px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  background-color: #FAFAFA; // off-white
 `;
 
 const MnemonicImage = styled.img`
+  width : 200px;
   min-width: 35%;
   max-height: 300px;
   max-width: 100%;
@@ -29,16 +31,16 @@ const MnemonicImage = styled.img`
 
 const RadDefinition = styled.i`
   flex-grow: 2;
-  font-size: 1.75em;
+  font-size: 1.45em;
   text-align: center;
   width: auto;
   margin-top: 20px;
   margin-right: 10px;
 `;
 
-const Phonetic = styled.span`
+const Phonetic = styled.div`
   text-align: center;
-  font-size: 1.6em;
+  font-size: 1.4em;
   font-weight: 200;
   white-space: wrap;
 `;
@@ -105,11 +107,11 @@ const RadDisplay = (props: Props): JSX.Element => {
 
     return (
       <>
-        <Row>
+        <Column>
           <DefPinyinContainer>
             {radical.pinyin !== "" && (
               <Phonetic className="use-chinese">
-                {radical.pinyin}
+                <li>{radical.pinyin}</li>
                 <SpeakButton
                   className="fas fa-volume"
                   onClick={() => audio?.play()}
@@ -117,12 +119,14 @@ const RadDisplay = (props: Props): JSX.Element => {
               </Phonetic>
             )}
           </DefPinyinContainer>
+
           <MnemonicImage src={imageUrl} />
+
           <DefPhoneticContainer>
             <RadDefinition className="use-serifs">{def}</RadDefinition>
             <FlavorForm explanation={explanation} />
           </DefPhoneticContainer>
-        </Row>
+        </Column>
         {/* <RelatedItems
           item={chinese}
           items={radical.relatedCharacters}
