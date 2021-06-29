@@ -18,7 +18,7 @@ const ContainerTop = styled.div`
   justify-content: start;
   align-items: center;
   @media only screen and (max-width: 680px) {
-      flex-direction: row;
+    flex-direction: row;
   }
 `;
 

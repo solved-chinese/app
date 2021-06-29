@@ -4,7 +4,11 @@ import styled from "styled-components";
 import "@learning.styles/ItemDisplay.css";
 import { makeID } from "@utils/utils";
 
-const WordContainer = styled.div`
+
+export const width = 200;
+export const height = 200;
+
+export const WordContainer = styled.div`
   display: flex;
   flex-direction: row;
   text-align: center;
@@ -13,7 +17,7 @@ const WordContainer = styled.div`
   align-items: center;
 `;
 
-const CharSVGContainer = styled.div`
+export const CharSVGContainer = styled.div`
   font-size: 2.75em;
   width: 100%;
   font-weight: 200;
@@ -22,6 +26,9 @@ const CharSVGContainer = styled.div`
   aligh-items: center;
   color: var(--primary-text);
 `;
+
+
+
 
 // Enumeration for states
 enum WriterState {
@@ -63,8 +70,8 @@ export default class StrokeGif extends React.Component<StrokeGifProps> {
   getWriters(targetIDs: string[], items: string[]): HanziWriter[] {
     return targetIDs.map((value, index) =>
       HanziWriter.create(value, items[index], {
-        width: 200,
-        height: 200,
+        width: width, // defined on the top
+        height: height,
         padding: 2,
         strokeAnimationSpeed: 1, // times the normal speed
         delayBetweenStrokes: 5, // ms between strokes
@@ -133,13 +140,19 @@ export default class StrokeGif extends React.Component<StrokeGifProps> {
     }
   }
 
-  render(): JSX.Element {
+  render(): JSX.Element[] {
     this.items = this.props.item.split("");
     this.itemsTargetIDs = this.items.map(
       (value, index) => `writer-target-${index}-${makeID(5)}`
     );
     this.itemsTargetRef = this.itemsTargetIDs.map(() => React.createRef());
 
-    return <WordContainer>{this.renderWriterTarget()}</WordContainer>;
+    /* the key is id here */
+    const writerTargets = this.renderWriterTarget().map( (target, id) => {
+      return <WordContainer key={id}> 
+        {target}
+      </WordContainer>
+    });
+    return writerTargets
   }
 }

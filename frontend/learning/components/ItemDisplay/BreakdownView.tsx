@@ -13,7 +13,7 @@ import "@learning.styles/ItemDisplay.css";
 import { Character, Radical } from "@interfaces/CoreItem";
 
 import CharDisplay from "./CharacterDisplay/CharDisplay";
-import RadDisplay, {RadDisplayWithSignal} from "./RadicalDisplay/RadDisplay";
+import RadDisplay, { RadDisplayWithSignal } from "./RadicalDisplay/RadDisplay";
 
 const Row = styled.div`
   display: inline-flex;

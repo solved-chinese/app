@@ -9,10 +9,11 @@ const ExplanationSignal = styled.img`
   margin-left: 3px;
   // width = 100%;
   cursor: pointer;
-  filter: invert(12%) sepia(69%) saturate(6868%) hue-rotate(7deg) brightness(92%) contrast(109%); 
+  filter: invert(12%) sepia(69%) saturate(6868%) hue-rotate(7deg)
+    brightness(92%) contrast(109%);
   &:hover {
     transform: scale (1.2);
-    transition : 200ms ease-in-out
+    transition: 200ms ease-in-out;
   }
 `;
 

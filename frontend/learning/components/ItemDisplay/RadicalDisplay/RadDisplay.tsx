@@ -15,23 +15,22 @@ const Row = styled.div`
   min-width: 100%;
   flex-wrap: wrap;
   flex-direction: row;
-  background-color: #FAFAFA; // off-white
+  // background-color: #fafafa; // off-white
 `;
 
-interface WidthControl {
-  withoutExp : boolean
+interface StyledProps {
+  withoutExp: boolean;
 }
 
-const DefContainer = styled.div<WidthControl>`
-display: flex;
-min-width:60%;
-justify-content: center;
-align-items: center;
-flex-wrap: wrap;
-margin-bottom: 20px;
-flex-direction: column;
-width: ${props => props.withoutExp ? 'auto' : '100%'}
-
+const DefContainer = styled.div<StyledProps>`
+  display: flex;
+  min-width: 60%;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  flex-direction: column;
+  width: ${(props) => (props.withoutExp ? "auto" : "100%")};
 `;
 
 const Column = styled.div`
@@ -42,11 +41,11 @@ const Column = styled.div`
   flex-wrap: wrap;
   margin-bottom: 20px;
   flex-direction: column;
-  background-color: #FAFAFA; // off-white
+  background-color: #fafafa; // off-white
 `;
 
 const MnemonicImage = styled.img`
-  width : 200px;
+  width: 200px;
   min-width: 35%;
   max-height: 300px;
   max-width: 100%;
@@ -90,12 +89,12 @@ const DefPinyinContainer = styled.div`
   justify-content: center;
 `;
 
-const ExpContainer = styled.a<WidthControl>`
+const ExpContainer = styled.a<StyledProps>`
   position: relative;
-  display: ${props => props.withoutExp ? 'flex' : 'none'};
+  display: ${(props) => (props.withoutExp ? "flex" : "none")};
   width: 40%;
   justify-items: center;
-  align-items:center;
+  align-items: center;
 `;
 
 type Props = {
@@ -130,25 +129,22 @@ export const RadStandardDisplay = (props: Props): JSX.Element => {
   const audio = radical != null ? new Audio(radical.audioUrl) : null;
 
   const renderRadical = (radical: Radical) => {
-    const chinese = radical.chinese;
-    const def = radical.definition;
-    const explanation = radical.explanation;
     const imageUrl = radical.image;
 
     return (
       <>
-          <DefPinyinContainer>
-            {radical.pinyin !== "" && (
-              <Phonetic className="use-chinese">
-                {radical.pinyin}
-                <SpeakButton
-                  className="fas fa-volume"
-                  onClick={() => audio?.play()}
-                />
-              </Phonetic>
-            )}
-          </DefPinyinContainer>
-          <MnemonicImage src={imageUrl} />
+        <DefPinyinContainer>
+          {radical.pinyin !== "" && (
+            <Phonetic className="use-chinese">
+              {radical.pinyin}
+              <SpeakButton
+                className="fas fa-volume"
+                onClick={() => audio?.play()}
+              />
+            </Phonetic>
+          )}
+        </DefPinyinContainer>
+        <MnemonicImage src={imageUrl} />
       </>
     );
   };
@@ -171,29 +167,22 @@ export const RadDisplayWithSignal = (props: Props): JSX.Element => {
         )
       : props.radical;
 
-  const audio = radical != null ? new Audio(radical.audioUrl) : null;
-
   const renderRadical = (radical: Radical) => {
-    const chinese = radical.chinese;
     const def = radical.definition;
     const explanation = radical.explanation;
-    const imageUrl = radical.image;
-
     return (
       <>
         <Column>
-          <RadStandardDisplay radical={props.radical} qid={props.qid} url={props.url}/>
-
+          <RadStandardDisplay
+            radical={props.radical}
+            qid={props.qid}
+            url={props.url}
+          />
           <DefPhoneticContainer>
             <RadDefinition className="use-serifs">{def}</RadDefinition>
             <RadicalExplanation explanation={explanation} />
           </DefPhoneticContainer>
         </Column>
-        {/* <RelatedItems
-          item={chinese}
-          items={radical.relatedCharacters}
-          itemType="character"
-        /> */}
       </>
     );
   };
@@ -204,7 +193,6 @@ export const RadDisplayWithSignal = (props: Props): JSX.Element => {
     return renderRadical(radical);
   }
 };
-
 
 /**
  * The main function that renders a radical view.
@@ -217,21 +205,24 @@ const RadDisplay = (props: Props): JSX.Element => {
         )
       : props.radical;
 
-  const audio = radical != null ? new Audio(radical.audioUrl) : null;
-
   const renderRadical = (radical: Radical) => {
-    const chinese = radical.chinese;
+    // const chinese = radical.chinese;
     const def = radical.definition;
     const explanation = radical.explanation;
-    const imageUrl = radical.image;
 
     return (
       <Row>
-        <DefContainer withoutExp={explanation !==  ""}>
-        <RadStandardDisplay radical={props.radical} qid={props.qid} url={props.url} />
-        <RadDefinition className="use-serifs">{def}</RadDefinition>
+        <DefContainer withoutExp={explanation !== ""}>
+          <RadStandardDisplay
+            radical={props.radical}
+            qid={props.qid}
+            url={props.url}
+          />
+          <RadDefinition className="use-serifs">{def}</RadDefinition>
         </DefContainer>
-        <ExpContainer withoutExp={explanation !==  ""}>{explanation}</ExpContainer>
+        <ExpContainer withoutExp={explanation !== ""}>
+          {explanation}
+        </ExpContainer>
       </Row>
     );
   };
@@ -255,9 +246,6 @@ type RadImageProps = {
    */
   radical: string;
 };
-
-
-
 
 type RadImageState = {
   errored: boolean;
