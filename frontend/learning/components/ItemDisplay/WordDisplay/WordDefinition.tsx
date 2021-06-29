@@ -111,6 +111,7 @@ const WordDefinition = (props: WordDefinitionProps): JSX.Element => {
           pinyin={props.pinyin}
           audioURL={props.audioURL}
           useStroke={true}
+          type="word"
         />
         {/* <div className="vl"></div> */}
         <Definitions definitions={props.definitions} />

@@ -5,6 +5,7 @@ import StrokeGif from "@learning.components/ItemDisplay/StrokeGif";
 
 // import Modal from 'react-modal'
 import Dialog from "./DialogCustom";
+import { ItemType } from "@interfaces/CoreItem";
 
 const Container = styled.div`
   display: inline-block;
@@ -41,6 +42,7 @@ const WordContainer = styled.a`
 `;
 
 type Props = {
+  type?: ItemType;
   /** Display friendly pinyin. */
   pinyin: string;
 
@@ -65,6 +67,7 @@ const ItemPhonetic = (props: Props): JSX.Element => {
   // Add slashes at the beginning and the end
   const pinyin = `/${props.pinyin}/`;
   const useStroke = props.useStroke ?? false;
+  const type = props.type ?? undefined;
 
   // const renderWord = () =>
   //     // useStroke ?
@@ -76,7 +79,7 @@ const ItemPhonetic = (props: Props): JSX.Element => {
   return (
     <Container>
       <Phonetic className="use-chinese">
-        <Dialog item={props.item} type="character" />
+        <Dialog item={props.item} type={type} />
         {/* <Pinyin>{pinyin}</Pinyin> */}
         {pinyin}
         <SpeakButton

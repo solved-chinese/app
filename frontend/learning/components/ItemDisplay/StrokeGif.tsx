@@ -1,9 +1,8 @@
 import HanziWriter from "hanzi-writer";
-import React from "react";
+import React, { Component, useState } from "react";
 import styled from "styled-components";
 import "@learning.styles/ItemDisplay.css";
 import { makeID } from "@utils/utils";
-
 
 export const width = 200;
 export const height = 200;
@@ -27,9 +26,6 @@ export const CharSVGContainer = styled.div`
   color: var(--primary-text);
 `;
 
-
-
-
 // Enumeration for states
 enum WriterState {
   STANDBY = "standby",
@@ -40,6 +36,7 @@ enum WriterState {
 
 type StrokeGifProps = {
   item: string;
+  id?: number;
 };
 
 /**
@@ -140,19 +137,23 @@ export default class StrokeGif extends React.Component<StrokeGifProps> {
     }
   }
 
-  render(): JSX.Element[] {
+  render(): JSX.Element {
     this.items = this.props.item.split("");
+    console.log(this.props.item);
+    console.log(this.items);
     this.itemsTargetIDs = this.items.map(
       (value, index) => `writer-target-${index}-${makeID(5)}`
     );
     this.itemsTargetRef = this.itemsTargetIDs.map(() => React.createRef());
 
+    /* used for array */
     /* the key is id here */
-    const writerTargets = this.renderWriterTarget().map( (target, id) => {
-      return <WordContainer key={id}> 
-        {target}
-      </WordContainer>
-    });
-    return writerTargets
+    // const writerTargets = this.renderWriterTarget().map( (target, id) => {
+    //   return <WordContainer key={id}>
+    //     {target}
+    //   </WordContainer>
+    // });
+    // return writerTargets
+    return <WordContainer>{this.renderWriterTarget()}</WordContainer>;
   }
 }

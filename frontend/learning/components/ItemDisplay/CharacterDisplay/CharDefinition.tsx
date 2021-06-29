@@ -64,6 +64,7 @@ const CharDefinition = (props: Props): JSX.Element => {
         pinyin={props.pinyin}
         audioURL={props.audioURL}
         useStroke={true}
+        type="character"
       />
       <TableContainer className="divider">
         <DefinitionList>
