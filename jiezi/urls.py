@@ -28,6 +28,7 @@ urlpatterns = [
     path('', RedirectView.as_view(url='index')),
     path('about_us/', views.about_us, name="about_us"),
 
+    path('api_root/', views.api_root),
     path('favicon.ico', RedirectView.as_view(url='/static/images/favicon.ico')),
 ]
 if settings.DEBUG:
