@@ -73,6 +73,13 @@ class GeneralContentAdmin(NextAdminMixin, DisabledFieldMixin, VersionAdmin):
     disabled_fields = ['archive']
     list_per_page = 70
 
+    def get_disabled_fields(self, request, obj=None):
+        """ make sure only superusers can edit edit_needed """
+        disbaled_fields = super().get_disabled_fields(request, obj)
+        if not request.user.is_superuser:
+            disbaled_fields = ('edit_needed', *disbaled_fields)
+        return disbaled_fields
+
     def get_readonly_fields(self, request, obj=None):
         """ not show readonly fields at creation """
         if obj is None:

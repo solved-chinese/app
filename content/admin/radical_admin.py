@@ -15,6 +15,7 @@ class RadicalAdmin(SpecificContentAdmin):
     autocomplete_fields = ['audio']
     list_filter = [
         ('is_done', admin.BooleanFieldListFilter),
+        ('edit_needed', admin.BooleanFieldListFilter),
         ('is_learnable', admin.BooleanFieldListFilter),
         ('pinyin', admin.EmptyFieldListFilter),
         ('IC_level', admin.EmptyFieldListFilter),
@@ -22,8 +23,8 @@ class RadicalAdmin(SpecificContentAdmin):
         ('character__word__word_set', TreeRelatedFieldListFilter)
     ]
     list_editable = ('is_learnable',)
-    list_display = ['id', 'is_done', '__str__', 'pinyin', 'definition',
-                    'is_learnable',
+    list_display = ['id', 'is_done', 'edit_needed', '__str__', 'pinyin',
+                    'definition', 'is_learnable',
                     'get_image_thumbnail', 'get_character_list_display']
     readonly_fields = ('get_character_list_display', 'get_image_preview')
 

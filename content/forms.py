@@ -92,6 +92,7 @@ class SentenceForm(forms.ModelForm):
                 )
 
     def save(self, commit=True):
+        self.instance = super().save(commit=False)
         self.add_highlight()
         if self.cleaned_data.get('create_audio', False):
             self.instance.audio = AudioFile.get_by_chinese(
@@ -146,7 +147,7 @@ class SearchablePinyinFormMixin:
 class WordForm(SearchablePinyinFormMixin, forms.ModelForm):
     def save(self, commit=True):
         # assert commit, 'no commit not supported'
-        instance = self.instance
+        instance = super().save(commit=False)
         if 'chinese' in self.changed_data:
             # connect audio
             if len(instance.chinese) == 1:
