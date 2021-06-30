@@ -57,9 +57,10 @@ class SentenceInline(DisabledFieldMixin, admin.StackedInline):
 class WordAdmin(AdminAdvancedFiltersMixin, ReviewableAdminMixin,
                 SpecificContentAdmin):
     search_fields = ['chinese', 'pinyin', 'identifier']
-    list_display = ['id', 'is_done', '__str__', 'pinyin',
+    list_display = ['id', 'is_done', 'edit_needed', '__str__', 'pinyin',
                     'get_definitions', 'get_set_list_display']
     list_filter = [('is_done', admin.BooleanFieldListFilter),
+                   ('edit_needed', admin.BooleanFieldListFilter),
                    ('IC_level', admin.EmptyFieldListFilter),
                    ('word_set', TreeRelatedFieldListFilter)]
     readonly_fields = ('get_set_list_display',)

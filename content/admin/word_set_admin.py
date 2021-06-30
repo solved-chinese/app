@@ -34,10 +34,11 @@ class WordInSetInline(admin.TabularInline):
 
 @admin.register(WordSet)
 class WordSetAdmin(DraggableMPTTAdmin, GeneralContentAdmin):
-    list_display = ['tree_actions', 'indented_title', 'jiezi_id', 'is_done']
+    list_display = ['tree_actions', 'indented_title', 'jiezi_id',
+                    'is_done', 'edit_needed']
     list_editable = ['jiezi_id', 'is_done']
     list_display_links = ('indented_title',)
-    list_filter = ['is_done']
+    list_filter = ['is_done', 'edit_needed']
     search_fields = ['name__search']
     readonly_fields = ['lft', 'rght', 'tree_id']
     actions = ['split_wordset', 'rebuild', 'generate_question', 'duplicate',

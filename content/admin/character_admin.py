@@ -33,9 +33,10 @@ class DefinitionInCharacterInline(admin.TabularInline):
 class CharacterAdmin(ReviewableAdminMixin, SpecificContentAdmin):
     form = CharacterForm
     search_fields = ['chinese', 'pinyin', 'identifier']
-    list_display = ['id', 'is_done', '__str__', 'pinyin',
+    list_display = ['id', 'is_done', 'edit_needed', '__str__', 'pinyin',
                     'get_definitions', 'get_word_list_display']
     list_filter = [('is_done', admin.BooleanFieldListFilter),
+                   ('edit_needed', admin.BooleanFieldListFilter),
                    ('IC_level', admin.EmptyFieldListFilter),
                    ('word__word_set', TreeRelatedFieldListFilter)]
     autocomplete_fields = ["radicals", 'audio']

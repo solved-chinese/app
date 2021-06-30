@@ -35,6 +35,10 @@ class GeneralContentModel(AdminUrlMixin, models.Model):
                   "lesson 1, leave blank if it doesn't appear in IC.",
     )
     is_done = models.BooleanField(default=False)
+    edit_needed = models.BooleanField(
+        default=False,
+        help_text="Only admins can edit"
+    )
 
     def clean(self):
         super().clean()
@@ -54,6 +58,8 @@ class GeneralContentModel(AdminUrlMixin, models.Model):
         if self.is_done:
             if self.pk is None:
                 raise ValidationError('Cannot create a done model in one step!')
+            if self.edit_needed:
+                raise ValidationError('Cannot be done when edit_needed is True')
             errors = {}
             for field in self.__class__._meta.get_fields():
                 if isinstance(field, (models.CharField, models.TextField)) and \

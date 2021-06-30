@@ -13,6 +13,9 @@ media/*
 !media/default.jpg
 !media/default.mp3
 
+# data folder under content
+content/data
+
 # uWSGI directory
 uwsgi
 
