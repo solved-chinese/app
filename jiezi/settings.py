@@ -158,6 +158,9 @@ MEDIA_URL = '/media/'
 CSRF_USE_SESSIONS = True
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
+# due to big word set, should fine tune later
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 5000
+
 # Celery Settings
 BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
