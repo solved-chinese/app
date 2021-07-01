@@ -35,6 +35,15 @@ class AudioFileAdmin(DisabledFieldMixin, admin.ModelAdmin):
                     links.append(f"<a href={admin_url}>{escape(repr(obj))}</a>")
         return format_html(', '.join(links))
 
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_superuser
+
+    def has_add_permission(self, request):
+        return request.user.is_superuser
+
 
 class ReviewableAdminMixin(admin.ModelAdmin):
     def get_readonly_fields(self, request, obj=None):
