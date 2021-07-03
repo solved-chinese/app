@@ -3,7 +3,7 @@ from django.urls import path
 
 
 urlpatterns = [
-    path('search_api/', API_views.SearchAPIView.as_view(), name='search_api'),
+    path('search_api/', API_views.SearchAPIView.as_view(), name='search'),
 
     path('radical/<int:pk>', CRUD_views.RadicalDetail.as_view(),
          name='radical-detail'),

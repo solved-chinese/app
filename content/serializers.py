@@ -27,7 +27,7 @@ class SimpleCharacterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Character
-        fields = ['chinese', 'pinyin', 'full_definition', 'url']
+        fields = ['chinese', 'pinyin', 'full_definition', 'url', 'pk']
 
 
 class CharacterSerializer(serializers.HyperlinkedModelSerializer):
@@ -62,7 +62,7 @@ class SimpleWordSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Word
-        fields = ['chinese', 'pinyin', 'full_definition', 'url']
+        fields = ['chinese', 'pinyin', 'full_definition', 'url', 'pk']
 
 
 class DefinitionInWordSerializer(serializers.HyperlinkedModelSerializer):
@@ -103,7 +103,15 @@ class WordSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class WordSetSerializer(serializers.HyperlinkedModelSerializer):
-    # TODO overwrite characters order when needed
+    words = SimpleWordSerializer(many=True, read_only=True)
+
     class Meta:
         model = WordSet
         fields = '__all__'
+
+
+class SimpleWordSetSerializer(serializers.ModelSerializer):
+    # TODO overwrite characters order when needed
+    class Meta:
+        model = WordSet
+        fields = ['pk', 'url', 'name', 'parent']

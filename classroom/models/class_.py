@@ -13,10 +13,12 @@ class Class(models.Model):
     name = models.CharField(max_length=100, verbose_name="Class name")
     created_time = models.DateTimeField(auto_now_add=True)
 
-    def clean(self):
-        if not self.code:
-            self.code = get_random_string(
-                4, allowed_chars=CODE_ALLOWED_CHARS)
+    def save(self, **kwargs):
+        if self._state.adding:
+            if not self.code:
+                self.code = get_random_string(
+                    4, allowed_chars=CODE_ALLOWED_CHARS)
+        super().save(**kwargs)
 
     @property
     def student_count(self):

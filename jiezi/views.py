@@ -10,20 +10,7 @@ from rest_framework.reverse import reverse
 
 
 def index(request):
-    if request.user.is_staff and \
-            not (request.user.is_student or request.user.is_teacher):
-        request.user.is_student = True
-        Student.of(request.user)
-        request.user.save()
-
-    if not request.user.is_authenticated:
-        return render(request, 'unauthenticated_index.html')
-    elif request.user.is_student:
-        return redirect(reverse('student_dashboard'))
-    elif request.user.is_teacher:
-        return redirect(reverse('class_list'))
-    else:
-        raise Http404("You not a student or teacher")
+    return render(request, 'unauthenticated_index.html')
 
 
 def about_us(request):
@@ -32,6 +19,10 @@ def about_us(request):
 
 @api_view(['GET'])
 def api_root(request, format=None):
+    apis = ['user-detail',
+            'class-create', 'assignment-create',
+            'wordset-list', 'search']
     return Response({
-        'user_detail': reverse('user_detail', request=request, format=format),
+        api: reverse(api, request=request, format=format)
+        for api in apis
     })

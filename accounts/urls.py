@@ -28,5 +28,5 @@ urlpatterns = [
     path('login/', views.Login.as_view(), name='login'),
     path('logout/', views.Logout.as_view(), name='logout'),
 
-    path('user_detail', CRUD_views.UserDetail.as_view(), name='user_detail'),
+    path('user', CRUD_views.UserDetail.as_view(), name='user-detail'),
 ]

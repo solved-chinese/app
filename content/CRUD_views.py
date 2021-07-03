@@ -5,7 +5,7 @@ from django.db.models import F
 from content.models import Radical, Character, Sentence, DefinitionInWord, \
     Word, WordSet
 from content.serializers import RadicalSerializer, CharacterSerializer, \
-    SimpleCharacterSerializer, WordSerializer, \
+    SimpleCharacterSerializer, WordSerializer, SimpleWordSetSerializer, \
     WordSetSerializer, RELATED_MAX_NUM, SimpleWordSerializer
 
 
@@ -13,8 +13,10 @@ class WordSetList(generics.ListAPIView):
     """
     __GET__: List all Characters
     """
-    queryset = WordSet.objects.all()
-    serializer_class = WordSetSerializer
+    serializer_class = SimpleWordSetSerializer
+
+    def get_queryset(self):
+        return WordSet.objects.filter(is_done=True)
 
 
 class RadicalDetail(generics.RetrieveAPIView):
