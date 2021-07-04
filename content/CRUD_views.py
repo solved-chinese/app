@@ -11,7 +11,7 @@ from content.serializers import RadicalSerializer, CharacterSerializer, \
 
 class WordSetList(generics.ListAPIView):
     """
-    __GET__: List all Characters
+    List all done wordsets
     """
     serializer_class = SimpleWordSetSerializer
 
@@ -20,17 +20,11 @@ class WordSetList(generics.ListAPIView):
 
 
 class RadicalDetail(generics.RetrieveAPIView):
-    """
-    __GET__: Retrieve the detail of a Character and its related Radical(s)
-    """
     queryset = Radical.objects.all()
     serializer_class = RadicalSerializer
 
 
 class CharacterDetail(generics.RetrieveAPIView):
-    """
-    __GET__: Retrieve the detail of a Character and its related Radical(s)
-    """
     queryset = Character.objects.all()
     serializer_class = CharacterSerializer
 
@@ -55,7 +49,10 @@ class CharacterDetail(generics.RetrieveAPIView):
 
 class WordDetail(generics.RetrieveAPIView):
     """
-    __GET__: Retrieve the detail of a Character and its related Radical(s)
+    Word detail, **different for single-char word**
+
+    For single char word, give a list of a length 1, containing radical
+    urls separated by semicolon.
     """
     queryset = Word.objects.all()
     serializer_class = WordSerializer
@@ -80,8 +77,5 @@ class WordDetail(generics.RetrieveAPIView):
 
 
 class WordSetDetail(generics.RetrieveAPIView):
-    """
-    __GET__: Retrieve the detail of a Character and its related Radical(s)
-    """
     queryset = WordSet.objects.all()
     serializer_class = WordSetSerializer

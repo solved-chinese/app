@@ -3,10 +3,13 @@ import re
 from dal import autocomplete
 from django.core.exceptions import ValidationError
 from django.contrib.contenttypes.models import ContentType
+from rest_framework import serializers
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.exceptions import NotFound, ParseError
+from drf_spectacular.utils import extend_schema, OpenApiParameter, \
+    OpenApiTypes, inline_serializer
 
 from content.models import GeneralQuestion, LinkedField, Word, Sentence
 from learning.models import Record
@@ -15,7 +18,8 @@ from content.utils import unaccent
 
 class QuestionView(APIView):
     """
-    Displays and checks answers for questions
+    get: Get question detail
+    post: Check answer question answer
     """
 
     def initial(self, request, *args, **kwargs):
@@ -90,9 +94,22 @@ class LinkedFieldAutocomplete(autocomplete.Select2QuerySetView):
         return qs
 
 
+@extend_schema(
+    parameters=[
+        OpenApiParameter('keyword', OpenApiTypes.STR, required=True),
+        OpenApiParameter(
+            'query_type',
+            OpenApiTypes.STR,
+            default='auto',
+            description="Must be 'auto', 'chinese', 'pinyin', or 'definition'"
+        )
+    ],
+)
 class SearchAPIView(APIView):
     """
-    __POST__: searches keyword in content database
+    TODO documentation in progress
+
+    searches keyword in content database
 
     keyword (str, required): the query keyword to be searched
 

@@ -1,5 +1,6 @@
 from rest_framework import generics, status, viewsets
 from rest_framework.permissions import IsAuthenticated
+from drf_spectacular.utils import extend_schema, extend_schema_view
 
 from .serializers import ClassSerializer, AssignmentSerializer, \
     AssignmentListSerializer
@@ -8,6 +9,9 @@ from jiezi.rest.permissions import IsTeacher, IsTeacherOrReadOnly
 
 
 class ClassCreate(generics.CreateAPIView):
+    """
+    Create class for current teacher
+    """
     serializer_class = ClassSerializer
     permission_classes = [IsAuthenticated, IsTeacher]
 
@@ -26,6 +30,10 @@ class ClassDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class AssignmentViewSet(viewsets.ModelViewSet):
+    """
+    list: List all related assignments
+    create: Create assignment
+    """
     permission_classes = [IsAuthenticated, IsTeacherOrReadOnly]
 
     def get_serializer_class(self):

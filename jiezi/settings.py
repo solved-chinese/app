@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'advanced_filters',
     'django_better_admin_arrayfield',
     'reversion',
+    'drf_spectacular',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -175,6 +176,13 @@ REST_FRAMEWORK = {
         'djangorestframework_camel_case.parser.CamelCaseMultiPartParser',
         'djangorestframework_camel_case.parser.CamelCaseJSONParser',
      ),
+    'DEFAULT_SCHEMA_CLASS': 'jiezi.rest.schema.MyAutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Solvedchinese API',
+    'DESCRIPTION': 'solvedchinese.org',
+    'VERSION': '0.0.0',
 }
 
 ADMINS = [('chenyx', 'chenyx@solvedchinese.org')]

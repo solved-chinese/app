@@ -7,6 +7,7 @@ from django.conf.urls.static import static
 from django.shortcuts import redirect
 from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 from jiezi import views, settings
 
@@ -22,7 +23,7 @@ urlpatterns = [
     path('api/accounts/', include('accounts.api_urls')),
     path('content/', include('content.urls')),
     path('api/content/', include('content.api_urls')),
-    path('learning/', include('learning.urls')),
+    path('api/learning/', include('learning.urls')),
     path('api/classroom/', include('classroom.urls')),
 
     # front-page urls
@@ -31,7 +32,10 @@ urlpatterns = [
     path('dashboard', views.frontend_index(url='frontend_index')),
     path('about_us/', views.about_us, name="about_us"),
 
-    path('api/', views.api_root),
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # Optional UI:
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
     path('favicon.ico', RedirectView.as_view(url='/static/images/favicon.ico')),
 ]
 if settings.DEBUG:
