@@ -6,7 +6,7 @@ from accounts.serializers import UserSerializer
 
 class UserDetail(generics.RetrieveAPIView):
     """
-    __GET__ / __PUT__ : Retrieves / update the detail of current User
+    __GET__ : Retrieves the detail of current User
     """
     permission_classes = [IsAuthenticated]
     serializer_class = UserSerializer

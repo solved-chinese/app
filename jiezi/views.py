@@ -24,7 +24,7 @@ def frontend_index(request):
 @api_view(['GET'])
 def api_root(request, format=None):
     apis = ['user-detail',
-            'class-create', 'assignment-create',
+            'class-create', 'assignment-list',
             'wordset-list', 'search']
     return Response({
         api: reverse(api, request=request, format=format)

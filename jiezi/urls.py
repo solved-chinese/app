@@ -19,9 +19,11 @@ urlpatterns = [
     # app urls
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
+    path('api/accounts/', include('accounts.api_urls')),
     path('content/', include('content.urls')),
+    path('api/content/', include('content.api_urls')),
     path('learning/', include('learning.urls')),
-    path('classroom/', include('classroom.urls')),
+    path('api/classroom/', include('classroom.urls')),
 
     # front-page urls
     path('index/', views.index, name="index"),
@@ -29,7 +31,7 @@ urlpatterns = [
     path('dashboard', views.frontend_index(url='frontend_index')),
     path('about_us/', views.about_us, name="about_us"),
 
-    path('api_root/', views.api_root),
+    path('api/', views.api_root),
     path('favicon.ico', RedirectView.as_view(url='/static/images/favicon.ico')),
 ]
 if settings.DEBUG:
