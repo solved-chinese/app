@@ -1,5 +1,5 @@
 from django.db import transaction, models
-from rest_framework import serializers
+from rest_framework import serializers, relations
 
 from .models import Class, Teacher, Student, Assignment
 from content.serializers import SimpleWordSerializer, SimpleCharacterSerializer, \
@@ -24,6 +24,24 @@ class OrderedListSerializer(serializers.ListSerializer):
         return super().to_representation(data)
 
 
+class OrderedManyRelatedField(serializers.ManyRelatedField):
+    def __init__(self, *args, child_relation=None, order_by=None, **kwargs):
+        self.order_by = order_by
+        assert issubclass(child_relation, serializers.RelatedField)
+        list_kwargs = {'child_relation': child_relation(*args, **kwargs)}
+        for key in kwargs:
+            if key in relations.MANY_RELATION_KWARGS:
+                list_kwargs[key] = kwargs[key]
+        super().__init__(**list_kwargs)
+
+    def to_representation(self, iterable):
+        if self.order_by:
+            assert isinstance(iterable, models.QuerySet), \
+                "iterable must be queryset"
+            iterable = iterable.order_by(self.order_by)
+        return super().to_representation(iterable)
+
+
 class AssignmentListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Assignment
@@ -37,23 +55,25 @@ class AssignmentSerializer(serializers.ModelSerializer):
         child=SimpleCharacterSerializer, order_by='characterinassignment', read_only=True)
     radicals = OrderedListSerializer(
         child=RadicalSerializer, order_by='radicalinassignment', read_only=True)
-
-    class Meta:
-        model = Assignment
-        fields = ['name', 'published_time', 'words',
-                  'characters', 'radicals']
-
-
-class AssignmentUpdateSerializer(serializers.ModelSerializer):
-    words = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=Word.objects.all())
-    characters = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=Character.objects.all())
-    radicals = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=Radical.objects.all())
+    word_ids = OrderedManyRelatedField(
+        child_relation=serializers.PrimaryKeyRelatedField,
+        source='words', queryset=Word.objects.all(),
+        order_by='wordinassignment',
+    )
+    character_ids = OrderedManyRelatedField(
+        child_relation=serializers.PrimaryKeyRelatedField,
+        source='characters', queryset=Character.objects.all(),
+        order_by='characterinassignment',
+    )
+    radical_ids = OrderedManyRelatedField(
+        child_relation=serializers.PrimaryKeyRelatedField,
+        source='radicals', queryset=Radical.objects.all(),
+        order_by='radicalinassignment'
+    )
 
     def validate(self, data):
-        if data['klass'].teacher.user != self.context['request'].user:
+        if ('klass' in data
+                and data['klass'].teacher.user != self.context['request'].user):
             raise serializers.ValidationError("You don't own this class")
         return data
 
@@ -100,7 +120,9 @@ class AssignmentUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Assignment
-        fields = ['klass', 'name', 'words', 'characters', 'radicals']
+        fields = ['name', 'published_time',
+                  'words', 'characters', 'radicals',
+                  'word_ids', 'character_ids', 'radical_ids']
 
 
 class ClassSimpleSerializer(serializers.ModelSerializer):
@@ -111,10 +133,6 @@ class ClassSimpleSerializer(serializers.ModelSerializer):
 
 class ClassSerializer(serializers.ModelSerializer):
     assignments = AssignmentListSerializer(many=True, read_only=True)
-
-    # def create(self, validated_data):
-    #     validated_data['teacher'] = self.context['request'].user.teacher
-    #     return super().create(validated_data)
 
     class Meta:
         model = Class

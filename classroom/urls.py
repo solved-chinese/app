@@ -1,14 +1,11 @@
+from rest_framework import routers
 from django.urls import path
 from classroom import CRUD_views
 
+router = routers.SimpleRouter()
+router.register('assignment', CRUD_views.AssignmentViewSet, 'assignment')
 
 urlpatterns = [
-    path('assignment/',
-         CRUD_views.AssignmentCreate.as_view(),
-         name='assignment-create'),
-    path('assignment/<int:pk>',
-         CRUD_views.AssignmentDetail.as_view(),
-         name='assignment-detail'),
     path('class/',
          CRUD_views.ClassCreate.as_view(),
          name='class-create'),
@@ -16,3 +13,4 @@ urlpatterns = [
          CRUD_views.ClassDetail.as_view(),
          name='class-detail'),
 ]
+urlpatterns += router.urls
