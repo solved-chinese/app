@@ -55,6 +55,7 @@ class AssignmentUpdateSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if data['klass'].teacher.user != self.context['request'].user:
             raise serializers.ValidationError("You don't own this class")
+        return data
 
     def update(self, instance, validated_data):
         """
