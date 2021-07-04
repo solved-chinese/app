@@ -26,6 +26,7 @@ urlpatterns = [
     # front-page urls
     path('index/', views.index, name="index"),
     path('', RedirectView.as_view(url='index')),
+    path('dashboard', views.frontend_index(url='frontend_index')),
     path('about_us/', views.about_us, name="about_us"),
 
     path('api_root/', views.api_root),

@@ -17,6 +17,10 @@ def about_us(request):
     return render(request, 'about_us.html')
 
 
+def frontend_index(request):
+    return render(request, 'react/dashboard.html')
+
+
 @api_view(['GET'])
 def api_root(request, format=None):
     apis = ['user-detail',
