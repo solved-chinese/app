@@ -22,7 +22,7 @@ class Student(models.Model):
         self.save()
 
     @property
-    def display_name(self):
+    def display_name(self) -> str:
         return self.user.display_name
 
     def __str__(self):

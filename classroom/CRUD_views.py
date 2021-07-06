@@ -1,26 +1,28 @@
-from rest_framework import generics, viewsets
+from rest_framework import generics, viewsets, mixins
 from rest_framework.permissions import IsAuthenticated
 
 from .serializers import ClassSerializer, AssignmentSerializer, \
-    AssignmentListSerializer, StudentSerializer, TeacherSerializer
+    AssignmentSimpleSerializer, StudentSerializer, TeacherSerializer
 from .models import Class, Assignment, Student, Teacher
 from jiezi.rest.permissions import IsTeacher, IsStudent, IsTeacherOrReadOnly
 
 
-class ClassCreate(generics.CreateAPIView):
+class ClassViewSet(mixins.CreateModelMixin,
+                   mixins.RetrieveModelMixin,
+                   mixins.UpdateModelMixin,
+                   mixins.DestroyModelMixin,
+                   viewsets.GenericViewSet):
     """
-    Create class for current teacher
+    create: Create class for current teacher
+    update: (Note) `student_ids` is used to remove students from a class, it is
+    not allowed to add students from the teacher's side.
     """
     serializer_class = ClassSerializer
-    permission_classes = [IsAuthenticated, IsTeacher]
+    permission_classes = [IsAuthenticated, IsTeacherOrReadOnly]
+    queryset = Class.objects.none()  # for API schema generation
 
     def perform_create(self, serializer):
         serializer.save(teacher=self.request.user.teacher)
-
-
-class ClassDetail(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = ClassSerializer
-    permission_classes = [IsAuthenticated, IsTeacherOrReadOnly]
 
     def get_queryset(self):
         if self.request.user.is_teacher:
@@ -28,17 +30,17 @@ class ClassDetail(generics.RetrieveUpdateDestroyAPIView):
         return Class.objects.filter(student__user=self.request.user)
 
 
-class AssignmentViewSet(viewsets.ModelViewSet):
+class AssignmentViewSet(mixins.CreateModelMixin,
+                        mixins.RetrieveModelMixin,
+                        mixins.UpdateModelMixin,
+                        mixins.DestroyModelMixin,
+                        viewsets.GenericViewSet):
     """
-    list: List all related assignments
     create: Create assignment
     """
     permission_classes = [IsAuthenticated, IsTeacherOrReadOnly]
-
-    def get_serializer_class(self):
-        if self.action == 'list':
-            return AssignmentListSerializer
-        return AssignmentSerializer
+    serializer_class = AssignmentSerializer
+    queryset = Assignment.objects.none()  # for API schema generation
 
     def get_queryset(self):
         if self.request.user.is_teacher:

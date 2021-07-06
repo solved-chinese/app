@@ -5,6 +5,7 @@ from django.utils.crypto import get_random_string
 # alphanumeric chars with misleading chars like 1&I, 0&O removed
 CODE_ALLOWED_CHARS = 'ABCDEFGHJKLMNPQRSTVWXYZ23456789'
 
+
 class Class(models.Model):
     teacher = models.ForeignKey('Teacher', on_delete=models.CASCADE,
                                 related_name='classes',

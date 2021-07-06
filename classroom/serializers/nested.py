@@ -1,51 +1,38 @@
-from django.db import transaction, models
-from rest_framework import serializers, relations
+from django.db import transaction
+from rest_framework import serializers
 
-from .models import Class, Teacher, Student, Assignment
-from content.serializers import SimpleWordSerializer, SimpleCharacterSerializer, \
-    RadicalSerializer
+from classroom.models import Class, Assignment, Student, Teacher
+from classroom.serializers import AssignmentSimpleSerializer, StudentSimpleSerializer, ClassSimpleSerializer
 from content.models import Word, Character, Radical
+from content.serializers import SimpleWordSerializer, SimpleCharacterSerializer, RadicalSerializer
+from jiezi.rest.serializers import OrderedListSerializer, OrderedManyRelatedField
 
 
-class OrderedListSerializer(serializers.ListSerializer):
-    def update(self, instance, validated_data):
-        raise NotImplementedError
-
-    def __init__(self, *args, order_by=None, child=None, **kwargs):
-        self.order_by = order_by
-        assert issubclass(child, serializers.Field)
-        kwargs['child'] = child(*args, **kwargs)
-        super().__init__(*args, **kwargs)
-
-    def to_representation(self, data):
-        if self.order_by:
-            assert isinstance(data, models.Manager)
-            data = data.order_by(self.order_by)
-        return super().to_representation(data)
+__all__ = ['ClassSerializer', 'AssignmentSerializer', 'StudentSerializer',
+           'TeacherSerializer']
 
 
-class OrderedManyRelatedField(serializers.ManyRelatedField):
-    def __init__(self, *args, child_relation=None, order_by=None, **kwargs):
-        self.order_by = order_by
-        assert issubclass(child_relation, serializers.RelatedField)
-        list_kwargs = {'child_relation': child_relation(*args, **kwargs)}
-        for key in kwargs:
-            if key in relations.MANY_RELATION_KWARGS:
-                list_kwargs[key] = kwargs[key]
-        super().__init__(**list_kwargs)
+class ClassSerializer(ClassSimpleSerializer):
+    assignments = AssignmentSimpleSerializer(many=True, read_only=True)
+    students = StudentSimpleSerializer(many=True, read_only=True)
+    student_ids = serializers.PrimaryKeyRelatedField(
+        many=True, source='students', queryset=Student.objects.all())
 
-    def to_representation(self, iterable):
-        if self.order_by:
-            assert isinstance(iterable, models.QuerySet), \
-                "iterable must be queryset"
-            iterable = iterable.order_by(self.order_by)
-        return super().to_representation(iterable)
+    def validate_student_ids(self, value):
+        new_students = set(value)
+        old_students = set(self.instance.students.all())
+        if not new_students.issubset(old_students):
+            raise serializers.ValidationError(
+                "new students are not subset of old students."
+                "`student_ids` is used to remove students from a class, "
+                "it is not allowed to add students from the teacher's side.")
+        return value
 
-
-class AssignmentListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Assignment
-        fields = ['name', 'pk', 'url']
+        model = Class
+        fields = ['pk', 'teacher', 'students', 'student_ids', 'name',
+                  'assignments', 'code']
+        read_only_fields = ['code']
 
 
 class AssignmentSerializer(serializers.ModelSerializer):
@@ -125,28 +112,6 @@ class AssignmentSerializer(serializers.ModelSerializer):
                   'word_ids', 'character_ids', 'radical_ids']
 
 
-class ClassSimpleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Class
-        fields = ['url', 'pk', 'name', 'code']
-
-
-class ClassSerializer(serializers.ModelSerializer):
-    assignments = AssignmentListSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Class
-        fields = ['pk', 'name', 'assignments', 'code']
-
-
-class TeacherSerializer(serializers.HyperlinkedModelSerializer):
-    classes = ClassSimpleSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Teacher
-        fields = ['school', 'classes']
-
-
 class StudentSerializer(serializers.ModelSerializer):
     class_code = serializers.SlugRelatedField(
         source='klass', slug_field='code',
@@ -157,3 +122,11 @@ class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = ['klass', 'class_code']
+
+
+class TeacherSerializer(serializers.HyperlinkedModelSerializer):
+    classes = ClassSimpleSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Teacher
+        fields = ['school', 'classes']
