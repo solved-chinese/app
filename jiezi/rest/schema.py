@@ -19,6 +19,8 @@ class MyAutoSchema(AutoSchema):
             sections[0] = sections[0].strip()
             if len(sections[0]) < summary_max_len:
                 summary, description = sections
-        elif '\n' not in description and len(description) < summary_max_len:
+        elif ('\n' not in description
+              and not description.lower().startswith('(note)')
+              and len(description) < summary_max_len):
             summary = description
         return summary

@@ -4,9 +4,9 @@ from rest_framework.permissions import IsAuthenticated
 from accounts.serializers import UserSerializer
 
 
-class UserDetail(generics.RetrieveAPIView):
+class UserDetail(generics.RetrieveUpdateAPIView):
     """
-    Retrieves detail of current User
+    retrieve: Retrieves detail of current User
     """
     permission_classes = [IsAuthenticated]
     serializer_class = UserSerializer

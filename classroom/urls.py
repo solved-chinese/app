@@ -12,5 +12,11 @@ urlpatterns = [
     path('class/<int:pk>',
          CRUD_views.ClassDetail.as_view(),
          name='class-detail'),
+    path('student/',
+         CRUD_views.StudentDetail.as_view(),
+         name='student-detail'),
+    path('teacher/',
+         CRUD_views.TeacherDetail.as_view(),
+         name='student-detail'),
 ]
 urlpatterns += router.urls

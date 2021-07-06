@@ -128,7 +128,7 @@ class AssignmentSerializer(serializers.ModelSerializer):
 class ClassSimpleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Class
-        fields = ['url', 'pk', 'name']
+        fields = ['url', 'pk', 'name', 'code']
 
 
 class ClassSerializer(serializers.ModelSerializer):
@@ -136,7 +136,7 @@ class ClassSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Class
-        fields = ['pk', 'name', 'assignments']
+        fields = ['pk', 'name', 'assignments', 'code']
 
 
 class TeacherSerializer(serializers.HyperlinkedModelSerializer):
@@ -148,10 +148,12 @@ class TeacherSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class StudentSerializer(serializers.ModelSerializer):
+    class_code = serializers.SlugRelatedField(
+        source='klass', slug_field='code',
+        queryset=Class.objects.all(), allow_null=True,
+    )
     klass = ClassSimpleSerializer(read_only=True)
 
     class Meta:
         model = Student
-        fields = ['klass']
-
-
+        fields = ['klass', 'class_code']

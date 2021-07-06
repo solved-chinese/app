@@ -1,6 +1,13 @@
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 
+class IsStudent(BasePermission):
+    message = 'Permission denied. Only student can access.'
+
+    def has_permission(self, request, view):
+        return request.user.is_student
+
+
 class IsTeacher(BasePermission):
     message = 'Permission denied. Only teacher can access.'
 
