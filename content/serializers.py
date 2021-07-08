@@ -1,8 +1,11 @@
 from rest_framework import serializers
 from rest_framework.reverse import reverse
+from drf_spectacular.utils import extend_schema_field, inline_serializer
+from drf_spectacular.openapi import OpenApiTypes
 
 from content.models import Radical, Character, Word, WordSet, \
-    DefinitionInWord, Sentence, DefinitionInCharacter, AudioFile
+    DefinitionInWord, Sentence, DefinitionInCharacter
+from jiezi.rest.serializers import OrderedManyRelatedField
 
 
 RELATED_MAX_NUM = 10
@@ -13,7 +16,8 @@ class RadicalSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Radical
-        exclude = ['audio']
+        fields = ['url', 'pk', 'chinese', 'image', 'pinyin', 'definition',
+                  'explanation', 'audio_url']
 
 
 class DefinitionInCharacterSerializer(serializers.HyperlinkedModelSerializer):
@@ -32,20 +36,16 @@ class SimpleCharacterSerializer(serializers.ModelSerializer):
 
 class CharacterSerializer(serializers.HyperlinkedModelSerializer):
     definitions = DefinitionInCharacterSerializer(many=True, read_only=True)
-    radicals = serializers.SerializerMethodField()
+    radicals = OrderedManyRelatedField(
+        child_relation=serializers.HyperlinkedRelatedField,
+        order_by='radicalincharacter', read_only=True, view_name='radical-detail'
+    )
     audio_url = serializers.ReadOnlyField()
-
-    def get_radicals(self, character):
-        radicals = character.radicals.order_by('radicalincharacter')
-        l = [reverse('radical-detail',
-                     kwargs={'pk': radical.pk},
-                     request=self.context['request'])
-             for radical in radicals]
-        return l
 
     class Meta:
         model = Character
-        exclude = ['note', 'archive', 'audio']
+        fields = ['url', 'pk', 'definitions', 'radicals', 'audio_url',
+                  'chinese', 'pinyin', 'character_type', 'memory_aid']
 
 
 class SentenceSerializer(serializers.HyperlinkedModelSerializer):
@@ -79,6 +79,7 @@ class WordSerializer(serializers.HyperlinkedModelSerializer):
     characters = serializers.SerializerMethodField()
     audio_url = serializers.ReadOnlyField()
 
+    @extend_schema_field(serializers.ListField(child=serializers.CharField()))
     def get_characters(self, word):
         characters = word.characters.order_by('characterinword')
         # for single char word, give a list of a length 1, containing radical
@@ -99,7 +100,8 @@ class WordSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Word
-        exclude = ['note', 'archive', 'audio']
+        fields = ['pk', 'url', 'definitions', 'sentences', 'characters',
+                  'audio_url', 'chinese', 'pinyin', 'memory_aid']
 
 
 class WordSetSerializer(serializers.HyperlinkedModelSerializer):
@@ -107,7 +109,7 @@ class WordSetSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = WordSet
-        fields = '__all__'
+        exclude = ['note', 'archive']
 
 
 class SimpleWordSetSerializer(serializers.ModelSerializer):

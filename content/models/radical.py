@@ -2,6 +2,7 @@ import os
 from uuid import uuid4
 import json
 
+from drf_spectacular.openapi import OpenApiTypes
 from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation
 
@@ -72,7 +73,7 @@ class Radical(ReviewableMixin, GeneralContentModel):
             self.archive = json.dumps(data, indent=4, ensure_ascii=False)
 
     @property
-    def audio_url(self):
+    def audio_url(self) -> OpenApiTypes.URI:
         try:
             return self.audio.file.url
         except AttributeError:

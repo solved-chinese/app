@@ -77,5 +77,10 @@ class WordDetail(generics.RetrieveAPIView):
 
 
 class WordSetDetail(generics.RetrieveAPIView):
+    """
+    (Note) Word sets use a tree structure, for details
+    reference https://www.ibase.ru/files/articles/programming/dbmstrees/sqltrees.html,
+    tell me if there needs to be a better representation of this
+    """
     queryset = WordSet.objects.all()
     serializer_class = WordSetSerializer

@@ -1,5 +1,6 @@
 import re
 
+from drf_spectacular.openapi import OpenApiTypes
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.contrib.contenttypes.fields import GenericRelation
@@ -85,7 +86,7 @@ class Sentence(OrderableMixin):
         return self.word.get_admin_url()
 
     @property
-    def audio_url(self):
+    def audio_url(self) -> OpenApiTypes.URI:
         try:
             return self.audio.file.url
         except AttributeError:
@@ -167,7 +168,7 @@ class Word(ReviewableMixin, GeneralContentModel):
         OrderableMixin.reset_order(self.definitions)
 
     @property
-    def audio_url(self):
+    def audio_url(self) -> OpenApiTypes.URI:
         try:
             return self.audio.file.url
         except AttributeError:
@@ -205,7 +206,7 @@ class Word(ReviewableMixin, GeneralContentModel):
         return None
 
     @property
-    def full_definition(self):
+    def full_definition(self) -> str:
         """ used in serializer """
         return "; ".join(map(str, self.definitions.all()))
 

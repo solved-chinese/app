@@ -3,6 +3,7 @@ import json
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.contrib.contenttypes.fields import GenericRelation
+from drf_spectacular.openapi import OpenApiTypes
 
 from content.models import GeneralContentModel, OrderableMixin, \
     ReviewableMixin, AudioFile, LinkedField
@@ -140,14 +141,14 @@ class Character(ReviewableMixin, GeneralContentModel):
         OrderableMixin.reset_order(self.definitions)
 
     @property
-    def audio_url(self):
+    def audio_url(self) -> OpenApiTypes.URI:
         try:
             return self.audio.file.url
         except AttributeError:
             return AudioFile.get_default().file.url
 
     @property
-    def full_definition(self):
+    def full_definition(self) -> str:
         """ used in serializer """
         return "; ".join(map(str, self.definitions.all()))
 
