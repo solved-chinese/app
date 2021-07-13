@@ -11,31 +11,38 @@ import '@learning.styles/ReviewQuestion.css';
 import AnswerResponse from './AnswerResponse';
 
 const Question = styled.h1`
-    font-size: 1.5em;
-    margin-bottom: 30px;
-    text-align: center;
+    font-size: 1.2em;
+    margin-bottom: 50px;
     font-weight: 600;
 `;
 
-const Title = styled.h2`
-    font-size: 1.6em;
-    text-align: center;
-    font-weight: 700;
+const Description1 = styled.h2`
+    font-size: 2.2em;
+    font-weight: 300;
+    margin-bottom: 5px;
+    letter-spacing: 4px;
+`;
+
+const Description2 = styled.h2`
+    font-size: 1.2em;
+    font-weight: 300;
     margin-bottom: 70px;
 `;
 
-const SubmitContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    font-size: 14px;
+const ExampleAnswer = styled.p`
+    font-size: 0.7em;
+    font-weight: 300;
+`
 
-    width: 100%;
-`;
+const InputRow = styled.div`
+    display: flex;
+    justify-content: left;
+    height: 3.2em;
+`
+
 
 const ResponseContainer = styled.div`
-    text-align: center;
+    text-align: left;
 `;
 
 type NextActionCallback = () => void;
@@ -114,39 +121,40 @@ const FITBQuestion = (props: Props): JSX.Element => {
         responseClassName += isAnswerCorrect ? ' correct' : ' incorrect';
         answerResponse = isAnswerCorrect ? '\u{2713}' : '\u{2717}';
     }
-
+    // changed container 'question-content' to left align
     return (
         <div className='question-content'>
-            <div style={{width: '100%'}}>
+            <div style={{width: '100%', alignItems: 'left'}}>
                 <Question>{props.content.question}</Question>
-                <div className={ inputClassName }>
-                    <input
-                        autoFocus
-                        value={answer}
-                        disabled={submitted}
-                        className={ 'question-text-field-input use-chinese' }
-                        onChange={ e => setAnswer(e.target.value) }
-                    />
-                    <p className={ responseClassName }>{answerResponse}</p>
-                </div>
-                <Title 
-                    className='use-serifs'
-                >
-                    {props.content.title}
-                </Title>
-                <SubmitContainer>
+                <Description1>{props.content.description1}</Description1>
+                <Description2>{props.content.description2} </Description2>
+                <InputRow>
+                    <div className={ inputClassName }>
+                        <input
+                            autoFocus
+                            value={answer}
+                            disabled={submitted}
+                            className={ 'question-text-field-input use-chinese' }
+                            onChange={ e => setAnswer(e.target.value) }
+                        />
+                        <p className={ responseClassName } style={{paddingTop: '10px'}}>{answerResponse}</p>
+                    </div>
                     <button
                         className={`choice-button${
                             answer != '' ? ' active' : ''
                         }`}
+                        style={{marginLeft: '20px'}}
                         hidden={submitted && isAnswerCorrect}
                         disabled={!answer || answer.length === 0}
                         onClick={onSubmit}
                     >
                         {submitted? 'Next' : 'Submit'}
                     </button>
-                </SubmitContainer>
-                <ResponseContainer>
+                </InputRow>
+             
+                <ExampleAnswer> Example Answer: {props.content.exampleAnswer}</ExampleAnswer>
+
+                <ResponseContainer style={{textAlign: 'left'}}>
                     {submitted && <AnswerResponse
                         isCorrect={isAnswerCorrect!}
                         correctAnswer={correctAnswer!}/>}
