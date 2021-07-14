@@ -141,7 +141,7 @@ const WordDisplay = (props: Props): JSX.Element => {
   const word: Word | null =
     props.word == null
       ? useLoadWord(
-          props.url == null ? `/content/word/${props.qid}` : props.url
+          props.url == null ? `/api/content/word/${props.qid}` : props.url
         )
       : props.word;
 

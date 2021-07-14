@@ -122,7 +122,7 @@ export const RadStandardDisplay = (props: Props): JSX.Element => {
   const radical =
     props.radical == null
       ? useLoadRad(
-          props.url == null ? `/content/radical/${props.qid}` : props.url
+          props.url == null ? `/api/content/radical/${props.qid}` : props.url
         )
       : props.radical;
 
@@ -163,7 +163,7 @@ export const RadDisplayWithSignal = (props: Props): JSX.Element => {
   const radical =
     props.radical == null
       ? useLoadRad(
-          props.url == null ? `/content/radical/${props.qid}` : props.url
+          props.url == null ? `/api/content/radical/${props.qid}` : props.url
         )
       : props.radical;
 
@@ -201,7 +201,7 @@ const RadDisplay = (props: Props): JSX.Element => {
   const radical =
     props.radical == null
       ? useLoadRad(
-          props.url == null ? `/content/radical/${props.qid}` : props.url
+          props.url == null ? `/api/content/radical/${props.qid}` : props.url
         )
       : props.radical;
 

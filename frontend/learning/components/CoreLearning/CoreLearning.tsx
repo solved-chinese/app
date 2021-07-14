@@ -115,7 +115,7 @@ const CoreLearning = (props: Props): JSX.Element => {
         className={"exitButton"}
         onClick={(e) => {
           e.preventDefault();
-          window.location.href = `/learning/assignment/${qid}`;
+          window.location.href = `/api/learning/assignment/${qid}`;
         }}
       >
         {" "}

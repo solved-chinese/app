@@ -56,7 +56,7 @@ const CharDisplay = (props: Props): JSX.Element => {
   const character =
     props.character == null
       ? useLoadChar(
-          props.url == null ? `/content/character/${props.qid}` : props.url
+          props.url == null ? `/api/content/character/${props.qid}` : props.url
         )
       : props.character;
 
