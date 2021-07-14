@@ -6,20 +6,21 @@
 /* change */
 .question-content {
     display: flex;
-    /* align-items: center; */
+    align-items: flex-start;
     justify-content: center;
+    padding: 10% 10%;
     width: 100%;
     max-width: 900px;
     height: 65vh;
+    margin: auto;
     overflow: hidden;
     margin: auto;
     padding-top: 20px;
 }
 
 .question-text-field {
-    width: 200px;
+    width: 80%;
     height: 2em;
-    margin: auto;
     display: block;
     margin-bottom: 30px;
     border: none;
@@ -54,11 +55,11 @@
 .question-text-field-input {
     width: 80%;
     height: 100%;
-    margin: auto;
     border: none;
     float: left;
-    text-align: center;
-    font-size: 1.5em;
+    text-align: left;
+    padding: 5px 10px;
+    font-size: 1.2em;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     background-color: #ebebeb;
@@ -68,8 +69,9 @@
 .answer-response {
     width:20%;
     height:80%;
-    font-size: 1.5em;
-    text-align: center;
+    font-size: 0.8em;
+    text-align: right;
+    padding-right: 10px;
     vertical-align: bottom;
     float: right;
     border-top-right-radius: 5px;
@@ -176,10 +178,10 @@ p.cndIncorrect {
 
 p.answerCorrect {
     color:rgb(103,158,59);
-    text-align: center;
+
 }
 
 p.answerIncorrect {
     color:rgb(238,109,0);
-    text-align: center;
+
 }

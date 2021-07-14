@@ -19,7 +19,7 @@ const incorrectResponse = [
 ];
 
 const ResponseContainer = styled.div`
-    text-align: center;
+    text-align: left;
 `;
 
 const AnswerIncorrect = styled.span`

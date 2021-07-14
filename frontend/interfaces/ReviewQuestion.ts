@@ -27,7 +27,9 @@ export interface CNDQuestionContent {
 
 export interface FITBQuestionContent {
     question: string,
-    title: string
+    description1: string,
+    description2: string,
+    exampleAnswer: string
 }
 
 export type MCAnswer = string
