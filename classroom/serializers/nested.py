@@ -20,7 +20,10 @@ class ClassSerializer(ClassSimpleSerializer):
 
     def validate_student_ids(self, value):
         new_students = set(value)
-        old_students = set(self.instance.students.all())
+        if self.instance is None:
+            old_students = set()
+        else:
+            old_students = set(self.instance.students.all())
         if not new_students.issubset(old_students):
             raise serializers.ValidationError(
                 "new students are not subset of old students."
