@@ -19,7 +19,5 @@ if (Constant.ENV != null)
   });
 
 const container = document.getElementById(Constant.ROOT_ELEMENT_ID);
-const reactData = JSON.parse(
-  document.getElementById("react-data")?.textContent as string
-);
-render(<App {...reactData} />, container);
+
+render(<App />, container);

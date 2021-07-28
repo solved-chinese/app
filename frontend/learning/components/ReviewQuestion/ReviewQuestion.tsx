@@ -41,7 +41,7 @@ type Props = {
  */
 const ReviewQuestion = (props: Props): JSX.Element => {
   const question =
-    props.question ?? useReviewQuestion(`/content/question/${props.qid!}`);
+    props.question ?? useReviewQuestion(`/api/content/question/${props.qid!}`);
 
   const submitAnswerFn: (
     answer: ReviewQuestionAnswer

@@ -5,6 +5,7 @@ module.exports = {
   entry: {
     learning: "./frontend/learning/index.tsx",
     assignment: "./frontend/assignment/index.tsx",
+    dashboard: "./frontend/dashboard/index.tsx"
   },
   output: {
     filename: "[name].bundle.js",

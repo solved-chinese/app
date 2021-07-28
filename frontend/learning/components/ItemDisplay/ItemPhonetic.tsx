@@ -20,10 +20,10 @@ const Phonetic = styled.span`
 `;
 
 const Pinyin = styled.span`
-    font-size = 1em;
-    text-align: center;
-    font-weight: 200;
-    white-space: nowrap;
+  font-size = 1em;
+  text-align: center;
+  font-weight: 200;
+  white-space: nowrap;
 `;
 
 export const SpeakButton = styled.img`

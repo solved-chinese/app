@@ -20,7 +20,8 @@
           "@assignment.hooks": "./frontend/assignment/hooks",
           "@assignment.styles": "./frontend/assignment/styles",
           "@assignment.services": "./frontend/assignment/services",
-          "@utils": "./frontend/utils"
+          "@utils": "./frontend/utils",
+          "@dashboard.components/*" :  ["./frontend/dashboard/components"]
         }
       }
     ]

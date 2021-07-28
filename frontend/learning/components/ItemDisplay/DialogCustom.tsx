@@ -109,6 +109,7 @@ type Props = {
 const Dialog = (props: Props): JSX.Element => {
   const type = props.type;
   const item = props.item;
+
   const [modalState, setModalState] = useState(false);
 
   const [indexState, setIndexState] = useState(0);

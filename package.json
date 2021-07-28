@@ -8,11 +8,14 @@
     "@sentry/react": "^6.6.0",
     "@sentry/tracing": "^6.6.0",
     "antd": "^4.16.3",
+    "babel-preset-stage-3": "^6.24.1",
     "hanzi-writer": "^3.0.2",
     "jquery": "^3.5.1",
     "prettier": "^2.3.1",
     "react-content-loader": "^5.1.4",
     "react-modal": "^3.12.1",
+    "react-nice-inputs": "^1.0.64",
+    "react-nicer-inputs": "^1.9.5",
     "styled-components": "^5.2.1"
   },
   "devDependencies": {
