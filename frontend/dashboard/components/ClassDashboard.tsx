@@ -54,12 +54,12 @@ const ClassDashboard = (): JSX.Element => {
   const classes = useLoadClasses("/api/classroom/teacher");
 
   const currentClass = classes ? classes[0] : null;
-  const students =
-    currentClass == null
-      ? null
-      : useLoadStudents(
-          `/api/classroom/class/currentclass/${currentClass?.pk}`
-        );
+  // const students =
+  //   currentClass == null
+  //     ? null
+  //     : useLoadStudents(
+  //         `/api/classroom/class/currentclass/${currentClass?.pk}`
+  //       );
   return (
     <>
       <Menu class={currentClass} classes={classes} />
@@ -69,7 +69,7 @@ const ClassDashboard = (): JSX.Element => {
         </LeftContainer>
         <RightContainer>
           {currentClass == null ? null : <ClassInfo class={currentClass} />}
-          {students == null ? null : <Students students={students} />}
+          {/* {students == null ? null : <Students students={students} />} */}
         </RightContainer>
       </Container>
     </>

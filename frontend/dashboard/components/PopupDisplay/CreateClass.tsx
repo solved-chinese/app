@@ -31,6 +31,7 @@ const BottomContainer = styled.div`
 `;
 
 const CreateClass = (): JSX.Element => {
+  
   const [className, SetClassName] = useState("");
 
   // This function is called when the input changes
@@ -39,7 +40,6 @@ const CreateClass = (): JSX.Element => {
     SetClassName(className);
   };
 
-  const createClass = (url: string) => {
     const requestOptions = {
       method: "POST",
       headers: {
@@ -48,7 +48,7 @@ const CreateClass = (): JSX.Element => {
       body: JSON.stringify({ student_ids: [], name: className }),
     };
 
-    const postData = async () => {
+    const postData = async (url:string) => {
       const response = await fetch(url, requestOptions);
       if (!response.ok) {
         if (response.status === 404) {
@@ -60,15 +60,11 @@ const CreateClass = (): JSX.Element => {
         console.log(d);
       }
     };
-
-    return postData();
-
-    // // TODO
+    // TODO
     // useEffect(() => {
     //     console.log("effect")
     //     createClass (url)
     // }, [className])
-  };
 
   return (
     <>
@@ -86,7 +82,7 @@ const CreateClass = (): JSX.Element => {
         <ButtonClass onClick={() => SetClassName("")}> Cancel </ButtonClass>
         <ButtonClass
           className={className == "" ? "disabled" : ""}
-          onClick={() => createClass("/api/classroom/class/")}
+          onClick={() => postData("/api/classroom/class/")}
         >
           {" "}
           Save{" "}
