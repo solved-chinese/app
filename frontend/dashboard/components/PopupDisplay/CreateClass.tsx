@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import React, { Component, SyntheticEvent, useEffect, useState } from "react";
 
 import styled from "styled-components";
@@ -31,7 +32,6 @@ const BottomContainer = styled.div`
 `;
 
 const CreateClass = (): JSX.Element => {
-  
   const [className, SetClassName] = useState("");
 
   // This function is called when the input changes
@@ -44,6 +44,7 @@ const CreateClass = (): JSX.Element => {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        "X-CSRFToken": Cookies.get('csrftoken'),
       },
       body: JSON.stringify({ student_ids: [], name: className }),
     };

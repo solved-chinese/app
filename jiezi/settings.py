@@ -56,11 +56,12 @@ INSTALLED_APPS = [
     'classroom',
 ]
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -156,7 +157,8 @@ AUTHENTICATION_BACKENDS = ['accounts.auth_backend.EmailUsernameBackend']
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-CSRF_USE_SESSIONS = True
+CSRF_COOKIE_HTTPONLY = False
+CSRF_USE_SESSIONS = False
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
 # due to big word set, should fine tune later
