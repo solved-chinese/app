@@ -1,12 +1,14 @@
 import { Class } from "@interfaces/Class";
-import React from "react";
+import React, { ReactElement } from "react";
 import styled from "styled-components";
 import useLoadClasses from "../hooks/useLoadClass";
-import useLoadStudents from "../hooks/useLoadStuents";
 
 import SetDashboard from "./SetDashboard";
 
 import Students from "./Students";
+import Tabs from "./Tabs";
+import "../styles/Tab.css";
+
 
 const Container = styled.div`
   background-color: lightgray;
@@ -43,17 +45,25 @@ const Menu = (props: ClassesProps): JSX.Element => {
     return (
       <>
         {props.classes.map((c, i) => {
-          return <>c</>;
+          return <a key={i}>c</a>;
         })}
       </>
     );
   }
 };
 
+const getClasses = (cs: Class[]): ReactElement[] => {
+  return cs?.map((c, index) => (
+    // console.log(c.name)
+    <SetDashboard key={c.pk} index={index} class={c} />
+  ));
+};
+
 const ClassDashboard = (): JSX.Element => {
   const classes = useLoadClasses("/api/classroom/teacher");
 
   const currentClass = classes ? classes[0] : null;
+
   // const students =
   //   currentClass == null
   //     ? null
@@ -62,16 +72,19 @@ const ClassDashboard = (): JSX.Element => {
   //       );
   return (
     <>
-      <Menu class={currentClass} classes={classes} />
+      {/* <Menu class={currentClass} classes={classes} />
       <Container>
         <LeftContainer>
-          <SetDashboard />
+          
         </LeftContainer>
         <RightContainer>
           {currentClass == null ? null : <ClassInfo class={currentClass} />}
-          {/* {students == null ? null : <Students students={students} />} */}
+          {students == null ? null : <Students students={students} />}
         </RightContainer>
-      </Container>
+      </Container> */}
+      <Tabs>
+        {getClasses(classes ? classes : [])}
+      </Tabs>
     </>
   );
 };

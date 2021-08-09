@@ -7,6 +7,7 @@ import { Class, FullClass } from "@interfaces/Class";
 import Constant from "@utils/constant";
 
 import { ButtonClass } from "../Title";
+import useLoadWordSets from "frontend/dashboard/hooks/useLoadWordSets";
 
 const Input = styled.input`
   border-top-style: hidden;
@@ -40,32 +41,51 @@ const CreateClass = (): JSX.Element => {
     SetClassName(className);
   };
 
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "X-CSRFToken": Cookies.get('csrftoken'),
-      },
-      body: JSON.stringify({ student_ids: [], name: className }),
-    };
+  const requestOptions = () => {
+    const token = Cookies.get("csrftoken");
+    switch (token) {
+      case undefined:
+        return {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            "X-CSRFToken": "",
+          },
+          body: JSON.stringify({ student_ids: [], name: className }),
+        };
+      default:
+        return {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            "X-CSRFToken": token,
+          },
+          body: JSON.stringify({ student_ids: [], name: className }),
+        };
+    }
+  };
 
-    const postData = async (url:string) => {
-      const response = await fetch(url, requestOptions);
-      if (!response.ok) {
-        if (response.status === 404) {
-          return;
-        }
-        setTimeout(postData, Constant.REQUEST_TIMEOUT);
-      } else {
-        const d = await response.json();
-        console.log(d);
+  // const requestOptions = {
+  //   method: "POST",
+  //   headers: {
+  //     "content-type": "application/json",
+  //     "X-CSRFToken": Cookies.get('csrftoken'),
+  //   },
+  //   body: JSON.stringify({ student_ids: [], name: className }),
+  // };
+
+  const postData = async (url: string) => {
+    const response = await fetch(url, requestOptions());
+    if (!response.ok) {
+      if (response.status === 404) {
+        return;
       }
-    };
-    // TODO
-    // useEffect(() => {
-    //     console.log("effect")
-    //     createClass (url)
-    // }, [className])
+      setTimeout(postData, Constant.REQUEST_TIMEOUT);
+    } else {
+      const d = await response.json();
+      console.log(d);
+    }
+  };
 
   return (
     <>
@@ -77,13 +97,17 @@ const CreateClass = (): JSX.Element => {
         onChange={handlerChange}
       />
       <a>Class Name</a>
-      {/* <input type="text" className="no-outline" placeholder="Enter the Class name" value={className} onChange={handlerChange}/> */}
-      {/* textarea */}
+      {/* <div>
+        {wordSets}
+      </div> */}
       <BottomContainer>
         <ButtonClass onClick={() => SetClassName("")}> Cancel </ButtonClass>
         <ButtonClass
           className={className == "" ? "disabled" : ""}
-          onClick={() => postData("/api/classroom/class/")}
+          onClick={() => {
+            postData("/api/classroom/class/");
+            SetClassName("");
+          }}
         >
           {" "}
           Save{" "}

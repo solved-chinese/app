@@ -6,6 +6,7 @@ import { Class, FullClass } from "@interfaces/Class";
 import Constant from "@utils/constant";
 
 import { ButtonClass } from "../Title";
+import useLoadWordSets from "../../hooks/useLoadWordSets";
 
 const Input = styled.input`
   border-top-style: hidden;
@@ -20,6 +21,13 @@ const Input = styled.input`
   &.no-outline:focus {
     outline: none;
   }
+`;
+
+const SetsContainer = styled.div`
+  display: block;
+  position: relative;
+  height: 100px;
+  overflow: auto;
 `;
 
 const BottomContainer = styled.div`
@@ -37,6 +45,27 @@ type Props = {
 const EditClass = (props: Props): JSX.Element => {
   const initialName = props.class?.name;
   const [className, SetClassName] = useState(props.class?.name);
+
+  const wordSets = useLoadWordSets("/api/content/word_set");
+
+  const displayWordSets = (): JSX.Element => {
+    if (wordSets == null) {
+      return <>No word sets</>;
+    } else {
+      return (
+        <>
+          {wordSets.map((wordset, i) => {
+            return (
+              <label>
+                <input type="checkbox" name="fruit" value={wordset.name} />
+                {wordset.name}
+              </label>
+            );
+          })}
+        </>
+      );
+    }
+  };
 
   // This function is called when the input changes
   const handlerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,6 +118,7 @@ const EditClass = (props: Props): JSX.Element => {
         onChange={handlerChange}
       />
       <a>Class Name</a>
+      <SetsContainer>{displayWordSets()}</SetsContainer>
       {/* <input type="text" className="no-outline" placeholder="Enter the Class name" value={className} onChange={handlerChange}/> */}
       {/* textarea */}
       <BottomContainer>

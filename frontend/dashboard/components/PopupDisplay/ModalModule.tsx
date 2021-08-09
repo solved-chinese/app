@@ -61,6 +61,8 @@ const CreateSignal = styled.img`
   }
 `;
 
+const Title = styled.h2``;
+
 const NameContainer = styled.a``;
 
 const Container = styled.div``;
@@ -175,18 +177,18 @@ type EventProps = {
 };
 
 const EventTitle = (props: EventProps): JSX.Element => {
-  const text = (): string => {
+  const text = (): JSX.Element => {
     switch (props.event) {
       case "createClass":
-        return "Create Class";
+        return <Title>Create Class</Title>;
       case "editClass":
-        return "Edit Class";
+        return <Title>Edit Class</Title>;
       case "addSets":
-        return "Add Sets";
+        return <Title>Add Sets</Title>;
     }
   };
 
-  return <span>{text()}</span>;
+  return <>{text()}</>;
 };
 
 const Content = (props: Props): JSX.Element => {
