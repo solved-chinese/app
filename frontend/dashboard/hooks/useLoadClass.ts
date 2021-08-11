@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Class } from "@interfaces/Class";
+import { Class, FullClass } from "@interfaces/Class";
 
 import Constant from "@utils/constant";
 
@@ -37,3 +37,31 @@ const useLoadClasses = (url: string): Class[] | null => {
 };
 
 export default useLoadClasses;
+
+export const useLoadClass = (url: string): FullClass | null => {
+  const [klass, setKlass] = useState(null);
+
+  const loadData = async () => {
+    setKlass(null);
+    const response = await fetch(url);
+    if (!response.ok) {
+      if (response.status === 404) {
+        return;
+      }
+      setTimeout(loadData, Constant.REQUEST_TIMEOUT);
+    } else {
+      // parse the response object into json
+      const data = await response.json();
+      console.log(data);
+      // use the json object to update component states
+      setKlass(data);
+    }
+  };
+
+  // If the url changes, reload data
+  useEffect(() => {
+    loadData();
+  }, [url]);
+
+  return klass;
+};

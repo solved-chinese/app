@@ -38,3 +38,30 @@ const useLoadWordSets = (url: string): SimpleWordSet[] | null => {
 };
 
 export default useLoadWordSets;
+
+export const useLoadWordSet = (url: string): SimpleWordSet | null => {
+  const [wordset, setWordSet] = useState(null);
+
+  const loadData = async () => {
+    setWordSet(null);
+    const response = await fetch(url);
+    if (!response.ok) {
+      if (response.status === 404) {
+        return;
+      }
+      setTimeout(loadData, Constant.REQUEST_TIMEOUT);
+    } else {
+      // parse the response object into json
+      const data = await response.json();
+      console.log(data);
+      // use the json object to update component states
+      setWordSet(data);
+    }
+  };
+
+  // If the url changes, reload data
+  useEffect(() => {
+    loadData();
+  }, [url]);
+  return wordset;
+};

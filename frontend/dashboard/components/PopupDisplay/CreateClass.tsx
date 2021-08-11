@@ -83,7 +83,7 @@ const CreateClass = (): JSX.Element => {
       setTimeout(postData, Constant.REQUEST_TIMEOUT);
     } else {
       const d = await response.json();
-      console.log(d);
+      // console.log(d);
     }
   };
 

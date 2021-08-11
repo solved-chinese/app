@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import useLoadUser from "../hooks/useLoadUser";
 import useLoadClasses from "../hooks/useLoadClass";
 import { User } from "@interfaces/User";
 import { Class } from "@interfaces/Class";
-import ModalModule from "./PopupDisplay/ModalModule";
+import PopupModal from "./PopupDisplay/ModalModule";
 // import "../styles/DashboardBody.css"
 
 /**
@@ -26,10 +26,9 @@ const NameContaner = styled.div`
   width: 70%;
 `;
 
-const Name = styled.span`
-  text-align: center;
-  font-size: 3em;
-  font-weight: 200;
+const Name = styled.h1`
+  font-size: 5em;
+  font-weight: 500;
   whilte-spce: nowrap;
 `;
 
@@ -71,9 +70,7 @@ export const ButtonClass = styled.button`
 type NameProps = {
   user: User;
 
-  currentClass: Class | null;
-
-  classes: Class[] | null;
+  currentClass: Class | undefined;
 };
 
 const NameDisplay = (props: NameProps): JSX.Element => {
@@ -81,7 +78,7 @@ const NameDisplay = (props: NameProps): JSX.Element => {
   const currentClass = props.currentClass;
 
   return (
-    <Name>
+    <Name className="use-chinese">
       {user.displayName}
       {currentClass == null ? "" : "'s " + currentClass.name}
     </Name>
@@ -92,16 +89,29 @@ type ButtonProps = {
   content: string;
 };
 
+type Props = {
+  user: User | null;
+  currentClass: Class | undefined;
+};
+
 const Button = (props: ButtonProps): JSX.Element => {
   return <ButtonClass className="button-primary">{props.content}</ButtonClass>;
 };
 
-const Title = (): JSX.Element => {
-  const user = useLoadUser("/api/accounts/user");
+const Title = (props: Props): JSX.Element => {
+  const user = props.user;
+  const currentClass = props.currentClass;
 
-  const classes = useLoadClasses("/api/classroom/teacher");
+  // const user = useLoadUser("/api/accounts/user");
 
-  const currentClass = classes ? classes[0] : null;
+  // const classes = useLoadClasses("/api/classroom/teacher");
+
+  // const [currentClass, setcurrentClass] = useState(classes?.[0])
+
+  // // useEffect to control the async problem
+  // useEffect(() => {
+  //   setcurrentClass(classes? classes[0]: undefined)
+  // }, [classes])
 
   if (user == null) {
     return <>You need to log in firstly !</>;
@@ -109,16 +119,20 @@ const Title = (): JSX.Element => {
     return (
       <Row>
         <NameContaner>
-          <NameDisplay
-            user={user}
-            currentClass={currentClass}
-            classes={classes}
-          />
+          <NameDisplay user={user} currentClass={currentClass} />
         </NameContaner>
         <ButtonContainer>
-          <ModalModule event="createClass" />
-          <ModalModule event="editClass" />
-          <Button content="Add Set" />
+          <PopupModal event="createClass" />
+          {currentClass == undefined ? (
+            <></>
+          ) : (
+            <PopupModal event="editClass" class={currentClass} />
+          )}
+          {currentClass == undefined ? (
+            <></>
+          ) : (
+            <PopupModal event="addSets" class={currentClass} />
+          )}
         </ButtonContainer>
       </Row>
     );

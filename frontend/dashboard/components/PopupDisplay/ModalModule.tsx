@@ -6,6 +6,7 @@ import { Class } from "@interfaces/Class";
 import CreateClass from "./CreateClass";
 import EditClass from "./EditClass";
 import { ButtonClass } from "../Title";
+import AddSets from "./AddSets";
 
 //Styles for Popup
 const ModalStyle: Modal.Styles = {
@@ -200,11 +201,7 @@ const Content = (props: Props): JSX.Element => {
       return <CreateClass />;
     case "editClass":
       return <EditClass class={props.class} />;
-    default:
-      return <></>;
-    // case "editClass" :
-    //     return <EditClass />
-    // case "addSets" :
-    //     return <AddSets />
+    case "addSets":
+      return <AddSets className={klass?.name} classpk={klass?.pk} />;
   }
 };

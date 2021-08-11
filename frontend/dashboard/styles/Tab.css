@@ -29,10 +29,10 @@
   margin: 20px auto;
 }
 
-button.tab-title{
+button.tab-title {
   min-width: none;
   cursor: pointer;
-  border :none;
+  border: none;
 }
 
 .ul {

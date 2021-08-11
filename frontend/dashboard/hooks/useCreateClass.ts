@@ -29,7 +29,8 @@ const useCreateClass = (url: string) => {
       setTimeout(postData, Constant.REQUEST_TIMEOUT);
     } else {
       const d = await response.json();
-      console.log(d);
+      // console.log(d);
+      SetClassName(d.name);
     }
   };
 

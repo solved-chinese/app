@@ -7,17 +7,82 @@ import { Class, FullClass } from "@interfaces/Class";
 import Constant from "@utils/constant";
 
 import { ButtonClass } from "../Title";
-import useLoadWordSets from "frontend/dashboard/hooks/useLoadWordSets";
+import useLoadWordSets, { useLoadWordSet } from "../../hooks/useLoadWordSets";
+import { number } from "prop-types";
 
 type Props = {
-  className: string;
+  className: string | undefined;
 
-  classpk: number;
+  classpk: number | undefined;
 };
+
+const SetsContainer = styled.div`
+  display: block;
+  position: relative;
+  height: 200px;
+  overflow: auto;
+`;
+
+const BottomContainer = styled.div`
+  position: absolute;
+  right: 5px;
+  bottom: 2px;
+  width: auto;
+  padding: 15px;
+`;
 
 const AddSets = (props: Props): JSX.Element => {
   const className = props.className;
+  const classPid = props.classpk;
+
+  interface passSet {
+    name: string;
+    pid: number;
+  }
+
+  const [state, setState] = useState<passSet[]>([]);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const target = event.target;
+
+    console.log(target);
+
+    const name = target.name;
+    const value = Number(target.value);
+
+    if (target.checked) {
+      setState([...state, { name: name, pid: value }]);
+      // state.setpid[value] = value;
+    } else {
+      setState(state.filter((item) => item.name !== name));
+    }
+  };
+
   const wordSets = useLoadWordSets("/api/content/word_set");
+
+  const displayWordSets = (): JSX.Element => {
+    if (wordSets == null) {
+      return <>No word sets</>;
+    } else {
+      return (
+        <>
+          {wordSets.map((wordset, i) => {
+            return (
+              <label key={i}>
+                <input
+                  type="checkbox"
+                  name={wordset.name}
+                  value={wordset.pk}
+                  onChange={(e) => handleInputChange(e)}
+                />
+                {wordset.name}
+              </label>
+            );
+          })}
+        </>
+      );
+    }
+  };
 
   const requestOptions = () => {
     const token = Cookies.get("csrftoken");
@@ -29,7 +94,11 @@ const AddSets = (props: Props): JSX.Element => {
             "content-type": "application/json",
             "X-CSRFToken": "",
           },
-          body: JSON.stringify({ student_ids: [], name: className }),
+          body: JSON.stringify({
+            student_ids: [],
+            name: className,
+            assignments: [state],
+          }),
         };
       default:
         return {
@@ -38,7 +107,11 @@ const AddSets = (props: Props): JSX.Element => {
             "content-type": "application/json",
             "X-CSRFToken": token,
           },
-          body: JSON.stringify({ student_ids: [], name: className }),
+          body: JSON.stringify({
+            student_ids: [],
+            name: className,
+            assignments: [state],
+          }),
         };
     }
   };
@@ -46,7 +119,7 @@ const AddSets = (props: Props): JSX.Element => {
   const putData = async (url: string) => {
     const response = await fetch(url, requestOptions());
     if (!response.ok) {
-      if (response.status === 404) {
+      if (response.status == 404) {
         return;
       }
       setTimeout(putData, Constant.REQUEST_TIMEOUT);
@@ -56,7 +129,23 @@ const AddSets = (props: Props): JSX.Element => {
     }
   };
 
-  return <>{wordSets}</>;
+  const handleSubmit = () => {
+    return putData(`/api/classroom/class/${classPid}`);
+  };
+
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
+        <SetsContainer>{displayWordSets()}</SetsContainer>
+        <BottomContainer>
+          <ButtonClass className="">Cancel</ButtonClass>
+          <ButtonClass className={className == "" ? "disabled" : "submit"}>
+            Save
+          </ButtonClass>
+        </BottomContainer>
+      </form>
+    </>
+  );
 };
 
 export default AddSets;

@@ -1,5 +1,5 @@
 import { Class } from "@interfaces/Class";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import styled from "styled-components";
 import useLoadClasses from "../hooks/useLoadClass";
 
@@ -8,25 +8,12 @@ import SetDashboard from "./SetDashboard";
 import Students from "./Students";
 import Tabs from "./Tabs";
 import "../styles/Tab.css";
-
-
-const Container = styled.div`
-  background-color: lightgray;
-  padding: 30px;
-  display: flex;
-`;
-
-const RightContainer = styled.div`
-  width: 30%;
-  position: relative;
-`;
-
-const LeftContainer = styled.div`
-  width: 70%;
-`;
+import Title from "./Title";
+import { User } from "@interfaces/User";
+import useLoadUser from "../hooks/useLoadUser";
 
 type ClassesProps = {
-  class: Class | null;
+  user: User | null;
   classes: Class[] | null;
 };
 
@@ -34,12 +21,8 @@ type ClassProps = {
   class: Class;
 };
 
-const ClassInfo = (props: ClassProps): JSX.Element => {
-  return <div>class code : {props.class.code}</div>;
-};
-
 const Menu = (props: ClassesProps): JSX.Element => {
-  if (props.class == null || props.classes == null) {
+  if (props.classes == null) {
     return <>There is no class</>;
   } else {
     return (
@@ -53,36 +36,32 @@ const Menu = (props: ClassesProps): JSX.Element => {
 };
 
 const getClasses = (cs: Class[]): ReactElement[] => {
-  return cs?.map((c, index) => (
+  return cs.map((c, index) => (
     // console.log(c.name)
     <SetDashboard key={c.pk} index={index} class={c} />
   ));
 };
 
 const ClassDashboard = (): JSX.Element => {
+  // const classes = useLoadClasses("/api/classroom/teacher");
+
+  // const classes = props.classes;
+  // const user = props.user;
+  // const currentClass = classes?.[0]
+
+  // is Teacher ? is Student ?
+  const user = useLoadUser("/api/accounts/user");
+
   const classes = useLoadClasses("/api/classroom/teacher");
 
-  const currentClass = classes ? classes[0] : null;
+  // useEffect(() => {
+  //   setCurrentClass(classes? classes[index]: undefined)
+  // }, [index])
 
-  // const students =
-  //   currentClass == null
-  //     ? null
-  //     : useLoadStudents(
-  //         `/api/classroom/class/currentclass/${currentClass?.pk}`
-  //       );
   return (
     <>
-      {/* <Menu class={currentClass} classes={classes} />
-      <Container>
-        <LeftContainer>
-          
-        </LeftContainer>
-        <RightContainer>
-          {currentClass == null ? null : <ClassInfo class={currentClass} />}
-          {students == null ? null : <Students students={students} />}
-        </RightContainer>
-      </Container> */}
-      <Tabs>
+      {/* <Title user={user} currentClass={currentClass}/> */}
+      <Tabs user={user} classes={classes}>
         {getClasses(classes ? classes : [])}
       </Tabs>
     </>

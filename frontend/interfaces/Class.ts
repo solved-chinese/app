@@ -1,5 +1,6 @@
 import { Assignment } from "./Assignment";
 import { User } from "./User";
+import { SimpleWordSet } from "./WordSet";
 
 export interface Class {
   /** Resource url. */
@@ -18,5 +19,5 @@ export interface Class {
 export interface FullClass extends Class {
   students: User[];
   student_ids: number[];
-  assignements: Assignment[];
+  assignements: SimpleWordSet[];
 }

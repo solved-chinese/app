@@ -20,11 +20,11 @@ const TabTitle = (props: Props) => {
     props.setSelectedTab(props.index);
   }, [props.setSelectedTab, props.index]);
 
-  console.log(props.classname);
-
   return (
     <li>
-      <button className="tab-title" onClick={onClick}>{props.classname}</button>
+      <button className="tab-title" onClick={onClick}>
+        {props.classname}
+      </button>
     </li>
   );
 };

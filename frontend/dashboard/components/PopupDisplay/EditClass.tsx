@@ -91,7 +91,7 @@ const EditClass = (props: Props): JSX.Element => {
         setTimeout(putData, Constant.REQUEST_TIMEOUT);
       } else {
         const d = await response.json();
-        console.log(d);
+        // console.log(d);
       }
     };
 
