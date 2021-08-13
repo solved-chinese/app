@@ -14,6 +14,9 @@ class Class(models.Model):
     name = models.CharField(max_length=100, verbose_name="Class name")
     created_time = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        unique_together = ['teacher', 'name']
+
     def save(self, **kwargs):
         if self._state.adding:
             if not self.code:
