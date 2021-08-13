@@ -110,7 +110,7 @@ class AssignmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Assignment
-        fields = ['name', 'published_time',
+        fields = ['name', 'klass', 'published_time',
                   'words', 'characters', 'radicals',
                   'word_ids', 'character_ids', 'radical_ids']
 
