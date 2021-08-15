@@ -9,7 +9,7 @@ def forward(apps, schema_editor):
     for klass in Class.objects.all():
         pair = (klass.teacher.pk, klass.name)
         if pair in teacher_name_set:
-            print(f'removing {klass.teacher.display_name} {klass.teacher.alias} {klass.name}')
+            print(f'removing {klass.teacher.user} {klass.name}')
             klass.delete()
         else:
             teacher_name_set.add(pair)
