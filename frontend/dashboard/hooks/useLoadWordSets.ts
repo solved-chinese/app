@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Constant from "@utils/constant";
 
-import { SimpleWordSet } from "@interfaces/WordSet";
+import { SimpleWordSet, WordSet } from "@interfaces/WordSet";
 
 /**
  * Load the classes from URL, returns null when it is still
@@ -39,7 +39,7 @@ const useLoadWordSets = (url: string): SimpleWordSet[] | null => {
 
 export default useLoadWordSets;
 
-export const useLoadWordSet = (url: string): SimpleWordSet | null => {
+export const useLoadWordSet = (url: string): WordSet | null => {
   const [wordset, setWordSet] = useState(null);
 
   const loadData = async () => {
@@ -63,5 +63,6 @@ export const useLoadWordSet = (url: string): SimpleWordSet | null => {
   useEffect(() => {
     loadData();
   }, [url]);
+
   return wordset;
 };

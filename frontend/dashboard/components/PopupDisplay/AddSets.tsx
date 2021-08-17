@@ -9,6 +9,8 @@ import Constant from "@utils/constant";
 import { ButtonClass } from "../Title";
 import useLoadWordSets, { useLoadWordSet } from "../../hooks/useLoadWordSets";
 import { number } from "prop-types";
+import { post } from "jquery";
+import { Word } from "@interfaces/WordSet";
 
 type Props = {
   className: string | undefined;
@@ -31,9 +33,17 @@ const BottomContainer = styled.div`
   padding: 15px;
 `;
 
+type postProps = {
+  name: string;
+  word_ids: number[];
+  klass: number | undefined;
+};
+
 const AddSets = (props: Props): JSX.Element => {
   const className = props.className;
   const classPid = props.classpk;
+
+  // console.log("current class is:" + className)
 
   interface passSet {
     name: string;
@@ -41,6 +51,10 @@ const AddSets = (props: Props): JSX.Element => {
   }
 
   const [state, setState] = useState<passSet[]>([]);
+
+  const [assignments, setAssignments] = useState<postProps[]>([]);
+
+  const [setIds, setSetIds] = useState<number[]>([]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const target = event.target;
@@ -84,53 +98,110 @@ const AddSets = (props: Props): JSX.Element => {
     }
   };
 
-  const requestOptions = () => {
+  /**
+   * Load corresponding word sets (in state )
+   */
+
+  const loadData = (url: string) => {
+    alert(url);
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        const word_ids = data.words.map((word: Word) => word.pk);
+        postData("/api/classroom/assignment", {
+          name: data.name,
+          word_ids: word_ids,
+          klass: classPid,
+        });
+        // setAssignments([...assignments, {name:data.name,word_ids:word_ids,klass:className}])
+      });
+  };
+
+  // If the url changes, reload data
+  useEffect(() => {
+    setSetIds(state.map((set) => set.pid));
+  }, [state]);
+
+  // useEffect(() => {
+  //   console.log(setIds)
+  //   setIds.map(id =>
+  //     loadData(`/api/content/word_set/${id}`)
+  //   )
+  // }, [setIds])
+
+  /**
+   * Post data functions
+   * @param props:postProps
+   */
+
+  const requestOptions = (props: postProps) => {
     const token = Cookies.get("csrftoken");
     switch (token) {
       case undefined:
         return {
-          method: "PUT",
+          method: "POST",
           headers: {
             "content-type": "application/json",
             "X-CSRFToken": "",
           },
           body: JSON.stringify({
-            student_ids: [],
-            name: className,
-            assignments: [state],
+            name: props.name,
+            klass: props.klass,
+            word_ids: props.word_ids,
+            character_ids: [],
+            radicals_ids: [],
           }),
         };
       default:
         return {
-          method: "PUT",
+          method: "POST",
           headers: {
             "content-type": "application/json",
             "X-CSRFToken": token,
           },
           body: JSON.stringify({
-            student_ids: [],
-            name: className,
-            assignments: [state],
+            name: props.name,
+            klass: props.klass,
+            word_ids: props.word_ids,
+            character_ids: [],
+            radicals_ids: [],
           }),
         };
     }
   };
 
-  const putData = async (url: string) => {
-    const response = await fetch(url, requestOptions());
-    if (!response.ok) {
-      if (response.status == 404) {
-        return;
-      }
-      setTimeout(putData, Constant.REQUEST_TIMEOUT);
-    } else {
-      const d = await response.json();
-      console.log(d);
-    }
+  const simpleRequestOptions = (props: postProps) => {
+        return {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            name: props.name,
+            klass: props.klass,
+            word_ids: props.word_ids,
+            character_ids: [],
+            radicals_ids: [],
+          }),
+        };
+    };
+
+  const postData = async (url: string, props: postProps) => {
+    alert(props.name);
+    const assignment = props;
+    fetch(url, simpleRequestOptions(assignment)).then(res => res.json()).then(data => alert(data));
   };
 
-  const handleSubmit = () => {
-    return putData(`/api/classroom/class/${classPid}`);
+  // event:React.FormEvent<HTMLFormElement>
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault;
+
+    // // Load Data works
+    // setIds.forEach(id => {
+    //   loadData(`/api/content/word_set/${id}`)
+    // })
+
+    postData("/api/classroom/assignment/",{name:"test2",word_ids:[],klass:classPid})
   };
 
   return (
@@ -138,8 +209,11 @@ const AddSets = (props: Props): JSX.Element => {
       <form onSubmit={handleSubmit}>
         <SetsContainer>{displayWordSets()}</SetsContainer>
         <BottomContainer>
-          <ButtonClass className="">Cancel</ButtonClass>
-          <ButtonClass className={className == "" ? "disabled" : "submit"}>
+          <ButtonClass>Cancel</ButtonClass>
+          <ButtonClass
+            type={"submit"}
+            className={className == undefined ? "disabled" : "submit"}
+          >
             Save
           </ButtonClass>
         </BottomContainer>

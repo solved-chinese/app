@@ -200,7 +200,7 @@ const Content = (props: Props): JSX.Element => {
     case "createClass":
       return <CreateClass />;
     case "editClass":
-      return <EditClass class={props.class} />;
+      return <EditClass class={klass} />;
     case "addSets":
       return <AddSets className={klass?.name} classpk={klass?.pk} />;
   }

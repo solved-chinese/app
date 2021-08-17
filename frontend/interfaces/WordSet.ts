@@ -7,14 +7,14 @@ export interface SimpleWordSet {
 }
 
 export interface WordSet extends SimpleWordSet {
-  word: Word[];
+  words: Word[];
 
   IC_level: number;
 }
 
 export type Word = {
-  qid: number;
-  status: "mastered" | "familiar" | "remaining";
+  pk: number;
+  // status: "mastered" | "familiar" | "remaining";
   chinese: string;
   pinyin: string;
   full_definition: string;
