@@ -108,11 +108,12 @@ const AddSets = (props: Props): JSX.Element => {
       .then((res) => res.json())
       .then((data) => {
         const word_ids = data.words.map((word: Word) => word.pk);
-        postData("/api/classroom/assignment", {
-          name: data.name,
-          word_ids: word_ids,
-          klass: classPid,
-        });
+        alert(word_ids)
+        // postData("/api/classroom/assignment", {
+        //   name: data.name,
+        //   word_ids: word_ids,
+        //   klass: classPid,
+        // });
         // setAssignments([...assignments, {name:data.name,word_ids:word_ids,klass:className}])
       });
   };
@@ -181,12 +182,12 @@ const AddSets = (props: Props): JSX.Element => {
             klass: props.klass,
             word_ids: props.word_ids,
             character_ids: [],
-            radicals_ids: [],
+            radicals_ids: []
           }),
         };
     };
 
-  const postData = async (url: string, props: postProps) => {
+  const postData = (url: string, props: postProps) => {
     alert(props.name);
     const assignment = props;
     fetch(url, simpleRequestOptions(assignment)).then(res => res.json()).then(data => alert(data));
@@ -196,11 +197,10 @@ const AddSets = (props: Props): JSX.Element => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault;
 
-    // // Load Data works
+    // Load Data works
     // setIds.forEach(id => {
     //   loadData(`/api/content/word_set/${id}`)
     // })
-
     postData("/api/classroom/assignment/",{name:"test2",word_ids:[],klass:classPid})
   };
 
