@@ -7,8 +7,7 @@ const ExplanationSignal = styled.img`
   position: relative;
   margin-top: 25px; // according to the position of text of definition
   margin-left: 3px;
-  margin-bottom : 3px;
-
+  margin-bottom: 3px;
 
   // width = 100%;
   cursor: pointer;

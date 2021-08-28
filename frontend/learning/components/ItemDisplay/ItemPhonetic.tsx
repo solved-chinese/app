@@ -60,7 +60,6 @@ const ItemPhonetic = (props: Props): JSX.Element => {
   const useStroke = props.useStroke ?? false;
   const type = props.type ?? undefined;
 
-
   // const renderWord = () =>
   //   useStroke ? (
   //     <StrokeGif item={props.item} />
@@ -71,7 +70,7 @@ const ItemPhonetic = (props: Props): JSX.Element => {
   return (
     <Container>
       <Phonetic className="use-chinese">
-      <Dialog item={props.item} type={type} />
+        <Dialog item={props.item} type={type} />
         {/* <Pinyin>{pinyin}</Pinyin> */}
         {pinyin}
         <SpeakButton

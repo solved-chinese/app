@@ -183,9 +183,8 @@ const WordDisplay = (props: Props): JSX.Element => {
           <div className="left">
             <MemoryAidView content={memoryAid} />
             {renderBreakdown(word)}
-          <br />
+            <br />
           </div>
-
 
           <ContainerRight className="right">
             <ContainerRightTop>

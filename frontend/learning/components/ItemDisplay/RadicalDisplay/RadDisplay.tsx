@@ -47,7 +47,7 @@ const MnemonicImage = styled.img`
   width: 200px;
   min-width: 35%;
   max-height: 300px;
-  max-width : 100%;
+  max-width: 100%;
   object-fit: contain;
 `;
 
