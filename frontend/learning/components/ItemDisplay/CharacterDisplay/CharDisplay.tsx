@@ -9,6 +9,8 @@ import BreakdownView from "@learning.components/ItemDisplay/BreakdownView";
 import LoadingView from "@learning.components/ItemDisplay/LoadingView";
 import useLoadChar from "@learning.hooks/useLoadChar";
 
+import ItemDisplayPopup from "../ItemDisplayPopup";
+
 import { Character } from "@interfaces/CoreItem";
 
 import "@learning.styles/ItemDisplay.css";
@@ -64,26 +66,30 @@ const CharDisplay = (props: Props): JSX.Element => {
     const autoExpandBreakdown = props.autoExpandBreakdown ?? true;
     return (
       <>
+        {props.url == null ? (
+          ""
+        ) : (
+          <ItemDisplayPopup contentURL={props.url} type="character" />
+        )}
         <Row>
-          <ItemPhonetic
+          <CharDefinition
             pinyin={character.pinyin}
             audioURL={character.audioUrl}
-            item={character.chinese}
-            useStroke={true}
-          />
-          <CharDefinition definitions={definitions} />
+            chinese={character.chinese}
+            definitions={definitions}
+          />{" "}
         </Row>
-        <RelatedItems
-          items={character.relatedWords}
-          item={character.chinese}
-          itemType="word"
-        />
         <BreakdownView
           type="radical"
           componentURL={character.radicals}
           memoryAid={character.memoryAid}
           alwaysDisplay={autoExpandBreakdown}
         />
+        {/* <RelatedItems
+          items={character.relatedWords}
+          item={character.chinese}
+          itemType="character"
+        /> */}
       </>
     );
   };

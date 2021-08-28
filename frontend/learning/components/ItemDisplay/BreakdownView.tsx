@@ -12,6 +12,9 @@ import ItemDisplayPopup from "./ItemDisplayPopup";
 import "@learning.styles/ItemDisplay.css";
 import { Character, Radical } from "@interfaces/CoreItem";
 
+import CharDisplay from "./CharacterDisplay/CharDisplay";
+import RadDisplay, { RadDisplayWithSignal } from "./RadicalDisplay/RadDisplay";
+
 const Row = styled.div`
   display: inline-flex;
   min-width: 100%;
@@ -81,39 +84,9 @@ const BreakdownRad = (props: BreakdownRadProps): JSX.Element => {
   const radical = useLoadRad(props.url);
 
   const renderRadical = (radical: Radical) => {
-    const chinese = radical.chinese;
-    const def = radical.definition;
-    const imageUrl = radical.image;
-    const explanation = radical.explanation;
-    const audio = new Audio(radical.audioUrl);
-
     return (
       <>
-        <Row>
-          <MnemonicImage src={imageUrl} />
-          <DefPhoneticContainer>
-            {radical.pinyin !== "" && (
-              <Phonetic className="use-chinese">
-                {radical.pinyin}
-                <SpeakButton
-                  className="fas fa-volume"
-                  onClick={() => audio.play()}
-                />
-              </Phonetic>
-            )}
-            <RadDefinition className="use-serifs">{def}</RadDefinition>
-          </DefPhoneticContainer>
-        </Row>
-        {explanation !== "" && (
-          <Row>
-            <Explanation>{explanation}</Explanation>
-          </Row>
-        )}
-        <RelatedItems
-          item={chinese}
-          items={radical.relatedCharacters}
-          itemType="character"
-        />
+        <RadDisplayWithSignal radical={radical} />
       </>
     );
   };
@@ -168,24 +141,7 @@ const BreakdownChar = (props: BreakdownCharProps): JSX.Element => {
     const definitions = character.definitions.map((v) => v.definition);
     return (
       <>
-        {/* This should be optimized (character is
-                    loaded twice) */}
-        <ItemDisplayPopup contentURL={props.url} type="character" />
-
-        <Row>
-          <ItemPhonetic
-            pinyin={character.pinyin}
-            audioURL={character.audioUrl}
-            item={character.chinese}
-          />
-          {renderDefinitions(definitions)}
-        </Row>
-        {/* Added items (related_words) as a props */}
-        {/*<RelatedItems */}
-        {/*    items={character.relatedWords}*/}
-        {/*    item={character.chinese}*/}
-        {/*    itemType='word' */}
-        {/*/>*/}
+        <CharDisplay character={character} />
       </>
     );
   };
@@ -197,63 +153,63 @@ const BreakdownChar = (props: BreakdownCharProps): JSX.Element => {
   }
 };
 
-const MemoryAidHeading = styled.h2`
-  display: inline-block;
-  width: 100%;
-  color: #bec0c4;
-  letter-spacing: 0.6px;
-  font-size: 0.9em;
-  font-weight: 500;
-  text-align: center;
-  margin: 20px auto 10px;
-`;
+// const MemoryAidHeading = styled.h2`
+//   display: inline-block;
+//   width: 100%;
+//   color: #bec0c4;
+//   letter-spacing: 0.6px;
+//   font-size: 0.9em;
+//   font-weight: 500;
+//   text-align: center;
+//   margin: 20px auto 10px;
+// `;
 
-const MemoryAidContent = styled.div`
-  width: 100%;
-  font-size: 0.9em;
-  color: var(--secondary-text);
-  border-radius: 5px;
-  padding: 15px 20px;
-  font-weight: 400;
-`;
+// const MemoryAidContent = styled.div`
+//   width: 100%;
+//   font-size: 0.9em;
+//   color: var(--secondary-text);
+//   border-radius: 5px;
+//   padding: 15px 20px;
+//   font-weight: 400;
+// `;
 
-type MemoryAidViewProps = {
-  /** The associated memory aid sentence. */
-  content: string;
-};
+// type MemoryAidViewProps = {
+//   /** The associated memory aid sentence. */
+//   content: string;
+// };
 
-/**
- * Renders a <MemoryAidView /> component.
- */
-const MemoryAidView = (props: MemoryAidViewProps): JSX.Element | null => {
-  let content = props.content;
+// /**
+//  * Renders a <MemoryAidView /> component.
+//  */
+// const MemoryAidView = (props: MemoryAidViewProps): JSX.Element | null => {
+//   let content = props.content;
 
-  if (!content || content === "TODO") return null;
+//   if (!content || content === "TODO") return null;
 
-  content = content
-    .replace(
-      new RegExp(
-        "<([\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]+)>",
-        "g"
-      ), // matches all brackets enclosing only Chinese chars
-      "<span class='use-serifs' style='color:darkcyan; font-size: 1.2em'>$1</span>"
-    )
-    .replace(
-      new RegExp("<(?!span|/)(.*?)>", "g"), // match inside brackets other than span tags
-      "<span class='use-serifs' style='color:darkcyan'>$1</span>"
-    );
+//   content = content
+//     .replace(
+//       new RegExp(
+//         "<([\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]+)>",
+//         "g"
+//       ), // matches all brackets enclosing only Chinese chars
+//       "<span class='use-serifs' style='color:darkcyan; font-size: 1.2em'>$1</span>"
+//     )
+//     .replace(
+//       new RegExp("<(?!span|/)(.*?)>", "g"), // match inside brackets other than span tags
+//       "<span class='use-serifs' style='color:darkcyan'>$1</span>"
+//     );
 
-  return (
-    <>
-      <MemoryAidHeading>Memory Aid</MemoryAidHeading>
-      <MemoryAidContent
-        className="box-shadow"
-        style={{ whiteSpace: "pre-line" }}
-        dangerouslySetInnerHTML={{ __html: content }}
-      />
-    </>
-  );
-};
+//   return (
+//     <>
+//       <MemoryAidHeading>Memory Aid</MemoryAidHeading>
+//       <MemoryAidContent
+//         className="box-shadow"
+//         style={{ whiteSpace: "pre-line" }}
+//         dangerouslySetInnerHTML={{ __html: content }}
+//       />
+//     </>
+//   );
+// };
 
 type BreakdownViewProps = {
   /** The type of breakdown components. */
@@ -294,7 +250,7 @@ export default class BreakdownView extends React.Component<
     // same content (and url), and therefore we cannot use
     // urls as the keys.
     return urls.map((url, i) => (
-      <div key={i} className="breakdown-card box-shadow">
+      <div key={i} className="breakdown-card">
         <BreakdownRad url={url} />
       </div>
     ));
@@ -309,7 +265,7 @@ export default class BreakdownView extends React.Component<
     // same content (and url), and therefore we cannot use
     // url as the key.
     return urls.map((url, i) => (
-      <div key={i} className="breakdown-card box-shadow">
+      <div key={i} className="breakdown-card">
         <BreakdownChar url={url} />
       </div>
     ));
@@ -343,7 +299,7 @@ export default class BreakdownView extends React.Component<
             ? this.renderBreakdownRad(urls)
             : this.renderBreakdownChar(urls)}
 
-          <MemoryAidView content={this.props.memoryAid} />
+          {/* <MemoryAidView content={this.props.memoryAid} /> */}
         </div>
       </div>
     );

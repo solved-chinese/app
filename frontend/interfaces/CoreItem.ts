@@ -109,6 +109,14 @@ export interface Word extends CoreItem {
 
   /** A single sentence that helps with memorizing the word. */
   memoryAid: string;
+
+  /**
+   * A signal of showing or hiding break down words
+   */
+  isHiding: true;
+
+  /** A list of words related to this word */
+  relatedWords: WordShort[];
 }
 
 export type WordShort = CharacterShort;

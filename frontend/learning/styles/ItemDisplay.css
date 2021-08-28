@@ -1,5 +1,5 @@
 .content-card-container {
-  max-width: 800px;
+  max-width: 1200px;
   width: 100%;
   padding: 25px 50px;
   border-radius: 5px;
@@ -20,8 +20,8 @@
 }
 
 .breakdown-toggle.toggled {
-  /* margin-bottom: 0; */
-  /* margin-bottom: 10px; */
+  margin-bottom: 0;
+  margin-bottom: 10px;
 }
 /* Made toggle extends when hover */
 .breakdown-toggle:hover {
@@ -58,26 +58,26 @@
   max-height: 0;
   opacity: 0;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start; /* change center to flex-start*/
   flex-direction: row;
   transition: max-height 400ms ease-in-out, opacity 300ms 250ms ease;
 }
 
 .breakdown-content.show {
-  max-height: 3000px; /* We need a numerical value here for the animation */
+  max-height: 4000px; /* We need a numerical value here for the animation */
   opacity: 1;
   overflow: visible;
   visibility: visible;
 }
 
 .breakdown-card {
-  width: calc(50% - 20px);
+  width: calc(45% - 20px);
   font-size: 15px;
   margin-top: 20px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: 3px;
+  margin-right: 3px;
   border-radius: 5px;
-  padding: 5px 20px;
+  padding: 1% 2%;
   background-color: white;
 }
 
@@ -108,13 +108,50 @@
   }
 }
 
+/* wrap for the whole word card*/
+.wrap {
+  display: flex;
+}
+
+.left {
+  width: 70%;
+}
+
+.right {
+  flex: 1;
+  width: 30%;
+}
+
+.rigTop,
+.rigBot {
+  height: 50%;
+}
+
+/* DescriptionDisplay - Description */
+.DescriptionCard {
+  max-width: 300px;
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px 0px #30354512;
+  transition: 200ms ease;
+  padding: 15px 20px 20px;
+  text-align: left;
+  margin: 0px 5px 10px;
+}
+
+.DescriptionCard:hover {
+  box-shadow: 2px 4px 10px 0px #30354512;
+  transition: 200ms ease;
+}
+
 /* WordDisplay - Example Sentences */
 .ExampleCard {
   max-width: 300px;
   width: 100%;
   background-color: white;
   border-radius: 5px;
-  box-shadow: 5px 5px 15px 0px #30354512;
+  /* box-shadow: 5px 5px 15px 0px #30354512; */
   transition: 200ms ease;
   padding: 15px 20px 20px;
   text-align: left;
@@ -161,4 +198,49 @@
 }
 .point-list li {
   line-height: 1.75em;
+}
+
+.flexible {
+  flex-grow: 1;
+}
+
+/* distribution */
+.info-nav .line {
+  margin-left: 20px;
+  width: 0;
+  border-left: 1px solid;
+  border-color: #54565e12;
+}
+
+.divider {
+  border-left: 2px solid #ebebeb;
+  height: 30px;
+  position: relative;
+  display: block;
+  padding-left: 3vmin;
+}
+
+/* new breakdown format */
+.breakdown-nocard {
+  width: calc(50% - 30px);
+  font-size: 15px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 5px;
+  padding: 5px 20px;
+  background-color: white;
+}
+
+/* dots */
+.dots {
+  width: 4px;
+  height: 4px;
+  background: black;
+  border-radius: 50%;
+  margin: 0 auto;
+  position: relative;
+  /* display: inline-block; */
+  justify-content: left;
+  align-content: center;
 }

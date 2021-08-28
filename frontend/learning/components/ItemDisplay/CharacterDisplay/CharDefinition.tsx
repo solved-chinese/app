@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import "@learning.styles/ItemDisplay.css";
+import ItemPhonetic from "../ItemPhonetic";
 
 const ContainerDefinition = styled.div`
   display: flex;
@@ -47,10 +48,20 @@ const ListTitle = styled.i`
 `;
 
 const ListItem = styled.li`
-  line-height: 1.75em;
+  line-height: 1.3em;
+  text-overflow: ellipsis;
 `;
 
 type Props = {
+  /** The character in chinese */
+  chinese: string;
+
+  /** Resource URL of the audio pronunciation */
+  audioURL: string;
+
+  /** Pronunciation in pinyin */
+  pinyin: string;
+
   /** The definitions to be displayed */
   definitions: string[];
 };
@@ -58,16 +69,25 @@ type Props = {
 const CharDefinition = (props: Props): JSX.Element => {
   return (
     <ContainerDefinition>
-      <DefinitionList>
-        <ListTitle>Definitions:</ListTitle>
-        {props.definitions.map((elem, i) => {
-          return (
-            <ListItem key={i} className="use-serifs">
-              {elem}
-            </ListItem>
-          );
-        })}
-      </DefinitionList>
+      <ItemPhonetic
+        item={props.chinese}
+        pinyin={props.pinyin}
+        audioURL={props.audioURL}
+        useStroke={true}
+        type="character"
+      />
+      <TableContainer className="divider">
+        <DefinitionList>
+          {/* <ListTitle>Definitions:</ListTitle> */}
+          {props.definitions.map((elem, i) => {
+            return (
+              <ListItem key={i} className="use-serifs">
+                {elem}
+              </ListItem>
+            );
+          })}
+        </DefinitionList>
+      </TableContainer>
     </ContainerDefinition>
   );
 };

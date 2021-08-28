@@ -4,15 +4,25 @@ import styled from "styled-components";
 import "@learning.styles/ItemDisplay.css";
 import { makeID } from "@utils/utils";
 
-const WordContainer = styled.div`
+export const width = 200;
+export const height = 200;
+
+export const WordContainer = styled.div`
   display: flex;
   flex-direction: row;
+  text-align: center;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 `;
 
-const CharSVGContainer = styled.div`
-  font-size: 3.75em;
+export const CharSVGContainer = styled.div`
+  font-size: 2.75em;
+  width: 100%;
   font-weight: 200;
   text-align: center;
+  justify-content: center;
+  aligh-items: center;
   color: var(--primary-text);
 `;
 
@@ -25,6 +35,7 @@ enum WriterState {
 
 type StrokeGifProps = {
   item: string;
+  id?: number;
 };
 
 /**

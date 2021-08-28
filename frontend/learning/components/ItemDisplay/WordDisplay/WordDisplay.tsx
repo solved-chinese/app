@@ -9,33 +9,97 @@ import LoadingView from "@learning.components/ItemDisplay/LoadingView";
 import useLoadWord from "@learning.hooks/useLoadWord";
 
 import { Word } from "@interfaces/CoreItem";
+import RelatedItems from "../RelatedItems";
 
 //Top and Bottom Containers
 const ContainerTop = styled.div`
-  display: flex;
-  justify-content: center;
+  display: inline-block;
+  // width: 100%;
+  justify-content: start;
   align-items: center;
-  @media only screen and (max-width: 480px) {
-    flex-direction: column;
+  @media only screen and (max-width: 680px) {
+    flex-direction: row;
   }
 `;
 
-const ContainerBottom = styled.div`
+const ContainerRight = styled.div`
+  display: block;
+`;
+
+const ContainerRightTop = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  @media only screen and (max-width: 768px) {
-    flex-direction: column;
+  flex-wrap: wrap;
+  @media only screen and (max-width: 1000px) {
+    flex-direction: row;
   }
 `;
 
-const ExampleSentenceHeading = styled.h2`
-  color: var(--teritary-text);
-  margin-top: 10px;
+// const ContainerBottom = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   @media only screen and (max-width: 768px) {
+//     flex-direction: column;
+//   }
+// `;
+
+// const ExampleSentenceHeading = styled.h2`
+//   color: var(--teritary-text);
+//   margin-top: 10px;
+//   font-size: 0.9em;
+//   font-weight: 400;
+//   text-align: center;
+// `;
+
+const MemoryAidContent = styled.div`
+  width: 100%;
   font-size: 0.9em;
+  color: var(--secondary-text);
+  border-radius: 5px;
+  padding: 15px 20px;
   font-weight: 400;
-  text-align: center;
+  background-color: #fafafa;
 `;
+
+type MemoryAidViewProps = {
+  /** The associated memory aid sentence. */
+  content: string;
+};
+
+/**
+ * Renders a <MemoryAidView /> component.
+ */
+const MemoryAidView = (props: MemoryAidViewProps): JSX.Element | null => {
+  let content = props.content;
+  // let test = props.content;
+
+  if (!content || content === "TODO") return null;
+
+  content = content.replace(
+    new RegExp(
+      "([\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]+)",
+      "g"
+    ), // matches all brackets enclosing only Chinese chars
+    "<span class='use-serifs' style='color: #00838F; font-size: 1.2em'>$1</span>"
+    // ).replace(
+    //     new RegExp('<(?!span|/)(.*?)>', 'g'), // match inside brackets other than span tags
+    //     '<span class=\'use-serifs\' style=\'color: darkcyan\'>$1</span>'
+  );
+
+  return (
+    <>
+      {/* <MemoryAidHeading>
+                Memory Aid
+            </MemoryAidHeading> */}
+      <MemoryAidContent
+        style={{ whiteSpace: "pre-line" }}
+        dangerouslySetInnerHTML={{ __html: content }}
+      />
+    </>
+  );
+};
 
 type Props = {
   /**
@@ -102,6 +166,7 @@ const WordDisplay = (props: Props): JSX.Element => {
     const pinyin = word.pinyin;
     const definitions = word.definitions;
     const audioURL = word.audioUrl;
+    const memoryAid = word.memoryAid;
 
     return (
       <>
@@ -114,26 +179,36 @@ const WordDisplay = (props: Props): JSX.Element => {
             definitions={definitions}
           />
         </ContainerTop>
+        <div className="wrap">
+          <div className="left">
+            <MemoryAidView content={memoryAid} />
+            {renderBreakdown(word)}
+          <br />
+          </div>
 
-        {renderBreakdown(word)}
-        <br />
 
-        <ExampleSentenceHeading>Example Sentences</ExampleSentenceHeading>
-
-        <ContainerBottom>
-          {word.sentences.map((sen) => {
-            return (
-              <ExampleSentences
-                key={sen.chineseHighlight}
-                word={word}
-                pinyin={sen.pinyinHighlight}
-                audioURL={sen.audioUrl}
-                chinese={sen.chineseHighlight}
-                translation={sen.translationHighlight}
-              />
-            );
-          })}
-        </ContainerBottom>
+          <ContainerRight className="right">
+            <ContainerRightTop>
+              {word.sentences.map((sen) => {
+                return (
+                  <ExampleSentences
+                    key={sen.chineseHighlight}
+                    word={word}
+                    pinyin={sen.pinyinHighlight}
+                    audioURL={sen.audioUrl}
+                    chinese={sen.chineseHighlight}
+                    translation={sen.translationHighlight}
+                  />
+                );
+              })}
+            </ContainerRightTop>
+            {/* <RelatedItems
+              items={word.relatedWords}
+              item={word.chinese}
+              itemType="word"
+            /> */}
+          </ContainerRight>
+        </div>
       </>
     );
   };

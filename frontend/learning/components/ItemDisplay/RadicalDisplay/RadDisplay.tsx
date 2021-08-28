@@ -8,34 +8,61 @@ import useLoadRad from "@learning.hooks/useLoadRad";
 import { Radical } from "@interfaces/CoreItem";
 
 import "@learning.styles/ItemDisplay.css";
+import RadicalExplanation from "./RadicalExplanation";
 
 const Row = styled.div`
   display: inline-flex;
   min-width: 100%;
-  justify-content: space-around;
+  flex-wrap: wrap;
+  flex-direction: row;
+`;
+
+interface StyledProps {
+  withoutExp: boolean;
+}
+
+const DefContainer = styled.div<StyledProps>`
+  display: flex;
+  min-width: 60%;
+  justify-content: center;
   align-items: center;
   flex-wrap: wrap;
   margin-bottom: 20px;
+  flex-direction: column;
+  width: ${(props) => (props.withoutExp ? "auto" : "100%")};
+`;
+
+const Column = styled.div`
+  display: flex;
+  min-width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  flex-direction: column;
+  background-color: #fafafa; // off-white
 `;
 
 const MnemonicImage = styled.img`
-  width: 35%;
-  min-width: 150px;
+  width: 200px;
+  min-width: 35%;
   max-height: 300px;
+  max-width : 100%;
   object-fit: contain;
 `;
 
-const RadDefinition = styled.h4`
+const RadDefinition = styled.i`
   flex-grow: 2;
-  font-size: 1.75em;
+  font-size: 1.45em;
   text-align: center;
-  min-width: 200px;
-  margin-top: 20px;
+  width: auto;
+  min-width: 20px;
+  margin-top: 10px;
 `;
 
-const Phonetic = styled.span`
+const Phonetic = styled.div`
   text-align: center;
-  font-size: 1.6em;
+  font-size: 1.3em;
   font-weight: 200;
   white-space: nowrap;
 `;
@@ -49,15 +76,24 @@ const SpeakButton = styled.i`
 `;
 
 const DefPhoneticContainer = styled.div`
-  display: inline-flex;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`;
+
+const DefPinyinContainer = styled.div`
+  display: flex;
+  height: 20px;
   flex-direction: column;
   justify-content: center;
 `;
 
-const Explanation = styled.div`
-  color: var(--secondary-text);
-  font-size: 0.8em;
-  text-align: center;
+const ExpContainer = styled.a<StyledProps>`
+  position: relative;
+  display: ${(props) => (props.withoutExp ? "flex" : "none")};
+  width: 40%;
+  justify-items: center;
+  align-items: center;
 `;
 
 type Props = {
@@ -84,7 +120,7 @@ type Props = {
 /**
  * The main function that renders a radical view.
  */
-const RadDisplay = (props: Props): JSX.Element => {
+export const RadStandardDisplay = (props: Props): JSX.Element => {
   const radical =
     props.radical == null
       ? useLoadRad(
@@ -95,39 +131,104 @@ const RadDisplay = (props: Props): JSX.Element => {
   const audio = radical != null ? new Audio(radical.audioUrl) : null;
 
   const renderRadical = (radical: Radical) => {
-    const chinese = radical.chinese;
-    const def = radical.definition;
-    const explanation = radical.explanation;
+    // const chinese = radical.chinese;
+    // const def = radical.definition;
+    // const explanation = radical.explanation;
     const imageUrl = radical.image;
 
     return (
       <>
-        <Row>
-          <MnemonicImage src={imageUrl} />
-          <DefPhoneticContainer>
-            {radical.pinyin !== "" && (
-              <Phonetic className="use-chinese">
-                {radical.pinyin}
-                <SpeakButton
-                  className="fas fa-volume"
-                  onClick={() => audio?.play()}
-                />
-              </Phonetic>
-            )}
-            <RadDefinition className="use-serifs">{def}</RadDefinition>
-          </DefPhoneticContainer>
-        </Row>
-        {explanation !== "" && (
-          <Row>
-            <Explanation>{explanation}</Explanation>
-          </Row>
-        )}
-        <RelatedItems
-          item={chinese}
-          items={radical.relatedCharacters}
-          itemType="character"
-        />
+        <DefPinyinContainer>
+          {radical.pinyin !== "" && (
+            <Phonetic className="use-chinese">
+              {radical.pinyin}
+              <SpeakButton
+                className="fas fa-volume"
+                onClick={() => audio?.play()}
+              />
+            </Phonetic>
+          )}
+        </DefPinyinContainer>
+        <MnemonicImage src={imageUrl} />
       </>
+    );
+  };
+
+  if (radical === null) {
+    return <LoadingView />;
+  } else {
+    return renderRadical(radical);
+  }
+};
+
+/**
+ * The main function that renders a radical view.
+ */
+export const RadDisplayWithSignal = (props: Props): JSX.Element => {
+  const radical =
+    props.radical == null
+      ? useLoadRad(
+          props.url == null ? `/content/radical/${props.qid}` : props.url
+        )
+      : props.radical;
+
+  const renderRadical = (radical: Radical) => {
+    const def = radical.definition;
+    const explanation = radical.explanation;
+    return (
+      <>
+        <Column>
+          <RadStandardDisplay
+            radical={props.radical}
+            qid={props.qid}
+            url={props.url}
+          />
+          <DefPhoneticContainer>
+            <RadDefinition className="use-serifs">{def}</RadDefinition>
+            <RadicalExplanation explanation={explanation} />
+          </DefPhoneticContainer>
+        </Column>
+      </>
+    );
+  };
+
+  if (radical === null) {
+    return <LoadingView />;
+  } else {
+    return renderRadical(radical);
+  }
+};
+
+/**
+ * The main function that renders a radical view.
+ */
+const RadDisplay = (props: Props): JSX.Element => {
+  const radical =
+    props.radical == null
+      ? useLoadRad(
+          props.url == null ? `/content/radical/${props.qid}` : props.url
+        )
+      : props.radical;
+
+  const renderRadical = (radical: Radical) => {
+    // const chinese = radical.chinese;
+    const def = radical.definition;
+    const explanation = radical.explanation;
+
+    return (
+      <Row>
+        <DefContainer withoutExp={explanation !== ""}>
+          <RadStandardDisplay
+            radical={props.radical}
+            qid={props.qid}
+            url={props.url}
+          />
+          <RadDefinition className="use-serifs">{def}</RadDefinition>
+        </DefContainer>
+        <ExpContainer withoutExp={explanation !== ""}>
+          {explanation}
+        </ExpContainer>
+      </Row>
     );
   };
 

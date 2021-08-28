@@ -2,10 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import "@learning.styles/ItemDisplay.css";
 import StrokeGif from "@learning.components/ItemDisplay/StrokeGif";
+import { ItemType } from "@interfaces/CoreItem";
+import Dialog from "./DialogCustom";
 
 const Container = styled.div`
   display: inline-block;
-  width: auto;
+  width: -webkit-fill-available;
 `;
 
 const Phonetic = styled.span`
@@ -30,6 +32,8 @@ const WordContainer = styled.h1`
 `;
 
 type Props = {
+  type?: ItemType;
+
   /** Display friendly pinyin. */
   pinyin: string;
 
@@ -54,16 +58,21 @@ const ItemPhonetic = (props: Props): JSX.Element => {
   // Add slashes at the beginning and the end
   const pinyin = `/${props.pinyin}/`;
   const useStroke = props.useStroke ?? false;
-  const renderWord = () =>
-    useStroke ? (
-      <StrokeGif item={props.item} />
-    ) : (
-      <WordContainer className="use-chinese">{props.item}</WordContainer>
-    );
+  const type = props.type ?? undefined;
+
+
+  // const renderWord = () =>
+  //   useStroke ? (
+  //     <StrokeGif item={props.item} />
+  //   ) : (
+  //     <WordContainer className="use-chinese">{props.item}</WordContainer>
+  //   );
 
   return (
     <Container>
       <Phonetic className="use-chinese">
+      <Dialog item={props.item} type={type} />
+        {/* <Pinyin>{pinyin}</Pinyin> */}
         {pinyin}
         <SpeakButton
           src="/static/images/small-icons/pronounce.svg"
@@ -71,7 +80,7 @@ const ItemPhonetic = (props: Props): JSX.Element => {
           onClick={() => audio.play()}
         />
       </Phonetic>
-      {renderWord()}
+      {/* {renderWord()} */}
     </Container>
   );
 };

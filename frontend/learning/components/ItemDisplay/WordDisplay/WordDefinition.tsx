@@ -4,19 +4,30 @@ import "@learning.styles/ItemDisplay.css";
 import ItemPhonetic from "@learning.components/ItemDisplay/ItemPhonetic";
 import { ItemDefinition } from "@interfaces/CoreItem";
 
-const TableContainer = styled.table`
-  margin-left: 70px;
-  font-size: 1.3em;
-  max-width: 500px;
-
-  @media only screen and (max-width: 480px) {
-    padding: 0;
+const ContainerDefinition = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  @media only screen and (max-width: 800px) {
+    flex-direction: column;
   }
+`;
+
+const TableContainer = styled.table`
+  margin-left: 30px;
+  font-size: 1.5em;
+  width: 100%;
+  max-width: 200px;
+
+  // @media only screen and (max-width: 480px) {
+  //   padding: 0;
+  // }
 `;
 
 const PofSpeech = styled.td`
   font-style: italic;
   text-align: left;
+  padding-right: 10px;
 `;
 
 const ListTitle = styled.th`
@@ -43,12 +54,12 @@ const Definitions = (props: DefinitionsProps): JSX.Element => {
 
   return (
     <TableContainer>
-      <tbody>
+      {/* <tbody>
         <tr>
           <ListTitle>Definitions</ListTitle>
-        </tr>
-        {definitions}
-      </tbody>
+        </tr> */}
+      {definitions}
+      {/* </tbody> */}
     </TableContainer>
   );
 };
@@ -73,13 +84,16 @@ type WordDefinitionProps = {
 const WordDefinition = (props: WordDefinitionProps): JSX.Element => {
   return (
     <>
-      <ItemPhonetic
-        item={props.chinese}
-        pinyin={props.pinyin}
-        audioURL={props.audioURL}
-        useStroke={true}
-      />
-      <Definitions definitions={props.definitions} />
+      <ContainerDefinition>
+        <ItemPhonetic
+          item={props.chinese}
+          pinyin={props.pinyin}
+          audioURL={props.audioURL}
+          useStroke={true}
+          type="word"
+        />
+        <Definitions definitions={props.definitions} />
+      </ContainerDefinition>
     </>
   );
 };
