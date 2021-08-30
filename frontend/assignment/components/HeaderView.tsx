@@ -63,7 +63,7 @@ const HeaderView = (props: Props): JSX.Element => {
       </BackButton>
       <Title className="use-serifs">{props.name}</Title>
       <CompleteButton onClick={props.onActionComplete}>
-        Complete Assignment
+        View Practice Question
       </CompleteButton>
     </>
   );
