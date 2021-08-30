@@ -31,6 +31,7 @@ enum WriterState {
   STANDBY = "standby",
   PLAYING = "playing",
   PAUSED = "paused",
+  LOOPING = "looping",
 }
 
 type StrokeGifProps = {
@@ -66,14 +67,15 @@ export default class StrokeGif extends React.Component<StrokeGifProps> {
   getWriters(targetIDs: string[], items: string[]): HanziWriter[] {
     return targetIDs.map((value, index) =>
       HanziWriter.create(value, items[index], {
-        width: 60,
-        height: 65,
+        width: width, // defined on the top
+        height: height,
         padding: 2,
         strokeAnimationSpeed: 1, // times the normal speed
         delayBetweenStrokes: 5, // ms between strokes
         showOutline: true,
         showCharacter: true,
         strokeColor: "#303545",
+        delayBetweenLoops: 500,
         onLoadCharDataError: () => {
           if (this.itemsTargetRef[index].current) {
             this.itemsTargetRef[index].current!.innerText = items[index];
@@ -127,6 +129,9 @@ export default class StrokeGif extends React.Component<StrokeGifProps> {
         writer.resumeAnimation().then(() => {
           this.writerStates[index] = WriterState.PLAYING;
         });
+        break;
+      case WriterState.LOOPING:
+        writer.loopCharacterAnimation();
         break;
     }
   }

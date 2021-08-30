@@ -4,6 +4,9 @@ import Constant from "@utils/constant";
 import ItemDisplay from "@learning.components/ItemDisplay/ItemDisplay";
 import ReviewQuestion from "@learning.components/ReviewQuestion/ReviewQuestion";
 
+
+import Modal from "react-modal";
+
 import getLearningNext from "@learning.services/getLearningNext";
 
 import "@learning.styles/CoreLearning.css";
@@ -18,6 +21,32 @@ import {
   ReviewQuestionData,
 } from "@interfaces/ReviewQuestion";
 import { DisplayObjectContent } from "@interfaces/CoreItem";
+
+// const ModalStyle: Modal.Styles = {
+//   overlay: {
+//     backgroundColor: "rgba(116, 116, 116, 0.3)",
+//   },
+//   content: {
+//     position: "absolute",
+//     top: "20%",
+//     left: "0px",
+//     right: "0px",
+//     height: "400px",
+//     maxHeight: "100%",
+//     bottom: "auto",
+
+//     display: "inline-block",
+//     maxWidth: "100%",
+//     width: "400px",
+//     margin: "0 auto",
+
+//     backgroundColor: "white",
+//     padding: "50px 50px 0px 50px",
+
+//     boxShadow: "2px 2px 6px 2px #30354514",
+//     borderRadius: "5px",
+//   },
+// };
 
 const Title = styled.h1`
   font-size: 2em;
@@ -109,13 +138,28 @@ const CoreLearning = (props: Props): JSX.Element => {
     onActionNext();
   }, []);
 
+  // const [modalState, setModalState] = useState(false);
+
+  // const renderModal = ():JSX.Element | any => {
+  //   <Modal
+  //         closeTimeoutMS={500}
+  //         style={ModalStyle}
+  //         isOpen={modalState}
+  //         onRequestClose={() => setModalState(false)}
+  //       >
+  //         Progress Saved
+  //     </Modal>
+  // }
+
   const renderProgressBar = (progressBar: ProgressBarData) => (
     <div className={"progressBarContainer"}>
       <button
         className={"exitButton"}
         onClick={(e) => {
           e.preventDefault();
+          
           window.location.href = `/learning/assignment/${qid}`;
+          window.alert("Progress Saved!")
         }}
       >
         {" "}
