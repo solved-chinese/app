@@ -1,164 +1,246 @@
 .content-card-container {
-    max-width: 800px;
-    width: 100%;
-    padding: 25px 50px;
-    border-radius: 5px;
-    transition: 150ms ease;
-    background-color: white;
-    margin: 50px auto;
+  max-width: 1200px;
+  width: 100%;
+  padding: 25px 50px;
+  border-radius: 5px;
+  transition: 150ms ease;
+  background-color: white;
+  margin: 50px auto;
 }
 
 .breakdown-container {
-    margin-top: 10px;
-    width: 100%;
+  margin-top: 10px;
+  width: 100%;
 }
 
 .breakdown-toggle {
-    width: 100%;
-    min-width: 150px;
-    margin: 15px auto -10px;
+  width: 100%;
+  min-width: 150px;
+  margin: 15px auto -10px;
 }
 
 .breakdown-toggle.toggled {
-    /* margin-bottom: 0; */
-    /* margin-bottom: 10px; */
+  margin-bottom: 0;
+  margin-bottom: 10px;
 }
 /* Made toggle extends when hover */
 .breakdown-toggle:hover {
-    transform: scale(1.05);
-    /* margin-bottom: 10px; */
-    transition: 200ms ease-in-out;
+  transform: scale(1.05);
+  /* margin-bottom: 10px; */
+  transition: 200ms ease-in-out;
 }
 
 .breakdown-toggle i {
-    color: var(--main-theme-color);
-    width: 100%;
-    text-align: center;
-    transition: transform 300ms ease;
+  color: var(--main-theme-color);
+  width: 100%;
+  text-align: center;
+  transition: transform 300ms ease;
 }
 
 .breakdown-toggle.toggled i {
-    transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 
 .breakdown-toggle > h4 {
-    color: var(--secondary-text);
-    width: 100%;
-    text-align: center;
-    font-size: 0.9em;
-    font-weight: 600;
-    margin: 0;
+  color: var(--secondary-text);
+  width: 100%;
+  text-align: center;
+  font-size: 0.9em;
+  font-weight: 600;
+  margin: 0;
 }
 
 .breakdown-content {
-    display: flex;
-    flex-wrap: wrap;
-    visibility: hidden;
-    overflow: hidden;
-    max-height: 0;
-    opacity: 0;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    transition: max-height 400ms ease-in-out, opacity 300ms 250ms ease;
+  display: flex;
+  flex-wrap: wrap;
+  visibility: hidden;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  justify-content: center;
+  align-items: flex-start; /* change center to flex-start*/
+  flex-direction: row;
+  transition: max-height 400ms ease-in-out, opacity 300ms 250ms ease;
 }
 
 .breakdown-content.show {
-    max-height: 3000px; /* We need a numerical value here for the animation */
-    opacity: 1;
-    overflow: visible;
-    visibility: visible;
+  max-height: 4000px; /* We need a numerical value here for the animation */
+  opacity: 1;
+  overflow: visible;
+  visibility: visible;
 }
 
 .breakdown-card {
-    width: calc(50% - 20px);
-    font-size: 15px;
-    margin-top: 20px;
-    margin-left: 10px;
-    margin-right: 10px;
-    border-radius: 5px;
-    padding: 5px 20px;
-    background-color: white;
+  width: calc(45% - 20px);
+  font-size: 15px;
+  margin-top: 20px;
+  margin-left: 3px;
+  margin-right: 3px;
+  border-radius: 5px;
+  padding: 1% 2%;
+  background-color: white;
 }
 
 @media only screen and (max-width: 768px) {
-    /* .content-card-container {
+  /* .content-card-container {
         padding: 15px 10px;
     } */
-    .breakdown-content {
-        flex-direction: column;
-    }
+  .breakdown-content {
+    flex-direction: column;
+  }
 
-    .breakdown-card {
-        width: 75%;
-    }
+  .breakdown-card {
+    width: 75%;
+  }
 }
 
 @media only screen and (max-width: 480px) {
-    .breakdown-card {
-        width: calc(100% - 20px);
-    }
+  .breakdown-card {
+    width: calc(100% - 20px);
+  }
 
-    .content-card-container {
-        padding: 25px 20px;
-    }
+  .content-card-container {
+    padding: 25px 20px;
+  }
 
-    .point-list {
-        padding: 0;
-    }
+  .point-list {
+    padding: 0;
+  }
+}
+
+/* wrap for the whole word card*/
+.wrap {
+  display: flex;
+}
+
+.left {
+  width: 70%;
+}
+
+.right {
+  flex: 1;
+  width: 30%;
+}
+
+.rigTop,
+.rigBot {
+  height: 50%;
+}
+
+/* DescriptionDisplay - Description */
+.DescriptionCard {
+  max-width: 300px;
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px 0px #30354512;
+  transition: 200ms ease;
+  padding: 15px 20px 20px;
+  text-align: left;
+  margin: 0px 5px 10px;
+}
+
+.DescriptionCard:hover {
+  box-shadow: 2px 4px 10px 0px #30354512;
+  transition: 200ms ease;
 }
 
 /* WordDisplay - Example Sentences */
 .ExampleCard {
-    max-width: 300px;
-    width: 100%;
-    background-color: white;
-    border-radius: 5px;
-    box-shadow: 5px 5px 15px 0px #30354512;
-    transition: 200ms ease;
-    padding: 15px 20px 20px;
-    text-align: left;
-    margin: 0px 5px 10px;
-  }
-
-  .ExampleCard:hover {
-    box-shadow: 2px 4px 10px 0px #30354512;
-    transition: 200ms ease;
+  max-width: 300px;
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+  /* box-shadow: 5px 5px 15px 0px #30354512; */
+  transition: 200ms ease;
+  padding: 15px 20px 20px;
+  text-align: left;
+  margin: 0px 5px 10px;
 }
 
-  /* Popup Modal Animation + Disable Scrolling */
+.ExampleCard:hover {
+  box-shadow: 2px 4px 10px 0px #30354512;
+  transition: 200ms ease;
+}
+
+/* Popup Modal Animation + Disable Scrolling */
 .ReactModal__Overlay {
-    opacity: 0;
-    transition: all 500ms ease-in-out;
+  opacity: 0;
+  transition: all 500ms ease-in-out;
 }
-  
+
 .ReactModal__Overlay--after-open {
-    opacity: 1;
+  opacity: 1;
 }
-  
+
 .ReactModal__Overlay--before-close {
-    opacity: 0;
+  opacity: 0;
 }
 
 .ReactModal__Body--open {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 /* CharDefinition Alternative */
 .point-list {
-    padding-left: 10px;
-    font-size: 1.3em;
+  padding-left: 10px;
+  font-size: 1.3em;
 }
 
-.point-list div{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+.point-list div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 .point-list p {
-    display: flex;
-    font-size: 40px;
+  display: flex;
+  font-size: 40px;
 }
-.point-list li{
-    line-height: 1.75em;
+.point-list li {
+  line-height: 1.75em;
+}
+
+.flexible {
+  flex-grow: 1;
+}
+
+/* distribution */
+.info-nav .line {
+  margin-left: 20px;
+  width: 0;
+  border-left: 1px solid;
+  border-color: #54565e12;
+}
+
+.divider {
+  border-left: 2px solid #ebebeb;
+  height: 30px;
+  position: relative;
+  display: block;
+  padding-left: 3vmin;
+}
+
+/* new breakdown format */
+.breakdown-nocard {
+  width: calc(50% - 30px);
+  font-size: 15px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 5px;
+  padding: 5px 20px;
+  background-color: white;
+}
+
+/* dots */
+.dots {
+  width: 4px;
+  height: 4px;
+  background: black;
+  border-radius: 50%;
+  margin: 0 auto;
+  position: relative;
+  /* display: inline-block; */
+  justify-content: left;
+  align-content: center;
 }

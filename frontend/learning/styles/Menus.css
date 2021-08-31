@@ -1,0 +1,31 @@
+.body {
+  position: relative;
+}
+
+.menus {
+  display: none;
+  position: absolute;
+  width: 250px;
+  top: 40px;
+  left: 2px;
+  z-index: 999;
+}
+
+.ul {
+  margin-top: 0px;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  -webkit-box-shadow: 0 5px 10px 0 rgba(12, 40, 46, 0.2);
+  box-shadow: 0 5px 10px 0 rgba(12, 40, 46, 0.2);
+}
+
+.li {
+  list-style: none;
+  height: auto;
+  display: list-item;
+  cursor: pointer;
+}
+.li:hover {
+  color: darkorange;
+}
