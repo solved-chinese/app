@@ -77,9 +77,11 @@ const MemoryAidView = (props: MemoryAidViewProps): JSX.Element | null => {
 
   if (!content || content === "TODO") return null;
 
+  console.log(content)
+
   content = content.replace(
     new RegExp(
-      "<.*?>", // not for local data base [TODO]
+      "<(.*?)>", // not for local data base [TODO]
       // "<([\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]+)>",
       "g"
     ), // matches all brackets enclosing only Chinese chars
