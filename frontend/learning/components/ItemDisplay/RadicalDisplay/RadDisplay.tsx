@@ -185,7 +185,7 @@ export const RadDisplayWithSignal = (props: Props): JSX.Element => {
           />
           <DefPhoneticContainer>
             <RadDefinition className="use-serifs">{def}</RadDefinition>
-            <RadicalExplanation explanation={explanation} />
+            {def != "" ? <RadicalExplanation explanation={explanation} /> : ""}
           </DefPhoneticContainer>
         </Column>
       </>
