@@ -79,13 +79,13 @@ const MemoryAidView = (props: MemoryAidViewProps): JSX.Element | null => {
 
   content = content.replace(
     new RegExp(
-      "([\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]+)",
+      "<([\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]+)>",
       "g"
     ), // matches all brackets enclosing only Chinese chars
     "<span class='use-serifs' style='color: #00838F; font-size: 1.2em'>$1</span>"
-    ).replace(
-        new RegExp('<(?!span|/)(.*?)>', 'g'), // match inside brackets other than span tags
-        '<span class=\'use-serifs\' style=\'color: darkcyan\'>$1</span>'
+    // ).replace(
+    //     new RegExp('<(?!span|/)(.*?)>', 'g'), // match inside brackets other than span tags
+    //     '<span class=\'use-serifs\' style=\'color: darkcyan\'>$1</span>'
   );
 
   return (
