@@ -77,7 +77,7 @@ const MemoryAidView = (props: MemoryAidViewProps): JSX.Element | null => {
 
   if (!content || content === "TODO") return null;
 
-  console.log(content)
+  // console.log(content)
 
   content = content.replace(
     new RegExp(
