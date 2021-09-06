@@ -1,8 +1,9 @@
-.button {
+.button.button-dialog {
   background: none;
   border: none;
   outline: none;
-  width: 100px;
+  min-width: 100px;
+  width: auto;
   height: 30px;
   border: 1px solid orange;
   border-radius: 4px;
