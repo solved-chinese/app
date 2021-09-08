@@ -16,7 +16,7 @@ import { Character } from "@interfaces/CoreItem";
 import "@learning.styles/ItemDisplay.css";
 
 const Row = styled.div`
-  display: flex;
+  display: -webkit-box; // important to control the width of definition
   justify-content: center;
   align-items: center;
   @media only screen and (max-width: 480px) {
