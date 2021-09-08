@@ -25,9 +25,10 @@ const TableContainer = styled.div`
 const DefinitionList = styled.ul`
   display: inline-block;
   padding-left: 0px;
-  font-size: 1.3em;
+  font-size: 1.2em;
+  width: fit-content;
   max-height: 80px;
-  overflow: hidden;
+  overflow: overlay;
 `;
 
 // const DefinitionList = styled.ul`

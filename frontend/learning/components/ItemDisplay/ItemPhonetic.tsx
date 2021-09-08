@@ -7,7 +7,8 @@ import Dialog from "./DialogCustom";
 
 const Container = styled.div`
   display: inline-block;
-  width: -webkit-fill-available;
+  // width: -webkit-fill-available;
+  width : fit-content;
 `;
 
 const Phonetic = styled.span`
