@@ -13,7 +13,7 @@ import RelatedItems from "../RelatedItems";
 
 //Top and Bottom Containers
 const ContainerTop = styled.div`
-  display: inline-block;
+  // display: inline-block;
   // width: 100%;
   justify-content: start;
   align-items: center;

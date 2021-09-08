@@ -8,7 +8,7 @@ import Dialog from "./DialogCustom";
 const Container = styled.div`
   display: inline-block;
   // width: -webkit-fill-available;
-  width : fit-content;
+  // width : fit-content;
 `;
 
 const Phonetic = styled.span`
@@ -16,6 +16,7 @@ const Phonetic = styled.span`
   font-size: 1.5em;
   font-weight: 200;
   white-space: nowrap;
+  width : fit-content;
 `;
 
 export const SpeakButton = styled.img`
@@ -24,6 +25,7 @@ export const SpeakButton = styled.img`
   font-weight: 200; //changed from 200
   cursor: pointer;
   transform: scale(0.6);
+  display: inline-block;
 `;
 
 const WordContainer = styled.h1`
