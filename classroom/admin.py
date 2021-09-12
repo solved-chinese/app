@@ -79,3 +79,5 @@ class ClassAdmin(ViewOnlyAdminMixin, admin.ModelAdmin):
         return (lookup == 'teacher__user__alias__isempty'
                 or super().lookup_allowed(lookup, value))
 
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_superuser
