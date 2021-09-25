@@ -57,7 +57,7 @@ class AssignmentAdmin(AssignmentGeneralAdmin, admin.ModelAdmin):
     list_display_links = None
 
 
-class StudentInlineAdmin(admin.StackedInline):
+class StudentInlineAdmin(ViewOnlyAdminMixin, admin.StackedInline):
     model = Student
     fields = ('display_student',)
     readonly_fields = ('display_student',)
